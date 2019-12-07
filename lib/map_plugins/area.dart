@@ -30,18 +30,17 @@ class _Area extends StatefulWidget {
 }
 
 class _AreaState extends State<_Area> {
-  double _value = 0.0;
+  double _value = 200.0;
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
 
   @override
   Widget build(BuildContext context) {
-    print(_value);
     return Stack(
       children: [
         Center(
           child: CustomPaint(
-            painter: _AreaPainter(),
+            painter: _AreaPainter(value: _value),
           ),
         ),
         Container(
@@ -71,6 +70,7 @@ class _AreaState extends State<_Area> {
                   flex: 1,
                   child: Container(
                     height: double.infinity,
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: RichText(
@@ -99,7 +99,7 @@ class _AreaState extends State<_Area> {
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .copyWith(fontWeight: FontWeight.w600),
-                              text: '$_value км',
+                              text: '${_value.toInt()} км',
                             ),
                           ],
                         ),
@@ -110,10 +110,12 @@ class _AreaState extends State<_Area> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    // color: Colors.grey,
                     child: Slider(
                       value: _value,
-                      onChanged: (value) => setState(() => _value = value),
+                      onChanged: (value) =>
+                          setState(() => _value = value.roundToDouble()),
+                      min: 3.0,
+                      max: 200.0,
                     ),
                   ),
                 ),
@@ -127,11 +129,12 @@ class _AreaState extends State<_Area> {
 }
 
 class _AreaPainter extends CustomPainter {
+  final _value;
   Paint _paintFill;
   Paint _paintStroke;
   TextPainter _textPainter;
 
-  _AreaPainter() {
+  _AreaPainter({double value}) : _value = value {
     _paintFill = Paint()
       ..color = Colors.blue.withOpacity(0.2)
       ..strokeWidth = 0.0
@@ -151,8 +154,8 @@ class _AreaPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(0.0, 0.0), 100.0, _paintFill);
-    canvas.drawCircle(Offset(0.0, 0.0), 100.0, _paintStroke);
+    canvas.drawCircle(Offset(0.0, 0.0), _value, _paintFill);
+    canvas.drawCircle(Offset(0.0, 0.0), _value, _paintStroke);
     _textPainter.paint(canvas, Offset(-24.0, -44.0));
   }
 
