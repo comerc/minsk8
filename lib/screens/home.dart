@@ -5,6 +5,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import '../map_plugins/zoom_layer.dart';
 import '../map_plugins/area_layer.dart';
+import '../map_plugins/scale_layer.dart';
 
 // import '../widgets/drawer.dart';
 
@@ -60,6 +61,7 @@ class Home extends StatelessWidget {
           plugins: [
             kReleaseMode ? null : ZoomLayerPlugin(),
             AreaLayerPlugin(),
+            ScaleLayerPlugin(),
           ].where((child) => child != null).toList(),
         ),
         layers: [
@@ -70,6 +72,12 @@ class Home extends StatelessWidget {
           MarkerLayerOptions(markers: markers),
           kReleaseMode ? null : ZoomLayerPluginOptions(),
           AreaLayerPluginOptions(),
+          ScaleLayerPluginOption(
+            lineColor: Colors.blue,
+            lineWidth: 2,
+            textStyle: TextStyle(color: Colors.blue, fontSize: 12),
+            padding: EdgeInsets.all(10),
+          ),
         ].where((child) => child != null).toList(),
       ),
     );
