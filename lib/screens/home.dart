@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
-import '../map_plugins/zoom_layer.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
+import '../map_plugins/zoom_layer.dart';
 
 // import '../widgets/drawer.dart';
 
@@ -59,9 +59,9 @@ class Home extends StatelessWidget {
           zoom: 8.0,
           minZoom: 4.0,
           plugins: [
-            kReleaseMode ? null : ZoomLayerPlugin(),
             AreaLayerPlugin(),
-            ScaleLayerPlugin(),
+            kReleaseMode ? null : ScaleLayerPlugin(),
+            kReleaseMode ? null : ZoomLayerPlugin(),
           ].where((child) => child != null).toList(),
         ),
         layers: [
@@ -70,14 +70,16 @@ class Home extends StatelessWidget {
             tileProvider: CachedNetworkTileProvider(),
           ),
           MarkerLayerOptions(markers: markers),
-          kReleaseMode ? null : ZoomLayerPluginOptions(),
           AreaLayerPluginOptions(),
-          ScaleLayerPluginOption(
-            lineColor: Colors.blue,
-            lineWidth: 2,
-            textStyle: TextStyle(color: Colors.blue, fontSize: 12),
-            padding: EdgeInsets.all(10),
-          ),
+          kReleaseMode
+              ? null
+              : ScaleLayerPluginOption(
+                  lineColor: Colors.blue,
+                  lineWidth: 2,
+                  textStyle: TextStyle(color: Colors.blue, fontSize: 12),
+                  padding: EdgeInsets.all(10),
+                ),
+          kReleaseMode ? null : ZoomLayerPluginOptions(),
         ].where((child) => child != null).toList(),
       ),
     );
