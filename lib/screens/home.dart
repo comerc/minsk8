@@ -6,7 +6,7 @@ import 'package:latlong/latlong.dart';
 
 // import '../widgets/drawer.dart';
 
-class Homepage extends StatelessWidget {
+class Home extends StatelessWidget {
   static const String route = '/';
 
   @override
@@ -113,7 +113,7 @@ class _Area extends StatelessWidget {
             : ButtonBar(
                 children: [
                   IconButton(
-                    tooltip: 'Увеличить',
+                    tooltip: 'Increase',
                     iconSize: 32.0,
                     icon: Icon(
                       Icons.zoom_in,
@@ -124,7 +124,7 @@ class _Area extends StatelessWidget {
                             : null,
                   ),
                   IconButton(
-                    tooltip: 'Уменьшить',
+                    tooltip: 'Decrease',
                     iconSize: 32.0,
                     icon: Icon(
                       Icons.zoom_out,

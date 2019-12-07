@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './screens/homepage.dart';
+import './screens/home.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,12 +9,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      // debugShowCheckedModeBanner: false,
       title: 'Flutter Map Example',
       // theme: ThemeData(
       //   primarySwatch: mapBoxBlue,
       // ),
-      home: Homepage(),
+      home: Home(),
       // routes: <String, WidgetBuilder>{
       //   TapToAddPage.route: (context) => TapToAddPage(),
       //   EsriPage.route: (context) => EsriPage(),
