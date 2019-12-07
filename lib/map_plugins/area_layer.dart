@@ -40,7 +40,7 @@ class _AreaState extends State<_Area> {
       children: [
         Center(
           child: CustomPaint(
-            painter: _AreaPainter(value: _value),
+            painter: _AreaPainter(value: _value, icon: _icon),
           ),
         ),
         Container(
@@ -130,27 +130,28 @@ class _AreaState extends State<_Area> {
 
 class _AreaPainter extends CustomPainter {
   final _value;
-  Paint _paintFill;
-  Paint _paintStroke;
-  TextPainter _textPainter;
+  final Paint _paintFill;
+  final Paint _paintStroke;
+  final TextPainter _textPainter;
 
-  _AreaPainter({double value}) : _value = value {
-    _paintFill = Paint()
-      ..color = Colors.blue.withOpacity(0.2)
-      ..strokeWidth = 0.0
-      ..style = PaintingStyle.fill;
-    _paintStroke = Paint()
-      ..color = Colors.black.withOpacity(0.1)
-      ..strokeWidth = 1.0
-      ..style = PaintingStyle.stroke;
-    final icon = Icons.location_on;
-    _textPainter = TextPainter(textDirection: TextDirection.rtl);
-    _textPainter.text = TextSpan(
-        text: String.fromCharCode(icon.codePoint),
-        style: TextStyle(
-            fontSize: 48.0, fontFamily: icon.fontFamily, color: Colors.pink));
-    _textPainter.layout();
-  }
+  _AreaPainter({double value, IconData icon})
+      : _value = value,
+        _paintFill = Paint()
+          ..color = Colors.blue.withOpacity(0.2)
+          ..strokeWidth = 0.0
+          ..style = PaintingStyle.fill,
+        _paintStroke = Paint()
+          ..color = Colors.black.withOpacity(0.1)
+          ..strokeWidth = 1.0
+          ..style = PaintingStyle.stroke,
+        _textPainter = TextPainter(textDirection: TextDirection.rtl)
+          ..text = TextSpan(
+              text: String.fromCharCode(icon.codePoint),
+              style: TextStyle(
+                  fontSize: 48.0,
+                  fontFamily: icon.fontFamily,
+                  color: Colors.pink))
+          ..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
