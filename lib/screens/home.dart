@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
-import '../map_plugins/zoom.dart';
+import '../map_plugins/zoom_layer.dart';
 import '../map_plugins/area_layer.dart';
 
 // import '../widgets/drawer.dart';
@@ -58,7 +58,7 @@ class Home extends StatelessWidget {
           zoom: 8.0,
           minZoom: 4.0,
           plugins: [
-            kReleaseMode ? null : ZoomPlugin(),
+            kReleaseMode ? null : ZoomLayerPlugin(),
             AreaLayerPlugin(),
           ].where((child) => child != null).toList(),
         ),
@@ -68,7 +68,7 @@ class Home extends StatelessWidget {
             tileProvider: CachedNetworkTileProvider(),
           ),
           MarkerLayerOptions(markers: markers),
-          kReleaseMode ? null : ZoomPluginOptions(),
+          kReleaseMode ? null : ZoomLayerPluginOptions(),
           AreaLayerPluginOptions(),
         ].where((child) => child != null).toList(),
       ),
