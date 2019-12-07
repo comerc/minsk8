@@ -30,8 +30,10 @@ class _Area extends StatefulWidget {
   _AreaState createState() => _AreaState();
 }
 
+const maxRadius = 100.0;
+
 class _AreaState extends State<_Area> {
-  double _radius = 100.0;
+  double _radius = maxRadius / 2;
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
 
@@ -122,8 +124,8 @@ class _AreaState extends State<_Area> {
                       value: _radius,
                       onChanged: (value) =>
                           setState(() => _radius = value.roundToDouble()),
-                      min: 3.0,
-                      max: 100.0,
+                      min: 1.0,
+                      max: maxRadius,
                     ),
                   ),
                 ),
