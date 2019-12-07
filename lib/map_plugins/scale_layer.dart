@@ -78,7 +78,7 @@ class ScaleLayer extends StatelessWidget {
     final displayDistance = distance > 999
         ? '${(distance / 1000).toStringAsFixed(0)} km'
         : '${distance.toStringAsFixed(0)} m';
-    final width = (end.x - start.x);
+    final width = end.x - start.x;
 
     return CustomPaint(
       painter: ScalePainter(
