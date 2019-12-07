@@ -99,7 +99,7 @@ class _AreaState extends State<_Area> {
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .copyWith(fontWeight: FontWeight.w600),
-                              text: '8 км',
+                              text: '$_value км',
                             ),
                           ],
                         ),
