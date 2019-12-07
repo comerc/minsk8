@@ -82,7 +82,7 @@ class AreaPlugin implements MapPlugin {
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (options is AreaPluginOptions) {
-      return _Area(mapState);
+      return _Area(mapState: mapState);
     }
     throw Exception('Unknown options type for Area'
         'plugin: $options');
@@ -94,18 +94,47 @@ class AreaPlugin implements MapPlugin {
   }
 }
 
-class _Area extends StatelessWidget {
+class _Area extends StatefulWidget {
   final MapState mapState;
 
-  _Area(this.mapState);
+  _Area({Key key, this.mapState}) : super(key: key);
+
+  @override
+  _AreaState createState() => _AreaState();
+}
+
+class _AreaState extends State<_Area> {
+  double _value = 0.0;
 
   @override
   Widget build(BuildContext context) {
+    print(widget);
     return Stack(
       children: [
         Center(
           child: CustomPaint(
             painter: _AreaPainter(),
+          ),
+        ),
+        Container(
+          alignment: Alignment.bottomCenter,
+          padding: EdgeInsets.all(8.0),
+          child: Container(
+            child: Slider(
+              value: _value,
+              // child: Text('1234'),
+              // onPressed: () {},
+              // color: Colors.blue,
+              onChanged: (value) => setState(() => _value = value),
+            ),
+            alignment: Alignment.center,
+            height: 100.0,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
           ),
         ),
         kReleaseMode
@@ -118,10 +147,10 @@ class _Area extends StatelessWidget {
                     icon: Icon(
                       Icons.zoom_in,
                     ),
-                    onPressed:
-                        mapState.zoom < (mapState.options.maxZoom ?? 17.0)
-                            ? _increaseZoom
-                            : null,
+                    onPressed: widget.mapState.zoom <
+                            (widget.mapState.options.maxZoom ?? 17.0)
+                        ? _increaseZoom
+                        : null,
                   ),
                   IconButton(
                     tooltip: 'Decrease',
@@ -129,7 +158,8 @@ class _Area extends StatelessWidget {
                     icon: Icon(
                       Icons.zoom_out,
                     ),
-                    onPressed: mapState.zoom > (mapState.options.minZoom ?? 0.0)
+                    onPressed: widget.mapState.zoom >
+                            (widget.mapState.options.minZoom ?? 0.0)
                         ? _decreaseZoom
                         : null,
                   ),
@@ -140,13 +170,13 @@ class _Area extends StatelessWidget {
   }
 
   _increaseZoom() {
-    final zoom = mapState.zoom + 1;
-    mapState.move(mapState.center, zoom);
+    final zoom = widget.mapState.zoom + 1;
+    widget.mapState.move(widget.mapState.center, zoom);
   }
 
   _decreaseZoom() {
-    final zoom = mapState.zoom - 1;
-    mapState.move(mapState.center, zoom);
+    final zoom = widget.mapState.zoom - 1;
+    widget.mapState.move(widget.mapState.center, zoom);
   }
 }
 
