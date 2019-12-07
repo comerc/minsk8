@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import './utils.dart' as utils;
 
 class AreaLayerPluginOptions extends LayerOptions {}
 
@@ -30,17 +31,24 @@ class _Area extends StatefulWidget {
 }
 
 class _AreaState extends State<_Area> {
-  double _value = 200.0;
+  double _radius = 100.0;
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
 
   @override
   Widget build(BuildContext context) {
+    final center = widget.mapState.center;
+    final start = widget.mapState.project(center);
+    final targetPoint =
+        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000.0);
+    final end = widget.mapState.project(targetPoint);
+    final paintedRadius = end.x - start.x;
+    // print(radius);
     return Stack(
       children: [
         Center(
           child: CustomPaint(
-            painter: _AreaPainter(value: _value, icon: _icon),
+            painter: _AreaPainter(radius: paintedRadius, icon: _icon),
           ),
         ),
         Container(
@@ -99,7 +107,7 @@ class _AreaState extends State<_Area> {
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .copyWith(fontWeight: FontWeight.w600),
-                              text: '${_value.toInt()} км',
+                              text: '${_radius.toInt()} км',
                             ),
                           ],
                         ),
@@ -111,11 +119,11 @@ class _AreaState extends State<_Area> {
                   flex: 1,
                   child: Container(
                     child: Slider(
-                      value: _value,
+                      value: _radius,
                       onChanged: (value) =>
-                          setState(() => _value = value.roundToDouble()),
+                          setState(() => _radius = value.roundToDouble()),
                       min: 3.0,
-                      max: 200.0,
+                      max: 100.0,
                     ),
                   ),
                 ),
@@ -129,13 +137,13 @@ class _AreaState extends State<_Area> {
 }
 
 class _AreaPainter extends CustomPainter {
-  final _value;
+  final _radius;
   final Paint _paintFill;
   final Paint _paintStroke;
   final TextPainter _textPainter;
 
-  _AreaPainter({double value, IconData icon})
-      : _value = value,
+  _AreaPainter({double radius, IconData icon})
+      : _radius = radius,
         _paintFill = Paint()
           ..color = Colors.blue.withOpacity(0.2)
           ..strokeWidth = 0.0
@@ -155,8 +163,8 @@ class _AreaPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(0.0, 0.0), _value, _paintFill);
-    canvas.drawCircle(Offset(0.0, 0.0), _value, _paintStroke);
+    canvas.drawCircle(Offset(0.0, 0.0), _radius, _paintFill);
+    canvas.drawCircle(Offset(0.0, 0.0), _radius, _paintStroke);
     _textPainter.paint(canvas, Offset(-24.0, -44.0));
   }
 
