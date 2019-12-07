@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 
-class AreaPluginOptions extends LayerOptions {}
+class AreaLayerPluginOptions extends LayerOptions {}
 
-class AreaPlugin implements MapPlugin {
+class AreaLayerPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is AreaPluginOptions) {
+    if (options is AreaLayerPluginOptions) {
       return _Area(mapState: mapState);
     }
-    throw Exception('Unknown options type for AreaPlugin'
+    throw Exception('Unknown options type for AreaLayerPlugin'
         'plugin: $options');
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is AreaPluginOptions;
+    return options is AreaLayerPluginOptions;
   }
 }
 

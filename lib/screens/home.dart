@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import '../map_plugins/zoom.dart';
-import '../map_plugins/area.dart';
+import '../map_plugins/area_layer.dart';
 
 // import '../widgets/drawer.dart';
 
@@ -59,7 +59,7 @@ class Home extends StatelessWidget {
           minZoom: 4.0,
           plugins: [
             kReleaseMode ? null : ZoomPlugin(),
-            AreaPlugin(),
+            AreaLayerPlugin(),
           ].where((child) => child != null).toList(),
         ),
         layers: [
@@ -69,7 +69,7 @@ class Home extends StatelessWidget {
           ),
           MarkerLayerOptions(markers: markers),
           kReleaseMode ? null : ZoomPluginOptions(),
-          AreaPluginOptions(),
+          AreaLayerPluginOptions(),
         ].where((child) => child != null).toList(),
       ),
     );
