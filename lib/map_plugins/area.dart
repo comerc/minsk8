@@ -65,9 +65,59 @@ class _AreaState extends State<_Area> {
                 )
               ],
             ),
-            child: Slider(
-              value: _value,
-              onChanged: (value) => setState(() => _value = value),
+            child: Column(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    height: double.infinity,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            TextSpan(
+                              text: 'Радиус',
+                            ),
+                            WidgetSpan(
+                              child: SizedBox(
+                                height: _iconSmallSize,
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: String.fromCharCode(_icon.codePoint),
+                                    style: TextStyle(
+                                      fontSize: _iconSmallSize,
+                                      fontFamily: _icon.fontFamily,
+                                      color: Colors.pink,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              style: DefaultTextStyle.of(context)
+                                  .style
+                                  .copyWith(fontWeight: FontWeight.w600),
+                              text: '8 км',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    // color: Colors.grey,
+                    child: Slider(
+                      value: _value,
+                      onChanged: (value) => setState(() => _value = value),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
