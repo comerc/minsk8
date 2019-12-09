@@ -1,15 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
-
-// import 'package:flutter_redux/flutter_redux.dart';
-// import '../main.dart';
 
 // import '../widgets/drawer.dart';
 
@@ -97,15 +93,6 @@ class Home extends StatelessWidget {
           kReleaseMode ? null : ZoomLayerPluginOptions(),
         ].where((child) => child != null).toList(),
       ),
-      // floatingActionButton: StoreConnector<AppState, VoidCallback>(
-      //   // Return a function to dispatch an increment action
-      //   converter: (store) => () => store.dispatch(IncrementCounterAction()),
-      //   builder: (_, increment) => FloatingActionButton(
-      //     onPressed: increment,
-      //     tooltip: 'Increment',
-      //     child: Icon(Icons.add),
-      //   ),
-      // ),
     );
   }
 }
