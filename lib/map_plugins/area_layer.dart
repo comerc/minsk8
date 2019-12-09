@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:state_persistence/state_persistence.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong/latlong.dart';
 import './utils.dart' as utils;
 
 class AreaLayerPluginOptions extends LayerOptions {}
@@ -33,7 +37,6 @@ class _Area extends StatefulWidget {
 const maxRadius = 100.0;
 
 class _AreaState extends State<_Area> {
-  double _radius = maxRadius / 2;
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
   final _boxShadow = BoxShadow(
@@ -43,13 +46,14 @@ class _AreaState extends State<_Area> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = PersistedAppState.of(context);
+    final radius = appState['radius'] ?? maxRadius / 2;
     final center = widget.mapState.center;
     final start = widget.mapState.project(center);
     final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000.0);
+        utils.calculateEndingGlobalCoordinates(center, 90, radius * 1000.0);
     final end = widget.mapState.project(targetPoint);
     final paintedRadius = end.x - start.x;
-    // print(radius);
     return Stack(
       children: [
         Center(
@@ -76,7 +80,64 @@ class _AreaState extends State<_Area> {
                     Icons.my_location,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (appState['isNeverAskAgain'] ?? false) {
+                      final geolocationStatus =
+                          await Geolocator().checkGeolocationPermissionStatus();
+                      if (GeolocationStatus.granted == geolocationStatus) {
+                        appState['isNeverAskAgain'] = false;
+                      } else {
+                        final isOK = await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: Text(
+                                "You need to allow access to device's location in Permissions from App Settings."),
+                            actions: [
+                              FlatButton(
+                                child: Text('CANCEL'),
+                                onPressed: () => Navigator.pop(context, false),
+                              ),
+                              FlatButton(
+                                child: Text('OK'),
+                                onPressed: () => Navigator.pop(context, true),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (isOK ?? false) {
+                          final permissionHandler = PermissionHandler();
+                          await permissionHandler.openAppSettings();
+                        }
+                        return;
+                      }
+                    }
+                    final isShown = await PermissionHandler()
+                        .shouldShowRequestPermissionRationale(
+                            PermissionGroup.location);
+                    try {
+                      final Position position = await Geolocator()
+                          .getCurrentPosition(
+                              desiredAccuracy: LocationAccuracy.best);
+                      widget.mapState.move(
+                          LatLng(position.latitude, position.longitude),
+                          widget.mapState.zoom);
+                    } catch (error) {
+                      print(error);
+                      if (isShown) {
+                        final isNeverAskAgain = !(await PermissionHandler()
+                            .shouldShowRequestPermissionRationale(
+                                PermissionGroup.location));
+                        if (isNeverAskAgain) {
+                          appState['isNeverAskAgain'] = true;
+                        }
+                      }
+                    }
+
+                    // // .then((Position position) {
+                    // // }).catchError((e) {
+                    // //   print(e);
+                    // // });
+                  },
                 ),
               ),
             ),
@@ -129,7 +190,7 @@ class _AreaState extends State<_Area> {
                                   style: DefaultTextStyle.of(context)
                                       .style
                                       .copyWith(fontWeight: FontWeight.w600),
-                                  text: '${_radius.toInt()} км',
+                                  text: '${radius.toInt()} км',
                                 ),
                               ],
                             ),
@@ -141,9 +202,9 @@ class _AreaState extends State<_Area> {
                       flex: 1,
                       child: Container(
                         child: Slider(
-                          value: _radius,
-                          onChanged: (value) =>
-                              setState(() => _radius = value.roundToDouble()),
+                          value: radius,
+                          onChanged: (value) => setState(
+                              () => appState['radius'] = value.roundToDouble()),
                           min: 1.0,
                           max: maxRadius,
                         ),
