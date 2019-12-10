@@ -10,49 +10,71 @@ import '../map_plugins/zoom_layer.dart';
 
 // import '../widgets/drawer.dart';
 
-class Home extends StatelessWidget {
-  static const String route = '/';
+class Map extends StatefulWidget {
+  static const String route = '/map';
+
+  @override
+  MapState createState() {
+    return MapState();
+  }
+}
+
+class MapState extends State<Map> with TickerProviderStateMixin {
+  // Note the addition of the TickerProviderStateMixin here. If you are getting an error like
+  // 'The class 'TickerProviderStateMixin' can't be used as a mixin because it extends a class other than Object.'
+  // in your IDE, you can probably fix it by adding an analysis_options.yaml file to your project
+  // with the following content:
+  //  analyzer:
+  //    language:
+  //      enableSuperMixins: true
+  // See https://github.com/flutter/flutter/issues/14317#issuecomment-361085869
+  // This project didn't require that change, so YMMV.
+
+  MapController mapController;
+
+  @override
+  void initState() {
+    super.initState();
+    mapController = MapController();
+  }
+
+  void _animatedMapMove(LatLng destCenter, double destZoom) {
+    // Create some tweens. These serve to split up the transition from one location to another.
+    // In our case, we want to split the transition be<tween> our current map center and the destination.
+    final _latTween = Tween<double>(
+        begin: mapController.center.latitude, end: destCenter.latitude);
+    final _lngTween = Tween<double>(
+        begin: mapController.center.longitude, end: destCenter.longitude);
+    final _zoomTween = Tween<double>(begin: mapController.zoom, end: destZoom);
+
+    // Create a animation controller that has a duration and a TickerProvider.
+    final controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    // The animation determines what path the animation will take. You can try different Curves values, although I found
+    // fastOutSlowIn to be my favorite.
+    final animation =
+        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+
+    controller.addListener(() {
+      mapController.move(
+          LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)),
+          _zoomTween.evaluate(animation));
+    });
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.dispose();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.dispose();
+      }
+    });
+
+    controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
     // final appState = PersistedAppState.of(context);
-
-    // var markers = <Marker>[
-    //   Marker(
-    //     width: 80.0,
-    //     height: 80.0,
-    //     point: LatLng(51.5, -0.09),
-    //     builder: (ctx) => Container(
-    //       child: FlutterLogo(
-    //         colors: Colors.blue,
-    //         key: ObjectKey(Colors.blue),
-    //       ),
-    //     ),
-    //   ),
-    //   Marker(
-    //     width: 80.0,
-    //     height: 80.0,
-    //     point: LatLng(53.3498, -6.2603),
-    //     builder: (ctx) => Container(
-    //       child: FlutterLogo(
-    //         colors: Colors.green,
-    //         key: ObjectKey(Colors.green),
-    //       ),
-    //     ),
-    //   ),
-    //   Marker(
-    //     width: 80.0,
-    //     height: 80.0,
-    //     point: LatLng(48.8566, 2.3522),
-    //     builder: (ctx) => Container(
-    //       child: FlutterLogo(
-    //         colors: Colors.purple,
-    //         key: ObjectKey(Colors.purple),
-    //       ),
-    //     ),
-    //   ),
-    // ];
-
     return PersistedStateBuilder(
       builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
         if (!snapshot.hasData) {
@@ -65,20 +87,24 @@ class Home extends StatelessWidget {
         final appState = snapshot.data;
         return Scaffold(
           appBar: AppBar(
-            title: Text('Home'),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  PermissionHandler().openAppSettings().then((bool hasOpened) =>
-                      debugPrint(
-                          'App Settings opened: ' + hasOpened.toString()));
-                },
-              )
-            ],
+            title: Text('Map'),
+            actions: [
+              kReleaseMode
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () {
+                        PermissionHandler().openAppSettings().then(
+                            (bool hasOpened) => debugPrint(
+                                'App Settings opened: ' +
+                                    hasOpened.toString()));
+                      },
+                    )
+            ].where((child) => child != null).toList(),
           ),
           // drawer: buildDrawer(context, route),
           body: FlutterMap(
+            mapController: mapController,
             options: MapOptions(
               center: LatLng(appState['center.latitude'] ?? 53.9,
                   appState['center.longitude'] ?? 27.56667),
@@ -101,7 +127,7 @@ class Home extends StatelessWidget {
                 tileProvider: CachedNetworkTileProvider(),
               ),
               // MarkerLayerOptions(markers: markers),
-              AreaLayerPluginOptions(),
+              AreaLayerPluginOptions(onMove: _animatedMapMove),
               kReleaseMode
                   ? null
                   : ScaleLayerPluginOption(
