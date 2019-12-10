@@ -20,8 +20,6 @@ class Map extends StatefulWidget {
   }
 }
 
-const defaultZoom = 8.0;
-
 class MapState extends State<Map> with TickerProviderStateMixin {
   // Note the addition of the TickerProviderStateMixin here. If you are getting an error like
   // 'The class 'TickerProviderStateMixin' can't be used as a mixin because it extends a class other than Object.'
@@ -130,7 +128,7 @@ class MapState extends State<Map> with TickerProviderStateMixin {
             options: MapOptions(
               center: LatLng(appState['center.latitude'] ?? 53.9,
                   appState['center.longitude'] ?? 27.56667),
-              zoom: appState['zoom'] ?? defaultZoom,
+              zoom: appState['zoom'] ?? 8.0,
               minZoom: 4.0,
               onPositionChanged: (position, _hasGesture) {
                 appState['center.latitude'] = position.center.latitude;
@@ -207,8 +205,7 @@ class MapState extends State<Map> with TickerProviderStateMixin {
                       _currentPosition =
                           LatLng(position.latitude, position.longitude);
                       _animatedMapMove(
-                          LatLng(position.latitude, position.longitude),
-                          defaultZoom);
+                          LatLng(position.latitude, position.longitude), 10.0);
                     });
                     // if (widget.options.onMoveToCurrentPosition == null) {
                     //   widget.mapState.move(
