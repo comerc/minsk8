@@ -37,7 +37,7 @@ class MapState extends State<Map> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // _initCurrentPosition();
+    _initCurrentPosition();
     _mapController = MapController();
   }
 
@@ -60,11 +60,11 @@ class MapState extends State<Map> with TickerProviderStateMixin {
   void _animatedMapMove(LatLng destCenter, [double destZoom]) {
     // Create some tweens. These serve to split up the transition from one location to another.
     // In our case, we want to split the transition be<tween> our current map center and the destination.
-    final _latTween = Tween<double>(
+    final latTween = Tween<double>(
         begin: _mapController.center.latitude, end: destCenter.latitude);
-    final _lngTween = Tween<double>(
+    final lngTween = Tween<double>(
         begin: _mapController.center.longitude, end: destCenter.longitude);
-    final _zoomTween = Tween<double>(
+    final zoomTween = Tween<double>(
         begin: _mapController.zoom, end: destZoom ?? _mapController.zoom);
 
     // Create a animation controller that has a duration and a TickerProvider.
@@ -77,8 +77,8 @@ class MapState extends State<Map> with TickerProviderStateMixin {
 
     controller.addListener(() {
       _mapController.move(
-          LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)),
-          _zoomTween.evaluate(animation));
+          LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)),
+          zoomTween.evaluate(animation));
     });
 
     animation.addStatusListener((status) {
