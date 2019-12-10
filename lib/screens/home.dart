@@ -20,6 +20,8 @@ class Map extends StatefulWidget {
   }
 }
 
+const defaultZoom = 8.0;
+
 class MapState extends State<Map> with TickerProviderStateMixin {
   // Note the addition of the TickerProviderStateMixin here. If you are getting an error like
   // 'The class 'TickerProviderStateMixin' can't be used as a mixin because it extends a class other than Object.'
@@ -57,15 +59,14 @@ class MapState extends State<Map> with TickerProviderStateMixin {
     }
   }
 
-  void _animatedMapMove(LatLng destCenter, [double destZoom]) {
+  void _animatedMapMove(LatLng destCenter, double destZoom) {
     // Create some tweens. These serve to split up the transition from one location to another.
     // In our case, we want to split the transition be<tween> our current map center and the destination.
     final latTween = Tween<double>(
         begin: _mapController.center.latitude, end: destCenter.latitude);
     final lngTween = Tween<double>(
         begin: _mapController.center.longitude, end: destCenter.longitude);
-    final zoomTween = Tween<double>(
-        begin: _mapController.zoom, end: destZoom ?? _mapController.zoom);
+    final zoomTween = Tween<double>(begin: _mapController.zoom, end: destZoom);
 
     // Create a animation controller that has a duration and a TickerProvider.
     final controller = AnimationController(
@@ -129,7 +130,7 @@ class MapState extends State<Map> with TickerProviderStateMixin {
             options: MapOptions(
               center: LatLng(appState['center.latitude'] ?? 53.9,
                   appState['center.longitude'] ?? 27.56667),
-              zoom: appState['zoom'] ?? 8.0,
+              zoom: appState['zoom'] ?? defaultZoom,
               minZoom: 4.0,
               onPositionChanged: (position, _hasGesture) {
                 appState['center.latitude'] = position.center.latitude;
@@ -206,7 +207,8 @@ class MapState extends State<Map> with TickerProviderStateMixin {
                       _currentPosition =
                           LatLng(position.latitude, position.longitude);
                       _animatedMapMove(
-                          LatLng(position.latitude, position.longitude));
+                          LatLng(position.latitude, position.longitude),
+                          defaultZoom);
                     });
                     // if (widget.options.onMoveToCurrentPosition == null) {
                     //   widget.mapState.move(
