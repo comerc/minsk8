@@ -6,14 +6,20 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 import './utils.dart' as utils;
 
-class AreaLayerPluginOptions extends LayerOptions {}
+typedef void OnMove(LatLng destCenter, double destZoom);
+
+class AreaLayerPluginOptions extends LayerOptions {
+  final OnMove onMove;
+
+  AreaLayerPluginOptions({this.onMove});
+}
 
 class AreaLayerPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (options is AreaLayerPluginOptions) {
-      return _Area(mapState: mapState);
+      return _Area(options: options, mapState: mapState);
     }
     throw Exception('Unknown options type for AreaLayerPlugin'
         'plugin: $options');
@@ -26,9 +32,10 @@ class AreaLayerPlugin implements MapPlugin {
 }
 
 class _Area extends StatefulWidget {
+  final AreaLayerPluginOptions options;
   final MapState mapState;
 
-  _Area({Key key, this.mapState}) : super(key: key);
+  _Area({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
   _AreaState createState() => _AreaState();
@@ -118,9 +125,15 @@ class _AreaState extends State<_Area> {
                       final Position position = await Geolocator()
                           .getCurrentPosition(
                               desiredAccuracy: LocationAccuracy.best);
-                      widget.mapState.move(
-                          LatLng(position.latitude, position.longitude),
-                          widget.mapState.zoom);
+                      if (widget.options.onMove == null) {
+                        widget.mapState.move(
+                            LatLng(position.latitude, position.longitude),
+                            widget.mapState.zoom);
+                      } else {
+                        widget.options.onMove(
+                            LatLng(position.latitude, position.longitude),
+                            widget.mapState.zoom);
+                      }
                     } catch (error) {
                       print(error);
                       if (isShown) {
