@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:state_persistence/state_persistence.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
 import './utils.dart' as utils;
 
-typedef void OnMove(LatLng destCenter, double destZoom);
+// typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 
 class AreaLayerPluginOptions extends LayerOptions {
-  final OnMove onMove;
+  final Function onCurrentPositionClick;
+  // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
-  AreaLayerPluginOptions({this.onMove});
+  AreaLayerPluginOptions({this.onCurrentPositionClick});
 }
 
 class AreaLayerPlugin implements MapPlugin {
@@ -87,70 +85,7 @@ class _AreaState extends State<_Area> {
                     Icons.my_location,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () async {
-                    if (appState['isNeverAskAgain'] ?? false) {
-                      final geolocationStatus =
-                          await Geolocator().checkGeolocationPermissionStatus();
-                      if (GeolocationStatus.granted == geolocationStatus) {
-                        appState['isNeverAskAgain'] = false;
-                      } else {
-                        final isOK = await showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: Text(
-                                "You need to allow access to device's location in Permissions from App Settings."),
-                            actions: [
-                              FlatButton(
-                                child: Text('CANCEL'),
-                                onPressed: () => Navigator.pop(context, false),
-                              ),
-                              FlatButton(
-                                child: Text('OK'),
-                                onPressed: () => Navigator.pop(context, true),
-                              ),
-                            ],
-                          ),
-                        );
-                        if (isOK ?? false) {
-                          final permissionHandler = PermissionHandler();
-                          await permissionHandler.openAppSettings();
-                        }
-                        return;
-                      }
-                    }
-                    final isShown = await PermissionHandler()
-                        .shouldShowRequestPermissionRationale(
-                            PermissionGroup.location);
-                    try {
-                      final Position position = await Geolocator()
-                          .getCurrentPosition(
-                              desiredAccuracy: LocationAccuracy.best);
-                      if (widget.options.onMove == null) {
-                        widget.mapState.move(
-                            LatLng(position.latitude, position.longitude),
-                            widget.mapState.zoom);
-                      } else {
-                        widget.options.onMove(
-                            LatLng(position.latitude, position.longitude),
-                            widget.mapState.zoom);
-                      }
-                    } catch (error) {
-                      print(error);
-                      if (isShown) {
-                        final isNeverAskAgain = !(await PermissionHandler()
-                            .shouldShowRequestPermissionRationale(
-                                PermissionGroup.location));
-                        if (isNeverAskAgain) {
-                          appState['isNeverAskAgain'] = true;
-                        }
-                      }
-                    }
-
-                    // // .then((Position position) {
-                    // // }).catchError((e) {
-                    // //   print(e);
-                    // // });
-                  },
+                  onPressed: widget.options.onCurrentPositionClick,
                 ),
               ),
             ),
@@ -216,8 +151,11 @@ class _AreaState extends State<_Area> {
                       child: Container(
                         child: Slider(
                           value: radius,
-                          onChanged: (value) => setState(
-                              () => appState['radius'] = value.roundToDouble()),
+                          onChanged: (value) {
+                            setState(() {
+                              appState['radius'] = value.roundToDouble();
+                            });
+                          },
                           min: 1.0,
                           max: maxRadius,
                         ),
@@ -235,7 +173,7 @@ class _AreaState extends State<_Area> {
 }
 
 class _AreaPainter extends CustomPainter {
-  final _radius;
+  final double _radius;
   final Paint _paintFill;
   final Paint _paintStroke;
   final TextPainter _textPainter;
