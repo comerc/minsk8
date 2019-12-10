@@ -18,7 +18,7 @@ class App extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
-        home: Home(),
+        home: Map(),
         // routes: <String, WidgetBuilder>{
         //   TapToAddPage.route: (context) => TapToAddPage(),
         //   EsriPage.route: (context) => EsriPage(),
