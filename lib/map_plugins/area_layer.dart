@@ -181,7 +181,7 @@ class _AreaPainter extends CustomPainter {
   _AreaPainter({double radius, IconData icon})
       : _radius = radius,
         _paintFill = Paint()
-          ..color = Colors.blue.withOpacity(0.2)
+          ..color = Colors.blue.withOpacity(0.1)
           ..strokeWidth = 0.0
           ..style = PaintingStyle.fill,
         _paintStroke = Paint()
