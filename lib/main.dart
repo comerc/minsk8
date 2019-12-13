@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
 import './screens/home.dart';
+// import './screens/map.dart';
 
 void main() {
   runApp(App());
@@ -18,24 +19,25 @@ class App extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
-        home: Map(),
-        // routes: <String, WidgetBuilder>{
-        //   TapToAddPage.route: (context) => TapToAddPage(),
-        //   EsriPage.route: (context) => EsriPage(),
-        //   PolylinePage.route: (context) => PolylinePage(),
-        //   MapControllerPage.route: (context) => MapControllerPage(),
-        //   AnimatedMapControllerPage.route: (context) =>
-        //       AnimatedMapControllerPage(),
-        //   MarkerAnchorPage.route: (context) => MarkerAnchorPage(),
-        //   PluginPage.route: (context) => PluginPage(),
-        //   PluginScaleBar.route: (context) => PluginScaleBar(),
-        //   OfflineMapPage.route: (context) => OfflineMapPage(),
-        //   OfflineMBTilesMapPage.route: (context) => OfflineMBTilesMapPage(),
-        //   OnTapPage.route: (context) => OnTapPage(),
-        //   MovingMarkersPage.route: (context) => MovingMarkersPage(),
-        //   CirclePage.route: (context) => CirclePage(),
-        //   OverlayImagePage.route: (context) => OverlayImagePage(),
-        // },
+        home: HomeScreen(),
+        routes: <String, WidgetBuilder>{
+          // '/map': (context) => MapScreen(),
+          //   TapToAddPage.route: (context) => TapToAddPage(),
+          //   EsriPage.route: (context) => EsriPage(),
+          //   PolylinePage.route: (context) => PolylinePage(),
+          //   MapControllerPage.route: (context) => MapControllerPage(),
+          //   AnimatedMapControllerPage.route: (context) =>
+          //       AnimatedMapControllerPage(),
+          //   MarkerAnchorPage.route: (context) => MarkerAnchorPage(),
+          //   PluginPage.route: (context) => PluginPage(),
+          //   PluginScaleBar.route: (context) => PluginScaleBar(),
+          //   OfflineMapPage.route: (context) => OfflineMapPage(),
+          //   OfflineMBTilesMapPage.route: (context) => OfflineMBTilesMapPage(),
+          //   OnTapPage.route: (context) => OnTapPage(),
+          //   MovingMarkersPage.route: (context) => MovingMarkersPage(),
+          //   CirclePage.route: (context) => CirclePage(),
+          //   OverlayImagePage.route: (context) => OverlayImagePage(),
+        },
       ),
     );
   }
