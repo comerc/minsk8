@@ -29,6 +29,7 @@ class _ImageCaptureState extends State<ImageCapture> {
       ),
       compressFormat: ImageCompressFormat.png,
       compressQuality: 100,
+      // cropStyle: CropStyle.circle,
     );
 
     setState(() {
