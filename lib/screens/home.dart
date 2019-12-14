@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
+import "package:transparent_image/transparent_image.dart";
 import './map.dart';
 import './image_capture.dart';
 
 // import '../widgets/drawer.dart';
+
+const url = 'https://picsum.photos/250?image=9';
 
 class HomeScreen extends StatelessWidget {
   static const String route = '/';
@@ -50,7 +53,39 @@ class HomeScreen extends StatelessWidget {
           // drawer: buildDrawer(context, route),
           body: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('Home'),
+            // child: InkWell(
+            //   onTap: () {
+            //     Navigator.of(context).pushNamed(
+            //       '/image',
+            //       arguments: url,
+            //     );
+            //   },
+            child: Stack(
+              children: <Widget>[
+                Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                )),
+                Center(
+                  child: InkWell(
+                      // tag: url, // TODO: Hero
+                      child: FadeInImage.memoryNetwork(
+                        image: url,
+                        fit: BoxFit.cover,
+                        placeholder: kTransparentImage,
+                      ),
+                      onTap: () {
+                        return Navigator.pushNamed(
+                          context,
+                          '/image/pinch',
+                          arguments: url,
+                        );
+                      }),
+                ),
+              ],
+            ),
+            // ),
           ),
         );
       },
