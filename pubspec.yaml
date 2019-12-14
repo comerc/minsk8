@@ -39,7 +39,9 @@ dependencies:
   image_picker: ^0.6.2+3
 
   transparent_image: 1.0.0
-  pinch_zoom_image: 0.2.5
+  pinch_zoom_image:
+    git:
+      url: git@github.com:TheFe91/pinch_zoom_image.git
 
 dev_dependencies:
   flutter_test:

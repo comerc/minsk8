@@ -294,9 +294,11 @@ packages:
   pinch_zoom_image:
     dependency: "direct main"
     description:
-      name: pinch_zoom_image
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "674224160d3f496a79537375669f4b6fb43a00c3"
+      url: "git@github.com:TheFe91/pinch_zoom_image.git"
+    source: git
     version: "0.2.5"
   platform:
     dependency: transitive
