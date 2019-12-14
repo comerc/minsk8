@@ -6,7 +6,10 @@ import './image_capture.dart';
 
 // import '../widgets/drawer.dart';
 
-const url = 'https://picsum.photos/250?image=9';
+const url = {
+  1000: 'https://picsum.photos/1000?image=9',
+  250: 'https://picsum.photos/250?image=9'
+};
 
 class HomeScreen extends StatelessWidget {
   static const String route = '/';
@@ -51,41 +54,30 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           // drawer: buildDrawer(context, route),
-          body: Padding(
-            padding: EdgeInsets.all(8.0),
-            // child: InkWell(
-            //   onTap: () {
-            //     Navigator.of(context).pushNamed(
-            //       '/image',
-            //       arguments: url,
-            //     );
-            //   },
-            child: Stack(
-              children: <Widget>[
-                Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
-                )),
-                Center(
-                  child: InkWell(
-                      // tag: url, // TODO: Hero
-                      child: FadeInImage.memoryNetwork(
-                        image: url,
-                        fit: BoxFit.cover,
-                        placeholder: kTransparentImage,
-                      ),
-                      onTap: () {
-                        return Navigator.pushNamed(
-                          context,
-                          '/image/pinch',
-                          arguments: url,
-                        );
-                      }),
+          body: Stack(
+            children: [
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+              Center(
+                child: GestureDetector(
+                  child: FadeInImage.memoryNetwork(
+                    width: 250.0,
+                    height: 250.0,
+                    image: url[250],
+                    fit: BoxFit.cover,
+                    placeholder: kTransparentImage,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/image',
+                      arguments: url[1000],
+                    );
+                  },
                 ),
-              ],
-            ),
-            // ),
+              ),
+            ],
           ),
         );
       },

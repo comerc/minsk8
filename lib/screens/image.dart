@@ -13,9 +13,18 @@ class ImageScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: FadeInImage.memoryNetwork(
-                image: url,
-                placeholder: kTransparentImage,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/image/pinch',
+                    arguments: url,
+                  );
+                },
+                child: FadeInImage.memoryNetwork(
+                  image: url,
+                  placeholder: kTransparentImage,
+                ),
               ),
             )
           ],
