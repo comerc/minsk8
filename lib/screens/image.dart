@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
 
+// TODO: тут будет слайдер по картинкам одного товара
+
 class ImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
