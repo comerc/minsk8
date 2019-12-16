@@ -6,6 +6,7 @@ const items = [
         250: 'https://picsum.photos/250?image=1'
       },
     },
+    'name': 'One',
   },
   {
     'image': {
@@ -14,6 +15,7 @@ const items = [
         250: 'https://picsum.photos/250?image=2'
       },
     },
+    'name': 'Two',
   },
   {
     'image': {
@@ -22,6 +24,7 @@ const items = [
         250: 'https://picsum.photos/250?image=3'
       },
     },
+    'name': 'Three',
   },
   {
     'image': {
@@ -30,5 +33,6 @@ const items = [
         250: 'https://picsum.photos/250?image=4'
       },
     },
+    'name': 'Four',
   },
 ];
