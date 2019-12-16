@@ -5,12 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import '../widgets/main_drawer.dart';
 
-class ImageCapture extends StatefulWidget {
-  createState() => _ImageCaptureState();
+class ImageCaptureScreen extends StatefulWidget {
+  createState() => _ImageCaptureScreenState();
 }
 
-class _ImageCaptureState extends State<ImageCapture> {
+class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
   File _imageFile;
 
   /// Cropper plugin
@@ -81,6 +82,7 @@ class _ImageCaptureState extends State<ImageCapture> {
           ],
         ),
       ),
+      drawer: MainDrawer('/image_capture'),
       body: Column(
         children: [
           if (_imageFile != null) ...[

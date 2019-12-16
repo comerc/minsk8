@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
 import './screens/home.dart';
+import './screens/map.dart';
 import "./screens/image_pinch.dart";
+import "./screens/image_capture.dart";
 import './screens/image.dart';
 
 void main() {
@@ -22,29 +24,14 @@ class App extends StatelessWidget {
         // ),
         home: HomeScreen(),
         routes: <String, WidgetBuilder>{
-          '/image/pinch': (context) {
-            return ImagePinchScreen();
-          },
-
-          '/image': (context) {
-            return ImageScreen();
-          },
-          // '/map': (context) => MapScreen(),
-          //   TapToAddPage.route: (context) => TapToAddPage(),
-          //   EsriPage.route: (context) => EsriPage(),
-          //   PolylinePage.route: (context) => PolylinePage(),
-          //   MapControllerPage.route: (context) => MapControllerPage(),
-          //   AnimatedMapControllerPage.route: (context) =>
-          //       AnimatedMapControllerPage(),
-          //   MarkerAnchorPage.route: (context) => MarkerAnchorPage(),
-          //   PluginPage.route: (context) => PluginPage(),
-          //   PluginScaleBar.route: (context) => PluginScaleBar(),
-          //   OfflineMapPage.route: (context) => OfflineMapPage(),
-          //   OfflineMBTilesMapPage.route: (context) => OfflineMBTilesMapPage(),
-          //   OnTapPage.route: (context) => OnTapPage(),
-          //   MovingMarkersPage.route: (context) => MovingMarkersPage(),
-          //   CirclePage.route: (context) => CirclePage(),
-          //   OverlayImagePage.route: (context) => OverlayImagePage(),
+          '/map': (context) => MapScreen(),
+          '/image_pinch': (context) => ImagePinchScreen(),
+          '/image_capture': (context) => ImageCaptureScreen(),
+          '/image': (context) => ImageScreen(),
+        },
+        onGenerateRoute: (settings) {
+          print(settings);
+          return null;
         },
       ),
     );

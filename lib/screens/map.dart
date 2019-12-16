@@ -8,12 +8,11 @@ import 'package:geolocator/geolocator.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
+import '../widgets/main_drawer.dart';
 
 // import '../widgets/drawer.dart';
 
 class MapScreen extends StatefulWidget {
-  static const String route = '/map';
-
   @override
   _MapScreenState createState() {
     return _MapScreenState();
@@ -122,7 +121,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 )
         ].where((child) => child != null).toList(),
       ),
-      // drawer: buildDrawer(context, route),
+      drawer: MainDrawer('/map'),
       body: FlutterMap(
         mapController: _mapController,
         options: MapOptions(
