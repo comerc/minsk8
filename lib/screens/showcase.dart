@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/main_drawer.dart';
-import '../const/fake_items.dart' show items;
+import '../const/fake_data.dart' show items;
 import '../widgets/showcase_card.dart';
 
 class ShowcaseScreen extends StatelessWidget {

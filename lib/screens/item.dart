@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
-import '../const/fake_items.dart' show items;
+import '../const/fake_data.dart' show items;
 
 // TODO: тут будет слайдер по картинкам одного товара
 
