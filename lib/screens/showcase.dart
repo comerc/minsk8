@@ -6,17 +6,27 @@ import '../widgets/showcase_card.dart';
 class ShowcaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Showcase'),
-      ),
-      drawer: MainDrawer('/showcase'),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
-          return ShowcaseCard(item);
-        },
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Showcase'),
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+              Tab(icon: Icon(Icons.directions_bike)),
+            ],
+          ),
+        ),
+        drawer: MainDrawer('/showcase'),
+        body: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            final item = items[index];
+            return ShowcaseCard(item);
+          },
+        ),
       ),
     );
   }
