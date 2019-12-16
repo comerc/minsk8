@@ -49,7 +49,7 @@ class MainDrawer extends StatelessWidget {
                 title: Text(mainRoute['title']),
                 selected: currentRoute == mainRoute['route'],
                 onTap: () {
-                  Navigator.pushNamed(context, mainRoute['route']);
+                  Navigator.pushReplacementNamed(context, mainRoute['route']);
                 },
               );
             },

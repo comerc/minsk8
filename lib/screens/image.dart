@@ -17,7 +17,7 @@ class ImageScreen extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacementNamed(
+                  Navigator.pushNamed(
                     context,
                     '/image_pinch',
                     arguments: url,
