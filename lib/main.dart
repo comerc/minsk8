@@ -6,6 +6,7 @@ import './screens/map.dart';
 import "./screens/image_pinch.dart";
 import "./screens/image_capture.dart";
 import './screens/image.dart';
+import './screens/showcase.dart';
 
 void main() {
   runApp(App());
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
           '/image_pinch': (context) => ImagePinchScreen(),
           '/image_capture': (context) => ImageCaptureScreen(),
           '/image': (context) => ImageScreen(),
+          '/showcase': (context) => ShowcaseScreen(),
         },
         onGenerateRoute: (settings) {
           print(settings);

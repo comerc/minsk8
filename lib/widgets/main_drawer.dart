@@ -9,6 +9,10 @@ final mainRoutes = [
     'route': '/image_capture',
     'title': 'Image Capture',
   },
+  {
+    'route': '/showcase',
+    'title': 'Showcase',
+  },
 ];
 
 class MainDrawer extends StatelessWidget {
