@@ -23,8 +23,7 @@ class ShowcaseScreen extends StatelessWidget {
         body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (BuildContext context, int index) {
-            final item = items[index];
-            return ShowcaseCard(item);
+            return ShowcaseCard(index);
           },
         ),
       ),

@@ -1,38 +1,17 @@
-const items = [
-  {
-    'image': {
-      'url': {
-        1000: 'https://picsum.photos/1000?image=1',
-        250: 'https://picsum.photos/250?image=1'
-      },
-    },
-    'name': 'One',
-  },
-  {
-    'image': {
-      'url': {
-        1000: 'https://picsum.photos/1000?image=2',
-        250: 'https://picsum.photos/250?image=2'
-      },
-    },
-    'name': 'Two',
-  },
-  {
-    'image': {
-      'url': {
-        1000: 'https://picsum.photos/1000?image=3',
-        250: 'https://picsum.photos/250?image=3'
-      },
-    },
-    'name': 'Three',
-  },
-  {
-    'image': {
-      'url': {
-        1000: 'https://picsum.photos/1000?image=4',
-        250: 'https://picsum.photos/250?image=4'
-      },
-    },
-    'name': 'Four',
-  },
+class Item {
+  final int imageId;
+  final String name;
+
+  Item(this.imageId, this.name);
+
+  imageUrl(size) {
+    return 'https://picsum.photos/$size?image=$imageId';
+  }
+}
+
+final items = [
+  Item(1, 'One'),
+  Item(2, 'Two'),
+  Item(3, 'Three'),
+  Item(4, 'Four'),
 ];

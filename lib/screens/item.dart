@@ -1,15 +1,18 @@
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
+import '../const/fake_items.dart' show items;
 
 // TODO: тут будет слайдер по картинкам одного товара
 
 class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String url = ModalRoute.of(context).settings.arguments;
+    final itemIndex = ModalRoute.of(context).settings.arguments;
+    final item = items[itemIndex];
+    final imageUrl = item.imageUrl(1000);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item'),
+        title: Text('Item ${item.name}'),
       ),
       body: SafeArea(
         child: Column(
@@ -20,11 +23,11 @@ class ItemScreen extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/image_pinch',
-                    arguments: url,
+                    arguments: imageUrl,
                   );
                 },
                 child: FadeInImage.memoryNetwork(
-                  image: url,
+                  image: imageUrl,
                   placeholder: kTransparentImage,
                 ),
               ),

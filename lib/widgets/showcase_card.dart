@@ -1,13 +1,15 @@
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
+import '../const/fake_items.dart' show items;
 
 class ShowcaseCard extends StatelessWidget {
-  final item;
+  final itemIndex;
 
-  ShowcaseCard(this.item);
+  ShowcaseCard(this.itemIndex);
 
   @override
   Widget build(BuildContext context) {
+    final item = items[itemIndex];
     return Card(
       color: Colors.white70,
       child: SizedBox(
@@ -22,15 +24,15 @@ class ShowcaseCard extends StatelessWidget {
                 child: FadeInImage.memoryNetwork(
                   width: 250.0,
                   height: 250.0,
-                  image: item['image']['url'][250],
+                  image: item.imageUrl(250),
                   fit: BoxFit.cover,
                   placeholder: kTransparentImage,
                 ),
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    '/image',
-                    arguments: item['image']['url'][1000],
+                    '/item',
+                    arguments: itemIndex,
                   );
                 },
               ),
@@ -38,7 +40,7 @@ class ShowcaseCard extends StatelessWidget {
             Container(
               alignment: Alignment.bottomCenter,
               child: Text(
-                item['name'],
+                item.name,
                 style: TextStyle(
                   fontSize: 23,
                   fontWeight: FontWeight.bold,
