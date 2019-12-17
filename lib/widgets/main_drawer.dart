@@ -71,7 +71,15 @@ final mainRoutes = [
   {
     'title': 'Notifications',
     'route': '/notifications',
-  }
+  },
+  {
+    'title': 'Pay',
+    'route': '/pay',
+  },
+  {
+    'title': 'Settings',
+    'route': '/settings',
+  },
 ];
 
 class MainDrawer extends StatelessWidget {
