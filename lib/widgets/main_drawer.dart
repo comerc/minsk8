@@ -18,6 +18,60 @@ final mainRoutes = [
     'route': '/item',
     'arguments': {'id': 0},
   },
+  {
+    'title': 'Wish List',
+    'route': '/wish_list',
+  },
+  {
+    'title': 'Underway',
+    'route': '/underway',
+  },
+  {
+    'title': 'Search',
+    'route': '/search',
+  },
+  {
+    'title': 'Login',
+    'route': '/login',
+  },
+  {
+    'title': 'Sign Up',
+    'route': '/sign_up',
+  },
+  {
+    'title': 'Forgot Password',
+    'route': '/forgot-password',
+  },
+  {
+    'title': 'Profile',
+    'route': '/profile',
+  },
+  {
+    'title': 'Chat',
+    'route': '/chat',
+    'arguments': {'user_id': 0},
+  },
+  {
+    'title': 'Select Kind(s)',
+    'route': '/kinds',
+  },
+  {
+    'title': 'Add Item',
+    'route': '/add_item',
+  },
+  {
+    'title': 'Edit Item',
+    'route': '/edit_item',
+    'arguments': {'id': 0},
+  },
+  {
+    'title': 'My Items',
+    'route': '/my_items',
+  },
+  {
+    'title': 'Notifications',
+    'route': '/notifications',
+  }
 ];
 
 class MainDrawer extends StatelessWidget {
@@ -59,13 +113,12 @@ class MainDrawer extends StatelessWidget {
                       context,
                       mainRoute['route'],
                     );
-                  } else {
-                    Navigator.pushNamed(
-                      context,
-                      mainRoute['route'],
-                      arguments: mainRoute['arguments'],
-                    );
                   }
+                  Navigator.pushNamed(
+                    context,
+                    mainRoute['route'],
+                    arguments: mainRoute['arguments'],
+                  );
                 },
               );
             },
