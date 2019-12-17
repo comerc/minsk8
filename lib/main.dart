@@ -1,12 +1,29 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
-import './screens/home.dart';
-import './screens/map.dart';
-import "./screens/image_pinch.dart";
-import "./screens/image_capture.dart";
-import './screens/item.dart';
-import './screens/showcase.dart';
+import 'screens/about.dart';
+import 'screens/add_item.dart';
+import 'screens/chat.dart';
+import 'screens/edit_item.dart';
+import 'screens/forgot_password.dart';
+import 'screens/home.dart';
+import "screens/image_capture.dart";
+import "screens/image_pinch.dart";
+import 'screens/item.dart';
+import 'screens/kinds.dart';
+import 'screens/login.dart';
+import 'screens/map.dart';
+import 'screens/my_items.dart';
+import 'screens/notifications.dart';
+import 'screens/pay.dart';
+import 'screens/profile.dart';
+import 'screens/search.dart';
+import 'screens/settings.dart';
+import 'screens/showcase.dart';
+import 'screens/sign_up.dart';
+import 'screens/start.dart';
+import 'screens/underway.dart';
+import 'screens/wish_list.dart';
 
 void main() {
   runApp(App());
@@ -23,13 +40,31 @@ class App extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
-        home: HomeScreen(),
+        initialRoute: '/home',
         routes: <String, WidgetBuilder>{
-          '/map': (context) => MapScreen(),
-          '/image_pinch': (context) => ImagePinchScreen(),
+          '/about': (context) => AboutScreen(),
+          '/add_item': (context) => AddItemScreen(),
+          '/chat': (context) => ChatScreen(),
+          '/edit_item': (context) => EditItemScreen(),
+          '/forgot_password': (context) => ForgotPasswordScreen(),
           '/image_capture': (context) => ImageCaptureScreen(),
+          '/image_pinch': (context) => ImagePinchScreen(),
           '/item': (context) => ItemScreen(),
+          '/kinds': (context) => KindsScreen(),
+          '/home': (context) => HomeScreen(),
+          '/login': (context) => LoginScreen(),
+          '/map': (context) => MapScreen(),
+          '/my_items': (context) => MyItemsScreen(),
+          '/notifications': (context) => NotificationsScreen(),
+          '/pay': (context) => PayScreen(),
+          '/profile': (context) => ProfileScreen(),
+          '/search': (context) => SearchScreen(),
+          '/settings': (context) => SettingsScreen(),
           '/showcase': (context) => ShowcaseScreen(),
+          '/sign_up': (context) => SignUpScreen(),
+          '/start': (context) => StartScreen(),
+          '/underway': (context) => UnderwayScreen(),
+          '/wish_list': (context) => WishListScreen(),
         },
         onGenerateRoute: (settings) {
           print(settings);

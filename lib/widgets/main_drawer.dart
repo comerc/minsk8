@@ -2,16 +2,30 @@ import 'package:flutter/material.dart';
 
 final mainRoutes = [
   {
-    'title': 'Map',
-    'route': '/map',
+    'title': 'About',
+    'route': '/about',
+  },
+  {
+    'title': 'Add Item',
+    'route': '/add_item',
+  },
+  {
+    'title': 'Chat',
+    'route': '/chat',
+    'arguments': {'user_id': 0},
+  },
+  {
+    'title': 'Edit Item',
+    'route': '/edit_item',
+    'arguments': {'id': 0},
+  },
+  {
+    'title': 'Forgot Password',
+    'route': '/forgot_password',
   },
   {
     'title': 'Image Capture',
     'route': '/image_capture',
-  },
-  {
-    'title': 'Showcase',
-    'route': '/showcase',
   },
   {
     'title': 'Item',
@@ -19,12 +33,8 @@ final mainRoutes = [
     'arguments': {'id': 0},
   },
   {
-    'title': 'Wish List',
-    'route': '/wish_list',
-  },
-  {
-    'title': 'Underway',
-    'route': '/underway',
+    'title': 'Select Kind(s)',
+    'route': '/kinds',
   },
   {
     'title': 'Search',
@@ -35,34 +45,8 @@ final mainRoutes = [
     'route': '/login',
   },
   {
-    'title': 'Sign Up',
-    'route': '/sign_up',
-  },
-  {
-    'title': 'Forgot Password',
-    'route': '/forgot-password',
-  },
-  {
-    'title': 'Profile',
-    'route': '/profile',
-  },
-  {
-    'title': 'Chat',
-    'route': '/chat',
-    'arguments': {'user_id': 0},
-  },
-  {
-    'title': 'Select Kind(s)',
-    'route': '/kinds',
-  },
-  {
-    'title': 'Add Item',
-    'route': '/add_item',
-  },
-  {
-    'title': 'Edit Item',
-    'route': '/edit_item',
-    'arguments': {'id': 0},
+    'title': 'Map',
+    'route': '/map',
   },
   {
     'title': 'My Items',
@@ -77,8 +61,32 @@ final mainRoutes = [
     'route': '/pay',
   },
   {
+    'title': 'Profile',
+    'route': '/profile',
+  },
+  {
     'title': 'Settings',
     'route': '/settings',
+  },
+  {
+    'title': 'Showcase',
+    'route': '/showcase',
+  },
+  {
+    'title': 'Sign Up',
+    'route': '/sign_up',
+  },
+  {
+    'title': 'Start',
+    'route': '/start',
+  },
+  {
+    'title': 'Underway',
+    'route': '/underway',
+  },
+  {
+    'title': 'Wish List',
+    'route': '/wish_list',
   },
 ];
 
@@ -96,7 +104,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/home');
               },
               child: Container(
                 color: Colors.red,
