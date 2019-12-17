@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 
 final mainRoutes = [
   {
-    'route': '/map',
     'title': 'Map',
+    'route': '/map',
   },
   {
-    'route': '/image_capture',
     'title': 'Image Capture',
+    'route': '/image_capture',
   },
   {
-    'route': '/showcase',
     'title': 'Showcase',
+    'route': '/showcase',
+  },
+  {
+    'title': 'Item',
+    'route': '/item',
+    'arguments': {'id': 0},
   },
 ];
 
@@ -29,7 +34,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushReplacementNamed(context, '/');
+                Navigator.pushNamed(context, '/');
               },
               child: Container(
                 color: Colors.red,
@@ -49,7 +54,18 @@ class MainDrawer extends StatelessWidget {
                 title: Text(mainRoute['title']),
                 selected: currentRoute == mainRoute['route'],
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, mainRoute['route']);
+                  if (mainRoute['arguments'] == null) {
+                    Navigator.pushNamed(
+                      context,
+                      mainRoute['route'],
+                    );
+                  } else {
+                    Navigator.pushNamed(
+                      context,
+                      mainRoute['route'],
+                      arguments: mainRoute['arguments'],
+                    );
+                  }
                 },
               );
             },

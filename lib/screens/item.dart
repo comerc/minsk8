@@ -7,8 +7,9 @@ import '../const/fake_data.dart' show items;
 class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final itemIndex = ModalRoute.of(context).settings.arguments;
-    final item = items[itemIndex];
+    final arguments =
+        ModalRoute.of(context).settings.arguments as Map<String, int>;
+    final item = items[arguments['id']];
     final imageUrl = item.imageUrl(1000);
     return Scaffold(
       appBar: AppBar(
