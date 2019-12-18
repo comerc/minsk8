@@ -3,7 +3,7 @@ import "package:transparent_image/transparent_image.dart";
 import '../const/fake_data.dart' show items;
 
 class ShowcaseCard extends StatelessWidget {
-  final itemIndex;
+  final int itemIndex;
 
   ShowcaseCard(this.itemIndex);
 
@@ -32,7 +32,7 @@ class ShowcaseCard extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/item',
-                    arguments: itemIndex,
+                    arguments: {'id': itemIndex},
                   );
                 },
               ),
