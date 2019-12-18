@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text('Home'),
           ),
-          drawer: MainDrawer('/home'),
+          drawer: MainDrawer('/'),
           body: Center(
             child: Text('Hello world!'),
           ),

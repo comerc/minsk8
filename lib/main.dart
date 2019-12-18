@@ -40,7 +40,7 @@ class App extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
-        initialRoute: '/home',
+        home: HomeScreen(),
         routes: <String, WidgetBuilder>{
           '/about': (context) => AboutScreen(),
           '/add_item': (context) => AddItemScreen(),
@@ -51,7 +51,6 @@ class App extends StatelessWidget {
           '/image_pinch': (context) => ImagePinchScreen(),
           '/item': (context) => ItemScreen(),
           '/kinds': (context) => KindsScreen(),
-          '/home': (context) => HomeScreen(),
           '/login': (context) => LoginScreen(),
           '/map': (context) => MapScreen(),
           '/my_items': (context) => MyItemsScreen(),
