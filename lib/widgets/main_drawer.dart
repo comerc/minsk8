@@ -37,10 +37,6 @@ final mainRoutes = [
     'route': '/kinds',
   },
   {
-    'title': 'Search',
-    'route': '/search',
-  },
-  {
     'title': 'Login',
     'route': '/login',
   },
@@ -63,6 +59,10 @@ final mainRoutes = [
   {
     'title': 'Profile',
     'route': '/profile',
+  },
+  {
+    'title': 'Search',
+    'route': '/search',
   },
   {
     'title': 'Settings',
@@ -104,7 +104,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/');
               },
               child: Container(
                 color: Colors.red,
