@@ -158,6 +158,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ),
                 ]),
           AreaLayerPluginOptions(
+            getRadius: () => appState['radius'],
+            onChangeRadius: (value) => appState['radius'] = value,
             onCurrentPositionClick: () async {
               if (appState['isNeverAskAgain'] ?? false) {
                 final geolocationStatus =

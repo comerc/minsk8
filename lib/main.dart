@@ -40,14 +40,26 @@ class App extends StatelessWidget {
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
-        // builder: (BuildContext context, Widget child) {
-        //   //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
-        //   //If you want to set the font size is scaled according to the system's "font size" assist option
-        //   ScreenUtil.instance =
-        //       ScreenUtil(width: 300, height: 700, allowFontScaling: true)
-        //         ..init(context);
-        //   return child;
-        // },
+        builder: (BuildContext context, Widget child) {
+          //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
+          //If you want to set the font size is scaled according to the system's "font size" assist option
+          // ScreenUtil.instance =
+          //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
+          //       ..init(context);
+          return PersistedStateBuilder(
+            builder:
+                (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+              if (!snapshot.hasData) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return child;
+            },
+          );
+        },
         home: HomeScreen(),
         routes: <String, WidgetBuilder>{
           '/about': (context) => AboutScreen(),

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:state_persistence/state_persistence.dart';
 import './utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 
 class AreaLayerPluginOptions extends LayerOptions {
+  final Function getRadius;
+  final Function onChangeRadius;
   final Function onCurrentPositionClick;
   // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
-  AreaLayerPluginOptions({this.onCurrentPositionClick});
+  AreaLayerPluginOptions({
+    this.getRadius,
+    this.onChangeRadius,
+    this.onCurrentPositionClick,
+  });
 }
 
 class AreaLayerPlugin implements MapPlugin {
@@ -51,8 +56,7 @@ class _AreaState extends State<_Area> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = PersistedAppState.of(context);
-    final radius = appState['radius'] ?? maxRadius / 2;
+    final radius = widget.options.getRadius() ?? maxRadius / 2;
     final center = widget.mapState.center;
     final start = widget.mapState.project(center);
     final targetPoint =
@@ -153,7 +157,8 @@ class _AreaState extends State<_Area> {
                           value: radius,
                           onChanged: (value) {
                             setState(() {
-                              appState['radius'] = value.roundToDouble();
+                              widget.options
+                                  .onChangeRadius(value.roundToDouble());
                             });
                           },
                           min: 1.0,
