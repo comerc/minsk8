@@ -43,7 +43,8 @@ dependencies:
     git:
       url: git@github.com:TheFe91/pinch_zoom_image.git
 
-  # shared_preferences: 0.5.6
+  extended_image: 0.6.8
+  like_button: 0.1.9
 
 dev_dependencies:
   flutter_test:
