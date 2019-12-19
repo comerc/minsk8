@@ -105,7 +105,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/home');
               },
               child: Container(
                 color: Colors.red,

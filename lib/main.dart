@@ -38,13 +38,14 @@ class App extends StatelessWidget {
             },
           );
         },
-        home: HomeScreen(),
+        initialRoute: '/showcase',
         routes: <String, WidgetBuilder>{
           '/about': (context) => AboutScreen(),
           '/add_item': (context) => AddItemScreen(),
           '/chat': (context) => ChatScreen(),
           '/edit_item': (context) => EditItemScreen(),
           '/forgot_password': (context) => ForgotPasswordScreen(),
+          '/home': (context) => HomeScreen(),
           '/image_capture': (context) => ImageCaptureScreen(),
           '/image_pinch': (context) => ImagePinchScreen(),
           '/item': (context) => ItemScreen(),
