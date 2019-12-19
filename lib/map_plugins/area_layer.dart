@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import './utils.dart' as utils;
+import 'utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 

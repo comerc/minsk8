@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:minsk8/helpers/tools.dart';
-import './utils.dart' as utils;
+import 'utils.dart' as utils;
 
 class ScaleLayerPluginOption extends LayerOptions {
   TextStyle textStyle;
