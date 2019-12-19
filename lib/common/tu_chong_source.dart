@@ -3,20 +3,21 @@ import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 
 class TuChongSource {
-  int counts;
-  bool isHistory;
-  bool more;
-  String message;
-  String result;
+  // int counts;
+  // bool isHistory;
+  // bool more;
+  // String message;
+  // String result;
   List<TuChongItem> feedList;
 
-  TuChongSource.fromParams(
-      {this.counts,
-      this.isHistory,
-      this.more,
-      this.message,
-      this.result,
-      this.feedList});
+  TuChongSource.fromParams({
+    // this.counts,
+    // this.isHistory,
+    // this.more,
+    // this.message,
+    // this.result,
+    this.feedList,
+  });
 
   factory TuChongSource(jsonStr) => jsonStr == null
       ? null
@@ -25,11 +26,11 @@ class TuChongSource {
           : new TuChongSource.fromJson(jsonStr);
 
   TuChongSource.fromJson(jsonRes) {
-    counts = jsonRes['counts'];
-    isHistory = jsonRes['is_history'];
-    more = jsonRes['more'];
-    message = jsonRes['message'];
-    result = jsonRes['result'];
+    // counts = jsonRes['counts'];
+    // isHistory = jsonRes['is_history'];
+    // more = jsonRes['more'];
+    // message = jsonRes['message'];
+    // result = jsonRes['result'];
     feedList = jsonRes['feedList'] == null ? null : [];
 
     for (var feedListItem in feedList == null ? [] : jsonRes['feedList']) {
@@ -38,47 +39,47 @@ class TuChongSource {
     }
   }
 
-  @override
-  String toString() {
-    return '{"counts": $counts,"is_history": $isHistory,"more": $more,"message": ${message != null ? '${json.encode(message)}' : 'null'},"result": ${result != null ? '${json.encode(result)}' : 'null'},"feedList": $feedList}';
-  }
+  // @override
+  // String toString() {
+  //   return '{"counts": $counts,"is_history": $isHistory,"more": $more,"message": ${message != null ? '${json.encode(message)}' : 'null'},"result": ${result != null ? '${json.encode(result)}' : 'null'},"feedList": $feedList}';
+  // }
 }
 
 class TuChongItem {
-  Object titleImage;
+  // Object titleImage;
   int comments;
   int favorites;
-  int imageCount;
+  // int imageCount;
   int postId;
-  int shares;
-  int views;
-  bool collected;
-  bool delete;
+  // int shares;
+  // int views;
+  // bool collected;
+  // bool delete;
   bool isFavorite;
-  bool recommend;
-  bool rewardable;
-  bool update;
-  String authorId;
+  // bool recommend;
+  // bool rewardable;
+  // bool update;
+  // String authorId;
   String content;
-  String createdAt;
-  String dataType;
-  String excerpt;
-  String parentComments;
-  String passedTime;
-  String publishedAt;
-  String recomType;
-  String rewards;
-  String rqtId;
-  String siteId;
+  // String createdAt;
+  // String dataType;
+  // String excerpt;
+  // String parentComments;
+  // String passedTime;
+  // String publishedAt;
+  // String recomType;
+  // String rewards;
+  // String rqtId;
+  // String siteId;
   String title;
-  String type;
-  String url;
-  List<dynamic> commentListPrefix;
-  List<String> eventTags;
-  List<dynamic> favoriteListPrefix;
+  // String type;
+  // String url;
+  // List<dynamic> commentListPrefix;
+  // List<String> eventTags;
+  // List<dynamic> favoriteListPrefix;
   List<ImageItem> images;
-  List<dynamic> rewardListPrefix;
-  List<dynamic> sites;
+  // List<dynamic> rewardListPrefix;
+  // List<dynamic> sites;
   List<String> tags;
   List<Color> tagColors = List<Color>();
   Site site;
@@ -101,104 +102,105 @@ class TuChongItem {
 
   String get avatarUrl => site.icon;
 
-  String get imageTitle {
-    if (!hasImage) return title;
+  // String get imageTitle {
+  //   if (!hasImage) return title;
 
-    return images[0].title;
-  }
+  //   return images[0].title;
+  // }
 
-  String get imageDescription {
-    if (!hasImage) return content;
+  // String get imageDescription {
+  //   if (!hasImage) return content;
 
-    return images[0].description;
-  }
+  //   return images[0].description;
+  // }
 
-  TuChongItem.fromParams(
-      {this.titleImage,
-      this.comments,
-      this.favorites,
-      this.imageCount,
-      this.postId,
-      this.shares,
-      this.views,
-      this.collected,
-      this.delete,
-      this.isFavorite,
-      this.recommend,
-      this.rewardable,
-      this.update,
-      this.authorId,
-      this.content,
-      this.createdAt,
-      this.dataType,
-      this.excerpt,
-      this.parentComments,
-      this.passedTime,
-      this.publishedAt,
-      this.recomType,
-      this.rewards,
-      this.rqtId,
-      this.siteId,
-      this.title,
-      this.type,
-      this.url,
-      this.commentListPrefix,
-      this.eventTags,
-      this.favoriteListPrefix,
-      this.images,
-      this.rewardListPrefix,
-      this.sites,
-      this.tags,
-      this.site});
+  TuChongItem.fromParams({
+    // this.titleImage,
+    this.comments,
+    this.favorites,
+    // this.imageCount,
+    this.postId,
+    // this.shares,
+    // this.views,
+    // this.collected,
+    // this.delete,
+    this.isFavorite,
+    // this.recommend,
+    // this.rewardable,
+    // this.update,
+    // this.authorId,
+    this.content,
+    // this.createdAt,
+    // this.dataType,
+    // this.excerpt,
+    // this.parentComments,
+    // this.passedTime,
+    // this.publishedAt,
+    // this.recomType,
+    // this.rewards,
+    // this.rqtId,
+    // this.siteId,
+    this.title,
+    // this.type,
+    // this.url,
+    // this.commentListPrefix,
+    // this.eventTags,
+    // this.favoriteListPrefix,
+    this.images,
+    // this.rewardListPrefix,
+    // this.sites,
+    this.tags,
+    this.site,
+  });
 
   TuChongItem.fromJson(jsonRes) {
-    titleImage = jsonRes['title_image'];
+    // titleImage = jsonRes['title_image'];
     comments = jsonRes['comments'];
     favorites = jsonRes['favorites'];
-    imageCount = jsonRes['image_count'];
+    // imageCount = jsonRes['image_count'];
     postId = jsonRes['post_id'];
-    shares = jsonRes['shares'];
-    views = jsonRes['views'];
-    collected = jsonRes['collected'];
-    delete = jsonRes['delete'];
+    // shares = jsonRes['shares'];
+    // views = jsonRes['views'];
+    // collected = jsonRes['collected'];
+    // delete = jsonRes['delete'];
     isFavorite = jsonRes['is_favorite'];
-    recommend = jsonRes['recommend'];
-    rewardable = jsonRes['rewardable'];
-    update = jsonRes['update'];
-    authorId = jsonRes['author_id'];
+    // recommend = jsonRes['recommend'];
+    // rewardable = jsonRes['rewardable'];
+    // update = jsonRes['update'];
+    // authorId = jsonRes['author_id'];
     content = jsonRes['content'];
-    createdAt = jsonRes['created_at'];
-    dataType = jsonRes['data_type'];
-    excerpt = jsonRes['excerpt'];
-    parentComments = jsonRes['parent_comments'];
-    passedTime = jsonRes['passed_time'];
-    publishedAt = jsonRes['published_at'];
-    recomType = jsonRes['recom_type'];
-    rewards = jsonRes['rewards'];
-    rqtId = jsonRes['rqt_id'];
-    siteId = jsonRes['site_id'];
+    // createdAt = jsonRes['created_at'];
+    // dataType = jsonRes['data_type'];
+    // excerpt = jsonRes['excerpt'];
+    // parentComments = jsonRes['parent_comments'];
+    // passedTime = jsonRes['passed_time'];
+    // publishedAt = jsonRes['published_at'];
+    // recomType = jsonRes['recom_type'];
+    // rewards = jsonRes['rewards'];
+    // rqtId = jsonRes['rqt_id'];
+    // siteId = jsonRes['site_id'];
     title = jsonRes['title'];
-    type = jsonRes['type'];
-    url = jsonRes['url'];
-    commentListPrefix = jsonRes['comment_list_prefix'] == null ? null : [];
+    // type = jsonRes['type'];
+    // url = jsonRes['url'];
+    // commentListPrefix = jsonRes['comment_list_prefix'] == null ? null : [];
 
-    for (var commentListPrefixItem
-        in commentListPrefix == null ? [] : jsonRes['comment_list_prefix']) {
-      commentListPrefix.add(commentListPrefixItem);
-    }
+    // for (var commentListPrefixItem
+    //     in commentListPrefix == null ? [] : jsonRes['comment_list_prefix']) {
+    //   commentListPrefix.add(commentListPrefixItem);
+    // }
 
-    eventTags = jsonRes['event_tags'] == null ? null : [];
+    // eventTags = jsonRes['event_tags'] == null ? null : [];
 
-    for (var eventTagsItem in eventTags == null ? [] : jsonRes['event_tags']) {
-      eventTags.add(eventTagsItem);
-    }
+    // for (var eventTagsItem in eventTags == null ? [] : jsonRes['event_tags']) {
+    //   eventTags.add(eventTagsItem);
+    // }
 
-    favoriteListPrefix = jsonRes['favorite_list_prefix'] == null ? null : [];
+    // favoriteListPrefix = jsonRes['favorite_list_prefix'] == null ? null : [];
 
-    for (var favoriteListPrefixItem
-        in favoriteListPrefix == null ? [] : jsonRes['favorite_list_prefix']) {
-      favoriteListPrefix.add(favoriteListPrefixItem);
-    }
+    // for (var favoriteListPrefixItem
+    //     in favoriteListPrefix == null ? [] : jsonRes['favorite_list_prefix']) {
+    //   favoriteListPrefix.add(favoriteListPrefixItem);
+    // }
 
     images = jsonRes['images'] == null ? null : [];
 
@@ -207,18 +209,18 @@ class TuChongItem {
           .add(imagesItem == null ? null : new ImageItem.fromJson(imagesItem));
     }
 
-    rewardListPrefix = jsonRes['reward_list_prefix'] == null ? null : [];
+    // rewardListPrefix = jsonRes['reward_list_prefix'] == null ? null : [];
 
-    for (var rewardListPrefixItem
-        in rewardListPrefix == null ? [] : jsonRes['reward_list_prefix']) {
-      rewardListPrefix.add(rewardListPrefixItem);
-    }
+    // for (var rewardListPrefixItem
+    //     in rewardListPrefix == null ? [] : jsonRes['reward_list_prefix']) {
+    //   rewardListPrefix.add(rewardListPrefixItem);
+    // }
 
-    sites = jsonRes['sites'] == null ? null : [];
+    // sites = jsonRes['sites'] == null ? null : [];
 
-    for (var sitesItem in sites == null ? [] : jsonRes['sites']) {
-      sites.add(sitesItem);
-    }
+    // for (var sitesItem in sites == null ? [] : jsonRes['sites']) {
+    //   sites.add(sitesItem);
+    // }
 
     tags = jsonRes['tags'] == null ? null : [];
     final int maxNum = 6;
@@ -232,10 +234,10 @@ class TuChongItem {
     site = jsonRes['site'] == null ? null : new Site.fromJson(jsonRes['site']);
   }
 
-  @override
-  String toString() {
-    return '{"title_image": ${title != null ? '${json.encode(title)}' : 'null'}Image,"comments": $comments,"favorites": $favorites,"image_count": $imageCount,"post_id": $postId,"shares": $shares,"views": $views,"collected": $collected,"delete": $delete,"is_favorite": $isFavorite,"recommend": $recommend,"rewardable": $rewardable,"update": $update,"author_id": ${authorId != null ? '${json.encode(authorId)}' : 'null'},"content": ${content != null ? '${json.encode(content)}' : 'null'},"created_at": ${createdAt != null ? '${json.encode(createdAt)}' : 'null'},"data_type": ${dataType != null ? '${json.encode(dataType)}' : 'null'},"excerpt": ${excerpt != null ? '${json.encode(excerpt)}' : 'null'},"parent_comments": ${parentComments != null ? '${json.encode(parentComments)}' : 'null'},"passed_time": ${passedTime != null ? '${json.encode(passedTime)}' : 'null'},"published_at": ${publishedAt != null ? '${json.encode(publishedAt)}' : 'null'},"recom_type": ${recomType != null ? '${json.encode(recomType)}' : 'null'},"rewards": ${rewards != null ? '${json.encode(rewards)}' : 'null'},"rqt_id": ${rqtId != null ? '${json.encode(rqtId)}' : 'null'},"site_id": ${siteId != null ? '${json.encode(siteId)}' : 'null'},"title": ${title != null ? '${json.encode(title)}' : 'null'},"type": ${type != null ? '${json.encode(type)}' : 'null'},"url": ${url != null ? '${json.encode(url)}' : 'null'},"comment_list_prefix": $commentListPrefix,"event_tags": $eventTags,"favorite_list_prefix": $favoriteListPrefix,"images": $images,"reward_list_prefix": $rewardListPrefix,"sites": $sites,"tags": $tags,"site": $site}';
-  }
+  // @override
+  // String toString() {
+  //   return '{"title_image": ${title != null ? '${json.encode(title)}' : 'null'}Image,"comments": $comments,"favorites": $favorites,"image_count": $imageCount,"post_id": $postId,"shares": $shares,"views": $views,"collected": $collected,"delete": $delete,"is_favorite": $isFavorite,"recommend": $recommend,"rewardable": $rewardable,"update": $update,"author_id": ${authorId != null ? '${json.encode(authorId)}' : 'null'},"content": ${content != null ? '${json.encode(content)}' : 'null'},"created_at": ${createdAt != null ? '${json.encode(createdAt)}' : 'null'},"data_type": ${dataType != null ? '${json.encode(dataType)}' : 'null'},"excerpt": ${excerpt != null ? '${json.encode(excerpt)}' : 'null'},"parent_comments": ${parentComments != null ? '${json.encode(parentComments)}' : 'null'},"passed_time": ${passedTime != null ? '${json.encode(passedTime)}' : 'null'},"published_at": ${publishedAt != null ? '${json.encode(publishedAt)}' : 'null'},"recom_type": ${recomType != null ? '${json.encode(recomType)}' : 'null'},"rewards": ${rewards != null ? '${json.encode(rewards)}' : 'null'},"rqt_id": ${rqtId != null ? '${json.encode(rqtId)}' : 'null'},"site_id": ${siteId != null ? '${json.encode(siteId)}' : 'null'},"title": ${title != null ? '${json.encode(title)}' : 'null'},"type": ${type != null ? '${json.encode(type)}' : 'null'},"url": ${url != null ? '${json.encode(url)}' : 'null'},"comment_list_prefix": $commentListPrefix,"event_tags": $eventTags,"favorite_list_prefix": $favoriteListPrefix,"images": $images,"reward_list_prefix": $rewardListPrefix,"sites": $sites,"tags": $tags,"site": $site}';
+  // }
 }
 
 class Site {
@@ -315,31 +317,32 @@ class ImageItem {
   int imgId;
   int userId;
   int width;
-  String description;
-  String excerpt;
-  String title;
+  // String description;
+  // String excerpt;
+  // String title;
 
-  ImageItem.fromParams(
-      {this.height,
-      this.imgId,
-      this.userId,
-      this.width,
-      this.description,
-      this.excerpt,
-      this.title});
+  ImageItem.fromParams({
+    this.height,
+    this.imgId,
+    this.userId,
+    this.width,
+    // this.description,
+    // this.excerpt,
+    // this.title,
+  });
 
   ImageItem.fromJson(jsonRes) {
     height = jsonRes['height'];
     imgId = jsonRes['img_id'];
     userId = jsonRes['user_id'];
     width = jsonRes['width'];
-    description = jsonRes['description'];
-    excerpt = jsonRes['excerpt'];
-    title = jsonRes['title'];
+    // description = jsonRes['description'];
+    // excerpt = jsonRes['excerpt'];
+    // title = jsonRes['title'];
   }
 
-  @override
-  String toString() {
-    return '{"height": $height,"img_id": $imgId,"user_id": $userId,"width": $width,"description": ${description != null ? '${json.encode(description)}' : 'null'},"excerpt": ${excerpt != null ? '${json.encode(excerpt)}' : 'null'},"title": ${title != null ? '${json.encode(title)}' : 'null'}}';
-  }
+  // @override
+  // String toString() {
+  //   return '{"height": $height,"img_id": $imgId,"user_id": $userId,"width": $width,"description": ${description != null ? '${json.encode(description)}' : 'null'},"excerpt": ${excerpt != null ? '${json.encode(excerpt)}' : 'null'},"title": ${title != null ? '${json.encode(title)}' : 'null'}}';
+  // }
 }

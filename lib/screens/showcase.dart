@@ -33,7 +33,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
           Expanded(
             child: LoadingMoreList(
               ListConfig<TuChongItem>(
-                itemBuilder: ItemBuilder.itemBuilder,
+                itemBuilder: buildItem,
                 sourceList: listSourceRepository,
 //                    showGlowLeading: false,
 //                    showGlowTrailing: false,

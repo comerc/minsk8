@@ -1,34 +1,26 @@
 import 'dart:async';
-import 'dart:convert' show json;
+// import 'dart:convert' show json;
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
-Future<bool> onLikeButtonTap(bool isLiked, TuChongItem item) {
-  ///send your request here
-  return Future<bool>.delayed(const Duration(milliseconds: 50), () {
-    item.isFavorite = !item.isFavorite;
-    item.favorites = item.isFavorite ? item.favorites + 1 : item.favorites - 1;
-    return item.isFavorite;
-  });
-}
-
 class TuChongRepository extends LoadingMoreBase<TuChongItem> {
-  int pageindex = 1;
+  int _pageIndex = 1;
   bool _hasMore = true;
-  bool forceRefresh = false;
+  bool _forceRefresh = false;
+
   @override
-  bool get hasMore => (_hasMore && length < 30) || forceRefresh;
+  bool get hasMore => (_hasMore && length < 30) || _forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
-    pageindex = 1;
+    _pageIndex = 1;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
-    forceRefresh = !clearBeforeRequest;
+    _forceRefresh = !clearBeforeRequest;
     var result = await super.refresh(clearBeforeRequest);
-    forceRefresh = false;
+    _forceRefresh = false;
     return result;
   }
 
@@ -40,7 +32,7 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
     } else {
       int lastPostId = this[this.length - 1].postId;
       url =
-          "https://api.tuchong.com/feed-app?post_id=$lastPostId&page=$pageindex&type=loadmore";
+          "https://api.tuchong.com/feed-app?post_id=$lastPostId&page=$_pageIndex&type=loadmore";
     }
     bool isSuccess = false;
     try {
@@ -49,8 +41,8 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
 
       var result = await HttpClientHelper.get(url);
 
-      var source = TuChongSource.fromJson(json.decode(result.body));
-      if (pageindex == 1) {
+      var source = TuChongSource(result.body);
+      if (_pageIndex == 1) {
         this.clear();
       }
       for (var item in source.feedList) {
@@ -58,7 +50,7 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
       }
 
       _hasMore = source.feedList.length != 0;
-      pageindex++;
+      _pageIndex++;
 //      this.clear();
 //      _hasMore=false;
       isSuccess = true;
