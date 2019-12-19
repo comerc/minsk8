@@ -1,5 +1,9 @@
 library import;
 
+export 'common/item_builder.dart';
+export 'common/tu_chong_repository.dart';
+export 'common/tu_chong_source.dart';
+
 export 'const/fake_data.dart' show items, kinds;
 
 export 'screens/about.dart';

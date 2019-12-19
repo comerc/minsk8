@@ -1,30 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:loading_more_list/loading_more_list.dart';
+import 'package:extended_image_library/extended_image_library.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseScreen extends StatelessWidget {
+class ShowcaseScreen extends StatefulWidget {
+  @override
+  _ShowcaseScreenState createState() => _ShowcaseScreenState();
+}
+
+class _ShowcaseScreenState extends State<ShowcaseScreen> {
+  TuChongRepository listSourceRepository;
+  @override
+  void initState() {
+    listSourceRepository = new TuChongRepository();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    listSourceRepository?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: kinds.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Showcase'),
-          bottom: TabBar(
-            tabs: kinds
-                .map((kind) => Tab(
-                      text: kind.name,
-                      icon: Icon(kind.icon),
-                    ))
-                .toList(),
+    return Material(
+      child: Column(
+        children: <Widget>[
+          AppBar(
+            title: Text("ListViewDemo"),
           ),
-        ),
-        drawer: MainDrawer('/showcase'),
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ShowcaseCard(index);
-          },
-        ),
+          Expanded(
+            child: LoadingMoreList(
+              ListConfig<TuChongItem>(
+                itemBuilder: ItemBuilder.itemBuilder,
+                sourceList: listSourceRepository,
+//                    showGlowLeading: false,
+//                    showGlowTrailing: false,
+                padding: EdgeInsets.all(0.0),
+                collectGarbage: (List<int> indexes) {
+                  ///collectGarbage
+                  indexes.forEach((index) {
+                    final item = listSourceRepository[index];
+                    if (item.hasImage) {
+                      final provider = ExtendedNetworkImageProvider(
+                        item.imageUrl,
+                      );
+                      provider.evict();
+                    }
+                  });
+                },
+                viewportBuilder: (int firstIndex, int lastIndex) {
+                  print("viewport : [$firstIndex,$lastIndex]");
+                },
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
