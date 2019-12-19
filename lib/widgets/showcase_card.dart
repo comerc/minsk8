@@ -3,13 +3,13 @@ import "package:transparent_image/transparent_image.dart";
 import '../const/fake_data.dart' show items;
 
 class ShowcaseCard extends StatelessWidget {
-  final int itemIndex;
+  final int id;
 
-  ShowcaseCard(this.itemIndex);
+  ShowcaseCard(this.id);
 
   @override
   Widget build(BuildContext context) {
-    final item = items[itemIndex];
+    final item = items[id];
     return Card(
       color: Colors.white70,
       child: SizedBox(
@@ -32,7 +32,7 @@ class ShowcaseCard extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/item',
-                    arguments: {'id': itemIndex},
+                    arguments: {'id': id},
                   );
                 },
               ),

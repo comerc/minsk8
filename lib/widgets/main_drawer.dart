@@ -12,7 +12,7 @@ final mainRoutes = [
   {
     'title': 'Chat',
     'route': '/chat',
-    'arguments': {'user_id': 0},
+    'arguments': {'userId': 0},
   },
   {
     'title': 'Edit Item',

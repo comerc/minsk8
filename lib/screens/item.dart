@@ -8,7 +8,7 @@ class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, int>;
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final item = items[arguments['id']];
     final imageUrl = item.imageUrl(1000);
     return Scaffold(
@@ -24,7 +24,7 @@ class ItemScreen extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/image_pinch',
-                    arguments: imageUrl,
+                    arguments: {'imageUrl': imageUrl},
                   );
                 },
                 child: FadeInImage.memoryNetwork(
