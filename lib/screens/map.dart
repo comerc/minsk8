@@ -8,7 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
-import '../widgets/main_drawer.dart';
+import 'package:minsk8/import.dart';
 
 // import '../widgets/drawer.dart';
 

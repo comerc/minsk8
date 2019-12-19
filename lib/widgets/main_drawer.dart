@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minsk8/import.dart';
 
 final mainRoutes = [
   {
@@ -12,7 +13,7 @@ final mainRoutes = [
   {
     'title': 'Chat',
     'route': '/chat',
-    'arguments': {'userId': 0},
+    'arguments': ChatRouteArguments(0),
   },
   {
     'title': 'Edit Item',
@@ -30,7 +31,7 @@ final mainRoutes = [
   {
     'title': 'Item',
     'route': '/item',
-    'arguments': {'id': 0},
+    'arguments': ItemRouteArguments(0),
   },
   {
     'title': 'Select Kind(s)',

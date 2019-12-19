@@ -1,29 +1,7 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
-import 'screens/about.dart';
-import 'screens/add_item.dart';
-import 'screens/chat.dart';
-import 'screens/edit_item.dart';
-import 'screens/forgot_password.dart';
-import 'screens/home.dart';
-import "screens/image_capture.dart";
-import "screens/image_pinch.dart";
-import 'screens/item.dart';
-import 'screens/kinds.dart';
-import 'screens/login.dart';
-import 'screens/map.dart';
-import 'screens/my_items.dart';
-import 'screens/notifications.dart';
-import 'screens/pay.dart';
-import 'screens/profile.dart';
-import 'screens/search.dart';
-import 'screens/settings.dart';
-import 'screens/showcase.dart';
-import 'screens/sign_up.dart';
-import 'screens/start.dart';
-import 'screens/underway.dart';
-import 'screens/wish_list.dart';
+import 'package:minsk8/import.dart';
 
 void main() {
   runApp(App());

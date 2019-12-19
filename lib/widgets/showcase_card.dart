@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:transparent_image/transparent_image.dart";
-import '../const/fake_data.dart' show items;
+import 'package:minsk8/import.dart';
 
 class ShowcaseCard extends StatelessWidget {
   final int id;
@@ -32,7 +32,7 @@ class ShowcaseCard extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     '/item',
-                    arguments: {'id': id},
+                    arguments: ItemRouteArguments(id),
                   );
                 },
               ),

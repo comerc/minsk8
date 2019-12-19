@@ -1,5 +1,11 @@
 import "package:flutter/material.dart";
-import '../widgets/main_drawer.dart';
+import 'package:minsk8/import.dart';
+
+class ChatRouteArguments {
+  final int userId;
+
+  ChatRouteArguments(this.userId);
+}
 
 class ChatScreen extends StatelessWidget {
   @override

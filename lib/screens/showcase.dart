@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/main_drawer.dart';
-import '../const/fake_data.dart' show items, kinds;
-import '../widgets/showcase_card.dart';
+import 'package:minsk8/import.dart';
 
 class ShowcaseScreen extends StatelessWidget {
   @override

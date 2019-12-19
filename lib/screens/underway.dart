@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import '../widgets/main_drawer.dart';
+import 'package:minsk8/import.dart';
 
 class UnderwayScreen extends StatelessWidget {
   @override

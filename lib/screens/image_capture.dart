@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import '../widgets/main_drawer.dart';
+import 'package:minsk8/import.dart';
 
 class ImageCaptureScreen extends StatefulWidget {
   createState() => _ImageCaptureScreenState();
