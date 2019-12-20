@@ -202,9 +202,9 @@ class TuChongItem {
     //   favoriteListPrefix.add(favoriteListPrefixItem);
     // }
 
-    images = jsonRes['images'] == null ? null : [];
+    images = [];
 
-    for (var imagesItem in images == null ? [] : jsonRes['images']) {
+    for (var imagesItem in jsonRes['images'] ?? []) {
       images
           .add(imagesItem == null ? null : new ImageItem.fromJson(imagesItem));
     }
@@ -222,9 +222,9 @@ class TuChongItem {
     //   sites.add(sitesItem);
     // }
 
-    tags = jsonRes['tags'] == null ? null : [];
+    tags = [];
     final int maxNum = 6;
-    for (var tagsItem in tags == null ? [] : jsonRes['tags']) {
+    for (var tagsItem in jsonRes['tags'] ?? []) {
       tags.add(tagsItem);
       tagColors.add(Color.fromARGB(255, Random.secure().nextInt(255),
           Random.secure().nextInt(255), Random.secure().nextInt(255)));
