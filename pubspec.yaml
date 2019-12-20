@@ -48,9 +48,14 @@ dependencies:
   loading_more_list: 1.0.2
   http_client_helper: 0.2.1
 
+  json_annotation: 3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: 1.7.2
+  json_serializable: 3.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
