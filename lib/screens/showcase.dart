@@ -24,19 +24,20 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("ListViewDemo"),
+      ),
+      drawer: MainDrawer('/showcase'),
+      body: Column(
         children: <Widget>[
-          AppBar(
-            title: Text("ListViewDemo"),
-          ),
           Expanded(
             child: LoadingMoreList(
               ListConfig<TuChongItem>(
                 itemBuilder: buildItem,
                 sourceList: listSourceRepository,
-//                    showGlowLeading: false,
-//                    showGlowTrailing: false,
+                // showGlowLeading: false,
+                // showGlowTrailing: false,
                 padding: EdgeInsets.all(0.0),
                 collectGarbage: (List<int> indexes) {
                   ///collectGarbage
