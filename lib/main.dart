@@ -64,10 +64,10 @@ class App extends StatelessWidget {
           '/underway': (context) => UnderwayScreen(),
           '/wish_list': (context) => WishListScreen(),
         },
-        onGenerateRoute: (settings) {
-          print(settings);
-          return null;
-        },
+        // onGenerateRoute: (settings) {
+        //   print('onGenerateRoute: $settings');
+        //   return null;
+        // },
       ),
     );
   }
