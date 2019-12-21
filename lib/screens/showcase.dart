@@ -72,7 +72,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           innerScrollPositionKeyBuilder: () =>
               Key(kinds[_tabController.index].name),
           headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-            PullToRefreshContainer(buildAppbar),
+            PullToRefreshContainer(_buildAppbar),
             SliverPersistentHeader(
               pinned: true,
               floating: false,
@@ -100,7 +100,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     );
   }
 
-  Widget buildAppbar(PullToRefreshScrollNotificationInfo info) {
+  Widget _buildAppbar(PullToRefreshScrollNotificationInfo info) {
     Widget action = Padding(
       child: info?.refreshWiget ?? Icon(Icons.more_horiz),
       padding: EdgeInsets.all(15.0),
