@@ -42,11 +42,18 @@ class _ShowcaseListState extends State<ShowcaseList>
                   ),
                   headerHeight)),
           LoadingMoreSliverList(SliverListConfig<TuChongItem>(
-            itemBuilder: buildItem,
+            waterfallFlowDelegate: WaterfallFlowDelegate(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+            ),
+            itemBuilder: buildWaterfallFlowItem,
             sourceList: widget.sourceList,
             // isLastOne: false,
             // showGlowLeading: false,
             // showGlowTrailing: false,
+            padding: EdgeInsets.all(5.0),
+            lastChildLayoutType: LastChildLayoutType.foot,
             collectGarbage: (List<int> indexes) {
               indexes.forEach((index) {
                 final item = widget.sourceList[index];

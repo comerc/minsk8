@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
+// import "package:transparent_image/transparent_image.dart";
 
 Future<bool> onLikeButtonTap(bool isLiked, TuChongItem item) {
   ///send your request here
@@ -88,8 +89,10 @@ Widget buildItem(BuildContext context, TuChongItem item, int index) {
   );
 }
 
-Widget buildWaterfallFlowItem(BuildContext c, TuChongItem item, int index) {
+Widget buildWaterfallFlowItem(
+    BuildContext context, TuChongItem item, int index) {
   final double fontSize = 12.0;
+  // print(item.avatarUrl);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -97,6 +100,13 @@ Widget buildWaterfallFlowItem(BuildContext c, TuChongItem item, int index) {
         aspectRatio: item.imageSize.width / item.imageSize.height,
         child: Stack(
           children: <Widget>[
+            // FadeInImage.memoryNetwork(
+            //   width: item.imageSize.width,
+            //   height: item.imageSize.height,
+            //   image: item.imageUrl,
+            //   fit: BoxFit.cover,
+            //   placeholder: kTransparentImage,
+            // ),
             ExtendedImage.network(
               item.imageUrl,
               shape: BoxShape.rectangle,
@@ -112,8 +122,8 @@ Widget buildWaterfallFlowItem(BuildContext c, TuChongItem item, int index) {
                     color: Colors.grey.withOpacity(0.8),
                     child: CircularProgressIndicator(
                       strokeWidth: 2.0,
-                      valueColor:
-                          AlwaysStoppedAnimation(Theme.of(c).primaryColor),
+                      valueColor: AlwaysStoppedAnimation(
+                          Theme.of(context).primaryColor),
                     ),
                   );
                 }
@@ -191,16 +201,17 @@ Widget buildBottomWidget(TuChongItem item) {
         shape: BoxShape.circle,
         //enableLoadState: false,
         border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-        loadStateChanged: (state) {
-          if (state.extendedImageLoadState == LoadState.completed) {
-            return null;
-          }
-          return Image.asset("assets/avatar.jpg");
-        },
+        // loadStateChanged: (state) {
+        //   if (state.extendedImageLoadState == LoadState.completed) {
+        //     return null;
+        //   }
+        //   return Image.asset("assets/avatar.jpeg");
+        // },
       ),
       Expanded(
-          // child: SizedBox.shrink(),
-          child: Container(height: 20, color: Colors.red)),
+        child: SizedBox.shrink(),
+        // child: Container(height: 20, color: Colors.red),
+      ),
       Row(
         children: <Widget>[
           Icon(
