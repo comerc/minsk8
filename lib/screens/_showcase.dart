@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseScreen extends StatefulWidget {
+class OldShowcaseScreen extends StatefulWidget {
   @override
-  _ShowcaseScreenState createState() => _ShowcaseScreenState();
+  _OldShowcaseScreenState createState() => _OldShowcaseScreenState();
 }
 
-class _ShowcaseScreenState extends State<ShowcaseScreen>
+class _OldShowcaseScreenState extends State<OldShowcaseScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,14 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         appBar: AppBar(
           title: Text('Showcase'),
           bottom: TabBar(
+            isScrollable: true,
             tabs: kinds
-                .map((kind) => Tab(
+                .map((kind) => SizedBox(
+                    width: 130.0,
+                    child: Tab(
                       text: kind.name,
                       icon: Icon(kind.icon),
-                    ))
+                    )))
                 .toList(),
           ),
         ),
