@@ -4,38 +4,38 @@ import 'utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 
-class AreaLayerPluginOptions extends LayerOptions {
+class AreaLayerMapPluginOptions extends LayerOptions {
   final Function getRadius;
   final Function onChangeRadius;
   final Function onCurrentPositionClick;
   // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
-  AreaLayerPluginOptions({
+  AreaLayerMapPluginOptions({
     this.getRadius,
     this.onChangeRadius,
     this.onCurrentPositionClick,
   });
 }
 
-class AreaLayerPlugin implements MapPlugin {
+class AreaLayerMapPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is AreaLayerPluginOptions) {
+    if (options is AreaLayerMapPluginOptions) {
       return _Area(options: options, mapState: mapState);
     }
-    throw Exception('Unknown options type for AreaLayerPlugin'
+    throw Exception('Unknown options type for AreaLayerMapPlugin'
         'plugin: $options');
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is AreaLayerPluginOptions;
+    return options is AreaLayerMapPluginOptions;
   }
 }
 
 class _Area extends StatefulWidget {
-  final AreaLayerPluginOptions options;
+  final AreaLayerMapPluginOptions options;
   final MapState mapState;
 
   _Area({Key key, this.options, this.mapState}) : super(key: key);

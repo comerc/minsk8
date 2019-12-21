@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 
-class ZoomLayerPluginOptions extends LayerOptions {
+class ZoomLayerMapPluginOptions extends LayerOptions {
   final bool debugEnableOnly;
-  ZoomLayerPluginOptions({this.debugEnableOnly = true});
+  ZoomLayerMapPluginOptions({this.debugEnableOnly = true});
 }
 
-class ZoomLayerPlugin implements MapPlugin {
+class ZoomLayerMapPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is ZoomLayerPluginOptions) {
+    if (options is ZoomLayerMapPluginOptions) {
       return _Zoom(mapState: mapState);
     }
-    throw Exception('Unknown options type for ZoomLayerPlugin'
+    throw Exception('Unknown options type for ZoomLayerMapPlugin'
         'plugin: $options');
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is ZoomLayerPluginOptions;
+    return options is ZoomLayerMapPluginOptions;
   }
 }
 

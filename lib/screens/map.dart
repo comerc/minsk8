@@ -135,9 +135,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             appState['zoom'] = position.zoom;
           },
           plugins: [
-            AreaLayerPlugin(),
-            kReleaseMode ? null : ScaleLayerPlugin(),
-            kReleaseMode ? null : ZoomLayerPlugin(),
+            AreaLayerMapPlugin(),
+            kReleaseMode ? null : ScaleLayerMapPlugin(),
+            kReleaseMode ? null : ZoomLayerMapPlugin(),
           ].where((child) => child != null).toList(),
         ),
         layers: [
@@ -157,7 +157,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                     point: _currentPosition,
                   ),
                 ]),
-          AreaLayerPluginOptions(
+          AreaLayerMapPluginOptions(
             getRadius: () => appState['radius'],
             onChangeRadius: (value) => appState['radius'] = value,
             onCurrentPositionClick: () async {
@@ -237,13 +237,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           ),
           kReleaseMode
               ? null
-              : ScaleLayerPluginOption(
+              : ScaleLayerMapPluginOption(
                   lineColor: Colors.blue,
                   lineWidth: 2,
                   textStyle: TextStyle(color: Colors.blue, fontSize: 12),
                   padding: EdgeInsets.all(10),
                 ),
-          kReleaseMode ? null : ZoomLayerPluginOptions(),
+          kReleaseMode ? null : ZoomLayerMapPluginOptions(),
         ].where((child) => child != null).toList(),
       ),
     );
