@@ -1,30 +1,34 @@
-import 'dart:async';
-// import 'dart:convert' show json;
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:loading_more_list/loading_more_list.dart';
-import 'package:minsk8/import.dart';
+import '_tu_chong_source.dart';
+import 'dart:async';
+import 'dart:convert';
+
+Future<bool> onLikeButtonTap(bool isLiked, TuChongItem item) {
+  ///send your request here
+  return Future<bool>.delayed(const Duration(milliseconds: 50), () {
+    item.isFavorite = !item.isFavorite;
+    item.favorites = item.isFavorite ? item.favorites + 1 : item.favorites - 1;
+    return item.isFavorite;
+  });
+}
 
 class TuChongRepository extends LoadingMoreBase<TuChongItem> {
-  // TODO:
-  final loadParams;
-  int _pageIndex = 1;
+  int pageindex = 1;
   bool _hasMore = true;
-  bool _forceRefresh = false;
-
-  TuChongRepository(this.loadParams);
-
+  bool forceRefresh = false;
   @override
-  bool get hasMore => (_hasMore && length < 30) || _forceRefresh;
+  bool get hasMore => (_hasMore && length < 30) || forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
-    _pageIndex = 1;
+    pageindex = 1;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
-    _forceRefresh = !clearBeforeRequest;
-    final result = await super.refresh(clearBeforeRequest);
-    _forceRefresh = false;
+    forceRefresh = !clearBeforeRequest;
+    var result = await super.refresh(clearBeforeRequest);
+    forceRefresh = false;
     return result;
   }
 
@@ -36,25 +40,25 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
     } else {
       int lastPostId = this[this.length - 1].postId;
       url =
-          "https://api.tuchong.com/feed-app?post_id=$lastPostId&page=$_pageIndex&type=loadmore";
+          "https://api.tuchong.com/feed-app?post_id=$lastPostId&page=$pageindex&type=loadmore";
     }
     bool isSuccess = false;
     try {
       //to show loading more clearly, in your app,remove this
       await Future.delayed(Duration(milliseconds: 500));
 
-      final result = await HttpClientHelper.get(url);
+      var result = await HttpClientHelper.get(url);
 
-      final source = TuChongSource(result.body);
-      if (_pageIndex == 1) {
+      var source = TuChongSource.fromJson(json.decode(result.body));
+      if (pageindex == 1) {
         this.clear();
       }
-      for (final item in source.feedList) {
+      for (var item in source.feedList) {
         if (item.hasImage && !this.contains(item) && hasMore) this.add(item);
       }
 
       _hasMore = source.feedList.length != 0;
-      _pageIndex++;
+      pageindex++;
 //      this.clear();
 //      _hasMore=false;
       isSuccess = true;

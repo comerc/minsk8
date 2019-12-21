@@ -47,6 +47,8 @@ dependencies:
   like_button: 0.1.9
   loading_more_list: 1.0.3
   http_client_helper: 0.2.1
+  extended_nested_scroll_view: 0.3.8
+  pull_to_refresh_notification: 0.3.3
 
   json_annotation: 3.0.0
 
@@ -67,7 +69,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

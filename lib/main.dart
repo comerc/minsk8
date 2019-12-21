@@ -24,21 +24,26 @@ class App extends StatelessWidget {
           // ScreenUtil.instance =
           //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
           //       ..init(context);
-          return PersistedStateBuilder(
-            builder:
-                (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-              if (!snapshot.hasData) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.white,
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return child;
-            },
+          final data = MediaQuery.of(context);
+          return MediaQuery(
+            data: data.copyWith(textScaleFactor: 1.0),
+            child: PersistedStateBuilder(
+              builder: (BuildContext context,
+                  AsyncSnapshot<PersistedData> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container(
+                    color: Colors.white,
+                    // alignment: Alignment.center,
+                    // child: CircularProgressIndicator(),
+                  );
+                }
+                return child;
+              },
+            ),
           );
         },
         initialRoute: '/showcase',
+        // home: NestedScrollViewDemo(),
         routes: <String, WidgetBuilder>{
           '/about': (context) => AboutScreen(),
           '/add_item': (context) => AddItemScreen(),
