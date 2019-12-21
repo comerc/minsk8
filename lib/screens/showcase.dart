@@ -90,8 +90,8 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             children: List.generate(
               kinds.length,
               (index) => ShowcaseList(
-                Key(kinds[index].name),
-                _sourceListPool[index],
+                scrollPositionKey: Key(kinds[index].name),
+                sourceList: _sourceListPool[index],
               ),
             ),
           ),

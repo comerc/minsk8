@@ -9,7 +9,7 @@ class ShowcaseList extends StatefulWidget {
   final Key scrollPositionKey;
   final TuChongRepository sourceList;
 
-  ShowcaseList(this.scrollPositionKey, this.sourceList);
+  ShowcaseList({this.scrollPositionKey, this.sourceList});
 
   @override
   _ShowcaseListState createState() => _ShowcaseListState();
