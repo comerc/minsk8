@@ -3,16 +3,15 @@ import 'package:extended_image/extended_image.dart';
 // import "package:transparent_image/transparent_image.dart";
 
 Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
-  final double fontSize = 12.0;
   // print(item.avatarUrl);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      _buildImage(context, item, index, fontSize),
+      _buildImage(context, item, index),
       // SizedBox(
       //   height: 5.0,
       // ),
-      // _buildTags(item, fontSize),
+      // _buildTags(item),
       SizedBox(
         height: 5.0,
       ),
@@ -21,9 +20,12 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
   );
 }
 
-Widget _buildImage(
-    BuildContext context, TuChongItem item, int index, fontSize) {
-  const imageBorderRadius = Radius.circular(10.0);
+Widget _buildImage(BuildContext context, TuChongItem item, int index) {
+  final itemEndTime = (DateTime.now().millisecondsSinceEpoch +
+      Duration(
+              // hours: Random().nextInt(200),
+              seconds: 10)
+          .inMilliseconds);
   return AspectRatio(
     aspectRatio: item.imageSize.width / item.imageSize.height,
     child: Stack(
@@ -58,8 +60,8 @@ Widget _buildImage(
             return null;
           },
         ),
-        _buildText(
-            item.title == '' ? item.content : item.title, imageBorderRadius),
+        _buildText(item.title == '' ? item.content : item.title),
+        _buildCountdownTimer(itemEndTime),
         Positioned(
           top: 5.0,
           right: 5.0,
@@ -79,13 +81,13 @@ Widget _buildImage(
               style: TextStyle(fontSize: fontSize, color: Colors.white),
             ),
           ),
-        )
+        ),
       ],
     ),
   );
 }
 
-Widget _buildText(String text, Radius imageBorderRadius) {
+Widget _buildText(String text) {
   return Positioned(
     bottom: 0,
     right: 0,
@@ -123,7 +125,35 @@ Widget _buildText(String text, Radius imageBorderRadius) {
   );
 }
 
-// Widget _buildTags(TuChongItem item, double fontSize) {
+_buildCountdownTimer(int endTime) {
+  return Positioned(
+    top: 0,
+    left: 0,
+    child: Container(
+      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.pink.withOpacity(0.8),
+        // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+        borderRadius: BorderRadius.only(
+          topLeft: imageBorderRadius,
+          bottomRight: imageBorderRadius,
+        ),
+      ),
+      child: CountdownTimer(
+        endTime: endTime,
+        // daysSymbol: ':',
+        // onEnd: () {},
+        textStyle: TextStyle(
+          fontSize: fontSize,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+  );
+}
+
+// Widget _buildTags(TuChongItem item) {
 //   return Wrap(
 //     runSpacing: 5.0,
 //     spacing: 5.0,
@@ -152,7 +182,6 @@ Widget _buildText(String text, Radius imageBorderRadius) {
 // }
 
 Widget _buildBottom(TuChongItem item) {
-  final fontSize = 12.0;
   return Row(
     children: <Widget>[
       ExtendedImage.network(
@@ -192,7 +221,7 @@ Widget _buildBottom(TuChongItem item) {
       SizedBox(
         width: 3.0,
       ),
-      buildLike(item, fontSize),
+      buildLike(item),
       // Container(
       //   child: Text(content),
       // ),

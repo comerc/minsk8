@@ -52,6 +52,12 @@ dependencies:
 
   json_annotation: 3.0.0
 
+  # flutter_countdown_timer: 1.1.0
+  # slide_countdown_clock:
+  #   git:
+  #     url: git@github.com:HornMichaelS/slide_countdown_clock.git
+  #     # url: git@github.com:comerc/slide_countdown_clock.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

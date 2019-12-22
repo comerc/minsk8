@@ -5,6 +5,7 @@ export 'package:flutter/material.dart';
 export 'common/tu_chong_repository.dart';
 export 'common/tu_chong_source.dart';
 
+export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;
 
 export 'screens/about.dart';
@@ -32,6 +33,7 @@ export 'screens/underway.dart';
 export 'screens/wish_list.dart';
 
 export 'widgets/_showcase_card.dart';
+export 'widgets/countdown_timer.dart';
 export 'widgets/like.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/showcase_item.dart';
