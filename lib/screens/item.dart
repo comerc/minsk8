@@ -1,6 +1,5 @@
-import "package:flutter/material.dart";
-import "package:transparent_image/transparent_image.dart";
 import 'package:minsk8/import.dart';
+import "package:transparent_image/transparent_image.dart";
 
 // TODO: тут будет слайдер по картинкам одного товара
 

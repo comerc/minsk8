@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:minsk8/import.dart';
 import "package:pinch_zoom_image/pinch_zoom_image.dart";
 import "package:transparent_image/transparent_image.dart";
 
