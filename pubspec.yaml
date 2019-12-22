@@ -38,7 +38,7 @@ dependencies:
   image_cropper: 1.1.1
   image_picker: ^0.6.2+3
 
-  transparent_image: 1.0.0
+  # transparent_image: 1.0.0
   pinch_zoom_image:
     git:
       url: git@github.com:TheFe91/pinch_zoom_image.git
