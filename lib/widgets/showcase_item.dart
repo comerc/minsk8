@@ -16,7 +16,7 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
       SizedBox(
         height: 5.0,
       ),
-      _buildBottomWidget(item),
+      _buildBottom(item),
     ],
   );
 }
@@ -109,7 +109,7 @@ Widget _buildTags(TuChongItem item, double fontSize) {
   );
 }
 
-Widget _buildBottomWidget(TuChongItem item) {
+Widget _buildBottom(TuChongItem item) {
   final fontSize = 12.0;
   return Row(
     children: <Widget>[
