@@ -30,7 +30,7 @@ export 'screens/showcase.dart';
 export 'screens/sign_up.dart';
 export 'screens/start.dart';
 export 'screens/underway.dart';
-export 'screens/wish_list.dart';
+export 'screens/wishes.dart';
 
 export 'widgets/_showcase_card.dart';
 export 'widgets/countdown_timer.dart';

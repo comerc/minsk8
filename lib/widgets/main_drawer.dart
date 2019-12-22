@@ -85,8 +85,8 @@ final mainRoutes = [
     'route': '/underway',
   },
   {
-    'title': 'Wish List',
-    'route': '/wish_list',
+    'title': 'Wishes',
+    'route': '/wishes',
   },
 ];
 

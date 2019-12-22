@@ -67,7 +67,7 @@ class App extends StatelessWidget {
           '/sign_up': (context) => SignUpScreen(),
           '/start': (context) => StartScreen(),
           '/underway': (context) => UnderwayScreen(),
-          '/wish_list': (context) => WishListScreen(),
+          '/wishes': (context) => WishesScreen(),
         },
         // onGenerateRoute: (settings) {
         //   print('onGenerateRoute: $settings');

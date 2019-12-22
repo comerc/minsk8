@@ -1,13 +1,13 @@
 import 'package:minsk8/import.dart';
 
-class WishListScreen extends StatelessWidget {
+class WishesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wish List'),
+        title: Text('Wishes'),
       ),
-      drawer: MainDrawer('/wish_list'),
+      drawer: MainDrawer('/wishes'),
       body: Center(
         child: Text('xxx'),
       ),
