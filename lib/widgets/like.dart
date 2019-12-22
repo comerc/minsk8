@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 import 'package:like_button/like_button.dart';
 
-Widget buildLike(TuChongItem item, double fontSize) {
+Widget buildLike(TuChongItem item) {
   return LikeButton(
     size: 18.0,
     isLiked: item.isFavorite,
