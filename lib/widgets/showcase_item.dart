@@ -23,9 +23,11 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
 
 Widget _buildImage(
     BuildContext context, TuChongItem item, int index, fontSize) {
+  const imageBorderRadius = Radius.circular(10.0);
   return AspectRatio(
     aspectRatio: item.imageSize.width / item.imageSize.height,
     child: Stack(
+      fit: StackFit.expand,
       children: <Widget>[
         // FadeInImage.memoryNetwork(
         //   width: item.imageSize.width,
@@ -39,13 +41,13 @@ Widget _buildImage(
           shape: BoxShape.rectangle,
           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
           borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+            imageBorderRadius,
           ),
           loadStateChanged: (value) {
             if (value.extendedImageLoadState == LoadState.loading) {
               return Container(
                 alignment: Alignment.center,
-                color: Colors.grey.withOpacity(0.8),
+                color: Colors.grey.withOpacity(0.3),
                 child: CircularProgressIndicator(
                   strokeWidth: 2.0,
                   valueColor:
@@ -56,6 +58,8 @@ Widget _buildImage(
             return null;
           },
         ),
+        _buildText(
+            item.title == '' ? item.content : item.title, imageBorderRadius),
         Positioned(
           top: 5.0,
           right: 5.0,
@@ -78,6 +82,53 @@ Widget _buildImage(
         )
       ],
     ),
+  );
+}
+
+Widget _buildText(String text, Radius imageBorderRadius) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Row(
+        children: [
+          Expanded(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: imageBorderRadius,
+                  bottomRight: imageBorderRadius,
+                ),
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    Colors.grey.withOpacity(0.0),
+                    Colors.black.withOpacity(0.4),
+                  ],
+                ),
+              ),
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(
+                  left: 8.0,
+                  top: 32.0,
+                  right: 8.0,
+                  bottom: 8.0,
+                ),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
   );
 }
 
@@ -128,7 +179,7 @@ Widget _buildBottom(TuChongItem item) {
         // },
       ),
       Expanded(
-        child: SizedBox.shrink(),
+        child: Container(),
         // child: Container(height: 20, color: Colors.red),
       ),
       Row(
