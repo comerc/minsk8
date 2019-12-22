@@ -9,10 +9,10 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       _buildImage(context, item, index, fontSize),
-      SizedBox(
-        height: 5.0,
-      ),
-      _buildTags(item, fontSize),
+      // SizedBox(
+      //   height: 5.0,
+      // ),
+      // _buildTags(item, fontSize),
       SizedBox(
         height: 5.0,
       ),
@@ -27,7 +27,7 @@ Widget _buildImage(
   return AspectRatio(
     aspectRatio: item.imageSize.width / item.imageSize.height,
     child: Stack(
-      fit: StackFit.expand,
+      // fit: StackFit.expand,
       children: <Widget>[
         // FadeInImage.memoryNetwork(
         //   width: item.imageSize.width,
@@ -86,79 +86,70 @@ Widget _buildImage(
 }
 
 Widget _buildText(String text, Radius imageBorderRadius) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Row(
-        children: [
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: imageBorderRadius,
-                  bottomRight: imageBorderRadius,
-                ),
-                gradient: LinearGradient(
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  colors: [
-                    Colors.grey.withOpacity(0.0),
-                    Colors.black.withOpacity(0.4),
-                  ],
-                ),
-              ),
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.only(
-                  left: 8.0,
-                  top: 32.0,
-                  right: 8.0,
-                  bottom: 8.0,
-                ),
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+  return Positioned(
+    bottom: 0,
+    right: 0,
+    left: 0,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: imageBorderRadius,
+          bottomRight: imageBorderRadius,
+        ),
+        gradient: LinearGradient(
+          begin: FractionalOffset.topCenter,
+          end: FractionalOffset.bottomCenter,
+          colors: [
+            Colors.grey.withOpacity(0.0),
+            Colors.black.withOpacity(0.4),
+          ],
+        ),
       ),
-    ],
+      padding: EdgeInsets.only(
+        left: 8.0,
+        top: 32.0,
+        right: 8.0,
+        bottom: 8.0,
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 23,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    ),
   );
 }
 
-Widget _buildTags(TuChongItem item, double fontSize) {
-  return Wrap(
-    runSpacing: 5.0,
-    spacing: 5.0,
-    children: item.tags.map<Widget>((tag) {
-      final color = item.tagColors[item.tags.indexOf(tag)];
-      return Container(
-        padding: EdgeInsets.all(3.0),
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-          borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
-          ),
-        ),
-        child: Text(
-          tag,
-          textAlign: TextAlign.start,
-          style: TextStyle(
-              fontSize: fontSize,
-              color:
-                  color.computeLuminance() < 0.5 ? Colors.white : Colors.black),
-        ),
-      );
-    }).toList(),
-  );
-}
+// Widget _buildTags(TuChongItem item, double fontSize) {
+//   return Wrap(
+//     runSpacing: 5.0,
+//     spacing: 5.0,
+//     children: item.tags.map<Widget>((tag) {
+//       final color = item.tagColors[item.tags.indexOf(tag)];
+//       return Container(
+//         padding: EdgeInsets.all(3.0),
+//         decoration: BoxDecoration(
+//           color: color,
+//           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+//           borderRadius: BorderRadius.all(
+//             Radius.circular(5.0),
+//           ),
+//         ),
+//         child: Text(
+//           tag,
+//           textAlign: TextAlign.start,
+//           style: TextStyle(
+//               fontSize: fontSize,
+//               color:
+//                   color.computeLuminance() < 0.5 ? Colors.white : Colors.black),
+//         ),
+//       );
+//     }).toList(),
+//   );
+// }
 
 Widget _buildBottom(TuChongItem item) {
   final fontSize = 12.0;
