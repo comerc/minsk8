@@ -46,7 +46,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
             ),
-            itemBuilder: buildWaterfallFlowItem,
+            itemBuilder: buildShowcaseItem,
             sourceList: widget.sourceList,
             // isLastOne: false,
             // showGlowLeading: false,

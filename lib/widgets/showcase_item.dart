@@ -2,8 +2,7 @@ import 'package:minsk8/import.dart';
 import 'package:extended_image/extended_image.dart';
 // import "package:transparent_image/transparent_image.dart";
 
-Widget buildWaterfallFlowItem(
-    BuildContext context, TuChongItem item, int index) {
+Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
   final double fontSize = 12.0;
   // print(item.avatarUrl);
   return Column(
