@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 import 'package:like_button/like_button.dart';
 
-Widget buildLikeButton(TuChongItem item, double fontSize) {
+Widget buildLike(TuChongItem item, double fontSize) {
   return LikeButton(
     size: 18.0,
     isLiked: item.isFavorite,
@@ -24,11 +24,11 @@ Widget buildLikeButton(TuChongItem item, double fontSize) {
     likeCountAnimationType: item.favorites < 1000
         ? LikeCountAnimationType.part
         : LikeCountAnimationType.none,
-    onTap: (bool isLiked) => _onLikeButtonTap(isLiked, item),
+    onTap: (bool isLiked) => _onTap(isLiked, item),
   );
 }
 
-Future<bool> _onLikeButtonTap(bool isLiked, TuChongItem item) {
+Future<bool> _onTap(bool isLiked, TuChongItem item) {
   // send your request here
   return Future<bool>.delayed(Duration(milliseconds: 50), () {
     item.isFavorite = !item.isFavorite;

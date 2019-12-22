@@ -2,7 +2,6 @@
 
 export 'package:flutter/material.dart';
 
-// export 'common/item_builder.dart';
 export 'common/tu_chong_repository.dart';
 export 'common/tu_chong_source.dart';
 
@@ -32,10 +31,10 @@ export 'screens/start.dart';
 export 'screens/underway.dart';
 export 'screens/wish_list.dart';
 
-export 'widgets/like_button.dart';
+export 'widgets/_showcase_card.dart';
+export 'widgets/like.dart';
 export 'widgets/main_drawer.dart';
-export 'widgets/showcase_card.dart';
+export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
-export 'widgets/waterfall_flow_item.dart';
 
 // export 'screens/nested_scroll_view_demo.dart';

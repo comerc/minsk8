@@ -151,7 +151,7 @@ Widget _buildBottomWidget(TuChongItem item) {
       SizedBox(
         width: 3.0,
       ),
-      buildLikeButton(item, fontSize),
+      buildLike(item, fontSize),
       // Container(
       //   child: Text(content),
       // ),
