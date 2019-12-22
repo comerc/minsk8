@@ -106,7 +106,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       padding: EdgeInsets.all(15.0),
     );
     final offset = info?.dragOffset ?? 0.0;
-    Widget child = SizedBox.shrink();
+    Widget child = Container();
     if (info != null) {
       if (info.mode == RefreshIndicatorMode.error) {
         child = GestureDetector(
@@ -119,7 +119,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             style: TextStyle(fontSize: 10.0),
           ),
         );
-        action = SizedBox.shrink();
+        action = Container();
       } else {
         child = Text(
           info?.mode?.toString() ?? '',
