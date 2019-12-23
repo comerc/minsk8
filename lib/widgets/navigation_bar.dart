@@ -96,9 +96,9 @@ class _NavigationBarTab {
 
 final tabs = [
   _NavigationBarTab(
-    title: 'Home',
+    title: 'Showcase',
     icon: Icons.widgets,
-    routeName: '/home',
+    routeName: '/showcase',
   ),
   _NavigationBarTab(
     title: 'Underway',
