@@ -14,6 +14,7 @@ class ChatScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(context),
       bottomNavigationBar: NavigationBar('/chat'),
+      extendBody: true,
     );
   }
 }

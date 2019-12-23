@@ -14,6 +14,7 @@ class UnderwayScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(context),
       bottomNavigationBar: NavigationBar('/underway'),
+      extendBody: true,
     );
   }
 }
