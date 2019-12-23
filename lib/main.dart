@@ -79,7 +79,10 @@ class App extends StatelessWidget {
         //   print('onGenerateRoute: $settings');
         //   return null;
         // },
-        // onUnknownRoute: (RouteSettings settings) {}
+        // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
+        //   settings: settings,
+        //   builder: (BuildContext context) => UnknownPage(settings.name),
+        // ),
       ),
     );
   }
