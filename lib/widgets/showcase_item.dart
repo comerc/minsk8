@@ -45,18 +45,17 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
               kImageBorderRadius,
             ),
             loadStateChanged: (value) {
-              if (value.extendedImageLoadState == LoadState.loading) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.grey.withOpacity(0.3),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                    valueColor:
-                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-                  ),
-                );
-              }
-              return null;
+              if (value.extendedImageLoadState != LoadState.loading)
+                return null;
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.grey.withOpacity(0.3),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0,
+                  valueColor:
+                      AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                ),
+              );
             },
           ),
           _buildText(item.title == '' ? item.content : item.title),
