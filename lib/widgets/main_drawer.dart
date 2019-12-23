@@ -91,7 +91,7 @@ final mainRoutes = [
 ];
 
 class MainDrawer extends StatelessWidget {
-  final currentRouteName;
+  final String currentRouteName;
 
   MainDrawer(this.currentRouteName);
 
