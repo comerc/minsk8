@@ -1,5 +1,5 @@
+import 'package:minsk8/import.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
-import 'package:minsk8/import.dart';
 
 // import '../widgets/drawer.dart';
 
@@ -93,16 +92,6 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final appState = PersistedAppState.of(context);
-    // return PersistedStateBuilder(
-    //   builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-    //     if (!snapshot.hasData) {
-    //       return Container(
-    //         alignment: Alignment.center,
-    //         color: Colors.white,
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     }
-    //     final appState = snapshot.data;
     return Scaffold(
       appBar: AppBar(
         title: Text('Map'),
@@ -247,7 +236,5 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         ].where((child) => child != null).toList(),
       ),
     );
-    //   },
-    // );
   }
 }
