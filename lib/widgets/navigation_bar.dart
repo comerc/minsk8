@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 class NavigationBar extends StatelessWidget {
   final String currentRouteName;
-  final double height = 60;
+  final double height = kNavigationBarHeight;
   final double iconSize = 32;
   final Color backgroundColor = Colors.pink;
   final Color color = Colors.black54;

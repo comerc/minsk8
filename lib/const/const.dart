@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
 
-const kFontSize = 12.0;
-const kImageBorderRadius = Radius.circular(10.0);
+const double kFontSize = 12;
+const Radius kImageBorderRadius = Radius.circular(10.0);
+const double kNavigationBarHeight = 60;
