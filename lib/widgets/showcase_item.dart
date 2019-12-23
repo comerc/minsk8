@@ -25,61 +25,64 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
       1000 * 10;
   return AspectRatio(
     aspectRatio: item.imageSize.width / item.imageSize.height,
-    child: Stack(
-      // fit: StackFit.expand,
-      children: <Widget>[
-        // FadeInImage.memoryNetwork(
-        //   width: item.imageSize.width,
-        //   height: item.imageSize.height,
-        //   image: item.imageUrl,
-        //   fit: BoxFit.cover,
-        //   placeholder: kTransparentImage,
-        // ),
-        ExtendedImage.network(
-          item.imageUrl,
-          shape: BoxShape.rectangle,
-          border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-          borderRadius: BorderRadius.all(
-            kImageBorderRadius,
+    child: ClipRRect(
+      borderRadius: BorderRadius.all(kImageBorderRadius),
+      child: Stack(
+        // fit: StackFit.expand,
+        children: <Widget>[
+          // FadeInImage.memoryNetwork(
+          //   width: item.imageSize.width,
+          //   height: item.imageSize.height,
+          //   image: item.imageUrl,
+          //   fit: BoxFit.cover,
+          //   placeholder: kTransparentImage,
+          // ),
+          ExtendedImage.network(
+            item.imageUrl,
+            shape: BoxShape.rectangle,
+            border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+            borderRadius: BorderRadius.all(
+              kImageBorderRadius,
+            ),
+            loadStateChanged: (value) {
+              if (value.extendedImageLoadState == LoadState.loading) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey.withOpacity(0.3),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                    valueColor:
+                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                  ),
+                );
+              }
+              return null;
+            },
           ),
-          loadStateChanged: (value) {
-            if (value.extendedImageLoadState == LoadState.loading) {
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.grey.withOpacity(0.3),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor:
-                      AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+          _buildText(item.title == '' ? item.content : item.title),
+          _buildCountdownTimer(itemEndTime),
+          Positioned(
+            top: 5.0,
+            right: 5.0,
+            child: Container(
+              padding: EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.6),
+                border:
+                    Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
                 ),
-              );
-            }
-            return null;
-          },
-        ),
-        _buildText(item.title == '' ? item.content : item.title),
-        _buildCountdownTimer(itemEndTime),
-        Positioned(
-          top: 5.0,
-          right: 5.0,
-          child: Container(
-            padding: EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.6),
-              border:
-                  Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
+              ),
+              child: Text(
+                "${index + 1}",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: kFontSize, color: Colors.white),
               ),
             ),
-            child: Text(
-              "${index + 1}",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: kFontSize, color: Colors.white),
-            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
@@ -91,10 +94,6 @@ Widget _buildText(String text) {
     left: 0,
     child: Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: kImageBorderRadius,
-          bottomRight: kImageBorderRadius,
-        ),
         gradient: LinearGradient(
           begin: FractionalOffset.topCenter,
           end: FractionalOffset.bottomCenter,
