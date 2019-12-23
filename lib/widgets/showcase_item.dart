@@ -3,7 +3,6 @@ import 'package:extended_image/extended_image.dart';
 // import "package:transparent_image/transparent_image.dart";
 
 Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
-  // print(item.avatarUrl);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -21,11 +20,9 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
 }
 
 Widget _buildImage(BuildContext context, TuChongItem item, int index) {
-  final itemEndTime = (DateTime.now().millisecondsSinceEpoch +
-      Duration(
-              // hours: Random().nextInt(200),
-              seconds: 10)
-          .inMilliseconds);
+  final itemEndTime = DateTime.now().millisecondsSinceEpoch +
+      // 1000 * 60 * 60 * 24 * 1 +
+      1000 * 10;
   return AspectRatio(
     aspectRatio: item.imageSize.width / item.imageSize.height,
     child: Stack(
@@ -141,12 +138,13 @@ _buildCountdownTimer(int endTime) {
       ),
       child: CountdownTimer(
         endTime: endTime,
-        // daysSymbol: ':',
-        // onEnd: () {},
-        textStyle: TextStyle(
-          fontSize: fontSize,
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
+        builder: (context, seconds) => Text(
+          seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+          style: TextStyle(
+            fontSize: fontSize,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     ),
