@@ -28,7 +28,7 @@ class _CountDownState extends State<CountdownTimer> {
     if (_seconds < 1) return;
     _timer = Timer.periodic(
       Duration(seconds: 1),
-      (timer) => setState(
+      (_) => setState(
         () {
           if (_seconds < 1) {
             disposeTimer();
