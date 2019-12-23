@@ -1,4 +1,4 @@
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import '../map_plugins/area_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
+import 'package:minsk8/import.dart';
 
 // import '../widgets/drawer.dart';
 

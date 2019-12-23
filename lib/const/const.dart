@@ -1,4 +1,4 @@
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 
 const kFontSize = 12.0;
 const kImageBorderRadius = Radius.circular(10.0);

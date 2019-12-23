@@ -1,6 +1,7 @@
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 // import "package:transparent_image/transparent_image.dart";
+import 'package:minsk8/import.dart';
 
 Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
   return Column(

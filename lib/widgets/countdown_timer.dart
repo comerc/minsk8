@@ -1,5 +1,6 @@
-import 'package:minsk8/import.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:minsk8/import.dart';
 
 class CountdownTimer extends StatefulWidget {
   final int endTime;

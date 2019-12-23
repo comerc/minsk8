@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
+import 'package:minsk8/import.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {

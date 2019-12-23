@@ -1,7 +1,8 @@
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
+import 'package:minsk8/import.dart';
 
 class ShowcaseScreen extends StatefulWidget {
   @override

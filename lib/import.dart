@@ -1,7 +1,5 @@
 // library import;
 
-export 'package:flutter/material.dart';
-
 export 'common/tu_chong_repository.dart';
 export 'common/tu_chong_source.dart';
 

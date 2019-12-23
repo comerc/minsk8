@@ -1,5 +1,6 @@
-import 'package:minsk8/import.dart';
+import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:minsk8/import.dart';
 
 Widget buildLike(TuChongItem item) {
   return LikeButton(
