@@ -22,7 +22,7 @@ final items = [
   Item(7, 'Seven', kindId: 2),
 ];
 
-enum KindIds { car, transit, bike, bus }
+// enum KindIds { car, transit, bike, bus }
 
 class Kind {
   final int id;
