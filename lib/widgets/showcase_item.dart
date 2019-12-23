@@ -40,7 +40,7 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
           shape: BoxShape.rectangle,
           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
           borderRadius: BorderRadius.all(
-            imageBorderRadius,
+            kImageBorderRadius,
           ),
           loadStateChanged: (value) {
             if (value.extendedImageLoadState == LoadState.loading) {
@@ -75,7 +75,7 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
             child: Text(
               "${index + 1}",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: fontSize, color: Colors.white),
+              style: TextStyle(fontSize: kFontSize, color: Colors.white),
             ),
           ),
         ),
@@ -92,8 +92,8 @@ Widget _buildText(String text) {
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: imageBorderRadius,
-          bottomRight: imageBorderRadius,
+          bottomLeft: kImageBorderRadius,
+          bottomRight: kImageBorderRadius,
         ),
         gradient: LinearGradient(
           begin: FractionalOffset.topCenter,
@@ -132,8 +132,8 @@ _buildCountdownTimer(int endTime) {
         color: Colors.pink.withOpacity(0.8),
         // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
         borderRadius: BorderRadius.only(
-          topLeft: imageBorderRadius,
-          bottomRight: imageBorderRadius,
+          topLeft: kImageBorderRadius,
+          bottomRight: kImageBorderRadius,
         ),
       ),
       child: CountdownTimer(
@@ -141,7 +141,7 @@ _buildCountdownTimer(int endTime) {
         builder: (context, seconds) => Text(
           seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
           style: TextStyle(
-            fontSize: fontSize,
+            fontSize: kFontSize,
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -212,7 +212,7 @@ Widget _buildBottom(TuChongItem item) {
           ),
           Text(
             item.comments.toString(),
-            style: TextStyle(color: Colors.black, fontSize: fontSize),
+            style: TextStyle(color: Colors.black, fontSize: kFontSize),
           )
         ],
       ),

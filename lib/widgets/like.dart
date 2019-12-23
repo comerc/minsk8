@@ -12,12 +12,12 @@ Widget buildLike(TuChongItem item) {
       if (count == 0) {
         result = Text(
           "love",
-          style: TextStyle(color: color, fontSize: fontSize),
+          style: TextStyle(color: color, fontSize: kFontSize),
         );
       } else
         result = Text(
           count >= 1000 ? (count / 1000.0).toStringAsFixed(1) + "k" : text,
-          style: TextStyle(color: color, fontSize: fontSize),
+          style: TextStyle(color: color, fontSize: kFontSize),
         );
       return result;
     },
