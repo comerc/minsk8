@@ -3,8 +3,8 @@ import 'package:minsk8/import.dart';
 class NavigationBar extends StatelessWidget {
   final String currentRouteName;
   final double height = 60;
-  final double iconSize = 24;
-  final Color backgroundColor = Colors.blueGrey;
+  final double iconSize = 32;
+  final Color backgroundColor = Colors.pink;
   final Color color = Colors.black54;
   final Color selectedColor = Colors.white;
 
@@ -59,25 +59,28 @@ class NavigationBar extends StatelessWidget {
     return Expanded(
       child: SizedBox(
         height: this.height,
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                tab.routeName,
-              );
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(tab.icon, color: color, size: this.iconSize),
-                Text(
-                  tab.title,
-                  style: TextStyle(color: color),
-                )
-              ],
+        child: Tooltip(
+          message: tab.title,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  tab.routeName,
+                );
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(tab.icon, color: color, size: this.iconSize),
+                  // Text(
+                  //   tab.title,
+                  //   style: TextStyle(color: color),
+                  // )
+                ],
+              ),
             ),
           ),
         ),
