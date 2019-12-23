@@ -1,10 +1,16 @@
-// import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:state_persistence/state_persistence.dart';
+import 'dart:async';
 import 'package:minsk8/import.dart';
+import 'package:state_persistence/state_persistence.dart';
 
 void main() {
-  runApp(App());
+  FlutterError.onError = (FlutterErrorDetails details) {
+    print(details);
+  };
+  runZoned<Future<void>>(() async {
+    runApp(App());
+  }, onError: (error, stackTrace) {
+    print(error);
+  });
 }
 
 class App extends StatelessWidget {
@@ -73,6 +79,7 @@ class App extends StatelessWidget {
         //   print('onGenerateRoute: $settings');
         //   return null;
         // },
+        // onUnknownRoute: (RouteSettings settings) {}
       ),
     );
   }
@@ -97,3 +104,15 @@ class App extends StatelessWidget {
 //     900: Color(0xFF172EF6),
 //   },
 // );
+
+bool get isInDebugMode {
+  // Assume you're in production mode.
+  bool inDebugMode = false;
+
+  // Assert expressions are only evaluated during development. They are ignored
+  // in production. Therefore, this code only sets `inDebugMode` to true
+  // in a development environment.
+  assert(inDebugMode = true);
+
+  return inDebugMode;
+}
