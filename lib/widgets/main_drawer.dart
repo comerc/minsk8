@@ -3,97 +3,97 @@ import 'package:minsk8/import.dart';
 final mainRoutes = [
   {
     'title': 'About',
-    'route': '/about',
+    'routeName': '/about',
   },
   {
     'title': 'Add Item',
-    'route': '/add_item',
+    'routeName': '/add_item',
   },
   {
     'title': 'Chat',
-    'route': '/chat',
+    'routeName': '/chat',
     'arguments': ChatRouteArguments(0),
   },
   {
     'title': 'Edit Item',
-    'route': '/edit_item',
+    'routeName': '/edit_item',
     'arguments': {'id': 0},
   },
   {
     'title': 'Forgot Password',
-    'route': '/forgot_password',
+    'routeName': '/forgot_password',
   },
   {
     'title': 'Image Capture',
-    'route': '/image_capture',
+    'routeName': '/image_capture',
   },
   {
     'title': 'Item',
-    'route': '/item',
+    'routeName': '/item',
     'arguments': ItemRouteArguments(0),
   },
   {
     'title': 'Select Kind(s)',
-    'route': '/kinds',
+    'routeName': '/kinds',
   },
   {
     'title': 'Login',
-    'route': '/login',
+    'routeName': '/login',
   },
   {
     'title': 'Map',
-    'route': '/map',
+    'routeName': '/map',
   },
   {
     'title': 'My Items',
-    'route': '/my_items',
+    'routeName': '/my_items',
   },
   {
     'title': 'Notifications',
-    'route': '/notifications',
+    'routeName': '/notifications',
   },
   {
     'title': 'Pay',
-    'route': '/pay',
+    'routeName': '/pay',
   },
   {
     'title': 'Profile',
-    'route': '/profile',
+    'routeName': '/profile',
   },
   {
     'title': 'Search',
-    'route': '/search',
+    'routeName': '/search',
   },
   {
     'title': 'Settings',
-    'route': '/settings',
+    'routeName': '/settings',
   },
   {
     'title': 'Showcase',
-    'route': '/showcase',
+    'routeName': '/showcase',
   },
   {
     'title': 'Sign Up',
-    'route': '/sign_up',
+    'routeName': '/sign_up',
   },
   {
     'title': 'Start',
-    'route': '/start',
+    'routeName': '/start',
   },
   {
     'title': 'Underway',
-    'route': '/underway',
+    'routeName': '/underway',
   },
   {
     'title': 'Wishes',
-    'route': '/wishes',
+    'routeName': '/wishes',
   },
 ];
 
 class MainDrawer extends StatelessWidget {
-  final currentRoute;
+  final currentRouteName;
 
-  MainDrawer(this.currentRoute);
+  MainDrawer(this.currentRouteName);
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +122,17 @@ class MainDrawer extends StatelessWidget {
               final mainRoute = mainRoutes[index];
               return ListTile(
                 title: Text(mainRoute['title']),
-                selected: currentRoute == mainRoute['route'],
+                selected: currentRouteName == mainRoute['routeName'],
                 onTap: () {
                   if (mainRoute['arguments'] == null) {
                     Navigator.pushNamed(
                       context,
-                      mainRoute['route'],
+                      mainRoute['routeName'],
                     );
                   }
                   Navigator.pushNamed(
                     context,
-                    mainRoute['route'],
+                    mainRoute['routeName'],
                     arguments: mainRoute['arguments'],
                   );
                 },
