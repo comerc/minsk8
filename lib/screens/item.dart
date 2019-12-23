@@ -3,12 +3,6 @@ import "package:transparent_image/transparent_image.dart";
 
 // TODO: тут будет слайдер по картинкам одного товара
 
-class ItemRouteArguments {
-  final int id;
-
-  ItemRouteArguments(this.id);
-}
-
 class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,4 +37,10 @@ class ItemScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ItemRouteArguments {
+  final int id;
+
+  ItemRouteArguments(this.id);
 }

@@ -1,11 +1,5 @@
 import 'package:minsk8/import.dart';
 
-class ChatRouteArguments {
-  final int userId;
-
-  ChatRouteArguments(this.userId);
-}
-
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,6 +11,15 @@ class ChatScreen extends StatelessWidget {
       body: Center(
         child: Text('xxx'),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: buildAddButton(),
+      bottomNavigationBar: NavigationBar('/chat'),
     );
   }
+}
+
+class ChatRouteArguments {
+  final int userId;
+
+  ChatRouteArguments(this.userId);
 }
