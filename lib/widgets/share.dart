@@ -14,7 +14,7 @@ Widget buildShare(TuChongItem item) {
           ),
           child: Icon(
             Icons.share,
-            color: Colors.grey,
+            color: Colors.black,
             size: 18.0,
           ),
         ),
