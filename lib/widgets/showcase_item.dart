@@ -205,17 +205,10 @@ Widget _buildBottom(TuChongItem item) {
       //   //   return Image.asset("assets/avatar.jpeg");
       //   // },
       // ),
-      SizedBox(
-        width: 16.3,
-      ),
-      Text(
-        '\$99.99',
-        style: TextStyle(
-          fontSize: kFontSize * 1.6,
-          color: Colors.orange,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      // SizedBox(
+      //   width: 16.3,
+      // ),
+      buildPrice(item),
       Expanded(
         child: Container(),
       ),
