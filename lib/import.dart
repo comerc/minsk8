@@ -36,6 +36,7 @@ export 'widgets/countdown_timer.dart';
 export 'widgets/like.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/navigation_bar.dart';
+export 'widgets/share.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
 

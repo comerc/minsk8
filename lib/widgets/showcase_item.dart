@@ -16,6 +16,9 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
         height: 5.0,
       ),
       _buildBottom(item),
+      SizedBox(
+        height: 15.0,
+      ),
     ],
   );
 }
@@ -61,26 +64,33 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
           ),
           _buildText(item.title == '' ? item.content : item.title),
           _buildCountdownTimer(itemEndTime),
-          Positioned(
-            top: 5.0,
-            right: 5.0,
-            child: Container(
-              padding: EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.6),
-                border:
-                    Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.0),
-                ),
-              ),
-              child: Text(
-                "${index + 1}",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: kFontSize, color: Colors.white),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 5.0,
+          //   right: 5.0,
+          //   child: Container(
+          //     padding: EdgeInsets.all(3.0),
+          //     decoration: BoxDecoration(
+          //       // color: Colors.grey.withOpacity(0.6),
+          //       color: Colors.white,
+          //       border: Border.all(
+          //         color: Colors.grey.withOpacity(0.4),
+          //         width: 1.0,
+          //       ),
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(5.0),
+          //       ),
+          //     ),
+          //     child: Text(
+          //       "+${index + 1}",
+          //       textAlign: TextAlign.center,
+          //       style: TextStyle(
+          //         fontSize: kFontSize * 1.6,
+          //         color: Colors.orange,
+          //         fontWeight: FontWeight.w600,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ),
@@ -181,47 +191,36 @@ _buildCountdownTimer(int endTime) {
 Widget _buildBottom(TuChongItem item) {
   return Row(
     children: <Widget>[
-      ExtendedImage.network(
-        item.avatarUrl,
-        width: 25.0,
-        height: 25.0,
-        shape: BoxShape.circle,
-        //enableLoadState: false,
-        border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-        // loadStateChanged: (state) {
-        //   if (state.extendedImageLoadState == LoadState.completed) {
-        //     return null;
-        //   }
-        //   return Image.asset("assets/avatar.jpeg");
-        // },
+      // ExtendedImage.network(
+      //   item.avatarUrl,
+      //   width: 25.0,
+      //   height: 25.0,
+      //   shape: BoxShape.circle,
+      //   //enableLoadState: false,
+      //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+      //   // loadStateChanged: (state) {
+      //   //   if (state.extendedImageLoadState == LoadState.completed) {
+      //   //     return null;
+      //   //   }
+      //   //   return Image.asset("assets/avatar.jpeg");
+      //   // },
+      // ),
+      SizedBox(
+        width: 16.3,
+      ),
+      Text(
+        '\$99.99',
+        style: TextStyle(
+          fontSize: kFontSize * 1.6,
+          color: Colors.orange,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       Expanded(
         child: Container(),
-        // child: Container(height: 20, color: Colors.red),
       ),
-      Row(
-        children: <Widget>[
-          Icon(
-            Icons.comment,
-            color: Colors.amberAccent,
-            size: 18.0,
-          ),
-          SizedBox(
-            width: 3.0,
-          ),
-          Text(
-            item.comments.toString(),
-            style: TextStyle(color: Colors.black, fontSize: kFontSize),
-          )
-        ],
-      ),
-      SizedBox(
-        width: 3.0,
-      ),
+      buildShare(item),
       buildLike(item),
-      // Container(
-      //   child: Text(content),
-      // ),
     ],
   );
 }
