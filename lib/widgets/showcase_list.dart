@@ -25,7 +25,7 @@ class _ShowcaseListState extends State<ShowcaseList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final headerHeight = 32.0;
+    // final headerHeight = 32.0;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       widget.scrollPositionKey,
       LoadingMoreCustomScrollView(
@@ -33,21 +33,21 @@ class _ShowcaseListState extends State<ShowcaseList>
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
-          SliverPersistentHeader(
-            pinned: false,
-            floating: false,
-            delegate: CommonSliverPersistentHeaderDelegate(
-              Container(
-                alignment: Alignment.center,
-                height: headerHeight,
-                color: Colors.red,
-                child:
-                    Text("This is a single sliver List with no pinned header"),
-                //color: Colors.white,
-              ),
-              headerHeight,
-            ),
-          ),
+          // SliverPersistentHeader(
+          //   pinned: false,
+          //   floating: false,
+          //   delegate: CommonSliverPersistentHeaderDelegate(
+          //     Container(
+          //       alignment: Alignment.center,
+          //       height: headerHeight,
+          //       color: Colors.red,
+          //       child:
+          //           Text("This is a single sliver List with no pinned header"),
+          //       //color: Colors.white,
+          //     ),
+          //     headerHeight,
+          //   ),
+          // ),
           LoadingMoreSliverList(SliverListConfig<TuChongItem>(
             waterfallFlowDelegate: WaterfallFlowDelegate(
               crossAxisCount: 2,
