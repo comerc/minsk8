@@ -133,18 +133,18 @@ Widget _buildText(String text) {
 
 _buildCountdownTimer(int endTime) {
   return Positioned(
-    top: 5,
-    left: 5,
+    top: 0,
+    left: 0,
     child: Container(
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       decoration: BoxDecoration(
         color: Colors.pink.withOpacity(0.8),
         // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(6.5)),
-        // borderRadius: BorderRadius.only(
-        //   // topLeft: kImageBorderRadius,
-        //   bottomRight: kImageBorderRadius,
-        // ),
+        // borderRadius: BorderRadius.all(Radius.circular(6.5)),
+        borderRadius: BorderRadius.only(
+          // topLeft: kImageBorderRadius,
+          bottomRight: kImageBorderRadius,
+        ),
       ),
       child: CountdownTimer(
         endTime: endTime,
