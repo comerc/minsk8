@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:minsk8/import.dart';
 
 Widget buildShare(TuChongItem item) {
@@ -24,4 +25,11 @@ Widget buildShare(TuChongItem item) {
   );
 }
 
-Function _onTap(TuChongItem item) => () {};
+Function _onTap(TuChongItem item) {
+  return () {
+    Share.share(
+      'check out my website https://example.com',
+      subject: 'Look what I made!',
+    );
+  };
+}
