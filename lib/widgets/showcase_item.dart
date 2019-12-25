@@ -44,7 +44,7 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
           ExtendedImage.network(
             item.imageUrl,
             shape: BoxShape.rectangle,
-            border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
             borderRadius: BorderRadius.all(
               kImageBorderRadius,
             ),
