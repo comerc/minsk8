@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 Widget buildAddButton(BuildContext context) {
   return FloatingActionButton(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.pinkAccent,
     onPressed: () {
       Navigator.pushNamed(
         context,
@@ -10,7 +12,7 @@ Widget buildAddButton(BuildContext context) {
       );
     },
     tooltip: 'Add Item',
-    child: Icon(Icons.add),
+    child: Icon(Icons.add, size: 36),
     elevation: 2.0,
   );
 }

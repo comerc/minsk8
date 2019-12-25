@@ -132,7 +132,7 @@ class _AreaState extends State<_Area> {
                                         style: TextStyle(
                                           fontSize: _iconSmallSize,
                                           fontFamily: _icon.fontFamily,
-                                          color: Colors.pink,
+                                          color: Colors.pinkAccent,
                                         ),
                                       ),
                                     ),
@@ -199,7 +199,7 @@ class _AreaPainter extends CustomPainter {
               style: TextStyle(
                   fontSize: 48.0,
                   fontFamily: icon.fontFamily,
-                  color: Colors.pink))
+                  color: Colors.pinkAccent))
           ..layout();
 
   @override

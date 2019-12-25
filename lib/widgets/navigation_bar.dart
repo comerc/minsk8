@@ -5,9 +5,9 @@ class NavigationBar extends StatelessWidget {
   final String currentRouteName;
   final double height = kNavigationBarHeight;
   final double iconSize = 32;
-  final Color backgroundColor = Colors.pink;
-  final Color color = Colors.black54;
-  final Color selectedColor = Colors.white;
+  final Color backgroundColor = Colors.white;
+  final Color color = Colors.grey;
+  final Color selectedColor = Colors.pinkAccent;
 
   NavigationBar(this.currentRouteName);
 
