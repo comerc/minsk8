@@ -41,12 +41,15 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
       tabs: kinds
-          .map((kind) => SizedBox(
+          .map(
+            (kind) => SizedBox(
               width: 130.0,
               child: Tab(
                 text: kind.name,
                 icon: Icon(kind.icon, size: 24),
-              )))
+              ),
+            ),
+          )
           .toList(),
     );
     final tabBarHeight = tabBar.preferredSize.height + 12;
@@ -71,7 +74,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           innerScrollPositionKeyBuilder: () =>
               Key(kinds[_tabController.index].name),
           headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-            PullToRefreshContainer(_buildAppbar),
+            PullToRefreshContainer(_buildAppBar),
             SliverPersistentHeader(
               pinned: true,
               floating: false,
@@ -103,7 +106,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     );
   }
 
-  Widget _buildAppbar(PullToRefreshScrollNotificationInfo info) {
+  Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
     Widget action = Padding(
       child: info?.refreshWiget ?? Icon(Icons.more_horiz),
       padding: EdgeInsets.all(15.0),
