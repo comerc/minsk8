@@ -107,48 +107,49 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   }
 
   Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
-    Widget action = Padding(
-      child: info?.refreshWiget ?? Icon(Icons.more_horiz),
-      padding: EdgeInsets.all(15.0),
-    );
+    // Widget action = Padding(
+    //   child: info?.refreshWiget ?? Icon(Icons.more_horiz),
+    //   padding: EdgeInsets.all(15.0),
+    // );
     final offset = info?.dragOffset ?? 0.0;
-    Widget child = Container();
-    if (info != null) {
-      if (info.mode == RefreshIndicatorMode.error) {
-        child = GestureDetector(
-          onTap: () {
-            // refreshNotification;
-            info?.pullToRefreshNotificationState?.show();
-          },
-          child: Text(
-            (info.mode?.toString() ?? '') + " click to retry" ?? '',
-            style: TextStyle(fontSize: 10.0),
-          ),
-        );
-        action = Container();
-      } else {
-        child = Text(
-          info?.mode?.toString() ?? '',
-          style: TextStyle(fontSize: 10.0),
-        );
-      }
-    }
+    // Widget child = Container();
+    // if (info != null) {
+    //   if (info.mode == RefreshIndicatorMode.error) {
+    //     child = GestureDetector(
+    //       onTap: () {
+    //         // refreshNotification;
+    //         info?.pullToRefreshNotificationState?.show();
+    //       },
+    //       child: Text(
+    //         (info.mode?.toString() ?? '') + " click to retry" ?? '',
+    //         style: TextStyle(fontSize: 10.0),
+    //       ),
+    //     );
+    //     action = Container();
+    //   } else {
+    //     // child = Text(
+    //     //   info?.mode?.toString() ?? '',
+    //     //   style: TextStyle(fontSize: 10.0),
+    //     // );
+    //   }
+    // }
     return SliverAppBar(
       pinned: true,
       title: Text("NestedScrollViewDemo"),
       centerTitle: true,
-      expandedHeight: 200.0 + offset,
-      actions: <Widget>[action],
-      flexibleSpace: FlexibleSpaceBar(
-        //centerTitle: true,
-        title: child,
-        collapseMode: CollapseMode.pin,
-        background: Image.asset(
-          "assets/467141054.jpg",
-          //fit: offset > 0.0 ? BoxFit.cover : BoxFit.fill,
-          fit: BoxFit.cover,
-        ),
-      ),
+      // expandedHeight: 200.0 + offset,
+      expandedHeight: offset,
+      // actions: <Widget>[action],
+      // flexibleSpace: FlexibleSpaceBar(
+      //   //centerTitle: true,
+      //   title: child,
+      //   collapseMode: CollapseMode.pin,
+      //   background: Image.asset(
+      //     "assets/467141054.jpg",
+      //     //fit: offset > 0.0 ? BoxFit.cover : BoxFit.fill,
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
     );
   }
 
