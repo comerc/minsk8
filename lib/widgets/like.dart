@@ -15,27 +15,41 @@ Widget buildLike(TuChongItem item) {
           ),
           size: 18.0,
           isLiked: item.isFavorite,
-          likeCount: item.favorites,
-          countBuilder: (int count, bool isLiked, String text) {
-            final color = isLiked ? Colors.pinkAccent : Colors.grey;
-            Widget result;
-            if (count == 0) {
-              result = Text(
-                "love",
-                style: TextStyle(color: color, fontSize: kFontSize),
+          likeBuilder: (bool isLiked) {
+            if (isLiked) {
+              return Icon(
+                Icons.favorite,
+                color: Colors.pinkAccent,
+                size: 18,
               );
-            } else
-              result = Text(
-                count >= 1000
-                    ? (count / 1000.0).toStringAsFixed(1) + "k"
-                    : text,
-                style: TextStyle(color: color, fontSize: kFontSize),
-              );
-            return result;
+            }
+            return Icon(
+              Icons.favorite_border,
+              color: Colors.black,
+              size: 18,
+            );
           },
-          likeCountAnimationType: item.favorites < 1000
-              ? LikeCountAnimationType.part
-              : LikeCountAnimationType.none,
+          likeCount: null, // item.favorites,
+          // countBuilder: (int count, bool isLiked, String text) {
+          //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
+          //   Widget result;
+          //   if (count == 0) {
+          //     result = Text(
+          //       "love",
+          //       style: TextStyle(color: color, fontSize: kFontSize),
+          //     );
+          //   } else
+          //     result = Text(
+          //       count >= 1000
+          //           ? (count / 1000.0).toStringAsFixed(1) + "k"
+          //           : text,
+          //       style: TextStyle(color: color, fontSize: kFontSize),
+          //     );
+          //   return result;
+          // },
+          // likeCountAnimationType: item.favorites < 1000
+          //     ? LikeCountAnimationType.part
+          //     : LikeCountAnimationType.none,
           onTap: (bool isLiked) => _onTap(isLiked, item),
         ),
         onTap: () {},
