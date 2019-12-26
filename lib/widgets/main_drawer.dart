@@ -18,7 +18,7 @@ final mainRoutes = [
   {
     'title': 'Edit Item',
     'routeName': '/edit_item',
-    'arguments': {'id': 0},
+    'arguments': EditItemRouteArguments(0),
   },
   {
     'title': 'Forgot Password',

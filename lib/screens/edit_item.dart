@@ -15,3 +15,9 @@ class EditItemScreen extends StatelessWidget {
     );
   }
 }
+
+class EditItemRouteArguments {
+  final int id;
+
+  EditItemRouteArguments(this.id);
+}
