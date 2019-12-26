@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
@@ -17,6 +18,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   @override
   void initState() {
     super.initState();
+    _initDynamicLinks();
     _sourceListPool = kinds.map((kind) => TuChongRepository(kind.id)).toList();
     _tabController = TabController(length: kinds.length, vsync: this);
   }
@@ -157,6 +159,33 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     print("onRefresh");
     final sourceList = _sourceListPool[_tabController.index];
     return await sourceList.refresh(true);
+  }
+
+  void _initDynamicLinks() async {
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
+    _openItem(data?.link);
+    FirebaseDynamicLinks.instance.onLink(
+      onSuccess: (PendingDynamicLinkData data) async {
+        _openItem(data?.link);
+      },
+      onError: (OnLinkErrorException error) async {
+        print('onLinkError');
+        print(error.message);
+      },
+    );
+  }
+
+  void _openItem(Uri link) {
+    if (link == null) return;
+    final id = int.parse(
+      link.queryParameters['id'],
+      radix: 10,
+    );
+    Navigator.pushNamed(
+      context,
+      '/item',
+      arguments: ItemRouteArguments(id),
+    );
   }
 }
 

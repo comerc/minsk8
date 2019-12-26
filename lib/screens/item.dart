@@ -9,34 +9,36 @@ class ItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context).settings.arguments as ItemRouteArguments;
-    final item = items[arguments.id];
-    final imageUrl = item.imageUrl(1000);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Item ${item.name}'),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/image_pinch',
-                    arguments: ImagePinchRouteArguments(imageUrl),
-                  );
-                },
-                child: FadeInImage.memoryNetwork(
-                  image: imageUrl,
-                  placeholder: kTransparentImage,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+
+    return Text('${arguments.id}');
+    // final item = items[arguments.id];
+    // final imageUrl = item.imageUrl(1000);
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Item ${item.name}'),
+    //   ),
+    //   body: SafeArea(
+    //     child: Column(
+    //       children: <Widget>[
+    //         Expanded(
+    //           child: GestureDetector(
+    //             onTap: () {
+    //               Navigator.pushNamed(
+    //                 context,
+    //                 '/image_pinch',
+    //                 arguments: ImagePinchRouteArguments(imageUrl),
+    //               );
+    //             },
+    //             child: FadeInImage.memoryNetwork(
+    //               image: imageUrl,
+    //               placeholder: kTransparentImage,
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 
