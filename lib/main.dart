@@ -21,7 +21,7 @@ class App extends StatelessWidget {
       storage: JsonFileStorage(),
       child: MaterialApp(
         // debugShowCheckedModeBanner: false,
-        title: 'Flutter Map Example',
+        title: 'minsk8',
         // theme: ThemeData(
         //   primarySwatch: mapBoxBlue,
         // ),
@@ -108,15 +108,3 @@ class App extends StatelessWidget {
 //     900: Color(0xFF172EF6),
 //   },
 // );
-
-bool get isInDebugMode {
-  // Assume you're in production mode.
-  bool inDebugMode = false;
-
-  // Assert expressions are only evaluated during development. They are ignored
-  // in production. Therefore, this code only sets `inDebugMode` to true
-  // in a development environment.
-  assert(inDebugMode = true);
-
-  return inDebugMode;
-}
