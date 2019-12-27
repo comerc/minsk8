@@ -41,7 +41,7 @@ class TuChongRepository extends LoadingMoreBase<TuChongItem> {
     bool isSuccess = false;
     try {
       //to show loading more clearly, in your app,remove this
-      await Future.delayed(Duration(milliseconds: 500));
+      // await Future.delayed(Duration(milliseconds: 500));
 
       final result = await HttpClientHelper.get(url);
 
