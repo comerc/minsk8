@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import "package:transparent_image/transparent_image.dart";
 import 'package:minsk8/import.dart';
 
 // TODO: тут будет слайдер по картинкам одного товара
+
+// TODO: Geolocator().distanceBetween()
+// double distanceInMeters = await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
 
 class ItemScreen extends StatelessWidget {
   @override
