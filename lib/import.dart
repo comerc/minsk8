@@ -6,6 +6,15 @@ export 'common/tu_chong_source.dart';
 export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;
 
+export 'models/chat.dart';
+export 'models/image.dart';
+export 'models/item.dart';
+export 'models/kind.dart';
+export 'models/member.dart';
+export 'models/message.dart';
+export 'models/pay.dart';
+export 'models/profile.dart';
+
 export 'screens/about.dart';
 export 'screens/add_item.dart';
 export 'screens/chat.dart';
@@ -28,6 +37,7 @@ export 'screens/showcase.dart';
 export 'screens/sign_up.dart';
 export 'screens/start.dart';
 export 'screens/underway.dart';
+export 'screens/wallet.dart';
 export 'screens/wishes.dart';
 
 export 'widgets/_showcase_card.dart';
