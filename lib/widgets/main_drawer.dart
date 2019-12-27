@@ -86,6 +86,10 @@ final mainRoutes = [
     'routeName': '/underway',
   },
   {
+    'title': 'Wallet',
+    'routeName': '/wallet',
+  },
+  {
     'title': 'Wishes',
     'routeName': '/wishes',
   },

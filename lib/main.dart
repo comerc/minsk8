@@ -74,6 +74,7 @@ class App extends StatelessWidget {
           '/sign_up': (context) => SignUpScreen(),
           '/start': (context) => StartScreen(),
           '/underway': (context) => UnderwayScreen(),
+          '/wallet': (context) => WalletScreen(),
           '/wishes': (context) => WishesScreen(),
         },
         // onGenerateRoute: (settings) {
