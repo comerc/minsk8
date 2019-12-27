@@ -5,7 +5,7 @@ part 'image.g.dart';
 
 @JsonSerializable()
 class ImageModel {
-  final int id;
+  final String id;
 
   ImageModel(this.id);
 

@@ -5,7 +5,7 @@ part 'member.g.dart';
 
 @JsonSerializable()
 class MemberModel {
-  final int id;
+  final String id;
   final String nickname;
 
   MemberModel(this.id, this.nickname);

@@ -5,7 +5,7 @@ part 'pay.g.dart';
 
 @JsonSerializable()
 class PayModel {
-  final int id;
+  final String id;
   final String text;
   final int value;
 

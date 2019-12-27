@@ -5,10 +5,11 @@ part 'kind.g.dart';
 
 @JsonSerializable()
 class KindModel {
-  final int id;
+  final String id;
   final String name;
+  final int order;
 
-  KindModel(this.id, this.name);
+  KindModel(this.id, this.name, this.order);
 
   factory KindModel.fromJson(Map<String, dynamic> json) =>
       _$KindModelFromJson(json);

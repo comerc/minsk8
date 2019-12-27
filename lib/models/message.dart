@@ -5,7 +5,7 @@ part 'message.g.dart';
 
 @JsonSerializable()
 class MessageModel {
-  final int id;
+  final String id;
   final String text;
   final bool isMine;
 

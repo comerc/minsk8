@@ -5,7 +5,7 @@ part 'chat.g.dart';
 
 @JsonSerializable()
 class ChatModel {
-  final int id;
+  final String id;
   final MemberModel member;
   final List<MessageModel> messages;
 

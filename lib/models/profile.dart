@@ -5,7 +5,7 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class ProfileModel {
-  final int memberId;
+  final String memberId;
   final String nickname;
   final double locationLatitude;
   final double locationLongitude;

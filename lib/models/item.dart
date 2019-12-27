@@ -6,7 +6,7 @@ part 'item.g.dart';
 
 @JsonSerializable()
 class ItemModel {
-  final int id;
+  final String id;
   final String text;
   final MemberModel member;
   final List<ImageModel> images;
