@@ -163,10 +163,10 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
 
   void _initDynamicLinks() async {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
-    _openItem(data?.link);
+    _openDeepLink(data?.link);
     FirebaseDynamicLinks.instance.onLink(
       onSuccess: (PendingDynamicLinkData data) async {
-        _openItem(data?.link);
+        _openDeepLink(data?.link);
       },
       onError: (OnLinkErrorException error) async {
         print('onLinkError');
@@ -175,17 +175,19 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     );
   }
 
-  void _openItem(Uri link) {
+  void _openDeepLink(Uri link) {
     if (link == null) return;
-    final id = int.parse(
-      link.queryParameters['id'],
-      radix: 10,
-    );
-    Navigator.pushNamed(
-      context,
-      '/item',
-      arguments: ItemRouteArguments(id),
-    );
+    if (link.path == '/item') {
+      final id = int.parse(
+        link.queryParameters['id'],
+        radix: 10,
+      );
+      Navigator.pushNamed(
+        context,
+        '/item',
+        arguments: ItemRouteArguments(id),
+      );
+    }
   }
 }
 
