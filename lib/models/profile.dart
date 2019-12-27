@@ -5,30 +5,24 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class ProfileModel {
-  final String memberId;
-  final String nickname;
-  final double locationLatitude;
-  final double locationLongitude;
+  final MemberModel member;
   final int money;
-  final List<PayModel> wallet;
-  final List<ItemModel> myItems;
-  final List<ItemModel> whishes;
-  final List<ItemModel> underway;
+  final List<PayModel> payList;
+  final List<ItemModel> myItemList;
+  final List<ItemModel> whishList;
+  final List<ItemModel> underwayList;
 
   ProfileModel(
-    this.memberId,
-    this.nickname,
-    this.locationLatitude,
-    this.locationLongitude,
+    this.member,
     this.money,
-    this.wallet,
-    this.myItems,
-    this.whishes,
-    this.underway,
+    this.payList,
+    this.myItemList,
+    this.whishList,
+    this.underwayList,
   );
 
   avatarUrl() {
-    return 'https://example.com/avatars/?id=$memberId';
+    return 'https://example.com/avatars/?id=${member.id}';
   }
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>

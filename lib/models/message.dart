@@ -7,9 +7,14 @@ part 'message.g.dart';
 class MessageModel {
   final String id;
   final String text;
-  final bool isMine;
+  final String toMemberId;
+  final DateTime createdAt;
 
-  MessageModel(this.id, this.text, this.isMine);
+  MessageModel(this.id, this.text, this.toMemberId, this.createdAt);
+
+  isMine(String fromMemberId) {
+    return fromMemberId == toMemberId;
+  }
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);

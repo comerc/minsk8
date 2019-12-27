@@ -6,12 +6,11 @@ part 'image.g.dart';
 @JsonSerializable()
 class ImageModel {
   final String id;
+  final String url;
+  final int width;
+  final int height;
 
-  ImageModel(this.id);
-
-  imageUrl(size) {
-    return 'https://picsum.photos/$size?image=$id';
-  }
+  ImageModel(this.id, this.url, this.width, this.height);
 
   factory ImageModel.fromJson(Map<String, dynamic> json) =>
       _$ImageModelFromJson(json);

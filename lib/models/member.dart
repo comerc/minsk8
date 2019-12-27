@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 part 'member.g.dart';
 
+// TODO:  https://robohash.org/
+
 @JsonSerializable()
 class MemberModel {
   final String id;

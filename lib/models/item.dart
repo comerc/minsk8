@@ -11,8 +11,8 @@ class ItemModel {
   final MemberModel member;
   final List<ImageModel> images;
   final DateTime expiresAt;
-  final UrgentKind urgentKind;
-  final int currentPrice;
+  final Urgent urgent;
+  final int bid;
   final double locationLatitude;
   final double locationLongitude;
 
@@ -22,8 +22,8 @@ class ItemModel {
     this.member,
     this.images,
     this.expiresAt,
-    this.urgentKind,
-    this.currentPrice,
+    this.urgent,
+    this.bid,
     this.locationLatitude,
     this.locationLongitude,
   );
@@ -34,4 +34,4 @@ class ItemModel {
   Map<String, dynamic> toJson() => _$ItemModelToJson(this);
 }
 
-enum UrgentKind { very_urgent, urgent, not_urgent }
+enum Urgent { very_urgent, urgent, not_urgent, none }

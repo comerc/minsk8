@@ -6,7 +6,6 @@ export 'common/tu_chong_source.dart';
 export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;
 
-export 'models/chat.dart';
 export 'models/image.dart';
 export 'models/item.dart';
 export 'models/kind.dart';

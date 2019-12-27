@@ -7,12 +7,14 @@ part 'kind.g.dart';
 class KindModel {
   final String id;
   final String name;
-  final int order;
+  final String rawSvg;
 
-  KindModel(this.id, this.name, this.order);
+  KindModel(this.id, this.name, this.rawSvg);
 
   factory KindModel.fromJson(Map<String, dynamic> json) =>
       _$KindModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$KindModelToJson(this);
 }
+
+enum MetaKind { all, interesting, best, promo, urgent }
