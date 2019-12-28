@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 part 'item.g.dart';
@@ -12,12 +13,12 @@ class ItemModel {
   final List<ImageModel> images;
   @JsonKey(nullable: true)
   final DateTime expiresAt;
-  @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
+  @JsonKey(fromJson: _urgentFromJson, toJson: _urgentToJson)
   final Urgent urgent;
   @JsonKey(nullable: true)
   final int bid;
-  final double locationLatitude;
-  final double locationLongitude;
+  @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
+  final LatLng location;
   @JsonKey(nullable: true)
   final bool isBlocked;
 
@@ -29,14 +30,18 @@ class ItemModel {
     this.expiresAt,
     this.urgent,
     this.bid,
-    this.locationLatitude,
-    this.locationLongitude,
+    this.location,
     this.isBlocked,
   );
 
-  static _urgentFromString(String value) =>
-      EnumToString.fromString(Urgent.values, value);
-  static _urgentToString(Urgent value) => EnumToString.parse(value);
+  static _urgentFromJson(String json) =>
+      EnumToString.fromString(Urgent.values, json);
+  static _urgentToJson(Urgent urgent) => EnumToString.parse(urgent);
+
+  static _locationFromJson(Map<String, double> json) =>
+      LatLng(json['latitude'], json['longitude']);
+  static _locationToJson(LatLng location) =>
+      {'latitude': location.latitude, 'longitude': location.longitude};
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);
