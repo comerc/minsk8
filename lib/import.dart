@@ -11,8 +11,10 @@ export 'models/item.dart';
 export 'models/kind.dart';
 export 'models/member.dart';
 export 'models/message.dart';
+export 'models/my_item.dart';
 export 'models/pay.dart';
 export 'models/profile.dart';
+export 'models/underway.dart';
 
 export 'screens/about.dart';
 export 'screens/add_item.dart';

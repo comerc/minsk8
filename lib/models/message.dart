@@ -7,10 +7,12 @@ part 'message.g.dart';
 class MessageModel {
   final String id;
   final String text;
+  final String fromMemberId;
   final String toMemberId;
   final DateTime createdAt;
 
-  MessageModel(this.id, this.text, this.toMemberId, this.createdAt);
+  MessageModel(
+      this.id, this.text, this.fromMemberId, this.toMemberId, this.createdAt);
 
   isMine(String fromMemberId) {
     return fromMemberId == toMemberId;

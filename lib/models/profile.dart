@@ -8,9 +8,9 @@ class ProfileModel {
   final MemberModel member;
   final int money;
   final List<PayModel> payList;
-  final List<ItemModel> myItemList;
+  final List<MyItemModel> myItemList;
   final List<ItemModel> whishList;
-  final List<ItemModel> underwayList;
+  final List<UnderwayModel> underwayList;
 
   ProfileModel(
     this.member,
