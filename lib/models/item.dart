@@ -14,13 +14,15 @@ class ItemModel {
   @JsonKey(nullable: true)
   final DateTime expiresAt;
   @JsonKey(nullable: true)
-  final int bid;
+  final int price;
   @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
   final Urgent urgent;
   @JsonKey(fromJson: _locationFromString, toJson: _locationToString)
   final LatLng location;
   @JsonKey(nullable: true)
   final bool isBlocked;
+  @JsonKey(nullable: true)
+  final TotalWishesModel totalWishes;
 
   ItemModel(
     this.id,
@@ -29,9 +31,10 @@ class ItemModel {
     this.images,
     this.expiresAt,
     this.urgent,
-    this.bid,
+    this.price,
     this.location,
     this.isBlocked,
+    this.totalWishes,
   );
 
   get status {

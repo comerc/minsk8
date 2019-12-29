@@ -6,15 +6,16 @@ export 'common/tu_chong_source.dart';
 export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;
 
+export 'models/bid.dart';
+export 'models/chat.dart';
 export 'models/image.dart';
 export 'models/item.dart';
 export 'models/kind.dart';
 export 'models/member.dart';
 export 'models/message.dart';
-export 'models/my_item.dart';
 export 'models/payment.dart';
 export 'models/profile.dart';
-export 'models/underway.dart';
+export 'models/total_wishes.dart';
 
 export 'screens/about.dart';
 export 'screens/add_item.dart';
@@ -44,12 +45,12 @@ export 'screens/wishes.dart';
 export 'widgets/_showcase_card.dart';
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';
-export 'widgets/like.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/navigation_bar.dart';
 export 'widgets/price.dart';
 export 'widgets/share.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
+export 'widgets/wish.dart';
 
 // export 'screens/nested_scroll_view_demo.dart';

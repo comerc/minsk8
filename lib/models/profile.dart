@@ -6,24 +6,22 @@ part 'profile.g.dart';
 @JsonSerializable()
 class ProfileModel {
   final MemberModel member;
-  final int money;
-  final List<PaymentModel> payList;
-  final List<MyItemModel> myItemList;
-  final List<ItemModel> whishList;
-  final List<UnderwayModel> underwayList;
+  final List<PaymentModel> payments;
+  final List<ItemModel> myItems;
+  final List<ItemModel> whishes;
+  final List<BidModel> bids;
 
   ProfileModel(
     this.member,
-    this.money,
-    this.payList,
-    this.myItemList,
-    this.whishList,
-    this.underwayList,
+    this.payments,
+    this.myItems,
+    this.whishes,
+    this.bids,
   );
 
-  avatarUrl() {
-    return 'https://example.com/avatars/?id=${member.id}';
-  }
+  get avatarUrl => 'https://example.com/avatars/?id=${member.id}';
+
+  get balance => 0; // TODO: реализовать баланс по сумме payments
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
