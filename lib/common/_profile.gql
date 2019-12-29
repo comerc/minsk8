@@ -1,0 +1,41 @@
+query Profile($member_id: uuid!) {
+  member(where: { id: { _eq: $member_id } }) {
+    nickname
+    last_activity_at
+    id
+    created_at
+    banned_until
+    payments {
+      created_at
+      value
+      text
+      id
+      item {
+        id
+        text
+      }
+    }
+    bids {
+      updated_at
+      value
+      item {
+        id
+        text
+      }
+    }
+    wishes {
+      created_at
+      item {
+        text
+        id
+      }
+    }
+    my_items {
+      total_wishes {
+        value
+      }
+      text
+      id
+    }
+  }
+}
