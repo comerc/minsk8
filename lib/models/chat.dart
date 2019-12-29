@@ -8,13 +8,23 @@ class ChatModel {
   final ItemModel item;
   final MemberModel companion;
   final List<MessageModel> messages;
+  final bool isItemOwnerWritesNow;
+  final bool isCompanionWritesNow;
+  final bool isItemOwnerReadAll;
+  final bool isCompanionReadAll;
 
-  ChatModel(this.item, this.companion, this.messages);
+  ChatModel(
+    this.item,
+    this.companion,
+    this.messages,
+    this.isItemOwnerWritesNow,
+    this.isCompanionWritesNow,
+    this.isItemOwnerReadAll,
+    this.isCompanionReadAll,
+  );
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChatModelToJson(this);
 }
-
-// TODO: прикрутить flutter_svg + https://www.google.com/get/noto/help/emoji/

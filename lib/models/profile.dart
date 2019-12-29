@@ -7,7 +7,7 @@ part 'profile.g.dart';
 class ProfileModel {
   final MemberModel member;
   final int money;
-  final List<PayModel> payList;
+  final List<PaymentModel> payList;
   final List<MyItemModel> myItemList;
   final List<ItemModel> whishList;
   final List<UnderwayModel> underwayList;

@@ -13,11 +13,11 @@ class ItemModel {
   final List<ImageModel> images;
   @JsonKey(nullable: true)
   final DateTime expiresAt;
-  @JsonKey(fromJson: _urgentFromJson, toJson: _urgentToJson)
-  final Urgent urgent;
   @JsonKey(nullable: true)
   final int bid;
-  @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
+  @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
+  final Urgent urgent;
+  @JsonKey(fromJson: _locationFromString, toJson: _locationToString)
   final LatLng location;
   @JsonKey(nullable: true)
   final bool isBlocked;
@@ -34,14 +34,24 @@ class ItemModel {
     this.isBlocked,
   );
 
-  static _urgentFromJson(String json) =>
-      EnumToString.fromString(Urgent.values, json);
-  static _urgentToJson(Urgent urgent) => EnumToString.parse(urgent);
+  get status {
+    // TODO: реализовать бизнес-логику отображения (лучше на backend-е), учитывая поля:
+    // urgent, expires_at, is_blocked, winner_member_id
+    return urgent;
+  }
 
-  static _locationFromJson(Map<String, double> json) =>
-      LatLng(json['latitude'], json['longitude']);
-  static _locationToJson(LatLng location) =>
-      {'latitude': location.latitude, 'longitude': location.longitude};
+  static _urgentFromString(String value) =>
+      EnumToString.fromString(Urgent.values, value);
+
+  static _urgentToString(Urgent urgent) => EnumToString.parse(urgent);
+
+  static _locationFromString(value) {
+    final array = value.split(',');
+    return LatLng(array[0], array[1]);
+  }
+
+  static _locationToString(LatLng location) =>
+      '${location.latitude},${location.longitude}';
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);

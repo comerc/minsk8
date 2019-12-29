@@ -12,7 +12,7 @@ export 'models/kind.dart';
 export 'models/member.dart';
 export 'models/message.dart';
 export 'models/my_item.dart';
-export 'models/pay.dart';
+export 'models/payment.dart';
 export 'models/profile.dart';
 export 'models/underway.dart';
 

@@ -9,8 +9,11 @@ part 'member.g.dart';
 class MemberModel {
   final String id;
   final String nickname;
+  @JsonKey(nullable: true)
+  final DateTime bannedUntil;
+  final DateTime lastActivityAt;
 
-  MemberModel(this.id, this.nickname);
+  MemberModel(this.id, this.nickname, this.bannedUntil, this.lastActivityAt);
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);

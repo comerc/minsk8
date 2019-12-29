@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
 part 'message.g.dart';
@@ -7,21 +8,24 @@ part 'message.g.dart';
 class MessageModel {
   final String id;
   final String text;
-  final String fromMemberId;
-  final String toMemberId;
+  @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
+  final Author author;
+  final bool isRead;
   final DateTime createdAt;
 
-  MessageModel(
-      this.id, this.text, this.fromMemberId, this.toMemberId, this.createdAt);
+  MessageModel(this.id, this.text, this.author, this.isRead, this.createdAt);
 
-  isMine(String fromMemberId) {
-    return fromMemberId == toMemberId;
-  }
+  static _authorFromString(String value) =>
+      EnumToString.fromString(Author.values, value);
+
+  static _authorToString(Author author) => EnumToString.parse(author);
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
+
+enum Author { item_owner, companion }
 
 // TODO: прикрутить flutter_svg + https://www.google.com/get/noto/help/emoji/

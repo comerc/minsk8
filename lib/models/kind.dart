@@ -17,4 +17,4 @@ class KindModel {
   Map<String, dynamic> toJson() => _$KindModelToJson(this);
 }
 
-enum MetaKind { all, interesting, best, promo, urgent }
+enum MetaKindId { all, interesting, best, promo, urgent }
