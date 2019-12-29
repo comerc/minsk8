@@ -214,7 +214,7 @@ Widget _buildBottom(TuChongItem item) {
         child: Container(),
       ),
       buildShare(item),
-      buildLike(item),
+      buildWish(item),
     ],
   );
 }

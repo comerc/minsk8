@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildLike(TuChongItem item) {
+Widget buildWish(TuChongItem item) {
   return Tooltip(
-    message: 'Like',
+    message: 'Wish',
     child: Material(
       child: InkWell(
         borderRadius: BorderRadius.all(kImageBorderRadius),
