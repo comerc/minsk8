@@ -7,7 +7,7 @@ part 'total_wishes.g.dart';
 class TotalWishesModel {
   final int value;
 
-  TotalWishesModel(this.item, this.wishes);
+  TotalWishesModel(this.value);
 
   factory TotalWishesModel.fromJson(Map<String, dynamic> json) =>
       _$TotalWishesModelFromJson(json);
