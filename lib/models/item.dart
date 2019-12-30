@@ -22,7 +22,9 @@ class ItemModel {
   @JsonKey(nullable: true)
   final bool isBlocked;
   @JsonKey(nullable: true)
-  final TotalWishesModel totalWishes;
+  final WinModel win;
+  @JsonKey(nullable: true)
+  final List<WishModel> wishes;
 
   ItemModel(
     this.id,
@@ -34,13 +36,18 @@ class ItemModel {
     this.price,
     this.location,
     this.isBlocked,
-    this.totalWishes,
+    this.win,
+    this.wishes,
   );
 
   get status {
-    // TODO: реализовать бизнес-логику отображения (лучше на backend-е), учитывая поля:
-    // urgent, expires_at, is_blocked, winner_member_id
+    // TODO: реализовать бизнес-логику отображения, учитывая поля:
+    // urgent, expires_at, is_blocked, win
     return urgent;
+  }
+
+  get totalWishes {
+    this.wishes?.length;
   }
 
   static _urgentFromString(String value) =>

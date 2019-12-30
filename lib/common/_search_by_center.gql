@@ -1,0 +1,12 @@
+query MyQuery($center: geography!) {
+  item(where: { location: { _st_d_within: { distance: 100000.5, from: $center, use_spheroid: false } } }) {
+    id
+    location
+  }
+}
+
+# query variables
+#
+# {
+#   "center": "{\"type\": \"Point\",\"coordinates\":[53.8389,27.7234]}"
+# }

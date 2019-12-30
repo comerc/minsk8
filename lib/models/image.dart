@@ -9,7 +9,11 @@ class ImageModel {
   final int width;
   final int height;
 
-  ImageModel(this.url, this.width, this.height);
+  ImageModel(
+    this.url,
+    this.width,
+    this.height,
+  );
 
   factory ImageModel.fromJson(Map<String, dynamic> json) =>
       _$ImageModelFromJson(json);

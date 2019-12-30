@@ -9,16 +9,22 @@ class MessageModel {
   final String id;
   final String text;
   @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
-  final Author author;
+  final MessageAuthor author;
   final bool isRead;
   final DateTime createdAt;
 
-  MessageModel(this.id, this.text, this.author, this.isRead, this.createdAt);
+  MessageModel(
+    this.id,
+    this.text,
+    this.author,
+    this.isRead,
+    this.createdAt,
+  );
 
   static _authorFromString(String value) =>
-      EnumToString.fromString(Author.values, value);
+      EnumToString.fromString(MessageAuthor.values, value);
 
-  static _authorToString(Author author) => EnumToString.parse(author);
+  static _authorToString(MessageAuthor author) => EnumToString.parse(author);
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
@@ -26,6 +32,6 @@ class MessageModel {
   Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
 
-enum Author { item_owner, companion }
+enum MessageAuthor { item_owner, companion }
 
 // TODO: прикрутить flutter_svg + https://www.google.com/get/noto/help/emoji/

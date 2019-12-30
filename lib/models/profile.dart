@@ -26,5 +26,5 @@ class ProfileModel {
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
+  // Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }

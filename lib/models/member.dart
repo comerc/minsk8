@@ -13,7 +13,12 @@ class MemberModel {
   final DateTime bannedUntil;
   final DateTime lastActivityAt;
 
-  MemberModel(this.id, this.nickname, this.bannedUntil, this.lastActivityAt);
+  MemberModel(
+    this.id,
+    this.nickname,
+    this.bannedUntil,
+    this.lastActivityAt,
+  );
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);
