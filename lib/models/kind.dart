@@ -1,6 +1,3 @@
-// import 'package:json_annotation/json_annotation.dart';
-// import 'package:minsk8/import.dart';
-
 class KindModel {
   final value; // TODO: как задекларировать два типа? (MetaKindId || KindId)
   final String name;
