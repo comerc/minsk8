@@ -30,6 +30,7 @@
 /build/
 *.g.dart
 apollo.config.js
+schema.json
 
 # Android related
 **/android/**/gradle-wrapper.jar
