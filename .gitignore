@@ -29,6 +29,7 @@
 .pub/
 /build/
 *.g.dart
+apollo.config.js
 
 # Android related
 **/android/**/gradle-wrapper.jar

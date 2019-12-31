@@ -9,3 +9,5 @@ bool get isInDebugMode {
 
   return inDebugMode;
 }
+
+String gql(String x) => x;

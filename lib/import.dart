@@ -2,6 +2,7 @@
 
 export 'common/tu_chong_repository.dart';
 export 'common/tu_chong_source.dart';
+export 'common/helpers.dart';
 
 export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;

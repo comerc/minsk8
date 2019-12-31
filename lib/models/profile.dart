@@ -23,6 +23,18 @@ class ProfileModel {
 
   get balance => 0; // TODO: реализовать баланс по сумме payments
 
+  static String query = gql(r'''
+    query getProfile($member_id: uuid!) {
+      member(where: { id: { _eq: $member_id } }) {
+        nickname,
+        id,
+        my_items {
+          images   
+        }
+      }
+    }
+  ''');
+
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
