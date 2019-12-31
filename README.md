@@ -26,6 +26,7 @@ module.exports = {
       // optional headers
       headers: {
         'x-hasura-admin-secret': '<secret>',
+        'x-hasura-role': 'user',
       },
       // optional disable SSL validation check
       skipSSLValidation: true,
