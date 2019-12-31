@@ -16,7 +16,7 @@ class ItemModel {
   @JsonKey(nullable: true)
   final int price;
   @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
-  final Urgent urgent;
+  final UrgentId urgent;
   @JsonKey(fromJson: _locationFromString, toJson: _locationToString)
   final LatLng location;
   @JsonKey(nullable: true)
@@ -51,9 +51,9 @@ class ItemModel {
   }
 
   static _urgentFromString(String value) =>
-      EnumToString.fromString(Urgent.values, value);
+      EnumToString.fromString(UrgentId.values, value);
 
-  static _urgentToString(Urgent urgent) => EnumToString.parse(urgent);
+  static _urgentToString(UrgentId urgent) => EnumToString.parse(urgent);
 
   static _locationFromString(value) {
     final array = value.split(',');
@@ -68,5 +68,3 @@ class ItemModel {
 
   Map<String, dynamic> toJson() => _$ItemModelToJson(this);
 }
-
-enum Urgent { very_urgent, urgent, not_urgent, none }

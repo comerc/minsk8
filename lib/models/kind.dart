@@ -2,12 +2,12 @@
 // import 'package:minsk8/import.dart';
 
 class KindModel {
-  final dynamic id;
+  final value; // TODO: как задекларировать два типа? (MetaKindId || KindId)
   final String name;
   final String rawSvg;
 
   KindModel(
-    this.id,
+    this.value,
     this.name,
     this.rawSvg,
   );
@@ -17,7 +17,7 @@ enum MetaKindId { all, interesting, best, promo, urgent }
 
 enum KindId { technics, garment, for_home, for_kids, books, other, pets }
 
-final kinds = [
+final allKinds = [
   KindModel(MetaKindId.all, 'Все', '<svg />'),
   KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
   KindModel(MetaKindId.best, 'Лучшее', '<svg />'),

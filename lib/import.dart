@@ -15,6 +15,7 @@ export 'models/member.dart';
 export 'models/message.dart';
 export 'models/payment.dart';
 export 'models/profile.dart';
+export 'models/urgent.dart';
 export 'models/win.dart';
 export 'models/wish.dart';
 
