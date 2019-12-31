@@ -54,6 +54,7 @@ dependencies:
 
   json_annotation: 3.0.0
   enum_to_string: 1.0.8
+  graphql_flutter: 2.1.0
 
 dev_dependencies:
   flutter_test:
