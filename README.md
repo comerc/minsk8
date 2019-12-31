@@ -16,7 +16,7 @@ $ npm install -g apollo
 
 create ./apollo.config.js
 
-```
+```js
 module.exports = {
   client: {
     includes: ['./lib/**/*.dart'],
