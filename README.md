@@ -14,7 +14,7 @@ for VSCode Apollo GraphQL
 $ npm install -g apollo
 ```
 
-create ./apollo.config.js
+create `./apollo.config.js`
 
 ```js
 module.exports = {
@@ -37,6 +37,8 @@ module.exports = {
 }
 ```
 
-how to download schema.json for localSchemaFile
+how to download `schema.json` for `localSchemaFile`
 
-`$ apollo schema:download --endpoint https://minsk8.herokuapp.com/v1/graphql --header 'X-Hasura-Admin-Secret: <secret>' --header 'X-Hasura-Role: user'`
+```
+$ apollo schema:download --endpoint https://minsk8.herokuapp.com/v1/graphql --header 'X-Hasura-Admin-Secret: <secret>' --header 'X-Hasura-Role: user'
+```
