@@ -14,5 +14,5 @@ class WishModel {
   factory WishModel.fromJson(Map<String, dynamic> json) =>
       _$WishModelFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$WishModelToJson(this);
+  Map<String, dynamic> toJson() => _$WishModelToJson(this);
 }

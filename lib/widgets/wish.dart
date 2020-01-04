@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildWish(TuChongItem item) {
+Widget buildWish(ItemModel item) {
   return Tooltip(
     message: 'Wish',
     child: Material(
@@ -14,7 +14,7 @@ Widget buildWish(TuChongItem item) {
             horizontal: 16.3,
           ),
           size: 18.0,
-          isLiked: item.isFavorite,
+          isLiked: false, // TODO: item.isMyWish,
           likeBuilder: (bool isLiked) {
             if (isLiked) {
               return Icon(
@@ -58,11 +58,12 @@ Widget buildWish(TuChongItem item) {
   );
 }
 
-Future<bool> _onTap(bool isLiked, TuChongItem item) {
+Future<bool> _onTap(bool isLiked, ItemModel item) {
   // send your request here
   return Future<bool>.delayed(Duration(milliseconds: 50), () {
-    item.isFavorite = !item.isFavorite;
-    item.favorites = item.isFavorite ? item.favorites + 1 : item.favorites - 1;
-    return item.isFavorite;
+    // item.isFavorite = !item.isFavorite;
+    // item.favorites = item.isFavorite ? item.favorites + 1 : item.favorites - 1;
+    // return item.isFavorite;
+    return true;
   });
 }

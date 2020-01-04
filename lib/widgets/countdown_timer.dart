@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class CountdownTimer extends StatefulWidget {
-  final int endTime;
+  final int endTime; // millisecondsSinceEpoch
   final Widget Function(BuildContext context, int seconds) builder;
 
   CountdownTimer({

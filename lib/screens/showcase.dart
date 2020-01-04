@@ -12,14 +12,18 @@ class ShowcaseScreen extends StatefulWidget {
 
 class _ShowcaseScreenState extends State<ShowcaseScreen>
     with TickerProviderStateMixin {
-  List<TuChongRepository> _sourceListPool;
+  List<ItemsRepository> _sourceListPool;
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _initDynamicLinks();
-    _sourceListPool = kinds.map((kind) => TuChongRepository(kind.id)).toList();
+    _sourceListPool = kinds
+        .map((kind) => ItemsRepository(context, kind.id.toString())
+            // TuChongRepository(kind.id)
+            )
+        .toList(); //describeEnum
     _tabController = TabController(length: kinds.length, vsync: this);
   }
 

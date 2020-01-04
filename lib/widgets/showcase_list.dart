@@ -9,7 +9,7 @@ import 'package:minsk8/import.dart';
 
 class ShowcaseList extends StatefulWidget {
   final Key scrollPositionKey;
-  final TuChongRepository sourceList;
+  final ItemsRepository sourceList;
 
   ShowcaseList({this.scrollPositionKey, this.sourceList});
 
@@ -48,7 +48,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           //     headerHeight,
           //   ),
           // ),
-          LoadingMoreSliverList(SliverListConfig<TuChongItem>(
+          LoadingMoreSliverList(SliverListConfig<ItemModel>(
             waterfallFlowDelegate: WaterfallFlowDelegate(
               crossAxisCount: 2,
               crossAxisSpacing: 5,
@@ -65,12 +65,10 @@ class _ShowcaseListState extends State<ShowcaseList>
             collectGarbage: (List<int> indexes) {
               indexes.forEach((index) {
                 final item = widget.sourceList[index];
-                if (item.hasImage) {
-                  final provider = ExtendedNetworkImageProvider(
-                    item.imageUrl,
-                  );
-                  provider.evict();
-                }
+                final provider = ExtendedNetworkImageProvider(
+                  item.images[0].url,
+                );
+                provider.evict();
               });
             },
           ))

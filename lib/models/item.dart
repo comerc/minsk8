@@ -8,6 +8,7 @@ part 'item.g.dart';
 @JsonSerializable()
 class ItemModel {
   final String id;
+  final DateTime createdAt;
   final String text;
   final MemberModel member;
   final List<ImageModel> images;
@@ -17,7 +18,7 @@ class ItemModel {
   final int price;
   @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
   final UrgentId urgent;
-  @JsonKey(fromJson: _locationFromString, toJson: _locationToString)
+  @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
   @JsonKey(nullable: true)
   final bool isBlocked;
@@ -28,6 +29,7 @@ class ItemModel {
 
   ItemModel(
     this.id,
+    this.createdAt,
     this.text,
     this.member,
     this.images,
@@ -38,11 +40,11 @@ class ItemModel {
     this.isBlocked,
     this.win,
     this.wishes,
-  );
+  ) : assert(images.length > 0);
 
   get status {
     // TODO: реализовать бизнес-логику отображения, учитывая поля:
-    // urgent, expires_at, is_blocked, win
+    // urgent, expiresAt, isBlocked, win.createdAt
     return urgent;
   }
 
@@ -55,13 +57,21 @@ class ItemModel {
 
   static _urgentToString(UrgentId urgent) => EnumToString.parse(urgent);
 
-  static _locationFromString(value) {
-    final array = value.split(',');
+  static _locationFromJson(Map<String, dynamic> json) {
+    final array = json['coordinates'];
     return LatLng(array[0], array[1]);
   }
 
-  static _locationToString(LatLng location) =>
-      '${location.latitude},${location.longitude}';
+  static _locationToJson(LatLng location) {
+    return {
+      'type': 'Point',
+      'crs': {
+        'type': 'name',
+        'properties': {'name': 'urn:ogc:def:crs:EPSG::4326'},
+      },
+      'coordinates': [location.latitude, location.longitude],
+    };
+  }
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);

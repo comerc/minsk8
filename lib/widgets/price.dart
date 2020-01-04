@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildPrice(TuChongItem item) {
+Widget buildPrice(ItemModel item) {
   return Tooltip(
     message: 'Price',
     child: Material(
@@ -16,7 +16,7 @@ Widget buildPrice(TuChongItem item) {
             horizontal: 16.3,
           ),
           child: Text(
-            '23',
+            item.price == null ? '0' : item.price?.toString(),
             style: TextStyle(
               fontSize: 23,
               color: Colors.red,
@@ -30,4 +30,4 @@ Widget buildPrice(TuChongItem item) {
   );
 }
 
-Function _onTap(TuChongItem item) => () {};
+Function _onTap(ItemModel item) => () {};

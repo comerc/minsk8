@@ -14,5 +14,5 @@ class WinModel {
   factory WinModel.fromJson(Map<String, dynamic> json) =>
       _$WinModelFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$WinModelToJson(this);
+  Map<String, dynamic> toJson() => _$WinModelToJson(this);
 }

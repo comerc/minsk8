@@ -1,9 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 // import "package:transparent_image/transparent_image.dart";
 import 'package:minsk8/import.dart';
 
-Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
+Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -23,12 +24,13 @@ Widget buildShowcaseItem(BuildContext context, TuChongItem item, int index) {
   );
 }
 
-Widget _buildImage(BuildContext context, TuChongItem item, int index) {
-  final itemEndTime = DateTime.now().millisecondsSinceEpoch +
-      // 1000 * 60 * 60 * 24 * 1 +
-      1000 * 10;
+Widget _buildImage(BuildContext context, ItemModel item, int index) {
+  // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
+  //     // 1000 * 60 * 60 * 24 * 1 +
+  //     1000 * 10;
+  final image = item.images[0];
   return AspectRatio(
-    aspectRatio: item.imageSize.width / item.imageSize.height,
+    aspectRatio: image.width / image.height,
     child: ClipRRect(
       borderRadius: BorderRadius.all(kImageBorderRadius),
       child: Stack(
@@ -42,7 +44,7 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
           //   placeholder: kTransparentImage,
           // ),
           ExtendedImage.network(
-            item.imageUrl,
+            image.url,
             shape: BoxShape.rectangle,
             // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
             borderRadius: BorderRadius.all(
@@ -62,35 +64,36 @@ Widget _buildImage(BuildContext context, TuChongItem item, int index) {
               );
             },
           ),
-          _buildText(item.title == '' ? item.content : item.title),
-          _buildCountdownTimer(itemEndTime),
-          // Positioned(
-          //   top: 5.0,
-          //   right: 5.0,
-          //   child: Container(
-          //     padding: EdgeInsets.all(3.0),
-          //     decoration: BoxDecoration(
-          //       // color: Colors.grey.withOpacity(0.6),
-          //       color: Colors.white,
-          //       border: Border.all(
-          //         color: Colors.grey.withOpacity(0.4),
-          //         width: 1.0,
-          //       ),
-          //       borderRadius: BorderRadius.all(
-          //         Radius.circular(5.0),
-          //       ),
-          //     ),
-          //     child: Text(
-          //       "+${index + 1}",
-          //       textAlign: TextAlign.center,
-          //       style: TextStyle(
-          //         fontSize: kFontSize * 1.6,
-          //         color: Colors.orange,
-          //         fontWeight: FontWeight.w600,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          _buildText(item.text),
+          if (item.expiresAt != null)
+            _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
+          Positioned(
+            top: 5.0,
+            right: 5.0,
+            child: Container(
+              padding: EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                // color: Colors.grey.withOpacity(0.6),
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.grey.withOpacity(0.4),
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+              ),
+              child: Text(
+                "${index + 1}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: kFontSize * 1.6,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     ),
@@ -189,7 +192,7 @@ _buildCountdownTimer(int endTime) {
 //   );
 // }
 
-Widget _buildBottom(TuChongItem item) {
+Widget _buildBottom(ItemModel item) {
   return Row(
     children: <Widget>[
       // ExtendedImage.network(

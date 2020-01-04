@@ -15,15 +15,7 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Query(
           options: QueryOptions(
-            documentNode: gql(r'''
-              query getItems($next_created_at: timestamptz) {
-                item(where: {created_at: {_gte: $next_created_at}}, order_by: {created_at: asc}) {
-                  id
-                  text
-                  created_at
-                }
-              }
-            '''),
+            documentNode: Queries.getItems,
             variables: {
               'next_created_at': '1970-01-01',
             },
