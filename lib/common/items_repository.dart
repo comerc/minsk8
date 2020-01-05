@@ -1,4 +1,3 @@
-import 'package:gql/language.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -41,6 +40,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     bool isSuccess = false;
     try {
       final client = GraphQLProvider.of(context).value;
+      // TODO: may be WatchQueryOptions?
       final options = QueryOptions(
         documentNode: Queries.getItems,
         variables: {

@@ -1,12 +1,10 @@
 // library import;
 
-export 'common/tu_chong_repository.dart';
-export 'common/tu_chong_source.dart';
-export 'common/items_repository.dart';
+export 'common/const.dart';
 export 'common/helpers.dart';
+export 'common/items_repository.dart';
 export 'common/queries.dart';
 
-export 'const/const.dart';
 export 'const/fake_data.dart' show items, kinds;
 
 export 'models/bid.dart';
@@ -47,7 +45,6 @@ export 'screens/underway.dart';
 export 'screens/wallet.dart';
 export 'screens/wishes.dart';
 
-export 'widgets/_showcase_card.dart';
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/main_drawer.dart';
@@ -57,5 +54,3 @@ export 'widgets/share.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
 export 'widgets/wish.dart';
-
-// export 'screens/nested_scroll_view_demo.dart';
