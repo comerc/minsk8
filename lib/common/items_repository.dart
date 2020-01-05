@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 
 class ItemsRepository extends LoadingMoreBase<ItemModel> {
   final BuildContext context;
-  final String kind;
+  final kind; //describeEnum
 
   ItemsRepository(
     this.context,

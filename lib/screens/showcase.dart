@@ -19,12 +19,9 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   void initState() {
     super.initState();
     _initDynamicLinks();
-    _sourceListPool = kinds
-        .map((kind) => ItemsRepository(context, kind.id.toString())
-            // TuChongRepository(kind.id)
-            )
-        .toList(); //describeEnum
-    _tabController = TabController(length: kinds.length, vsync: this);
+    _sourceListPool =
+        allKinds.map((kind) => ItemsRepository(context, kind.value)).toList();
+    _tabController = TabController(length: allKinds.length, vsync: this);
   }
 
   @override
@@ -46,19 +43,19 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       indicatorWeight: 2.0,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
-      tabs: kinds
+      labelPadding: EdgeInsets.zero,
+      tabs: allKinds
           .map(
             (kind) => SizedBox(
-              width: 130.0,
+              width: 80.0,
               child: Tab(
                 text: kind.name,
-                icon: Icon(kind.icon, size: 24),
               ),
             ),
           )
           .toList(),
     );
-    final tabBarHeight = tabBar.preferredSize.height + 12;
+    final tabBarHeight = tabBar.preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final pinnedHeaderHeight =
         // statusBar height
@@ -66,7 +63,9 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             // pinned SliverAppBar height in header
             kToolbarHeight +
             // pinned tabbar height in header
-            tabBarHeight;
+            tabBarHeight +
+            // TODO: ??? если потянуть список вниз и вверх, то он наплывает на табы
+            44;
     return Scaffold(
       drawer: MainDrawer('/showcase'),
       body: PullToRefreshNotification(
@@ -78,7 +77,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           physics: ClampingScrollPhysics(),
           pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
           innerScrollPositionKeyBuilder: () =>
-              Key(kinds[_tabController.index].name),
+              Key(allKinds[_tabController.index].name),
           headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
             PullToRefreshContainer(_buildAppBar),
             SliverPersistentHeader(
@@ -96,9 +95,9 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           body: TabBarView(
             controller: _tabController,
             children: List.generate(
-              kinds.length,
+              allKinds.length,
               (index) => ShowcaseList(
-                scrollPositionKey: Key(kinds[index].name),
+                scrollPositionKey: Key(allKinds[index].name),
                 sourceList: _sourceListPool[index],
               ),
             ),

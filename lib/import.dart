@@ -5,8 +5,6 @@ export 'common/helpers.dart';
 export 'common/items_repository.dart';
 export 'common/queries.dart';
 
-export 'const/fake_data.dart' show items, kinds;
-
 export 'models/bid.dart';
 export 'models/chat.dart';
 export 'models/image.dart';
