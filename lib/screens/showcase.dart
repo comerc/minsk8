@@ -43,14 +43,10 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       indicatorWeight: 2.0,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
-      labelPadding: EdgeInsets.zero,
       tabs: allKinds
           .map(
-            (kind) => SizedBox(
-              width: 80.0,
-              child: Tab(
-                text: kind.name,
-              ),
+            (kind) => Tab(
+              text: kind.name,
             ),
           )
           .toList(),
