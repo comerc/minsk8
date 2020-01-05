@@ -86,9 +86,6 @@ class _ShowcaseListState extends State<ShowcaseList>
     bool isSliver = true;
     Widget result;
     switch (status) {
-      case IndicatorStatus.empty:
-        result = Container();
-        break;
       case IndicatorStatus.none:
         result = Container(height: 0.0);
         break;
@@ -182,12 +179,12 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = _buildBackground(false, result);
         break;
       case IndicatorStatus.empty:
-        result = EmptyWidget('Пусто'
-            // "这里是空气！",
-            );
+        // result = EmptyWidget("这里是空气！");
+        result = Text('Нет данных');
         result = _buildBackground(true, result);
         if (isSliver) {
-          result = SliverToBoxAdapter(
+          result = SliverFillRemaining(
+            // SliverToBoxAdapter( // заменил
             child: result,
           );
         } else {
