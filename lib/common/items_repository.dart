@@ -54,6 +54,8 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
               variables: variables,
             );
             break;
+          default:
+            assert(options != null);
         }
       } else {
         variables['kind'] = describeEnum(kind);
@@ -62,7 +64,6 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
           variables: variables,
         );
       }
-      assert(options != null);
       final client = GraphQLProvider.of(context).value;
       //to show loading more clearly, in your app,remove this
       // await Future.delayed(Duration(milliseconds: 500));
