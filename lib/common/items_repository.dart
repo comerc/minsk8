@@ -13,7 +13,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     this.kind,
   ) : assert([MetaKindId, KindId].contains(kind.runtimeType));
 
-  static final startCreatedAt = '1970-01-01';
+  static final startCreatedAt = DateTime.now().toUtc().toIso8601String();
 
   bool _isFirst = true;
   bool _hasMore = true;
