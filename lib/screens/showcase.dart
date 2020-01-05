@@ -43,13 +43,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       indicatorWeight: 2.0,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
-      tabs: allKinds
-          .map(
-            (kind) => Tab(
-              text: kind.name,
-            ),
-          )
-          .toList(),
+      tabs: allKinds.map((kind) => Tab(text: kind.name)).toList(),
     );
     final tabBarHeight = tabBar.preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
