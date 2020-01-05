@@ -5,7 +5,7 @@ Flutter в режиме live-code
 ## How to start
 
 ```
-$ flutter packages pub run build_runner build
+$ flutter packages pub run build_runner build --delete-conflicting-outputs
 ```
 
 for VSCode Apollo GraphQL
