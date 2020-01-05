@@ -64,36 +64,36 @@ Widget _buildImage(BuildContext context, ItemModel item, int index) {
               );
             },
           ),
-          _buildText(item.text),
+          _buildText(item.text.trim()),
           if (item.expiresAt != null)
             _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
-          Positioned(
-            top: 5.0,
-            right: 5.0,
-            child: Container(
-              padding: EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                // color: Colors.grey.withOpacity(0.6),
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.grey.withOpacity(0.4),
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.0),
-                ),
-              ),
-              child: Text(
-                "${index + 1}",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: kFontSize * 1.6,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 5.0,
+          //   right: 5.0,
+          //   child: Container(
+          //     padding: EdgeInsets.all(3.0),
+          //     decoration: BoxDecoration(
+          //       // color: Colors.grey.withOpacity(0.6),
+          //       color: Colors.white,
+          //       border: Border.all(
+          //         color: Colors.grey.withOpacity(0.4),
+          //         width: 1.0,
+          //       ),
+          //       borderRadius: BorderRadius.all(
+          //         Radius.circular(5.0),
+          //       ),
+          //     ),
+          //     child: Text(
+          //       "${index + 1}",
+          //       textAlign: TextAlign.center,
+          //       style: TextStyle(
+          //         fontSize: kFontSize * 1.6,
+          //         color: Colors.orange,
+          //         fontWeight: FontWeight.w600,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ),
