@@ -6,12 +6,12 @@ import 'package:minsk8/import.dart';
 
 class ItemsRepository extends LoadingMoreBase<ItemModel> {
   final BuildContext context;
-  final kind; //describeEnum
+  final kind;
 
   ItemsRepository(
     this.context,
     this.kind,
-  );
+  ) : assert([MetaKindId, KindId].contains(kind.runtimeType));
 
   static final startCreatedAt = '1970-01-01';
 
@@ -20,8 +20,11 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   bool _forceRefresh = false;
   String _nextCreatedAt = startCreatedAt;
 
+  bool get isMetaKind => kind.runtimeType == MetaKindId;
+
   @override
-  bool get hasMore => (_hasMore && this.length < 30) || _forceRefresh;
+  bool get hasMore =>
+      _forceRefresh || (_hasMore && (!isMetaKind || this.length < 30));
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
@@ -43,7 +46,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       // TODO: may be WatchQueryOptions?
       QueryOptions options;
       final variables = {'next_created_at': _nextCreatedAt};
-      if (kind.runtimeType == MetaKindId) {
+      if (isMetaKind) {
         switch (kind) {
           case MetaKindId.recent:
             options = QueryOptions(
@@ -52,7 +55,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
             );
             break;
         }
-      } else if (kind.runtimeType == KindId) {
+      } else {
         variables['kind'] = describeEnum(kind);
         options = QueryOptions(
           documentNode: Queries.getItemsByKind,
