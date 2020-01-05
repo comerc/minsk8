@@ -17,10 +17,10 @@ enum KindId { technics, garment, for_home, for_kids, books, other, pets }
 
 final allKinds = [
   KindModel(MetaKindId.recent, 'Новое', '<svg />'),
-  // KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
-  // KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
-  // KindModel(MetaKindId.promo, 'Промо', '<svg />'),
-  // KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),
+  KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
+  KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
+  KindModel(MetaKindId.promo, 'Промо', '<svg />'),
+  KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),
   KindModel(KindId.technics, 'Техника', '<svg />'),
   KindModel(KindId.garment, 'Одежда', '<svg />'),
   KindModel(KindId.for_home, 'Для дома', '<svg />'),

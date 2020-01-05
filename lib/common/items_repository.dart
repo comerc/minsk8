@@ -47,16 +47,16 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       QueryOptions options;
       final variables = {'next_created_at': _nextCreatedAt};
       if (isMetaKind) {
-        switch (kind) {
-          case MetaKindId.recent:
-            options = QueryOptions(
-              documentNode: Queries.getItems,
-              variables: variables,
-            );
-            break;
-          default:
-            assert(options != null);
-        }
+        options = QueryOptions(
+          documentNode: {
+            MetaKindId.recent: Queries.getItems,
+            MetaKindId.interesting: Queries.getItemsForInteresting,
+            MetaKindId.best: Queries.getItemsForBest,
+            MetaKindId.promo: Queries.getItemsForPromo,
+            MetaKindId.urgent: Queries.getItemsForUrgent
+          }[kind],
+          variables: variables,
+        );
       } else {
         variables['kind'] = describeEnum(kind);
         options = QueryOptions(

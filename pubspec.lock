@@ -221,9 +221,9 @@ packages:
   extended_nested_scroll_view:
     dependency: "direct main"
     description:
-      name: extended_nested_scroll_view
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../extended_nested_scroll_view"
+      relative: true
+    source: path
     version: "0.3.8"
   firebase:
     dependency: transitive
