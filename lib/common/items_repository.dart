@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -20,7 +21,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   String _nextCreatedAt = startCreatedAt;
 
   @override
-  bool get hasMore => (_hasMore /*&& this.length < 30*/) || _forceRefresh;
+  bool get hasMore => (_hasMore && this.length < 30) || _forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
@@ -39,14 +40,27 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      final client = GraphQLProvider.of(context).value;
       // TODO: may be WatchQueryOptions?
-      final options = QueryOptions(
-        documentNode: Queries.getItems,
-        variables: {
-          'next_created_at': _nextCreatedAt,
-        },
-      );
+      QueryOptions options;
+      final variables = {'next_created_at': _nextCreatedAt};
+      if (kind.runtimeType == MetaKindId) {
+        switch (kind) {
+          case MetaKindId.recent:
+            options = QueryOptions(
+              documentNode: Queries.getItems,
+              variables: variables,
+            );
+            break;
+        }
+      } else if (kind.runtimeType == KindId) {
+        variables['kind'] = describeEnum(kind);
+        options = QueryOptions(
+          documentNode: Queries.getItemsByKind,
+          variables: variables,
+        );
+      }
+      assert(options != null);
+      final client = GraphQLProvider.of(context).value;
       //to show loading more clearly, in your app,remove this
       // await Future.delayed(Duration(milliseconds: 500));
       final result = await client.query(options);

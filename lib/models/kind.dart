@@ -1,5 +1,6 @@
 class KindModel {
-  final value; // TODO: как задекларировать два типа? (MetaKindId || KindId)
+  final value;
+  // TODO: как задекларировать "union type"? (MetaKindId | KindId)
   final String name;
   final String rawSvg;
 
@@ -7,19 +8,19 @@ class KindModel {
     this.value,
     this.name,
     this.rawSvg,
-  );
+  ) : assert([MetaKindId, KindId].contains(value.runtimeType));
 }
 
-enum MetaKindId { all, interesting, best, promo, urgent }
+enum MetaKindId { recent, interesting, best, promo, urgent }
 
 enum KindId { technics, garment, for_home, for_kids, books, other, pets }
 
 final allKinds = [
-  KindModel(MetaKindId.all, 'Все', '<svg />'),
-  KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
-  KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
-  KindModel(MetaKindId.promo, 'Промо', '<svg />'),
-  KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),
+  KindModel(MetaKindId.recent, 'Новое', '<svg />'),
+  // KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
+  // KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
+  // KindModel(MetaKindId.promo, 'Промо', '<svg />'),
+  // KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),
   KindModel(KindId.technics, 'Техника', '<svg />'),
   KindModel(KindId.garment, 'Одежда', '<svg />'),
   KindModel(KindId.for_home, 'Для дома', '<svg />'),
