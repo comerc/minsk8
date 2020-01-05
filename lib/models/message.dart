@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:minsk8/import.dart';
+// import 'package:minsk8/import.dart';
 
 part 'message.g.dart';
 

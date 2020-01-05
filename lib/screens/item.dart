@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import "package:transparent_image/transparent_image.dart";
+// import 'package:geolocator/geolocator.dart';
+// import "package:transparent_image/transparent_image.dart";
 import 'package:minsk8/import.dart';
 
 // TODO: тут будет слайдер по картинкам одного товара
