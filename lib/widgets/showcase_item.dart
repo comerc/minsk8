@@ -44,7 +44,7 @@ Widget _buildImage(BuildContext context, ItemModel item, int index) {
           //   placeholder: kTransparentImage,
           // ),
           ExtendedImage.network(
-            image.url,
+            'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
             shape: BoxShape.rectangle,
             // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
             borderRadius: BorderRadius.all(

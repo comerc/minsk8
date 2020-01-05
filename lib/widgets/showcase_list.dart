@@ -65,8 +65,9 @@ class _ShowcaseListState extends State<ShowcaseList>
             collectGarbage: (List<int> indexes) {
               indexes.forEach((index) {
                 final item = widget.sourceList[index];
+                final image = item.images[0];
                 final provider = ExtendedNetworkImageProvider(
-                  item.images[0].url,
+                  'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
                 );
                 provider.evict();
               });
