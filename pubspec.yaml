@@ -47,10 +47,12 @@ dependencies:
   extended_image: 0.6.8
   like_button: 0.1.9
   loading_more_list: # 1.0.3
-    path: ../loading_more_list/
+    # path: ../loading_more_list/
+    git: git://github.com/comerc/loading_more_list.git
   http_client_helper: 0.2.1
   extended_nested_scroll_view: # 0.3.8
-    path: ../extended_nested_scroll_view/
+    # path: ../extended_nested_scroll_view/
+    git: git://github.com/comerc/extended_nested_scroll_view.git
   pull_to_refresh_notification: 0.3.3
   share: 0.6.3+5
 

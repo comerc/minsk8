@@ -221,9 +221,11 @@ packages:
   extended_nested_scroll_view:
     dependency: "direct main"
     description:
-      path: "../extended_nested_scroll_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "89380fcc973e398b2f93e425d35236cddc35a5bc"
+      url: "git://github.com/comerc/extended_nested_scroll_view.git"
+    source: git
     version: "0.3.8"
   firebase:
     dependency: transitive
@@ -483,9 +485,11 @@ packages:
   loading_more_list:
     dependency: "direct main"
     description:
-      path: "../loading_more_list"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: cddc089ef91e5a215db7c5b85368a492ce32182d
+      url: "git://github.com/comerc/loading_more_list.git"
+    source: git
     version: "1.0.3"
   loading_more_list_library:
     dependency: transitive
