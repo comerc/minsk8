@@ -71,7 +71,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       if (result.hasException) {
         throw result.exception;
       }
-      final items = [...result.data['item'] as List];
+      final items = [...result.data['items'] as List];
       if (_isFirst) {
         _isFirst = false;
         this.clear();

@@ -5,7 +5,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class Queries {
   static final getItems = gql(r'''
     query getItems($next_created_at: timestamptz) {
-      item(
+      items(
         where: 
           {
             created_at: {_lte: $next_created_at}, 
@@ -43,7 +43,7 @@ class Queries {
 
   static final getItemsForInteresting = gql(r'''
     query getItemsForInteresting($next_created_at: timestamptz) {
-      item(
+      items(
         where: 
           {
             total_wishes: {_is_null: false},
@@ -82,7 +82,7 @@ class Queries {
 
   static final getItemsForBest = gql(r'''
     query getItemsForBest($next_created_at: timestamptz) {
-      item(
+      items(
         where: 
           {
             price: {_is_null: false},
@@ -121,7 +121,7 @@ class Queries {
 
   static final getItemsForPromo = gql(r'''
     query getItemsForPromo($next_created_at: timestamptz) {
-      item(
+      items(
         where: 
           {
             is_promo: {_is_null: false},
@@ -160,7 +160,7 @@ class Queries {
 
   static final getItemsForUrgent = gql(r'''
     query getItemsForUrgent($next_created_at: timestamptz) {
-      item(
+      items(
         where: 
           {
             urgent: {_eq: very_urgent},
@@ -199,7 +199,7 @@ class Queries {
 
   static final getItemsByKind = gql(r'''
     query getItemsByKind($next_created_at: timestamptz, $kind: kind_enum) {
-      item(
+      items(
         where: 
           {
             kind: {_eq: $kind},
@@ -238,7 +238,7 @@ class Queries {
 
   static final getProfile = gql(r'''
     query getProfile($member_id: uuid!) {
-      member(where: { id: { _eq: $member_id } }) {
+      member_by_pk(id: $member_id) {
         nickname,
         id,
         my_items {

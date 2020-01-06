@@ -33,9 +33,9 @@ class HomeScreen extends StatelessWidget {
               // }
               // return ListView.separated(
               //   padding: const EdgeInsets.all(8),
-              //   itemCount: result.data['item'].length,
+              //   itemCount: result.data['items'].length,
               //   itemBuilder: (BuildContext context, int index) {
-              //     final item = ItemModel.fromJson(result.data['item'][index]);
+              //     final item = ItemModel.fromJson(result.data['items'][index]);
               //     return Container(
               //       child: Center(child: Text('${item.id}\n${item.text}')),
               //     );
@@ -49,10 +49,10 @@ class HomeScreen extends StatelessWidget {
                 child: ListView(
                   children: [
                     for (var index = 0;
-                        index < result.data['item'].length - minusOne;
+                        index < result.data['items'].length - minusOne;
                         index++)
                       _buildItem(result.loading,
-                          ItemModel.fromJson(result.data['item'][index])),
+                          ItemModel.fromJson(result.data['items'][index])),
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,9 +80,9 @@ class HomeScreen extends StatelessWidget {
                           //       );
                           //     },
 
-                          final index = result.data['item'].length - 1;
+                          final index = result.data['items'].length - 1;
                           final nextItem =
-                              ItemModel.fromJson(result.data['item'][index]);
+                              ItemModel.fromJson(result.data['items'][index]);
                           fetchMore(
                             FetchMoreOptions(
                               variables: {
@@ -94,14 +94,14 @@ class HomeScreen extends StatelessWidget {
                                 fetchMoreResultData,
                               ) {
                                 final previousItems =
-                                    previousResultData['item'] as List;
+                                    previousResultData['items'] as List;
                                 previousItems.removeLast();
                                 final fetchMoreItems =
-                                    fetchMoreResultData['item'] as List;
+                                    fetchMoreResultData['items'] as List;
                                 hasMore =
                                     fetchMoreItems.length == kGraphQLItemsLimit;
                                 return {
-                                  'item': [
+                                  'items': [
                                     ...previousItems,
                                     ...fetchMoreItems,
                                   ]
