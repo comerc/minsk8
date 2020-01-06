@@ -204,10 +204,10 @@ class _ShowcaseListState extends State<ShowcaseList>
   Widget _buildBackground(bool full, Widget child) {
     return Container(
         width: double.infinity,
-        height: full ? double.infinity : kNavigationBarHeight + 30,
+        height: full ? double.infinity : kNavigationBarHeight * 2,
         child: child,
         color: Colors.transparent,
-        alignment: Alignment.center);
+        alignment: full ? Alignment.center : Alignment.topCenter);
   }
 
   Widget _getIndicator(BuildContext context) {
