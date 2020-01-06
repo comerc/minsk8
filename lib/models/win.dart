@@ -5,6 +5,7 @@ part 'win.g.dart';
 
 @JsonSerializable()
 class WinModel {
+  @JsonKey(nullable: true)
   final MemberModel member;
   final DateTime createdAt;
 
