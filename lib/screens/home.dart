@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
           options: QueryOptions(
             documentNode: Queries.getItems,
             variables: {
-              'next_created_at': '1970-01-01',
+              'next_created_at': '2100-01-01',
             },
           ),
           builder: withGenericHandling(
@@ -45,14 +45,19 @@ class HomeScreen extends StatelessWidget {
               // );
 
               final minusOne = hasMore ? 1 : 0;
+              final length = result.data['items'].length;
               return Container(
                 child: ListView(
                   children: [
-                    for (var index = 0;
-                        index < result.data['items'].length - minusOne;
-                        index++)
-                      _buildItem(result.loading,
-                          ItemModel.fromJson(result.data['items'][index])),
+                    ...List.generate(
+                        length > 0 ? length - minusOne : 0,
+                        (index) => _buildItem(result.loading,
+                            ItemModel.fromJson(result.data['items'][index]))),
+                    // for (var index = 0;
+                    //     index < length - minusOne;
+                    //     index++)
+                    //   _buildItem(result.loading,
+                    //       ItemModel.fromJson(result.data['items'][index])),
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
