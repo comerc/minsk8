@@ -45,6 +45,8 @@ class ItemModel {
     this.isPromo,
   ) : assert(images.length > 0);
 
+  bool isMemberWish;
+
   get status {
     // TODO: реализовать бизнес-логику отображения, учитывая поля:
     // urgent, expiresAt, isBlocked, win.createdAt

@@ -65,7 +65,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
         );
       }
       final client = GraphQLProvider.of(context).value;
-      //to show loading more clearly, in your app,remove this
+      // to show loading more clearly, in your app,remove this
       // await Future.delayed(Duration(milliseconds: 500));
       final result = await client.query(options);
       if (result.hasException) {
@@ -82,7 +82,9 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
         _nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
       }
       for (final item in items) {
-        this.add(ItemModel.fromJson(item));
+        final itemModel = ItemModel.fromJson(item);
+        itemModel.isMemberWish = memberWishes.contains(itemModel.id);
+        this.add(itemModel);
       }
       isSuccess = true;
     } catch (exception, stack) {
