@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(context),
-      bottomNavigationBar: NavigationBar('/profile'),
+      bottomNavigationBar: NavigationBar(currentRouteName: '/profile'),
       extendBody: true,
     );
   }

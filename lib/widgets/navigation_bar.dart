@@ -9,7 +9,7 @@ class NavigationBar extends StatelessWidget {
   final Color color = Colors.grey;
   final Color selectedColor = Colors.pinkAccent;
 
-  NavigationBar(this.currentRouteName);
+  NavigationBar({this.currentRouteName});
 
   @override
   Widget build(BuildContext context) {
