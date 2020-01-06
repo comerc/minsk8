@@ -1,13 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 part 'win.g.dart';
 
 @JsonSerializable()
 class WinModel {
+  final MemberModel member;
   final DateTime createdAt;
 
   WinModel(
+    this.member,
     this.createdAt,
   );
 
