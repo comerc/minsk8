@@ -216,7 +216,7 @@ Widget _buildBottom(ItemModel item) {
         child: Container(),
       ),
       buildShare(item),
-      buildWish(item),
+      Wish(item),
     ],
   );
 }

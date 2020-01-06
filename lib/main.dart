@@ -53,6 +53,7 @@ class App extends StatelessWidget {
             cache: InMemoryCache(),
             link: HttpLink(uri: kGraphQLEndpoint, headers: {
               'X-Hasura-Role': 'user',
+              'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
             }),
           ),
         ),
