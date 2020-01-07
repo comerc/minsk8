@@ -5,7 +5,7 @@ part 'win.g.dart';
 
 @JsonSerializable()
 class WinModel {
-  @JsonKey(nullable: true)
+  @JsonKey(nullable: true) // надо для profile.member.bids.win
   final MemberModel member;
   final DateTime createdAt;
 

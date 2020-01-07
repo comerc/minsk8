@@ -7,14 +7,12 @@ part 'profile.g.dart';
 class ProfileModel {
   final MemberModel member;
   final List<PaymentModel> payments;
-  final List<ItemModel> items;
   final List<ItemModel> whishes;
   final List<BidModel> bids;
 
   ProfileModel(
     this.member,
     this.payments,
-    this.items,
     this.whishes,
     this.bids,
   );

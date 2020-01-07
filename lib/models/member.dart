@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 part 'member.g.dart';
 
@@ -12,12 +12,15 @@ class MemberModel {
   @JsonKey(nullable: true)
   final DateTime bannedUntil;
   final DateTime lastActivityAt;
+  @JsonKey(nullable: true) // не хочу показывать для items.win.member
+  final List<ItemModel> items;
 
   MemberModel(
     this.id,
     this.nickname,
     this.bannedUntil,
     this.lastActivityAt,
+    this.items,
   );
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>

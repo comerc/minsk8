@@ -32,6 +32,12 @@ class Queries {
         is_blocked
         win {
           created_at
+          member {
+            id
+            nickname
+            banned_until
+            last_activity_at
+          }
         }
         wishes {
           created_at
@@ -71,6 +77,12 @@ class Queries {
         is_blocked
         win {
           created_at
+          member {
+            id
+            nickname
+            banned_until
+            last_activity_at
+          }
         }
         wishes {
           created_at
@@ -110,6 +122,12 @@ class Queries {
         is_blocked
         win {
           created_at
+          member {
+            id
+            nickname
+            banned_until
+            last_activity_at
+          }
         }
         wishes {
           created_at
@@ -149,6 +167,12 @@ class Queries {
         is_blocked
         win {
           created_at
+          member {
+            id
+            nickname
+            banned_until
+            last_activity_at
+          }
         }
         wishes {
           created_at
@@ -188,6 +212,12 @@ class Queries {
         is_blocked
         win {
           created_at
+          member {
+            id
+            nickname
+            banned_until
+            last_activity_at
+          }
         }
         wishes {
           created_at
@@ -238,11 +268,148 @@ class Queries {
 
   static final getProfile = gql(r'''
     query getProfile($member_id: uuid!) {
-      member_by_pk(id: $member_id) {
-        nickname,
-        id,
-        my_items {
-          images
+      profile(member_id: $member_id) {
+        member {
+          id
+          nickname
+          banned_until
+          last_activity_at
+          items {
+            id
+            created_at
+            text
+            member {
+              id
+              nickname
+              banned_until
+              last_activity_at
+            }
+            images
+            expires_at
+            price
+            urgent
+            location
+            is_blocked
+            win {
+              created_at
+              member {
+                id
+                nickname
+                banned_until
+                last_activity_at
+              }
+            }
+            wishes {
+              created_at
+            }
+            is_promo
+          }
+        }
+        payments {
+          id
+          text
+          value
+          created_at
+          item {
+            id
+            created_at
+            text
+            member {
+              id
+              nickname
+              banned_until
+              last_activity_at
+            }
+            images
+            expires_at
+            price
+            urgent
+            location
+            is_blocked
+            win {
+              created_at
+              member {
+                id
+                nickname
+                banned_until
+                last_activity_at
+              }
+            }
+            wishes {
+              created_at
+            }
+            is_promo
+          }
+        }
+        wishes {
+          created_at
+          item {
+            id
+            created_at
+            text
+            member {
+              id
+              nickname
+              banned_until
+              last_activity_at
+            }
+            images
+            expires_at
+            price
+            urgent
+            location
+            is_blocked
+            win {
+              created_at
+              member {
+                id
+                nickname
+                banned_until
+                last_activity_at
+              }
+            }
+            wishes {
+              created_at
+            }
+            is_promo
+          }
+        }
+        bids {
+          item {
+            id
+            created_at
+            text
+            member {
+              id
+              nickname
+              banned_until
+              last_activity_at
+            }
+            images
+            expires_at
+            price
+            urgent
+            location
+            is_blocked
+            win {
+              created_at
+              member {
+                id
+                nickname
+                banned_until
+                last_activity_at
+              }
+            }
+            wishes {
+              created_at
+            }
+            is_promo
+          }
+          value
+          updated_at
+          win {
+            created_at
+          }
         }
       }
     }
