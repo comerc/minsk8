@@ -77,13 +77,48 @@ class App extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<PersistedData> snapshot) {
                     if (!snapshot.hasData) {
-                      return Container(
-                        color: Colors.white,
-                        // alignment: Alignment.center,
-                        // child: CircularProgressIndicator(),
+                      return Material(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text('Loading state...'),
+                          // child: CircularProgressIndicator(),
+                        ),
                       );
                     }
-                    return child;
+                    return Query(
+                      options: QueryOptions(
+                        documentNode: Queries.getProfile,
+                        variables: {'member_id': memberId},
+                        fetchPolicy: FetchPolicy.networkOnly,
+                      ),
+                      // Just like in apollo refetch() could be used to manually trigger a refetch
+                      // while fetchMore() can be used for pagination purpose
+                      builder: (QueryResult result,
+                          {VoidCallback refetch, FetchMore fetchMore}) {
+                        if (result.hasException) {
+                          return Material(
+                            child: InkWell(
+                              onTap: refetch,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(result.exception.toString()),
+                              ),
+                            ),
+                          );
+                        }
+                        if (result.loading) {
+                          return Material(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text('Loading profile...'),
+                            ),
+                          );
+                        }
+                        member = ProfileModel.fromJson(result.data['profile']);
+                        print(member.wishes);
+                        return child;
+                      },
+                    );
                   },
                 ),
               );

@@ -8,6 +8,7 @@ class BidModel {
   final ItemModel item;
   final int value;
   final DateTime updatedAt;
+  @JsonKey(nullable: true)
   final WinModel win;
 
   BidModel(this.item, this.value, this.updatedAt, this.win);

@@ -140,6 +140,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           'Кажется, что-то пошло не так?',
         );
         result = _buildBackground(false, result);
+        // TODO: заменить на InkWell, как в Queries.getProfile
         result = GestureDetector(
           onTap: () {
             widget.sourceList.errorRefresh();
@@ -153,6 +154,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           'Кажется, что-то пошло не так?',
         );
         result = _buildBackground(true, result);
+        // TODO: заменить на InkWell, как в Queries.getProfile
         result = GestureDetector(
           onTap: () {
             widget.sourceList.errorRefresh();
