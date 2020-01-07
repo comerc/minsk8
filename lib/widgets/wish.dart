@@ -3,10 +3,31 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
-class Wish extends StatelessWidget {
+class Wish extends StatefulWidget {
   final ItemModel item;
 
   Wish(this.item);
+
+  @override
+  _WishState createState() {
+    return _WishState(this.item.id);
+  }
+}
+
+class _WishState extends State<Wish> {
+  final String itemId;
+
+  _WishState(this.itemId);
+
+  get _isLiked {
+    assert(mounted);
+    return widget.item.isMemberWish;
+  }
+
+  set _isLiked(value) {
+    assert(mounted);
+    widget.item.isMemberWish = value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +42,7 @@ class Wish extends StatelessWidget {
               horizontal: 16.3,
             ),
             size: 18.0,
-            isLiked: item.isMemberWish,
+            isLiked: _isLiked,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -57,7 +78,7 @@ class Wish extends StatelessWidget {
             // likeCountAnimationType: item.favorites < 1000
             //     ? LikeCountAnimationType.part
             //     : LikeCountAnimationType.none,
-            onTap: (bool isLiked) => _onTap(context, isLiked, item),
+            onTap: (bool isLiked) => _onTap(context, isLiked),
           ),
           onTap: () {},
         ),
@@ -65,19 +86,15 @@ class Wish extends StatelessWidget {
     );
   }
 
-  Future<bool> _onTap(
-      BuildContext context, bool isLiked, ItemModel item) async {
-    item.isMemberWish = !isLiked;
-    if (item.isMemberWish) {
-      memberWishes.add(item.id);
-    } else {
-      memberWishes.remove(item.id);
-    }
+  Future<bool> _onTap(BuildContext context, bool isLiked) async {
+    _isLiked = !isLiked;
+    _setWishToMember(!isLiked);
+    // print('item.id: ${item.id}');
+    // print('member.id: $memberId');
     final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
-      documentNode:
-          item.isMemberWish ? Mutations.insertWish : Mutations.deleteWish,
-      variables: {'item_id': item.id},
+      documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
+      variables: {'item_id': itemId},
       // onCompleted: (data) => print('>>onCompleted: $data'),
       // update: (Cache cache, QueryResult result) =>
       //     print('>>update: ${result.hasException}'),
@@ -93,8 +110,24 @@ class Wish extends StatelessWidget {
       // client.cache.write()
     }).catchError((error) {
       // TODO: сообщать об ошибке и откатывать локальные данные
+      // client.cache.write()
+      // тут нельзя обращаться к _isLiked, только к локальной isLiked
+      _setWishToMember(isLiked);
+      if (mounted) {
+        setState(() {
+          _isLiked = isLiked;
+        });
+      }
       print(error);
     });
-    return item.isMemberWish;
+    return !isLiked;
+  }
+
+  _setWishToMember(isLiked) {
+    if (isLiked) {
+      memberWishes.add(itemId);
+    } else {
+      memberWishes.remove(itemId);
+    }
   }
 }
