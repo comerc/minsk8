@@ -115,7 +115,6 @@ class App extends StatelessWidget {
                           );
                         }
                         member = ProfileModel.fromJson(result.data['profile']);
-                        print(member.wishes);
                         return child;
                       },
                     );
