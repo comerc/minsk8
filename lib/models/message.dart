@@ -13,13 +13,13 @@ class MessageModel {
   final bool isRead;
   final DateTime createdAt;
 
-  MessageModel(
+  MessageModel({
     this.id,
     this.text,
     this.author,
     this.isRead,
     this.createdAt,
-  );
+  });
 
   static _authorFromString(String value) =>
       EnumToString.fromString(MessageAuthor.values, value);

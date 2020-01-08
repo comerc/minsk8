@@ -12,13 +12,13 @@ class PaymentModel {
   @JsonKey(nullable: true)
   final ItemModel item;
 
-  PaymentModel(
+  PaymentModel({
     this.id,
     this.text,
     this.value,
     this.createdAt,
     this.item,
-  );
+  });
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);

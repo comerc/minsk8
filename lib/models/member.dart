@@ -15,13 +15,13 @@ class MemberModel {
   @JsonKey(nullable: true) // не хочу показывать для items.win.member
   final List<ItemModel> items;
 
-  MemberModel(
+  MemberModel({
     this.id,
     this.nickname,
     this.bannedUntil,
     this.lastActivityAt,
     this.items,
-  );
+  });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);

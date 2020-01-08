@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 part 'profile.g.dart';
 
-ProfileModel member;
+ProfileModel profile;
 
 @JsonSerializable()
 class ProfileModel {
@@ -12,12 +12,12 @@ class ProfileModel {
   final List<WishModel> wishes;
   final List<BidModel> bids;
 
-  ProfileModel(
+  ProfileModel({
     this.member,
     this.payments,
     this.wishes,
     this.bids,
-  );
+  });
 
   get avatarUrl => 'https://example.com/avatars/?id=${member.id}';
 

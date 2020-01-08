@@ -13,7 +13,7 @@ class ChatModel {
   final bool isItemOwnerReadAll;
   final bool isCompanionReadAll;
 
-  ChatModel(
+  ChatModel({
     this.item,
     this.companion,
     this.messages,
@@ -21,7 +21,7 @@ class ChatModel {
     this.isCompanionWritesNow,
     this.isItemOwnerReadAll,
     this.isCompanionReadAll,
-  );
+  });
 
   get id => '${item.id} ${companion.id}';
 

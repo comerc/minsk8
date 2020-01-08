@@ -24,12 +24,11 @@ class ItemModel {
   final bool isBlocked;
   @JsonKey(nullable: true)
   final WinModel win;
-  @JsonKey(nullable: true)
   final List<WishModel> wishes;
   @JsonKey(nullable: true)
   final bool isPromo;
 
-  ItemModel(
+  ItemModel({
     this.id,
     this.createdAt,
     this.text,
@@ -43,9 +42,7 @@ class ItemModel {
     this.win,
     this.wishes,
     this.isPromo,
-  ) : assert(images.length > 0);
-
-  bool isMemberWish;
+  }) : assert(images.length > 0);
 
   get status {
     // TODO: реализовать бизнес-логику отображения, учитывая поля:

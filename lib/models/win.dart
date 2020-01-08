@@ -9,10 +9,10 @@ class WinModel {
   final MemberModel member;
   final DateTime createdAt;
 
-  WinModel(
+  WinModel({
     this.member,
     this.createdAt,
-  );
+  });
 
   factory WinModel.fromJson(Map<String, dynamic> json) =>
       _$WinModelFromJson(json);

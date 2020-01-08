@@ -11,7 +11,12 @@ class BidModel {
   @JsonKey(nullable: true)
   final WinModel win;
 
-  BidModel(this.item, this.value, this.updatedAt, this.win);
+  BidModel({
+    this.item,
+    this.value,
+    this.updatedAt,
+    this.win,
+  });
 
   factory BidModel.fromJson(Map<String, dynamic> json) =>
       _$BidModelFromJson(json);
