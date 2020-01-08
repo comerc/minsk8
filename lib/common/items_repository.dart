@@ -82,9 +82,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
         _nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
       }
       for (final item in items) {
-        final itemModel = ItemModel.fromJson(item);
-        itemModel.isMemberWish = memberWishes.contains(itemModel.id);
-        this.add(itemModel);
+        this.add(ItemModel.fromJson(item));
       }
       isSuccess = true;
     } catch (exception, stack) {

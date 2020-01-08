@@ -10,25 +10,11 @@ class Wish extends StatefulWidget {
 
   @override
   _WishState createState() {
-    return _WishState(this.item.id);
+    return _WishState();
   }
 }
 
 class _WishState extends State<Wish> {
-  final String itemId;
-
-  _WishState(this.itemId);
-
-  get _isLiked {
-    assert(mounted);
-    return widget.item.isMemberWish;
-  }
-
-  set _isLiked(value) {
-    assert(mounted);
-    widget.item.isMemberWish = value;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Tooltip(
@@ -42,7 +28,7 @@ class _WishState extends State<Wish> {
               horizontal: 16.3,
             ),
             size: 18.0,
-            isLiked: _isLiked,
+            isLiked: _profileWishIndex != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -78,7 +64,7 @@ class _WishState extends State<Wish> {
             // likeCountAnimationType: item.favorites < 1000
             //     ? LikeCountAnimationType.part
             //     : LikeCountAnimationType.none,
-            onTap: (bool isLiked) => _onTap(context, isLiked),
+            onTap: (bool isLiked) => _onTap(isLiked),
           ),
           onTap: () {},
         ),
@@ -86,48 +72,47 @@ class _WishState extends State<Wish> {
     );
   }
 
-  Future<bool> _onTap(BuildContext context, bool isLiked) async {
-    _isLiked = !isLiked;
-    _setWishToMember(!isLiked);
-    // print('item.id: ${item.id}');
-    // print('member.id: $memberId');
+  Future<bool> _onTap(bool isLiked) async {
+    final createdAt =
+        isLiked ? profile.wishes[_profileWishIndex].createdAt : DateTime.now();
+    _updateWishInProfile(!isLiked, createdAt);
     final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
       documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
-      variables: {'item_id': itemId},
-      // onCompleted: (data) => print('>>onCompleted: $data'),
-      // update: (Cache cache, QueryResult result) =>
-      //     print('>>update: ${result.hasException}'),
-      // onError: (OperationException error) => print('>>onError: $error'),
+      variables: {'item_id': widget.item.id},
     );
     client.mutate(options).then((QueryResult result) {
-      print('>>then: ${result.hasException}');
       if (result.hasException) {
         throw result.exception;
       }
-      print('result.loading: ${result.loading}');
-      print('result.data: ${result.data}');
-      // client.cache.write()
     }).catchError((error) {
-      // TODO: сообщать об ошибке и откатывать локальные данные
-      // client.cache.write()
-      // тут нельзя обращаться к _isLiked, только к локальной isLiked
-      _setWishToMember(isLiked);
+      _updateWishInProfile(isLiked, createdAt);
       if (mounted) {
-        setState(() {
-          _isLiked = isLiked;
-        });
+        setState(() {});
       }
       print(error);
     });
     return !isLiked;
   }
 
-  _setWishToMember(isLiked) {
+  get _profileWishIndex =>
+      profile.wishes.indexWhere((wish) => wish.item.id == widget.item.id);
+
+  _updateWishInProfile(isLiked, createdAt) {
+    final index = _profileWishIndex;
     if (isLiked) {
-      memberWishes.add(itemId);
+      if (index == -1) {
+        profile.wishes.add(
+          WishModel(
+            createdAt: createdAt,
+            item: widget.item,
+          ),
+        );
+      }
     } else {
-      memberWishes.remove(itemId);
+      if (index != -1) {
+        profile.wishes.remove(index);
+      }
     }
   }
 }
