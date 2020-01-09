@@ -68,7 +68,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
           innerScrollPositionKeyBuilder: () =>
               Key(allKinds[_tabController.index].name),
-          headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
             PullToRefreshContainer(_buildAppBar),
             SliverPersistentHeader(
               pinned: true,
@@ -134,7 +134,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       centerTitle: true,
       // expandedHeight: 200.0 + offset,
       expandedHeight: offset,
-      // actions: <Widget>[action],
+      // actions: [action],
       // flexibleSpace: FlexibleSpaceBar(
       //   //centerTitle: true,
       //   title: child,

@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
                           CircularProgressIndicator(),
                         ],
                       ),
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                       RaisedButton(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
+                          children: [
                             Text("Load More"),
                           ],
                         ),

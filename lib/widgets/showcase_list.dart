@@ -32,7 +32,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         showGlowLeading: false,
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
-        slivers: <Widget>[
+        slivers: [
           // SliverPersistentHeader(
           //   pinned: false,
           //   floating: false,
@@ -93,7 +93,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Container(
               // margin: EdgeInsets.only(right: 5.0),
               height: 15.0,
@@ -109,7 +109,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Container(
               // margin: EdgeInsets.only(right: 5.0),
               height: 30.0,
@@ -126,7 +126,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           );
         } else {
           result = CustomScrollView(
-            slivers: <Widget>[
+            slivers: [
               SliverFillRemaining(
                 child: result,
               )
@@ -167,7 +167,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           );
         } else {
           result = CustomScrollView(
-            slivers: <Widget>[
+            slivers: [
               SliverFillRemaining(
                 child: result,
               )
@@ -191,7 +191,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           );
         } else {
           result = CustomScrollView(
-            slivers: <Widget>[
+            slivers: [
               SliverFillRemaining(
                 child: result,
               )

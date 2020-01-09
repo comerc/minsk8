@@ -43,7 +43,7 @@ class NavigationBar extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             SizedBox(height: this.iconSize),
           ],
         ),
@@ -74,7 +74,7 @@ class NavigationBar extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   Icon(tab.icon, color: color, size: this.iconSize),
                   // Text(
                   //   tab.title,

@@ -72,7 +72,7 @@ class _AreaState extends State<_Area> {
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
+          children: [
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 16.0),

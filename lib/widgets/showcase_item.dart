@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
+    children: [
       GestureDetector(
         onTap: () {
           Navigator.pushNamed(
@@ -42,7 +42,7 @@ Widget _buildImage(BuildContext context, ItemModel item, int index) {
       borderRadius: BorderRadius.all(kImageBorderRadius),
       child: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           ExtendedImage.network(
             'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
             fit: BoxFit.fill,
@@ -169,7 +169,7 @@ _buildCountdownTimer(int endTime) {
 
 Widget _buildBottom(ItemModel item) {
   return Row(
-    children: <Widget>[
+    children: [
       // ExtendedImage.network(
       //   item.avatarUrl,
       //   width: 25.0,
