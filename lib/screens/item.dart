@@ -39,10 +39,12 @@ class _ItemScreenState extends State<ItemScreen> with TickerProviderStateMixin {
           children: [
             CarouselSlider(
               height: 400.0,
-              autoPlay: true,
+              autoPlay: item.images.length > 1,
+              enableInfiniteScroll: item.images.length > 1,
               pauseAutoPlayOnTouch: Duration(seconds: 10),
               enlargeCenterPage: true,
               onPageChanged: (index) {
+                print(11111);
                 setState(() {
                   _current = index;
                 });
@@ -59,7 +61,7 @@ class _ItemScreenState extends State<ItemScreen> with TickerProviderStateMixin {
                         color: _current == index ? Colors.red : Colors.blue,
                       ),
                       child: Image.network(
-                        'https://picsum.photos/seed/${urlHash}/${image.width ~/ 4}/${image.height ~/ 4}',
+                        'https://picsum.photos/seed/${urlHash}/${image.width ~/ 8}/${image.height ~/ 8}',
                         fit: BoxFit.cover,
                       ),
                     );
