@@ -171,15 +171,13 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   void _openDeepLink(Uri link) {
     if (link == null) return;
     if (link.path == '/item') {
-      final id = int.parse(
-        link.queryParameters['id'],
-        radix: 10,
-      );
-      Navigator.pushNamed(
-        context,
-        '/item',
-        arguments: ItemRouteArguments(id),
-      );
+      // TODO: Queries.getItem
+      // final id = link.queryParameters['id'];
+      // Navigator.pushNamed(
+      //   context,
+      //   '/item',
+      //   arguments: ItemRouteArguments(id),
+      // );
     }
   }
 }

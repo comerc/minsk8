@@ -7,7 +7,16 @@ Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      _buildImage(context, item, index),
+      GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            '/item',
+            arguments: ItemRouteArguments(item),
+          );
+        },
+        child: _buildImage(context, item, index),
+      ),
       // SizedBox(
       //   height: 5.0,
       // ),

@@ -28,11 +28,11 @@ final mainRoutes = [
     'title': 'Image Capture',
     'routeName': '/image_capture',
   },
-  {
-    'title': 'Item',
-    'routeName': '/item',
-    'arguments': ItemRouteArguments(0),
-  },
+  // {
+  //   'title': 'Item',
+  //   'routeName': '/item',
+  //   'arguments': ItemRouteArguments(0),
+  // },
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',

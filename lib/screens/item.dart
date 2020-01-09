@@ -13,8 +13,24 @@ class ItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context).settings.arguments as ItemRouteArguments;
+    final item = arguments.item;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Завершено'),
+        centerTitle: true,
+        backgroundColor: Colors.pink.withOpacity(0.8),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.account_box),
+            onPressed: () {},
+          )
+        ],
+      ),
+      body: Center(
+        child: Text('${item.text}'),
+      ),
+    );
 
-    return Text('${arguments.id}');
     // final item = items[arguments.id];
     // final imageUrl = item.imageUrl(1000);
     // return Scaffold(
@@ -47,7 +63,7 @@ class ItemScreen extends StatelessWidget {
 }
 
 class ItemRouteArguments {
-  final int id;
+  final ItemModel item;
 
-  ItemRouteArguments(this.id);
+  ItemRouteArguments(this.item);
 }
