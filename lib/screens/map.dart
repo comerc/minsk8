@@ -97,19 +97,16 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text('Map'),
         actions: [
-          kReleaseMode
-              ? null
-              : IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () {
-                    PermissionHandler()
-                        .openAppSettings()
-                        .then((bool hasOpened) {
-                      debugPrint('App Settings opened: $hasOpened');
-                    });
-                  },
-                )
-        ].where((child) => child != null).toList(),
+          if (kReleaseMode != null)
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                PermissionHandler().openAppSettings().then((bool hasOpened) {
+                  debugPrint('App Settings opened: $hasOpened');
+                });
+              },
+            )
+        ],
       ),
       drawer: MainDrawer('/map'),
       body: FlutterMap(
@@ -126,27 +123,26 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           },
           plugins: [
             AreaLayerMapPlugin(),
-            kReleaseMode ? null : ScaleLayerMapPlugin(),
-            kReleaseMode ? null : ZoomLayerMapPlugin(),
-          ].where((child) => child != null).toList(),
+            if (kReleaseMode != null) ScaleLayerMapPlugin(),
+            if (kReleaseMode != null) ZoomLayerMapPlugin(),
+          ],
         ),
         layers: [
           TileLayerOptions(
             urlTemplate: 'https://tilessputnik.ru/{z}/{x}/{y}.png',
             tileProvider: CachedNetworkTileProvider(),
           ),
-          _currentPosition == null
-              ? null
-              : CircleLayerOptions(circles: [
-                  CircleMarker(
-                    // useRadiusInMeter: true,
-                    radius: 4.0,
-                    color: Colors.blue,
-                    borderColor: Colors.black,
-                    borderStrokeWidth: 1.0,
-                    point: _currentPosition,
-                  ),
-                ]),
+          if (_currentPosition != null)
+            CircleLayerOptions(circles: [
+              CircleMarker(
+                // useRadiusInMeter: true,
+                radius: 4.0,
+                color: Colors.blue,
+                borderColor: Colors.black,
+                borderStrokeWidth: 1.0,
+                point: _currentPosition,
+              ),
+            ]),
           AreaLayerMapPluginOptions(
             getRadius: () => appState['radius'],
             onChangeRadius: (value) => appState['radius'] = value,
@@ -225,16 +221,15 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             //   _animatedMapMove(destCenter, destZoom);
             // },
           ),
-          kReleaseMode
-              ? null
-              : ScaleLayerMapPluginOption(
-                  lineColor: Colors.blue,
-                  lineWidth: 2,
-                  textStyle: TextStyle(color: Colors.blue, fontSize: 12),
-                  padding: EdgeInsets.all(10),
-                ),
-          kReleaseMode ? null : ZoomLayerMapPluginOptions(),
-        ].where((child) => child != null).toList(),
+          if (kReleaseMode != null)
+            ScaleLayerMapPluginOption(
+              lineColor: Colors.blue,
+              lineWidth: 2,
+              textStyle: TextStyle(color: Colors.blue, fontSize: 12),
+              padding: EdgeInsets.all(10),
+            ),
+          if (kReleaseMode != null) ZoomLayerMapPluginOptions(),
+        ],
       ),
     );
   }
