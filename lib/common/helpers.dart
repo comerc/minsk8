@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -41,4 +43,8 @@ QueryBuilder withGenericHandling(QueryBuilder builder) {
     }
     return builder(result, fetchMore: fetchMore, refetch: refetch);
   };
+}
+
+String generateMd5(String input) {
+  return md5.convert(utf8.encode(input)).toString();
 }
