@@ -61,6 +61,7 @@ dependencies:
   graphql_flutter: 2.1.1-beta.5
 
   carousel_slider: 1.4.0
+  sliding_up_panel: 0.3.6
 
 dev_dependencies:
   flutter_test:
