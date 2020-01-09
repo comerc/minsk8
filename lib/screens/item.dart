@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
-// import "package:transparent_image/transparent_image.dart";
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:minsk8/import.dart';
-
-// TODO: тут будет слайдер по картинкам одного товара
 
 // TODO: Geolocator().distanceBetween()
 // double distanceInMeters = await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
 
-class ItemScreen extends StatelessWidget {
+class ItemScreen extends StatefulWidget {
+  @override
+  _ItemScreenState createState() {
+    return _ItemScreenState();
+  }
+}
+
+class _ItemScreenState extends State<ItemScreen> with TickerProviderStateMixin {
+  int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     final arguments =
@@ -26,39 +34,84 @@ class ItemScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text('${item.text}'),
+      body: SlidingUpPanel(
+        body: Column(
+          children: [
+            CarouselSlider(
+              height: 400.0,
+              autoPlay: true,
+              pauseAutoPlayOnTouch: Duration(seconds: 10),
+              enlargeCenterPage: true,
+              onPageChanged: (index) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              items: List.generate(item.images.length, (index) {
+                final image = item.images[index];
+                final urlHash = generateMd5(image.url);
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: _current == index ? Colors.red : Colors.blue,
+                      ),
+                      child: Image.network(
+                        'https://picsum.photos/seed/${urlHash}/${image.width ~/ 4}/${image.height ~/ 4}',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+            Center(
+              child: Text(item.text),
+            ),
+          ],
+        ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0),
+          topRight: Radius.circular(18.0),
+        ),
+        // parallaxEnabled: true,
+        // parallaxOffset: .8,
+        maxHeight: 800,
+        panel: Column(
+          children: [
+            SizedBox(
+              height: 12.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 30,
+                  height: 5,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 18.0,
+            ),
+            Center(
+              child: Text("This is the sliding Widget"),
+            ),
+            SizedBox(
+              height: 500.0,
+            ),
+            Center(
+              child: Text("This is the sliding Widget"),
+            ),
+          ],
+        ),
       ),
     );
-
-    // final item = items[arguments.id];
-    // final imageUrl = item.imageUrl(1000);
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Item ${item.name}'),
-    //   ),
-    //   body: SafeArea(
-    //     child: Column(
-    //       children: <Widget>[
-    //         Expanded(
-    //           child: GestureDetector(
-    //             onTap: () {
-    //               Navigator.pushNamed(
-    //                 context,
-    //                 '/image_pinch',
-    //                 arguments: ImagePinchRouteArguments(imageUrl),
-    //               );
-    //             },
-    //             child: FadeInImage.memoryNetwork(
-    //               image: imageUrl,
-    //               placeholder: kTransparentImage,
-    //             ),
-    //           ),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
