@@ -60,6 +60,8 @@ dependencies:
   enum_to_string: 1.0.8
   graphql_flutter: 2.1.1-beta.5
 
+  carousel_slider: 1.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
