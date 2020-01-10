@@ -8,7 +8,7 @@ Widget buildShare(ItemModel item) {
     message: 'Share',
     child: Material(
       child: InkWell(
-        borderRadius: BorderRadius.all(kImageBorderRadius),
+        // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: Container(
           padding: EdgeInsets.symmetric(
             vertical: 10,

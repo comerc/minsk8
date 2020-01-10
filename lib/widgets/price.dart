@@ -6,10 +6,10 @@ Widget buildPrice(ItemModel item) {
     message: 'Price',
     child: Material(
       color: Colors.yellow,
-      borderRadius: BorderRadius.all(kImageBorderRadius),
+      // borderRadius: BorderRadius.all(kImageBorderRadius),
       child: InkWell(
         splashColor: Colors.white,
-        borderRadius: BorderRadius.all(kImageBorderRadius),
+        // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: Container(
           padding: EdgeInsets.symmetric(
             vertical: 5,

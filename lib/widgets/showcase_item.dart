@@ -20,12 +20,12 @@ Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
       //   height: 5.0,
       // ),
       // _buildTags(item),
-      SizedBox(
-        height: 5.0,
-      ),
+      // SizedBox(
+      //   height: 5.0,
+      // ),
       _buildBottom(item),
       SizedBox(
-        height: 15.0,
+        height: 4.0,
       ),
     ],
   );
@@ -38,40 +38,39 @@ Widget _buildImage(BuildContext context, ItemModel item, int index) {
   final image = item.images[0];
   return AspectRatio(
     aspectRatio: image.width / image.height,
-    child: ClipRRect(
-      borderRadius: BorderRadius.all(kImageBorderRadius),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          ExtendedImage.network(
-            'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
-            fit: BoxFit.fill,
-            shape: BoxShape.rectangle,
-            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-            borderRadius: BorderRadius.all(
-              kImageBorderRadius,
-            ),
-            loadStateChanged: (value) {
-              if (value.extendedImageLoadState != LoadState.loading)
-                return null;
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.grey.withOpacity(0.3),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor:
-                      AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-                ),
-              );
-            },
-          ),
-          _buildText(item.text.trim()),
-          if (item.expiresAt != null)
-            _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
-          _buildTopRightLabel(item.images.length.toString()),
-        ],
-      ),
+    child:
+        // ClipRRect(
+        // borderRadius: BorderRadius.all(kImageBorderRadius),
+        // child:
+        Stack(
+      fit: StackFit.expand,
+      children: [
+        ExtendedImage.network(
+          'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
+          fit: BoxFit.fill,
+          shape: BoxShape.rectangle,
+          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          loadStateChanged: (value) {
+            if (value.extendedImageLoadState != LoadState.loading) return null;
+            return Container(
+              alignment: Alignment.center,
+              color: Colors.grey.withOpacity(0.3),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0,
+                valueColor:
+                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+              ),
+            );
+          },
+        ),
+        _buildText(item.text.trim()),
+        if (item.expiresAt != null)
+          _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
+        _buildTopRightLabel(item.images.length.toString()),
+      ],
     ),
+    // ),
   );
 }
 
@@ -119,10 +118,10 @@ _buildCountdownTimer(int endTime) {
         color: Colors.pink.withOpacity(0.8),
         // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
         // borderRadius: BorderRadius.all(Radius.circular(6.5)),
-        borderRadius: BorderRadius.only(
-          // topLeft: kImageBorderRadius,
-          bottomRight: kImageBorderRadius,
-        ),
+        // borderRadius: BorderRadius.only(
+        //   // topLeft: kImageBorderRadius,
+        //   bottomRight: kImageBorderRadius,
+        // ),
       ),
       child: CountdownTimer(
         endTime: endTime,

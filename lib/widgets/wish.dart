@@ -21,7 +21,7 @@ class _WishState extends State<Wish> {
       message: 'Wish',
       child: Material(
         child: InkWell(
-          borderRadius: BorderRadius.all(kImageBorderRadius),
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
             padding: EdgeInsets.symmetric(
               vertical: 10,
