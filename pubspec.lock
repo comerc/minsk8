@@ -485,9 +485,11 @@ packages:
   like_button:
     dependency: "direct main"
     description:
-      name: like_button
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: b2b9705dab3436ea38753ccee3de812d99e7ae34
+      url: "git://github.com/comerc/like_button.git"
+    source: git
     version: "0.1.9"
   loading_more_list:
     dependency: "direct main"
