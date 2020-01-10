@@ -24,9 +24,9 @@ Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
       //   height: 5.0,
       // ),
       _buildBottom(item),
-      SizedBox(
-        height: 4.0,
-      ),
+      // SizedBox(
+      //   height: 8.0,
+      // ),
     ],
   );
 }

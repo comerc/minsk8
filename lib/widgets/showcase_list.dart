@@ -51,8 +51,8 @@ class _ShowcaseListState extends State<ShowcaseList>
           LoadingMoreSliverList(SliverListConfig<ItemModel>(
             waterfallFlowDelegate: WaterfallFlowDelegate(
               crossAxisCount: 2,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 32,
             ),
             itemBuilder: buildShowcaseItem,
             sourceList: widget.sourceList,
@@ -60,7 +60,7 @@ class _ShowcaseListState extends State<ShowcaseList>
             // isLastOne: false,
             // showGlowLeading: false,
             // showGlowTrailing: false,
-            padding: EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(16),
             lastChildLayoutType: LastChildLayoutType.foot,
             collectGarbage: (List<int> indexes) {
               indexes.forEach((index) {
