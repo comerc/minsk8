@@ -7,16 +7,16 @@ import 'package:minsk8/import.dart';
 // TODO: Geolocator().distanceBetween()
 // double distanceInMeters = await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
 
-class ItemScreen extends StatefulWidget {
-  @override
-  _ItemScreenState createState() {
-    return _ItemScreenState();
-  }
-}
+// class ItemScreen extends StatefulWidget {
+//   @override
+//   _ItemScreenState createState() {
+//     return _ItemScreenState();
+//   }
+// }
 
-class _ItemScreenState extends State<ItemScreen> with TickerProviderStateMixin {
-  int _current = 0;
+// class _ItemScreenState extends State<ItemScreen> {
 
+class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final arguments =
@@ -37,31 +37,24 @@ class _ItemScreenState extends State<ItemScreen> with TickerProviderStateMixin {
       body: SlidingUpPanel(
         body: Column(
           children: [
+            SizedBox(
+              height: 16.0,
+            ),
             CarouselSlider(
               height: 400.0,
               autoPlay: item.images.length > 1,
               enableInfiniteScroll: item.images.length > 1,
               pauseAutoPlayOnTouch: Duration(seconds: 10),
               enlargeCenterPage: true,
-              onPageChanged: (index) {
-                print(11111);
-                setState(() {
-                  _current = index;
-                });
-              },
               items: List.generate(item.images.length, (index) {
                 final image = item.images[index];
-                final urlHash = generateMd5(image.url);
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        color: _current == index ? Colors.red : Colors.blue,
-                      ),
-                      child: Image.network(
-                        'https://picsum.photos/seed/${urlHash}/${image.width ~/ 8}/${image.height ~/ 8}',
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ItemImage(
+                        image.getDummyUrl(item.id),
                         fit: BoxFit.cover,
                       ),
                     );

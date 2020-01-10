@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
@@ -45,25 +44,7 @@ Widget _buildImage(BuildContext context, ItemModel item, int index) {
         Stack(
       fit: StackFit.expand,
       children: [
-        ExtendedImage.network(
-          'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
-          fit: BoxFit.fill,
-          shape: BoxShape.rectangle,
-          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          loadStateChanged: (value) {
-            if (value.extendedImageLoadState != LoadState.loading) return null;
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.grey.withOpacity(0.3),
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-                valueColor:
-                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-              ),
-            );
-          },
-        ),
+        ItemImage(image.getDummyUrl(item.id), fit: BoxFit.fill),
         _buildText(item.text.trim()),
         if (item.expiresAt != null)
           _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
