@@ -89,7 +89,7 @@ class App extends StatelessWidget {
                       options: QueryOptions(
                         documentNode: Queries.getProfile,
                         variables: {'member_id': memberId},
-                        fetchPolicy: FetchPolicy.networkOnly,
+                        fetchPolicy: FetchPolicy.cacheAndNetwork,
                       ),
                       // Just like in apollo refetch() could be used to manually trigger a refetch
                       // while fetchMore() can be used for pagination purpose
