@@ -48,7 +48,6 @@ export 'screens/wishes.dart';
 
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';
-export 'widgets/item_image.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/navigation_bar.dart';
 export 'widgets/price.dart';

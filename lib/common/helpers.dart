@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:extended_image/extended_image.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -47,4 +48,18 @@ QueryBuilder withGenericHandling(QueryBuilder builder) {
 
 String generateMd5(String input) {
   return md5.convert(utf8.encode(input)).toString();
+}
+
+Widget loadStateChanged(ExtendedImageState state) {
+  if (state.extendedImageLoadState != LoadState.loading) return null;
+  return Builder(builder: (BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      color: Colors.grey.withOpacity(0.3),
+      child: CircularProgressIndicator(
+        strokeWidth: 2.0,
+        valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+      ),
+    );
+  });
 }

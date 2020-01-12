@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:minsk8/import.dart';
@@ -57,15 +58,18 @@ class _ItemScreenState extends State<ItemScreen> {
                             ItemCarouselSliderSettings.margin * 2,
                         child: Hero(
                           tag: tag,
-                          child: ItemImage(
+                          child: ExtendedImage.network(
                             item.images[0].getDummyUrl(item.id),
                             fit: BoxFit.cover,
+                            enableLoadState: false,
                           ),
-                          flightShuttleBuilder: (BuildContext flightContext,
-                              Animation<double> animation,
-                              HeroFlightDirection flightDirection,
-                              BuildContext fromHeroContext,
-                              BuildContext toHeroContext) {
+                          flightShuttleBuilder: (
+                            BuildContext flightContext,
+                            Animation<double> animation,
+                            HeroFlightDirection flightDirection,
+                            BuildContext fromHeroContext,
+                            BuildContext toHeroContext,
+                          ) {
                             animation.addListener(() {
                               if (animation.status ==
                                   AnimationStatus.completed) {
@@ -93,8 +97,6 @@ class _ItemScreenState extends State<ItemScreen> {
                       viewportFraction:
                           ItemCarouselSliderSettings.viewportFraction,
                       items: List.generate(item.images.length, (index) {
-                        final image = item.images[index];
-                        // final tag = '${arguments.tag}-$index';
                         return Builder(
                           builder: (BuildContext context) {
                             return GestureDetector(
@@ -104,7 +106,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                   context,
                                   '/image_zoom',
                                   arguments: ImageZoomRouteArguments(item,
-                                      tag: tag, index: index),
+                                      tag: '$tag-$index', index: index),
                                 );
                               },
                               child: Container(
@@ -112,9 +114,10 @@ class _ItemScreenState extends State<ItemScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal:
                                         ItemCarouselSliderSettings.margin),
-                                child: ItemImage(
-                                  image.getDummyUrl(item.id),
+                                child: ExtendedImage.network(
+                                  item.images[index].getDummyUrl(item.id),
                                   fit: BoxFit.cover,
+                                  loadStateChanged: loadStateChanged,
                                 ),
                               ),
                             );

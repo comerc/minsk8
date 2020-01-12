@@ -20,6 +20,10 @@ class ImageModel {
     return 'https://picsum.photos/seed/$urlHash/${width ~/ 4}/${height ~/ 4}'; // TODO: url
   }
 
+  getLargeDummyUrl(String id) {
+    return getDummyUrl(id);
+  }
+
   // ImageProvider createNetworkImage() {
   //   return ExtendedNetworkImageProvider(imageUrl);
   // }

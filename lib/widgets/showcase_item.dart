@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:extended_image/extended_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 class ShowcaseItem extends StatelessWidget {
@@ -71,9 +71,13 @@ class ShowcaseItem extends StatelessWidget {
         children: [
           Hero(
             tag: tag,
-            child: ItemImage(
+            child: ExtendedImage.network(
               image.getDummyUrl(item.id),
               fit: BoxFit.fill,
+              // shape: BoxShape.rectangle,
+              // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+              // borderRadius: BorderRadius.all(kImageBorderRadius),
+              loadStateChanged: loadStateChanged,
             ),
           ),
           _buildText(item.text.trim()),

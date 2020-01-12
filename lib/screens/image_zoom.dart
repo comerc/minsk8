@@ -49,21 +49,9 @@ class _ImageZoomScreenState extends State<ImageZoomScreen>
               builder: (BuildContext context, BoxConstraints constraints) {
                 Size size = Size(constraints.maxWidth, constraints.maxHeight);
                 return ExtendedImage.network(
-                  item.images[index].getDummyUrl(item.id),
+                  item.images[index].getLargeDummyUrl(item.id),
                   fit: BoxFit.contain,
-                  loadStateChanged: (state) {
-                    if (state.extendedImageLoadState != LoadState.loading)
-                      return null;
-                    return Container(
-                      alignment: Alignment.center,
-                      color: Colors.grey.withOpacity(0.3),
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        valueColor: AlwaysStoppedAnimation(
-                            Theme.of(context).primaryColor),
-                      ),
-                    );
-                  },
+                  loadStateChanged: loadStateChanged,
                   //enableLoadState: false,
                   mode: ExtendedImageMode.gesture,
                   initGestureConfigHandler: (state) {
