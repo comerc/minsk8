@@ -16,8 +16,9 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  var _isCarouselSlider = true;
-  var _isHero = true;
+  var isCarouselSlider = true;
+  var isHero = true;
+  var currentIndex = 0;
   // var _isZoomHero = false;
   // var _zoomTag = '';
 
@@ -49,7 +50,7 @@ class _ItemScreenState extends State<ItemScreen> {
               ),
               Stack(
                 children: [
-                  if (tag != null && _isHero)
+                  if (tag != null && isHero)
                     Center(
                       child: SizedBox(
                         height: ItemCarouselSliderSettings.height,
@@ -74,7 +75,7 @@ class _ItemScreenState extends State<ItemScreen> {
                               if (animation.status ==
                                   AnimationStatus.completed) {
                                 setState(() {
-                                  _isHero = false;
+                                  isHero = false;
                                 });
                               }
                             });
@@ -87,43 +88,48 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       ),
                     ),
-                  if (_isCarouselSlider)
-                    CarouselSlider(
-                      height: 400.0,
-                      autoPlay: item.images.length > 1,
-                      enableInfiniteScroll: item.images.length > 1,
-                      pauseAutoPlayOnTouch: Duration(seconds: 10),
-                      enlargeCenterPage: true,
-                      viewportFraction:
-                          ItemCarouselSliderSettings.viewportFraction,
-                      items: List.generate(item.images.length, (index) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return GestureDetector(
-                              onTap: () {
-                                // TODO: выключать autoPlay, пока zoom
-                                Navigator.pushNamed(
-                                  context,
-                                  '/image_zoom',
-                                  arguments: ImageZoomRouteArguments(item,
-                                      tag: '$tag-$index', index: index),
-                                );
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal:
-                                        ItemCarouselSliderSettings.margin),
-                                child: ExtendedImage.network(
-                                  item.images[index].getDummyUrl(item.id),
-                                  fit: BoxFit.cover,
-                                  loadStateChanged: loadStateChanged,
-                                ),
-                              ),
-                            );
-                          },
+                  if (isCarouselSlider)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isCarouselSlider = false;
+                        });
+                        Navigator.pushNamed(
+                          context,
+                          '/image_zoom',
+                          arguments: ImageZoomRouteArguments(
+                            item,
+                            tag: '$tag-$currentIndex',
+                            index: currentIndex,
+                            onClose: _onImageZoomClose,
+                          ),
                         );
-                      }),
+                      },
+                      child: CarouselSlider(
+                        initialPage: currentIndex,
+                        height: 400.0,
+                        autoPlay: item.images.length > 1,
+                        enableInfiniteScroll: item.images.length > 1,
+                        pauseAutoPlayOnTouch: Duration(seconds: 10),
+                        enlargeCenterPage: true,
+                        viewportFraction:
+                            ItemCarouselSliderSettings.viewportFraction,
+                        onPageChanged: (index) {
+                          currentIndex = index;
+                        },
+                        items: List.generate(item.images.length, (index) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: ItemCarouselSliderSettings.margin),
+                            child: ExtendedImage.network(
+                              item.images[index].getDummyUrl(item.id),
+                              fit: BoxFit.cover,
+                              loadStateChanged: loadStateChanged,
+                            ),
+                          );
+                        }),
+                      ),
                     ),
                 ],
               ),
@@ -177,10 +183,17 @@ class _ItemScreenState extends State<ItemScreen> {
 
   Future<bool> _onBackPressed() async {
     setState(() {
-      _isHero = true;
-      _isCarouselSlider = false;
+      isHero = true;
+      isCarouselSlider = false;
     });
     return true;
+  }
+
+  _onImageZoomClose(index) {
+    setState(() {
+      currentIndex = index;
+      isCarouselSlider = true;
+    });
   }
 }
 
