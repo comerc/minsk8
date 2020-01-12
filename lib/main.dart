@@ -1,7 +1,9 @@
+// import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 void main() {
@@ -150,10 +152,20 @@ class App extends StatelessWidget {
               '/wallet': (context) => WalletScreen(),
               '/wishes': (context) => WishesScreen(),
             },
-            // onGenerateRoute: (settings) {
-            //   print('onGenerateRoute: $settings');
-            //   return null;
-            // },
+            onGenerateRoute: (RouteSettings settings) {
+              // if (settings.name == '/item') {
+              //   print('1122111');
+              //   return Platform.isIOS
+              //       ? TransparentCupertinoPageRoute(
+              //           settings: settings,
+              //           builder: (BuildContext context) => ItemScreen())
+              //       : TransparentMaterialPageRoute(
+              //           settings: settings,
+              //           builder: (BuildContext context) => ItemScreen());
+              // }
+              print('onGenerateRoute: $settings');
+              return null;
+            },
             // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
             //   settings: settings,
             //   builder: (BuildContext context) => UnknownPage(settings.name),

@@ -11,7 +11,8 @@ class ShowcaseList extends StatefulWidget {
   final Key scrollPositionKey;
   final ItemsRepository sourceList;
 
-  ShowcaseList({this.scrollPositionKey, this.sourceList});
+  ShowcaseList({Key key, this.scrollPositionKey, this.sourceList})
+      : super(key: key);
 
   @override
   _ShowcaseListState createState() => _ShowcaseListState();
@@ -54,7 +55,14 @@ class _ShowcaseListState extends State<ShowcaseList>
               crossAxisSpacing: 16,
               mainAxisSpacing: 32,
             ),
-            itemBuilder: buildShowcaseItem,
+            itemBuilder: (BuildContext context, ItemModel item, int index) {
+              final tag = '${widget.sourceList.kind}-${item.id}';
+              return ShowcaseItem(
+                item: item,
+                index: index,
+                tag: tag,
+              );
+            },
             sourceList: widget.sourceList,
             indicatorBuilder: _buildIndicator,
             // isLastOne: false,
@@ -67,7 +75,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                 final item = widget.sourceList[index];
                 final image = item.images[0];
                 final provider = ExtendedNetworkImageProvider(
-                  'https://picsum.photos/seed/${item.id}/${image.width ~/ 4}/${image.height ~/ 4}', // image.url,
+                  image.getDummyUrl(item.id),
                 );
                 provider.evict();
               });

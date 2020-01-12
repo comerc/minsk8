@@ -28,11 +28,17 @@ final mainRoutes = [
     'title': 'Image Capture',
     'routeName': '/image_capture',
   },
-  // {
-  //   'title': 'Item',
-  //   'routeName': '/item',
-  //   'arguments': ItemRouteArguments(0),
-  // },
+  {
+    'title': 'Image Pinch',
+    'routeName': '/image_pinch',
+    'arguments':
+        ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
+  },
+  {
+    'title': 'Item',
+    'routeName': '/item',
+    'arguments': ItemRouteArguments(profile.member.items[0]),
+  },
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',

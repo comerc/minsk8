@@ -1,58 +1,120 @@
 import 'package:flutter/material.dart';
+// import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildShowcaseItem(BuildContext context, ItemModel item, int index) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            '/item',
-            arguments: ItemRouteArguments(item),
-          );
-        },
-        child: _buildImage(context, item, index),
-      ),
-      // SizedBox(
-      //   height: 5.0,
-      // ),
-      // _buildTags(item),
-      // SizedBox(
-      //   height: 5.0,
-      // ),
-      _buildBottom(item),
-      // SizedBox(
-      //   height: 8.0,
-      // ),
-    ],
-  );
-}
+class ShowcaseItem extends StatelessWidget {
+  final ItemModel item;
+  final int index;
+  final String tag;
 
-Widget _buildImage(BuildContext context, ItemModel item, int index) {
-  // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
-  //     // 1000 * 60 * 60 * 24 * 1 +
-  //     1000 * 10;
-  final image = item.images[0];
-  return AspectRatio(
-    aspectRatio: image.width / image.height,
-    child:
-        // ClipRRect(
-        // borderRadius: BorderRadius.all(kImageBorderRadius),
-        // child:
-        Stack(
-      fit: StackFit.expand,
+  ShowcaseItem({
+    Key key,
+    this.item,
+    this.index,
+    this.tag,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ItemImage(image.getDummyUrl(item.id), fit: BoxFit.fill),
-        _buildText(item.text.trim()),
-        if (item.expiresAt != null)
-          _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
-        _buildTopRightLabel(item.images.length.toString()),
+        GestureDetector(
+          onTap: () {
+            // Navigator.of(context).push(PageRouteBuilder(
+            //   settings: RouteSettings(
+            //     arguments: ItemRouteArguments(item, tag: tag),
+            //   ),
+            //   pageBuilder: (context, animation, secondaryAnimation) =>
+            //       ItemScreen(),
+            //   transitionsBuilder:
+            //       (context, animation, secondaryAnimation, child) {
+            //     return child;
+            //   },
+            // ));
+            Navigator.pushNamed(
+              context,
+              '/item',
+              arguments: ItemRouteArguments(item, tag: tag),
+            );
+          },
+          child: _buildImage(),
+        ),
+        // SizedBox(
+        //   height: 5.0,
+        // ),
+        // _buildTags(item),
+        // SizedBox(
+        //   height: 5.0,
+        // ),
+        _buildBottom(),
+        // SizedBox(
+        //   height: 8.0,
+        // ),
       ],
-    ),
-    // ),
-  );
+    );
+  }
+
+  Widget _buildImage() {
+    // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
+    //     // 1000 * 60 * 60 * 24 * 1 +
+    //     1000 * 10;
+    final image = item.images[0];
+    return AspectRatio(
+      aspectRatio: image.width / image.height,
+      child:
+          // ClipRRect(
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          // child:
+          Stack(
+        fit: StackFit.expand,
+        children: [
+          Hero(
+            tag: tag,
+            child: ItemImage(
+              image.getDummyUrl(item.id),
+              fit: BoxFit.fill,
+            ),
+          ),
+          _buildText(item.text.trim()),
+          if (item.expiresAt != null)
+            _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
+          _buildTopRightLabel(item.images.length.toString()),
+        ],
+      ),
+      // ),
+    );
+  }
+
+  Widget _buildBottom() {
+    return Row(
+      children: [
+        // ExtendedImage.network(
+        //   item.avatarUrl,
+        //   width: 25.0,
+        //   height: 25.0,
+        //   shape: BoxShape.circle,
+        //   //enableLoadState: false,
+        //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+        //   // loadStateChanged: (state) {
+        //   //   if (state.extendedImageLoadState == LoadState.completed) {
+        //   //     return null;
+        //   //   }
+        //   //   return Image.asset("assets/avatar.jpeg");
+        //   // },
+        // ),
+        // SizedBox(
+        //   width: 16.3,
+        // ),
+        buildPrice(item),
+        Expanded(
+          child: Container(),
+        ),
+        buildShare(item),
+        Wish(item),
+      ],
+    );
+  }
 }
 
 Widget _buildText(String text) {
@@ -146,36 +208,6 @@ _buildCountdownTimer(int endTime) {
 //     }).toList(),
 //   );
 // }
-
-Widget _buildBottom(ItemModel item) {
-  return Row(
-    children: [
-      // ExtendedImage.network(
-      //   item.avatarUrl,
-      //   width: 25.0,
-      //   height: 25.0,
-      //   shape: BoxShape.circle,
-      //   //enableLoadState: false,
-      //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-      //   // loadStateChanged: (state) {
-      //   //   if (state.extendedImageLoadState == LoadState.completed) {
-      //   //     return null;
-      //   //   }
-      //   //   return Image.asset("assets/avatar.jpeg");
-      //   // },
-      // ),
-      // SizedBox(
-      //   width: 16.3,
-      // ),
-      buildPrice(item),
-      Expanded(
-        child: Container(),
-      ),
-      buildShare(item),
-      Wish(item),
-    ],
-  );
-}
 
 Widget _buildTopRightLabel(String data) {
   return Positioned(
