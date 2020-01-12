@@ -3,14 +3,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-class ItemZoomScreen extends StatefulWidget {
+class ImageZoomScreen extends StatefulWidget {
   @override
-  _ItemZoomScreenState createState() {
-    return _ItemZoomScreenState();
+  _ImageZoomScreenState createState() {
+    return _ImageZoomScreenState();
   }
 }
 
-class _ItemZoomScreenState extends State<ItemZoomScreen>
+class _ImageZoomScreenState extends State<ImageZoomScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
@@ -36,7 +36,7 @@ class _ItemZoomScreenState extends State<ItemZoomScreen>
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as ItemZoomRouteArguments;
+        ModalRoute.of(context).settings.arguments as ImageZoomRouteArguments;
     final item = arguments.item;
     final index = arguments.index;
     return WillPopScope(
@@ -135,12 +135,12 @@ class _ItemZoomScreenState extends State<ItemZoomScreen>
   }
 }
 
-class ItemZoomRouteArguments {
+class ImageZoomRouteArguments {
   final ItemModel item;
   final String tag;
   final int index;
 
-  ItemZoomRouteArguments(this.item, {this.tag, this.index});
+  ImageZoomRouteArguments(this.item, {this.tag, this.index});
 }
 
 double initScale({Size imageSize, Size size, double initialScale}) {

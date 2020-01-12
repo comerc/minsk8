@@ -99,10 +99,11 @@ class _ItemScreenState extends State<ItemScreen> {
                           builder: (BuildContext context) {
                             return GestureDetector(
                               onTap: () {
+                                // TODO: выключать autoPlay, пока zoom
                                 Navigator.pushNamed(
                                   context,
-                                  '/item_zoom',
-                                  arguments: ItemZoomRouteArguments(item,
+                                  '/image_zoom',
+                                  arguments: ImageZoomRouteArguments(item,
                                       tag: tag, index: index),
                                 );
                               },
