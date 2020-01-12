@@ -119,6 +119,10 @@ class _ImageZoomScreenState extends State<ImageZoomScreen>
       _isHero = true;
       _isCarouselSlider = false;
     });
+    final arguments =
+        ModalRoute.of(context).settings.arguments as ImageZoomRouteArguments;
+    final index = arguments.index;
+    arguments.onClose(index);
     return true;
   }
 }
@@ -127,8 +131,9 @@ class ImageZoomRouteArguments {
   final ItemModel item;
   final String tag;
   final int index;
+  final Function onClose;
 
-  ImageZoomRouteArguments(this.item, {this.tag, this.index});
+  ImageZoomRouteArguments(this.item, {this.tag, this.index, this.onClose});
 }
 
 double initScale({Size imageSize, Size size, double initialScale}) {
