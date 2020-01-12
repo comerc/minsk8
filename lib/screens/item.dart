@@ -16,9 +16,9 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  var isCarouselSlider = true;
-  var isHero = true;
-  var currentIndex = 0;
+  var _isCarouselSlider = true;
+  var _isHero = true;
+  var _currentIndex = 0;
   // var _isZoomHero = false;
   // var _zoomTag = '';
 
@@ -50,7 +50,7 @@ class _ItemScreenState extends State<ItemScreen> {
               ),
               Stack(
                 children: [
-                  if (tag != null && isHero)
+                  if (tag != null && _isHero)
                     Center(
                       child: SizedBox(
                         height: ItemCarouselSliderSettings.height,
@@ -75,7 +75,7 @@ class _ItemScreenState extends State<ItemScreen> {
                               if (animation.status ==
                                   AnimationStatus.completed) {
                                 setState(() {
-                                  isHero = false;
+                                  _isHero = false;
                                 });
                               }
                             });
@@ -88,25 +88,25 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       ),
                     ),
-                  if (isCarouselSlider)
+                  if (_isCarouselSlider)
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          isCarouselSlider = false;
+                          _isCarouselSlider = false;
                         });
                         Navigator.pushNamed(
                           context,
                           '/image_zoom',
                           arguments: ImageZoomRouteArguments(
                             item,
-                            tag: '$tag-$currentIndex',
-                            index: currentIndex,
+                            tag: '$tag-$_currentIndex',
+                            index: _currentIndex,
                             onClose: _onImageZoomClose,
                           ),
                         );
                       },
                       child: CarouselSlider(
-                        initialPage: currentIndex,
+                        initialPage: _currentIndex,
                         height: 400.0,
                         autoPlay: item.images.length > 1,
                         enableInfiniteScroll: item.images.length > 1,
@@ -115,7 +115,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         viewportFraction:
                             ItemCarouselSliderSettings.viewportFraction,
                         onPageChanged: (index) {
-                          currentIndex = index;
+                          _currentIndex = index;
                         },
                         items: List.generate(item.images.length, (index) {
                           return Container(
@@ -183,16 +183,16 @@ class _ItemScreenState extends State<ItemScreen> {
 
   Future<bool> _onBackPressed() async {
     setState(() {
-      isHero = true;
-      isCarouselSlider = false;
+      _isHero = true;
+      _isCarouselSlider = false;
     });
     return true;
   }
 
   _onImageZoomClose(index) {
     setState(() {
-      currentIndex = index;
-      isCarouselSlider = true;
+      _currentIndex = index;
+      _isCarouselSlider = true;
     });
   }
 }
