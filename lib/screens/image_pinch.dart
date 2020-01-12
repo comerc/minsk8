@@ -3,12 +3,6 @@ import "package:pinch_zoom_image/pinch_zoom_image.dart";
 import "package:transparent_image/transparent_image.dart";
 // import 'package:minsk8/import.dart';
 
-class ImagePinchRouteArguments {
-  final String imageUrl;
-
-  ImagePinchRouteArguments(this.imageUrl);
-}
-
 class ImagePinchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,9 +12,10 @@ class ImagePinchScreen extends StatelessWidget {
       child: GestureDetector(
         child: PinchZoomImage(
           image: FadeInImage.memoryNetwork(
-            image: arguments.imageUrl,
+            image: arguments.url,
             placeholder: kTransparentImage,
           ),
+          hideStatusBarWhileZooming: true,
         ),
         onTap: () {
           Navigator.pop(context);
@@ -28,4 +23,10 @@ class ImagePinchScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ImagePinchRouteArguments {
+  final String url;
+
+  ImagePinchRouteArguments(this.url);
 }
