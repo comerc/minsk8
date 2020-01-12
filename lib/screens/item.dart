@@ -17,12 +17,15 @@ class ItemScreen extends StatefulWidget {
 class _ItemScreenState extends State<ItemScreen> {
   var _isCarouselSlider = true;
   var _isHero = true;
+  // var _isZoomHero = false;
+  // var _zoomTag = '';
 
   @override
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context).settings.arguments as ItemRouteArguments;
     final item = arguments.item;
+    final tag = arguments.tag;
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -45,15 +48,15 @@ class _ItemScreenState extends State<ItemScreen> {
               ),
               Stack(
                 children: [
-                  if (arguments.tag != null && _isHero)
+                  if (tag != null && _isHero)
                     Center(
                       child: SizedBox(
-                        height: CarouselSliderSettings.height,
+                        height: ItemCarouselSliderSettings.height,
                         width: MediaQuery.of(context).size.width *
-                                CarouselSliderSettings.viewportFraction -
-                            CarouselSliderSettings.margin * 2,
+                                ItemCarouselSliderSettings.viewportFraction -
+                            ItemCarouselSliderSettings.margin * 2,
                         child: Hero(
-                          tag: arguments.tag,
+                          tag: tag,
                           child: ItemImage(
                             item.images[0].getDummyUrl(item.id),
                             fit: BoxFit.cover,
@@ -87,18 +90,31 @@ class _ItemScreenState extends State<ItemScreen> {
                       enableInfiniteScroll: item.images.length > 1,
                       pauseAutoPlayOnTouch: Duration(seconds: 10),
                       enlargeCenterPage: true,
-                      viewportFraction: CarouselSliderSettings.viewportFraction,
+                      viewportFraction:
+                          ItemCarouselSliderSettings.viewportFraction,
                       items: List.generate(item.images.length, (index) {
                         final image = item.images[index];
+                        // final tag = '${arguments.tag}-$index';
                         return Builder(
                           builder: (BuildContext context) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: CarouselSliderSettings.margin),
-                              child: ItemImage(
-                                image.getDummyUrl(item.id),
-                                fit: BoxFit.cover,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/item_zoom',
+                                  arguments: ItemZoomRouteArguments(item,
+                                      tag: tag, index: index),
+                                );
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal:
+                                        ItemCarouselSliderSettings.margin),
+                                child: ItemImage(
+                                  image.getDummyUrl(item.id),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             );
                           },
@@ -156,7 +172,6 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   Future<bool> _onBackPressed() async {
-    print('back');
     setState(() {
       _isHero = true;
       _isCarouselSlider = false;
@@ -172,7 +187,7 @@ class ItemRouteArguments {
   ItemRouteArguments(this.item, {this.tag});
 }
 
-class CarouselSliderSettings {
+class ItemCarouselSliderSettings {
   static const margin = 8.0;
   static const viewportFraction = 0.8;
   static const height = 400.0;

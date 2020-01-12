@@ -135,6 +135,7 @@ class App extends StatelessWidget {
               '/home': (context) => HomeScreen(),
               '/image_capture': (context) => ImageCaptureScreen(),
               '/image_pinch': (context) => ImagePinchScreen(),
+              '/item_zoom': (context) => ItemZoomScreen(),
               '/item': (context) => ItemScreen(),
               '/kinds': (context) => KindsScreen(),
               '/login': (context) => LoginScreen(),

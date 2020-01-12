@@ -28,6 +28,7 @@ export 'screens/forgot_password.dart';
 export 'screens/home.dart';
 export 'screens/image_capture.dart';
 export 'screens/image_pinch.dart';
+export 'screens/item_zoom.dart';
 export 'screens/item.dart';
 export 'screens/kinds.dart';
 export 'screens/login.dart';
