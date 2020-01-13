@@ -28,7 +28,6 @@ export 'screens/forgot_password.dart';
 export 'screens/home.dart';
 export 'screens/image_capture.dart';
 export 'screens/image_pinch.dart';
-export 'screens/image_zoom.dart';
 export 'screens/item.dart';
 export 'screens/kinds.dart';
 export 'screens/login.dart';
@@ -45,6 +44,7 @@ export 'screens/start.dart';
 export 'screens/underway.dart';
 export 'screens/wallet.dart';
 export 'screens/wishes.dart';
+export 'screens/zoom.dart';
 
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';

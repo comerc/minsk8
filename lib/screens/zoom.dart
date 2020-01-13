@@ -3,14 +3,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-class ImageZoomScreen extends StatefulWidget {
+class ZoomScreen extends StatefulWidget {
   @override
-  _ImageZoomScreenState createState() {
-    return _ImageZoomScreenState();
+  _ZoomScreenState createState() {
+    return _ZoomScreenState();
   }
 }
 
-class _ImageZoomScreenState extends State<ImageZoomScreen>
+class _ZoomScreenState extends State<ZoomScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
@@ -36,8 +36,9 @@ class _ImageZoomScreenState extends State<ImageZoomScreen>
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as ImageZoomRouteArguments;
+        ModalRoute.of(context).settings.arguments as ZoomRouteArguments;
     final item = arguments.item;
+    final tag = arguments.tag;
     final index = arguments.index;
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -120,20 +121,20 @@ class _ImageZoomScreenState extends State<ImageZoomScreen>
       _isCarouselSlider = false;
     });
     final arguments =
-        ModalRoute.of(context).settings.arguments as ImageZoomRouteArguments;
+        ModalRoute.of(context).settings.arguments as ZoomRouteArguments;
     final index = arguments.index;
     arguments.onClose(index);
     return true;
   }
 }
 
-class ImageZoomRouteArguments {
+class ZoomRouteArguments {
   final ItemModel item;
   final String tag;
   final int index;
   final Function onClose;
 
-  ImageZoomRouteArguments(this.item, {this.tag, this.index, this.onClose});
+  ZoomRouteArguments(this.item, {this.tag, this.index, this.onClose});
 }
 
 double initScale({Size imageSize, Size size, double initialScale}) {
