@@ -41,7 +41,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     final tag = arguments.tag;
     final index = arguments.index;
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: _onWillPop,
       child: Material(
         child: Stack(
           fit: StackFit.expand,
@@ -119,7 +119,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     );
   }
 
-  Future<bool> _onBackPressed() async {
+  Future<bool> _onWillPop() async {
     setState(() {
       _isHero = true;
       _isCarouselSlider = false;
@@ -127,7 +127,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     final arguments =
         ModalRoute.of(context).settings.arguments as ZoomRouteArguments;
     final index = arguments.index;
-    arguments.onClose(index);
+    arguments.onWillPop(index);
     return true;
   }
 }
@@ -136,9 +136,9 @@ class ZoomRouteArguments {
   final ItemModel item;
   final String tag;
   final int index;
-  final Function onClose;
+  final Function onWillPop;
 
-  ZoomRouteArguments(this.item, {this.tag, this.index, this.onClose});
+  ZoomRouteArguments(this.item, {this.tag, this.index, this.onWillPop});
 }
 
 double initScale({Size imageSize, Size size, double initialScale}) {

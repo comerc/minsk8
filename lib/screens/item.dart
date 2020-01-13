@@ -31,7 +31,7 @@ class _ItemScreenState extends State<ItemScreen> {
     final item = arguments.item;
     final tag = arguments.tag;
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Завершено'),
@@ -111,9 +111,8 @@ class _ItemScreenState extends State<ItemScreen> {
                           arguments: ZoomRouteArguments(
                             item,
                             tag: tag,
-                            // tag: '$tag-$_currentIndex',
                             index: _currentIndex,
-                            onClose: _onCloseOfZoom,
+                            onWillPop: _onWillPopForZoom,
                           ),
                         );
                       },
@@ -193,8 +192,9 @@ class _ItemScreenState extends State<ItemScreen> {
     );
   }
 
-  Future<bool> _onBackPressed() async {
+  Future<bool> _onWillPop() async {
     setState(() {
+      _currentIndex = 0;
       _isHero = true;
       _isCarouselSlider = false;
     });
@@ -202,7 +202,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  _onCloseOfZoom(index) {
+  _onWillPopForZoom(index) {
     setState(() {
       _currentIndex = index;
       _isHero = true;
