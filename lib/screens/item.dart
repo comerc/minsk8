@@ -195,7 +195,7 @@ class _ItemScreenState extends State<ItemScreen> {
       _showHero = _ShowHero.forShowcase;
       _isCarouselSlider = false;
     });
-    await Future.delayed(Duration(milliseconds: 100));
+    // await Future.delayed(Duration(milliseconds: 100));
     return true;
   }
 
