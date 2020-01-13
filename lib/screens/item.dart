@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: Geolocator().distanceBetween()
@@ -16,9 +16,11 @@ class ItemScreen extends StatefulWidget {
 }
 
 class _ItemScreenState extends State<ItemScreen> {
-  var _isCarouselSlider = true;
   var _isHero = true;
+  var _isCarouselSlider = true;
   var _currentIndex = 0;
+  var _flagOpenedZoom = false;
+  var _flagClosedZoom = false;
   // var _isZoomHero = false;
   // var _zoomTag = '';
 
@@ -60,7 +62,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         child: Hero(
                           tag: tag,
                           child: ExtendedImage.network(
-                            item.images[0].getDummyUrl(item.id),
+                            item.images[_currentIndex].getDummyUrl(item.id),
                             fit: BoxFit.cover,
                             enableLoadState: false,
                           ),
@@ -73,14 +75,22 @@ class _ItemScreenState extends State<ItemScreen> {
                           ) {
                             animation.addListener(() {
                               if (animation.status ==
-                                  AnimationStatus.completed) {
+                                      AnimationStatus.completed ||
+                                  animation.status ==
+                                      AnimationStatus.dismissed) {
                                 setState(() {
                                   _isHero = false;
+                                  _flagClosedZoom = false;
+                                  if (_flagOpenedZoom) {
+                                    _flagOpenedZoom = false;
+                                    _isCarouselSlider = false;
+                                  }
                                 });
                               }
                             });
                             final Hero hero =
-                                flightDirection == HeroFlightDirection.pop
+                                flightDirection == HeroFlightDirection.pop &&
+                                        !_flagClosedZoom
                                     ? fromHeroContext.widget
                                     : toHeroContext.widget;
                             return hero.child;
@@ -90,18 +100,20 @@ class _ItemScreenState extends State<ItemScreen> {
                     ),
                   if (_isCarouselSlider)
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         setState(() {
-                          _isCarouselSlider = false;
+                          _isHero = true;
+                          _flagOpenedZoom = true;
                         });
                         Navigator.pushNamed(
                           context,
-                          '/image_zoom',
-                          arguments: ImageZoomRouteArguments(
+                          '/zoom',
+                          arguments: ZoomRouteArguments(
                             item,
-                            tag: '$tag-$_currentIndex',
+                            tag: tag,
+                            // tag: '$tag-$_currentIndex',
                             index: _currentIndex,
-                            onClose: _onImageZoomClose,
+                            onClose: _onCloseOfZoom,
                           ),
                         );
                       },
@@ -186,13 +198,16 @@ class _ItemScreenState extends State<ItemScreen> {
       _isHero = true;
       _isCarouselSlider = false;
     });
+    await Future.delayed(Duration(milliseconds: 100));
     return true;
   }
 
-  _onImageZoomClose(index) {
+  _onCloseOfZoom(index) {
     setState(() {
       _currentIndex = index;
+      _isHero = true;
       _isCarouselSlider = true;
+      _flagClosedZoom = true;
     });
   }
 }
