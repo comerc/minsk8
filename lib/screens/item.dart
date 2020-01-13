@@ -52,6 +52,7 @@ class _ItemScreenState extends State<ItemScreen> {
               ),
               Stack(
                 children: [
+                  Container(),
                   if (tag != null && _showHero != null)
                     Center(
                       child: SizedBox(
