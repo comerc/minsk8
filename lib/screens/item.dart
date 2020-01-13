@@ -15,12 +15,12 @@ class ItemScreen extends StatefulWidget {
   }
 }
 
+enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
+
 class _ItemScreenState extends State<ItemScreen> {
-  var _isHero = true;
+  var _showHero = _ShowHero.forShowcase;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
-  var _flagOpenedZoom = false;
-  var _flagClosedZoom = false;
   // var _isZoomHero = false;
   // var _zoomTag = '';
 
@@ -52,7 +52,7 @@ class _ItemScreenState extends State<ItemScreen> {
               ),
               Stack(
                 children: [
-                  if (tag != null && _isHero)
+                  if (tag != null && _showHero != null)
                     Center(
                       child: SizedBox(
                         height: ItemCarouselSliderSettings.height,
@@ -79,18 +79,16 @@ class _ItemScreenState extends State<ItemScreen> {
                                   animation.status ==
                                       AnimationStatus.dismissed) {
                                 setState(() {
-                                  _isHero = false;
-                                  _flagClosedZoom = false;
-                                  if (_flagOpenedZoom) {
-                                    _flagOpenedZoom = false;
+                                  if (_showHero == _ShowHero.forOpenZoom) {
                                     _isCarouselSlider = false;
                                   }
+                                  _showHero = null;
                                 });
                               }
                             });
                             final Hero hero =
                                 flightDirection == HeroFlightDirection.pop &&
-                                        !_flagClosedZoom
+                                        _showHero != _ShowHero.forCloseZoom
                                     ? fromHeroContext.widget
                                     : toHeroContext.widget;
                             return hero.child;
@@ -102,8 +100,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     GestureDetector(
                       onTap: () async {
                         setState(() {
-                          _isHero = true;
-                          _flagOpenedZoom = true;
+                          _showHero = _ShowHero.forOpenZoom;
                         });
                         Navigator.pushNamed(
                           context,
@@ -195,7 +192,7 @@ class _ItemScreenState extends State<ItemScreen> {
   Future<bool> _onWillPop() async {
     setState(() {
       _currentIndex = 0;
-      _isHero = true;
+      _showHero = _ShowHero.forShowcase;
       _isCarouselSlider = false;
     });
     await Future.delayed(Duration(milliseconds: 100));
@@ -205,9 +202,8 @@ class _ItemScreenState extends State<ItemScreen> {
   _onWillPopForZoom(index) {
     setState(() {
       _currentIndex = index;
-      _isHero = true;
+      _showHero = _ShowHero.forCloseZoom;
       _isCarouselSlider = true;
-      _flagClosedZoom = true;
     });
   }
 }
