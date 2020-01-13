@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 class ZoomScreen extends StatefulWidget {
+  final ZoomRouteArguments arguments;
+
+  ZoomScreen(this.arguments);
+
   @override
   _ZoomScreenState createState() {
     return _ZoomScreenState();
@@ -16,15 +19,14 @@ class _ZoomScreenState extends State<ZoomScreen>
   Animation<double> _animation;
   Function animationListener;
   List<double> doubleTapScales = <double>[1.0, 2.0];
-
-  var _isCarouselSlider = true;
-  var _isHero = true;
+  int _currentIndex;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: this);
+    _currentIndex = widget.arguments.index;
   }
 
   @override
@@ -35,83 +37,75 @@ class _ZoomScreenState extends State<ZoomScreen>
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context).settings.arguments as ZoomRouteArguments;
-    final item = arguments.item;
-    final tag = arguments.tag;
-    final index = arguments.index;
+    final item = widget.arguments.item;
+    final tag = widget.arguments.tag;
+    final size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Material(
+        color: Colors.black,
         child: Stack(
           fit: StackFit.expand,
           children: [
-            LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                Size size = Size(constraints.maxWidth, constraints.maxHeight);
-                return Hero(
-                  tag: tag,
-                  child: ExtendedImage.network(
-                    item.images[index].getLargeDummyUrl(item.id),
-                    fit: BoxFit.contain,
-                    loadStateChanged: loadStateChanged,
-                    //enableLoadState: false,
-                    mode: ExtendedImageMode.gesture,
-                    initGestureConfigHandler: (state) {
-                      double initialScale = 1.0;
-                      if (state.extendedImageInfo != null &&
-                          state.extendedImageInfo.image != null) {
-                        initialScale = initScale(
-                            size: size,
-                            initialScale: initialScale,
-                            imageSize: Size(
-                                state.extendedImageInfo.image.width.toDouble(),
-                                state.extendedImageInfo.image.height
-                                    .toDouble()));
-                      }
-                      return GestureConfig(
-                        minScale: 0.9,
-                        animationMinScale: 0.7,
-                        maxScale: 4.0,
-                        animationMaxScale: 4.5,
-                        speed: 1.0,
-                        inertialSpeed: 100.0,
+            Hero(
+              tag: tag,
+              child: ExtendedImage.network(
+                item.images[_currentIndex].getLargeDummyUrl(item.id),
+                fit: BoxFit.contain,
+                loadStateChanged: loadStateChanged,
+                //enableLoadState: false,
+                mode: ExtendedImageMode.gesture,
+                initGestureConfigHandler: (state) {
+                  double initialScale = 1.0;
+                  if (state.extendedImageInfo != null &&
+                      state.extendedImageInfo.image != null) {
+                    initialScale = initScale(
+                        size: size,
                         initialScale: initialScale,
-                        inPageView: false,
-                        initialAlignment: InitialAlignment.center,
-                      );
-                    },
-                    onDoubleTap: (ExtendedImageGestureState state) {
-                      ///you can use define pointerDownPosition as you can,
-                      ///default value is double tap pointer down postion.
-                      var pointerDownPosition = state.pointerDownPosition;
-                      double begin = state.gestureDetails.totalScale;
-                      double end;
-                      //remove old
-                      _animation?.removeListener(animationListener);
-                      //stop pre
-                      _animationController.stop();
-                      //reset to use
-                      _animationController.reset();
-                      if (begin == doubleTapScales[0]) {
-                        end = doubleTapScales[1];
-                      } else {
-                        end = doubleTapScales[0];
-                      }
-                      animationListener = () {
-                        //print(_animation.value);
-                        state.handleDoubleTap(
-                            scale: _animation.value,
-                            doubleTapPosition: pointerDownPosition);
-                      };
-                      _animation = _animationController
-                          .drive(Tween<double>(begin: begin, end: end));
-                      _animation.addListener(animationListener);
-                      _animationController.forward();
-                    },
-                  ),
-                );
-              },
+                        imageSize: Size(
+                            state.extendedImageInfo.image.width.toDouble(),
+                            state.extendedImageInfo.image.height.toDouble()));
+                  }
+                  return GestureConfig(
+                    minScale: 0.9,
+                    animationMinScale: 0.7,
+                    maxScale: 4.0,
+                    animationMaxScale: 4.5,
+                    speed: 1.0,
+                    inertialSpeed: 100.0,
+                    initialScale: initialScale,
+                    inPageView: false,
+                    initialAlignment: InitialAlignment.center,
+                  );
+                },
+                onDoubleTap: (ExtendedImageGestureState state) {
+                  ///you can use define pointerDownPosition as you can,
+                  ///default value is double tap pointer down position.
+                  final pointerDownPosition = state.pointerDownPosition;
+                  double begin = state.gestureDetails.totalScale;
+                  double end;
+                  //remove old
+                  _animation?.removeListener(animationListener);
+                  //stop pre
+                  _animationController.stop();
+                  //reset to use
+                  _animationController.reset();
+                  if (begin == doubleTapScales[0]) {
+                    end = doubleTapScales[1];
+                  } else {
+                    end = doubleTapScales[0];
+                  }
+                  animationListener = () {
+                    state.handleDoubleTap(
+                        scale: _animation.value,
+                        doubleTapPosition: pointerDownPosition);
+                  };
+                  _animation = _animationController
+                      .drive(Tween<double>(begin: begin, end: end));
+                  _animation.addListener(animationListener);
+                  _animationController.forward();
+                },
+              ),
             ),
           ],
         ),
@@ -120,14 +114,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 
   Future<bool> _onWillPop() async {
-    setState(() {
-      _isHero = true;
-      _isCarouselSlider = false;
-    });
-    final arguments =
-        ModalRoute.of(context).settings.arguments as ZoomRouteArguments;
-    final index = arguments.index;
-    arguments.onWillPop(index);
+    widget.arguments.onWillPop(_currentIndex);
     return true;
   }
 }
@@ -157,6 +144,5 @@ double initScale({Size imageSize, Size size, double initialScale}) {
     Size destinationSize = fittedSizes.destination;
     return size.height / destinationSize.height;
   }
-
   return initialScale;
 }

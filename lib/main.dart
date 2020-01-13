@@ -135,7 +135,8 @@ class App extends StatelessWidget {
               '/home': (_) => HomeScreen(),
               '/image_capture': (_) => ImageCaptureScreen(),
               '/image_pinch': (_) => ImagePinchScreen(),
-              '/zoom': (_) => ZoomScreen(),
+              '/zoom': (BuildContext context) =>
+                  ZoomScreen(ModalRoute.of(context).settings.arguments),
               '/item': (_) => ItemScreen(),
               '/kinds': (_) => KindsScreen(),
               '/login': (_) => LoginScreen(),
