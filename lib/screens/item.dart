@@ -74,14 +74,11 @@ class _ItemScreenState extends State<ItemScreen> {
                             BuildContext toHeroContext,
                           ) {
                             animation.addListener(() {
-                              if (animation.status ==
-                                      AnimationStatus.completed ||
-                                  animation.status ==
-                                      AnimationStatus.dismissed) {
+                              if ([
+                                AnimationStatus.completed,
+                                AnimationStatus.dismissed,
+                              ].contains(animation.status)) {
                                 setState(() {
-                                  if (_showHero == _ShowHero.forOpenZoom) {
-                                    _isCarouselSlider = false;
-                                  }
                                   _showHero = null;
                                 });
                               }
@@ -101,6 +98,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       onTap: () async {
                         setState(() {
                           _showHero = _ShowHero.forOpenZoom;
+                          _isCarouselSlider = false;
                         });
                         Navigator.pushNamed(
                           context,
