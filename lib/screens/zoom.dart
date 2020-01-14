@@ -249,6 +249,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     final item = widget.arguments.item;
     final tag = widget.arguments.tag;
     final onWillPop = widget.arguments.onWillPop;
+    final lastIndex = item.images.length - 1;
     Navigator.pushAndRemoveUntil(
       context,
       _buildInitialRoute(
@@ -257,12 +258,8 @@ class _ZoomScreenState extends State<ZoomScreen>
             item,
             tag: tag,
             index: isNext
-                ? _currentIndex == item.images.length - 1
-                    ? 0
-                    : _currentIndex + 1
-                : _currentIndex == 0
-                    ? item.images.length - 1
-                    : _currentIndex - 1,
+                ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
+                : _currentIndex == 0 ? lastIndex : _currentIndex - 1,
             onWillPop: onWillPop,
           ),
         ),
