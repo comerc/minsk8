@@ -149,7 +149,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   }
 
   Future<bool> _onRefresh() async {
-    print("onRefresh");
+    // print('onRefresh');
     final sourceList = _sourceListPool[_tabController.index];
     return await sourceList.refresh(true);
   }
@@ -162,7 +162,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         _openDeepLink(data?.link);
       },
       onError: (OnLinkErrorException error) async {
-        print('onLinkError');
+        // print('onLinkError');
         print(error.message);
       },
     );
