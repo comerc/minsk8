@@ -164,7 +164,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                         padding: EdgeInsets.all(12.0),
                         child: FlatButton(
                           onPressed: () {
-                            _jump(isNext: false);
+                            _jumpToPage(isNext: false);
                           },
                           shape: CircleBorder(),
                           child: Icon(
@@ -185,7 +185,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                         padding: EdgeInsets.all(12.0),
                         child: FlatButton(
                           onPressed: () {
-                            _jump(isNext: true);
+                            _jumpToPage(isNext: true);
                           },
                           shape: CircleBorder(),
                           child: Icon(
@@ -245,7 +245,7 @@ class _ZoomScreenState extends State<ZoomScreen>
           );
   }
 
-  _jump({bool isNext}) {
+  _jumpToPage({bool isNext}) {
     final item = widget.arguments.item;
     final tag = widget.arguments.tag;
     final onWillPop = widget.arguments.onWillPop;
