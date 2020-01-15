@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: переворачивать экран с принудительного портрета
 // TODO: внедрить свайпы для переходов между картинками
 
 class ZoomScreen extends StatefulWidget {
@@ -44,13 +43,10 @@ class _ZoomScreenState extends State<ZoomScreen>
   Widget build(BuildContext context) {
     final item = widget.arguments.item;
     final tag = widget.arguments.tag;
-    // final onWillPop = widget.arguments.onWillPop;
-    final size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Material(
         color: Colors.black,
-        // shadowColor: Colors.transparent,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -66,12 +62,14 @@ class _ZoomScreenState extends State<ZoomScreen>
                   double initialScale = 1.0;
                   if (state.extendedImageInfo != null &&
                       state.extendedImageInfo.image != null) {
-                    initialScale = _initScale(
-                        size: size,
-                        initialScale: initialScale,
-                        imageSize: Size(
-                            state.extendedImageInfo.image.width.toDouble(),
-                            state.extendedImageInfo.image.height.toDouble()));
+                    // TODO: пока работает неправильно при смене ориентации
+                    // final size = MediaQuery.of(context).size;
+                    // initialScale = _initScale(
+                    //     size: size,
+                    //     initialScale: initialScale,
+                    //     imageSize: Size(
+                    //         state.extendedImageInfo.image.width.toDouble(),
+                    //         state.extendedImageInfo.image.height.toDouble()));
                   }
                   return GestureConfig(
                     minScale: 0.9,
@@ -206,28 +204,27 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 
   Future<bool> _onWillPop() async {
-    widget.arguments.onWillPop(_currentIndex);
-    return true;
+    return widget.arguments.onWillPop(_currentIndex);
   }
 
-  double _initScale({Size imageSize, Size size, double initialScale}) {
-    var n1 = imageSize.height / imageSize.width;
-    var n2 = size.height / size.width;
-    if (n1 > n2) {
-      final FittedSizes fittedSizes =
-          applyBoxFit(BoxFit.contain, imageSize, size);
-      //final Size sourceSize = fittedSizes.source;
-      Size destinationSize = fittedSizes.destination;
-      return size.width / destinationSize.width;
-    } else if (n1 / n2 < 1 / 4) {
-      final FittedSizes fittedSizes =
-          applyBoxFit(BoxFit.contain, imageSize, size);
-      //final Size sourceSize = fittedSizes.source;
-      Size destinationSize = fittedSizes.destination;
-      return size.height / destinationSize.height;
-    }
-    return initialScale;
-  }
+  // double _initScale({Size imageSize, Size size, double initialScale}) {
+  //   var n1 = imageSize.height / imageSize.width;
+  //   var n2 = size.height / size.width;
+  //   if (n1 > n2) {
+  //     final FittedSizes fittedSizes =
+  //         applyBoxFit(BoxFit.contain, imageSize, size);
+  //     //final Size sourceSize = fittedSizes.source;
+  //     Size destinationSize = fittedSizes.destination;
+  //     return size.width / destinationSize.width;
+  //   } else if (n1 / n2 < 1 / 4) {
+  //     final FittedSizes fittedSizes =
+  //         applyBoxFit(BoxFit.contain, imageSize, size);
+  //     //final Size sourceSize = fittedSizes.source;
+  //     Size destinationSize = fittedSizes.destination;
+  //     return size.height / destinationSize.height;
+  //   }
+  //   return initialScale;
+  // }
 
   _buildInitialRoute(WidgetBuilder builder) {
     final settings = RouteSettings(

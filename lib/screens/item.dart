@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -21,8 +22,6 @@ class _ItemScreenState extends State<ItemScreen> {
   var _showHero = _ShowHero.forShowcase;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
-  // var _isZoomHero = false;
-  // var _zoomTag = '';
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +100,13 @@ class _ItemScreenState extends State<ItemScreen> {
                           _showHero = _ShowHero.forOpenZoom;
                           _isCarouselSlider = false;
                         });
+                        await SystemChrome.setPreferredOrientations([
+                          DeviceOrientation.landscapeRight,
+                          DeviceOrientation.landscapeLeft,
+                          DeviceOrientation.portraitUp,
+                          DeviceOrientation.portraitDown,
+                        ]);
+                        await Future.delayed(Duration(milliseconds: 100));
                         Navigator.pushNamed(
                           context,
                           '/zoom',
@@ -198,12 +204,17 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  _onWillPopForZoom(index) {
+  Future<bool> _onWillPopForZoom(index) async {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    await Future.delayed(Duration(milliseconds: 100));
     setState(() {
       _currentIndex = index;
       _showHero = _ShowHero.forCloseZoom;
       _isCarouselSlider = true;
     });
+    return true;
   }
 }
 

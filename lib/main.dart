@@ -1,6 +1,7 @@
 // import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:extended_image/extended_image.dart';
@@ -19,6 +20,8 @@ void main() {
     // }
   };
   runZoned<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(App());
   }, onError: (error, stackTrace) {
     print(error);
@@ -47,135 +50,138 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PersistedAppState(
-      storage: JsonFileStorage(),
-      child: GraphQLProvider(
-        client: ValueNotifier(
-          GraphQLClient(
-            cache: InMemoryCache(),
-            link: HttpLink(uri: kGraphQLEndpoint, headers: {
-              'X-Hasura-Role': 'user',
-              'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
-            }),
-          ),
-        ),
-        child: CacheProvider(
-          child: MaterialApp(
-            // debugShowCheckedModeBanner: false,
-            title: 'minsk8',
-            // theme: ThemeData(
-            //   primarySwatch: mapBoxBlue,
-            // ),
-            builder: (BuildContext context, Widget child) {
-              //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
-              //If you want to set the font size is scaled according to the system's "font size" assist option
-              // ScreenUtil.instance =
-              //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
-              //       ..init(context);
-              final data = MediaQuery.of(context);
-              return MediaQuery(
-                data: data.copyWith(textScaleFactor: 1.0),
-                child: PersistedStateBuilder(
-                  builder: (BuildContext context,
-                      AsyncSnapshot<PersistedData> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Material(
+    Widget result = MaterialApp(
+      // debugShowCheckedModeBanner: false,
+      title: 'minsk8',
+      // theme: ThemeData(
+      //   primarySwatch: mapBoxBlue,
+      // ),
+      builder: (BuildContext context, Widget child) {
+        //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
+        //If you want to set the font size is scaled according to the system's "font size" assist option
+        // ScreenUtil.instance =
+        //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
+        //       ..init(context);
+        final data = MediaQuery.of(context);
+        return MediaQuery(
+          data: data.copyWith(textScaleFactor: 1.0),
+          child: PersistedStateBuilder(
+            builder:
+                (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+              if (!snapshot.hasData) {
+                return Material(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text('Loading state...'),
+                    // child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return Query(
+                options: QueryOptions(
+                  documentNode: Queries.getProfile,
+                  variables: {'member_id': memberId},
+                  fetchPolicy: FetchPolicy.cacheAndNetwork,
+                ),
+                // Just like in apollo refetch() could be used to manually trigger a refetch
+                // while fetchMore() can be used for pagination purpose
+                builder: (QueryResult result,
+                    {VoidCallback refetch, FetchMore fetchMore}) {
+                  if (result.hasException) {
+                    return Material(
+                      child: InkWell(
+                        onTap: refetch,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text('Loading state...'),
-                          // child: CircularProgressIndicator(),
+                          child: Text(result.exception.toString()),
                         ),
-                      );
-                    }
-                    return Query(
-                      options: QueryOptions(
-                        documentNode: Queries.getProfile,
-                        variables: {'member_id': memberId},
-                        fetchPolicy: FetchPolicy.cacheAndNetwork,
                       ),
-                      // Just like in apollo refetch() could be used to manually trigger a refetch
-                      // while fetchMore() can be used for pagination purpose
-                      builder: (QueryResult result,
-                          {VoidCallback refetch, FetchMore fetchMore}) {
-                        if (result.hasException) {
-                          return Material(
-                            child: InkWell(
-                              onTap: refetch,
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(result.exception.toString()),
-                              ),
-                            ),
-                          );
-                        }
-                        if (result.loading) {
-                          return Material(
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Text('Loading profile...'),
-                            ),
-                          );
-                        }
-                        profile = ProfileModel.fromJson(result.data['profile']);
-                        return child;
-                      },
                     );
-                  },
-                ),
+                  }
+                  if (result.loading) {
+                    return Material(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text('Loading profile...'),
+                      ),
+                    );
+                  }
+                  profile = ProfileModel.fromJson(result.data['profile']);
+                  return child;
+                },
               );
             },
-            initialRoute: '/showcase',
-            // home: NestedScrollViewDemo(),
-            routes: <String, WidgetBuilder>{
-              '/about': (_) => AboutScreen(),
-              '/add_item': (_) => AddItemScreen(),
-              '/chat': (_) => ChatScreen(),
-              '/edit_item': (_) => EditItemScreen(),
-              '/forgot_password': (_) => ForgotPasswordScreen(),
-              '/home': (_) => HomeScreen(),
-              '/image_capture': (_) => ImageCaptureScreen(),
-              '/image_pinch': (_) => ImagePinchScreen(),
-              '/zoom': (BuildContext context) =>
-                  ZoomScreen(ModalRoute.of(context).settings.arguments),
-              '/item': (_) => ItemScreen(),
-              '/kinds': (_) => KindsScreen(),
-              '/login': (_) => LoginScreen(),
-              '/map': (_) => MapScreen(),
-              '/my_items': (_) => MyItemsScreen(),
-              '/notifications': (_) => NotificationsScreen(),
-              '/pay': (_) => PayScreen(),
-              '/profile': (_) => ProfileScreen(),
-              '/search': (_) => SearchScreen(),
-              '/settings': (_) => SettingsScreen(),
-              '/showcase': (_) => ShowcaseScreen(),
-              '/sign_up': (_) => SignUpScreen(),
-              '/start': (_) => StartScreen(),
-              '/underway': (_) => UnderwayScreen(),
-              '/wallet': (_) => WalletScreen(),
-              '/wishes': (_) => WishesScreen(),
-            },
-            onGenerateRoute: (RouteSettings settings) {
-              // if (settings.name == '/item') {
-              //   print('1122111');
-              //   return Platform.isIOS
-              //       ? TransparentCupertinoPageRoute(
-              //           settings: settings,
-              //           builder: (BuildContext context) => ItemScreen())
-              //       : TransparentMaterialPageRoute(
-              //           settings: settings,
-              //           builder: (BuildContext context) => ItemScreen());
-              // }
-              print('onGenerateRoute: $settings');
-              return null;
-            },
-            // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
-            //   settings: settings,
-            //   builder: (BuildContext context) => UnknownPage(settings.name),
-            // ),
           ),
+        );
+      },
+      initialRoute: '/showcase',
+      // home: NestedScrollViewDemo(),
+      routes: <String, WidgetBuilder>{
+        '/about': (_) => AboutScreen(),
+        '/add_item': (_) => AddItemScreen(),
+        '/chat': (_) => ChatScreen(),
+        '/edit_item': (_) => EditItemScreen(),
+        '/forgot_password': (_) => ForgotPasswordScreen(),
+        '/home': (_) => HomeScreen(),
+        '/image_capture': (_) => ImageCaptureScreen(),
+        '/image_pinch': (_) => ImagePinchScreen(),
+        '/zoom': (BuildContext context) =>
+            ZoomScreen(ModalRoute.of(context).settings.arguments),
+        '/item': (_) => ItemScreen(),
+        '/kinds': (_) => KindsScreen(),
+        '/login': (_) => LoginScreen(),
+        '/map': (_) => MapScreen(),
+        '/my_items': (_) => MyItemsScreen(),
+        '/notifications': (_) => NotificationsScreen(),
+        '/pay': (_) => PayScreen(),
+        '/profile': (_) => ProfileScreen(),
+        '/search': (_) => SearchScreen(),
+        '/settings': (_) => SettingsScreen(),
+        '/showcase': (_) => ShowcaseScreen(),
+        '/sign_up': (_) => SignUpScreen(),
+        '/start': (_) => StartScreen(),
+        '/underway': (_) => UnderwayScreen(),
+        '/wallet': (_) => WalletScreen(),
+        '/wishes': (_) => WishesScreen(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        // if (settings.name == '/item') {
+        //   print('1122111');
+        //   return Platform.isIOS
+        //       ? TransparentCupertinoPageRoute(
+        //           settings: settings,
+        //           builder: (BuildContext context) => ItemScreen())
+        //       : TransparentMaterialPageRoute(
+        //           settings: settings,
+        //           builder: (BuildContext context) => ItemScreen());
+        // }
+        print('onGenerateRoute: $settings');
+        return null;
+      },
+      // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
+      //   settings: settings,
+      //   builder: (BuildContext context) => UnknownPage(settings.name),
+      // ),
+    );
+    result = GraphQLProvider(
+      client: ValueNotifier(
+        GraphQLClient(
+          cache: InMemoryCache(),
+          link: HttpLink(uri: kGraphQLEndpoint, headers: {
+            'X-Hasura-Role': 'user',
+            'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
+          }),
         ),
       ),
+      child: CacheProvider(
+        child: result,
+      ),
     );
+    result = PersistedAppState(
+      storage: JsonFileStorage(),
+      child: result,
+    );
+    return result;
   }
 }
 
