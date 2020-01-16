@@ -38,7 +38,10 @@ class ShowcaseItem extends StatelessWidget {
               arguments: ItemRouteArguments(item, tag: tag),
             );
           },
-          child: _buildImage(),
+          child: Hero(
+            tag: tag,
+            child: _buildImage(),
+          ),
         ),
         // SizedBox(
         //   height: 5.0,
@@ -69,24 +72,20 @@ class ShowcaseItem extends StatelessWidget {
           Stack(
         fit: StackFit.expand,
         children: [
-          Hero(
-            tag: tag,
-            child: ExtendedImage.network(
-              image.getDummyUrl(item.id),
-              fit: BoxFit.fill,
-              // shape: BoxShape.rectangle,
-              // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-              // borderRadius: BorderRadius.all(kImageBorderRadius),
-              loadStateChanged: loadStateChanged,
-            ),
+          ExtendedImage.network(
+            image.getDummyUrl(item.id),
+            fit: BoxFit.fill,
+            // shape: BoxShape.rectangle,
+            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+            // borderRadius: BorderRadius.all(kImageBorderRadius),
+            loadStateChanged: loadStateChanged,
           ),
           _buildText(item.text.trim()),
           if (item.expiresAt != null)
             _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
-          _buildTopRightLabel(item.images.length.toString()),
+          // _buildTopRightLabel(item.images.length.toString()),
         ],
       ),
-      // ),
     );
   }
 
@@ -119,71 +118,70 @@ class ShowcaseItem extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget _buildText(String text) {
-  return Positioned(
-    bottom: 0,
-    right: 0,
-    left: 0,
-    child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter,
-          colors: [
-            Colors.grey.withOpacity(0.0),
-            Colors.black.withOpacity(0.4),
-          ],
+  Widget _buildText(String text) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      left: 0,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: FractionalOffset.topCenter,
+            end: FractionalOffset.bottomCenter,
+            colors: [
+              Colors.grey.withOpacity(0.0),
+              Colors.black.withOpacity(0.4),
+            ],
+          ),
         ),
-      ),
-      padding: EdgeInsets.only(
-        left: 8.0,
-        top: 32.0,
-        right: 8.0,
-        bottom: 8.0,
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 23,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
+        padding: EdgeInsets.only(
+          left: 8.0,
+          top: 32.0,
+          right: 8.0,
+          bottom: 8.0,
         ),
-      ),
-    ),
-  );
-}
-
-_buildCountdownTimer(int endTime) {
-  return Positioned(
-    top: 0,
-    left: 0,
-    child: Container(
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.pink.withOpacity(0.8),
-        // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
-        // borderRadius: BorderRadius.all(Radius.circular(6.5)),
-        // borderRadius: BorderRadius.only(
-        //   // topLeft: kImageBorderRadius,
-        //   bottomRight: kImageBorderRadius,
-        // ),
-      ),
-      child: CountdownTimer(
-        endTime: endTime,
-        builder: (context, seconds) => Text(
-          seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+        child: Text(
+          text,
           style: TextStyle(
-            fontSize: kFontSize,
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
             color: Colors.white,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
+
+  _buildCountdownTimer(int endTime) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.pink.withOpacity(0.8),
+          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+          // borderRadius: BorderRadius.all(Radius.circular(6.5)),
+          // borderRadius: BorderRadius.only(
+          //   // topLeft: kImageBorderRadius,
+          //   bottomRight: kImageBorderRadius,
+          // ),
+        ),
+        child: CountdownTimer(
+          endTime: endTime,
+          builder: (context, seconds) => Text(
+            seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
 // Widget _buildTags(TuChongItem item) {
 //   return Wrap(
@@ -213,32 +211,33 @@ _buildCountdownTimer(int endTime) {
 //   );
 // }
 
-Widget _buildTopRightLabel(String data) {
-  return Positioned(
-    top: 5.0,
-    right: 5.0,
-    child: Container(
-      padding: EdgeInsets.all(3.0),
-      decoration: BoxDecoration(
-        // color: Colors.grey.withOpacity(0.6),
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.4),
-          width: 1.0,
+  Widget _buildTopRightLabel(String data) {
+    return Positioned(
+      top: 5.0,
+      right: 5.0,
+      child: Container(
+        padding: EdgeInsets.all(3.0),
+        decoration: BoxDecoration(
+          // color: Colors.grey.withOpacity(0.6),
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey.withOpacity(0.4),
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
+          ),
         ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
+        child: Text(
+          data,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: kFontSize * 1.6,
+            color: Colors.orange,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
-      child: Text(
-        data,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: kFontSize * 1.6,
-          color: Colors.orange,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-  );
+    );
+  }
 }
