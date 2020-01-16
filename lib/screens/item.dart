@@ -29,6 +29,13 @@ class _ItemScreenState extends State<ItemScreen> {
         ModalRoute.of(context).settings.arguments as ItemRouteArguments;
     final item = arguments.item;
     final tag = arguments.tag;
+    final size = MediaQuery.of(context).size;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
+    final carouselSliderHeight = bodyHeight * kGoldenRatio -
+        ItemCarouselSliderSettings.verticalPadding * 2;
+    final panelHeight = bodyHeight - bodyHeight * kGoldenRatio;
+    final viewportFraction = 0.8;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -47,7 +54,7 @@ class _ItemScreenState extends State<ItemScreen> {
           body: Column(
             children: [
               SizedBox(
-                height: 16.0,
+                height: ItemCarouselSliderSettings.verticalPadding,
               ),
               Stack(
                 children: [
@@ -55,10 +62,9 @@ class _ItemScreenState extends State<ItemScreen> {
                   if (tag != null && _showHero != null)
                     Center(
                       child: SizedBox(
-                        height: ItemCarouselSliderSettings.height,
-                        width: MediaQuery.of(context).size.width *
-                                ItemCarouselSliderSettings.viewportFraction -
-                            ItemCarouselSliderSettings.margin * 2,
+                        height: carouselSliderHeight,
+                        width: size.width * viewportFraction -
+                            ItemCarouselSliderSettings.itemHorizontalMargin * 2,
                         child: Hero(
                           tag: tag,
                           child: ExtendedImage.network(
@@ -120,21 +126,21 @@ class _ItemScreenState extends State<ItemScreen> {
                       },
                       child: CarouselSlider(
                         initialPage: _currentIndex,
-                        height: 400.0,
+                        height: carouselSliderHeight,
                         autoPlay: item.images.length > 1,
                         enableInfiniteScroll: item.images.length > 1,
                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                         enlargeCenterPage: true,
-                        viewportFraction:
-                            ItemCarouselSliderSettings.viewportFraction,
+                        viewportFraction: viewportFraction,
                         onPageChanged: (index) {
                           _currentIndex = index;
                         },
                         items: List.generate(item.images.length, (index) {
                           return Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: size.width,
                             margin: EdgeInsets.symmetric(
-                                horizontal: ItemCarouselSliderSettings.margin),
+                                horizontal: ItemCarouselSliderSettings
+                                    .itemHorizontalMargin),
                             child: ExtendedImage.network(
                               item.images[index].getDummyUrl(item.id),
                               fit: BoxFit.cover,
@@ -152,12 +158,13 @@ class _ItemScreenState extends State<ItemScreen> {
             ],
           ),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(18.0),
-            topRight: Radius.circular(18.0),
+            topLeft: Radius.circular(16.0),
+            topRight: Radius.circular(16.0),
           ),
           // parallaxEnabled: true,
           // parallaxOffset: .8,
-          maxHeight: 800,
+          // maxHeight: 800,
+          minHeight: panelHeight,
           panel: Column(
             children: [
               SizedBox(
@@ -181,9 +188,9 @@ class _ItemScreenState extends State<ItemScreen> {
               Center(
                 child: Text("This is the sliding Widget"),
               ),
-              SizedBox(
-                height: 500.0,
-              ),
+              // SizedBox(
+              //   height: 500.0,
+              // ),
               Center(
                 child: Text("This is the sliding Widget"),
               ),
@@ -226,7 +233,7 @@ class ItemRouteArguments {
 }
 
 class ItemCarouselSliderSettings {
-  static const margin = 8.0;
+  static const itemHorizontalMargin = 8.0;
   static const viewportFraction = 0.8;
-  static const height = 400.0;
+  static const verticalPadding = 16.0;
 }
