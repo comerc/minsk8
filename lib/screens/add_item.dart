@@ -1,6 +1,8 @@
 import 'package:minsk8/import.dart';
 import 'package:flutter/material.dart';
 
+// TODO: item.text.trim()
+
 class AddItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

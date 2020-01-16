@@ -80,7 +80,7 @@ class ShowcaseItem extends StatelessWidget {
             // borderRadius: BorderRadius.all(kImageBorderRadius),
             loadStateChanged: loadStateChanged,
           ),
-          _buildText(item.text.trim()),
+          _buildText(item.text),
           if (item.expiresAt != null)
             _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
           // _buildTopRightLabel(item.images.length.toString()),
@@ -144,10 +144,12 @@ class ShowcaseItem extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 23,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

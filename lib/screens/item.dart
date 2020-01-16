@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:geolocator/geolocator.dart';
@@ -22,6 +24,22 @@ class _ItemScreenState extends State<ItemScreen> {
   var _showHero = _ShowHero.forShowcase;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
+  GlobalKey _panelColumnKey = GlobalKey();
+  double _panelMaxHeight;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    final RenderBox renderBox =
+        _panelColumnKey.currentContext.findRenderObject();
+    setState(() {
+      _panelMaxHeight = renderBox.size.height;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +52,8 @@ class _ItemScreenState extends State<ItemScreen> {
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
     final carouselSliderHeight = bodyHeight * kGoldenRatio -
         ItemCarouselSliderSettings.verticalPadding * 2;
-    final panelHeight = bodyHeight - bodyHeight * kGoldenRatio;
-    final viewportFraction = 0.8;
+    final panelMinHeight = bodyHeight - bodyHeight * kGoldenRatio;
+    final panelChildWidth = size.width - 32.0;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -63,7 +81,8 @@ class _ItemScreenState extends State<ItemScreen> {
                     Center(
                       child: SizedBox(
                         height: carouselSliderHeight,
-                        width: size.width * viewportFraction -
+                        width: size.width *
+                                ItemCarouselSliderSettings.viewportFraction -
                             ItemCarouselSliderSettings.itemHorizontalMargin * 2,
                         child: Hero(
                           tag: tag,
@@ -131,7 +150,8 @@ class _ItemScreenState extends State<ItemScreen> {
                         enableInfiniteScroll: item.images.length > 1,
                         pauseAutoPlayOnTouch: Duration(seconds: 10),
                         enlargeCenterPage: true,
-                        viewportFraction: viewportFraction,
+                        viewportFraction:
+                            ItemCarouselSliderSettings.viewportFraction,
                         onPageChanged: (index) {
                           _currentIndex = index;
                         },
@@ -152,9 +172,6 @@ class _ItemScreenState extends State<ItemScreen> {
                     ),
                 ],
               ),
-              Center(
-                child: Text(item.text),
-              ),
             ],
           ),
           borderRadius: BorderRadius.only(
@@ -163,36 +180,56 @@ class _ItemScreenState extends State<ItemScreen> {
           ),
           // parallaxEnabled: true,
           // parallaxOffset: .8,
-          // maxHeight: 800,
-          minHeight: panelHeight,
-          panel: Column(
+          maxHeight: _panelMaxHeight == null
+              ? size.height
+              : max(_panelMaxHeight, panelMinHeight),
+          minHeight: panelMinHeight,
+          panel: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 12.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                key: _panelColumnKey,
+                children: [
+                  SizedBox(
+                    height: 12.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 30,
+                        height: 5,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 18.0,
+                  ),
+                  // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
                   Container(
-                    width: 30,
-                    height: 5,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    width: panelChildWidth,
+                    child: Text(
+                      item.text,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Center(
+                    child: Text("This is the sliding Widget"),
+                  ),
+                  SizedBox(
+                    height: 500.0,
+                  ),
+                  Center(
+                    child: Text("This is the sliding Widget"),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: 18.0,
-              ),
-              Center(
-                child: Text("This is the sliding Widget"),
-              ),
-              // SizedBox(
-              //   height: 500.0,
-              // ),
-              Center(
-                child: Text("This is the sliding Widget"),
               ),
             ],
           ),
