@@ -1,14 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
-
-// TODO: Geolocator().distanceBetween()
-// double distanceInMeters = await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
 
 class ItemScreen extends StatefulWidget {
   @override
@@ -32,7 +28,7 @@ class _ItemScreenState extends State<ItemScreen> {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
-  _afterLayout(_) {
+  void _afterLayout(_) {
     final RenderBox renderBox =
         _panelColumnKey.currentContext.findRenderObject();
     setState(() {
@@ -229,7 +225,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             Expanded(
                               child: Container(),
                             ),
-                            Distance(11.2),
+                            Distance(item.location),
                           ],
                         ),
                       ),
