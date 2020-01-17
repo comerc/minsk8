@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:state_persistence/state_persistence.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,30 +28,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   // See https://github.com/flutter/flutter/issues/14317#issuecomment-361085869
   // This project didn't require that change, so YMMV.
 
-  LatLng _currentPosition;
+  // LatLng _currentPosition;
   MapController _mapController;
 
   @override
   void initState() {
     super.initState();
-    _initCurrentPosition();
     _mapController = MapController();
-  }
-
-  void _initCurrentPosition() async {
-    final geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-    if (GeolocationStatus.granted == geolocationStatus) {
-      try {
-        final position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-        setState(() {
-          _currentPosition = LatLng(position.latitude, position.longitude);
-        });
-      } catch (error) {
-        debugPrint(error.toString());
-      }
-    }
   }
 
   void _animatedMapMove(LatLng destCenter, double destZoom) {
@@ -92,12 +73,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final appState = PersistedAppState.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Map'),
         actions: [
-          if (kReleaseMode != null)
+          if (isInDebugMode)
             IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () {
@@ -112,19 +92,28 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
       body: FlutterMap(
         mapController: _mapController,
         options: MapOptions(
-          center: LatLng(appState['center.latitude'] ?? 53.9,
-              appState['center.longitude'] ?? 27.56667),
+          center: appState['center'] == null
+              ? LatLng(
+                  kDefaultMapCenter[0],
+                  kDefaultMapCenter[1],
+                )
+              : LatLng(
+                  appState['center'][0],
+                  appState['center'][1],
+                ),
           zoom: appState['zoom'] ?? 8.0,
           minZoom: 4.0,
           onPositionChanged: (position, _hasGesture) {
-            appState['center.latitude'] = position.center.latitude;
-            appState['center.longitude'] = position.center.longitude;
+            appState['center'] = [
+              position.center.latitude,
+              position.center.longitude
+            ];
             appState['zoom'] = position.zoom;
           },
           plugins: [
             AreaLayerMapPlugin(),
-            if (kReleaseMode != null) ScaleLayerMapPlugin(),
-            if (kReleaseMode != null) ZoomLayerMapPlugin(),
+            if (isInDebugMode) ScaleLayerMapPlugin(),
+            if (isInDebugMode) ZoomLayerMapPlugin(),
           ],
         ),
         layers: [
@@ -132,7 +121,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             urlTemplate: 'https://tilessputnik.ru/{z}/{x}/{y}.png',
             tileProvider: CachedNetworkTileProvider(),
           ),
-          if (_currentPosition != null)
+          if (appState['currentPosition'] != null)
             CircleLayerOptions(circles: [
               CircleMarker(
                 // useRadiusInMeter: true,
@@ -140,7 +129,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 color: Colors.blue,
                 borderColor: Colors.black,
                 borderStrokeWidth: 1.0,
-                point: _currentPosition,
+                point: LatLng(
+                  appState['currentPosition'][0],
+                  appState['currentPosition'][1],
+                ),
               ),
             ]),
           AreaLayerMapPluginOptions(
@@ -188,8 +180,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 final Position position = await Geolocator()
                     .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
                 setState(() {
-                  _currentPosition =
-                      LatLng(position.latitude, position.longitude);
+                  appState['currentPosition'] = [
+                    position.latitude,
+                    position.longitude
+                  ];
+                  // _currentPosition =
+                  //     LatLng(position.latitude, position.longitude);
                   _animatedMapMove(
                       LatLng(position.latitude, position.longitude), 10.0);
                 });
@@ -221,14 +217,14 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             //   _animatedMapMove(destCenter, destZoom);
             // },
           ),
-          if (kReleaseMode != null)
+          if (isInDebugMode)
             ScaleLayerMapPluginOption(
               lineColor: Colors.blue,
               lineWidth: 2,
               textStyle: TextStyle(color: Colors.blue, fontSize: 12),
               padding: EdgeInsets.all(10),
             ),
-          if (kReleaseMode != null) ZoomLayerMapPluginOptions(),
+          if (isInDebugMode) ZoomLayerMapPluginOptions(),
         ],
       ),
     );
