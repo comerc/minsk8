@@ -23,11 +23,10 @@ class _WishState extends State<Wish> {
         child: InkWell(
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
+            size: 36.0,
             padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 16.3,
+              horizontal: 6.0,
             ),
-            size: 18.0,
             isLiked: _profileWishIndex != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {

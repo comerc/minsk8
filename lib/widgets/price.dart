@@ -11,9 +11,10 @@ Widget buildPrice(ItemModel item) {
         splashColor: Colors.white,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: Container(
+          height: 36.0,
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 16.3,
+            horizontal: 16.0,
           ),
           child: Text(
             item.price == null ? '0' : item.price?.toString(),
