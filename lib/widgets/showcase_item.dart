@@ -109,7 +109,10 @@ class ShowcaseItem extends StatelessWidget {
         // SizedBox(
         //   width: 16.3,
         // ),
-        Price(item),
+        Hero(
+          tag: tag + '_price',
+          child: Price(item),
+        ),
         Expanded(
           child: Container(),
         ),

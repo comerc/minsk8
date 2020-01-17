@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:geolocator/geolocator.dart';
@@ -29,8 +28,8 @@ class _ItemScreenState extends State<ItemScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
   _afterLayout(_) {
@@ -53,7 +52,9 @@ class _ItemScreenState extends State<ItemScreen> {
     final carouselSliderHeight = bodyHeight * kGoldenRatio -
         ItemCarouselSliderSettings.verticalPadding * 2;
     final panelMinHeight = bodyHeight - bodyHeight * kGoldenRatio;
-    final panelChildWidth = size.width - 32.0;
+    final panelChildWidth = size.width - 32.0; // for padding
+    final panelSlideLabelWidth = 30.0;
+    final panelSlideLabelHeight = 4.0;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -185,38 +186,64 @@ class _ItemScreenState extends State<ItemScreen> {
               : max(_panelMaxHeight, panelMinHeight),
           minHeight: panelMinHeight,
           panel: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 mainAxisSize: MainAxisSize.min,
                 key: _panelColumnKey,
                 children: [
                   SizedBox(
-                    height: 12.0,
+                    height: 16.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                    children: [
                       Container(
-                        width: 30,
-                        height: 5,
+                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
+                        child: Row(
+                          children: [
+                            Hero(
+                              tag: tag + '_price',
+                              child: Price(item),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: panelSlideLabelWidth,
+                        height: panelSlideLabelHeight,
+                        margin: EdgeInsets.only(
+                            bottom: kButtonHeight - panelSlideLabelHeight),
                         decoration: BoxDecoration(
                             color: Colors.grey[300],
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0))),
                       ),
+                      Container(
+                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(),
+                            ),
+                            Distance(11.2),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
-                    height: 18.0,
+                    height: 8.0,
                   ),
                   // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
                   Container(
                     width: panelChildWidth,
                     child: Text(
                       item.text,
-                      maxLines: 4,
+                      maxLines: 8,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
