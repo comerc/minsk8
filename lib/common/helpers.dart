@@ -1,3 +1,4 @@
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dart:convert';
@@ -12,6 +13,9 @@ bool get isInDebugMode {
   // in production. Therefore, this code only sets `inDebugMode` to true
   // in a development environment.
   assert(inDebugMode = true);
+
+  // or
+  // inDebugMode = kReleaseMode != null;
 
   return inDebugMode;
 }
