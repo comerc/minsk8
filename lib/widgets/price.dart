@@ -11,7 +11,7 @@ Widget buildPrice(ItemModel item) {
         splashColor: Colors.white,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: Container(
-          height: 36.0,
+          height: kButtonHeight,
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
             horizontal: 16.0,

@@ -10,7 +10,7 @@ Widget buildShare(ItemModel item) {
       child: InkWell(
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: Container(
-          height: 36.0,
+          height: kButtonHeight,
           padding: EdgeInsets.symmetric(
             horizontal: 16.0,
           ),
