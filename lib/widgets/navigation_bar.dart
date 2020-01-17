@@ -4,7 +4,6 @@ import 'package:minsk8/import.dart';
 class NavigationBar extends StatelessWidget {
   final String currentRouteName;
   final double height = kNavigationBarHeight;
-  final double iconSize = 32;
   final Color backgroundColor = Colors.white;
   final Color color = Colors.grey;
   final Color selectedColor = Colors.pinkAccent;
@@ -44,7 +43,7 @@ class NavigationBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: this.iconSize),
+            SizedBox(height: kBigButtonIconSize),
           ],
         ),
       ),
@@ -75,7 +74,11 @@ class NavigationBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(tab.icon, color: color, size: this.iconSize),
+                  Icon(
+                    tab.icon,
+                    color: color,
+                    size: kBigButtonIconSize,
+                  ),
                   // Text(
                   //   tab.title,
                   //   style: TextStyle(color: color),

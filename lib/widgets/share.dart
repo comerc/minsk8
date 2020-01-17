@@ -4,9 +4,13 @@ import 'package:share/share.dart' as share;
 import 'package:minsk8/import.dart';
 
 class Share extends StatelessWidget {
-  Share(this.item);
+  Share(
+    this.item, {
+    this.iconSize = kButtonIconSize,
+  });
 
   final ItemModel item;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +20,10 @@ class Share extends StatelessWidget {
         child: InkWell(
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: Container(
-            height: kButtonHeight,
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
-            ),
             child: Icon(
               Icons.share,
               color: Colors.black,
-              size: 18.0,
+              size: iconSize,
             ),
           ),
           onTap: _onTap(item),

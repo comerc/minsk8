@@ -54,210 +54,264 @@ class _ItemScreenState extends State<ItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Завершено'),
-          centerTitle: true,
-          backgroundColor: Colors.pink.withOpacity(0.8),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.account_box),
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: SlidingUpPanel(
-          body: Column(
+          appBar: AppBar(
+            title: Text('Завершено'),
+            centerTitle: true,
+            backgroundColor: Colors.pink.withOpacity(0.8),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.account_box),
+                onPressed: () {},
+              )
+            ],
+          ),
+          body: Stack(
             children: [
-              SizedBox(
-                height: ItemCarouselSliderSettings.verticalPadding,
+              SlidingUpPanel(
+                body: Column(
+                  children: [
+                    SizedBox(
+                      height: ItemCarouselSliderSettings.verticalPadding,
+                    ),
+                    Stack(
+                      children: [
+                        Container(),
+                        if (tag != null && _showHero != null)
+                          Center(
+                            child: SizedBox(
+                              height: carouselSliderHeight,
+                              width: size.width *
+                                      ItemCarouselSliderSettings
+                                          .viewportFraction -
+                                  ItemCarouselSliderSettings
+                                          .itemHorizontalMargin *
+                                      2,
+                              child: Hero(
+                                tag: tag,
+                                child: ExtendedImage.network(
+                                  item.images[_currentIndex]
+                                      .getDummyUrl(item.id),
+                                  fit: BoxFit.cover,
+                                  enableLoadState: false,
+                                ),
+                                flightShuttleBuilder: (
+                                  BuildContext flightContext,
+                                  Animation<double> animation,
+                                  HeroFlightDirection flightDirection,
+                                  BuildContext fromHeroContext,
+                                  BuildContext toHeroContext,
+                                ) {
+                                  animation.addListener(() {
+                                    if ([
+                                      AnimationStatus.completed,
+                                      AnimationStatus.dismissed,
+                                    ].contains(animation.status)) {
+                                      setState(() {
+                                        _showHero = null;
+                                      });
+                                    }
+                                  });
+                                  final Hero hero = flightDirection ==
+                                              HeroFlightDirection.pop &&
+                                          _showHero != _ShowHero.forCloseZoom
+                                      ? fromHeroContext.widget
+                                      : toHeroContext.widget;
+                                  return hero.child;
+                                },
+                              ),
+                            ),
+                          ),
+                        if (_isCarouselSlider)
+                          GestureDetector(
+                            onTap: () async {
+                              setState(() {
+                                _showHero = _ShowHero.forOpenZoom;
+                                _isCarouselSlider = false;
+                              });
+                              await SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.landscapeRight,
+                                DeviceOrientation.landscapeLeft,
+                                DeviceOrientation.portraitUp,
+                                DeviceOrientation.portraitDown,
+                              ]);
+                              await Future.delayed(Duration(milliseconds: 100));
+                              Navigator.pushNamed(
+                                context,
+                                '/zoom',
+                                arguments: ZoomRouteArguments(
+                                  item,
+                                  tag: tag,
+                                  index: _currentIndex,
+                                  onWillPop: _onWillPopForZoom,
+                                ),
+                              );
+                            },
+                            child: CarouselSlider(
+                              initialPage: _currentIndex,
+                              height: carouselSliderHeight,
+                              autoPlay: item.images.length > 1,
+                              enableInfiniteScroll: item.images.length > 1,
+                              pauseAutoPlayOnTouch: Duration(seconds: 10),
+                              enlargeCenterPage: true,
+                              viewportFraction:
+                                  ItemCarouselSliderSettings.viewportFraction,
+                              onPageChanged: (index) {
+                                _currentIndex = index;
+                              },
+                              items: List.generate(item.images.length, (index) {
+                                return Container(
+                                  width: size.width,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: ItemCarouselSliderSettings
+                                          .itemHorizontalMargin),
+                                  child: ExtendedImage.network(
+                                    item.images[index].getDummyUrl(item.id),
+                                    fit: BoxFit.cover,
+                                    loadStateChanged: loadStateChanged,
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.0),
+                  topRight: Radius.circular(16.0),
+                ),
+                // parallaxEnabled: true,
+                // parallaxOffset: .8,
+                maxHeight: _panelMaxHeight == null
+                    ? size.height
+                    : max(_panelMaxHeight, panelMinHeight),
+                minHeight: panelMinHeight,
+                panel: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      key: _panelColumnKey,
+                      children: [
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width:
+                                  (panelChildWidth - panelSlideLabelWidth) / 2,
+                              child: Row(
+                                children: [
+                                  Price(item),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: panelSlideLabelWidth,
+                              height: panelSlideLabelHeight,
+                              margin: EdgeInsets.only(
+                                  bottom:
+                                      kButtonHeight - panelSlideLabelHeight),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0))),
+                            ),
+                            Container(
+                              width:
+                                  (panelChildWidth - panelSlideLabelWidth) / 2,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Distance(item.location),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
+                        Container(
+                          width: panelChildWidth,
+                          child: Text(
+                            item.text,
+                            maxLines: 8,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Center(
+                          child: Text("This is the sliding Widget"),
+                        ),
+                        SizedBox(
+                          height: 500.0,
+                        ),
+                        Center(
+                          child: Text("This is the sliding Widget"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Stack(
-                children: [
-                  Container(),
-                  if (tag != null && _showHero != null)
-                    Center(
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: FractionalOffset.topCenter,
+                        end: FractionalOffset.bottomCenter,
+                        colors: [
+                          Colors.white.withOpacity(0.0),
+                          Colors.white.withOpacity(0.4),
+                        ],
+                      ),
+                    ),
+                    height: 16 + kBigButtonHeight * 1.5,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 16,
+                right: 16,
+                left: 16,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: kBigButtonWidth,
+                      height: kBigButtonHeight,
+                      child: Share(item, iconSize: kBigButtonIconSize),
+                    ),
+                    SizedBox(width: 8),
+                    SizedBox(
+                      width: kBigButtonWidth,
+                      height: kBigButtonHeight,
+                      child: Wish(item, iconSize: kBigButtonIconSize),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
                       child: SizedBox(
-                        height: carouselSliderHeight,
-                        width: size.width *
-                                ItemCarouselSliderSettings.viewportFraction -
-                            ItemCarouselSliderSettings.itemHorizontalMargin * 2,
-                        child: Hero(
-                          tag: tag,
-                          child: ExtendedImage.network(
-                            item.images[_currentIndex].getDummyUrl(item.id),
-                            fit: BoxFit.cover,
-                            enableLoadState: false,
-                          ),
-                          flightShuttleBuilder: (
-                            BuildContext flightContext,
-                            Animation<double> animation,
-                            HeroFlightDirection flightDirection,
-                            BuildContext fromHeroContext,
-                            BuildContext toHeroContext,
-                          ) {
-                            animation.addListener(() {
-                              if ([
-                                AnimationStatus.completed,
-                                AnimationStatus.dismissed,
-                              ].contains(animation.status)) {
-                                setState(() {
-                                  _showHero = null;
-                                });
-                              }
-                            });
-                            final Hero hero =
-                                flightDirection == HeroFlightDirection.pop &&
-                                        _showHero != _ShowHero.forCloseZoom
-                                    ? fromHeroContext.widget
-                                    : toHeroContext.widget;
-                            return hero.child;
-                          },
-                        ),
+                        height: kBigButtonHeight,
+                        child: Want(item),
                       ),
                     ),
-                  if (_isCarouselSlider)
-                    GestureDetector(
-                      onTap: () async {
-                        setState(() {
-                          _showHero = _ShowHero.forOpenZoom;
-                          _isCarouselSlider = false;
-                        });
-                        await SystemChrome.setPreferredOrientations([
-                          DeviceOrientation.landscapeRight,
-                          DeviceOrientation.landscapeLeft,
-                          DeviceOrientation.portraitUp,
-                          DeviceOrientation.portraitDown,
-                        ]);
-                        await Future.delayed(Duration(milliseconds: 100));
-                        Navigator.pushNamed(
-                          context,
-                          '/zoom',
-                          arguments: ZoomRouteArguments(
-                            item,
-                            tag: tag,
-                            index: _currentIndex,
-                            onWillPop: _onWillPopForZoom,
-                          ),
-                        );
-                      },
-                      child: CarouselSlider(
-                        initialPage: _currentIndex,
-                        height: carouselSliderHeight,
-                        autoPlay: item.images.length > 1,
-                        enableInfiniteScroll: item.images.length > 1,
-                        pauseAutoPlayOnTouch: Duration(seconds: 10),
-                        enlargeCenterPage: true,
-                        viewportFraction:
-                            ItemCarouselSliderSettings.viewportFraction,
-                        onPageChanged: (index) {
-                          _currentIndex = index;
-                        },
-                        items: List.generate(item.images.length, (index) {
-                          return Container(
-                            width: size.width,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: ItemCarouselSliderSettings
-                                    .itemHorizontalMargin),
-                            child: ExtendedImage.network(
-                              item.images[index].getDummyUrl(item.id),
-                              fit: BoxFit.cover,
-                              loadStateChanged: loadStateChanged,
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ],
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.0),
-            topRight: Radius.circular(16.0),
-          ),
-          // parallaxEnabled: true,
-          // parallaxOffset: .8,
-          maxHeight: _panelMaxHeight == null
-              ? size.height
-              : max(_panelMaxHeight, panelMinHeight),
-          minHeight: panelMinHeight,
-          panel: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                key: _panelColumnKey,
-                children: [
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
-                        child: Row(
-                          children: [
-                            Hero(
-                              tag: tag + '_price',
-                              child: Price(item),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: panelSlideLabelWidth,
-                        height: panelSlideLabelHeight,
-                        margin: EdgeInsets.only(
-                            bottom: kButtonHeight - panelSlideLabelHeight),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0))),
-                      ),
-                      Container(
-                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(),
-                            ),
-                            Distance(item.location),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
-                  Container(
-                    width: panelChildWidth,
-                    child: Text(
-                      item.text,
-                      maxLines: 8,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Center(
-                    child: Text("This is the sliding Widget"),
-                  ),
-                  SizedBox(
-                    height: 500.0,
-                  ),
-                  Center(
-                    child: Text("This is the sliding Widget"),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 

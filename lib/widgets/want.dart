@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class Price extends StatelessWidget {
-  Price(this.item);
+class Want extends StatelessWidget {
+  Want(this.item);
 
   final ItemModel item;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Price',
+      message: 'Want',
       child: Material(
-        color: Colors.yellow,
+        color: Colors.red,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white,
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: Container(
-            height: kButtonHeight,
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
-            ),
             child: Text(
-              item.price == null ? '0' : item.price.toString(),
+              'ХОЧУ ЗАБРАТЬ',
               style: TextStyle(
-                fontSize: 23,
-                color: Colors.red,
+                fontSize: 18,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),

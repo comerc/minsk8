@@ -4,9 +4,13 @@ import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
 class Wish extends StatefulWidget {
-  final ItemModel item;
+  Wish(
+    this.item, {
+    this.iconSize = kButtonIconSize,
+  });
 
-  Wish(this.item);
+  final ItemModel item;
+  final double iconSize;
 
   @override
   _WishState createState() {
@@ -23,23 +27,19 @@ class _WishState extends State<Wish> {
         child: InkWell(
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
-            size: kButtonHeight,
-            padding: EdgeInsets.symmetric(
-              horizontal: 9.0,
-            ),
             isLiked: _profileWishIndex != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
                   Icons.favorite,
                   color: Colors.pinkAccent,
-                  size: 18,
+                  size: widget.iconSize,
                 );
               }
               return Icon(
                 Icons.favorite_border,
                 color: Colors.black,
-                size: 18,
+                size: widget.iconSize,
               );
             },
             likeCount: null, // item.favorites,

@@ -55,6 +55,7 @@ export 'widgets/price.dart';
 export 'widgets/share.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
+export 'widgets/want.dart';
 export 'widgets/wish.dart';
 
 export 'main.dart';

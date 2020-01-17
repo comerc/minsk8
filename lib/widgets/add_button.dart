@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 Widget buildAddButton(BuildContext context) {
   return FloatingActionButton(
@@ -12,7 +12,10 @@ Widget buildAddButton(BuildContext context) {
       );
     },
     tooltip: 'Add Item',
-    child: Icon(Icons.add, size: 36),
+    child: Icon(
+      Icons.add,
+      size: kBigButtonIconSize * 1.2,
+    ),
     elevation: 2.0,
   );
 }

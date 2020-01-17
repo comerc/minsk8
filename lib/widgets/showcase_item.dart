@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseItem extends StatelessWidget {
-  final ItemModel item;
-  final int index;
-  final String tag;
-
+class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({
     Key key,
     this.item,
     this.index,
     this.tag,
   }) : super(key: key);
+
+  final ItemModel item;
+  final int index;
+  final String tag;
+
+  @override
+  _ShowcaseItemState createState() {
+    return _ShowcaseItemState();
+  }
+}
+
+class _ShowcaseItemState extends State<ShowcaseItem> {
+  bool isBottom = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +41,21 @@ class ShowcaseItem extends StatelessWidget {
             //     return child;
             //   },
             // ));
+            setState(() {
+              isBottom = false;
+            });
             Navigator.pushNamed(
               context,
               '/item',
-              arguments: ItemRouteArguments(item, tag: tag),
-            );
+              arguments: ItemRouteArguments(widget.item, tag: widget.tag),
+            ).then((value) {
+              setState(() {
+                isBottom = true;
+              });
+            });
           },
           child: Hero(
-            tag: tag,
+            tag: widget.tag,
             child: _buildImage(),
           ),
         ),
@@ -50,7 +66,8 @@ class ShowcaseItem extends StatelessWidget {
         // SizedBox(
         //   height: 5.0,
         // ),
-        _buildBottom(),
+        if (isBottom)
+          _buildBottom(),
         // SizedBox(
         //   height: 8.0,
         // ),
@@ -62,7 +79,7 @@ class ShowcaseItem extends StatelessWidget {
     // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
     //     // 1000 * 60 * 60 * 24 * 1 +
     //     1000 * 10;
-    final image = item.images[0];
+    final image = widget.item.images[0];
     return AspectRatio(
       aspectRatio: image.width / image.height,
       child:
@@ -73,16 +90,16 @@ class ShowcaseItem extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           ExtendedImage.network(
-            image.getDummyUrl(item.id),
+            image.getDummyUrl(widget.item.id),
             fit: BoxFit.fill,
             // shape: BoxShape.rectangle,
             // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
             // borderRadius: BorderRadius.all(kImageBorderRadius),
             loadStateChanged: loadStateChanged,
           ),
-          _buildText(item.text),
-          if (item.expiresAt != null)
-            _buildCountdownTimer(item.expiresAt.millisecondsSinceEpoch),
+          _buildText(widget.item.text),
+          if (widget.item.expiresAt != null)
+            _buildCountdownTimer(widget.item.expiresAt.millisecondsSinceEpoch),
           // _buildTopRightLabel(item.images.length.toString()),
         ],
       ),
@@ -109,15 +126,20 @@ class ShowcaseItem extends StatelessWidget {
         // SizedBox(
         //   width: 16.3,
         // ),
-        Hero(
-          tag: tag + '_price',
-          child: Price(item),
-        ),
+        Price(widget.item),
         Expanded(
           child: Container(),
         ),
-        Share(item),
-        Wish(item),
+        SizedBox(
+          width: kButtonWidth,
+          height: kButtonHeight,
+          child: Share(widget.item),
+        ),
+        SizedBox(
+          width: kButtonWidth,
+          height: kButtonHeight,
+          child: Wish(widget.item),
+        ),
       ],
     );
   }
