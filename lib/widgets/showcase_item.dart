@@ -109,11 +109,11 @@ class ShowcaseItem extends StatelessWidget {
         // SizedBox(
         //   width: 16.3,
         // ),
-        buildPrice(item),
+        Price(item),
         Expanded(
           child: Container(),
         ),
-        buildShare(item),
+        Share(item),
         Wish(item),
       ],
     );
