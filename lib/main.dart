@@ -47,6 +47,8 @@ void main() {
 //   }
 // }
 
+PersistedData appState;
+
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,7 @@ class App extends StatelessWidget {
                   ),
                 );
               }
+              appState = PersistedAppState.of(context);
               return Query(
                 options: QueryOptions(
                   documentNode: Queries.getProfile,
