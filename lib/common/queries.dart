@@ -78,8 +78,8 @@ class Queries {
     }
   ''');
 
-  static final getItemsForInteresting = gql(r'''
-    query getItemsForInteresting($next_created_at: timestamptz) {
+  static final getItemsForFan = gql(r'''
+    query getItemsForFan($next_created_at: timestamptz) {
       items(
         where: 
           {

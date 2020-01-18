@@ -11,13 +11,13 @@ class KindModel {
   ) : assert([MetaKindId, KindId].contains(value.runtimeType));
 }
 
-enum MetaKindId { recent, interesting, best, promo, urgent }
+enum MetaKindId { recent, fan, best, promo, urgent }
 
 enum KindId { technics, garment, for_home, for_kids, books, other, pets }
 
 final allKinds = [
   KindModel(MetaKindId.recent, 'Новое', '<svg />'),
-  KindModel(MetaKindId.interesting, 'Интересное', '<svg />'),
+  KindModel(MetaKindId.fan, 'Интересное', '<svg />'),
   KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
   KindModel(MetaKindId.promo, 'Промо', '<svg />'),
   KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),

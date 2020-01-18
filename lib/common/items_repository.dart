@@ -50,7 +50,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
         options = QueryOptions(
           documentNode: {
             MetaKindId.recent: Queries.getItems,
-            MetaKindId.interesting: Queries.getItemsForInteresting,
+            MetaKindId.fan: Queries.getItemsForFan,
             MetaKindId.best: Queries.getItemsForBest,
             MetaKindId.promo: Queries.getItemsForPromo,
             MetaKindId.urgent: Queries.getItemsForUrgent
