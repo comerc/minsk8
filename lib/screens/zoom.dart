@@ -7,9 +7,9 @@ import 'package:minsk8/import.dart';
 // TODO: внедрить свайпы для переходов между картинками
 
 class ZoomScreen extends StatefulWidget {
-  final ZoomRouteArguments arguments;
-
   ZoomScreen(this.arguments);
+
+  final ZoomRouteArguments arguments;
 
   @override
   _ZoomScreenState createState() {
@@ -269,10 +269,10 @@ class _ZoomScreenState extends State<ZoomScreen>
 }
 
 class ZoomRouteArguments {
+  ZoomRouteArguments(this.item, {this.tag, this.index, this.onWillPop});
+
   final ItemModel item;
   final String tag;
   final int index;
   final Function onWillPop;
-
-  ZoomRouteArguments(this.item, {this.tag, this.index, this.onWillPop});
 }
