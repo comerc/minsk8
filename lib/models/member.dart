@@ -12,7 +12,9 @@ class MemberModel {
   @JsonKey(nullable: true)
   final DateTime bannedUntil;
   final DateTime lastActivityAt;
-  @JsonKey(nullable: true) // не хочу показывать для items.win.member
+  @JsonKey(
+      nullable: true,
+      defaultValue: []) // не хочу показывать для items.win.member
   final List<ItemModel> items;
 
   MemberModel({

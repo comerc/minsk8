@@ -47,7 +47,12 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             Navigator.pushNamed(
               context,
               '/item',
-              arguments: ItemRouteArguments(widget.item, tag: widget.tag),
+              arguments: ItemRouteArguments(
+                widget.item,
+                tag: widget.tag,
+                member: widget.item.member,
+                isShowcase: true,
+              ),
             ).then((value) {
               setState(() {
                 isBottom = true;

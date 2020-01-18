@@ -10,6 +10,7 @@ class ItemModel {
   final String id;
   final DateTime createdAt;
   final String text;
+  @JsonKey(nullable: true) // отсутствует для items.member.items
   final MemberModel member;
   final List<ImageModel> images;
   @JsonKey(nullable: true)
