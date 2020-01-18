@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class ChatScreen extends StatelessWidget {
+  ChatScreen(this.arguments);
+
+  final ChatRouteArguments arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +25,7 @@ class ChatScreen extends StatelessWidget {
 }
 
 class ChatRouteArguments {
-  final int userId;
-
   ChatRouteArguments(this.userId);
+
+  final int userId;
 }

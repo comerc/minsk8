@@ -122,15 +122,18 @@ class App extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/about': (_) => AboutScreen(),
         '/add_item': (_) => AddItemScreen(),
-        '/chat': (_) => ChatScreen(),
-        '/edit_item': (_) => EditItemScreen(),
+        '/chat': (BuildContext context) =>
+            ChatScreen(ModalRoute.of(context).settings.arguments),
+        '/edit_item': (BuildContext context) =>
+            EditItemScreen(ModalRoute.of(context).settings.arguments),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/home': (_) => HomeScreen(),
         '/image_capture': (_) => ImageCaptureScreen(),
         '/image_pinch': (_) => ImagePinchScreen(),
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
-        '/item': (_) => ItemScreen(),
+        '/item': (BuildContext context) =>
+            ItemScreen(ModalRoute.of(context).settings.arguments),
         '/kinds': (_) => KindsScreen(),
         '/login': (_) => LoginScreen(),
         '/map': (_) => MapScreen(),

@@ -4,6 +4,10 @@ import 'package:minsk8/import.dart';
 // TODO: item.text.trim()
 
 class EditItemScreen extends StatelessWidget {
+  EditItemScreen(this.arguments);
+
+  final EditItemRouteArguments arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class EditItemScreen extends StatelessWidget {
 }
 
 class EditItemRouteArguments {
-  final int id;
-
   EditItemRouteArguments(this.id);
+
+  final int id;
 }
