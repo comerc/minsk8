@@ -58,9 +58,10 @@ class _DistanceState extends State<Distance> {
             ),
           ),
           TextSpan(
-            style: DefaultTextStyle.of(context)
-                .style
-                .copyWith(fontWeight: FontWeight.w600),
+            style: DefaultTextStyle.of(context).style.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black.withOpacity(0.8),
+                ),
             text: '${value.toStringAsFixed(2)} км',
           ),
         ],
