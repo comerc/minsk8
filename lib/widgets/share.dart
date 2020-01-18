@@ -22,7 +22,7 @@ class Share extends StatelessWidget {
           child: Container(
             child: Icon(
               Icons.share,
-              color: Colors.black,
+              color: Colors.black.withOpacity(0.8),
               size: iconSize,
             ),
           ),
