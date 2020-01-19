@@ -266,69 +266,73 @@ class _ItemScreenState extends State<ItemScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 24.0),
-                        width: panelChildWidth,
-                        child: Text(
-                          'Другие лоты участника',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black.withOpacity(0.78),
+                      if (_otherItems.length > 0)
+                        Container(
+                          padding: EdgeInsets.only(top: 24.0),
+                          width: panelChildWidth,
+                          child: Text(
+                            'Другие лоты участника',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black.withOpacity(0.78),
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 16.0),
-                        width: size.width,
-                        height: otherItemWidth * 1.0,
-                        child: ListView.separated(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: separatorWidth,
-                          ),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _otherItems.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final otherItem = _otherItems[index];
-                            return Container(
-                              width: otherItemWidth,
-                              color: Colors.red,
-                              child: GestureDetector(
-                                // TODO: т.к. картинки квадратные, можно переключать на следующую
-                                // onLongPress: () {},
-                                onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    '/item',
-                                    (Route route) {
-                                      return route.settings.name != '/item';
-                                    },
-                                    arguments: ItemRouteArguments(
-                                      otherItem,
-                                      tag: otherItem.id,
-                                      member: widget.arguments.member,
-                                    ),
-                                  );
-                                },
-                                child:
-                                    // Hero(
-                                    //   tag: otherItem.id,
-                                    //   child:
-                                    ExtendedImage.network(
-                                  otherItem.images[0].getDummyUrl(otherItem.id),
-                                  fit: BoxFit.cover,
-                                  enableLoadState: false,
+                      if (_otherItems.length > 0)
+                        Container(
+                          padding: EdgeInsets.only(top: 16.0),
+                          width: size.width,
+                          height: otherItemWidth * 1.0,
+                          child: ListView.separated(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: separatorWidth,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _otherItems.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final otherItem = _otherItems[index];
+                              return Container(
+                                width: otherItemWidth,
+                                color: Colors.red,
+                                child: GestureDetector(
+                                  // TODO: т.к. картинки квадратные, можно переключать на следующую
+                                  // onLongPress: () {},
+                                  onTap: () {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      '/item',
+                                      (Route route) {
+                                        return route.settings.name != '/item';
+                                      },
+                                      arguments: ItemRouteArguments(
+                                        otherItem,
+                                        tag: otherItem.id,
+                                        member: widget.arguments.member,
+                                      ),
+                                    );
+                                  },
+                                  child:
+                                      // Hero(
+                                      //   tag: otherItem.id,
+                                      //   child:
+                                      ExtendedImage.network(
+                                    otherItem.images[0]
+                                        .getDummyUrl(otherItem.id),
+                                    fit: BoxFit.cover,
+                                    enableLoadState: false,
+                                  ),
+                                  // ),
                                 ),
-                                // ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: separatorWidth,
-                            );
-                          },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: separatorWidth,
+                              );
+                            },
+                          ),
                         ),
-                      ),
                       SizedBox(
                         height: 16 + kBigButtonHeight + 16 + 8,
                       ),
@@ -378,7 +382,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   Expanded(
                     child: SizedBox(
                       height: kBigButtonHeight,
-                      child: Want(item),
+                      child: Want(item), // TODO: _isClosed
                     ),
                   ),
                 ],
