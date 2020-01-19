@@ -10,7 +10,7 @@ class ItemModel {
   final String id;
   final DateTime createdAt;
   final String text;
-  @JsonKey(nullable: true) // отсутствует для items.member.items
+  @JsonKey(nullable: true) // надо для items.member.items и profile.member.items
   final MemberModel member;
   final List<ImageModel> images;
   @JsonKey(nullable: true)
@@ -18,13 +18,15 @@ class ItemModel {
   @JsonKey(nullable: true)
   final int price;
   @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
-  final UrgentId urgent;
+  final UrgentStatus urgent;
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
   @JsonKey(nullable: true)
   final bool isBlocked;
   @JsonKey(nullable: true)
   final WinModel win;
+  @JsonKey(nullable: true)
+  final DateTime transferredAt;
   final List<WishModel> wishes;
   @JsonKey(nullable: true)
   final bool isPromo;
@@ -41,20 +43,15 @@ class ItemModel {
     this.location,
     this.isBlocked,
     this.win,
+    this.transferredAt,
     this.wishes,
     this.isPromo,
   }) : assert(images.length > 0);
 
-  get status {
-    // TODO: реализовать бизнес-логику отображения, учитывая поля:
-    // urgent, expiresAt, isBlocked, win.createdAt
-    return urgent;
-  }
-
   static _urgentFromString(String value) =>
-      EnumToString.fromString(UrgentId.values, value);
+      EnumToString.fromString(UrgentStatus.values, value);
 
-  static _urgentToString(UrgentId urgent) => EnumToString.parse(urgent);
+  static _urgentToString(UrgentStatus urgent) => EnumToString.parse(urgent);
 
   static _locationFromJson(Map<String, dynamic> json) {
     final array = json['coordinates'];
