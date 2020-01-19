@@ -34,8 +34,8 @@ class _ItemScreenState extends State<ItemScreen> {
     if (widget.arguments.isShowcase ?? false) {
       _showHero = _ShowHero.forShowcase;
     }
-    _otherItems = _initOtherItems();
-    _isClosed = _initIsClosed();
+    _initOtherItems();
+    _isClosed = widget.arguments.item.isClosed;
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
@@ -59,7 +59,6 @@ class _ItemScreenState extends State<ItemScreen> {
     final panelMinHeight = bodyHeight - bodyHeight / kGoldenRatio;
     final panelChildWidth = size.width - 32.0; // for padding
     final panelSlideLabelWidth = 32.0;
-    final panelSlideLabelHeight = 4.0;
     final separatorWidth = 16.0;
     final otherItemWidth = (size.width - 4 * separatorWidth) / 3.25;
     return WillPopScope(
@@ -211,6 +210,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         height: 16.0,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
@@ -225,15 +225,14 @@ class _ItemScreenState extends State<ItemScreen> {
                           ),
                           Container(
                             width: panelSlideLabelWidth,
-                            height: panelSlideLabelHeight,
-                            margin: EdgeInsets.only(
-                                bottom: kButtonHeight - panelSlideLabelHeight),
+                            height: 4.0,
                             decoration: BoxDecoration(
                                 color: Colors.grey[300],
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12.0))),
                           ),
                           Container(
+                            color: Colors.red,
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
@@ -417,28 +416,12 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  List<ItemModel> _initOtherItems() {
+  void _initOtherItems() {
     final memberItems = widget.arguments.member.items;
     final item = widget.arguments.item;
     final result = [...memberItems];
     result.removeWhere((removeItem) => removeItem.id == item.id);
-    return result;
-  }
-
-  bool _initIsClosed() {
-    final item = widget.arguments.item;
-    if (item.isBlocked ?? false) {
-      return true;
-    } else if (item.win != null) {
-      return true;
-    } else if (item.expiresAt != null) {
-      final seconds =
-          CountdownTimer.getSeconds(item.expiresAt.millisecondsSinceEpoch);
-      if (seconds < 1) {
-        return true;
-      }
-    }
-    return false;
+    _otherItems = result;
   }
 
   Widget _buildStatusText(ItemModel item) {
