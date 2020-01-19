@@ -150,20 +150,20 @@ class App extends StatelessWidget {
         '/wallet': (_) => WalletScreen(),
         '/wishes': (_) => WishesScreen(),
       },
-      onGenerateRoute: (RouteSettings settings) {
-        // if (settings.name == '/item') {
-        //   print('1122111');
-        //   return Platform.isIOS
-        //       ? TransparentCupertinoPageRoute(
-        //           settings: settings,
-        //           builder: (BuildContext context) => ItemScreen())
-        //       : TransparentMaterialPageRoute(
-        //           settings: settings,
-        //           builder: (BuildContext context) => ItemScreen());
-        // }
-        print('onGenerateRoute: $settings');
-        return null;
-      },
+      // onGenerateRoute: (RouteSettings settings) {
+      //   // if (settings.name == '/item') {
+      //   //   print('1122111');
+      //   //   return Platform.isIOS
+      //   //       ? TransparentCupertinoPageRoute(
+      //   //           settings: settings,
+      //   //           builder: (BuildContext context) => ItemScreen())
+      //   //       : TransparentMaterialPageRoute(
+      //   //           settings: settings,
+      //   //           builder: (BuildContext context) => ItemScreen());
+      //   // }
+      //   print('onGenerateRoute: $settings');
+      //   return null;
+      // },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),
