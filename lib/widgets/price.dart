@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
@@ -25,9 +23,7 @@ class Price extends StatelessWidget {
               horizontal: 16.0,
             ),
             child: Text(
-              isInDebugMode
-                  ? Random().nextInt(99).toString()
-                  : item.price.toString(),
+              item.price.toString(),
               style: TextStyle(
                 fontSize: 23,
                 color: Colors.red,
