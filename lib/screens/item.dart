@@ -216,7 +216,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
-                                Price(item),
+                                item.price == null ? Gift(item) : Price(item),
                                 Expanded(
                                   child: Container(),
                                 ),

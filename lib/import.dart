@@ -49,6 +49,7 @@ export 'screens/zoom.dart';
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/distance.dart';
+export 'widgets/gift.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/navigation_bar.dart';
 export 'widgets/price.dart';

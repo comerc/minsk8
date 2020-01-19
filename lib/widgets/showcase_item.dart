@@ -161,7 +161,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // SizedBox(
         //   width: 16.3,
         // ),
-        Price(item),
+        item.price == null ? Gift(item) : Price(item),
         Expanded(
           child: Container(),
         ),
