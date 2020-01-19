@@ -38,7 +38,7 @@ class _WishState extends State<Wish> {
               }
               return Icon(
                 Icons.favorite_border,
-                color: Colors.black,
+                color: Colors.black.withOpacity(0.8),
                 size: widget.iconSize,
               );
             },

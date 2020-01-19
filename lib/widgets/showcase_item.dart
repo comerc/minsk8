@@ -205,7 +205,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           text,
           style: TextStyle(
             fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
           maxLines: 2,
