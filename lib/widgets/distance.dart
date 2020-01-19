@@ -25,13 +25,7 @@ class _DistanceState extends State<Distance> {
     super.initState();
     _updateValue();
     _updateCurrentPosition();
-    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
-
-  // void _afterLayout(_) {
-  //   _updateValue();
-  //   _updateCurrentPosition();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +82,21 @@ class _DistanceState extends State<Distance> {
   _onTap() {}
 
   void _updateValue() async {
+    if (appState['currentPosition'] == null) {
+      return;
+    }
     double distanceInMeters = await Geolocator().distanceBetween(
         appState['currentPosition'][0],
         appState['currentPosition'][1],
         widget.location.latitude,
         widget.location.longitude);
-    setState(() {
+    if (mounted) {
+      setState(() {
+        value = distanceInMeters / 1000;
+      });
+    } else {
       value = distanceInMeters / 1000;
-    });
+    }
   }
 
   void _updateCurrentPosition() async {
