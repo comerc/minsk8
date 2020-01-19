@@ -382,7 +382,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   Expanded(
                     child: SizedBox(
                       height: kBigButtonHeight,
-                      child: Want(item), // TODO: _isClosed
+                      child: Want(item, isClosed: _isClosed),
                     ),
                   ),
                 ],

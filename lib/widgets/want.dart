@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class Want extends StatelessWidget {
-  Want(this.item);
+  Want(this.item, {this.isClosed});
 
   final ItemModel item;
+  final bool isClosed;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
       message: 'Want',
       child: Material(
-        color: Colors.red,
+        color: isClosed ? null : Colors.red,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white,
@@ -19,11 +20,11 @@ class Want extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             child: Text(
-              'ХОЧУ ЗАБРАТЬ',
+              isClosed ? 'УЖЕ ЗАБРАЛИ' : 'ХОЧУ ЗАБРАТЬ',
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+                color: isClosed ? Colors.black.withOpacity(0.8) : Colors.white,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
