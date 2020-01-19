@@ -61,7 +61,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           },
           child: Hero(
             tag: widget.tag,
-            child: _buildImage(),
+            child: _buildImage(widget.item),
           ),
         ),
         // SizedBox(
@@ -72,7 +72,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         //   height: 5.0,
         // ),
         if (isBottom)
-          _buildBottom(),
+          _buildBottom(widget.item),
         // SizedBox(
         //   height: 8.0,
         // ),
@@ -80,11 +80,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  Widget _buildImage() {
+  Widget _buildImage(ItemModel item) {
     // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
     //     // 1000 * 60 * 60 * 24 * 1 +
     //     1000 * 10;
-    final image = widget.item.images[0];
+    final image = item.images[0];
     return AspectRatio(
       aspectRatio: image.width / image.height,
       child:
@@ -95,23 +95,53 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         fit: StackFit.expand,
         children: [
           ExtendedImage.network(
-            image.getDummyUrl(widget.item.id),
+            image.getDummyUrl(item.id),
             fit: BoxFit.fill,
             // shape: BoxShape.rectangle,
             // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
             // borderRadius: BorderRadius.all(kImageBorderRadius),
             loadStateChanged: loadStateChanged,
           ),
-          _buildText(widget.item.text),
-          if (widget.item.expiresAt != null)
-            _buildCountdownTimer(widget.item.expiresAt.millisecondsSinceEpoch),
+          _buildText(item.text),
+          if (item.isBlocked ?? false)
+            _buildStatus(
+              'Заблокировано',
+              isClosed: true,
+            )
+          else if (item.transferredAt != null)
+            _buildStatus(
+              'Забрали',
+              isClosed: true,
+            )
+          else if (item.win != null)
+            _buildStatus(
+              'Завершено',
+              isClosed: true,
+            )
+          else if (item.expiresAt != null)
+            CountdownTimer(
+              endTime: item.expiresAt.millisecondsSinceEpoch,
+              builder: (BuildContext context, int seconds) {
+                return _buildStatus(
+                  seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+                  isClosed: seconds < 1,
+                );
+              },
+            )
+          else if (item.urgent != UrgentStatus.none)
+            _buildStatus(
+              urgents
+                  .firstWhere((urgentModel) => urgentModel.value == item.urgent)
+                  .name,
+              isClosed: false,
+            ),
           // _buildTopRightLabel(item.images.length.toString()),
         ],
       ),
     );
   }
 
-  Widget _buildBottom() {
+  Widget _buildBottom(ItemModel item) {
     return Row(
       children: [
         // ExtendedImage.network(
@@ -131,19 +161,19 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // SizedBox(
         //   width: 16.3,
         // ),
-        Price(widget.item),
+        Price(item),
         Expanded(
           child: Container(),
         ),
         SizedBox(
           width: kButtonWidth,
           height: kButtonHeight,
-          child: Share(widget.item),
+          child: Share(item),
         ),
         SizedBox(
           width: kButtonWidth,
           height: kButtonHeight,
-          child: Wish(widget.item),
+          child: Wish(item),
         ),
       ],
     );
@@ -185,14 +215,16 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  _buildCountdownTimer(int endTime) {
+  _buildStatus(String data, {bool isClosed}) {
     return Positioned(
       top: 0,
       left: 0,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         decoration: BoxDecoration(
-          color: Colors.pink.withOpacity(0.8),
+          color: isClosed
+              ? Colors.grey.withOpacity(0.8)
+              : Colors.pink.withOpacity(0.8),
           // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
           // borderRadius: BorderRadius.all(Radius.circular(6.5)),
           // borderRadius: BorderRadius.only(
@@ -200,15 +232,12 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           //   bottomRight: kImageBorderRadius,
           // ),
         ),
-        child: CountdownTimer(
-          endTime: endTime,
-          builder: (context, seconds) => Text(
-            seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
-            style: TextStyle(
-              fontSize: kFontSize,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
+        child: Text(
+          data,
+          style: TextStyle(
+            fontSize: kFontSize,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

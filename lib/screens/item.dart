@@ -26,6 +26,7 @@ class _ItemScreenState extends State<ItemScreen> {
   GlobalKey _panelColumnKey = GlobalKey();
   double _panelMaxHeight;
   List<ItemModel> _otherItems;
+  bool _isClosed;
 
   @override
   void initState() {
@@ -33,7 +34,8 @@ class _ItemScreenState extends State<ItemScreen> {
     if (widget.arguments.isShowcase ?? false) {
       _showHero = _ShowHero.forShowcase;
     }
-    _initOtherItems();
+    _otherItems = _initOtherItems();
+    _isClosed = _initIsClosed();
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
@@ -64,9 +66,11 @@ class _ItemScreenState extends State<ItemScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Завершено'),
+          title: _buildStatusText(item),
           centerTitle: true,
-          backgroundColor: Colors.pink.withOpacity(0.8),
+          backgroundColor: _isClosed
+              ? Colors.grey.withOpacity(0.8)
+              : Colors.pink.withOpacity(0.8),
           actions: [
             IconButton(
               icon: Icon(Icons.account_box),
@@ -409,12 +413,59 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  _initOtherItems() {
+  List<ItemModel> _initOtherItems() {
     final memberItems = widget.arguments.member.items;
     final item = widget.arguments.item;
     final result = [...memberItems];
     result.removeWhere((removeItem) => removeItem.id == item.id);
-    _otherItems = result;
+    return result;
+  }
+
+  bool _initIsClosed() {
+    final item = widget.arguments.item;
+    if (item.isBlocked ?? false) {
+      return true;
+    } else if (item.win != null) {
+      return true;
+    } else if (item.expiresAt != null) {
+      final seconds =
+          CountdownTimer.getSeconds(item.expiresAt.millisecondsSinceEpoch);
+      if (seconds < 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Widget _buildStatusText(ItemModel item) {
+    if (item.isBlocked ?? false) {
+      return Text(
+        'Заблокировано',
+      );
+    } else if (item.win != null) {
+      return Text(
+        'Победитель - ${item.win.member.nickname}',
+      );
+    } else if (item.expiresAt != null) {
+      if (_isClosed) {
+        return Text('Завершено');
+      }
+      return CountdownTimer(
+          endTime: item.expiresAt.millisecondsSinceEpoch,
+          builder: (BuildContext context, int seconds) {
+            return Text(formatDDHHMMSS(seconds));
+          },
+          onClosed: () {
+            setState(() {
+              _isClosed = true;
+            });
+          });
+    }
+    return Text(
+      urgents
+          .firstWhere((urgentModel) => urgentModel.value == item.urgent)
+          .name,
+    );
   }
 }
 

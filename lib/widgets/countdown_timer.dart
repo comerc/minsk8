@@ -3,16 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class CountdownTimer extends StatefulWidget {
-  final int endTime; // millisecondsSinceEpoch
-  final Widget Function(BuildContext context, int seconds) builder;
-
   CountdownTimer({
     this.endTime,
     this.builder,
+    this.onClosed,
   });
+
+  final int endTime; // millisecondsSinceEpoch
+  final Widget Function(BuildContext context, int seconds) builder;
+  final Function onClosed;
 
   @override
   _CountDownState createState() => _CountDownState();
+
+  static int getSeconds(int endTime) {
+    return Duration(
+      milliseconds: (endTime - DateTime.now().millisecondsSinceEpoch),
+    ).inSeconds;
+  }
 }
 
 class _CountDownState extends State<CountdownTimer> {
@@ -23,13 +31,15 @@ class _CountDownState extends State<CountdownTimer> {
   void initState() {
     super.initState();
     if (widget.endTime == null) return;
-    _seconds = Duration(
-      milliseconds: (widget.endTime - DateTime.now().millisecondsSinceEpoch),
-    ).inSeconds;
+    _seconds = CountdownTimer.getSeconds(widget.endTime);
     if (_seconds < 1) return;
-    _timer = Timer.periodic(
-      Duration(seconds: 1),
-      (_) => setState(
+    _timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (_seconds == 1 && widget.onClosed != null) {
+        widget.onClosed();
+        disposeTimer();
+        return;
+      }
+      setState(
         () {
           if (_seconds < 1) {
             disposeTimer();
@@ -37,8 +47,8 @@ class _CountDownState extends State<CountdownTimer> {
             _seconds--;
           }
         },
-      ),
-    );
+      );
+    });
   }
 
   @override
