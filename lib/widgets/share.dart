@@ -26,13 +26,13 @@ class Share extends StatelessWidget {
               size: iconSize,
             ),
           ),
-          onTap: _onTap(item),
+          onTap: _onTap,
         ),
       ),
     );
   }
 
-  Function _onTap(ItemModel item) {
+  Function _onTap() {
     // TODO: реализовать ожидание для buildShortLink()
     return () async {
       final DynamicLinkParameters parameters = DynamicLinkParameters(
