@@ -48,6 +48,21 @@ class ItemModel {
     this.isPromo,
   }) : assert(images.length > 0);
 
+  bool get isClosed {
+    if (isBlocked ?? false) {
+      return true;
+    } else if (win != null) {
+      return true;
+    } else if (expiresAt != null) {
+      final seconds =
+          CountdownTimer.getSeconds(expiresAt.millisecondsSinceEpoch);
+      if (seconds < 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static _urgentFromString(String value) =>
       EnumToString.fromString(UrgentStatus.values, value);
 
