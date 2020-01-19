@@ -6,12 +6,12 @@ class CountdownTimer extends StatefulWidget {
   CountdownTimer({
     this.endTime,
     this.builder,
-    this.onClosed,
+    this.onClose,
   });
 
   final int endTime; // millisecondsSinceEpoch
   final Widget Function(BuildContext context, int seconds) builder;
-  final Function onClosed;
+  final Function onClose;
 
   @override
   _CountDownState createState() => _CountDownState();
@@ -34,8 +34,8 @@ class _CountDownState extends State<CountdownTimer> {
     _seconds = CountdownTimer.getSeconds(widget.endTime);
     if (_seconds < 1) return;
     _timer = Timer.periodic(Duration(seconds: 1), (_) {
-      if (_seconds == 1 && widget.onClosed != null) {
-        widget.onClosed();
+      if (_seconds == 1 && widget.onClose != null) {
+        widget.onClose();
         disposeTimer();
         return;
       }

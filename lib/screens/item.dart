@@ -455,7 +455,7 @@ class _ItemScreenState extends State<ItemScreen> {
           builder: (BuildContext context, int seconds) {
             return Text(formatDDHHMMSS(seconds));
           },
-          onClosed: () {
+          onClose: () {
             setState(() {
               _isClosed = true;
             });
