@@ -39,7 +39,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -60,7 +59,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
           member {
@@ -115,7 +113,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -136,7 +133,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
           member {
@@ -191,7 +187,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -212,7 +207,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
           member {
@@ -267,7 +261,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -288,7 +281,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
           member {
@@ -343,7 +335,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -364,7 +355,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
           member {
@@ -419,7 +409,6 @@ class Queries {
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -440,7 +429,6 @@ class Queries {
         price
         urgent
         location
-        is_blocked
         win {
           created_at
         }
@@ -464,18 +452,11 @@ class Queries {
             id
             created_at
             text
-            member {
-              id
-              nickname
-              banned_until
-              last_activity_at
-            }
             images
             expires_at
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -505,13 +486,35 @@ class Queries {
               nickname
               banned_until
               last_activity_at
+              items {
+                id
+                created_at
+                text
+                images
+                expires_at
+                price
+                urgent
+                location
+                win {
+                  created_at
+                  member {
+                    id
+                    nickname
+                    banned_until
+                    last_activity_at
+                  }
+                }
+                wishes {
+                  created_at
+                }
+                is_promo
+              }
             }
             images
             expires_at
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -538,13 +541,35 @@ class Queries {
               nickname
               banned_until
               last_activity_at
+              items {
+                id
+                created_at
+                text
+                images
+                expires_at
+                price
+                urgent
+                location
+                win {
+                  created_at
+                  member {
+                    id
+                    nickname
+                    banned_until
+                    last_activity_at
+                  }
+                }
+                wishes {
+                  created_at
+                }
+                is_promo
+              }
             }
             images
             expires_at
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
@@ -570,13 +595,35 @@ class Queries {
               nickname
               banned_until
               last_activity_at
+              items {
+                id
+                created_at
+                text
+                images
+                expires_at
+                price
+                urgent
+                location
+                win {
+                  created_at
+                  member {
+                    id
+                    nickname
+                    banned_until
+                    last_activity_at
+                  }
+                }
+                wishes {
+                  created_at
+                }
+                is_promo
+              }
             }
             images
             expires_at
             price
             urgent
             location
-            is_blocked
             win {
               created_at
               member {
