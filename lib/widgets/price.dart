@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
@@ -11,7 +13,7 @@ class Price extends StatelessWidget {
     return Tooltip(
       message: 'Price',
       child: Material(
-        color: Colors.yellow,
+        color: Colors.yellow.withOpacity(0.85),
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white,
@@ -23,7 +25,9 @@ class Price extends StatelessWidget {
               horizontal: 16.0,
             ),
             child: Text(
-              item.price == null ? '0' : item.price.toString(),
+              isInDebugMode
+                  ? Random().nextInt(99).toString()
+                  : item.price.toString(),
               style: TextStyle(
                 fontSize: 23,
                 color: Colors.red,
@@ -31,11 +35,28 @@ class Price extends StatelessWidget {
               ),
             ),
           ),
-          onTap: _onTap(item),
+          onTap: () {
+            if (item.isClosed) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Text('Сколько предложено за лот'),
+                    actions: [
+                      FlatButton(
+                        child: Text('ОК'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
         ),
       ),
     );
   }
-
-  Function _onTap(ItemModel item) => () {};
 }
