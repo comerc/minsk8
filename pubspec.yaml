@@ -65,6 +65,7 @@ dependencies:
   carousel_slider: 1.4.0
   sliding_up_panel: 0.3.6
   auto_orientation: 1.0.6
+  font_awesome_flutter: 8.5.0
 
 dev_dependencies:
   flutter_test:
