@@ -23,7 +23,18 @@ class GiftButton extends StatelessWidget {
               size: kButtonIconSize,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InfoDialog(
+                  title: 'Заберите лот даром, если\nне будет других желающих',
+                  description:
+                      'Нажмите "хочу забрать",\n дождитесь окончания таймера',
+                );
+              },
+            );
+          },
         ),
       ),
     );

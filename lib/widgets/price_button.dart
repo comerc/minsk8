@@ -32,10 +32,10 @@ class PriceButton extends StatelessWidget {
             ),
           ),
           onTap: () {
-            if (item.isClosed) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (item.isClosed) {
                   return AlertDialog(
                     content: Text('Сколько предложено за лот'),
                     actions: [
@@ -47,9 +47,14 @@ class PriceButton extends StatelessWidget {
                       ),
                     ],
                   );
-                },
-              );
-            }
+                }
+                return InfoDialog(
+                  title: 'Сколько сейчас\nпредлагают за лот',
+                  description:
+                      'Нажмите "хочу забрать",\nчтобы предложить больше',
+                );
+              },
+            );
           },
         ),
       ),
