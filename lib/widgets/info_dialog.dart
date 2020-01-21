@@ -15,9 +15,8 @@ class InfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      contentPadding: EdgeInsets.all(8.0),
+      contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       children: [
-        SizedBox(height: 8.0),
         Icon(
           icon,
           color: Colors.deepOrangeAccent,
