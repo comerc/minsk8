@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class Price extends StatelessWidget {
-  Price(this.item);
+class PriceButton extends StatelessWidget {
+  PriceButton(this.item);
 
   final ItemModel item;
 
@@ -11,7 +11,7 @@ class Price extends StatelessWidget {
     return Tooltip(
       message: 'Price',
       child: Material(
-        color: Colors.yellow.withOpacity(0.85),
+        color: Colors.yellow.withOpacity(0.5),
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white,

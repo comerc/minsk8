@@ -216,7 +216,9 @@ class _ItemScreenState extends State<ItemScreen> {
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
-                                item.price == null ? Gift(item) : Price(item),
+                                item.price == null
+                                    ? GiftButton(item)
+                                    : PriceButton(item),
                                 Expanded(
                                   child: Container(),
                                 ),
@@ -239,7 +241,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                 Expanded(
                                   child: Container(),
                                 ),
-                                Distance(item.location),
+                                DistanceButton(item.location),
                               ],
                             ),
                           ),
@@ -369,19 +371,19 @@ class _ItemScreenState extends State<ItemScreen> {
                   SizedBox(
                     width: kBigButtonWidth,
                     height: kBigButtonHeight,
-                    child: Share(item, iconSize: kBigButtonIconSize),
+                    child: ShareButton(item, iconSize: kBigButtonIconSize),
                   ),
                   SizedBox(width: 8),
                   SizedBox(
                     width: kBigButtonWidth,
                     height: kBigButtonHeight,
-                    child: Wish(item, iconSize: kBigButtonIconSize),
+                    child: WishButton(item, iconSize: kBigButtonIconSize),
                   ),
                   SizedBox(width: 8),
                   Expanded(
                     child: SizedBox(
                       height: kBigButtonHeight,
-                      child: Want(item, isClosed: _isClosed),
+                      child: WantButton(item, isClosed: _isClosed),
                     ),
                   ),
                 ],

@@ -48,15 +48,15 @@ export 'screens/zoom.dart';
 
 export 'widgets/add_button.dart';
 export 'widgets/countdown_timer.dart';
-export 'widgets/distance.dart';
-export 'widgets/gift.dart';
+export 'widgets/distance_button.dart';
+export 'widgets/gift_button.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/navigation_bar.dart';
-export 'widgets/price.dart';
-export 'widgets/share.dart';
+export 'widgets/price_button.dart';
+export 'widgets/share_button.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';
-export 'widgets/want.dart';
-export 'widgets/wish.dart';
+export 'widgets/want_button.dart';
+export 'widgets/wish_button.dart';
 
 export 'main.dart';

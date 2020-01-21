@@ -3,8 +3,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:share/share.dart' as share;
 import 'package:minsk8/import.dart';
 
-class Share extends StatelessWidget {
-  Share(
+class ShareButton extends StatelessWidget {
+  ShareButton(
     this.item, {
     this.iconSize = kButtonIconSize,
   });

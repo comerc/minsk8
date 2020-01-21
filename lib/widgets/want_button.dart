@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class Want extends StatelessWidget {
-  Want(this.item, {this.isClosed});
+class WantButton extends StatelessWidget {
+  WantButton(this.item, {this.isClosed});
 
   final ItemModel item;
   final bool isClosed;

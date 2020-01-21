@@ -3,8 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
-class Wish extends StatefulWidget {
-  Wish(
+class WishButton extends StatefulWidget {
+  WishButton(
     this.item, {
     this.iconSize = kButtonIconSize,
   });
@@ -13,12 +13,12 @@ class Wish extends StatefulWidget {
   final double iconSize;
 
   @override
-  _WishState createState() {
-    return _WishState();
+  _WishButtonState createState() {
+    return _WishButtonState();
   }
 }
 
-class _WishState extends State<Wish> {
+class _WishButtonState extends State<WishButton> {
   @override
   Widget build(BuildContext context) {
     return Tooltip(

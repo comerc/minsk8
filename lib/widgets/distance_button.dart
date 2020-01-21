@@ -3,18 +3,18 @@ import 'package:latlong/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:minsk8/import.dart';
 
-class Distance extends StatefulWidget {
+class DistanceButton extends StatefulWidget {
   final LatLng location;
 
-  Distance(this.location);
+  DistanceButton(this.location);
 
   @override
-  _DistanceState createState() {
-    return _DistanceState();
+  _DistanceButtonState createState() {
+    return _DistanceButtonState();
   }
 }
 
-class _DistanceState extends State<Distance> {
+class _DistanceButtonState extends State<DistanceButton> {
   final icon = Icons.location_on;
   final iconSize = 16.0;
 
