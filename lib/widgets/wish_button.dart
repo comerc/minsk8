@@ -63,7 +63,7 @@ class _WishButtonState extends State<WishButton> {
             // likeCountAnimationType: item.favorites < 1000
             //     ? LikeCountAnimationType.part
             //     : LikeCountAnimationType.none,
-            onTap: (bool isLiked) => _onTap(isLiked),
+            onTap: _onTap,
           ),
           onTap: () {},
         ),
