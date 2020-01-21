@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class PriceButton extends StatelessWidget {
@@ -49,6 +50,7 @@ class PriceButton extends StatelessWidget {
                   );
                 }
                 return InfoDialog(
+                  icon: FontAwesomeIcons.moneyBill,
                   title: 'Сколько сейчас\nпредлагают за лот',
                   description:
                       'Нажмите "хочу забрать",\nчтобы предложить больше',

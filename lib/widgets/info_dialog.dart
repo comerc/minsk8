@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class InfoDialog extends StatelessWidget {
   InfoDialog({
+    this.icon,
     this.title,
     this.description,
   });
 
+  final IconData icon;
   final String title;
   final String description;
 
@@ -18,7 +19,7 @@ class InfoDialog extends StatelessWidget {
       children: [
         SizedBox(height: 8.0),
         Icon(
-          FontAwesomeIcons.gift,
+          icon,
           color: Colors.deepOrangeAccent,
           size: kButtonIconSize,
         ),

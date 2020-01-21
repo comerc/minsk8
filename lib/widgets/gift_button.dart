@@ -28,6 +28,7 @@ class GiftButton extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return InfoDialog(
+                  icon: FontAwesomeIcons.gift,
                   title: 'Заберите лот даром, если\nне будет других желающих',
                   description:
                       'Нажмите "хочу забрать",\n дождитесь окончания таймера',
