@@ -32,9 +32,9 @@ class ShareButton extends StatelessWidget {
     );
   }
 
-  Function _onTap() {
+  _onTap() {
     // TODO: реализовать ожидание для buildShortLink()
-    return () async {
+    final fn = () async {
       final DynamicLinkParameters parameters = DynamicLinkParameters(
         uriPrefix: 'https://minsk8.page.link',
         link: Uri.parse('https://minsk8.example.com/item?id=${item.id}'),
@@ -64,5 +64,6 @@ class ShareButton extends StatelessWidget {
         subject: 'Look what I made!',
       );
     };
+    fn();
   }
 }
