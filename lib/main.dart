@@ -126,6 +126,7 @@ class App extends StatelessWidget {
             ChatScreen(ModalRoute.of(context).settings.arguments),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
+        '/faq': (_) => FaqScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/home': (_) => HomeScreen(),
         '/image_capture': (_) => ImageCaptureScreen(),
