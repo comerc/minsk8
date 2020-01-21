@@ -22,22 +22,26 @@ class InfoDialog extends StatelessWidget {
           color: Colors.deepOrangeAccent,
           size: kButtonIconSize,
         ),
-        SizedBox(height: 16.0),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w600,
+        Container(
+          padding: EdgeInsets.only(top: 16.0),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        SizedBox(height: 16.0),
-        Text(
-          description,
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 8.0),
         Container(
+          padding: EdgeInsets.only(top: 16.0),
+          child: Text(
+            description,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 8.0),
           alignment: Alignment.center,
           child: GestureDetector(
             onTap: () {
