@@ -383,7 +383,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   Expanded(
                     child: SizedBox(
                       height: kBigButtonHeight,
-                      child: WantButton(item, isClosed: _isClosed),
+                      child: WantButton(item),
                     ),
                   ),
                 ],
