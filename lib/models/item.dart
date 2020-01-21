@@ -53,7 +53,14 @@ class ItemModel {
       return true;
     } else if (win != null) {
       return true;
-    } else if (expiresAt != null) {
+    } else if (isExpired) {
+      return true;
+    }
+    return false;
+  }
+
+  bool get isExpired {
+    if (expiresAt != null) {
       final seconds =
           CountdownTimer.getSeconds(expiresAt.millisecondsSinceEpoch);
       if (seconds < 1) {
