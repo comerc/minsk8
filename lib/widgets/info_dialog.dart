@@ -6,10 +6,10 @@ class InfoDialog extends StatelessWidget {
   InfoDialog({
     this.title,
     this.description,
-    this.footer,
   });
 
-  final String title, description, footer;
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
