@@ -14,4 +14,4 @@ const kButtonIconSize = 18.0;
 const kDefaultMapCenter = [53.9, 27.56667];
 const kBigButtonHeight = 52.0;
 const kBigButtonWidth = kBigButtonHeight * kGoldenRatio;
-const kBigButtonIconSize = 32.0;
+const kBigButtonIconSize = kButtonIconSize * kGoldenRatio;
