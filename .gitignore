@@ -32,6 +32,7 @@
 *.g.dart
 apollo.config.js
 schema.json
+/assets/*.md
 
 # Android related
 **/android/**/gradle-wrapper.jar

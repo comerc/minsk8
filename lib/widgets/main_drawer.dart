@@ -21,6 +21,10 @@ final mainRoutes = [
     'arguments': EditItemRouteArguments(0),
   },
   {
+    'title': 'FAQ',
+    'routeName': '/faq',
+  },
+  {
     'title': 'Forgot Password',
     'routeName': '/forgot_password',
   },
@@ -90,6 +94,10 @@ final mainRoutes = [
   {
     'title': 'Underway',
     'routeName': '/underway',
+  },
+  {
+    'title': 'Useful Tips',
+    'routeName': '/useful_tips',
   },
   {
     'title': 'Wallet',

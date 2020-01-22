@@ -120,13 +120,13 @@ class App extends StatelessWidget {
       initialRoute: '/showcase',
       // home: NestedScrollViewDemo(),
       routes: <String, WidgetBuilder>{
-        '/about': (_) => AboutScreen(),
+        '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (_) => AddItemScreen(),
         '/chat': (BuildContext context) =>
             ChatScreen(ModalRoute.of(context).settings.arguments),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
-        '/faq': (_) => FaqScreen(),
+        '/faq': (_) => MarkdownScreen('faq.md', title: 'FAQ'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/home': (_) => HomeScreen(),
         '/image_capture': (_) => ImageCaptureScreen(),
@@ -148,6 +148,8 @@ class App extends StatelessWidget {
         '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
         '/underway': (_) => UnderwayScreen(),
+        '/useful_tips': (_) =>
+            MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
         '/wallet': (_) => WalletScreen(),
         '/wishes': (_) => WishesScreen(),
       },

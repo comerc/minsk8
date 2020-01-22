@@ -67,6 +67,8 @@ dependencies:
   auto_orientation: 1.0.6
   font_awesome_flutter: 8.5.0
 
+  flutter_markdown: 0.3.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
