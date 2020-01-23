@@ -71,3 +71,22 @@ Widget loadStateChanged(ExtendedImageState state) {
 Future<String> loadAsset(BuildContext context, String filename) async {
   return await DefaultAssetBundle.of(context).loadString('assets/$filename');
 }
+
+String getOperationExceptionToString(OperationException operationException) {
+  var text = operationException.toString();
+  if (operationException.clientException != null) {
+    var clientException = operationException.clientException;
+    if (clientException is CacheMissException) {
+      final exception = clientException;
+      text = '${exception.message}';
+    } else if (clientException is NormalizationException) {
+      final exception = clientException;
+      text =
+          '${exception.message} ${exception.overflowError} ${exception.value}';
+    } else if (clientException is ClientException) {
+      final exception = clientException;
+      text = '${exception.message}';
+    }
+  }
+  return text;
+}
