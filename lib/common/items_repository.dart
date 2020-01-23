@@ -56,12 +56,14 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
             MetaKindId.urgent: Queries.getItemsForUrgent
           }[kind],
           variables: variables,
+          fetchPolicy: FetchPolicy.noCache,
         );
       } else {
         variables['kind'] = describeEnum(kind);
         options = QueryOptions(
           documentNode: Queries.getItemsByKind,
           variables: variables,
+          fetchPolicy: FetchPolicy.noCache,
         );
       }
       final client = GraphQLProvider.of(context).value;

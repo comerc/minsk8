@@ -84,7 +84,7 @@ class App extends StatelessWidget {
                 options: QueryOptions(
                   documentNode: Queries.getProfile,
                   variables: {'member_id': memberId},
-                  fetchPolicy: FetchPolicy.cacheAndNetwork,
+                  fetchPolicy: FetchPolicy.noCache,
                 ),
                 // Just like in apollo refetch() could be used to manually trigger a refetch
                 // while fetchMore() can be used for pagination purpose
@@ -96,7 +96,8 @@ class App extends StatelessWidget {
                         onTap: refetch,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(result.exception.toString()),
+                          child: Text(
+                              getOperationExceptionToString(result.exception)),
                         ),
                       ),
                     );
@@ -175,7 +176,9 @@ class App extends StatelessWidget {
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
-          cache: InMemoryCache(),
+          cache: NormalizedInMemoryCache(
+            dataIdFromObject: typenameDataIdFromObject,
+          ),
           link: HttpLink(uri: kGraphQLEndpoint, headers: {
             'X-Hasura-Role': 'user',
             'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
@@ -192,6 +195,17 @@ class App extends StatelessWidget {
     );
     return result;
   }
+}
+
+String typenameDataIdFromObject(Object object) {
+  if (object is Map<String, Object> && object.containsKey('__typename')) {
+    if (object['__typename'] == 'profile') {
+      final member = object['member'] as Map<String, Object>;
+      print('profile/${member['id']}');
+      return 'profile/${member['id']}';
+    }
+  }
+  return null;
 }
 
 // Generated using Material Design Palette/Theme Generator

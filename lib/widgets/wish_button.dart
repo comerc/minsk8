@@ -3,6 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: не обновляется состояние между SchowcaseScreen и ItemScreen
+
 class WishButton extends StatefulWidget {
   WishButton(
     this.item, {
@@ -79,6 +81,7 @@ class _WishButtonState extends State<WishButton> {
     final options = MutationOptions(
       documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
       variables: {'item_id': widget.item.id},
+      fetchPolicy: FetchPolicy.noCache,
     );
     client.mutate(options).then((QueryResult result) {
       if (result.hasException) {
