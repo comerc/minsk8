@@ -60,7 +60,7 @@ dependencies:
 
   json_annotation: 3.0.0
   enum_to_string: 1.0.8
-  graphql_flutter: 2.1.1-beta.5
+  graphql_flutter: 3.0.0
 
   carousel_slider: 1.4.0
   sliding_up_panel: 0.3.6
