@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:extended_image/extended_image.dart';
@@ -110,8 +111,15 @@ class App extends StatelessWidget {
                       ),
                     );
                   }
-                  profile = ProfileModel.fromJson(result.data['profile']);
-                  return child;
+                  // profile = ProfileModel.fromJson(result.data['profile']);
+                  return MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider<ProfileModel>(
+                          create: (_) =>
+                              ProfileModel.fromJson(result.data['profile'])),
+                    ],
+                    child: child,
+                  );
                 },
               );
             },

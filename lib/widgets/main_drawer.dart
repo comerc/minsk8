@@ -38,11 +38,11 @@ final mainRoutes = [
     'arguments':
         ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
   },
-  {
-    'title': 'Item',
-    'routeName': '/item',
-    'arguments': ItemRouteArguments(profile.member.items[0]),
-  },
+  // {
+  //   'title': 'Item',
+  //   'routeName': '/item',
+  //   'arguments': ItemRouteArguments(profile.member.items[0]),
+  // },
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',

@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minsk8/import.dart';
-
-// TODO: не обновляется состояние между SchowcaseScreen и ItemScreen
 
 class WishButton extends StatefulWidget {
   WishButton(
@@ -21,15 +21,19 @@ class WishButton extends StatefulWidget {
 }
 
 class _WishButtonState extends State<WishButton> {
+  final animationDuration = Duration(milliseconds: 1000);
+
   @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<ProfileModel>(context);
     return Tooltip(
       message: 'Wish',
       child: Material(
         child: InkWell(
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
-            isLiked: _profileWishIndex != -1,
+            animationDuration: animationDuration,
+            isLiked: profile.getWishIndex(widget.item.id) != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -74,47 +78,33 @@ class _WishButtonState extends State<WishButton> {
   }
 
   Future<bool> _onTap(bool isLiked) async {
-    final createdAt =
-        isLiked ? profile.wishes[_profileWishIndex].createdAt : DateTime.now();
-    _updateWishInProfile(!isLiked, createdAt);
-    final client = GraphQLProvider.of(context).value;
-    final options = MutationOptions(
-      documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
-      variables: {'item_id': widget.item.id},
-      fetchPolicy: FetchPolicy.noCache,
-    );
-    client.mutate(options).then((QueryResult result) {
-      if (result.hasException) {
-        throw result.exception;
-      }
-    }).catchError((error) {
-      _updateWishInProfile(isLiked, createdAt);
-      if (mounted) {
-        setState(() {});
-      }
-      print(error);
+    Timer(animationDuration, () {
+      final profile = Provider.of<ProfileModel>(context, listen: false);
+      final index = profile.getWishIndex(widget.item.id);
+      final isLiked = index != -1;
+      final wish = isLiked
+          ? profile.wishes[index]
+          : WishModel(
+              createdAt: DateTime.now(),
+              item: widget.item,
+            );
+      profile.updateWish(index, wish, !isLiked);
+      final client = GraphQLProvider.of(context).value;
+      final options = MutationOptions(
+        documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
+        variables: {'item_id': widget.item.id},
+        fetchPolicy: FetchPolicy.noCache,
+      );
+      client.mutate(options).then((QueryResult result) {
+        if (result.hasException) {
+          throw result.exception;
+        }
+      }).catchError((error) {
+        final index = profile.getWishIndex(widget.item.id);
+        profile.updateWish(index, wish, isLiked);
+        print(error);
+      });
     });
     return !isLiked;
-  }
-
-  get _profileWishIndex =>
-      profile.wishes.indexWhere((wish) => wish.item.id == widget.item.id);
-
-  _updateWishInProfile(isLiked, createdAt) {
-    final index = _profileWishIndex;
-    if (isLiked) {
-      if (index == -1) {
-        profile.wishes.add(
-          WishModel(
-            createdAt: createdAt,
-            item: widget.item,
-          ),
-        );
-      }
-    } else {
-      if (index != -1) {
-        profile.wishes.remove(index);
-      }
-    }
   }
 }
