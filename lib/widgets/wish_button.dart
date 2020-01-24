@@ -21,7 +21,19 @@ class WishButton extends StatefulWidget {
 }
 
 class _WishButtonState extends State<WishButton> {
+  Timer _timer;
   final animationDuration = Duration(milliseconds: 1000);
+
+  @override
+  void dispose() {
+    disposeTimer();
+    super.dispose();
+  }
+
+  disposeTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,33 +90,44 @@ class _WishButtonState extends State<WishButton> {
   }
 
   Future<bool> _onTap(bool isLiked) async {
-    Timer(animationDuration, () {
-      final profile = Provider.of<ProfileModel>(context, listen: false);
-      final index = profile.getWishIndex(widget.item.id);
-      final isLiked = index != -1;
-      final wish = isLiked
-          ? profile.wishes[index]
-          : WishModel(
-              createdAt: DateTime.now(),
-              item: widget.item,
-            );
-      profile.updateWish(index, wish, !isLiked);
-      final client = GraphQLProvider.of(context).value;
-      final options = MutationOptions(
-        documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
-        variables: {'item_id': widget.item.id},
-        fetchPolicy: FetchPolicy.noCache,
-      );
-      client.mutate(options).then((QueryResult result) {
-        if (result.hasException) {
-          throw result.exception;
-        }
-      }).catchError((error) {
-        final index = profile.getWishIndex(widget.item.id);
-        profile.updateWish(index, wish, isLiked);
-        print(error);
-      });
+    if (_timer != null) {
+      return isLiked;
+    }
+    _timer = Timer(isLiked ? Duration.zero : animationDuration, () {
+      disposeTimer();
+      updateWish(context, isLiked, widget.item);
     });
     return !isLiked;
   }
+}
+
+void updateWish(context, isLiked, item) {
+  final profile = Provider.of<ProfileModel>(context, listen: false);
+  final index = profile.getWishIndex(item.id);
+  final currentIsLiked = index != -1;
+  if (isLiked != currentIsLiked) {
+    return;
+  }
+  final wish = isLiked
+      ? profile.wishes[index] // index check with currentIsLiked
+      : WishModel(
+          createdAt: DateTime.now(),
+          item: item,
+        );
+  profile.updateWish(index, wish, !isLiked);
+  final GraphQLClient client = GraphQLProvider.of(context).value;
+  final options = MutationOptions(
+    documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
+    variables: {'item_id': item.id},
+    fetchPolicy: FetchPolicy.noCache,
+  );
+  client.mutate(options).then((QueryResult result) {
+    if (result.hasException) {
+      throw result.exception;
+    }
+  }).catchError((error) {
+    final index = profile.getWishIndex(item.id);
+    profile.updateWish(index, wish, isLiked);
+    print(error);
+  });
 }
