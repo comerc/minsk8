@@ -234,7 +234,6 @@ class _ItemScreenState extends State<ItemScreen> {
                                     BorderRadius.all(Radius.circular(12.0))),
                           ),
                           Container(
-                            color: Colors.red,
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
@@ -275,7 +274,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             'Другие лоты участника',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(0.78),
+                              color: Colors.black.withOpacity(0.8),
                             ),
                           ),
                         ),
