@@ -4,6 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:intl/intl.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -90,3 +91,12 @@ String getOperationExceptionToString(OperationException operationException) {
   }
   return text;
 }
+
+String gold(int howMany) => Intl.plural(
+      howMany,
+      name: 'gold',
+      args: [howMany],
+      one: '$howMany золотой',
+      other: '$howMany золотых',
+      locale: 'ru',
+    );
