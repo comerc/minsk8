@@ -100,7 +100,6 @@ class _ShowcaseListState extends State<ShowcaseList>
       case IndicatorStatus.loadingMoreBusying:
         result = Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               // margin: EdgeInsets.only(right: 5.0),
@@ -116,7 +115,6 @@ class _ShowcaseListState extends State<ShowcaseList>
       case IndicatorStatus.fullScreenBusying:
         result = Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               // margin: EdgeInsets.only(right: 5.0),
