@@ -60,13 +60,7 @@ class WantButton extends StatelessWidget {
                         'Дождитесь объявления победителя,\nвозможно именно Вам повезёт!',
                   );
                 }
-                return Container();
-                // return BidDialog(
-                //   icon: FontAwesomeIcons.moneyBill,
-                //   title: 'Сколько сейчас\nпредлагают за лот',
-                //   description:
-                //       'Нажмите "хочу забрать",\nчтобы предложить больше',
-                // );
+                return BidDialog(item);
               },
             );
           },
