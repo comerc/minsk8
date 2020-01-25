@@ -43,23 +43,28 @@ class InfoDialog extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 8.0),
           alignment: Alignment.center,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                ..pop()
-                ..pushNamed('/faq');
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
+          child: Tooltip(
+            message: 'Goto FAQ',
+            child: Material(
               color: Colors.white,
-              child: Text(
-                'Как забирать и отдавать лоты?',
-                style: TextStyle(
-                  fontSize: 12.0,
-                  decoration: TextDecoration.underline,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                    ..pop()
+                    ..pushNamed('/faq');
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Text(
+                    'Как забирать и отдавать лоты?',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
               ),
             ),
