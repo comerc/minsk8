@@ -64,6 +64,7 @@ class _DistanceButtonState extends State<DistanceButton> {
     return Tooltip(
       message: 'Distance',
       child: Material(
+        color: Colors.white,
         child: InkWell(
           child: Container(
             height: kButtonHeight,
