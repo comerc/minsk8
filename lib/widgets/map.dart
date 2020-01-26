@@ -8,9 +8,23 @@ import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
 import 'package:minsk8/import.dart';
 
-// import '../widgets/drawer.dart';
-
 class MapWidget extends StatefulWidget {
+  MapWidget({
+    this.center,
+    this.zoom,
+    this.onPositionChanged,
+    this.initialRadius,
+    this.onChangeRadius,
+    this.markerPoint,
+  });
+
+  final LatLng center;
+  final double zoom;
+  final PositionCallback onPositionChanged;
+  final double initialRadius;
+  final OnChangeRadiusCallback onChangeRadius;
+  final LatLng markerPoint;
+
   @override
   MapWidgetState createState() {
     return MapWidgetState();
@@ -30,6 +44,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
 
   // LatLng _currentPosition;
   MapController _mapController;
+  final markerIconSize = 48.0;
 
   @override
   void initState() {
@@ -76,24 +91,10 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
-        center: appState['center'] == null
-            ? LatLng(
-                kDefaultMapCenter[0],
-                kDefaultMapCenter[1],
-              )
-            : LatLng(
-                appState['center'][0],
-                appState['center'][1],
-              ),
-        zoom: appState['zoom'] ?? 8.0,
+        center: widget.center,
+        zoom: widget.zoom,
         minZoom: 4.0,
-        onPositionChanged: (position, _hasGesture) {
-          appState['center'] = [
-            position.center.latitude,
-            position.center.longitude
-          ];
-          appState['zoom'] = position.zoom;
-        },
+        onPositionChanged: widget.onPositionChanged,
         plugins: [
           AreaLayerMapPlugin(),
           if (isInDebugMode) ScaleLayerMapPlugin(),
@@ -119,9 +120,26 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               ),
             ),
           ]),
+        if (widget.markerPoint != null)
+          MarkerLayerOptions(
+            markers: [
+              Marker(
+                width: markerIconSize,
+                height: markerIconSize,
+                point: widget.markerPoint,
+                anchorPos: AnchorPos.align(AnchorAlign.top),
+                builder: (_) => Icon(
+                  Icons.location_on,
+                  size: markerIconSize,
+                  color: Colors.pinkAccent,
+                ),
+              ),
+            ],
+          ),
         AreaLayerMapPluginOptions(
-          getRadius: () => appState['radius'],
-          onChangeRadius: (value) => appState['radius'] = value,
+          markerIconSize: markerIconSize,
+          initialRadius: widget.initialRadius,
+          onChangeRadius: widget.onChangeRadius,
           onCurrentPositionClick: () async {
             if (appState['isNeverAskAgain'] ?? false) {
               final geolocationStatus =

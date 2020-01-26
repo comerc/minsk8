@@ -4,14 +4,18 @@ import 'utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 
+typedef void OnChangeRadiusCallback(double value);
+
 class AreaLayerMapPluginOptions extends LayerOptions {
-  final Function getRadius;
-  final Function onChangeRadius;
+  final double markerIconSize;
+  final double initialRadius;
+  final OnChangeRadiusCallback onChangeRadius;
   final Function onCurrentPositionClick;
   // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
   AreaLayerMapPluginOptions({
-    this.getRadius,
+    this.markerIconSize,
+    this.initialRadius,
     this.onChangeRadius,
     this.onCurrentPositionClick,
   });
@@ -53,29 +57,46 @@ class _AreaState extends State<_Area> {
     offset: Offset(0.0, 2.0),
     blurRadius: 2.0,
   );
+  double radius;
+
+  @override
+  void initState() {
+    super.initState();
+    radius = widget.options.initialRadius ?? maxRadius / 2;
+  }
+
+  double get paintedRadius {
+    final center = widget.mapState.center;
+    final targetPoint =
+        utils.calculateEndingGlobalCoordinates(center, 90, radius * 1000.0);
+    final start = widget.mapState.project(center);
+    final end = widget.mapState.project(targetPoint);
+    return end.x - start.x;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final radius = widget.options.getRadius() ?? maxRadius / 2;
-    final center = widget.mapState.center;
-    final start = widget.mapState.project(center);
-    final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, radius * 1000.0);
-    final end = widget.mapState.project(targetPoint);
-    final paintedRadius = end.x - start.x;
     return Stack(
       children: [
-        Center(
-          child: CustomPaint(
-            painter: _AreaPainter(radius: paintedRadius, icon: _icon),
+        if (widget.options.onChangeRadius != null)
+          Center(
+            child: CustomPaint(
+              painter: _AreaPainter(
+                radius: paintedRadius,
+                icon: _icon,
+                iconSize: widget.options.markerIconSize,
+              ),
+            ),
           ),
-        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 16.0),
+              padding: const EdgeInsets.only(
+                right: 16.0,
+                bottom: 16.0,
+              ),
               child: Container(
                 height: 56.0,
                 width: 56.0,
@@ -93,83 +114,88 @@ class _AreaState extends State<_Area> {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.all(16.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                height: 100.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  boxShadow: [_boxShadow],
+            if (widget.options.onChangeRadius != null)
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 16.0,
                 ),
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        height: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: [
-                                TextSpan(
-                                  text: 'Радиус',
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                    height: _iconSmallSize,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: String.fromCharCode(
-                                            _icon.codePoint),
-                                        style: TextStyle(
-                                          fontSize: _iconSmallSize,
-                                          fontFamily: _icon.fontFamily,
-                                          color: Colors.pinkAccent,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    boxShadow: [_boxShadow],
+                  ),
+                  child: Column(
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                          height: double.infinity,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: [
+                                  TextSpan(
+                                    text: 'Радиус',
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                      height: _iconSmallSize,
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: String.fromCharCode(
+                                              _icon.codePoint),
+                                          style: TextStyle(
+                                            fontSize: _iconSmallSize,
+                                            fontFamily: _icon.fontFamily,
+                                            color: Colors.pinkAccent,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                TextSpan(
-                                  style: DefaultTextStyle.of(context)
-                                      .style
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                  text: '${radius.toInt()} км',
-                                ),
-                              ],
+                                  TextSpan(
+                                    style: DefaultTextStyle.of(context)
+                                        .style
+                                        .copyWith(fontWeight: FontWeight.w600),
+                                    text: '${radius.toInt()} км',
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        child: Slider(
-                          value: radius,
-                          onChanged: (value) {
-                            setState(() {
-                              widget.options
-                                  .onChangeRadius(value.roundToDouble());
-                            });
-                          },
-                          min: 1.0,
-                          max: maxRadius,
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                          child: Slider(
+                            value: radius,
+                            onChanged: (value) {
+                              setState(() {
+                                radius = value;
+                                widget.options.onChangeRadius(value);
+                              });
+                            },
+                            min: 1.0,
+                            max: maxRadius,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ],
@@ -178,14 +204,14 @@ class _AreaState extends State<_Area> {
 }
 
 class _AreaPainter extends CustomPainter {
-  final double _radius;
+  final double iconSize;
+  final double radius;
   final Paint _paintFill;
   final Paint _paintStroke;
   final TextPainter _textPainter;
 
-  _AreaPainter({double radius, IconData icon})
-      : _radius = radius,
-        _paintFill = Paint()
+  _AreaPainter({this.radius, IconData icon, this.iconSize})
+      : _paintFill = Paint()
           ..color = Colors.blue.withOpacity(0.1)
           ..strokeWidth = 0.0
           ..style = PaintingStyle.fill,
@@ -197,16 +223,17 @@ class _AreaPainter extends CustomPainter {
           ..text = TextSpan(
               text: String.fromCharCode(icon.codePoint),
               style: TextStyle(
-                  fontSize: 48.0,
+                  fontSize: iconSize,
                   fontFamily: icon.fontFamily,
                   color: Colors.pinkAccent))
           ..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(0.0, 0.0), _radius, _paintFill);
-    canvas.drawCircle(Offset(0.0, 0.0), _radius, _paintStroke);
-    _textPainter.paint(canvas, Offset(-24.0, -44.0));
+    canvas.drawCircle(Offset(0.0, 0.0), radius, _paintFill);
+    canvas.drawCircle(Offset(0.0, 0.0), radius, _paintStroke);
+    _textPainter.paint(
+        canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???
   }
 
   @override

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class ItemMapScreen extends StatefulWidget {
+class ItemMapScreen extends StatelessWidget {
   ItemMapScreen(this.arguments);
 
   final ItemMapRouteArguments arguments;
 
   @override
-  _ItemMapScreenState createState() {
-    return _ItemMapScreenState();
-  }
-}
-
-class _ItemMapScreenState extends State<ItemMapScreen> {
-  @override
   Widget build(BuildContext context) {
+    final item = arguments.item;
     return Scaffold(
       appBar: AppBar(
         title: Text('Item Map'),
       ),
-      body: MapWidget(),
+      body: MapWidget(
+        center: item.location,
+        zoom: 13.0,
+        markerPoint: item.location,
+      ),
     );
   }
 }

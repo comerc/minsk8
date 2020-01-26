@@ -136,7 +136,7 @@ class MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               ),
             ]),
           AreaLayerMapPluginOptions(
-            getRadius: () => appState['radius'],
+            initialRadius: appState['radius'],
             onChangeRadius: (value) => appState['radius'] = value,
             onCurrentPositionClick: () async {
               if (appState['isNeverAskAgain'] ?? false) {
