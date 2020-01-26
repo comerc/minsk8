@@ -144,10 +144,14 @@ class App extends StatelessWidget {
         '/image_pinch': (_) => ImagePinchScreen(),
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
+        '/item_map': (BuildContext context) =>
+            ItemMapScreen(ModalRoute.of(context).settings.arguments),
         '/item': (BuildContext context) =>
             ItemScreen(ModalRoute.of(context).settings.arguments),
         '/kinds': (_) => KindsScreen(),
         '/login': (_) => LoginScreen(),
+        '/my_item_map': (BuildContext context) =>
+            MyItemMapScreen(ModalRoute.of(context).settings.arguments),
         '/my_items': (_) => MyItemsScreen(),
         '/notifications': (_) => NotificationsScreen(),
         '/pay': (_) => PayScreen(),
