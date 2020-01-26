@@ -43,6 +43,7 @@ class ItemModel {
     this.urgent,
     this.price,
     this.location,
+    this.address,
     this.isBlocked,
     this.win,
     this.transferredAt,
