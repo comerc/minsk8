@@ -10,14 +10,15 @@ import 'package:minsk8/import.dart';
 
 // import '../widgets/drawer.dart';
 
-class MapScreen extends StatefulWidget {
+class ProfileMapScreen extends StatefulWidget {
   @override
-  _MapScreenState createState() {
-    return _MapScreenState();
+  ProfileMapScreenState createState() {
+    return ProfileMapScreenState();
   }
 }
 
-class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
+class ProfileMapScreenState extends State<ProfileMapScreen>
+    with TickerProviderStateMixin {
   // Note the addition of the TickerProviderStateMixin here. If you are getting an error like
   // 'The class 'TickerProviderStateMixin' can't be used as a mixin because it extends a class other than Object.'
   // in your IDE, you can probably fix it by adding an analysis_options.yaml file to your project

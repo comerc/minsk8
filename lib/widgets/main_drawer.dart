@@ -52,10 +52,6 @@ final mainRoutes = [
     'routeName': '/login',
   },
   {
-    'title': 'Map',
-    'routeName': '/map',
-  },
-  {
     'title': 'My Items',
     'routeName': '/my_items',
   },
@@ -66,6 +62,10 @@ final mainRoutes = [
   {
     'title': 'Pay',
     'routeName': '/pay',
+  },
+  {
+    'title': 'Profile Map',
+    'routeName': '/profile_map',
   },
   {
     'title': 'Profile',
