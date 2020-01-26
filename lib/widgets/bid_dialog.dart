@@ -132,7 +132,11 @@ class BidDialog extends StatelessWidget {
             color: Colors.white,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/map');
+                Navigator.pushNamed(
+                  context,
+                  '/item_map',
+                  arguments: ItemMapRouteArguments(item),
+                );
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),

@@ -15,8 +15,12 @@ class ItemMapScreen extends StatefulWidget {
 class _ItemMapScreenState extends State<ItemMapScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Item Map'),
+      ),
+      body: MapWidget(),
+    );
   }
 }
 

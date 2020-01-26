@@ -245,7 +245,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                 Expanded(
                                   child: Container(),
                                 ),
-                                DistanceButton(),
+                                DistanceButton(item),
                               ],
                             ),
                           ),
