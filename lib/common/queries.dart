@@ -39,6 +39,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -59,6 +60,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
           member {
@@ -113,6 +115,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -133,6 +136,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
           member {
@@ -187,6 +191,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -207,6 +212,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
           member {
@@ -261,6 +267,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -281,6 +288,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
           member {
@@ -335,6 +343,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -355,6 +364,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
           member {
@@ -409,6 +419,7 @@ class Queries {
             price
             urgent
             location
+            address
             win {
               created_at
               member {
@@ -429,6 +440,7 @@ class Queries {
         price
         urgent
         location
+        address
         win {
           created_at
         }

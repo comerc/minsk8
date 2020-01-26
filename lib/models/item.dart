@@ -22,6 +22,8 @@ class ItemModel {
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
   @JsonKey(nullable: true)
+  final String address;
+  @JsonKey(nullable: true)
   final bool isBlocked;
   @JsonKey(nullable: true)
   final WinModel win;
