@@ -21,7 +21,7 @@ class DistanceModel extends ChangeNotifier {
   }
 
   String _formatValue(double distanceInMeters) {
-    return '${(distanceInMeters / 1000).toStringAsFixed(2)} км';
+    return '${(distanceInMeters / 1000).toStringAsFixed(distanceInMeters < 10000 ? 1 : 0)} км';
   }
 
   void updateCurrentPosition(LatLng location) async {

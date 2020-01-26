@@ -12,7 +12,7 @@ class AddressText extends StatelessWidget {
     String text = item.address == null ? '' : item.address;
     final distance = Provider.of<DistanceModel>(context);
     if (distance.value != null) {
-      text = text == '' ? distance.value : '$text — ${distance.value}';
+      text = text == '' ? distance.value : '${distance.value} — $text';
     }
     return Text(text);
   }

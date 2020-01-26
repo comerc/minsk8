@@ -437,7 +437,7 @@ class _ItemScreenState extends State<ItemScreen> {
       );
     } else if (item.win != null) {
       return Text(
-        'Победитель - ${item.win.member.nickname}',
+        'Победитель — ${item.win.member.nickname}',
       );
     } else if (item.expiresAt != null) {
       if (_isClosed) {

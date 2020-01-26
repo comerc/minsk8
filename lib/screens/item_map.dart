@@ -11,7 +11,7 @@ class ItemMapScreen extends StatelessWidget {
     final item = arguments.item;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item Map'),
+        title: AddressText(item),
       ),
       body: MapWidget(
         center: item.location,
