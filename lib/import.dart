@@ -9,6 +9,7 @@ export 'common/queries.dart';
 
 export 'models/bid.dart';
 export 'models/chat.dart';
+export 'models/distance.dart';
 export 'models/image.dart';
 export 'models/item.dart';
 export 'models/kind.dart';
@@ -47,6 +48,7 @@ export 'screens/wishes.dart';
 export 'screens/zoom.dart';
 
 export 'widgets/add_button.dart';
+export 'widgets/address_text.dart';
 export 'widgets/bid_dialog.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/delivery_label.dart';

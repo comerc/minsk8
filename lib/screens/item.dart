@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
@@ -31,12 +32,16 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   void initState() {
     super.initState();
+    final item = widget.arguments.item;
     if (widget.arguments.isShowcase ?? false) {
       _showHero = _ShowHero.forShowcase;
     }
     _initOtherItems();
-    _isClosed = widget.arguments.item.isClosed;
+    _isClosed = item.isClosed;
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    final distance = Provider.of<DistanceModel>(context, listen: false);
+    distance.updateValue(item.location);
+    distance.updateCurrentPosition(item.location);
   }
 
   void _afterLayout(_) {
@@ -240,7 +245,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                 Expanded(
                                   child: Container(),
                                 ),
-                                DistanceButton(item.location),
+                                DistanceButton(),
                               ],
                             ),
                           ),

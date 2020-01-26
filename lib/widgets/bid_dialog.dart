@@ -10,7 +10,6 @@ class BidDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     final imageHeight = 96.0;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16.0),
@@ -95,7 +94,7 @@ class BidDialog extends StatelessWidget {
             children: [
               Icon(
                 Icons.info_outline,
-                color: Colors.deepOrangeAccent,
+                color: Colors.blueAccent,
                 size: kButtonIconSize,
               ),
               Container(
@@ -162,9 +161,7 @@ class BidDialog extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: kButtonIconSize + 8.0),
                           constraints: BoxConstraints(maxWidth: 56.0 * 6),
-                          child: Text(
-                            'xxx — 0.0 км',
-                          ),
+                          child: AddressText(item),
                         ),
                       ],
                     ),
