@@ -79,7 +79,7 @@ class BidDialog extends StatelessWidget {
           child: Text(
             item.price == null
                 ? 'Точно сможете забрать?'
-                : 'Предложить +${gold(item.price + 1)}?',
+                : 'Предложить +1 = ${gold(item.price + 1)}?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18.0,
