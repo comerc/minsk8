@@ -27,7 +27,6 @@ class AddItemScreenState extends State<AddItemScreen> {
     final size = MediaQuery.of(context).size;
     final panelChildWidth = size.width - 32.0; // for padding
     final gridSpacing = 8.0;
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
     final child = Form(
       key: formKey,
       child: Column(
@@ -64,18 +63,44 @@ class AddItemScreenState extends State<AddItemScreen> {
             ],
           ),
           Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-            child: Container(),
+            margin: EdgeInsets.only(top: 16.0),
+            padding: EdgeInsets.all(16.0),
+            color: Colors.white,
+            child: TextFormField(
+              autofocus: true,
+              enableSuggestions: false,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              controller: textController,
+              validator: validateText,
+              decoration: InputDecoration(
+                hintText: 'Часы Casio. Рабочие.',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
-          TextFormField(
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            controller: textController,
-            validator: validateText,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
+          Container(
+            constraints: BoxConstraints(minHeight: 40.0),
+            child: SelectButton(
+              tooltip: 'Как срочно надо отдать?',
+              text: 'Совсем не срочно',
+              onTap: onTap,
+            ),
+          ),
+          Container(
+            constraints: BoxConstraints(minHeight: 40.0),
+            child: SelectButton(
+              tooltip: 'Категория',
+              text: 'Техника',
+              onTap: onTap,
+            ),
+          ),
+          Container(
+            constraints: BoxConstraints(minHeight: 40.0),
+            child: SelectButton(
+              tooltip: 'Адрес',
+              text: 'Минск, проспект Победителей',
+              onTap: onTap,
             ),
           ),
           Expanded(
