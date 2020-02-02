@@ -247,7 +247,8 @@ class _ZoomScreenState extends State<ZoomScreen>
     final tag = widget.arguments.tag;
     final onWillPop = widget.arguments.onWillPop;
     final lastIndex = item.images.length - 1;
-    Navigator.pushAndRemoveUntil(
+    // Navigator.pushAndRemoveUntil(
+    Navigator.pushReplacement(
       context,
       _buildInitialRoute(
         (BuildContext context) => ZoomScreen(
@@ -261,9 +262,9 @@ class _ZoomScreenState extends State<ZoomScreen>
           ),
         ),
       ),
-      (Route route) {
-        return route.settings.name != '/zoom';
-      },
+      // (Route route) {
+      //   return route.settings.name != '/zoom';
+      // },
     );
   }
 }
