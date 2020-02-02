@@ -181,9 +181,10 @@ class App extends StatelessWidget {
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
-          cache: NormalizedInMemoryCache(
-            dataIdFromObject: typenameDataIdFromObject,
-          ),
+          cache: InMemoryCache(),
+          // cache: NormalizedInMemoryCache(
+          //   dataIdFromObject: typenameDataIdFromObject,
+          // ),
           link: HttpLink(uri: kGraphQLEndpoint, headers: {
             'X-Hasura-Role': 'user',
             'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
@@ -223,16 +224,16 @@ class MediaQueryWrap extends StatelessWidget {
   }
 }
 
-String typenameDataIdFromObject(Object object) {
-  if (object is Map<String, Object> && object.containsKey('__typename')) {
-    if (object['__typename'] == 'profile') {
-      final member = object['member'] as Map<String, Object>;
-      print('profile/${member['id']}');
-      return 'profile/${member['id']}';
-    }
-  }
-  return null;
-}
+// String typenameDataIdFromObject(Object object) {
+//   if (object is Map<String, Object> && object.containsKey('__typename')) {
+//     if (object['__typename'] == 'profile') {
+//       final member = object['member'] as Map<String, Object>;
+//       print('profile/${member['id']}');
+//       return 'profile/${member['id']}';
+//     }
+//   }
+//   return null;
+// }
 
 // Generated using Material Design Palette/Theme Generator
 // http://mcg.mbitson.com/
