@@ -409,7 +409,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  Future<bool> _onWillPopForZoom(index) async {
+  Future<bool> _onWillPopForZoom(int index) async {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
