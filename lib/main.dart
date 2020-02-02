@@ -60,75 +60,67 @@ class App extends StatelessWidget {
       //   primarySwatch: mapBoxBlue,
       // ),
       builder: (BuildContext context, Widget child) {
-        //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
-        //If you want to set the font size is scaled according to the system's "font size" assist option
-        // ScreenUtil.instance =
-        //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
-        //       ..init(context);
-        final data = MediaQuery.of(context);
-        return MediaQuery(
-          data: data.copyWith(textScaleFactor: 1.0),
-          child: PersistedStateBuilder(
-            builder:
-                (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-              if (!snapshot.hasData) {
-                return Material(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Text('Loading state...'),
-                    // child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              appState = PersistedAppState.of(context);
-              return Query(
-                options: QueryOptions(
-                  documentNode: Queries.getProfile,
-                  variables: {'member_id': memberId},
-                  fetchPolicy: FetchPolicy.noCache,
+        return PersistedStateBuilder(
+          builder:
+              (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+            if (!snapshot.hasData) {
+              return Material(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text('Loading state...'),
+                  // child: CircularProgressIndicator(),
                 ),
-                // Just like in apollo refetch() could be used to manually trigger a refetch
-                // while fetchMore() can be used for pagination purpose
-                builder: (QueryResult result,
-                    {VoidCallback refetch, FetchMore fetchMore}) {
-                  if (result.hasException) {
-                    return Material(
-                      child: InkWell(
-                        onTap: refetch,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                              getOperationExceptionToString(result.exception)),
-                        ),
-                      ),
-                    );
-                  }
-                  if (result.loading) {
-                    return Material(
+              );
+            }
+            appState = PersistedAppState.of(context);
+            return Query(
+              options: QueryOptions(
+                documentNode: Queries.getProfile,
+                variables: {'member_id': memberId},
+                fetchPolicy: FetchPolicy.noCache,
+              ),
+              // Just like in apollo refetch() could be used to manually trigger a refetch
+              // while fetchMore() can be used for pagination purpose
+              builder: (QueryResult result,
+                  {VoidCallback refetch, FetchMore fetchMore}) {
+                if (result.hasException) {
+                  return Material(
+                    child: InkWell(
+                      onTap: refetch,
                       child: Container(
                         alignment: Alignment.center,
-                        child: Text('Loading profile...'),
+                        child: Text(
+                            getOperationExceptionToString(result.exception)),
                       ),
-                    );
-                  }
-                  // profile = ProfileModel.fromJson(result.data['profile']);
-                  return MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider<ProfileModel>(
-                          create: (_) =>
-                              ProfileModel.fromJson(result.data['profile'])),
-                      ChangeNotifierProvider<DistanceModel>(
-                          create: (_) => DistanceModel()),
-                    ],
-                    child: child,
+                    ),
                   );
-                },
-              );
-            },
-          ),
+                }
+                if (result.loading) {
+                  return Material(
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text('Loading profile...'),
+                    ),
+                  );
+                }
+                // profile = ProfileModel.fromJson(result.data['profile']);
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider<ProfileModel>(
+                        create: (_) =>
+                            ProfileModel.fromJson(result.data['profile'])),
+                    ChangeNotifierProvider<DistanceModel>(
+                        create: (_) => DistanceModel()),
+                  ],
+                  child: MediaQueryWrap(child),
+                );
+              },
+            );
+          },
         );
+        // );
       },
-      initialRoute: '/showcase',
+      initialRoute: '/add_item',
       // home: NestedScrollViewDemo(),
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
@@ -170,7 +162,6 @@ class App extends StatelessWidget {
       },
       // onGenerateRoute: (RouteSettings settings) {
       //   // if (settings.name == '/item') {
-      //   //   print('1122111');
       //   //   return Platform.isIOS
       //   //       ? TransparentCupertinoPageRoute(
       //   //           settings: settings,
@@ -208,6 +199,27 @@ class App extends StatelessWidget {
       child: result,
     );
     return result;
+  }
+}
+
+// Widget need for reactive variable
+class MediaQueryWrap extends StatelessWidget {
+  MediaQueryWrap(this.child);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
+    //If you want to set the font size is scaled according to the system's "font size" assist option
+    // ScreenUtil.instance =
+    //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
+    //       ..init(context);
+    final data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(textScaleFactor: 1.0),
+      child: child,
+    );
   }
 }
 
