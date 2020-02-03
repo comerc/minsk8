@@ -138,9 +138,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(),
-                  ),
+                  Spacer(),
                   if (item.images.length > 1)
                     Text(
                       '${_currentIndex + 1}/${item.images.length}',
@@ -173,9 +171,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Container(),
-                    ),
+                    Spacer(),
                     Tooltip(
                       message: 'Next',
                       child: ButtonTheme(

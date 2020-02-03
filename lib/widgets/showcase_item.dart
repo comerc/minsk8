@@ -162,9 +162,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         //   width: 16.3,
         // ),
         item.price == null ? GiftButton(item) : PriceButton(item),
-        Expanded(
-          child: Container(),
-        ),
+        Spacer(),
         SizedBox(
           width: kButtonWidth,
           height: kButtonHeight,

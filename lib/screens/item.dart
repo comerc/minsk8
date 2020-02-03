@@ -224,9 +224,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                 item.price == null
                                     ? GiftButton(item)
                                     : PriceButton(item),
-                                Expanded(
-                                  child: Container(),
-                                ),
+                                Spacer(),
                               ],
                             ),
                           ),
@@ -242,9 +240,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
-                                Expanded(
-                                  child: Container(),
-                                ),
+                                Spacer(),
                                 DistanceButton(item),
                               ],
                             ),

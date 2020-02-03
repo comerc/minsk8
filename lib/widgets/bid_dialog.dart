@@ -149,7 +149,7 @@ class BidDialog extends StatelessWidget {
                           color: Colors.pinkAccent,
                           size: kButtonIconSize,
                         ),
-                        Expanded(child: Container()),
+                        Spacer(),
                         Icon(
                           Icons.navigate_next,
                           color: Colors.black.withOpacity(0.8),

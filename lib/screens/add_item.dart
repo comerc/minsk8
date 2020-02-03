@@ -103,9 +103,7 @@ class AddItemScreenState extends State<AddItemScreen> {
               onTap: onTap,
             ),
           ),
-          Expanded(
-            child: Container(),
-          ),
+          Spacer(),
           Container(
             width: 100,
             height: 100,

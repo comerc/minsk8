@@ -23,9 +23,7 @@ class SelectButton extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(text),
               ),
-              Expanded(
-                child: Container(),
-              ),
+              Spacer(),
               Icon(
                 Icons.navigate_next,
                 color: Colors.black.withOpacity(0.8),
