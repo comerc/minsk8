@@ -50,6 +50,7 @@ export 'screens/wishes.dart';
 export 'screens/zoom.dart';
 
 export 'widgets/add_button.dart';
+export 'widgets/add_image_button.dart';
 export 'widgets/address_text.dart';
 export 'widgets/bid_dialog.dart';
 export 'widgets/countdown_timer.dart';

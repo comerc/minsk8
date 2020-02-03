@@ -15,6 +15,7 @@ class AddItemScreenState extends State<AddItemScreen> {
 
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  List images = [];
 
   @override
   void initState() {
@@ -31,39 +32,38 @@ class AddItemScreenState extends State<AddItemScreen> {
       key: formKey,
       child: Column(
         children: [
-          SizedBox(
-            height: 16.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                color: Colors.grey,
-                height: (panelChildWidth - gridSpacing) / 2,
-                width: panelChildWidth,
-                child: GridView.count(
-                  crossAxisSpacing: gridSpacing,
-                  crossAxisCount: 2,
-                  children: [
-                    Container(color: Colors.red),
-                    GridView.count(
-                      mainAxisSpacing: gridSpacing,
-                      crossAxisSpacing: gridSpacing,
-                      crossAxisCount: 2,
-                      children: [
-                        Container(color: Colors.red),
-                        Container(color: Colors.red),
-                        Container(color: Colors.red),
-                        Container(color: Colors.red),
-                      ],
-                    ),
-                  ],
+          Container(
+            padding: EdgeInsets.only(top: 16.0),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: (panelChildWidth - gridSpacing) / 2,
+                  width: panelChildWidth,
+                  child: GridView.count(
+                    crossAxisSpacing: gridSpacing,
+                    crossAxisCount: 2,
+                    children: [
+                      AddImageButton(hasIcon: images.length == 0),
+                      GridView.count(
+                        mainAxisSpacing: gridSpacing,
+                        crossAxisSpacing: gridSpacing,
+                        crossAxisCount: 2,
+                        children: [
+                          AddImageButton(hasIcon: images.length == 1),
+                          AddImageButton(hasIcon: images.length == 2),
+                          AddImageButton(hasIcon: images.length == 3),
+                          AddImageButton(hasIcon: images.length == 4),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 16.0),
             padding: EdgeInsets.all(16.0),
             color: Colors.white,
             child: TextFormField(
@@ -150,6 +150,25 @@ class AddItemScreenState extends State<AddItemScreen> {
 
   onTap() {
     if (isLoading) {
+      return;
+    }
+    if (images.length == 0) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('Добавьте фотографию лота'),
+            actions: [
+              FlatButton(
+                child: Text('ОК'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
       return;
     }
     if (!formKey.currentState.validate()) {
