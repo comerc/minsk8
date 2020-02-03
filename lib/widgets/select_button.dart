@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class SelectButton extends StatelessWidget {
-  SelectButton({Key key, this.tooltip, this.text, this.onTap})
-      : super(key: key);
+  SelectButton({this.tooltip, this.text, this.onTap});
+
   final String tooltip;
   final String text;
   final Function onTap;
