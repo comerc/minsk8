@@ -20,11 +20,11 @@ void main() {
     //   Zone.current.handleUncaughtError(details.exception, details.stack);
     // }
   };
-  runZoned<Future<void>>(() async {
+  runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(App());
-  }, onError: (error, stackTrace) {
+  }, (error, stackTrace) {
     print(error);
     // Whenever an error occurs, call the `_reportError` function. This sends
     // Dart errors to the dev console or Sentry depending on the environment.
@@ -120,7 +120,7 @@ class App extends StatelessWidget {
         );
         // );
       },
-      initialRoute: '/add_item',
+      initialRoute: '/showcase',
       // home: NestedScrollViewDemo(),
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
