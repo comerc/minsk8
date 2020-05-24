@@ -44,7 +44,7 @@ dependencies:
     git:
       url: git@github.com:TheFe91/pinch_zoom_image.git
 
-  extended_image: 0.6.8
+  extended_image: ^0.7.3+1
   like_button: # 0.1.9
     # path: ../like_button/
     git: git://github.com/comerc/like_button.git
