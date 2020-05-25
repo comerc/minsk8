@@ -241,7 +241,20 @@ class _ItemScreenState extends State<ItemScreen> {
                             child: Row(
                               children: [
                                 Spacer(),
-                                DistanceButton(item),
+                                DistanceButton(onTap: () {
+                                  setState(() {
+                                    _isCarouselSlider = false;
+                                  });
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/item_map',
+                                    arguments: ItemMapRouteArguments(
+                                      item,
+                                      index: _currentIndex,
+                                      onWillPop: _onWillPopForItemMap,
+                                    ),
+                                  );
+                                }),
                               ],
                             ),
                           ),
@@ -402,6 +415,14 @@ class _ItemScreenState extends State<ItemScreen> {
       _isCarouselSlider = false;
     });
     // await Future.delayed(Duration(milliseconds: 100));
+    return true;
+  }
+
+  Future<bool> _onWillPopForItemMap(int index) async {
+    setState(() {
+      _currentIndex = index;
+      _isCarouselSlider = true;
+    });
     return true;
   }
 

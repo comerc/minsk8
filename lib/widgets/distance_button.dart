@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class DistanceButton extends StatelessWidget {
-  DistanceButton(this.item);
+  DistanceButton({this.onTap});
 
-  final ItemModel item;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +57,7 @@ class DistanceButton extends StatelessWidget {
             ),
             child: text,
           ),
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/item_map',
-              arguments: ItemMapRouteArguments(item),
-            );
-          },
+          onTap: onTap,
         ),
       ),
     );
