@@ -60,7 +60,7 @@ LatLng calculateEndingGlobalCoordinates(
   double cosSigmaM2;
   double cos2SigmaM2;
 
-  for (;;) {
+  while (true) {
     // eq. 5
     sigmaM2 = 2.0 * sigma1 + sigma;
     cosSigmaM2 = cos(sigmaM2);
