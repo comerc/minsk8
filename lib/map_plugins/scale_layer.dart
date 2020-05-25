@@ -22,10 +22,10 @@ class ScaleLayerMapPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is ScaleLayerMapPluginOption) {
-      return ScaleLayer(options, mapState, stream);
+    if (!(options is ScaleLayerMapPluginOption)) {
+      throw Exception('Unknown options type for ScaleLayerMapPlugin: $options');
     }
-    throw Exception('Unknown options type for ScaleLayerMapPlugin: $options');
+    return ScaleLayer(options, mapState, stream);
   }
 
   @override

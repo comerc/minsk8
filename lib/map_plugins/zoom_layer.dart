@@ -10,11 +10,11 @@ class ZoomLayerMapPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is ZoomLayerMapPluginOptions) {
-      return _Zoom(mapState: mapState);
+    if (!(options is ZoomLayerMapPluginOptions)) {
+      throw Exception('Unknown options type for ZoomLayerMapPlugin'
+          'plugin: $options');
     }
-    throw Exception('Unknown options type for ZoomLayerMapPlugin'
-        'plugin: $options');
+    return _Zoom(mapState: mapState);
   }
 
   @override

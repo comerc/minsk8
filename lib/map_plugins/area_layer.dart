@@ -25,11 +25,11 @@ class AreaLayerMapPlugin implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (options is AreaLayerMapPluginOptions) {
-      return _Area(options: options, mapState: mapState);
+    if (!(options is AreaLayerMapPluginOptions)) {
+      throw Exception('Unknown options type for AreaLayerMapPlugin'
+          'plugin: $options');
     }
-    throw Exception('Unknown options type for AreaLayerMapPlugin'
-        'plugin: $options');
+    return _Area(options: options, mapState: mapState);
   }
 
   @override
