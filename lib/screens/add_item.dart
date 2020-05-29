@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
+// TODO: прятать клавиатуру перед showDialog()
 
 class AddItemScreen extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class AddItemScreenState extends State<AddItemScreen> {
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
   List images = [];
+  ItemImageSource imageSource;
 
   @override
   void initState() {
@@ -45,16 +48,26 @@ class AddItemScreenState extends State<AddItemScreen> {
                     crossAxisSpacing: gridSpacing,
                     crossAxisCount: 2,
                     children: [
-                      AddImageButton(hasIcon: images.length == 0),
+                      AddImageButton(
+                          hasIcon: images.length == 0,
+                          onTap: choiceImageSource),
                       GridView.count(
                         mainAxisSpacing: gridSpacing,
                         crossAxisSpacing: gridSpacing,
                         crossAxisCount: 2,
                         children: [
-                          AddImageButton(hasIcon: images.length == 1),
-                          AddImageButton(hasIcon: images.length == 2),
-                          AddImageButton(hasIcon: images.length == 3),
-                          AddImageButton(hasIcon: images.length == 4),
+                          AddImageButton(
+                              hasIcon: images.length == 1,
+                              onTap: handleAddImage),
+                          AddImageButton(
+                              hasIcon: images.length == 2,
+                              onTap: handleAddImage),
+                          AddImageButton(
+                              hasIcon: images.length == 3,
+                              onTap: handleAddImage),
+                          AddImageButton(
+                              hasIcon: images.length == 4,
+                              onTap: handleAddImage),
                         ],
                       ),
                     ],
@@ -84,7 +97,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Как срочно надо отдать?',
               text: 'Совсем не срочно',
-              onTap: onTap,
+              onTap: handleAddItem,
             ),
           ),
           Container(
@@ -92,7 +105,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Категория',
               text: 'Техника',
-              onTap: onTap,
+              onTap: handleAddItem,
             ),
           ),
           Container(
@@ -100,7 +113,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Адрес',
               text: 'Минск, проспект Победителей',
-              onTap: onTap,
+              onTap: handleAddItem,
             ),
           ),
           Spacer(),
@@ -113,7 +126,7 @@ class AddItemScreenState extends State<AddItemScreen> {
           Container(
             height: kBigButtonHeight,
             width: panelChildWidth,
-            child: ReadyButton(onTap: onTap),
+            child: ReadyButton(onTap: handleAddItem),
           ),
           SizedBox(
             height: 16.0,
@@ -146,9 +159,9 @@ class AddItemScreenState extends State<AddItemScreen> {
   }
 
   String validateText(String value) =>
-      (value.isEmpty) ? "Please Enter Text" : null;
+      (value.isEmpty) ? 'Please Enter Text' : null;
 
-  onTap() {
+  void handleAddItem() {
     if (isLoading) {
       return;
     }
@@ -187,5 +200,73 @@ class AddItemScreenState extends State<AddItemScreen> {
       });
       print(e);
     }
+  }
+
+  handleAddImage() {}
+
+  Future<void> choiceImageSource() async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text('Что использовать?'),
+        children: [
+          _DialogItemImageSource(
+            icon: FontAwesomeIcons.camera,
+            text: 'Камера',
+            result: ItemImageSource.camera,
+          ),
+          _DialogItemImageSource(
+            icon: FontAwesomeIcons.solidImages,
+            text: 'Галерея',
+            result: ItemImageSource.gallery,
+          ),
+        ],
+      ),
+    );
+    if (result != null) {
+      print(result);
+      imageSource = result;
+    }
+  }
+}
+
+enum ItemImageSource { camera, gallery }
+
+class _DialogItemImageSource extends StatelessWidget {
+  _DialogItemImageSource({
+    Key key,
+    this.icon,
+    this.text,
+    this.result,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+  final ItemImageSource result;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialogOption(
+      onPressed: () {
+        Navigator.of(context).pop(result);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: Colors.black.withOpacity(0.8),
+            size: kBigButtonIconSize,
+          ),
+          Flexible(
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: 16),
+              child: Text(text),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
