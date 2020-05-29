@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Load More"),
+                            Text('Load More'),
                           ],
                         ),
                         onPressed: () {

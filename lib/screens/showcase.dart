@@ -130,7 +130,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     // }
     return SliverAppBar(
       pinned: true,
-      title: Text("Showcase"),
+      title: Text('Showcase'),
       centerTitle: true,
       // expandedHeight: 200.0 + offset,
       expandedHeight: offset,
