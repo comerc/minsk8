@@ -58,6 +58,7 @@ class App extends StatelessWidget {
       title: 'minsk8',
       // theme: ThemeData(
       //   primarySwatch: mapBoxBlue,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity
       // ),
       builder: (BuildContext context, Widget child) {
         return PersistedStateBuilder(
