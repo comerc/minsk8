@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 typedef AddImageButtonOnTap = void Function(int index);
@@ -16,7 +18,7 @@ class AddImageButton extends StatelessWidget {
   final int index;
   final bool hasIcon;
   final AddImageButtonOnTap onTap;
-  final Image image;
+  final Uint8List image;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,9 @@ class AddImageButton extends StatelessWidget {
                   color: Colors.black.withOpacity(0.8),
                   size: kBigButtonIconSize,
                 )
-              : image == null ? Container() : image,
+              : image == null
+                  ? Container()
+                  : ExtendedImage.memory(image, fit: BoxFit.cover),
           onTap: _onTap,
         ),
       ),

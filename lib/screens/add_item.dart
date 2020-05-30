@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +19,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _textController;
   // bool isLoading = false;
-  List<Image> _images = [];
+  List<Uint8List> _images = [];
   ImageSource _imageSource;
 
   @override
@@ -110,7 +112,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             width: 100,
             height: 100,
             color: Colors.green,
-            child: Container(),
+            child: Spacer(),
           ),
           Container(
             height: kBigButtonHeight,
@@ -231,8 +233,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final picker = ImagePicker();
     PickedFile pickedFile = await picker.getImage(source: _imageSource);
     if (pickedFile == null) return;
-    var bytes = await pickedFile.readAsBytes();
-    Image image = Image.memory(bytes);
+    Uint8List image = await pickedFile.readAsBytes();
     setState(() {
       if (index < _images.length) {
         _images.removeAt(index);
