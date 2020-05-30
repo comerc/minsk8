@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
-// TODO: прятать клавиатуру перед showDialog()
+// TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 
 class AddItemScreen extends StatefulWidget {
   @override
@@ -16,13 +17,14 @@ class AddItemScreenState extends State<AddItemScreen> {
   TextEditingController textController;
 
   final formKey = GlobalKey<FormState>();
-  bool isLoading = false;
-  List images = [];
-  ItemImageSource imageSource;
+  // bool isLoading = false;
+  List<Image> images = [];
+  ImageSource imageSource;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     textController = TextEditingController(text: '');
   }
 
@@ -48,27 +50,15 @@ class AddItemScreenState extends State<AddItemScreen> {
                     crossAxisSpacing: gridSpacing,
                     crossAxisCount: 2,
                     children: [
-                      AddImageButton(
-                          hasIcon: images.length == 0,
-                          onTap: choiceImageSource),
+                      buildAddImageButton(0),
                       GridView.count(
                         mainAxisSpacing: gridSpacing,
                         crossAxisSpacing: gridSpacing,
                         crossAxisCount: 2,
-                        children: [
-                          AddImageButton(
-                              hasIcon: images.length == 1,
-                              onTap: handleAddImage),
-                          AddImageButton(
-                              hasIcon: images.length == 2,
-                              onTap: handleAddImage),
-                          AddImageButton(
-                              hasIcon: images.length == 3,
-                              onTap: handleAddImage),
-                          AddImageButton(
-                              hasIcon: images.length == 4,
-                              onTap: handleAddImage),
-                        ],
+                        children: List.generate(
+                          4,
+                          (i) => buildAddImageButton(i + 1),
+                        ),
                       ),
                     ],
                   ),
@@ -80,7 +70,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             padding: EdgeInsets.all(16.0),
             color: Colors.white,
             child: TextFormField(
-              autofocus: true,
+              autofocus: false,
               enableSuggestions: false,
               keyboardType: TextInputType.multiline,
               maxLines: null,
@@ -158,13 +148,17 @@ class AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
+  void _onAfterBuild(Duration timeStamp) {
+    choiceImageSource();
+  }
+
   String validateText(String value) =>
       (value.isEmpty) ? 'Please Enter Text' : null;
 
   void handleAddItem() {
-    if (isLoading) {
-      return;
-    }
+    // if (isLoading) {
+    //   return;
+    // }
     if (images.length == 0) {
       showDialog(
         context: context,
@@ -187,22 +181,46 @@ class AddItemScreenState extends State<AddItemScreen> {
     if (!formKey.currentState.validate()) {
       return;
     }
-    setState(() {
-      isLoading = true;
-    });
+    // setState(() {
+    //   isLoading = true;
+    // });
     try {
       // Navigator.pushReplacementNamed(
       //   context,
       // );
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+      // setState(() {
+      //   isLoading = false;
+      // });
       print(e);
     }
   }
 
-  handleAddImage() {}
+  Widget buildAddImageButton(int index) {
+    return AddImageButton(
+      index: index,
+      hasIcon: images.length == index,
+      onTap: images.length > index ? handleDeleteImage : handleAddImage,
+      image: images.length > index ? images[index] : null,
+    );
+  }
+
+  void handleAddImage(int index) {
+    if (imageSource == null) {
+      choiceImageSource().then((_) {
+        if (imageSource == null) return;
+        getImage(index);
+      });
+      return;
+    }
+    getImage(index);
+  }
+
+  void handleDeleteImage(int index) {
+    setState(() {
+      images.removeAt(index);
+    });
+  }
 
   Future<void> choiceImageSource() async {
     final result = await showDialog(
@@ -213,24 +231,37 @@ class AddItemScreenState extends State<AddItemScreen> {
           _DialogItemImageSource(
             icon: FontAwesomeIcons.camera,
             text: 'Камера',
-            result: ItemImageSource.camera,
+            result: ImageSource.camera,
           ),
           _DialogItemImageSource(
             icon: FontAwesomeIcons.solidImages,
             text: 'Галерея',
-            result: ItemImageSource.gallery,
+            result: ImageSource.gallery,
           ),
         ],
       ),
     );
     if (result != null) {
-      print(result);
       imageSource = result;
     }
   }
-}
 
-enum ItemImageSource { camera, gallery }
+  Future<void> getImage(int index) async {
+    final picker = ImagePicker();
+    PickedFile pickedFile = await picker.getImage(source: imageSource);
+    if (pickedFile == null) return;
+    var bytes = await pickedFile.readAsBytes();
+    Image image = Image.memory(bytes);
+    setState(() {
+      if (index < images.length) {
+        images.removeAt(index);
+        images.insert(index, image);
+      } else {
+        images.add(image);
+      }
+    });
+  }
+}
 
 class _DialogItemImageSource extends StatelessWidget {
   _DialogItemImageSource({
@@ -242,7 +273,7 @@ class _DialogItemImageSource extends StatelessWidget {
 
   final IconData icon;
   final String text;
-  final ItemImageSource result;
+  final ImageSource result;
 
   @override
   Widget build(BuildContext context) {
