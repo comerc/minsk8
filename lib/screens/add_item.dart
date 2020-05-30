@@ -8,24 +8,23 @@ import 'package:minsk8/import.dart';
 
 class AddItemScreen extends StatefulWidget {
   @override
-  AddItemScreenState createState() {
-    return AddItemScreenState();
+  _AddItemScreenState createState() {
+    return _AddItemScreenState();
   }
 }
 
-class AddItemScreenState extends State<AddItemScreen> {
-  TextEditingController textController;
-
-  final formKey = GlobalKey<FormState>();
+class _AddItemScreenState extends State<AddItemScreen> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _textController;
   // bool isLoading = false;
-  List<Image> images = [];
-  ImageSource imageSource;
+  List<Image> _images = [];
+  ImageSource _imageSource;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
-    textController = TextEditingController(text: '');
+    _textController = TextEditingController(text: '');
   }
 
   @override
@@ -34,7 +33,7 @@ class AddItemScreenState extends State<AddItemScreen> {
     final panelChildWidth = size.width - 32.0; // for padding
     final gridSpacing = 8.0;
     final child = Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
         children: [
           Container(
@@ -50,14 +49,14 @@ class AddItemScreenState extends State<AddItemScreen> {
                     crossAxisSpacing: gridSpacing,
                     crossAxisCount: 2,
                     children: [
-                      buildAddImageButton(0),
+                      _buildAddImageButton(0),
                       GridView.count(
                         mainAxisSpacing: gridSpacing,
                         crossAxisSpacing: gridSpacing,
                         crossAxisCount: 2,
                         children: List.generate(
                           4,
-                          (i) => buildAddImageButton(i + 1),
+                          (i) => _buildAddImageButton(i + 1),
                         ),
                       ),
                     ],
@@ -74,8 +73,8 @@ class AddItemScreenState extends State<AddItemScreen> {
               enableSuggestions: false,
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              controller: textController,
-              validator: validateText,
+              controller: _textController,
+              validator: _validateText,
               decoration: InputDecoration(
                 hintText: 'Часы Casio. Рабочие.',
                 border: OutlineInputBorder(),
@@ -87,7 +86,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Как срочно надо отдать?',
               text: 'Совсем не срочно',
-              onTap: handleAddItem,
+              onTap: _handleAddItem,
             ),
           ),
           Container(
@@ -95,7 +94,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Категория',
               text: 'Техника',
-              onTap: handleAddItem,
+              onTap: _handleAddItem,
             ),
           ),
           Container(
@@ -103,7 +102,7 @@ class AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Адрес',
               text: 'Минск, проспект Победителей',
-              onTap: handleAddItem,
+              onTap: _handleAddItem,
             ),
           ),
           Spacer(),
@@ -116,7 +115,7 @@ class AddItemScreenState extends State<AddItemScreen> {
           Container(
             height: kBigButtonHeight,
             width: panelChildWidth,
-            child: ReadyButton(onTap: handleAddItem),
+            child: ReadyButton(onTap: _handleAddItem),
           ),
           SizedBox(
             height: 16.0,
@@ -149,17 +148,17 @@ class AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) {
-    choiceImageSource();
+    _choiceImageSource();
   }
 
-  String validateText(String value) =>
+  String _validateText(String value) =>
       (value.isEmpty) ? 'Please Enter Text' : null;
 
-  void handleAddItem() {
+  void _handleAddItem() {
     // if (isLoading) {
     //   return;
     // }
-    if (images.length == 0) {
+    if (_images.length == 0) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -178,7 +177,7 @@ class AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
-    if (!formKey.currentState.validate()) {
+    if (!_formKey.currentState.validate()) {
       return;
     }
     // setState(() {
@@ -196,19 +195,19 @@ class AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
-  Widget buildAddImageButton(int index) {
+  Widget _buildAddImageButton(int index) {
     return AddImageButton(
       index: index,
-      hasIcon: images.length == index,
-      onTap: images.length > index ? handleDeleteImage : handleAddImage,
-      image: images.length > index ? images[index] : null,
+      hasIcon: _images.length == index,
+      onTap: _images.length > index ? _handleDeleteImage : _handleAddImage,
+      image: _images.length > index ? _images[index] : null,
     );
   }
 
-  void handleAddImage(int index) {
-    if (imageSource == null) {
-      choiceImageSource().then((_) {
-        if (imageSource == null) return;
+  void _handleAddImage(int index) {
+    if (_imageSource == null) {
+      _choiceImageSource().then((_) {
+        if (_imageSource == null) return;
         getImage(index);
       });
       return;
@@ -216,88 +215,31 @@ class AddItemScreenState extends State<AddItemScreen> {
     getImage(index);
   }
 
-  void handleDeleteImage(int index) {
+  void _handleDeleteImage(int index) {
     setState(() {
-      images.removeAt(index);
+      _images.removeAt(index);
     });
   }
 
-  Future<void> choiceImageSource() async {
-    final result = await showDialog(
-      context: context,
-      builder: (context) => SimpleDialog(
-        title: Text('Что использовать?'),
-        children: [
-          _DialogItemImageSource(
-            icon: FontAwesomeIcons.camera,
-            text: 'Камера',
-            result: ImageSource.camera,
-          ),
-          _DialogItemImageSource(
-            icon: FontAwesomeIcons.solidImages,
-            text: 'Галерея',
-            result: ImageSource.gallery,
-          ),
-        ],
-      ),
-    );
-    if (result != null) {
-      imageSource = result;
-    }
+  Future<void> _choiceImageSource() async {
+    final ImageSource result = await showImageSourceDialog(context);
+    if (result == null) return;
+    _imageSource = result;
   }
 
   Future<void> getImage(int index) async {
     final picker = ImagePicker();
-    PickedFile pickedFile = await picker.getImage(source: imageSource);
+    PickedFile pickedFile = await picker.getImage(source: _imageSource);
     if (pickedFile == null) return;
     var bytes = await pickedFile.readAsBytes();
     Image image = Image.memory(bytes);
     setState(() {
-      if (index < images.length) {
-        images.removeAt(index);
-        images.insert(index, image);
+      if (index < _images.length) {
+        _images.removeAt(index);
+        _images.insert(index, image);
       } else {
-        images.add(image);
+        _images.add(image);
       }
     });
-  }
-}
-
-class _DialogItemImageSource extends StatelessWidget {
-  _DialogItemImageSource({
-    Key key,
-    this.icon,
-    this.text,
-    this.result,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-  final ImageSource result;
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleDialogOption(
-      onPressed: () {
-        Navigator.of(context).pop(result);
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.black.withOpacity(0.8),
-            size: kBigButtonIconSize,
-          ),
-          Flexible(
-            child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 16),
-              child: Text(text),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

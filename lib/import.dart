@@ -57,6 +57,7 @@ export 'widgets/countdown_timer.dart';
 export 'widgets/delivery_label.dart';
 export 'widgets/distance_button.dart';
 export 'widgets/gift_button.dart';
+export 'widgets/image_source_dialog.dart';
 export 'widgets/info_dialog.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/map.dart';
