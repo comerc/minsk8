@@ -20,10 +20,12 @@ class AddImageButton extends StatelessWidget {
   final AddImageButtonOnTap onTap;
   final Uint8List image;
 
+  // TODO: по длинному тапу - редактирование фотографии (кроп, поворот, и т.д.)
+
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Добавить фотографию',
+      message: 'Добавить/удалить фотографию',
       child: Material(
         child: InkWell(
           child: hasIcon
