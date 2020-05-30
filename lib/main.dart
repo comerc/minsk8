@@ -48,6 +48,8 @@ void main() {
 //   }
 // }
 
+// TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
+
 PersistedData appState;
 
 class App extends StatelessWidget {
