@@ -38,13 +38,13 @@ class _ItemScreenState extends State<ItemScreen> {
     }
     _initOtherItems();
     _isClosed = item.isClosed;
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(item.location);
     distance.updateCurrentPosition(item.location);
   }
 
-  void _afterLayout(_) {
+  void _onAfterBuild(_) {
     final RenderBox renderBox =
         _panelColumnKey.currentContext.findRenderObject();
     setState(() {
