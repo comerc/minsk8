@@ -93,7 +93,7 @@ class _AreaState extends State<_Area> {
           children: [
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 right: 16.0,
                 bottom: 16.0,
               ),
