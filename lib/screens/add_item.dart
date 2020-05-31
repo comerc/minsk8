@@ -87,7 +87,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Как срочно надо отдать?',
               text: 'Совсем не срочно',
-              onTap: _handleAddItem,
+              onTap: _selectUrgentStatus,
             ),
           ),
           Container(
@@ -247,5 +247,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     });
     return true;
+  }
+
+  void _selectUrgentStatus() {
+    selectUrgentStatusDialog(context, 2).then((i) => print(i));
   }
 }
