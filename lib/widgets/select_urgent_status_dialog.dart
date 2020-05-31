@@ -6,9 +6,7 @@ Future<int> selectUrgentStatusDialog(BuildContext context, int selectedIndex) {
     context: context,
     builder: (context) {
       return Container(
-        // color: Colors.amber,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -20,14 +18,12 @@ Future<int> selectUrgentStatusDialog(BuildContext context, int selectedIndex) {
               urgents.length,
               (i) => InkWell(
                 child: ListTile(
-                  // key: ObjectKey(urgents[i]),
                   title: Text(urgents[i].name),
                   subtitle: Text(urgents[i].description),
                   selected: selectedIndex == i,
                   trailing: Icon((selectedIndex == i
                       ? Icons.check_box
                       : Icons.check_box_outline_blank)),
-                  // isThreeLine: true,
                   dense: true,
                 ),
                 onTap: () {
