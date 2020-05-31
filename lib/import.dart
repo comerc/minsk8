@@ -53,6 +53,7 @@ export 'widgets/add_button.dart';
 export 'widgets/add_image_button.dart';
 export 'widgets/address_text.dart';
 export 'widgets/bid_dialog.dart';
+export 'widgets/cancel_item_dialog.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/delivery_label.dart';
 export 'widgets/distance_button.dart';

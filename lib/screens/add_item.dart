@@ -7,6 +7,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
+// TODO: showCancelItemDialog(context);
 
 class AddItemScreen extends StatefulWidget {
   @override
