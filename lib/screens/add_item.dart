@@ -150,7 +150,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) {
-    _choiceImageSource();
+    showImageSourceDialog(context).then((ImageSource imageSource) {
+      if (imageSource == null) return;
+      _getImage(0, imageSource).then((bool result) {
+        if (!result) return;
+        _imageSource = imageSource;
+      });
+    });
   }
 
   String _validateText(String value) =>
@@ -208,13 +214,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   void _handleAddImage(int index) {
     if (_imageSource == null) {
-      _choiceImageSource().then((_) {
-        if (_imageSource == null) return;
-        getImage(index);
+      showImageSourceDialog(context).then((ImageSource imageSource) {
+        if (imageSource == null) return;
+        _getImage(index, imageSource).then((bool result) {
+          if (!result) return;
+          _imageSource = imageSource;
+        });
       });
       return;
     }
-    getImage(index);
+    _getImage(index, _imageSource);
   }
 
   void _handleDeleteImage(int index) {
@@ -223,16 +232,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  Future<void> _choiceImageSource() async {
-    final ImageSource result = await showImageSourceDialog(context);
-    if (result == null) return;
-    _imageSource = result;
-  }
-
-  Future<void> getImage(int index) async {
+  Future<bool> _getImage(int index, ImageSource imageSource) async {
     final picker = ImagePicker();
-    PickedFile pickedFile = await picker.getImage(source: _imageSource);
-    if (pickedFile == null) return;
+    PickedFile pickedFile = await picker.getImage(source: imageSource);
+    if (pickedFile == null) {
+      return false;
+    }
     Uint8List image = await pickedFile.readAsBytes();
     setState(() {
       if (index < _images.length) {
@@ -242,5 +247,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         _images.add(image);
       }
     });
+    return true;
   }
 }
