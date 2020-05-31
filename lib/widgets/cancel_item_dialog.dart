@@ -6,16 +6,15 @@ void showCancelItemDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return Container(
-        height: 200,
         color: Colors.amber,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text('Modal BottomSheet'),
+            children: [
+              Text('Modal BottomSheet'),
               RaisedButton(
-                child: const Text('Close BottomSheet'),
+                child: Text('Close BottomSheet'),
                 onPressed: () => Navigator.pop(context),
               )
             ],
