@@ -22,21 +22,23 @@ Future<bool> showCancelItemDialog(BuildContext context) {
             ),
             Text('Вы очень близки к тому,\nчтобы отдать эту вещь.'),
             SizedBox(
-              height: 8.0,
+              height: 16.0,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FlatButton(
+                OutlineButton(
                   child: Text('Закрыть'),
                   onPressed: () => Navigator.of(context).pop(true),
                 ),
                 SizedBox(
-                  width: 8.0,
+                  width: 16.0,
                 ),
                 FlatButton(
                   child: Text('Остаться'),
                   onPressed: () => Navigator.of(context).pop(false),
+                  color: Colors.red,
+                  textColor: Colors.white,
                 ),
               ],
             ),
