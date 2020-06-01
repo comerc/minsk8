@@ -5,7 +5,6 @@ import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
-// TODO: showCancelItemDialog(context);
 
 class AddItemScreen extends StatefulWidget {
   @override
@@ -18,6 +17,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _textController;
   // bool isLoading = false;
+  bool isSubmited = false;
   List<Uint8List> _images = [];
   ImageSource _imageSource;
 
@@ -95,7 +95,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Категория',
               text: 'Техника',
-              onTap: _handleAddItem,
+              onTap: _selectKind,
             ),
           ),
           Container(
@@ -139,12 +139,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
         );
       },
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Что отдаёте?'),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Что отдаёте?'),
+        ),
+        // drawer: MainDrawer('/add_item'),
+        body: body,
       ),
-      // drawer: MainDrawer('/add_item'),
-      body: body,
     );
   }
 
@@ -251,5 +254,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   void _selectUrgentStatus() {
     selectUrgentStatusDialog(context, 2).then((i) => print(i));
+  }
+
+  void _selectKind() {
+    showCancelItemDialog(context);
+  }
+
+  Future<bool> _onWillPop() async {
+    if (isSubmited) return true;
+    if (_images.length == 0 && _textController.value.text.trim().length < 6)
+      return true;
+    final result = await showCancelItemDialog(context);
+    return result ?? false; // if enableDrag, result may be null
   }
 }
