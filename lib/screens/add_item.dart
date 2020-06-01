@@ -111,7 +111,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             width: 100,
             height: 100,
             color: Colors.green,
-            child: Spacer(),
+            child: Container(),
           ),
           Container(
             height: kBigButtonHeight,
