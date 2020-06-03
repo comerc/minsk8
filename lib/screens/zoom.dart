@@ -327,11 +327,13 @@ class NoAnimationMaterialPageRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
+typedef WillPopZoomCallback = Future<bool> Function(int index);
+
 class ZoomRouteArguments {
   ZoomRouteArguments(this.item, {this.tag, this.index, this.onWillPop});
 
   final ItemModel item;
   final String tag;
   final int index;
-  final Function onWillPop;
+  final WillPopZoomCallback onWillPop;
 }
