@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
@@ -26,6 +27,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     _textController = TextEditingController(text: '');
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose(); // TODO: оно тут точно надо?
+    super.dispose();
   }
 
   @override
@@ -103,7 +110,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: SelectButton(
               tooltip: 'Адрес',
               text: 'Минск, проспект Победителей',
-              onTap: _handleAddItem,
+              onTap: _selectLocation,
             ),
           ),
           Spacer(),
@@ -256,8 +263,32 @@ class _AddItemScreenState extends State<AddItemScreen> {
     selectUrgentStatusDialog(context, 2).then((i) => print(i));
   }
 
-  void _selectKind() {
-    showCancelItemDialog(context);
+  void _selectKind() {}
+
+  void _selectLocation() {
+    Navigator.pushNamed(
+      context,
+      '/my_item_map',
+      arguments: MyItemMapRouteArguments(
+        center: appState['center'] == null
+            ? LatLng(
+                kDefaultMapCenter[0],
+                kDefaultMapCenter[1],
+              )
+            : LatLng(
+                appState['center'][0],
+                appState['center'][1],
+              ),
+        zoom: appState['zoom'] ?? 8.0,
+        onWillPop: _onWillPopMyItemMap,
+      ),
+    ).then((value) {});
+  }
+
+  Future<bool> _onWillPopMyItemMap({LatLng center, double zoom}) async {
+    print(center);
+    print(zoom);
+    return true;
   }
 
   Future<bool> _onWillPop() async {
