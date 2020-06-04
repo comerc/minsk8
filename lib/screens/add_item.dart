@@ -114,12 +114,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
           Spacer(),
-          Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-            child: Container(),
-          ),
+          // Container(
+          //   width: 100,
+          //   height: 100,
+          //   color: Colors.green,
+          //   child: Container(),
+          // ),
           Container(
             height: kBigButtonHeight,
             width: panelChildWidth,
@@ -279,17 +279,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 appState['center'][0],
                 appState['center'][1],
               ),
-        zoom: appState['zoom'] ?? 8.0,
-        onWillPop: _onWillPopMyItemMap,
+        // zoom: appState['zoom'] ?? 8.0,
+        // onWillPop: _onWillPopMyItemMap,
       ),
-    ).then((value) {});
+    ).then((value) {
+      print(value);
+    });
   }
 
-  Future<bool> _onWillPopMyItemMap({LatLng center, double zoom}) async {
-    print(center);
-    print(zoom);
-    return true;
-  }
+  // Future<bool> _onWillPopMyItemMap({LatLng center, double zoom}) async {
+  //   print(center);
+  //   print(zoom);
+  //   return true;
+  // }
 
   Future<bool> _onWillPop() async {
     if (isSubmited) return true;

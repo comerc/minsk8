@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:minsk8/import.dart';
 import 'utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 
-typedef void OnChangeRadiusCallback(double value);
+typedef void ChangeRadiusCallback(double value);
 
 class AreaLayerMapPluginOptions extends LayerOptions {
   final double markerIconSize;
+  final bool isCenterWithMarkerPoint;
   final double initialRadius;
-  final OnChangeRadiusCallback onChangeRadius;
+  final ChangeRadiusCallback onChangeRadius;
   final Function onCurrentPositionClick;
   // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
   AreaLayerMapPluginOptions({
     this.markerIconSize,
+    this.isCenterWithMarkerPoint,
     this.initialRadius,
     this.onChangeRadius,
     this.onCurrentPositionClick,
@@ -62,7 +65,9 @@ class _AreaState extends State<_Area> {
   @override
   void initState() {
     super.initState();
-    radius = widget.options.initialRadius ?? maxRadius / 2;
+    if (!widget.options.isCenterWithMarkerPoint) {
+      radius = widget.options.initialRadius ?? maxRadius / 2;
+    }
   }
 
   double get paintedRadius {
@@ -78,11 +83,14 @@ class _AreaState extends State<_Area> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (widget.options.onChangeRadius != null)
+        if (widget.options.isCenterWithMarkerPoint ||
+            widget.options.onChangeRadius != null)
           Center(
             child: CustomPaint(
               painter: _AreaPainter(
-                radius: paintedRadius,
+                radius: widget.options.isCenterWithMarkerPoint
+                    ? null
+                    : paintedRadius,
                 icon: _icon,
                 iconSize: widget.options.markerIconSize,
               ),
@@ -114,6 +122,21 @@ class _AreaState extends State<_Area> {
                 ),
               ),
             ),
+            if (widget.options.isCenterWithMarkerPoint)
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 16.0,
+                ),
+                child: Container(
+                  height: kBigButtonHeight,
+                  child: ReadyButton(onTap: () {
+                    Navigator.of(context).pop(true);
+                  }),
+                ),
+              ),
             if (widget.options.onChangeRadius != null)
               Container(
                 alignment: Alignment.bottomCenter,
@@ -211,14 +234,18 @@ class _AreaPainter extends CustomPainter {
   final TextPainter _textPainter;
 
   _AreaPainter({this.radius, IconData icon, this.iconSize})
-      : _paintFill = Paint()
-          ..color = Colors.blue.withOpacity(0.1)
-          ..strokeWidth = 0.0
-          ..style = PaintingStyle.fill,
-        _paintStroke = Paint()
-          ..color = Colors.black.withOpacity(0.1)
-          ..strokeWidth = 1.0
-          ..style = PaintingStyle.stroke,
+      : _paintFill = radius == null
+            ? null
+            : (Paint()
+              ..color = Colors.blue.withOpacity(0.1)
+              ..strokeWidth = 0.0
+              ..style = PaintingStyle.fill),
+        _paintStroke = radius == null
+            ? null
+            : (Paint()
+              ..color = Colors.black.withOpacity(0.1)
+              ..strokeWidth = 1.0
+              ..style = PaintingStyle.stroke),
         _textPainter = TextPainter(textDirection: TextDirection.rtl)
           ..text = TextSpan(
               text: String.fromCharCode(icon.codePoint),
@@ -230,8 +257,10 @@ class _AreaPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(0.0, 0.0), radius, _paintFill);
-    canvas.drawCircle(Offset(0.0, 0.0), radius, _paintStroke);
+    if (radius != null) {
+      canvas.drawCircle(Offset(0.0, 0.0), radius, _paintFill);
+      canvas.drawCircle(Offset(0.0, 0.0), radius, _paintStroke);
+    }
     _textPainter.paint(
         canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???
   }

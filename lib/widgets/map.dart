@@ -13,6 +13,7 @@ class MapWidget extends StatefulWidget {
     this.center,
     this.zoom,
     this.onPositionChanged,
+    this.isCenterWithMarkerPoint,
     this.initialRadius,
     this.onChangeRadius,
     this.markerPoint,
@@ -21,8 +22,9 @@ class MapWidget extends StatefulWidget {
   final LatLng center;
   final double zoom;
   final PositionCallback onPositionChanged;
+  final bool isCenterWithMarkerPoint;
   final double initialRadius;
-  final OnChangeRadiusCallback onChangeRadius;
+  final ChangeRadiusCallback onChangeRadius;
   final LatLng markerPoint;
 
   @override
@@ -138,6 +140,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           ),
         AreaLayerMapPluginOptions(
           markerIconSize: markerIconSize,
+          isCenterWithMarkerPoint: widget.isCenterWithMarkerPoint,
           initialRadius: widget.initialRadius,
           onChangeRadius: widget.onChangeRadius,
           onCurrentPositionClick: () async {
