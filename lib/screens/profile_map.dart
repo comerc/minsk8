@@ -37,7 +37,9 @@ class ProfileMapScreen extends StatelessWidget {
           appState['zoom'] = position.zoom;
         },
         initialRadius: appState['radius'],
-        onChangeRadius: (value) => appState['radius'] = value,
+        onChangeRadius: (value) {
+          appState['radius'] = value;
+        },
       ),
     );
   }
