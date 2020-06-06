@@ -13,7 +13,7 @@ class MapWidget extends StatefulWidget {
     this.center,
     this.zoom,
     this.onPositionChanged,
-    this.isCenterWithMarkerPoint,
+    this.isCenterWithMarkerPoint = false,
     this.initialRadius,
     this.onChangeRadius,
     this.markerPoint,

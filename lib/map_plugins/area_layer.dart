@@ -17,7 +17,7 @@ class AreaLayerMapPluginOptions extends LayerOptions {
 
   AreaLayerMapPluginOptions({
     this.markerIconSize,
-    this.isCenterWithMarkerPoint,
+    this.isCenterWithMarkerPoint = false,
     this.initialRadius,
     this.onChangeRadius,
     this.onCurrentPositionClick,
