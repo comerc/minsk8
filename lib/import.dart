@@ -22,6 +22,7 @@ export 'models/win.dart';
 export 'models/wish.dart';
 
 export 'screens/add_item.dart';
+export 'screens/animation.dart';
 export 'screens/chat.dart';
 export 'screens/edit_item.dart';
 export 'screens/forgot_password.dart';

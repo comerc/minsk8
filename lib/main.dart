@@ -128,6 +128,7 @@ class App extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (_) => AddItemScreen(),
+        '/animation': (_) => AnimationScreen(),
         '/chat': (BuildContext context) =>
             ChatScreen(ModalRoute.of(context).settings.arguments),
         '/edit_item': (BuildContext context) =>

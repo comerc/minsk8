@@ -11,6 +11,10 @@ final mainRoutes = [
     'routeName': '/add_item',
   },
   {
+    'title': 'Animation',
+    'routeName': '/animation',
+  },
+  {
     'title': 'Chat',
     'routeName': '/chat',
     'arguments': ChatRouteArguments(0),
