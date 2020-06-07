@@ -53,7 +53,7 @@ class _Area extends StatefulWidget {
 
 const maxRadius = 100.0;
 
-class _AreaState extends State<_Area> {
+class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
   final _boxShadow = BoxShadow(
@@ -61,6 +61,9 @@ class _AreaState extends State<_Area> {
     blurRadius: 2.0,
   );
   double radius;
+  Animation<double> _animation;
+  AnimationController _controller;
+  bool _visible;
 
   @override
   void initState() {
@@ -68,6 +71,16 @@ class _AreaState extends State<_Area> {
     if (!widget.options.isCenterWithMarkerPoint) {
       radius = widget.options.initialRadius ?? maxRadius / 2;
     }
+    _controller =
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _visible = false;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   double get paintedRadius {
@@ -83,6 +96,30 @@ class _AreaState extends State<_Area> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 60.0),
+            child: AnimatedLabel(animation: _animation),
+          ),
+        ),
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 200.0),
+            child: RaisedButton(
+              onPressed: () {
+                if (_visible) {
+                  _controller.reverse();
+                } else {
+                  _controller.forward();
+                }
+                setState(() {
+                  _visible = !_visible;
+                });
+              },
+              child: Text(_visible ? 'On' : 'Off'),
+            ),
+          ),
+        ),
         if (widget.options.isCenterWithMarkerPoint ||
             widget.options.onChangeRadius != null)
           Center(
@@ -268,5 +305,27 @@ class _AreaPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class AnimatedLabel extends AnimatedWidget {
+  AnimatedLabel({Key key, Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Opacity(
+      opacity: animation.value,
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        color: Colors.green,
+        child: Text(
+          '1111',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
   }
 }
