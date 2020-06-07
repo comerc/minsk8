@@ -42,13 +42,16 @@ class _AnimationScreenState extends State<AnimationScreen>
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(8.0),
-            color: Colors.green.withOpacity(_animation.value),
-            child: Text(
-              '1111',
-              style: TextStyle(
-                color: Colors.black.withOpacity(_animation.value),
+          Opacity(
+            opacity: _animation.value,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              color: Colors.green,
+              child: Text(
+                '1111',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
