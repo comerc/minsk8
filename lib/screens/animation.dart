@@ -19,10 +19,7 @@ class _AnimationScreenState extends State<AnimationScreen>
     super.initState();
     _controller =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
     _visible = false;
   }
 
@@ -42,19 +39,7 @@ class _AnimationScreenState extends State<AnimationScreen>
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Opacity(
-            opacity: _animation.value,
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              color: Colors.green,
-              child: Text(
-                '1111',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
+          AnimatedLabel(animation: _animation),
           SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,6 +69,28 @@ class _AnimationScreenState extends State<AnimationScreen>
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedLabel extends AnimatedWidget {
+  AnimatedLabel({Key key, Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Opacity(
+      opacity: animation.value,
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        color: Colors.green,
+        child: Text(
+          '1111',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
     );
   }
