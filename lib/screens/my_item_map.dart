@@ -25,7 +25,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
     final body = MapWidget(
       center: center ?? widget.arguments.center,
       zoom: 13.0, // zoom ?? widget.arguments.zoom,
-      isCenterWithMarkerPoint: true,
+      isItem: true,
       onPositionChanged: (position, _) {
         center = LatLng(
           position.center.latitude,

@@ -4,6 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import '../map_plugins/area_layer.dart';
+import '../map_plugins/item_layer.dart';
 import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
 import 'package:minsk8/import.dart';
@@ -13,19 +14,19 @@ class MapWidget extends StatefulWidget {
     this.center,
     this.zoom,
     this.onPositionChanged,
-    this.isCenterWithMarkerPoint = false,
     this.initialRadius,
     this.onChangeRadius,
     this.markerPoint,
+    this.isItem = false,
   });
 
   final LatLng center;
   final double zoom;
   final PositionCallback onPositionChanged;
-  final bool isCenterWithMarkerPoint;
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final LatLng markerPoint;
+  final bool isItem;
 
   @override
   MapWidgetState createState() {
@@ -98,7 +99,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         minZoom: 4.0,
         onPositionChanged: widget.onPositionChanged,
         plugins: [
-          AreaLayerMapPlugin(),
+          widget.isItem ? ItemLayerMapPlugin() : AreaLayerMapPlugin(),
           if (isInDebugMode) ScaleLayerMapPlugin(),
           if (isInDebugMode) ZoomLayerMapPlugin(),
         ],
@@ -138,89 +139,33 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               ),
             ],
           ),
-        AreaLayerMapPluginOptions(
-          markerIconSize: markerIconSize,
-          isCenterWithMarkerPoint: widget.isCenterWithMarkerPoint,
-          initialRadius: widget.initialRadius,
-          onChangeRadius: widget.onChangeRadius,
-          onCurrentPositionClick: () async {
-            if (appState['isNeverAskAgain'] ?? false) {
-              final geolocationStatus =
-                  await Geolocator().checkGeolocationPermissionStatus();
-              if (GeolocationStatus.granted == geolocationStatus) {
-                appState['isNeverAskAgain'] = false;
-              } else {
-                final isOK = await showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: Text(
-                        "You need to allow access to device's location in Permissions from App Settings."),
-                    actions: [
-                      FlatButton(
-                        child: Text('CANCEL'),
-                        onPressed: () {
-                          Navigator.pop(context, false);
-                        },
-                      ),
-                      FlatButton(
-                        child: Text('OK'),
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-                if (isOK ?? false) {
-                  final permissionHandler = PermissionHandler();
-                  await permissionHandler.openAppSettings();
-                }
-                return;
-              }
-            }
-            final isShown = await PermissionHandler()
-                .shouldShowRequestPermissionRationale(PermissionGroup.location);
-            try {
-              final Position position = await Geolocator()
-                  .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-              setState(() {
-                appState['currentPosition'] = [
-                  position.latitude,
-                  position.longitude
-                ];
-                // _currentPosition =
-                //     LatLng(position.latitude, position.longitude);
-                _animatedMapMove(
-                    LatLng(position.latitude, position.longitude), 10.0);
-              });
-              // if (widget.options.onMoveToCurrentPosition == null) {
-              //   widget.mapState.move(
-              //       LatLng(position.latitude, position.longitude),
-              //       widget.mapState.zoom);
-              // } else {
-              //   widget.options.onMoveToCurrentPosition(
-              //       LatLng(position.latitude, position.longitude),
-              //       widget.mapState.zoom);
-              // }
-            } catch (error) {
-              debugPrint(error.toString());
-              if (isShown) {
-                final isNeverAskAgain = !(await PermissionHandler()
-                    .shouldShowRequestPermissionRationale(
-                        PermissionGroup.location));
-                if (isNeverAskAgain) {
-                  appState['isNeverAskAgain'] = true;
-                }
-              }
-            }
-          },
-          // onMoveToCurrentPosition: (destCenter, destZoom) {
-          //   setState(() {
-          //     _currentPosition = destCenter;
-          //   });
-          //   _animatedMapMove(destCenter, destZoom);
-          // },
-        ),
+        if (widget.isItem)
+          ItemLayerMapPluginOptions(
+            markerIconSize: markerIconSize,
+            footer: [
+              _CurrentPosition(
+                onCurrentPositionClick: _onCurrentPositionClick,
+              ),
+              _Ready(),
+            ],
+          ),
+        if (!widget.isItem)
+          AreaLayerMapPluginOptions(
+            markerIconSize: markerIconSize,
+            initialRadius: widget.initialRadius,
+            onChangeRadius: widget.onChangeRadius,
+            footer: [
+              _CurrentPosition(
+                onCurrentPositionClick: _onCurrentPositionClick,
+              ),
+            ],
+            // onMoveToCurrentPosition: (destCenter, destZoom) {
+            //   setState(() {
+            //     _currentPosition = destCenter;
+            //   });
+            //   _animatedMapMove(destCenter, destZoom);
+            // },
+          ),
         if (isInDebugMode)
           ScaleLayerMapPluginOption(
             lineColor: Colors.blue,
@@ -230,6 +175,131 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           ),
         if (isInDebugMode) ZoomLayerMapPluginOptions(),
       ],
+    );
+  }
+
+  Future<void> _onCurrentPositionClick() async {
+    if (appState['isNeverAskAgain'] ?? false) {
+      final geolocationStatus =
+          await Geolocator().checkGeolocationPermissionStatus();
+      if (GeolocationStatus.granted == geolocationStatus) {
+        appState['isNeverAskAgain'] = false;
+      } else {
+        final isOK = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text(
+                "You need to allow access to device's location in Permissions from App Settings."),
+            actions: [
+              FlatButton(
+                child: Text('CANCEL'),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+              ),
+            ],
+          ),
+        );
+        if (isOK ?? false) {
+          final permissionHandler = PermissionHandler();
+          await permissionHandler.openAppSettings();
+        }
+        return;
+      }
+    }
+    final isShown = await PermissionHandler()
+        .shouldShowRequestPermissionRationale(PermissionGroup.location);
+    try {
+      final Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      setState(() {
+        appState['currentPosition'] = [position.latitude, position.longitude];
+        // _currentPosition =
+        //     LatLng(position.latitude, position.longitude);
+        _animatedMapMove(LatLng(position.latitude, position.longitude), 10.0);
+      });
+      // if (widget.options.onMoveToCurrentPosition == null) {
+      //   widget.mapState.move(
+      //       LatLng(position.latitude, position.longitude),
+      //       widget.mapState.zoom);
+      // } else {
+      //   widget.options.onMoveToCurrentPosition(
+      //       LatLng(position.latitude, position.longitude),
+      //       widget.mapState.zoom);
+      // }
+    } catch (error) {
+      debugPrint(error.toString());
+      if (isShown) {
+        final isNeverAskAgain = !(await PermissionHandler()
+            .shouldShowRequestPermissionRationale(PermissionGroup.location));
+        if (isNeverAskAgain) {
+          appState['isNeverAskAgain'] = true;
+        }
+      }
+    }
+  }
+}
+
+class _CurrentPosition extends StatelessWidget {
+  _CurrentPosition({this.onCurrentPositionClick});
+
+  final Function onCurrentPositionClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(
+        right: 16.0,
+        bottom: 16.0,
+      ),
+      child: Container(
+        height: 56.0,
+        width: 56.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(28.0)),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0.0, 2.0),
+              blurRadius: 2.0,
+            )
+          ],
+        ),
+        child: FlatButton(
+          child: Icon(
+            Icons.my_location,
+          ),
+          shape: CircleBorder(),
+          onPressed: onCurrentPositionClick,
+        ),
+      ),
+    );
+  }
+}
+
+class _Ready extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      padding: EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        bottom: 16.0,
+      ),
+      child: Container(
+        height: kBigButtonHeight,
+        child: ReadyButton(onTap: () {
+          Navigator.of(context).pop(true);
+        }),
+      ),
     );
   }
 }

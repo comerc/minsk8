@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:minsk8/import.dart';
 import 'utils.dart' as utils;
 
 // typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
-
 typedef void ChangeRadiusCallback(double value);
 
 class AreaLayerMapPluginOptions extends LayerOptions {
   final double markerIconSize;
-  final bool isCenterWithMarkerPoint;
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
-  final Function onCurrentPositionClick;
+  final List<Widget> footer;
   // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
   AreaLayerMapPluginOptions({
     this.markerIconSize,
-    this.isCenterWithMarkerPoint = false,
     this.initialRadius,
     this.onChangeRadius,
-    this.onCurrentPositionClick,
+    this.footer,
   });
 }
 
@@ -32,7 +28,7 @@ class AreaLayerMapPlugin implements MapPlugin {
       throw Exception('Unknown options type for AreaLayerMapPlugin'
           'plugin: $options');
     }
-    return _Area(options: options, mapState: mapState);
+    return _AreaLayer(options: options, mapState: mapState);
   }
 
   @override
@@ -41,52 +37,34 @@ class AreaLayerMapPlugin implements MapPlugin {
   }
 }
 
-class _Area extends StatefulWidget {
+class _AreaLayer extends StatefulWidget {
   final AreaLayerMapPluginOptions options;
   final MapState mapState;
 
-  _Area({Key key, this.options, this.mapState}) : super(key: key);
+  _AreaLayer({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
-  _AreaState createState() => _AreaState();
+  _AreaLayerState createState() => _AreaLayerState();
 }
 
 const maxRadius = 100.0;
 
-class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
+class _AreaLayerState extends State<_AreaLayer>
+    with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
-  final _boxShadow = BoxShadow(
-    offset: Offset(0.0, 2.0),
-    blurRadius: 2.0,
-  );
-  double radius;
-  Animation<double> _animation;
-  AnimationController _controller;
-  bool _visible;
+  double _radius;
 
   @override
   void initState() {
     super.initState();
-    if (!widget.options.isCenterWithMarkerPoint) {
-      radius = widget.options.initialRadius ?? maxRadius / 2;
-    }
-    _controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-    _visible = false;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    _radius = widget.options.initialRadius ?? maxRadius / 2;
   }
 
   double get paintedRadius {
     final center = widget.mapState.center;
     final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, radius * 1000.0);
+        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000.0);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
     return end.x - start.x;
@@ -96,84 +74,29 @@ class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 60.0),
-            child: AnimatedLabel(animation: _animation),
-          ),
-        ),
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 200.0),
-            child: RaisedButton(
-              onPressed: () {
-                if (_visible) {
-                  _controller.reverse();
-                } else {
-                  _controller.forward();
-                }
-                setState(() {
-                  _visible = !_visible;
-                });
-              },
-              child: Text(_visible ? 'On' : 'Off'),
-            ),
-          ),
-        ),
-        if (widget.options.isCenterWithMarkerPoint ||
-            widget.options.onChangeRadius != null)
+        if (widget.options.onChangeRadius != null)
           Center(
             child: CustomPaint(
-              painter: _AreaPainter(
-                radius: widget.options.isCenterWithMarkerPoint
-                    ? null
-                    : paintedRadius,
-                icon: _icon,
-                iconSize: widget.options.markerIconSize,
+              painter: _AreaLayerPainter(
+                radius: paintedRadius,
+                // icon: _icon,
+                // iconSize: widget.options.markerIconSize,
               ),
             ),
           ),
+        Container(
+          margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
+          alignment: Alignment.center,
+          child: Icon(
+            _icon,
+            size: widget.options.markerIconSize,
+            color: Colors.pinkAccent,
+          ),
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(
-                right: 16.0,
-                bottom: 16.0,
-              ),
-              child: Container(
-                height: 56.0,
-                width: 56.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(28.0)),
-                  boxShadow: [_boxShadow],
-                ),
-                child: FlatButton(
-                  child: Icon(
-                    Icons.my_location,
-                  ),
-                  shape: CircleBorder(),
-                  onPressed: widget.options.onCurrentPositionClick,
-                ),
-              ),
-            ),
-            if (widget.options.isCenterWithMarkerPoint)
-              Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 16.0,
-                ),
-                child: Container(
-                  height: kBigButtonHeight,
-                  child: ReadyButton(onTap: () {
-                    Navigator.of(context).pop(true);
-                  }),
-                ),
-              ),
+            ...widget.options.footer,
             if (widget.options.onChangeRadius != null)
               Container(
                 alignment: Alignment.bottomCenter,
@@ -190,7 +113,12 @@ class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                    boxShadow: [_boxShadow],
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 2.0,
+                      )
+                    ],
                   ),
                   child: Column(
                     children: [
@@ -228,7 +156,7 @@ class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
                                     style: DefaultTextStyle.of(context)
                                         .style
                                         .copyWith(fontWeight: FontWeight.w600),
-                                    text: '${radius.toInt()} км',
+                                    text: '${_radius.toInt()} км',
                                   ),
                                 ],
                               ),
@@ -240,10 +168,10 @@ class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
                         flex: 1,
                         child: Container(
                           child: Slider(
-                            value: radius,
+                            value: _radius,
                             onChanged: (value) {
                               setState(() {
-                                radius = value;
+                                _radius = value;
                                 widget.options.onChangeRadius(value);
                               });
                             },
@@ -263,15 +191,18 @@ class _AreaState extends State<_Area> with SingleTickerProviderStateMixin {
   }
 }
 
-class _AreaPainter extends CustomPainter {
-  final double iconSize;
+class _AreaLayerPainter extends CustomPainter {
+  // final double iconSize;
   final double radius;
   final Paint _paintFill;
   final Paint _paintStroke;
-  final TextPainter _textPainter;
+  // final TextPainter _textPainter;
 
-  _AreaPainter({this.radius, IconData icon, this.iconSize})
-      : _paintFill = radius == null
+  _AreaLayerPainter({
+    this.radius,
+    // this.iconSize,
+    // IconData icon,
+  })  : _paintFill = radius == null
             ? null
             : (Paint()
               ..color = Colors.blue.withOpacity(0.1)
@@ -282,15 +213,15 @@ class _AreaPainter extends CustomPainter {
             : (Paint()
               ..color = Colors.black.withOpacity(0.1)
               ..strokeWidth = 1.0
-              ..style = PaintingStyle.stroke),
-        _textPainter = TextPainter(textDirection: TextDirection.rtl)
-          ..text = TextSpan(
-              text: String.fromCharCode(icon.codePoint),
-              style: TextStyle(
-                  fontSize: iconSize,
-                  fontFamily: icon.fontFamily,
-                  color: Colors.pinkAccent))
-          ..layout();
+              ..style = PaintingStyle.stroke);
+  // _textPainter = TextPainter(textDirection: TextDirection.rtl)
+  //   ..text = TextSpan(
+  //       text: String.fromCharCode(icon.codePoint),
+  //       style: TextStyle(
+  //           fontSize: iconSize,
+  //           fontFamily: icon.fontFamily,
+  //           color: Colors.pinkAccent))
+  //   ..layout();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -298,8 +229,8 @@ class _AreaPainter extends CustomPainter {
       canvas.drawCircle(Offset(0.0, 0.0), radius, _paintFill);
       canvas.drawCircle(Offset(0.0, 0.0), radius, _paintStroke);
     }
-    _textPainter.paint(
-        canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???
+    // _textPainter.paint(
+    //     canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???
   }
 
   @override
