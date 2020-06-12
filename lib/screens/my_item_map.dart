@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: arguments и параметры в onWillPop - это всё лишнее;
@@ -32,6 +33,8 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
           position.center.longitude,
         );
         // zoom = position.zoom;
+        final map = Provider.of<MapModel>(context, listen: false);
+        map.value = center.toString();
       },
     );
     // return WillPopScope(

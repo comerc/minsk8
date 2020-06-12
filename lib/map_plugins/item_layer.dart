@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:provider/provider.dart';
+import 'package:minsk8/import.dart';
 
 class ItemLayerMapPluginOptions extends LayerOptions {
   final double markerIconSize;
@@ -113,13 +115,14 @@ class AnimatedLabel extends AnimatedWidget {
 
   Widget build(BuildContext context) {
     final animation = listenable as Animation<double>;
+    final map = Provider.of<MapModel>(context);
     return Opacity(
       opacity: animation.value,
       child: Container(
         padding: EdgeInsets.all(8.0),
         color: Colors.green,
         child: Text(
-          '1111',
+          map.value,
           style: TextStyle(
             color: Colors.black,
           ),
