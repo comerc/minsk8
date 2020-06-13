@@ -167,7 +167,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             height: carouselSliderHeight,
                             autoPlay: item.images.length > 1,
                             enableInfiniteScroll: item.images.length > 1,
-                            pauseAutoPlayOnTouch: Duration(seconds: 10),
+                            pauseAutoPlayOnTouch: const Duration(seconds: 10),
                             enlargeCenterPage: true,
                             viewportFraction:
                                 ItemCarouselSliderSettings.viewportFraction,
