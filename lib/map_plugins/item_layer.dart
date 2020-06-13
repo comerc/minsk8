@@ -40,30 +40,7 @@ class _ItemLayer extends StatefulWidget {
   _ItemLayerState createState() => _ItemLayerState();
 }
 
-const maxRadius = 100.0;
-
-class _ItemLayerState extends State<_ItemLayer>
-    with SingleTickerProviderStateMixin {
-  final _icon = Icons.location_on;
-  Animation<double> _animation;
-  AnimationController _controller;
-  bool _visible;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-    _visible = false;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _ItemLayerState extends State<_ItemLayer> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -72,7 +49,7 @@ class _ItemLayerState extends State<_ItemLayer>
           margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
           alignment: Alignment.center,
           child: Icon(
-            _icon,
+            Icons.location_on,
             size: widget.options.markerIconSize,
             color: Colors.pinkAccent,
           ),
@@ -80,25 +57,7 @@ class _ItemLayerState extends State<_ItemLayer>
         Container(
           margin: EdgeInsets.only(top: 60.0),
           alignment: Alignment.center,
-          child: AnimatedLabel(animation: _animation),
-        ),
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 200.0),
-            child: RaisedButton(
-              onPressed: () {
-                if (_visible) {
-                  _controller.reverse();
-                } else {
-                  _controller.forward();
-                }
-                setState(() {
-                  _visible = !_visible;
-                });
-              },
-              child: Text(_visible ? 'On' : 'Off'),
-            ),
-          ),
+          child: _Label(),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -109,20 +68,69 @@ class _ItemLayerState extends State<_ItemLayer>
   }
 }
 
-class AnimatedLabel extends AnimatedWidget {
-  AnimatedLabel({Key key, Animation<double> animation})
-      : super(key: key, listenable: animation);
-
+class _Label extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
-    final map = Provider.of<MapModel>(context);
+    final itemMap = Provider.of<ItemMapModel>(context);
+    return _AnimatedLabel(valueFromProvider: itemMap.value);
+  }
+}
+
+class _AnimatedLabel extends StatefulWidget {
+  final String valueFromProvider;
+
+  _AnimatedLabel({this.valueFromProvider});
+
+  @override
+  _AnimatedLabelState createState() => _AnimatedLabelState();
+}
+
+class _AnimatedLabelState extends State<_AnimatedLabel>
+    with SingleTickerProviderStateMixin {
+  Animation<double> _animation;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(_AnimatedLabel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.valueFromProvider == "reverse" &&
+        widget.valueFromProvider == "forward") {
+      print('forward');
+      _controller.forward();
+    }
+    if (oldWidget.valueFromProvider == "forward" &&
+        widget.valueFromProvider == "reverse") {
+      print('reverse');
+      _controller.reverse();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Opacity(
-      opacity: animation.value,
+      opacity: _animation.value,
       child: Container(
         padding: EdgeInsets.all(8.0),
         color: Colors.green,
         child: Text(
-          map.value,
+          'map.value',
           style: TextStyle(
             color: Colors.black,
           ),

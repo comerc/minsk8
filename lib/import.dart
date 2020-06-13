@@ -13,7 +13,7 @@ export 'models/distance.dart';
 export 'models/image.dart';
 export 'models/item.dart';
 export 'models/kind.dart';
-export 'models/map.dart';
+export 'models/item_map.dart';
 export 'models/member.dart';
 export 'models/message.dart';
 export 'models/payment.dart';

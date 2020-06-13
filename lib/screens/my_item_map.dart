@@ -20,6 +20,13 @@ class MyItemMapScreen extends StatefulWidget {
 class _MyItemMapScreenState extends State<MyItemMapScreen> {
   LatLng center;
   // double zoom;
+  bool isPostFrame = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => isPostFrame = true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +40,10 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
           position.center.longitude,
         );
         // zoom = position.zoom;
-        final map = Provider.of<MapModel>(context, listen: false);
-        map.value = center.toString();
+        if (isPostFrame) {
+          final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+          itemMap.value = "forward"; //center.toString();
+        }
       },
     );
     // return WillPopScope(
