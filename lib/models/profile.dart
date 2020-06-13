@@ -29,12 +29,12 @@ class ProfileModel extends ChangeNotifier {
     if (isLiked) {
       if (index == -1) {
         wishes.add(wish);
-        notifyListeners();
+        // notifyListeners();
       }
     } else {
       if (index != -1) {
         wishes.removeAt(index);
-        notifyListeners();
+        // notifyListeners();
       }
     }
   }
