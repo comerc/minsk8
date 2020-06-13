@@ -72,14 +72,15 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemMap = Provider.of<ItemMapModel>(context);
-    return _AnimatedLabel(valueFromProvider: itemMap.value);
+    return _AnimatedLabel(visible: itemMap.visible, value: itemMap.value);
   }
 }
 
 class _AnimatedLabel extends StatefulWidget {
-  final String valueFromProvider;
+  final bool visible;
+  final String value;
 
-  _AnimatedLabel({this.valueFromProvider});
+  _AnimatedLabel({this.visible, this.value});
 
   @override
   _AnimatedLabelState createState() => _AnimatedLabelState();
@@ -93,9 +94,9 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: kAnimationTime), vsync: this);
+    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
@@ -110,13 +111,11 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
   @override
   void didUpdateWidget(_AnimatedLabel oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.valueFromProvider == "reverse" &&
-        widget.valueFromProvider == "forward") {
+    if (oldWidget.visible && !widget.visible) {
       print('forward');
       _controller.forward();
     }
-    if (oldWidget.valueFromProvider == "forward" &&
-        widget.valueFromProvider == "reverse") {
+    if (!oldWidget.visible && widget.visible) {
       print('reverse');
       _controller.reverse();
     }
@@ -130,7 +129,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
         padding: EdgeInsets.all(8.0),
         color: Colors.green,
         child: Text(
-          'map.value',
+          widget.value,
           style: TextStyle(
             color: Colors.black,
           ),

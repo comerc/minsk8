@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +21,30 @@ class MyItemMapScreen extends StatefulWidget {
 class _MyItemMapScreenState extends State<MyItemMapScreen> {
   LatLng center;
   // double zoom;
-  bool isPostFrame = false;
+  bool _isPostFrame = false;
+  Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => isPostFrame = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _isPostFrame = true);
+  }
+
+  @override
+  void dispose() {
+    disposeTimer();
+    super.dispose();
+  }
+
+  disposeTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  Future<String> request(String value) async {
+    await Future.delayed(const Duration(seconds: 3));
+    final result = await Future.value('$value - address');
+    return result;
   }
 
   @override
@@ -40,9 +59,21 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
           position.center.longitude,
         );
         // zoom = position.zoom;
-        if (isPostFrame) {
+        if (_isPostFrame) {
           final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-          itemMap.value = "forward"; //center.toString();
+          if (itemMap.visible) {
+            itemMap.hide();
+          }
+          disposeTimer();
+          _timer = Timer(Duration(milliseconds: kAnimationTime), () {
+            if (_timer == null) return;
+            _timer = null;
+            print('11111');
+            request(center.toString()).then((value) {
+              final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+              itemMap.show(value);
+            });
+          });
         }
       },
     );
