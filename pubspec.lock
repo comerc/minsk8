@@ -420,7 +420,7 @@ packages:
     source: hosted
     version: "0.12.1"
   http_client_helper:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http_client_helper
       url: "https://pub.dartlang.org"
