@@ -106,7 +106,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
       ),
       layers: [
         TileLayerOptions(
-          urlTemplate: 'https://tilessputnik.ru/{z}/{x}/{y}.png',
+          urlTemplate: kTilesEndpoint,
           tileProvider: CachedNetworkTileProvider(),
         ),
         if (appState['currentPosition'] != null)
