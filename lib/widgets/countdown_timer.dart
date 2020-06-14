@@ -36,13 +36,13 @@ class _CountDownState extends State<CountdownTimer> {
     _timer = Timer.periodic(Duration(seconds: 1), (_) {
       if (_seconds == 1 && widget.onClose != null) {
         widget.onClose();
-        disposeTimer();
+        _disposeTimer();
         return;
       }
       setState(
         () {
           if (_seconds < 1) {
-            disposeTimer();
+            _disposeTimer();
           } else {
             _seconds--;
           }
@@ -53,17 +53,17 @@ class _CountDownState extends State<CountdownTimer> {
 
   @override
   void dispose() {
-    disposeTimer();
+    _disposeTimer();
     super.dispose();
-  }
-
-  disposeTimer() {
-    _timer?.cancel();
-    _timer = null;
   }
 
   Widget build(BuildContext context) {
     return widget.builder(context, _seconds);
+  }
+
+  _disposeTimer() {
+    _timer?.cancel();
+    _timer = null;
   }
 }
 

@@ -26,13 +26,8 @@ class _WishButtonState extends State<WishButton> {
 
   @override
   void dispose() {
-    disposeTimer();
+    _disposeTimer();
     super.dispose();
-  }
-
-  disposeTimer() {
-    _timer?.cancel();
-    _timer = null;
   }
 
   @override
@@ -89,12 +84,17 @@ class _WishButtonState extends State<WishButton> {
     );
   }
 
+  _disposeTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
   Future<bool> _onTap(bool isLiked) async {
     if (_timer != null) {
       return isLiked;
     }
     _timer = Timer(isLiked ? Duration.zero : animationDuration, () {
-      disposeTimer();
+      _disposeTimer();
       updateWish(context, isLiked, widget.item);
     });
     return !isLiked;
