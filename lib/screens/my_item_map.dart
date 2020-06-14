@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
@@ -19,7 +21,7 @@ class MyItemMapScreen extends StatefulWidget {
 }
 
 class _MyItemMapScreenState extends State<MyItemMapScreen> {
-  LatLng center;
+  // LatLng center;
   // double zoom;
   bool _isPostFrame = false;
   Timer _timer;
@@ -32,50 +34,18 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
 
   @override
   void dispose() {
-    disposeTimer();
+    _disposeTimer();
     super.dispose();
-  }
-
-  disposeTimer() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  Future<String> request(String value) async {
-    await Future.delayed(const Duration(seconds: 3));
-    final result = await Future.value('$value - address');
-    return result;
   }
 
   @override
   Widget build(BuildContext context) {
     final body = MapWidget(
-      center: center ?? widget.arguments.center,
+      // center: center ?? widget.arguments.center,
+      center: widget.arguments.center,
       zoom: 13.0, // zoom ?? widget.arguments.zoom,
       isItem: true,
-      onPositionChanged: (position, _) {
-        center = LatLng(
-          position.center.latitude,
-          position.center.longitude,
-        );
-        // zoom = position.zoom;
-        if (_isPostFrame) {
-          final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-          if (itemMap.visible) {
-            itemMap.hide();
-          }
-          disposeTimer();
-          _timer = Timer(Duration(milliseconds: kAnimationTime), () {
-            if (_timer == null) return;
-            _timer = null;
-            print('11111');
-            request(center.toString()).then((value) {
-              final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-              itemMap.show(value);
-            });
-          });
-        }
-      },
+      onPositionChanged: _onPositionChanged,
     );
     // return WillPopScope(
     //   onWillPop: _onWillPop,
@@ -94,16 +64,71 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
     );
   }
 
+  _disposeTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _onPositionChanged(MapPosition position, _) {
+    // center = LatLng(
+    //   position.center.latitude,
+    //   position.center.longitude,
+    // );
+    // zoom = position.zoom;
+    if (_isPostFrame) {
+      final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+      if (itemMap.visible) {
+        itemMap.hide();
+      }
+      _disposeTimer();
+      _timer = Timer(Duration(milliseconds: kAnimationTime), () {
+        if (_timer == null) return;
+        _timer = null;
+        _request(position.center).then((value) {
+          final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+          itemMap.show(value);
+        });
+      });
+    }
+  }
+
+  Future<String> _request(LatLng center) async {
+    String result = '(none)';
+    try {
+      List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
+          center.latitude, center.longitude,
+          localeIdentifier: 'ru');
+      final placemark = placemarks[0];
+      if (placemark.locality != '') {
+        result = placemark.locality;
+      } else if (placemark.subAdministrativeArea != '') {
+        result = placemark.subAdministrativeArea;
+      } else if (placemark.administrativeArea != '') {
+        result = placemark.administrativeArea;
+      } else if (placemark.country != '') {
+        result = placemark.country;
+      }
+      if (placemark.thoroughfare != '') {
+        result = result + ', ' + placemark.thoroughfare;
+      } else if (placemark.name != '' && placemark.name != result) {
+        result = result + ', ' + placemark.name;
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+    return result;
+  }
+
   // Future<bool> _onWillPop() async {
   //   print('_onWillPop');
   //   return widget.arguments.onWillPop(center: center, zoom: zoom);
   // }
 }
 
-typedef WillPopMyItemMapCallback = Future<bool> Function({
-  LatLng center,
-  // double zoom,
-});
+// typedef WillPopMyItemMapCallback = Future<bool> Function({
+//   LatLng center,
+//   // double zoom,
+// });
 
 class MyItemMapRouteArguments {
   MyItemMapRouteArguments({
