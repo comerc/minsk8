@@ -267,6 +267,7 @@ class _CurrentPosition extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(28.0)),
           boxShadow: [
             BoxShadow(
+              color: Colors.black.withOpacity(0.4),
               offset: Offset(0.0, 2.0),
               blurRadius: 2.0,
             )
@@ -295,6 +296,16 @@ class _Ready extends StatelessWidget {
         bottom: 16.0,
       ),
       child: Container(
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              offset: Offset(0.0, 2.0),
+              blurRadius: 2.0,
+            )
+          ],
+        ),
         height: kBigButtonHeight,
         child: ReadyButton(onTap: () {
           Navigator.of(context).pop(true);

@@ -11,6 +11,7 @@ class ReadyButton extends StatelessWidget {
     return Tooltip(
       message: 'Ready',
       child: Material(
+        // borderRadius: BorderRadius.circular(8.0),
         color: Colors.red,
         child: InkWell(
           splashColor: Colors.white,
