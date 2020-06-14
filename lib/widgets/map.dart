@@ -146,7 +146,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               _CurrentPosition(
                 onCurrentPositionClick: _onCurrentPositionClick,
               ),
-              _Ready(),
+              _MapReadyButton(),
             ],
           ),
         if (!widget.isItem)
@@ -285,7 +285,7 @@ class _CurrentPosition extends StatelessWidget {
   }
 }
 
-class _Ready extends StatelessWidget {
+class _MapReadyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
