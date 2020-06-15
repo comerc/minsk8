@@ -10,7 +10,7 @@ Future<int> selectUrgentStatusDialog(BuildContext context, int selectedIndex) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
+            Padding(
               padding: EdgeInsets.only(left: 16.0, bottom: 16.0, top: 32.0),
               child: Text('Как срочно надо отдать?'),
             ),

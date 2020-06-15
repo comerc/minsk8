@@ -74,7 +74,7 @@ class BidDialog extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        Padding(
           padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
           child: Text(
             item.price == null
@@ -88,7 +88,7 @@ class BidDialog extends StatelessWidget {
             ),
           ),
         ),
-        Container(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Stack(
             children: [
@@ -97,7 +97,7 @@ class BidDialog extends StatelessWidget {
                 color: Colors.blueAccent,
                 size: kButtonIconSize,
               ),
-              Container(
+              Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: kButtonIconSize + 8.0),
                 child: Text(
@@ -109,7 +109,7 @@ class BidDialog extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: Stack(
             children: [
@@ -118,7 +118,7 @@ class BidDialog extends StatelessWidget {
                 color: Colors.black.withOpacity(0.8),
                 size: kButtonIconSize,
               ),
-              Container(
+              Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: kButtonIconSize + 8.0),
                 child: DeliveryLabel(),
@@ -138,7 +138,7 @@ class BidDialog extends StatelessWidget {
                   arguments: ItemMapRouteArguments(item),
                 );
               },
-              child: Container(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                 child: Stack(
                   children: [

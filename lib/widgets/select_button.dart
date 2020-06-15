@@ -19,7 +19,7 @@ class SelectButton extends StatelessWidget {
               SizedBox(
                 width: 16.0,
               ),
-              Container(
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(text),
               ),

@@ -48,7 +48,7 @@ class Places extends StatelessWidget {
         print(suggestion['_geoloc']);
       },
       noItemsFoundBuilder: (BuildContext context) {
-        return Container(
+        return Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
             'Ничего не найдено',
@@ -57,7 +57,7 @@ class Places extends StatelessWidget {
         );
       },
       errorBuilder: (BuildContext context, Object error) {
-        return Container(
+        return Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
             '$error',

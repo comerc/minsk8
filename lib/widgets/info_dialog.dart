@@ -22,7 +22,7 @@ class InfoDialog extends StatelessWidget {
           color: Colors.deepOrangeAccent,
           size: kButtonIconSize,
         ),
-        Container(
+        Padding(
           padding: EdgeInsets.only(top: 16.0),
           child: Text(
             title,
@@ -33,7 +33,7 @@ class InfoDialog extends StatelessWidget {
             ),
           ),
         ),
-        Container(
+        Padding(
           padding: EdgeInsets.only(top: 16.0),
           child: Text(
             description,
@@ -53,7 +53,7 @@ class InfoDialog extends StatelessWidget {
                     ..pop()
                     ..pushNamed('/faq');
                 },
-                child: Container(
+                child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.0,
                     vertical: 8.0,
