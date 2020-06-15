@@ -309,6 +309,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  flutter_keyboard_visibility:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_map:
     dependency: "direct main"
     description:
@@ -337,6 +344,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_typeahead:
+    dependency: "direct main"
+    description:
+      name: flutter_typeahead
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.8.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -412,6 +426,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0+3"
+  html2md:
+    dependency: "direct main"
+    description:
+      name: html2md
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   http:
     dependency: transitive
     description:
@@ -420,7 +441,7 @@ packages:
     source: hosted
     version: "0.12.1"
   http_client_helper:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http_client_helper
       url: "https://pub.dartlang.org"
