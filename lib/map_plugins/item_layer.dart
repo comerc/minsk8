@@ -43,8 +43,55 @@ class _ItemLayer extends StatefulWidget {
 class _ItemLayerState extends State<_ItemLayer> {
   @override
   Widget build(BuildContext context) {
+    final isInfo = appState['MyItemMap.isInfo'] ?? true;
     return Stack(
       children: [
+        if (isInfo)
+          Positioned(
+            top: 48,
+            left: 16,
+            right: 16,
+            child: IgnorePointer(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                // color: Colors.white,
+                child: Text(
+                    'Укажите местоположение лота, чтобы пользователи поблизости его увидели'),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  // borderRadius: BorderRadius.all(Radius.circular(28.0)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 2.0,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        if (isInfo)
+          Positioned(
+            top: 48,
+            right: 16,
+            child: Tooltip(
+              message: 'Закрыть',
+              child: Material(
+                child: InkWell(
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.black.withOpacity(0.8),
+                    size: 20,
+                  ),
+                  onTap: () {
+                    appState['MyItemMap.isInfo'] = false;
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
+          ),
         Container(
           margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
           alignment: Alignment.center,
@@ -127,7 +174,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
       opacity: _animation.value,
       child: Container(
         padding: EdgeInsets.all(8.0),
-        color: Colors.green,
+        color: Colors.white.withOpacity(0.8),
         child: Text(
           widget.value,
           style: TextStyle(
