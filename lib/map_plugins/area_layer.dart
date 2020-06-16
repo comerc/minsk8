@@ -238,25 +238,3 @@ class _AreaLayerPainter extends CustomPainter {
     return false;
   }
 }
-
-class AnimatedLabel extends AnimatedWidget {
-  AnimatedLabel({Key key, Animation<double> animation})
-      : super(key: key, listenable: animation);
-
-  Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
-    return Opacity(
-      opacity: animation.value,
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        color: Colors.green,
-        child: Text(
-          '1111',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-}
