@@ -104,7 +104,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         onPositionChanged: widget.onPositionChanged,
         plugins: [
           widget.isItem ? ItemLayerMapPlugin() : AreaLayerMapPlugin(),
-          if (isInDebugMode) ScaleLayerMapPlugin(),
+          ScaleLayerMapPlugin(),
           if (isInDebugMode) ZoomLayerMapPlugin(),
         ],
       ),
@@ -179,13 +179,12 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             //   animatedMapMove(destCenter, destZoom);
             // },
           ),
-        if (isInDebugMode)
-          ScaleLayerMapPluginOption(
-            lineColor: Colors.blue,
-            lineWidth: 2,
-            textStyle: TextStyle(color: Colors.blue, fontSize: 12),
-            padding: EdgeInsets.all(10),
-          ),
+        ScaleLayerMapPluginOption(
+          lineColor: Colors.blue,
+          lineWidth: 2,
+          textStyle: TextStyle(color: Colors.blue, fontSize: 12),
+          padding: EdgeInsets.all(10),
+        ),
         if (isInDebugMode) ZoomLayerMapPluginOptions(),
       ],
     );
