@@ -7,23 +7,63 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:http_client_helper/http_client_helper.dart';
 
-class Places extends StatelessWidget {
+// TODO: типизировать suggestion через json_serializable
+// TODO: добавить копирайт algolia и osm
+
+class Places extends StatefulWidget {
+  Places({this.formFieldKey, this.onSuggestionSelected});
+
+  final Key formFieldKey;
+  // TODO: SuggestionSelectionCallback<suggestionModel>
+  final SuggestionSelectionCallback onSuggestionSelected;
+
+  @override
+  _PlacesState createState() {
+    return _PlacesState();
+  }
+}
+
+class _PlacesState extends State<Places> {
+  bool _isLoading = false;
+  final TextEditingController _typeAheadController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return TypeAheadField(
+    return TypeAheadFormField(
+      key: widget.formFieldKey,
       textFieldConfiguration: TextFieldConfiguration(
+        autofocus: true,
         decoration: InputDecoration(
-          labelText: 'Адрес',
-          border: OutlineInputBorder(),
+          hintText: 'Улица...',
+          contentPadding: EdgeInsets.only(left: 8, right: 8),
+          border: InputBorder.none,
         ),
+        controller: _typeAheadController,
       ),
-      suggestionsCallback: (pattern) async {
+      suggestionsCallback: (String pattern) async {
         final s = pattern?.trim();
         if (s == null || s == '' || s.length < 4) return null;
-        final data = await _request(s);
-        return data['hits'] as List;
+        _isLoading = true;
+        try {
+          await Future.delayed(const Duration(seconds: 1));
+          final data = await _request(s);
+          return data['hits'] as List;
+        } finally {
+          _isLoading = false;
+        }
       },
-      itemBuilder: (context, suggestion) {
+      loadingBuilder: (BuildContext context) {
+        // устраняет паразитное мигание при передачи фокуса
+        if (!_isLoading) return null;
+        return Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+      itemBuilder: (BuildContext context, suggestion) {
         String title = '';
         final subtitles = <String>[];
         try {
@@ -44,9 +84,7 @@ class Places extends StatelessWidget {
           subtitle: Text(subtitles.join(', ')),
         );
       },
-      onSuggestionSelected: (suggestion) {
-        print(suggestion['_geoloc']);
-      },
+      onSuggestionSelected: widget.onSuggestionSelected,
       noItemsFoundBuilder: (BuildContext context) {
         return Padding(
           padding: EdgeInsets.all(8.0),
