@@ -108,18 +108,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
           Container(
             constraints: BoxConstraints(minHeight: 40.0),
             child: SelectButton(
-              tooltip: 'Адрес',
-              text: 'Минск, проспект Победителей',
+              tooltip: 'Местоположение',
+              text: appState['location'] ?? 'Местоположение',
               onTap: _selectLocation,
             ),
           ),
           Spacer(),
-          // Container(
-          //   width: 100,
-          //   height: 100,
-          //   color: Colors.green,
-          //   child: Container(),
-          // ),
           Container(
             height: kBigButtonHeight,
             width: panelChildWidth,
@@ -152,7 +146,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         appBar: AppBar(
           title: Text('Что отдаёте?'),
         ),
-        // drawer: MainDrawer('/add_item'),
         body: body,
       ),
     );
@@ -269,29 +262,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
     Navigator.pushNamed(
       context,
       '/my_item_map',
-      arguments: MyItemMapRouteArguments(
-        center: appState['center'] == null
-            ? LatLng(
-                kDefaultMapCenter[0],
-                kDefaultMapCenter[1],
-              )
-            : LatLng(
-                appState['center'][0],
-                appState['center'][1],
-              ),
-        // zoom: appState['zoom'] ?? 8.0,
-        // onWillPop: _onWillPopMyItemMap,
-      ),
     ).then((value) {
-      print(value);
+      if (value == null) return;
+      setState(() {});
     });
   }
-
-  // Future<bool> _onWillPopMyItemMap({LatLng center, double zoom}) async {
-  //   print(center);
-  //   print(zoom);
-  //   return true;
-  // }
 
   Future<bool> _onWillPop() async {
     if (isSubmited) return true;

@@ -1,19 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: arguments и параметры в onWillPop - это всё лишнее;
-// можно применить Provider, или тупо глобальную переменную, как appState
-
 class MyItemMapScreen extends StatefulWidget {
-  MyItemMapScreen(this.arguments);
-
-  final MyItemMapRouteArguments arguments;
-
   @override
   _MyItemMapScreenState createState() {
     return _MyItemMapScreenState();
@@ -21,10 +13,21 @@ class MyItemMapScreen extends StatefulWidget {
 }
 
 class _MyItemMapScreenState extends State<MyItemMapScreen> {
-  // LatLng center;
-  // double zoom;
   bool _isPostFrame = false;
   Timer _timer;
+  bool _isPlaces = false;
+  final _formFieldKey = GlobalKey<FormFieldState>();
+  final _mapKey = GlobalKey<MapWidgetState>();
+  final _center = appState['center'] == null
+      ? LatLng(
+          kDefaultMapCenter[0],
+          kDefaultMapCenter[1],
+        )
+      : LatLng(
+          appState['center'][0],
+          appState['center'][1],
+        );
+  final _zoom = appState['zoom'] ?? 8.0;
 
   @override
   void initState() {
@@ -41,26 +44,57 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   @override
   Widget build(BuildContext context) {
     final body = MapWidget(
-      // center: center ?? widget.arguments.center,
-      center: widget.arguments.center,
-      zoom: 13.0, // zoom ?? widget.arguments.zoom,
+      key: _mapKey,
+      center: _center,
+      zoom: _zoom,
       isItem: true,
       onPositionChanged: _onPositionChanged,
     );
-    // return WillPopScope(
-    //   onWillPop: _onWillPop,
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       title: Text('Местоположение'),
-    //     ),
-    //     body: body,
-    //   ),
-    // );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Местоположение'),
-      ),
+      appBar: _isPlaces
+          ? AppBar(
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black.withOpacity(0.8),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPlaces = false;
+                  });
+                },
+              ),
+              title: Places(
+                  formFieldKey: _formFieldKey,
+                  onSuggestionSelected: _onSuggestionSelected),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                  onPressed: () {
+                    _formFieldKey.currentState.reset();
+                  },
+                )
+              ],
+            )
+          : AppBar(
+              title: Text('Местоположение'),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      _isPlaces = true;
+                    });
+                  },
+                )
+              ],
+            ),
       body: body,
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -70,11 +104,6 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   }
 
   void _onPositionChanged(MapPosition position, _) {
-    // center = LatLng(
-    //   position.center.latitude,
-    //   position.center.longitude,
-    // );
-    // zoom = position.zoom;
     if (_isPostFrame) {
       final itemMap = Provider.of<ItemMapModel>(context, listen: false);
       if (itemMap.visible) {
@@ -84,7 +113,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       _timer = Timer(Duration(milliseconds: kAnimationTime), () {
         if (_timer == null) return;
         _timer = null;
-        _request(position.center).then((value) {
+        placemarkFromCoordinates(position.center).then((value) {
           final itemMap = Provider.of<ItemMapModel>(context, listen: false);
           itemMap.show(value);
         });
@@ -92,52 +121,16 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
     }
   }
 
-  Future<String> _request(LatLng center) async {
-    String result = '(none)';
-    try {
-      List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
-          center.latitude, center.longitude,
-          localeIdentifier: 'ru');
-      final placemark = placemarks[0];
-      if (placemark.locality != '') {
-        result = placemark.locality;
-      } else if (placemark.subAdministrativeArea != '') {
-        result = placemark.subAdministrativeArea;
-      } else if (placemark.administrativeArea != '') {
-        result = placemark.administrativeArea;
-      } else if (placemark.country != '') {
-        result = placemark.country;
-      }
-      if (placemark.thoroughfare != '') {
-        result = result + ', ' + placemark.thoroughfare;
-      } else if (placemark.name != '' && placemark.name != result) {
-        result = result + ', ' + placemark.name;
-      }
-    } catch (e) {
-      debugPrint('$e');
-    }
-    return result;
+  _onSuggestionSelected(suggestion) {
+    _mapKey.currentState.animatedMapMove(
+      destCenter: LatLng(
+        suggestion['_geoloc']['lat'],
+        suggestion['_geoloc']['lng'],
+      ),
+      destZoom: 13,
+    );
+    setState(() {
+      _isPlaces = false;
+    });
   }
-
-  // Future<bool> _onWillPop() async {
-  //   print('_onWillPop');
-  //   return widget.arguments.onWillPop(center: center, zoom: zoom);
-  // }
-}
-
-// typedef WillPopMyItemMapCallback = Future<bool> Function({
-//   LatLng center,
-//   // double zoom,
-// });
-
-class MyItemMapRouteArguments {
-  MyItemMapRouteArguments({
-    this.center,
-    // this.zoom,
-    // this.onWillPop
-  });
-
-  final LatLng center;
-  // final double zoom;
-  // final WillPopMyItemMapCallback onWillPop;
 }

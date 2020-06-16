@@ -1,10 +1,12 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong/latlong.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -100,3 +102,30 @@ String gold(int howMany) => Intl.plural(
       other: '$howMany золотых',
       locale: 'ru',
     );
+
+Future<String> placemarkFromCoordinates(LatLng center) async {
+  String result = '(none)';
+  try {
+    List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
+        center.latitude, center.longitude,
+        localeIdentifier: 'ru');
+    final placemark = placemarks[0];
+    if (placemark.locality != '') {
+      result = placemark.locality;
+    } else if (placemark.subAdministrativeArea != '') {
+      result = placemark.subAdministrativeArea;
+    } else if (placemark.administrativeArea != '') {
+      result = placemark.administrativeArea;
+    } else if (placemark.country != '') {
+      result = placemark.country;
+    }
+    if (placemark.thoroughfare != '') {
+      result = result + ', ' + placemark.thoroughfare;
+    } else if (placemark.name != '' && placemark.name != result) {
+      result = result + ', ' + placemark.name;
+    }
+  } catch (e) {
+    debugPrint('$e');
+  }
+  return result;
+}

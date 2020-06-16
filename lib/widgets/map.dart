@@ -13,6 +13,7 @@ import 'package:minsk8/import.dart';
 
 class MapWidget extends StatefulWidget {
   MapWidget({
+    Key key,
     this.center,
     this.zoom,
     this.onPositionChanged,
@@ -20,7 +21,7 @@ class MapWidget extends StatefulWidget {
     this.onChangeRadius,
     this.markerPoint,
     this.isItem = false,
-  });
+  }) : super(key: key);
 
   final LatLng center;
   final double zoom;
@@ -57,7 +58,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     _mapController = MapController();
   }
 
-  void _animatedMapMove(LatLng destCenter, double destZoom) {
+  void animatedMapMove({LatLng destCenter, double destZoom}) {
     // Create some tweens. These serve to split up the transition from one location to another.
     // In our case, we want to split the transition be<tween> our current map center and the destination.
     final latTween = Tween<double>(
@@ -76,8 +77,9 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
 
     controller.addListener(() {
       _mapController.move(
-          LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)),
-          zoomTween.evaluate(animation));
+        LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)),
+        zoomTween.evaluate(animation),
+      );
     });
 
     animation.addStatusListener((status) {
@@ -148,7 +150,16 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               _CurrentPosition(
                 onCurrentPositionClick: _onCurrentPositionClick,
               ),
-              _MapReadyButton(),
+              _MapReadyButton(onTap: () {
+                final center = _mapController.center;
+                final zoom = _mapController.zoom;
+                appState['center'] = [center.latitude, center.longitude];
+                appState['zoom'] = zoom;
+                placemarkFromCoordinates(center).then((value) {
+                  appState['location'] = value;
+                  Navigator.of(context).pop(true);
+                });
+              }),
             ],
           ),
         if (!widget.isItem)
@@ -165,7 +176,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             //   setState(() {
             //     _currentPosition = destCenter;
             //   });
-            //   _animatedMapMove(destCenter, destZoom);
+            //   animatedMapMove(destCenter, destZoom);
             // },
           ),
         if (isInDebugMode)
@@ -224,7 +235,10 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         appState['currentPosition'] = [position.latitude, position.longitude];
         // _currentPosition =
         //     LatLng(position.latitude, position.longitude);
-        _animatedMapMove(LatLng(position.latitude, position.longitude), 10.0);
+        animatedMapMove(
+          destCenter: LatLng(position.latitude, position.longitude),
+          destZoom: 10.0,
+        );
       });
       // if (widget.options.onMoveToCurrentPosition == null) {
       //   widget.mapState.move(
@@ -288,6 +302,10 @@ class _CurrentPosition extends StatelessWidget {
 }
 
 class _MapReadyButton extends StatelessWidget {
+  _MapReadyButton({this.onTap});
+
+  final Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -309,9 +327,7 @@ class _MapReadyButton extends StatelessWidget {
           ],
         ),
         height: kBigButtonHeight,
-        child: ReadyButton(onTap: () {
-          Navigator.of(context).pop(true);
-        }),
+        child: ReadyButton(onTap: onTap),
       ),
     );
   }

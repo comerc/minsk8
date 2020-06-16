@@ -7,10 +7,6 @@ final mainRoutes = [
     'routeName': '/about',
   },
   {
-    'title': 'Add Item',
-    'routeName': '/add_item',
-  },
-  {
     'title': 'Animation',
     'routeName': '/animation',
   },
