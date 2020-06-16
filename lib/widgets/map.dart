@@ -9,6 +9,8 @@ import '../map_plugins/scale_layer.dart';
 import '../map_plugins/zoom_layer.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: добавить копирайт sputnik и osm
+
 class MapWidget extends StatefulWidget {
   MapWidget({
     this.center,
