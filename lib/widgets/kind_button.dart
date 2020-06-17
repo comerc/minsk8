@@ -49,6 +49,7 @@ class KindButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
+                      // TODO: поменять иконки для категорий
                       FontAwesomeIcons.gift,
                       color:
                           isSelected ? Colors.white : Colors.deepOrangeAccent,
