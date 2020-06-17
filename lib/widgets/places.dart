@@ -110,6 +110,7 @@ class _PlacesState extends State<Places> {
     final cancellationToken = CancellationToken();
     String msg = '';
     final url = 'https://places-dsn.algolia.net/1/places/query';
+    // TODO: вынести в .env
     final headers = {
       'X-Algolia-Application-Id': 'plD5UEJUGJYT',
       'X-Algolia-API-Key': '9b9648b0686c2260c39538a17342a285',
