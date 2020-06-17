@@ -69,7 +69,7 @@ export 'widgets/places.dart';
 export 'widgets/price_button.dart';
 export 'widgets/ready_button.dart';
 export 'widgets/select_button.dart';
-export 'widgets/select_urgent_status_dialog.dart';
+export 'widgets/select_urgent_dialog.dart';
 export 'widgets/share_button.dart';
 export 'widgets/showcase_item.dart';
 export 'widgets/showcase_list.dart';

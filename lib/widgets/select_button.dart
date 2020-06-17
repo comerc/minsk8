@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class SelectButton extends StatelessWidget {
-  SelectButton({this.tooltip, this.text, this.onTap});
+  SelectButton({this.tooltip, this.text, this.rightText, this.onTap});
 
   final String tooltip;
   final String text;
+  final String rightText;
   final Function onTap;
 
   @override
@@ -24,6 +25,10 @@ class SelectButton extends StatelessWidget {
                 child: Text(text),
               ),
               Spacer(),
+              if (rightText != null) Text(rightText),
+              SizedBox(
+                width: 16.0,
+              ),
               Icon(
                 Icons.navigate_next,
                 color: Colors.black.withOpacity(0.8),

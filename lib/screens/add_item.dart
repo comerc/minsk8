@@ -18,9 +18,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _textController;
   // bool isLoading = false;
-  bool isSubmited = false;
+  bool _isSubmited = false;
   List<Uint8List> _images = [];
   ImageSource _imageSource;
+  UrgentStatus _urgent = UrgentStatus.not_urgent;
+
+  String get urgentName =>
+      urgents
+          .firstWhere((UrgentModel element) => element.value == _urgent,
+              orElse: () => null)
+          ?.name ??
+      '';
 
   @override
   void initState() {
@@ -93,8 +101,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
             constraints: BoxConstraints(minHeight: 40.0),
             child: SelectButton(
               tooltip: 'Как срочно надо отдать?',
-              text: 'Совсем не срочно',
-              onTap: _selectUrgentStatus,
+              text: 'Срочно?',
+              rightText: urgentName,
+              onTap: _selectUrgent,
             ),
           ),
           Container(
@@ -236,11 +245,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<bool> _getImage(int index, ImageSource imageSource) async {
     final picker = ImagePicker();
-    PickedFile pickedFile = await picker.getImage(source: imageSource);
+    PickedFile pickedFile;
+    try {
+      pickedFile = await picker.getImage(source: imageSource);
+    } catch (error) {
+      debugPrint(error.toString());
+    }
     if (pickedFile == null) {
       return false;
     }
-    Uint8List image = await pickedFile.readAsBytes();
+    final image = await pickedFile.readAsBytes();
     setState(() {
       if (index < _images.length) {
         _images.removeAt(index);
@@ -252,8 +266,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return true;
   }
 
-  void _selectUrgentStatus() {
-    selectUrgentStatusDialog(context, 2).then((i) => print(i));
+  void _selectUrgent() {
+    selectUrgentDialog(context, _urgent).then((UrgentStatus value) {
+      if (value == null) return;
+      setState(() {
+        _urgent = value;
+      });
+    });
   }
 
   void _selectKind() {}
@@ -269,7 +288,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    if (isSubmited) return true;
+    if (_isSubmited) return true;
     if (_images.length == 0 && _textController.value.text.trim().length < 6)
       return true;
     final result = await showCancelItemDialog(context);

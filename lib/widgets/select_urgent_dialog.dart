@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-Future<int> selectUrgentStatusDialog(BuildContext context, int selectedIndex) {
+Future<UrgentStatus> selectUrgentDialog(
+    BuildContext context, UrgentStatus selected) {
   return showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -20,14 +21,14 @@ Future<int> selectUrgentStatusDialog(BuildContext context, int selectedIndex) {
                 child: ListTile(
                   title: Text(urgents[i].name),
                   subtitle: Text(urgents[i].description),
-                  selected: selectedIndex == i,
-                  trailing: Icon((selectedIndex == i
+                  selected: selected == urgents[i].value,
+                  trailing: Icon((selected == urgents[i].value
                       ? Icons.check_box
                       : Icons.check_box_outline_blank)),
                   dense: true,
                 ),
                 onTap: () {
-                  Navigator.of(context).pop(i);
+                  Navigator.of(context).pop(urgents[i].value);
                 },
               ),
             ),
