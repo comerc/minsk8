@@ -58,6 +58,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     _mapController = MapController();
   }
 
+  // TODO: добавить анимацию удаления-приближения zoom при выполнении перемещения карты
   void animatedMapMove({LatLng destCenter, double destZoom}) {
     // Create some tweens. These serve to split up the transition from one location to another.
     // In our case, we want to split the transition be<tween> our current map center and the destination.
