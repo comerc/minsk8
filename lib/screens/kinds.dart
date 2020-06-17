@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: скроллировать к выбранному элементу, если он вне видимости
+
 class KindsScreen extends StatelessWidget {
+  KindsScreen(this.arguments);
+
+  final KindsRouteArguments arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +23,20 @@ class KindsScreen extends StatelessWidget {
         childAspectRatio: 1.63,
         children: List.generate(
           kinds.length,
-          (index) => KindButton(kinds[index],
-              isSelected: kinds[index].value == KindId.eat),
+          (index) => KindButton(
+            kinds[index],
+            isSelected: kinds[index].value == arguments.value,
+          ),
         ),
       ),
     );
   }
+}
+
+class KindsRouteArguments {
+  KindsRouteArguments({
+    this.value,
+  });
+
+  final KindId value;
 }

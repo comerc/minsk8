@@ -146,9 +146,10 @@ class App extends StatelessWidget {
             ItemMapScreen(ModalRoute.of(context).settings.arguments),
         '/item': (BuildContext context) =>
             ItemScreen(ModalRoute.of(context).settings.arguments),
-        '/kinds': (_) => KindsScreen(),
+        '/kinds': (BuildContext context) =>
+            KindsScreen(ModalRoute.of(context).settings.arguments),
         '/login': (_) => LoginScreen(),
-        '/my_item_map': (BuildContext context) => MyItemMapScreen(),
+        '/my_item_map': (_) => MyItemMapScreen(),
         '/my_items': (_) => MyItemsScreen(),
         '/notifications': (_) => NotificationsScreen(),
         '/pay': (_) => PayScreen(),

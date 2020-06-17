@@ -46,6 +46,7 @@ final mainRoutes = [
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',
+    'arguments': KindsRouteArguments(value: KindId.pets),
   },
   {
     'title': 'Login',
