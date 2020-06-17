@@ -21,6 +21,10 @@ final allKinds = [
   KindModel(MetaKindId.best, 'Лучшее', '<svg />'),
   KindModel(MetaKindId.promo, 'Промо', '<svg />'),
   KindModel(MetaKindId.urgent, 'Срочно', '<svg />'),
+  ...kinds,
+];
+
+final kinds = [
   KindModel(KindId.technics, 'Техника', '<svg />'),
   KindModel(KindId.garment, 'Одежда', '<svg />'),
   KindModel(KindId.for_home, 'Для дома', '<svg />'),
