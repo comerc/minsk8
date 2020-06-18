@@ -101,7 +101,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
       options: MapOptions(
         center: widget.center,
         zoom: widget.zoom,
-        minZoom: 4.0,
+        minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
         plugins: [
           widget.isItem ? ItemLayerMapPlugin() : AreaLayerMapPlugin(),
@@ -118,10 +118,10 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           CircleLayerOptions(circles: [
             CircleMarker(
               // useRadiusInMeter: true,
-              radius: 4.0,
+              radius: 4,
               color: Colors.blue,
               borderColor: Colors.black,
-              borderStrokeWidth: 1.0,
+              borderStrokeWidth: 1,
               point: LatLng(
                 appState['currentPosition'][0],
                 appState['currentPosition'][1],
@@ -237,7 +237,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         //     LatLng(position.latitude, position.longitude);
         animatedMapMove(
           destCenter: LatLng(position.latitude, position.longitude),
-          destZoom: 10.0,
+          destZoom: 10,
         );
       });
       // if (widget.options.onMoveToCurrentPosition == null) {
@@ -272,20 +272,20 @@ class _CurrentPosition extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(
-        right: 16.0,
-        bottom: 16.0,
+        right: 16,
+        bottom: 16,
       ),
       child: Container(
-        height: 56.0,
-        width: 56.0,
+        height: 56,
+        width: 56,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(28.0)),
+          borderRadius: BorderRadius.all(Radius.circular(28)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.4),
-              offset: Offset(0.0, 2.0),
-              blurRadius: 2.0,
+              offset: Offset(0, 2),
+              blurRadius: 2,
             )
           ],
         ),
@@ -311,18 +311,18 @@ class _MapReadyButton extends StatelessWidget {
     return Container(
       alignment: Alignment.bottomCenter,
       padding: EdgeInsets.only(
-        left: 16.0,
-        right: 16.0,
-        bottom: 16.0,
+        left: 16,
+        right: 16,
+        bottom: 16,
       ),
       child: Container(
         decoration: BoxDecoration(
-          // borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          // borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.4),
-              offset: Offset(0.0, 2.0),
-              blurRadius: 2.0,
+              offset: Offset(0, 2),
+              blurRadius: 2,
             )
           ],
         ),

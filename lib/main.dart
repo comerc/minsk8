@@ -224,7 +224,7 @@ class MediaQueryWrap extends StatelessWidget {
     //       ..init(context);
     final data = MediaQuery.of(context);
     return MediaQuery(
-      data: data.copyWith(textScaleFactor: 1.0),
+      data: data.copyWith(textScaleFactor: 1),
       child: child,
     );
   }

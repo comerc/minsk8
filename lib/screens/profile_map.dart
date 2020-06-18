@@ -28,7 +28,7 @@ class ProfileMapScreen extends StatelessWidget {
                 appState['center'][0],
                 appState['center'][1],
               ),
-        zoom: appState['zoom'] ?? 8.0,
+        zoom: appState['zoom'] ?? 8,
         onPositionChanged: (position, _) {
           appState['center'] = [
             position.center.latitude,

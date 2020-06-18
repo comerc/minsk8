@@ -12,7 +12,7 @@ class BidDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageHeight = 96.0;
     return SimpleDialog(
-      contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+      contentPadding: EdgeInsets.symmetric(vertical: 16),
       children: [
         Center(
           child: Stack(
@@ -40,9 +40,7 @@ class BidDialog extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: Colors.white,
                             ),
-                            padding: EdgeInsets.all(
-                              8.0,
-                            ),
+                            padding: EdgeInsets.all(8),
                             child: Icon(
                               FontAwesomeIcons.gift,
                               color: Colors.deepOrangeAccent,
@@ -55,9 +53,7 @@ class BidDialog extends StatelessWidget {
                               color: Colors.yellow.withOpacity(0.5),
                               height: kButtonHeight,
                               alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
                                 item.price.toString(),
                                 style: TextStyle(
@@ -75,21 +71,21 @@ class BidDialog extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
+          padding: EdgeInsets.only(top: 16, bottom: 8),
           child: Text(
             item.price == null
                 ? 'Точно сможете забрать?'
                 : 'Предложить +1 = ${gold(item.price + 1)}?',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
               color: Colors.black.withOpacity(0.8),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Stack(
             children: [
               Icon(
@@ -98,8 +94,7 @@ class BidDialog extends StatelessWidget {
                 size: kButtonIconSize,
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: kButtonIconSize + 8.0),
+                padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: Text(
                   item.price == null
                       ? 'Только 6 лотов задаром в день.\n\nПовышайте Карму, чтобы увеличить лимит:\nотдавайте и забирайте, приглашайте друзей.'
@@ -110,7 +105,7 @@ class BidDialog extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Stack(
             children: [
               Icon(
@@ -119,8 +114,7 @@ class BidDialog extends StatelessWidget {
                 size: kButtonIconSize,
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: kButtonIconSize + 8.0),
+                padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: DeliveryLabel(),
               ),
             ],
@@ -139,7 +133,7 @@ class BidDialog extends StatelessWidget {
                 );
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Stack(
                   children: [
                     Row(
@@ -163,7 +157,7 @@ class BidDialog extends StatelessWidget {
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: kButtonIconSize + 8.0),
+                              horizontal: kButtonIconSize + 8),
                           constraints: BoxConstraints(maxWidth: 56.0 * 6),
                           child: AddressText(item),
                         ),
@@ -175,7 +169,7 @@ class BidDialog extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16.0),
+        SizedBox(height: 16),
       ],
     );
   }

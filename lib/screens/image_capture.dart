@@ -18,8 +18,8 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
   Future<void> _cropImage() async {
     File cropped = await ImageCropper.cropImage(
       sourcePath: _imageFile.path,
-      // ratioX: 1.0,
-      // ratioY: 1.0,
+      // ratioX: 1,
+      // ratioY: 1,
       // maxWidth: 512,
       // maxHeight: 512,
       androidUiSettings: AndroidUiSettings(

@@ -19,7 +19,7 @@ class _AnimationScreenState extends State<AnimationScreen>
     super.initState();
     _controller =
         AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
     _visible = false;
   }
 
@@ -40,7 +40,7 @@ class _AnimationScreenState extends State<AnimationScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           AnimatedLabel(animation: _animation),
-          SizedBox(height: 16.0),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -57,7 +57,7 @@ class _AnimationScreenState extends State<AnimationScreen>
                 },
                 child: Text(_visible ? 'On' : 'Off'),
               ),
-              // SizedBox(width: 16.0),
+              // SizedBox(width: 16),
               // RaisedButton(
               //     onPressed: () {
               //       _controller.reverse();
@@ -83,7 +83,7 @@ class AnimatedLabel extends AnimatedWidget {
     return Opacity(
       opacity: animation.value,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8),
         color: Colors.green,
         child: Text(
           '1111',

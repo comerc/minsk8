@@ -15,7 +15,7 @@ class InfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       children: [
         Icon(
           icon,
@@ -23,25 +23,25 @@ class InfoDialog extends StatelessWidget {
           size: kButtonIconSize,
         ),
         Padding(
-          padding: EdgeInsets.only(top: 16.0),
+          padding: EdgeInsets.only(top: 16),
           child: Text(
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 16.0),
+          padding: EdgeInsets.only(top: 16),
           child: Text(
             description,
             textAlign: TextAlign.center,
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 8.0),
+          padding: EdgeInsets.only(top: 8),
           alignment: Alignment.center,
           child: Tooltip(
             message: 'Goto FAQ',
@@ -55,13 +55,13 @@ class InfoDialog extends StatelessWidget {
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
+                    horizontal: 16,
+                    vertical: 8,
                   ),
                   child: Text(
                     'Как забирать и отдавать лоты?',
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 12,
                       decoration: TextDecoration.underline,
                     ),
                   ),

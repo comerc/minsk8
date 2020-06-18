@@ -95,16 +95,16 @@ class _ShowcaseListState extends State<ShowcaseList>
     Widget result;
     switch (status) {
       case IndicatorStatus.none:
-        result = Container(height: 0.0);
+        result = Container(height: 0);
         break;
       case IndicatorStatus.loadingMoreBusying:
         result = Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              // margin: EdgeInsets.only(right: 5.0),
-              height: 15.0,
-              width: 15.0,
+              // margin: EdgeInsets.only(right: 5),
+              height: 15,
+              width: 15,
               child: _getIndicator(context),
             ),
             // Text("正在加载...不要着急")
@@ -117,9 +117,9 @@ class _ShowcaseListState extends State<ShowcaseList>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              // margin: EdgeInsets.only(right: 5.0),
-              height: 30.0,
-              width: 30.0,
+              // margin: EdgeInsets.only(right: 5),
+              height: 30,
+              width: 30,
               child: _getIndicator(context),
             ),
             // Text("正在加载...不要着急")
@@ -222,10 +222,10 @@ class _ShowcaseListState extends State<ShowcaseList>
     return Platform.isIOS
         ? CupertinoActivityIndicator(
             animating: true,
-            radius: 16.0,
+            radius: 16,
           )
         : CircularProgressIndicator(
-            strokeWidth: 2.0,
+            strokeWidth: 2,
             valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
           );
   }

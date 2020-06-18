@@ -212,7 +212,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     key: _panelColumnKey,
                     children: [
                       SizedBox(
-                        height: 16.0,
+                        height: 16,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,11 +230,11 @@ class _ItemScreenState extends State<ItemScreen> {
                           ),
                           Container(
                             width: panelSlideLabelWidth,
-                            height: 4.0,
+                            height: 4,
                             decoration: BoxDecoration(
                                 color: Colors.grey[300],
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(12.0))),
+                                    BorderRadius.all(Radius.circular(12))),
                           ),
                           Container(
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
@@ -262,7 +262,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       ),
                       // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
                       Container(
-                        padding: EdgeInsets.only(top: 16.0),
+                        padding: EdgeInsets.only(top: 16),
                         width: panelChildWidth,
                         child: Text(
                           item.text,
@@ -271,7 +271,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 16.0),
+                        padding: EdgeInsets.only(top: 16),
                         width: panelChildWidth,
                         child: Text(
                           'Самовывоз',
@@ -282,7 +282,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       ),
                       if (_otherItems.length > 0)
                         Container(
-                          padding: EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
                           child: Text(
                             'Другие лоты участника',
@@ -294,9 +294,9 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       if (_otherItems.length > 0)
                         Container(
-                          padding: EdgeInsets.only(top: 16.0),
+                          padding: EdgeInsets.only(top: 16),
                           width: size.width,
-                          height: otherItemWidth * 1.0,
+                          height: otherItemWidth, // * 1,
                           child: ListView.separated(
                             padding: EdgeInsets.symmetric(
                               horizontal: separatorWidth,

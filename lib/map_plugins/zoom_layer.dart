@@ -39,23 +39,23 @@ class _ZoomState extends State<_Zoom> {
       children: [
         IconButton(
           tooltip: 'Increase',
-          iconSize: 32.0,
+          iconSize: 32,
           icon: Icon(
             Icons.zoom_in,
           ),
           onPressed:
-              widget.mapState.zoom < (widget.mapState.options.maxZoom ?? 17.0)
+              widget.mapState.zoom < (widget.mapState.options.maxZoom ?? 17)
                   ? _increaseZoom
                   : null,
         ),
         IconButton(
           tooltip: 'Decrease',
-          iconSize: 32.0,
+          iconSize: 32,
           icon: Icon(
             Icons.zoom_out,
           ),
           onPressed:
-              widget.mapState.zoom > (widget.mapState.options.minZoom ?? 0.0)
+              widget.mapState.zoom > (widget.mapState.options.minZoom ?? 0)
                   ? _decreaseZoom
                   : null,
         ),

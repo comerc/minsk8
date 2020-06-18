@@ -21,7 +21,7 @@ class PriceButton extends StatelessWidget {
             height: kButtonHeight,
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
+              horizontal: 16,
             ),
             child: Text(
               item.price.toString(),

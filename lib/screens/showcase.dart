@@ -40,7 +40,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       labelColor: Colors.blue,
       indicatorColor: Colors.blue,
       indicatorSize: TabBarIndicatorSize.label,
-      indicatorWeight: 2.0,
+      indicatorWeight: 2,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
       tabs: allKinds.map((kind) => Tab(text: kind.name)).toList(),
@@ -62,7 +62,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         color: Colors.blue,
         pullBackOnRefresh: true,
         onRefresh: _onRefresh,
-        maxDragOffset: 100.0,
+        maxDragOffset: 100,
         child: extended.NestedScrollView(
           physics: ClampingScrollPhysics(),
           pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
@@ -104,7 +104,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
     // Widget action = Padding(
     //   child: info?.refreshWiget ?? Icon(Icons.more_horiz),
-    //   padding: EdgeInsets.all(15.0),
+    //   padding: EdgeInsets.all(15),
     // );
     final offset = info?.dragOffset ?? 0.0;
     // Widget child = Container();
@@ -117,14 +117,14 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     //       },
     //       child: Text(
     //         (info.mode?.toString() ?? '') + " click to retry" ?? '',
-    //         style: TextStyle(fontSize: 10.0),
+    //         style: TextStyle(fontSize: 10),
     //       ),
     //     );
     //     action = Container();
     //   } else {
     //     // child = Text(
     //     //   info?.mode?.toString() ?? '',
-    //     //   style: TextStyle(fontSize: 10.0),
+    //     //   style: TextStyle(fontSize: 10),
     //     // );
     //   }
     // }
@@ -132,7 +132,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       pinned: true,
       title: Text('Showcase'),
       centerTitle: true,
-      // expandedHeight: 200.0 + offset,
+      // expandedHeight: 200 + offset,
       expandedHeight: offset,
       // actions: [action],
       // flexibleSpace: FlexibleSpaceBar(
@@ -141,7 +141,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       //   collapseMode: CollapseMode.pin,
       //   background: Image.asset(
       //     "assets/467141054.jpg",
-      //     //fit: offset > 0.0 ? BoxFit.cover : BoxFit.fill,
+      //     //fit: offset > 0 ? BoxFit.cover : BoxFit.fill,
       //     fit: BoxFit.cover,
       //   ),
       // ),

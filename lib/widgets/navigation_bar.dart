@@ -30,7 +30,7 @@ class NavigationBar extends StatelessWidget {
       ),
       shape: CircularNotchedRectangle(),
       clipBehavior: Clip.hardEdge,
-      notchMargin: 8.0,
+      notchMargin: 8,
       color: this.backgroundColor,
     );
   }

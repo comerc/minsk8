@@ -53,7 +53,7 @@ class DistanceButton extends StatelessWidget {
             height: kButtonHeight,
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(
-              horizontal: 16.0,
+              horizontal: 16,
             ),
             child: text,
           ),

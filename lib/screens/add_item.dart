@@ -53,7 +53,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 16.0),
+            padding: EdgeInsets.only(top: 16),
             color: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +82,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16),
             color: Colors.white,
             child: TextFormField(
               autofocus: false,
@@ -98,7 +98,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
           Container(
-            constraints: BoxConstraints(minHeight: 40.0),
+            constraints: BoxConstraints(minHeight: 40),
             child: SelectButton(
               tooltip: 'Как срочно надо отдать?',
               text: 'Срочно?',
@@ -107,7 +107,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
           Container(
-            constraints: BoxConstraints(minHeight: 40.0),
+            constraints: BoxConstraints(minHeight: 40),
             child: SelectButton(
               tooltip: 'Категория',
               text: 'Техника',
@@ -115,7 +115,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
           Container(
-            constraints: BoxConstraints(minHeight: 40.0),
+            constraints: BoxConstraints(minHeight: 40),
             child: SelectButton(
               tooltip: 'Местоположение',
               text: appState['location'] ?? 'Местоположение',
@@ -129,7 +129,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: ReadyButton(onTap: _handleAddItem),
           ),
           SizedBox(
-            height: 16.0,
+            height: 16,
           ),
         ],
       ),

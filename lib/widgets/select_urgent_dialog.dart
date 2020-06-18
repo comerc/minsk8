@@ -12,7 +12,7 @@ Future<UrgentStatus> selectUrgentDialog(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 16.0, bottom: 16.0, top: 32.0),
+              padding: EdgeInsets.only(left: 16, bottom: 16, top: 32),
               child: Text('Как срочно надо отдать?'),
             ),
             ...List.generate(
@@ -32,9 +32,7 @@ Future<UrgentStatus> selectUrgentDialog(
                 },
               ),
             ),
-            SizedBox(
-              height: 32.0,
-            )
+            SizedBox(height: 32)
           ],
         ),
       );

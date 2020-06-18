@@ -64,7 +64,7 @@ Widget loadStateChanged(ExtendedImageState state) {
       alignment: Alignment.center,
       color: Colors.grey.withOpacity(0.3),
       child: CircularProgressIndicator(
-        strokeWidth: 2.0,
+        strokeWidth: 2,
         valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
       ),
     );

@@ -17,26 +17,20 @@ class SelectButton extends StatelessWidget {
         child: InkWell(
           child: Row(
             children: [
-              SizedBox(
-                width: 16.0,
-              ),
+              SizedBox(width: 16),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 child: Text(text),
               ),
               Spacer(),
               if (rightText != null) Text(rightText),
-              SizedBox(
-                width: 16.0,
-              ),
+              SizedBox(width: 16),
               Icon(
                 Icons.navigate_next,
                 color: Colors.black.withOpacity(0.8),
                 size: kButtonIconSize,
               ),
-              SizedBox(
-                width: 16.0,
-              ),
+              SizedBox(width: 16),
             ],
           ),
           onTap: onTap,

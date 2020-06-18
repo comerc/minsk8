@@ -67,7 +67,7 @@ class _WishButtonState extends State<WishButton> {
             //   } else
             //     result = Text(
             //       count >= 1000
-            //           ? (count / 1000.0).toStringAsFixed(1) + "k"
+            //           ? (count / 1000).toStringAsFixed(1) + "k"
             //           : text,
             //       style: TextStyle(color: color, fontSize: kFontSize),
             //     );

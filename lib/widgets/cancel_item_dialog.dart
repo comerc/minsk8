@@ -10,7 +10,7 @@ Future<bool> showCancelItemDialog(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 32.0,
+              height: 32,
             ),
             Text('Точно хотите закрыть?',
                 style: TextStyle(
@@ -18,11 +18,11 @@ Future<bool> showCancelItemDialog(BuildContext context) {
                   color: Colors.black.withOpacity(0.8),
                 )),
             SizedBox(
-              height: 16.0,
+              height: 16,
             ),
             Text('Вы очень близки к тому,\nчтобы отдать эту вещь.'),
             SizedBox(
-              height: 16.0,
+              height: 16,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -32,7 +32,7 @@ Future<bool> showCancelItemDialog(BuildContext context) {
                   onPressed: () => Navigator.of(context).pop(true),
                 ),
                 SizedBox(
-                  width: 16.0,
+                  width: 16,
                 ),
                 FlatButton(
                   child: Text('Остаться'),
@@ -43,7 +43,7 @@ Future<bool> showCancelItemDialog(BuildContext context) {
               ],
             ),
             SizedBox(
-              height: 32.0,
+              height: 32,
             ),
           ],
         ),

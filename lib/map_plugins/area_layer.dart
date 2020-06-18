@@ -64,7 +64,7 @@ class _AreaLayerState extends State<_AreaLayer>
   double get paintedRadius {
     final center = widget.mapState.center;
     final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000.0);
+        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
     return end.x - start.x;
@@ -101,22 +101,22 @@ class _AreaLayerState extends State<_AreaLayer>
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 16.0,
+                  left: 16,
+                  right: 16,
+                  bottom: 16,
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8),
                   alignment: Alignment.center,
-                  height: 100.0,
+                  height: 100,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                     boxShadow: [
                       BoxShadow(
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 2.0,
+                        offset: Offset(0, 2),
+                        blurRadius: 2,
                       )
                     ],
                   ),
@@ -126,7 +126,7 @@ class _AreaLayerState extends State<_AreaLayer>
                         flex: 1,
                         child: Container(
                           height: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: RichText(
@@ -175,7 +175,7 @@ class _AreaLayerState extends State<_AreaLayer>
                                 widget.options.onChangeRadius(value);
                               });
                             },
-                            min: 1.0,
+                            min: 1,
                             max: maxRadius,
                           ),
                         ),
@@ -206,13 +206,13 @@ class _AreaLayerPainter extends CustomPainter {
             ? null
             : (Paint()
               ..color = Colors.blue.withOpacity(0.1)
-              ..strokeWidth = 0.0
+              ..strokeWidth = 0
               ..style = PaintingStyle.fill),
         _paintStroke = radius == null
             ? null
             : (Paint()
               ..color = Colors.black.withOpacity(0.1)
-              ..strokeWidth = 1.0
+              ..strokeWidth = 1
               ..style = PaintingStyle.stroke);
   // _textPainter = TextPainter(textDirection: TextDirection.rtl)
   //   ..text = TextSpan(
@@ -226,8 +226,8 @@ class _AreaLayerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (radius != null) {
-      canvas.drawCircle(Offset(0.0, 0.0), radius, _paintFill);
-      canvas.drawCircle(Offset(0.0, 0.0), radius, _paintStroke);
+      canvas.drawCircle(Offset(0, 0), radius, _paintFill);
+      canvas.drawCircle(Offset(0, 0), radius, _paintStroke);
     }
     // _textPainter.paint(
     //     canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???

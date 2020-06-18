@@ -58,7 +58,7 @@ class _PlacesState extends State<Places> {
         return Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: CircularProgressIndicator(),
           ),
         );
@@ -87,7 +87,7 @@ class _PlacesState extends State<Places> {
       onSuggestionSelected: widget.onSuggestionSelected,
       noItemsFoundBuilder: (BuildContext context) {
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8),
           child: Text(
             'Ничего не найдено',
             style: TextStyle(color: Theme.of(context).disabledColor),
@@ -96,7 +96,7 @@ class _PlacesState extends State<Places> {
       },
       errorBuilder: (BuildContext context, Object error) {
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8),
           child: Text(
             '$error',
             style: TextStyle(color: Theme.of(context).errorColor),

@@ -59,12 +59,12 @@ class _ItemLayerState extends State<_ItemLayer> {
                     'Укажите местоположение лота, чтобы пользователи поблизости его увидели'),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  // borderRadius: BorderRadius.all(Radius.circular(28.0)),
+                  // borderRadius: BorderRadius.all(Radius.circular(28)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.4),
-                      offset: Offset(0.0, 2.0),
-                      blurRadius: 2.0,
+                      offset: Offset(0, 2),
+                      blurRadius: 2,
                     )
                   ],
                 ),
@@ -102,7 +102,7 @@ class _ItemLayerState extends State<_ItemLayer> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 60.0),
+          margin: EdgeInsets.only(top: 60),
           alignment: Alignment.center,
           child: _Label(),
         ),
@@ -143,7 +143,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
     super.initState();
     _controller = AnimationController(
         duration: const Duration(milliseconds: kAnimationTime), vsync: this);
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller)
+    _animation = Tween<double>(begin: 1, end: 0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
@@ -173,7 +173,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
     return Opacity(
       opacity: _animation.value,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8),
         color: Colors.white.withOpacity(0.8),
         child: Text(
           widget.value,

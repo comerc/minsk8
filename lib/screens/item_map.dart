@@ -18,7 +18,7 @@ class ItemMapScreen extends StatelessWidget {
         ),
         body: MapWidget(
           center: item.location,
-          zoom: 13.0,
+          zoom: 13,
           markerPoint: item.location,
         ),
       ),

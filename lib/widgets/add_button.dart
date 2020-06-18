@@ -16,6 +16,6 @@ Widget buildAddButton(BuildContext context) {
       Icons.add,
       size: kBigButtonIconSize * 1.2,
     ),
-    elevation: 2.0,
+    elevation: 2,
   );
 }

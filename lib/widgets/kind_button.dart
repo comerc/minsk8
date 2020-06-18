@@ -14,12 +14,12 @@ class KindButton extends StatelessWidget {
       message: 'Выберите категорию',
       child: Container(
         decoration: BoxDecoration(
-          // borderRadius: BorderRadius.all(Radius.circular(28.0)),
+          // borderRadius: BorderRadius.all(Radius.circular(28)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.4),
-              offset: Offset(0.0, 2.0),
-              blurRadius: 2.0,
+              offset: Offset(0, 2),
+              blurRadius: 2,
             )
           ],
         ),

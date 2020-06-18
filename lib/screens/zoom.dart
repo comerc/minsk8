@@ -22,7 +22,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   AnimationController _animationController;
   Animation<double> _animation;
   Function animationListener;
-  List<double> doubleTapScales = <double>[1.0, 1.5, 2.0];
+  List<double> doubleTapScales = [1, 1.5, 2];
   int _currentIndex;
 
   @override
@@ -59,7 +59,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                 //enableLoadState: false,
                 mode: ExtendedImageMode.gesture,
                 initGestureConfigHandler: (state) {
-                  double initialScale = 1.0;
+                  double initialScale = 1;
                   if (state.extendedImageInfo != null &&
                       state.extendedImageInfo.image != null) {
                     // TODO: пока работает неправильно при смене ориентации
@@ -74,10 +74,10 @@ class _ZoomScreenState extends State<ZoomScreen>
                   return GestureConfig(
                     minScale: 0.9,
                     animationMinScale: 0.7,
-                    maxScale: 4.0,
+                    maxScale: 4,
                     animationMaxScale: 4.5,
-                    speed: 1.0,
-                    inertialSpeed: 100.0,
+                    speed: 1,
+                    inertialSpeed: 100,
                     initialScale: initialScale,
                     inPageView: false,
                     initialAlignment: InitialAlignment.center,
@@ -123,8 +123,8 @@ class _ZoomScreenState extends State<ZoomScreen>
                   Tooltip(
                     message: 'Close',
                     child: ButtonTheme(
-                      minWidth: 0.0,
-                      padding: EdgeInsets.all(12.0),
+                      minWidth: 0,
+                      padding: EdgeInsets.all(12),
                       child: FlatButton(
                         onPressed: () {
                           Navigator.maybePop(context);
@@ -133,7 +133,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                         child: Icon(
                           Icons.close,
                           color: Colors.white,
-                          size: 32.0,
+                          size: 32,
                         ),
                       ),
                     ),
@@ -156,8 +156,8 @@ class _ZoomScreenState extends State<ZoomScreen>
                     Tooltip(
                       message: 'Back',
                       child: ButtonTheme(
-                        minWidth: 0.0,
-                        padding: EdgeInsets.all(12.0),
+                        minWidth: 0,
+                        padding: EdgeInsets.all(12),
                         child: FlatButton(
                           onPressed: () {
                             _jumpToPage(isNext: false);
@@ -166,7 +166,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                           child: Icon(
                             Icons.navigate_before,
                             color: Colors.white,
-                            size: 32.0,
+                            size: 32,
                           ),
                         ),
                       ),
@@ -175,8 +175,8 @@ class _ZoomScreenState extends State<ZoomScreen>
                     Tooltip(
                       message: 'Next',
                       child: ButtonTheme(
-                        minWidth: 0.0,
-                        padding: EdgeInsets.all(12.0),
+                        minWidth: 0,
+                        padding: EdgeInsets.all(12),
                         child: FlatButton(
                           onPressed: () {
                             _jumpToPage(isNext: true);
@@ -185,7 +185,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                           child: Icon(
                             Icons.navigate_next,
                             color: Colors.white,
-                            size: 32.0,
+                            size: 32,
                           ),
                         ),
                       ),

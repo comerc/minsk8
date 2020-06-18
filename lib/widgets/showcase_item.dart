@@ -65,16 +65,16 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           ),
         ),
         // SizedBox(
-        //   height: 5.0,
+        //   height: 5,
         // ),
         // _buildTags(item),
         // SizedBox(
-        //   height: 5.0,
+        //   height: 5,
         // ),
         if (isBottom)
           _buildBottom(widget.item),
         // SizedBox(
-        //   height: 8.0,
+        //   height: 8,
         // ),
       ],
     );
@@ -98,7 +98,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             image.getDummyUrl(item.id),
             fit: BoxFit.fill,
             // shape: BoxShape.rectangle,
-            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
             // borderRadius: BorderRadius.all(kImageBorderRadius),
             loadStateChanged: loadStateChanged,
           ),
@@ -146,11 +146,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
       children: [
         // ExtendedImage.network(
         //   item.avatarUrl,
-        //   width: 25.0,
-        //   height: 25.0,
+        //   width: 25,
+        //   height: 25,
         //   shape: BoxShape.circle,
         //   //enableLoadState: false,
-        //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+        //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
         //   // loadStateChanged: (state) {
         //   //   if (state.extendedImageLoadState == LoadState.completed) {
         //   //     return null;
@@ -194,10 +194,10 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           ),
         ),
         padding: EdgeInsets.only(
-          left: 8.0,
-          top: 32.0,
-          right: 8.0,
-          bottom: 8.0,
+          left: 8,
+          top: 32,
+          right: 8,
+          bottom: 8,
         ),
         child: Text(
           text,
@@ -218,12 +218,12 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
       top: 0,
       left: 0,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
           color: isClosed
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
-          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
           // borderRadius: BorderRadius.all(Radius.circular(6.5)),
           // borderRadius: BorderRadius.only(
           //   // topLeft: kImageBorderRadius,
@@ -244,17 +244,17 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
 
 // Widget _buildTags(TuChongItem item) {
 //   return Wrap(
-//     runSpacing: 5.0,
-//     spacing: 5.0,
+//     runSpacing: 5,
+//     spacing: 5,
 //     children: item.tags.map<Widget>((tag) {
 //       final color = item.tagColors[item.tags.indexOf(tag)];
 //       return Container(
-//         padding: EdgeInsets.all(3.0),
+//         padding: EdgeInsets.all(3),
 //         decoration: BoxDecoration(
 //           color: color,
-//           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1.0),
+//           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
 //           borderRadius: BorderRadius.all(
-//             Radius.circular(5.0),
+//             Radius.circular(5),
 //           ),
 //         ),
 //         child: Text(
@@ -272,19 +272,19 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
 
   Widget _buildTopRightLabel(String data) {
     return Positioned(
-      top: 5.0,
-      right: 5.0,
+      top: 5,
+      right: 5,
       child: Container(
-        padding: EdgeInsets.all(3.0),
+        padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
           // color: Colors.grey.withOpacity(0.6),
           color: Colors.white,
           border: Border.all(
             color: Colors.grey.withOpacity(0.4),
-            width: 1.0,
+            width: 1,
           ),
           borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
+            Radius.circular(5),
           ),
         ),
         child: Text(
