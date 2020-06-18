@@ -7,6 +7,10 @@ import 'package:minsk8/import.dart';
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 
 class AddItemScreen extends StatefulWidget {
+  AddItemScreen(this.arguments);
+
+  final AddItemRouteArguments arguments;
+
   @override
   _AddItemScreenState createState() {
     return _AddItemScreenState();
@@ -21,6 +25,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<Uint8List> _images = [];
   ImageSource _imageSource;
   UrgentStatus _urgent = UrgentStatus.not_urgent;
+  KindId _kind;
 
   String get urgentName =>
       urgents
@@ -34,6 +39,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     _textController = TextEditingController(text: '');
+    _kind = widget.arguments.kind;
   }
 
   @override
@@ -109,7 +115,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             constraints: BoxConstraints(minHeight: 40),
             child: SelectButton(
               tooltip: 'Категория',
-              text: 'Техника',
+              text: kinds.firstWhere((element) => element.value == _kind).name,
               onTap: _selectKind,
             ),
           ),
@@ -274,19 +280,25 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  void _selectKind() {}
+  void _selectKind() {
+    Navigator.pushNamed(
+      context,
+      '/kinds',
+      arguments: KindsRouteArguments(_kind),
+    ).then((kind) {
+      if (kind == null) return;
+      setState(() {
+        _kind = kind;
+      });
+    });
+  }
 
   void _selectLocation() {
     Navigator.pushNamed(
       context,
       '/my_item_map',
     ).then((value) {
-      print(value);
-      if (value == null) {
-        // final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-        // itemMap.reset();
-        return;
-      }
+      if (value == null) return;
       setState(() {});
     });
   }
@@ -298,4 +310,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final result = await showCancelItemDialog(context);
     return result ?? false; // if enableDrag, result may be null
   }
+}
+
+class AddItemRouteArguments {
+  AddItemRouteArguments({this.kind});
+
+  final KindId kind;
 }

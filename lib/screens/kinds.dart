@@ -14,7 +14,6 @@ class KindsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Выберите категорию'),
       ),
-      drawer: MainDrawer('/kinds'),
       body: GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 8,
@@ -25,7 +24,7 @@ class KindsScreen extends StatelessWidget {
           kinds.length,
           (index) => KindButton(
             kinds[index],
-            isSelected: kinds[index].value == arguments.value,
+            isSelected: kinds[index].value == arguments?.value,
           ),
         ),
       ),
@@ -34,9 +33,7 @@ class KindsScreen extends StatelessWidget {
 }
 
 class KindsRouteArguments {
-  KindsRouteArguments({
-    this.value,
-  });
+  KindsRouteArguments(this.value);
 
   final KindId value;
 }

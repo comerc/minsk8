@@ -129,7 +129,8 @@ class App extends StatelessWidget {
       // home: NestedScrollViewDemo(),
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
-        '/add_item': (_) => AddItemScreen(),
+        '/add_item': (BuildContext context) =>
+            AddItemScreen(ModalRoute.of(context).settings.arguments),
         '/animation': (_) => AnimationScreen(),
         '/chat': (BuildContext context) =>
             ChatScreen(ModalRoute.of(context).settings.arguments),

@@ -8,7 +8,7 @@ Widget buildAddButton(BuildContext context) {
     onPressed: () {
       Navigator.pushNamed(
         context,
-        '/add_item',
+        '/kinds',
       );
     },
     tooltip: 'Add Item',

@@ -70,7 +70,10 @@ class KindButton extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Navigator.of(context).pop<KindId>(model.value);
+              Navigator.of(context).popAndPushNamed(
+                '/add_item',
+                arguments: AddItemRouteArguments(kind: model.value),
+              );
             },
           ),
         ),
