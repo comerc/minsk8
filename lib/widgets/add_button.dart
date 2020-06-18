@@ -9,7 +9,12 @@ Widget buildAddButton(BuildContext context) {
       Navigator.pushNamed(
         context,
         '/kinds',
-      );
+      ).then((kind) {
+        Navigator.of(context).pushNamed(
+          '/add_item',
+          arguments: AddItemRouteArguments(kind: kind),
+        );
+      });
     },
     tooltip: 'Add Item',
     child: Icon(
