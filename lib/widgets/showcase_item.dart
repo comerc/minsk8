@@ -53,7 +53,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                 member: widget.item.member,
                 isShowcase: true,
               ),
-            ).then((value) {
+            ).then((_) {
               setState(() {
                 isBottom = true;
               });
