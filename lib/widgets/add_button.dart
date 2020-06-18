@@ -10,7 +10,9 @@ Widget buildAddButton(BuildContext context) {
         context,
         '/kinds',
       ).then((kind) {
-        Navigator.of(context).pushNamed(
+        if (kind == null) return;
+        Navigator.pushNamed(
+          context,
           '/add_item',
           arguments: AddItemRouteArguments(kind: kind),
         );
