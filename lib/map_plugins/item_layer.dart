@@ -42,6 +42,13 @@ class _ItemLayer extends StatefulWidget {
 
 class _ItemLayerState extends State<_ItemLayer> {
   @override
+  void initState() {
+    super.initState();
+    final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+    itemMap.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isInfo = appState['MyItemMap.isInfo'] ?? true;
     return Stack(
@@ -119,15 +126,15 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemMap = Provider.of<ItemMapModel>(context);
-    return _AnimatedLabel(visible: itemMap.visible, value: itemMap.value);
+    return _AnimatedLabel(visible: itemMap.visible, location: itemMap.location);
   }
 }
 
 class _AnimatedLabel extends StatefulWidget {
   final bool visible;
-  final String value;
+  final String location;
 
-  _AnimatedLabel({this.visible, this.value});
+  _AnimatedLabel({this.visible, this.location});
 
   @override
   _AnimatedLabelState createState() => _AnimatedLabelState();
@@ -176,7 +183,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
         padding: EdgeInsets.all(8),
         color: Colors.white.withOpacity(0.8),
         child: Text(
-          widget.value,
+          widget.location,
           style: TextStyle(
             color: Colors.black,
           ),

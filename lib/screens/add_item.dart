@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
@@ -282,7 +281,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       context,
       '/my_item_map',
     ).then((value) {
-      if (value == null) return;
+      print(value);
+      if (value == null) {
+        // final itemMap = Provider.of<ItemMapModel>(context, listen: false);
+        // itemMap.reset();
+        return;
+      }
       setState(() {});
     });
   }
