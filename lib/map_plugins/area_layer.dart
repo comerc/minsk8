@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'utils.dart' as utils;
 
-// typedef void OnMoveToCurrentPosition(LatLng destCenter, double destZoom);
 typedef void ChangeRadiusCallback(double value);
 
 class AreaLayerMapPluginOptions extends LayerOptions {
@@ -10,7 +9,6 @@ class AreaLayerMapPluginOptions extends LayerOptions {
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final List<Widget> footer;
-  // final OnMoveToCurrentPosition onMoveToCurrentPosition;
 
   AreaLayerMapPluginOptions({
     this.markerIconSize,
@@ -79,20 +77,19 @@ class _AreaLayerState extends State<_AreaLayer>
             child: CustomPaint(
               painter: _AreaLayerPainter(
                 radius: paintedRadius,
-                // icon: _icon,
-                // iconSize: widget.options.markerIconSize,
               ),
             ),
           ),
-        Container(
-          margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
-          alignment: Alignment.center,
-          child: Icon(
-            _icon,
-            size: widget.options.markerIconSize,
-            color: Colors.pinkAccent,
+        if (widget.options.onChangeRadius != null)
+          Container(
+            margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
+            alignment: Alignment.center,
+            child: Icon(
+              _icon,
+              size: widget.options.markerIconSize,
+              color: Colors.pinkAccent,
+            ),
           ),
-        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -192,28 +189,24 @@ class _AreaLayerState extends State<_AreaLayer>
 }
 
 class _AreaLayerPainter extends CustomPainter {
-  // final double iconSize;
   final double radius;
   final Paint _paintFill;
   final Paint _paintStroke;
+  // final double iconSize;
   // final TextPainter _textPainter;
 
   _AreaLayerPainter({
     this.radius,
     // this.iconSize,
     // IconData icon,
-  })  : _paintFill = radius == null
-            ? null
-            : (Paint()
-              ..color = Colors.blue.withOpacity(0.1)
-              ..strokeWidth = 0
-              ..style = PaintingStyle.fill),
-        _paintStroke = radius == null
-            ? null
-            : (Paint()
-              ..color = Colors.black.withOpacity(0.1)
-              ..strokeWidth = 1
-              ..style = PaintingStyle.stroke);
+  })  : _paintFill = Paint()
+          ..color = Colors.blue.withOpacity(0.1)
+          ..strokeWidth = 0
+          ..style = PaintingStyle.fill,
+        _paintStroke = Paint()
+          ..color = Colors.black.withOpacity(0.1)
+          ..strokeWidth = 1
+          ..style = PaintingStyle.stroke;
   // _textPainter = TextPainter(textDirection: TextDirection.rtl)
   //   ..text = TextSpan(
   //       text: String.fromCharCode(icon.codePoint),
@@ -225,10 +218,8 @@ class _AreaLayerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (radius != null) {
-      canvas.drawCircle(Offset(0, 0), radius, _paintFill);
-      canvas.drawCircle(Offset(0, 0), radius, _paintStroke);
-    }
+    canvas.drawCircle(Offset(0, 0), radius, _paintFill);
+    canvas.drawCircle(Offset(0, 0), radius, _paintStroke);
     // _textPainter.paint(
     //     canvas, Offset(-iconSize / 2, -iconSize)); // TODO: +4 ???
   }
