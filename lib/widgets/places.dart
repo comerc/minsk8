@@ -6,6 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:http_client_helper/http_client_helper.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: добавить копирайт algolia и osm
@@ -59,7 +60,7 @@ class _PlacesState extends State<Places> {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: CircularProgressIndicator(),
+            child: buildProgressIndicator(context),
           ),
         );
       },

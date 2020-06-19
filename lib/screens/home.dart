@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             }) {
               // if (result.loading) {
               //   return Center(
-              //     child: CircularProgressIndicator(),
+              //     child: buildProgressIndicator(context),
               //   );
               // }
               // return ListView.separated(
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(),
+                          buildProgressIndicator(context),
                         ],
                       ),
                     if (hasMore)
@@ -123,7 +123,7 @@ class HomeScreen extends StatelessWidget {
               // return Text('Hello world!');
               // (result.loading)
               //     ? Center(
-              //         child: CircularProgressIndicator(),
+              //         child: buildProgressIndicator(context),
               //       )
               //     : RaisedButton(
               //         onPressed: () {

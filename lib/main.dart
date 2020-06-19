@@ -71,7 +71,6 @@ class App extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   child: Text('Loading state...'),
-                  // child: CircularProgressIndicator(),
                 ),
               );
             }

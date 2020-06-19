@@ -105,7 +105,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               // margin: EdgeInsets.only(right: 5),
               height: 15,
               width: 15,
-              child: _getIndicator(context),
+              child: buildProgressIndicator(context),
             ),
             // Text("正在加载...不要着急")
           ],
@@ -120,7 +120,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               // margin: EdgeInsets.only(right: 5),
               height: 30,
               width: 30,
-              child: _getIndicator(context),
+              child: buildProgressIndicator(context),
             ),
             // Text("正在加载...不要着急")
           ],
@@ -216,17 +216,5 @@ class _ShowcaseListState extends State<ShowcaseList>
         child: child,
         color: Colors.transparent,
         alignment: full ? Alignment.center : Alignment.topCenter);
-  }
-
-  Widget _getIndicator(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoActivityIndicator(
-            animating: true,
-            radius: 16,
-          )
-        : CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-          );
   }
 }

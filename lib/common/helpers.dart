@@ -7,6 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
+import 'package:minsk8/import.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -42,7 +43,7 @@ QueryBuilder withGenericHandling(QueryBuilder builder) {
     }
     if (result.loading && result.data == null) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(), // buildProgressIndicator(context),
       );
     }
     if (result.data == null && !result.hasException) {
@@ -63,10 +64,7 @@ Widget loadStateChanged(ExtendedImageState state) {
     return Container(
       alignment: Alignment.center,
       color: Colors.grey.withOpacity(0.3),
-      child: CircularProgressIndicator(
-        strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-      ),
+      child: buildProgressIndicator(context),
     );
   });
 }

@@ -68,6 +68,7 @@ export 'widgets/map.dart';
 export 'widgets/navigation_bar.dart';
 export 'widgets/places.dart';
 export 'widgets/price_button.dart';
+export 'widgets/progress_indicator.dart';
 export 'widgets/ready_button.dart';
 export 'widgets/select_button.dart';
 export 'widgets/select_urgent_dialog.dart';
