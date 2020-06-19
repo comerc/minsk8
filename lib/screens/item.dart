@@ -242,6 +242,7 @@ class _ItemScreenState extends State<ItemScreen> {
                               children: [
                                 Spacer(),
                                 DistanceButton(onTap: () {
+                                  final savedIndex = _currentIndex;
                                   setState(() {
                                     _isCarouselSlider = false;
                                   });
@@ -250,10 +251,15 @@ class _ItemScreenState extends State<ItemScreen> {
                                     '/item_map',
                                     arguments: ItemMapRouteArguments(
                                       item,
-                                      index: _currentIndex,
-                                      onWillPop: _onWillPopForItemMap,
+                                      // index: _currentIndex,
+                                      // onWillPop: _onWillPopForItemMap,
                                     ),
-                                  );
+                                  ).then((_) {
+                                    setState(() {
+                                      _currentIndex = savedIndex;
+                                      _isCarouselSlider = true;
+                                    });
+                                  });
                                 }),
                               ],
                             ),
@@ -418,13 +424,13 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  Future<bool> _onWillPopForItemMap(int index) async {
-    setState(() {
-      _currentIndex = index;
-      _isCarouselSlider = true;
-    });
-    return true;
-  }
+  // Future<bool> _onWillPopForItemMap(int index) async {
+  //   setState(() {
+  //     _currentIndex = index;
+  //     _isCarouselSlider = true;
+  //   });
+  //   return true;
+  // }
 
   Future<bool> _onWillPopForZoom(int index) async {
     await SystemChrome.setPreferredOrientations([
