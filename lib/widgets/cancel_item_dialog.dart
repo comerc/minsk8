@@ -29,14 +29,18 @@ Future<bool> showCancelItemDialog(BuildContext context) {
               children: [
                 OutlineButton(
                   child: Text('Закрыть'),
-                  onPressed: () => Navigator.of(context).pop(true),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
                 ),
                 SizedBox(
                   width: 16,
                 ),
                 FlatButton(
                   child: Text('Остаться'),
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
                   color: Colors.red,
                   textColor: Colors.white,
                 ),
