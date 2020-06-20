@@ -1,10 +1,36 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import './fragments.dart';
 
 class Mutations {
+  static final insertItem = gql(r'''
+    mutation insertItem(
+      $images: jsonb
+      $text: String
+      $urgent: urgent_enum
+      $kind: kind_enum
+      $location: geography
+      $address: String
+    ) {
+      insert_item_one(object: {
+        images: $images
+        text: $text
+        urgent: $urgent
+        kind: $kind
+        location: $location
+        address: $address
+      }) {
+        ...itemFields
+        member {
+          ...memberFields
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
   static final insertWish = gql(r'''
     mutation insertWish($item_id: uuid) {
-      insert_wish(objects: {item_id: $item_id}) {
-        affected_rows
+      insert_wish_one(object: {item_id: $item_id}) {
+        created_at
       }
     }
   ''');
