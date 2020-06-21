@@ -56,7 +56,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget result = MaterialApp(
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'minsk8',
       // theme: ThemeData(
       //   primarySwatch: mapBoxBlue,
