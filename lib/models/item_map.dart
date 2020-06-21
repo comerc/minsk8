@@ -4,8 +4,8 @@ import 'package:minsk8/import.dart';
 // TODO: переделать управление состоянием UI на GlobalKey
 
 class ItemMapModel extends ChangeNotifier {
-  String _location;
-  String get location => _location;
+  String _address;
+  String get address => _address;
   bool _visible;
   bool get visible => _visible;
 
@@ -14,14 +14,14 @@ class ItemMapModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  show(String location) {
-    _location = location;
+  show(String address) {
+    _address = address;
     _visible = true;
     notifyListeners();
   }
 
   init() {
-    _location = appState['location'] ?? '(none)';
+    _address = appState['address'] ?? '(none)';
     _visible = true;
   }
 }

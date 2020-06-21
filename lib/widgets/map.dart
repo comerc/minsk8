@@ -157,7 +157,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
                 appState['center'] = [center.latitude, center.longitude];
                 appState['zoom'] = zoom;
                 placemarkFromCoordinates(center).then((value) {
-                  appState['location'] = value;
+                  appState['address'] = value;
                   Navigator.of(context).pop(true);
                 });
               }),

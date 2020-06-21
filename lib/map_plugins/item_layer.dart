@@ -126,15 +126,15 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemMap = Provider.of<ItemMapModel>(context);
-    return _AnimatedLabel(visible: itemMap.visible, location: itemMap.location);
+    return _AnimatedLabel(visible: itemMap.visible, address: itemMap.address);
   }
 }
 
 class _AnimatedLabel extends StatefulWidget {
   final bool visible;
-  final String location;
+  final String address;
 
-  _AnimatedLabel({this.visible, this.location});
+  _AnimatedLabel({this.visible, this.address});
 
   @override
   _AnimatedLabelState createState() => _AnimatedLabelState();
@@ -183,7 +183,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
         padding: EdgeInsets.all(8),
         color: Colors.white.withOpacity(0.8),
         child: Text(
-          widget.location,
+          widget.address,
           style: TextStyle(
             color: Colors.black,
           ),
