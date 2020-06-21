@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           documentNode: Mutations.insertItem,
           variables: {
             'images': images,
-            'text': '1234',
+            'text': '4321',
             'urgent': EnumToString.parse(UrgentStatus.urgent),
             'kind': EnumToString.parse(KindId.other),
             'location': location,
@@ -42,7 +42,8 @@ class HomeScreen extends StatelessWidget {
           if (result.hasException) {
             throw result.exception;
           }
-          print(result.data);
+          final item = ItemModel.fromJson(result.data['insert_item_one']);
+          print(item.id);
         }).catchError((error) {
           print(error);
         });

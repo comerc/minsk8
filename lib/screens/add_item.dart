@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: item.text.trim()
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 
 class AddItemScreen extends StatefulWidget {
@@ -38,7 +40,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
               orElse: () => null)
           ?.name ??
       '';
-  bool get _isValidText => _textController.value.text.trim().length > 5;
+  bool get _isValidText => _text.length > 5;
+  String get _text => _textController.value.text.trim();
 
   @override
   void initState() {
@@ -130,7 +133,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Местоположение',
-            text: appState['location'] ?? 'Местоположение',
+            text: appState['address'] ?? 'Местоположение',
             onTap: _selectLocation,
           ),
         ),
@@ -241,26 +244,60 @@ class _AddItemScreenState extends State<AddItemScreen> {
         );
       },
     );
-    await Future.delayed(const Duration(seconds: 1));
-    Navigator.of(context).popUntil(ModalRoute.withName('/showcase'));
-    return;
-
+    final GraphQLClient client = GraphQLProvider.of(context).value;
+    final options = MutationOptions(
+      documentNode: Mutations.insertItem,
+      variables: {
+        'images': _images.map((element) => element.model.toJson()).toList(),
+        'text': _text, // TODO: как защитить от атаки?
+        'urgent': EnumToString.parse(_urgent),
+        'kind': EnumToString.parse(_kind),
+        'location': {
+          'type': 'Point',
+          'coordinates': appState['center'],
+        },
+        'address': appState['address'],
+      },
+      fetchPolicy: FetchPolicy.noCache,
+    );
+    client.mutate(options).then((QueryResult result) {
+      if (result.hasException) {
+        throw result.exception;
+      }
+      final item = ItemModel.fromJson(result.data['insert_item_one']);
+      final profile = Provider.of<ProfileModel>(context, listen: false);
+      Navigator.of(context).popUntil(ModalRoute.withName('/showcase'));
+      Navigator.pushNamed(
+        context,
+        '/item',
+        arguments: ItemRouteArguments(
+          item,
+          tag: item.id,
+          member: profile.member,
+        ),
+      );
+    }).catchError((error) {
+      print(error);
+      Navigator.of(context).pop();
+    });
+    // await Future.delayed(const Duration(seconds: 1));
+    // return;
     // if (!_formKey.currentState.validate()) {
     //   return;
     // }
     // setState(() {
     //   isLoading = true;
     // });
-    try {
-      // Navigator.pushReplacementNamed(
-      //   context,
-      // );
-    } catch (e) {
-      // setState(() {
-      //   isLoading = false;
-      // });
-      print(e);
-    }
+    // try {
+    //   // Navigator.pushReplacementNamed(
+    //   //   context,
+    //   // );
+    // } catch (e) {
+    //   // setState(() {
+    //   //   isLoading = false;
+    //   // });
+    //   print(e);
+    // }
   }
 
   Widget _buildAddImageButton(int index) {
