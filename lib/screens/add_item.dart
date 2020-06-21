@@ -319,38 +319,35 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<void> _uploadImage(ImageData imageData) async {
     // TODO: FirebaseStorage ругается "no auth token for request"
-    final FirebaseStorage storage =
-        // FirebaseStorage(storageBucket: kStorageBucket);
-        FirebaseStorage.instance;
-    String filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
+    final storage =
+        // FirebaseStorage.instance;
+        FirebaseStorage(storageBucket: kStorageBucket);
+    final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
     // TODO: оптимизировать размер данных картинок перед выгрузкой
-    StorageUploadTask uploadTask =
-        storage.ref().child(filePath).putData(imageData.bytes);
-    StreamSubscription<StorageTaskEvent> streamSubscription =
-        uploadTask.events.listen((event) async {
+    final uploadTask = storage.ref().child(filePath).putData(imageData.bytes);
+    final streamSubscription = uploadTask.events.listen((event) async {
       // TODO: if (event.type == StorageTaskEventType.progress)
       if (event.type != StorageTaskEventType.success) return;
       final downloadUrl = await event.snapshot.ref.getDownloadURL();
       final image = ExtendedImage.memory(imageData.bytes);
-      Size size = await _calculateImageDimension(image);
+      final size = await _calculateImageDimension(image);
       imageData.model = ImageModel(
         url: downloadUrl,
-        width: size.width.toInt(),
-        height: size.height.toInt(),
+        width: size.width,
+        height: size.height,
       );
     });
     await uploadTask.onComplete;
     streamSubscription.cancel();
   }
 
-  Future<Size> _calculateImageDimension(ExtendedImage image) {
-    final completer = Completer<Size>();
+  Future<SizeInt> _calculateImageDimension(ExtendedImage image) {
+    final completer = Completer<SizeInt>();
     image.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener(
         (ImageInfo image, bool synchronousCall) {
           final myImage = image.image;
-          final size =
-              Size(myImage.width.toDouble(), myImage.height.toDouble());
+          final size = SizeInt(myImage.width, myImage.height);
           completer.complete(size);
         },
       ),
@@ -409,4 +406,11 @@ class ImageData {
 
   final Uint8List bytes;
   ImageModel model;
+}
+
+class SizeInt {
+  SizeInt(this.width, this.height);
+
+  final int width;
+  final int height;
 }
