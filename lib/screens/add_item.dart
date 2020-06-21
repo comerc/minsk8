@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: item.text.trim()
@@ -22,8 +26,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   TextEditingController _textController;
   // bool isLoading = false;
   bool _isSubmited = false;
-  List<Uint8List> _images = [];
   ImageSource _imageSource;
+  List<ImageData> _images = [];
   UrgentStatus _urgent = UrgentStatus.not_urgent;
   KindId _kind;
   FocusNode _textFocusNode;
@@ -264,7 +268,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       index: index,
       hasIcon: _images.length == index,
       onTap: _images.length > index ? _handleDeleteImage : _handleAddImage,
-      image: _images.length > index ? _images[index] : null,
+      bytes: _images.length > index ? _images[index].bytes : null,
     );
   }
 
@@ -299,16 +303,59 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (pickedFile == null) {
       return false;
     }
-    final image = await pickedFile.readAsBytes();
+    final bytes = await pickedFile.readAsBytes();
+    final imageData = ImageData(bytes);
     setState(() {
       if (index < _images.length) {
         _images.removeAt(index);
-        _images.insert(index, image);
+        _images.insert(index, imageData);
       } else {
-        _images.add(image);
+        _images.add(imageData);
       }
     });
+    _uploadImage(imageData);
     return true;
+  }
+
+  Future<void> _uploadImage(ImageData imageData) async {
+    // TODO: FirebaseStorage ругается "no auth token for request"
+    final FirebaseStorage storage =
+        // FirebaseStorage(storageBucket: kStorageBucket);
+        FirebaseStorage.instance;
+    String filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
+    // TODO: оптимизировать размер данных картинок перед выгрузкой
+    StorageUploadTask uploadTask =
+        storage.ref().child(filePath).putData(imageData.bytes);
+    StreamSubscription<StorageTaskEvent> streamSubscription =
+        uploadTask.events.listen((event) async {
+      // TODO: if (event.type == StorageTaskEventType.progress)
+      if (event.type != StorageTaskEventType.success) return;
+      final downloadUrl = await event.snapshot.ref.getDownloadURL();
+      final image = ExtendedImage.memory(imageData.bytes);
+      Size size = await _calculateImageDimension(image);
+      imageData.model = ImageModel(
+        url: downloadUrl,
+        width: size.width.toInt(),
+        height: size.height.toInt(),
+      );
+    });
+    await uploadTask.onComplete;
+    streamSubscription.cancel();
+  }
+
+  Future<Size> _calculateImageDimension(ExtendedImage image) {
+    final completer = Completer<Size>();
+    image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (ImageInfo image, bool synchronousCall) {
+          final myImage = image.image;
+          final size =
+              Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
   }
 
   void _selectUrgent() {
@@ -355,4 +402,11 @@ class AddItemRouteArguments {
   AddItemRouteArguments({this.kind});
 
   final KindId kind;
+}
+
+class ImageData {
+  ImageData(this.bytes);
+
+  final Uint8List bytes;
+  ImageModel model;
 }

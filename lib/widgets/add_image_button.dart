@@ -12,13 +12,13 @@ class AddImageButton extends StatelessWidget {
     this.index,
     this.hasIcon,
     this.onTap,
-    this.image,
+    this.bytes,
   }) : super(key: key);
 
   final int index;
   final bool hasIcon;
   final AddImageButtonOnTap onTap;
-  final Uint8List image;
+  final Uint8List bytes;
 
   // TODO: по длинному тапу - редактирование фотографии (кроп, поворот, и т.д.)
 
@@ -34,9 +34,9 @@ class AddImageButton extends StatelessWidget {
                   color: Colors.black.withOpacity(0.8),
                   size: kBigButtonIconSize,
                 )
-              : image == null
+              : bytes == null
                   ? Container()
-                  : ExtendedImage.memory(image, fit: BoxFit.cover),
+                  : ExtendedImage.memory(bytes, fit: BoxFit.cover),
           onTap: _onTap,
         ),
       ),
