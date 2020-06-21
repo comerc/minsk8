@@ -18,10 +18,10 @@ class ItemScreen extends StatefulWidget {
   }
 }
 
-enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom, forOtherItem }
+enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _ItemScreenState extends State<ItemScreen> {
-  var _showHero = _ShowHero.forOtherItem;
+  var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
   GlobalKey _panelColumnKey = GlobalKey();
