@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
@@ -59,7 +59,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
           fetchPolicy: FetchPolicy.noCache,
         );
       } else {
-        variables['kind'] = describeEnum(kind);
+        variables['kind'] = EnumToString.parse(kind);
         options = QueryOptions(
           documentNode: Queries.getItemsByKind,
           variables: variables,
