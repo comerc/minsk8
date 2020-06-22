@@ -9,11 +9,6 @@ class ItemMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = arguments.item;
-
-    // return WillPopScope(
-    //   onWillPop: _onWillPop,
-    //   child:
-
     return Scaffold(
       appBar: AppBar(
         title: AddressText(item),
@@ -23,21 +18,12 @@ class ItemMapScreen extends StatelessWidget {
         zoom: 13,
         markerPoint: item.location,
       ),
-      // ),
     );
   }
-
-  // Future<bool> _onWillPop() async {
-  //   return arguments.onWillPop(arguments.index);
-  // }
 }
 
 class ItemMapRouteArguments {
-  ItemMapRouteArguments(this.item
-      // , {this.index, this.onWillPop}
-      );
+  ItemMapRouteArguments(this.item);
 
   final ItemModel item;
-  // final int index;
-  // final Function onWillPop;
 }
