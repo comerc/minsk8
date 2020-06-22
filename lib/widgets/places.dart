@@ -68,21 +68,27 @@ class _PlacesState extends State<Places> {
         String title = '';
         final subtitles = <String>[];
         try {
-          title = html2md.convert(
-              suggestion['_highlightResult']['locale_names'][0]['value']);
-          if (suggestion['_highlightResult']['city'] != null)
-            subtitles.add(suggestion['_highlightResult']['city'][0]['value']);
-          if (suggestion['_highlightResult']['administrative'] != null)
-            subtitles.add(
-                suggestion['_highlightResult']['administrative'][0]['value']);
-          subtitles.add(suggestion['_highlightResult']['country']['value']);
+          // TODO: показывает <em> в subtitles по значению "парковая ждан"
+          // https://github.com/flutter/flutter_markdown/issues/237
+          // final source = suggestion['_highlightResult'];
+          // title = source['locale_names'][0]['value'];
+          // if (source['city'] != null) subtitles.add(source['city'][0]['value']);
+          // if (source['administrative'] != null)
+          //   subtitles.add(source['administrative'][0]['value']);
+          // subtitles.add(source['country']['value']);
+          final source = suggestion;
+          title = source['locale_names'][0];
+          if (source['city'] != null) subtitles.add(source['city'][0]);
+          if (source['administrative'] != null)
+            subtitles.add(source['administrative'][0]);
+          subtitles.add(source['country']['value']);
         } catch (e) {
           debugPrint('$e');
         }
         return ListTile(
           leading: Icon(Icons.location_on),
-          title: MarkdownBody(data: title),
-          subtitle: Text(subtitles.join(', ')),
+          title: MarkdownBody(data: html2md.convert(title)),
+          subtitle: MarkdownBody(data: html2md.convert(subtitles.join(', '))),
         );
       },
       onSuggestionSelected: widget.onSuggestionSelected,
