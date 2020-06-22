@@ -144,13 +144,14 @@ class _ItemScreenState extends State<ItemScreen> {
                               _showHero = _ShowHero.forOpenZoom;
                               _isCarouselSlider = false;
                             });
-                            await SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.landscapeRight,
-                              DeviceOrientation.landscapeLeft,
-                              DeviceOrientation.portraitUp,
-                              DeviceOrientation.portraitDown,
-                            ]);
-                            await Future.delayed(Duration(milliseconds: 100));
+                            // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
+                            // await SystemChrome.setPreferredOrientations([
+                            //   DeviceOrientation.landscapeRight,
+                            //   DeviceOrientation.landscapeLeft,
+                            //   DeviceOrientation.portraitUp,
+                            //   DeviceOrientation.portraitDown,
+                            // ]);
+                            // await Future.delayed(Duration(milliseconds: 100));
                             Navigator.pushNamed(
                               context,
                               '/zoom',
@@ -251,8 +252,6 @@ class _ItemScreenState extends State<ItemScreen> {
                                     '/item_map',
                                     arguments: ItemMapRouteArguments(
                                       item,
-                                      // index: _currentIndex,
-                                      // onWillPop: _onWillPopForItemMap,
                                     ),
                                   ).then((_) {
                                     setState(() {
@@ -424,19 +423,12 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  // Future<bool> _onWillPopForItemMap(int index) async {
-  //   setState(() {
-  //     _currentIndex = index;
-  //     _isCarouselSlider = true;
-  //   });
-  //   return true;
-  // }
-
   Future<bool> _onWillPopForZoom(int index) async {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    await Future.delayed(Duration(milliseconds: 100));
+    // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
+    // await SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
+    // await Future.delayed(Duration(milliseconds: 100));
     setState(() {
       _currentIndex = index;
       _showHero = _ShowHero.forCloseZoom;
