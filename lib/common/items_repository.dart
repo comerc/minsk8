@@ -13,14 +13,13 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     this.kind,
   ) : assert([MetaKindId, KindId].contains(kind.runtimeType));
 
-  static final startCreatedAt = DateTime.now().toUtc().toIso8601String();
-
-  bool _isFirst = true;
-  bool _hasMore = true;
-  bool _forceRefresh = false;
-  String _nextCreatedAt = startCreatedAt;
+  bool _isFirst; // = true;
+  bool _hasMore; // = true;
+  bool _forceRefresh; // = false;
+  String _nextCreatedAt; // = startCreatedAt;
 
   bool get isMetaKind => kind.runtimeType == MetaKindId;
+  String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
   @override
   bool get hasMore =>
@@ -41,6 +40,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> loadData([bool isloadMoreAction = false]) async {
+    assert(_nextCreatedAt != ''); // (?) инициализируется только в refresh()
     bool isSuccess = false;
     try {
       // TODO: may be WatchQueryOptions?
