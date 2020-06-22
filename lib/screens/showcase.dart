@@ -95,7 +95,8 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildAddButton(context),
+      floatingActionButton:
+          buildAddButton(context, sourceListPool: _sourceListPool),
       bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
       extendBody: true,
     );

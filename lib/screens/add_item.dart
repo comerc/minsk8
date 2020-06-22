@@ -266,6 +266,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
       final item = ItemModel.fromJson(result.data['insert_item_one']);
       final profile = Provider.of<ProfileModel>(context, listen: false);
+      if (widget.arguments.sourceListPool != null) {
+        final recentSourceList = widget.arguments.sourceListPool[0];
+        recentSourceList.insert(0, item);
+        final currentKindSourceList = widget.arguments.sourceListPool
+            .firstWhere((element) => element.kind == _kind);
+        if (currentKindSourceList.nextCreatedAt != null) {
+          currentKindSourceList.insert(0, item);
+        }
+      }
       Navigator.of(context).popUntil(ModalRoute.withName('/showcase'));
       Navigator.pushNamed(
         context,
@@ -433,9 +442,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
 }
 
 class AddItemRouteArguments {
-  AddItemRouteArguments({this.kind});
+  AddItemRouteArguments({this.kind, this.sourceListPool});
 
   final KindId kind;
+  final List<ItemsRepository> sourceListPool;
 }
 
 class ImageData {

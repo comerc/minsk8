@@ -13,13 +13,13 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     this.kind,
   ) : assert([MetaKindId, KindId].contains(kind.runtimeType));
 
+  bool get isMetaKind => kind.runtimeType == MetaKindId;
+  String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
+
+  String nextCreatedAt; // = startCreatedAt;
   bool _isFirst; // = true;
   bool _hasMore; // = true;
   bool _forceRefresh; // = false;
-  String _nextCreatedAt; // = startCreatedAt;
-
-  bool get isMetaKind => kind.runtimeType == MetaKindId;
-  String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
   @override
   bool get hasMore =>
@@ -27,9 +27,9 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
+    nextCreatedAt = startCreatedAt;
     _isFirst = true;
     _hasMore = true;
-    _nextCreatedAt = startCreatedAt;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
     _forceRefresh = !clearBeforeRequest;
@@ -40,12 +40,12 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> loadData([bool isloadMoreAction = false]) async {
-    assert(_nextCreatedAt != ''); // (?) инициализируется только в refresh()
+    assert(nextCreatedAt != null); // (?) инициализируется только в refresh()
     bool isSuccess = false;
     try {
       // TODO: may be WatchQueryOptions?
       QueryOptions options;
-      final variables = {'next_created_at': _nextCreatedAt};
+      final variables = {'next_created_at': nextCreatedAt};
       if (isMetaKind) {
         options = QueryOptions(
           documentNode: {
@@ -81,7 +81,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       _hasMore = items.length == kGraphQLItemsLimit;
       if (_hasMore) {
         final itemElement = ItemModel.fromJson(items.removeLast());
-        _nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
+        nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
       }
       for (final item in items) {
         this.add(ItemModel.fromJson(item));
