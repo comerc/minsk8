@@ -23,7 +23,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   bool get hasMore =>
-      _forceRefresh || (_hasMore && (!isMetaKind || this.length < 30));
+      _forceRefresh || (_hasMore && (!isMetaKind || this.length < 40));
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
