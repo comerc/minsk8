@@ -54,6 +54,7 @@ void main() {
 
 PersistedData appState;
 List<ItemsRepository> sourceListPool;
+final localDeletedItemIds = <String>[];
 
 class App extends StatelessWidget {
   @override
@@ -112,7 +113,6 @@ class App extends StatelessWidget {
                     ),
                   );
                 }
-                // profile = ProfileModel.fromJson(result.data['profile']);
                 return MultiProvider(
                   providers: [
                     ChangeNotifierProvider<ProfileModel>(

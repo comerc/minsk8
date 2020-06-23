@@ -1,12 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
-
-// TODO: жалоба на удаленный лот - по почте
 
 class ItemScreen extends StatefulWidget {
   ItemScreen(this.arguments);
@@ -19,6 +18,8 @@ class ItemScreen extends StatefulWidget {
   }
 }
 
+enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
+
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _ItemScreenState extends State<ItemScreen> {
@@ -29,6 +30,7 @@ class _ItemScreenState extends State<ItemScreen> {
   double _panelMaxHeight;
   List<ItemModel> _otherItems;
   bool _isClosed;
+  bool _isLocalDeleted;
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _ItemScreenState extends State<ItemScreen> {
     }
     _initOtherItems();
     _isClosed = item.isClosed;
+    _isLocalDeleted = localDeletedItemIds.indexOf(item.id) > -1;
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(item.location);
@@ -73,23 +76,62 @@ class _ItemScreenState extends State<ItemScreen> {
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,
-          backgroundColor: _isClosed
+          backgroundColor: _isClosed || _isLocalDeleted
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
           actions: [
             PopupMenuButton(
-              onSelected: (String value) {
-                print(value);
+              onSelected: (_PopupMenuValue value) {
+                if (value == _PopupMenuValue.delete) {
+                  final GraphQLClient client =
+                      GraphQLProvider.of(context).value;
+                  final options = MutationOptions(
+                    documentNode: Mutations.deleteItem,
+                    variables: {'id': item.id},
+                    fetchPolicy: FetchPolicy.noCache,
+                  );
+                  client.mutate(options).then((QueryResult result) {
+                    if (result.hasException) {
+                      throw result.exception;
+                    }
+                    if (result.data['delete_item']['affected_rows'] != 1) {
+                      throw Exception('Invalid delete_item.affected_rows');
+                    }
+                  }).catchError((error) {
+                    print(error);
+                    if (mounted) {
+                      setState(() {
+                        localDeletedItemIds
+                            .removeWhere((element) => element == item.id);
+                        _isLocalDeleted = false;
+                      });
+                    }
+                  });
+                  setState(() {
+                    localDeletedItemIds.add(item.id);
+                    _isLocalDeleted = true;
+                  });
+                }
+                if (value == _PopupMenuValue.toModerate) {
+                  if (item.isClosed) {
+                    // TODO: открыть письмо для жалобы
+                  } else {
+                    // TODO: открыть диалог
+                  }
+                }
               },
               itemBuilder: (BuildContext context) {
-                return <PopupMenuEntry<String>>[
+                final profile =
+                    Provider.of<ProfileModel>(context, listen: false);
+                final isMy = profile.member.id == item.member.id;
+                return <PopupMenuEntry<_PopupMenuValue>>[
                   PopupMenuItem(
-                    value: 'go to member',
+                    value: _PopupMenuValue.goToMember,
                     child: Row(
                       children: [
                         Container(
-                          height: kBigButtonIconSize,
-                          width: kBigButtonIconSize,
+                          height: 48,
+                          width: 48,
                           child: ExtendedImage.network(
                             item.member.avatarUrl,
                             fit: BoxFit.cover,
@@ -97,23 +139,33 @@ class _ItemScreenState extends State<ItemScreen> {
                           ),
                         ),
                         SizedBox(width: 8),
-                        Text(item.member.nickname),
+                        Text(
+                          item.member.nickname,
+                          style: TextStyle(
+                            fontSize: kFontSize * kGoldenRatio,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black.withOpacity(0.8),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   PopupMenuDivider(),
-                  PopupMenuItem(
-                    value: 'ask a question',
-                    child: Text('Задать вопрос по лоту'),
-                  ),
-                  PopupMenuItem(
-                    value: 'to moderate',
-                    child: Text('Пожаловаться на лот'),
-                  ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Text('Удалить лот'),
-                  ),
+                  if (!isMy && !item.isClosed)
+                    PopupMenuItem(
+                      value: _PopupMenuValue.askQuestion,
+                      child: Text('Задать вопрос по лоту'),
+                    ),
+                  if (!isMy)
+                    PopupMenuItem(
+                      value: _PopupMenuValue.toModerate,
+                      child: Text('Пожаловаться на лот'),
+                    ),
+                  if (isMy && !item.isClosed && !_isLocalDeleted)
+                    PopupMenuItem(
+                      value: _PopupMenuValue.delete,
+                      child: Text('Удалить лот'),
+                    ),
                 ];
               },
             ),
@@ -483,7 +535,7 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   Widget _buildStatusText(ItemModel item) {
-    if (item.isBlocked ?? false) {
+    if (item.isBlocked ?? false || _isLocalDeleted) {
       return Text(
         'Заблокировано',
       );

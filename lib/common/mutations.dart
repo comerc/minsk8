@@ -27,6 +27,14 @@ class Mutations {
     }
   ''')..definitions.addAll(Fragments.itemFields.definitions);
 
+  static final deleteItem = gql(r'''
+    mutation deleteItem($id: uuid) {
+      delete_item(where: {id: {_eq: $id}}) {
+        affected_rows
+      }
+    }
+  ''');
+
   static final insertWish = gql(r'''
     mutation insertWish($item_id: uuid) {
       insert_wish_one(object: {item_id: $item_id}) {
