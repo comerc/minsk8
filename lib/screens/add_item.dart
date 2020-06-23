@@ -40,7 +40,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               orElse: () => null)
           ?.name ??
       '';
-  bool get _isValidText => _text.length > 5;
+  bool get _isValidText => _text.length > 3;
   String get _text => _textController.value.text.trim();
 
   @override
@@ -168,6 +168,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Что отдаёте?'),
+          actions: [
+            IconButton(
+              tooltip: 'Подтвердить',
+              icon: Icon(Icons.check),
+              onPressed: _handleAddItem,
+            ),
+          ],
         ),
         body: body,
       ),
