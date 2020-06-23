@@ -1,11 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
+
+// TODO: жалоба на удаленный лот - по почте
 
 class ItemScreen extends StatefulWidget {
   ItemScreen(this.arguments);
@@ -76,10 +77,46 @@ class _ItemScreenState extends State<ItemScreen> {
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
           actions: [
-            IconButton(
-              icon: Icon(Icons.account_box),
-              onPressed: () {},
-            )
+            PopupMenuButton(
+              onSelected: (String value) {
+                print(value);
+              },
+              itemBuilder: (BuildContext context) {
+                return <PopupMenuEntry<String>>[
+                  PopupMenuItem(
+                    value: 'go to member',
+                    child: Row(
+                      children: [
+                        Container(
+                          height: kBigButtonIconSize,
+                          width: kBigButtonIconSize,
+                          child: ExtendedImage.network(
+                            item.member.avatarUrl,
+                            fit: BoxFit.cover,
+                            enableLoadState: false,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(item.member.nickname),
+                      ],
+                    ),
+                  ),
+                  PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 'ask a question',
+                    child: Text('Задать вопрос по лоту'),
+                  ),
+                  PopupMenuItem(
+                    value: 'to moderate',
+                    child: Text('Пожаловаться на лот'),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Text('Удалить лот'),
+                  ),
+                ];
+              },
+            ),
           ],
         ),
         body: Stack(

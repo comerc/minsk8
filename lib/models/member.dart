@@ -3,8 +3,6 @@ import 'package:minsk8/import.dart';
 
 part 'member.g.dart';
 
-// TODO:  https://robohash.org/
-
 @JsonSerializable()
 class MemberModel {
   final String id;
@@ -24,6 +22,8 @@ class MemberModel {
     this.lastActivityAt,
     this.items,
   });
+
+  String get avatarUrl => 'https://robohash.org/$id?set=set4';
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);
