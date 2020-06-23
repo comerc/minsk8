@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class UnderwayScreen extends StatelessWidget {
+class UnderwayScreen extends StatefulWidget {
+  @override
+  _UnderwayScreenState createState() => _UnderwayScreenState();
+}
+
+class _UnderwayScreenState extends State<UnderwayScreen> {
+// class UnderwayScreen extends StatelessWidget {
+
+  @override
+  void initState() {
+    super.initState();
+    print('UnderwayScreen initState');
+  }
+
+  @override
+  void dispose() {
+    print('UnderwayScreen dispose');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
