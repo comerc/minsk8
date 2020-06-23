@@ -64,6 +64,7 @@ export 'widgets/gift_button.dart';
 export 'widgets/image_source_dialog.dart';
 export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
+export 'widgets/life_cycle_manager.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/map.dart';
 export 'widgets/navigation_bar.dart';
