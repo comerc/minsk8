@@ -266,25 +266,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
       final item = ItemModel.fromJson(result.data['insert_item_one']);
       final profile = Provider.of<ProfileModel>(context, listen: false);
-      if (widget.arguments.sourceListPool != null) {
-        final recentSourceList = widget.arguments.sourceListPool[0];
-        recentSourceList.insert(0, item);
-        final currentKindSourceList = widget.arguments.sourceListPool
-            .firstWhere((element) => element.kind == _kind);
-        if (currentKindSourceList.nextCreatedAt != null) {
-          currentKindSourceList.insert(0, item);
-        }
+      final recentSourceList = sourceListPool
+          .firstWhere((element) => element.kind == MetaKindId.recent);
+      recentSourceList.insert(0, item);
+      final currentKindSourceList =
+          sourceListPool.firstWhere((element) => element.kind == _kind);
+      if (currentKindSourceList.nextCreatedAt != null) {
+        currentKindSourceList.insert(0, item);
       }
-      Navigator.of(context).popUntil(ModalRoute.withName('/showcase'));
-      Navigator.pushNamed(
-        context,
-        '/item',
-        arguments: ItemRouteArguments(
-          item,
-          tag: item.id,
-          member: profile.member,
-        ),
-      );
+      final tag = widget.arguments.tabIndex == null
+          ? null
+          : '${allKinds[widget.arguments.tabIndex].value}-${item.id}';
+      Navigator.of(context)
+        ..pop() // for showDialog
+        ..pushReplacementNamed(
+          '/item',
+          arguments: ItemRouteArguments(
+            item,
+            tag: tag,
+            member: profile.member,
+          ),
+        );
     }).catchError((error) {
       print(error);
       Navigator.of(context).pop();
@@ -442,10 +444,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
 }
 
 class AddItemRouteArguments {
-  AddItemRouteArguments({this.kind, this.sourceListPool});
+  AddItemRouteArguments({this.kind, this.tabIndex});
 
   final KindId kind;
-  final List<ItemsRepository> sourceListPool;
+  final int tabIndex;
 }
 
 class ImageData {

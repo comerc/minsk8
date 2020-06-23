@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildAddButton(BuildContext context,
-    {List<ItemsRepository> sourceListPool}) {
+Widget buildAddButton(BuildContext context, {int tabIndex}) {
   return FloatingActionButton(
     backgroundColor: Colors.white,
     foregroundColor: Colors.pinkAccent,
@@ -17,7 +16,7 @@ Widget buildAddButton(BuildContext context,
           '/add_item',
           arguments: AddItemRouteArguments(
             kind: kind,
-            sourceListPool: sourceListPool,
+            tabIndex: tabIndex,
           ),
         );
       });
