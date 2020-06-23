@@ -12,24 +12,18 @@ class ShowcaseScreen extends StatefulWidget {
 
 class _ShowcaseScreenState extends State<ShowcaseScreen>
     with TickerProviderStateMixin {
-  List<ItemsRepository> _sourceListPool;
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _initDynamicLinks();
-    _sourceListPool =
-        allKinds.map((kind) => ItemsRepository(context, kind.value)).toList();
     _tabController = TabController(length: allKinds.length, vsync: this);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-    _sourceListPool?.forEach((sourceList) {
-      sourceList.dispose();
-    });
     super.dispose();
   }
 
@@ -88,7 +82,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
               allKinds.length,
               (index) => ShowcaseList(
                 scrollPositionKey: Key(allKinds[index].name),
-                sourceList: _sourceListPool[index],
+                sourceList: sourceListPool[index],
               ),
             ),
           ),
@@ -96,7 +90,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:
-          buildAddButton(context, sourceListPool: _sourceListPool),
+          buildAddButton(context, tabIndex: _tabController.index),
       bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
       extendBody: true,
     );
@@ -151,7 +145,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    final sourceList = _sourceListPool[_tabController.index];
+    final sourceList = sourceListPool[_tabController.index];
     return await sourceList.refresh(true);
   }
 

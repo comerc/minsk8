@@ -8,6 +8,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
+
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     print(details);
@@ -51,10 +53,12 @@ void main() {
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 
 PersistedData appState;
+List<ItemsRepository> sourceListPool;
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('App build');
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'minsk8',
@@ -203,6 +207,20 @@ class App extends StatelessWidget {
     );
     result = PersistedAppState(
       storage: JsonFileStorage(),
+      child: result,
+    );
+    result = LifeCycleManager(
+      onInitState: () {
+        sourceListPool = allKinds
+            .map((kind) => ItemsRepository(context, kind.value))
+            .toList();
+      },
+      onDispose: () {
+        sourceListPool?.forEach((sourceList) {
+          sourceList.dispose();
+        });
+        sourceListPool = null;
+      },
       child: result,
     );
     return result;
