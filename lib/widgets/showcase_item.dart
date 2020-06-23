@@ -291,7 +291,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           data,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: kFontSize * 1.6,
+            fontSize: kFontSize * kGoldenRatio,
             color: Colors.orange,
             fontWeight: FontWeight.w600,
           ),

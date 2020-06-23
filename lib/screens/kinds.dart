@@ -19,7 +19,7 @@ class KindsScreen extends StatelessWidget {
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
         padding: EdgeInsets.all(8),
-        childAspectRatio: 1.63,
+        childAspectRatio: kGoldenRatio,
         children: List.generate(
           kinds.length,
           (index) => KindButton(
