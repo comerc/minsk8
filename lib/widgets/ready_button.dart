@@ -9,7 +9,7 @@ class ReadyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Ready',
+      message: 'Подтвердить',
       child: Material(
         // borderRadius: BorderRadius.circular(8),
         color: Colors.red,

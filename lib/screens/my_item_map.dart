@@ -55,6 +55,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
           ? AppBar(
               backgroundColor: Colors.white,
               leading: IconButton(
+                tooltip: 'Назад',
                 icon: Icon(
                   Icons.arrow_back,
                   color: Colors.black.withOpacity(0.8),
@@ -70,6 +71,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
                   onSuggestionSelected: _onSuggestionSelected),
               actions: [
                 IconButton(
+                  tooltip: 'Отменить',
                   icon: Icon(
                     Icons.close,
                     color: Colors.black.withOpacity(0.8),
@@ -84,13 +86,14 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
               title: Text('Местоположение'),
               actions: [
                 IconButton(
+                  tooltip: 'Искать',
                   icon: Icon(Icons.search),
                   onPressed: () {
                     setState(() {
                       _isPlaces = true;
                     });
                   },
-                )
+                ),
               ],
             ),
       body: body,
