@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: https://github.com/hnvn/flutter_flip_panel
+
 class CountdownTimer extends StatefulWidget {
   CountdownTimer({
     this.endTime,

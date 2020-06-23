@@ -10,6 +10,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: добавить копирайт algolia и osm
+// TODO: https://github.com/fayeed/flutter_parsed_text
 
 class Places extends StatefulWidget {
   Places({this.formFieldKey, this.onSuggestionSelected});
