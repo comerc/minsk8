@@ -67,6 +67,9 @@ class App extends StatelessWidget {
       //   visualDensity: VisualDensity.adaptivePlatformDensity
       // ),
       builder: (BuildContext context, Widget child) {
+        sourceListPool = allKinds
+            .map((kind) => ItemsRepository(context, kind.value))
+            .toList();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -210,11 +213,7 @@ class App extends StatelessWidget {
       child: result,
     );
     result = LifeCycleManager(
-      onInitState: () {
-        sourceListPool = allKinds
-            .map((kind) => ItemsRepository(context, kind.value))
-            .toList();
-      },
+      onInitState: () {},
       onDispose: () {
         sourceListPool?.forEach((sourceList) {
           sourceList.dispose();
