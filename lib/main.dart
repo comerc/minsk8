@@ -54,7 +54,7 @@ void main() {
 
 PersistedData appState;
 List<ItemsRepository> sourceListPool;
-final localDeletedItemIds = <String>[];
+final localDeletedItemIds = Set<String>();
 
 class App extends StatelessWidget {
   @override

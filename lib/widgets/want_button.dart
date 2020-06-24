@@ -20,11 +20,7 @@ class WantButton extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             child: Text(
-              item.isBlocked ?? false
-                  ? 'ЗАБЛОКИРОВАНО'
-                  : item.win != null
-                      ? 'УЖЕ ЗАБРАЛИ'
-                      : item.isExpired ? 'ЗАВЕРШЕНО' : 'ХОЧУ ЗАБРАТЬ',
+              _getText(),
               style: TextStyle(
                 fontSize: 18,
                 color: item.isClosed
@@ -45,14 +41,23 @@ class WantButton extends StatelessWidget {
                     description:
                         'Когда всё хорошо начиналось,\nно потом что-то пошло не так',
                   );
-                } else if (item.win != null) {
+                }
+                if (item.isLocalDeleted) {
+                  return InfoDialog(
+                    icon: FontAwesomeIcons.ban,
+                    title: 'Лот удалён',
+                    description: 'Вы удалили этот лот',
+                  );
+                }
+                if (item.win != null) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.trophy,
                     title: 'Лот получил(а) — ${item.win.member.nickname}. УРА!',
                     description:
                         'Следите за новыми лотами —\nзаберите тоже что-то крутое\n\nИли что-нибудь отдайте!',
                   );
-                } else if (item.isExpired) {
+                }
+                if (item.isExpired) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.frog,
                     title: 'Аукцион по лоту завершён',
@@ -67,5 +72,15 @@ class WantButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getText() {
+    if (item.isBlocked ?? false || item.isLocalDeleted) {
+      return 'ЗАБЛОКИРОВАНО';
+    }
+    if (item.win != null) {
+      return 'УЖЕ ЗАБРАЛИ';
+    }
+    return item.isExpired ? 'ЗАВЕРШЕНО' : 'ХОЧУ ЗАБРАТЬ';
   }
 }

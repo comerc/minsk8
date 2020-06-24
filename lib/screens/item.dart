@@ -29,8 +29,6 @@ class _ItemScreenState extends State<ItemScreen> {
   GlobalKey _panelColumnKey = GlobalKey();
   double _panelMaxHeight;
   List<ItemModel> _otherItems;
-  bool _isClosed;
-  bool _isLocalDeleted;
 
   @override
   void initState() {
@@ -40,8 +38,6 @@ class _ItemScreenState extends State<ItemScreen> {
       _showHero = _ShowHero.forShowcase;
     }
     _initOtherItems();
-    _isClosed = item.isClosed;
-    _isLocalDeleted = localDeletedItemIds.indexOf(item.id) > -1;
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(item.location);
@@ -76,7 +72,7 @@ class _ItemScreenState extends State<ItemScreen> {
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,
-          backgroundColor: _isClosed || _isLocalDeleted
+          backgroundColor: item.isClosed
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
           actions: [
@@ -101,15 +97,12 @@ class _ItemScreenState extends State<ItemScreen> {
                     print(error);
                     if (mounted) {
                       setState(() {
-                        localDeletedItemIds
-                            .removeWhere((element) => element == item.id);
-                        _isLocalDeleted = false;
+                        localDeletedItemIds.remove(item.id);
                       });
                     }
                   });
                   setState(() {
                     localDeletedItemIds.add(item.id);
-                    _isLocalDeleted = true;
                   });
                 }
                 if (value == _PopupMenuValue.toModerate) {
@@ -161,7 +154,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       value: _PopupMenuValue.toModerate,
                       child: Text('Пожаловаться на лот'),
                     ),
-                  if (isMy && !item.isClosed && !_isLocalDeleted)
+                  if (isMy && !item.isClosed)
                     PopupMenuItem(
                       value: _PopupMenuValue.delete,
                       child: Text('Удалить лот'),
@@ -364,17 +357,18 @@ class _ItemScreenState extends State<ItemScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 16),
-                        width: panelChildWidth,
-                        child: Text(
-                          'Самовывоз',
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.6),
+                      if (!item.isLocalDeleted)
+                        Container(
+                          padding: EdgeInsets.only(top: 16),
+                          width: panelChildWidth,
+                          child: Text(
+                            'Самовывоз',
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.6),
+                            ),
                           ),
                         ),
-                      ),
-                      if (_otherItems.length > 0)
+                      if (_otherItems.length > 0 && !item.isLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
@@ -386,7 +380,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0)
+                      if (_otherItems.length > 0 && !item.isLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,
@@ -535,16 +529,18 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   Widget _buildStatusText(ItemModel item) {
-    if (item.isBlocked ?? false || _isLocalDeleted) {
+    if (item.isBlocked ?? false || item.isLocalDeleted) {
       return Text(
         'Заблокировано',
       );
-    } else if (item.win != null) {
+    }
+    if (item.win != null) {
       return Text(
         'Победитель — ${item.win.member.nickname}',
       );
-    } else if (item.expiresAt != null) {
-      if (_isClosed) {
+    }
+    if (item.expiresAt != null) {
+      if (item.isExpired) {
         return Text('Завершено');
       }
       return CountdownTimer(
@@ -553,9 +549,7 @@ class _ItemScreenState extends State<ItemScreen> {
             return Text(formatDDHHMMSS(seconds));
           },
           onClose: () {
-            setState(() {
-              _isClosed = true;
-            });
+            setState(() {}); // for item.isClosed
           });
     }
     return Text(

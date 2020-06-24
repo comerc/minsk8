@@ -52,7 +52,7 @@ class ItemModel {
   }) : assert(images.length > 0);
 
   bool get isClosed {
-    if (isBlocked ?? false) {
+    if (isBlocked ?? false || isLocalDeleted) {
       return true;
     } else if (win != null) {
       return true;
@@ -93,6 +93,8 @@ class ItemModel {
       'coordinates': [location.latitude, location.longitude],
     };
   }
+
+  bool get isLocalDeleted => localDeletedItemIds.contains(id);
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);
