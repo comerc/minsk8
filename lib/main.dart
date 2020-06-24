@@ -9,6 +9,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
+// TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
