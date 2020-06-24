@@ -140,6 +140,7 @@ class App extends StatelessWidget {
         '/animation': (_) => AnimationScreen(),
         '/chat': (BuildContext context) =>
             ChatScreen(ModalRoute.of(context).settings.arguments),
+        '/custom_dialog': (_) => CustomDialogScreen(),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => MarkdownScreen('faq.md', title: 'FAQ'),

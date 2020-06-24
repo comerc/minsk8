@@ -9,45 +9,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        final imageModel0 = ImageModel(
-            height: 1755,
-            width: 1260,
-            url:
-                "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9");
-        final imageModel1 = ImageModel(
-          height: 4032,
-          width: 3024,
-          url: "https://images.unsplash.com/photo-1517423568366-8b83523034fd",
-        );
-        final images = [imageModel0.toJson(), imageModel1.toJson()];
-        final location = {
-          'type': 'Point',
-          'coordinates': [53.92, 27.58]
-        };
-        final GraphQLClient client = GraphQLProvider.of(context).value;
-        final options = MutationOptions(
-          documentNode: Mutations.insertItem,
-          variables: {
-            'images': images,
-            'text': '4321',
-            'urgent': EnumToString.parse(UrgentStatus.urgent),
-            'kind': EnumToString.parse(KindId.other),
-            'location': location,
-            'address': 'Ждановичи, Парковая',
-          },
-          fetchPolicy: FetchPolicy.noCache,
-        );
-        client.mutate(options).then((QueryResult result) {
-          if (result.hasException) {
-            throw result.exception;
-          }
-          final item = ItemModel.fromJson(result.data['insert_item_one']);
-          print(item.id);
-        }).catchError((error) {
-          print(error);
-        });
-      }),
       appBar: AppBar(
         title: Text('Home'),
       ),

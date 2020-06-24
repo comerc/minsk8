@@ -21,6 +21,11 @@ final mainRoutes = [
     'arguments': ChatRouteArguments(0),
   },
   {
+    'title': 'Custom Dialog',
+    'routeName': '/custom_dialog',
+    'arguments': CustomDialogScreen(),
+  },
+  {
     'title': 'Edit Item',
     'routeName': '/edit_item',
     'arguments': EditItemRouteArguments(0),

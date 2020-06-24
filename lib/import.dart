@@ -25,6 +25,7 @@ export 'models/wish.dart';
 export 'screens/add_item.dart';
 export 'screens/animation.dart';
 export 'screens/chat.dart';
+export 'screens/custom_dialog.dart';
 export 'screens/edit_item.dart';
 export 'screens/forgot_password.dart';
 export 'screens/home.dart';
