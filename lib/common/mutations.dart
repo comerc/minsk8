@@ -20,9 +20,6 @@ class Mutations {
         address: $address
       }) {
         ...itemFields
-        member {
-          ...memberFields
-        }
       }
     }
   ''')..definitions.addAll(Fragments.itemFields.definitions);

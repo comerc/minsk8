@@ -271,25 +271,44 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (result.hasException) {
         throw result.exception;
       }
-      final item = ItemModel.fromJson(result.data['insert_item_one']);
+      final itemData = result.data['insert_item_one'];
+      final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
-      final recentSourceList = sourceListPool
-          .firstWhere((element) => element.kind == MetaKindId.recent);
-      recentSourceList.insert(0, item);
-      final currentKindSourceList =
-          sourceListPool.firstWhere((element) => element.kind == _kind);
-      if (currentKindSourceList.nextCreatedAt != null) {
-        currentKindSourceList.insert(0, item);
-      }
+      profile.member.items.insert(0, newItem);
+      // final itemData = newItem.toJson();
+      itemData['member'] = profile.member.toJson();
+      final fullItem = ItemModel.fromJson(itemData);
+      sourceListPool.forEach((ItemsRepository sourceList) {
+        if (sourceList.nextCreatedAt == null) {
+          return;
+        }
+        sourceList.forEach((ItemModel item) {
+          if (item.member.id == profile.member.id) {
+            item.member.items.insert(0, newItem);
+          }
+        });
+        if ([MetaKindId.recent, _kind].contains(sourceList.kind)) {
+          sourceList.insert(0, fullItem);
+        }
+      });
+      // final recentSourceList = sourceListPool
+      //     .firstWhere((element) => element.kind == MetaKindId.recent);
+      // recentSourceList.insert(0, item);
+      // final currentKindSourceList =
+      //     sourceListPool.firstWhere((element) => element.kind == _kind);
+      // if (currentKindSourceList.nextCreatedAt != null) {
+      //   currentKindSourceList.insert(0, item);
+      // }
+      // TODO: не работает Hero при добавлении из категории типа KindId
       final tag = widget.arguments.tabIndex == null
           ? null
-          : '${allKinds[widget.arguments.tabIndex].value}-${item.id}';
+          : '${allKinds[widget.arguments.tabIndex].value}-${newItem.id}';
       Navigator.of(context)
         ..pop() // for showDialog
         ..pushReplacementNamed(
           '/item',
           arguments: ItemRouteArguments(
-            item,
+            newItem,
             tag: tag,
             member: profile.member,
           ),
