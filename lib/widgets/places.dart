@@ -41,7 +41,7 @@ class _PlacesState extends State<Places> {
         controller: _typeAheadController,
       ),
       suggestionsCallback: (String pattern) async {
-        final s = "минск парковая"; // pattern?.trim();
+        final s = pattern?.trim();
         if (s == null || s == '' || s.length < 4) return null;
         _isLoading = true;
         try {
@@ -83,7 +83,12 @@ class _PlacesState extends State<Places> {
           debugPrint('$e');
         }
         return ListTile(
-          leading: Icon(Icons.location_on),
+          leading: Container(
+            padding:
+                EdgeInsets.only(left: kMinLeadingWidth - kBigButtonIconSize),
+            child: Icon(Icons.location_on, size: kBigButtonIconSize),
+          ),
+          // leading: Icon(Icons.location_on, size: kBigButtonIconSize),
           title: _Highlight(title),
           subtitle: _Highlight(subtitles.join(', ')),
         );

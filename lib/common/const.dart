@@ -18,3 +18,4 @@ const kBigButtonHeight = 52.0;
 const kBigButtonWidth = kBigButtonHeight * kGoldenRatio;
 const kBigButtonIconSize = kButtonIconSize * kGoldenRatio;
 const kAnimationTime = 400;
+const kMinLeadingWidth = 40;
