@@ -52,6 +52,7 @@ class ItemModel {
   }) : assert(images.length > 0);
 
   bool get isClosed {
+    // описание состояний - смотри комменты в диалогах WantButton
     if (isBlocked ?? false || isLocalDeleted) {
       return true;
     } else if (win != null) {

@@ -79,6 +79,7 @@ class _ItemScreenState extends State<ItemScreen> {
             PopupMenuButton(
               onSelected: (_PopupMenuValue value) {
                 if (value == _PopupMenuValue.delete) {
+                  // TODO: диалог подтвержения
                   final GraphQLClient client =
                       GraphQLProvider.of(context).value;
                   final options = MutationOptions(
