@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:html2md/html2md.dart' as html2md;
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: добавить копирайт algolia и osm
-// TODO: https://github.com/fayeed/flutter_parsed_text
 
 class Places extends StatefulWidget {
   Places({this.formFieldKey, this.onSuggestionSelected});
@@ -71,25 +70,28 @@ class _PlacesState extends State<Places> {
         try {
           // TODO: показывает <em> в subtitles по значению "парковая ждан"
           // https://github.com/flutter/flutter_markdown/issues/237
-          // final source = suggestion['_highlightResult'];
-          // title = source['locale_names'][0]['value'];
-          // if (source['city'] != null) subtitles.add(source['city'][0]['value']);
-          // if (source['administrative'] != null)
-          //   subtitles.add(source['administrative'][0]['value']);
-          // subtitles.add(source['country']['value']);
-          final source = suggestion;
-          title = source['locale_names'][0];
-          if (source['city'] != null) subtitles.add(source['city'][0]);
+          // пока починил через Html, но это избыточный вариант
+          // https://github.com/Sub6Resources/flutter_html
+          // или https://github.com/fayeed/flutter_parsed_text
+          final source = suggestion['_highlightResult'];
+          title = source['locale_names'][0]['value'];
+          if (source['city'] != null) subtitles.add(source['city'][0]['value']);
           if (source['administrative'] != null)
-            subtitles.add(source['administrative'][0]);
+            subtitles.add(source['administrative'][0]['value']);
           subtitles.add(source['country']['value']);
+          // final source = suggestion;
+          // title = source['locale_names'][0];
+          // if (source['city'] != null) subtitles.add(source['city'][0]);
+          // if (source['administrative'] != null)
+          //   subtitles.add(source['administrative'][0]);
+          // subtitles.add(source['country']['value']);
         } catch (e) {
           debugPrint('$e');
         }
         return ListTile(
           leading: Icon(Icons.location_on),
-          title: MarkdownBody(data: html2md.convert(title)),
-          subtitle: MarkdownBody(data: html2md.convert(subtitles.join(', '))),
+          title: _highlight(title),
+          subtitle: _highlight(subtitles.join(', ')),
         );
       },
       onSuggestionSelected: widget.onSuggestionSelected,
@@ -152,5 +154,18 @@ class _PlacesState extends State<Places> {
     }
     debugPrint(msg);
     return null;
+  }
+
+  Widget _highlight(String data) {
+    // return MarkdownBody(data: html2md.convert(data))
+    return Html(
+      data: data,
+      style: {
+        'em': Style(
+          color: Colors.black.withOpacity(0.8),
+          fontWeight: FontWeight.w600,
+        ),
+      },
+    );
   }
 }
