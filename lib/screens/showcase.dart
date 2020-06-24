@@ -90,7 +90,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:
-          buildAddButton(context, tabIndex: _tabController.index),
+          buildAddButton(context, getTabIndex: () => _tabController.index),
       bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
       extendBody: true,
     );

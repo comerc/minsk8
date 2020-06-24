@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-Widget buildAddButton(BuildContext context, {int tabIndex}) {
+typedef int GetTabIndexCallback();
+
+Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
   return FloatingActionButton(
     backgroundColor: Colors.white,
     foregroundColor: Colors.pinkAccent,
@@ -16,7 +18,7 @@ Widget buildAddButton(BuildContext context, {int tabIndex}) {
           '/add_item',
           arguments: AddItemRouteArguments(
             kind: kind,
-            tabIndex: tabIndex,
+            tabIndex: getTabIndex(),
           ),
         );
       });
