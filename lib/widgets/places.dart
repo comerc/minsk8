@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:minsk8/import.dart';
+import 'package:recursive_regex/recursive_regex.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: добавить копирайт algolia и osm
@@ -42,7 +41,7 @@ class _PlacesState extends State<Places> {
         controller: _typeAheadController,
       ),
       suggestionsCallback: (String pattern) async {
-        final s = pattern?.trim();
+        final s = "минск парковая"; // pattern?.trim();
         if (s == null || s == '' || s.length < 4) return null;
         _isLoading = true;
         try {
@@ -54,7 +53,7 @@ class _PlacesState extends State<Places> {
         }
       },
       loadingBuilder: (BuildContext context) {
-        // устраняет паразитное мигание при передачи фокуса
+        // устраняет паразитное мигание при передаче фокуса
         if (!_isLoading) return null;
         return Align(
           alignment: Alignment.center,
@@ -68,11 +67,6 @@ class _PlacesState extends State<Places> {
         String title = '';
         final subtitles = <String>[];
         try {
-          // TODO: показывает <em> в subtitles по значению "парковая ждан"
-          // https://github.com/flutter/flutter_markdown/issues/237
-          // пока починил через Html, но это избыточный вариант
-          // https://github.com/Sub6Resources/flutter_html
-          // или https://github.com/fayeed/flutter_parsed_text
           final source = suggestion['_highlightResult'];
           title = source['locale_names'][0]['value'];
           if (source['city'] != null) subtitles.add(source['city'][0]['value']);
@@ -90,8 +84,8 @@ class _PlacesState extends State<Places> {
         }
         return ListTile(
           leading: Icon(Icons.location_on),
-          title: _highlight(title),
-          subtitle: _highlight(subtitles.join(', ')),
+          title: _Highlight(title),
+          subtitle: _Highlight(subtitles.join(', ')),
         );
       },
       onSuggestionSelected: widget.onSuggestionSelected,
@@ -156,16 +150,49 @@ class _PlacesState extends State<Places> {
     return null;
   }
 
-  Widget _highlight(String data) {
-    // return MarkdownBody(data: html2md.convert(data))
-    return Html(
-      data: data,
-      style: {
-        'em': Style(
-          color: Colors.black.withOpacity(0.8),
-          fontWeight: FontWeight.w600,
-        ),
-      },
+  // TODO: показывает <em> в subtitles по значению "парковая ждан"
+  // https://github.com/flutter/flutter_markdown/issues/237
+  // Widget _highlight(String data) {
+  //   return MarkdownBody(data: html2md.convert(data));
+  // }
+}
+
+class _Highlight extends StatelessWidget {
+  _Highlight(this.data);
+
+  final String data;
+
+  @override
+  Widget build(BuildContext context) {
+    final regex = RecursiveRegex(
+      startDelimiter: RegExp(r'<em>'),
+      endDelimiter: RegExp(r'</em>'),
+      global: true,
+      captureGroupName: 'em',
+    );
+    final matches = regex.allMatches(data) ?? [];
+    final out = <TextSpan>[];
+    int start = 0;
+    matches.forEach((element) {
+      if (element.start > 0)
+        out.add(TextSpan(text: data.substring(start, element.start)));
+      start = element.end;
+      out.add(TextSpan(
+        text: element.namedGroup('em'),
+        style: DefaultTextStyle.of(context).style.copyWith(
+              // fontWeight: FontWeight.w600,
+              // color: Colors.black.withOpacity(0.8),
+              fontStyle: FontStyle.italic,
+            ),
+      ));
+    });
+    if (start < data.length)
+      out.add(TextSpan(text: data.substring(start, data.length)));
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: [...out],
+      ),
     );
   }
 }
