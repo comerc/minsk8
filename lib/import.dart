@@ -17,6 +17,7 @@ export 'models/kind.dart';
 export 'models/item_map.dart';
 export 'models/member.dart';
 export 'models/message.dart';
+export 'models/notification.dart';
 export 'models/payment.dart';
 export 'models/profile.dart';
 export 'models/urgent.dart';

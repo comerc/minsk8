@@ -14,6 +14,8 @@ class MemberModel {
       nullable: true,
       defaultValue: []) // не хочу показывать для items.win.member
   final List<ItemModel> items;
+  @JsonKey(nullable: true, defaultValue: [])
+  final List<NotificationModel> notifications;
 
   MemberModel({
     this.id,
@@ -21,6 +23,7 @@ class MemberModel {
     this.bannedUntil,
     this.lastActivityAt,
     this.items,
+    this.notifications,
   });
 
   String get avatarUrl => 'https://robohash.org/$id?set=set4';

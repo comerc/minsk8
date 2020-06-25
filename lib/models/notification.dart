@@ -1,20 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 part 'notification.g.dart';
 
 @JsonSerializable()
 class NotificationModel {
   final String id;
-  final String text;
   @JsonKey(nullable: true)
-  final String itemId;
+  final ItemModel item;
+  final String text;
   final DateTime createdAt;
 
   NotificationModel({
     this.id,
+    this.item,
     this.text,
-    this.itemId,
     this.createdAt,
   });
 
