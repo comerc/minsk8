@@ -9,7 +9,7 @@ final mainRoutes = [
   {
     'title': 'Add Item',
     'routeName': '/add_item',
-    'arguments': AddItemRouteArguments(kind: KindId.technics),
+    'arguments': AddItemRouteArguments(kind: KindValue.technics),
   },
   {
     'title': 'Animation',
@@ -56,7 +56,7 @@ final mainRoutes = [
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',
-    'arguments': KindsRouteArguments(KindId.pets),
+    'arguments': KindsRouteArguments(KindValue.pets),
   },
   {
     'title': 'Login',

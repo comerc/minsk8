@@ -31,7 +31,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   ImageSource _imageSource;
   List<ImageData> _images = [];
   UrgentStatus _urgent = UrgentStatus.not_urgent;
-  KindId _kind;
+  KindValue _kind;
   FocusNode _textFocusNode;
 
   String get _urgentName =>
@@ -281,19 +281,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
             item.member.items.insert(0, newItem);
           }
         });
-        if ([MetaKindId.recent, _kind].contains(sourceList.kind)) {
+        if ([MetaKindValue.recent, _kind].contains(sourceList.kind)) {
           sourceList.insert(0, fullItem);
         }
       });
       // final recentSourceList = sourceListPool
-      //     .firstWhere((element) => element.kind == MetaKindId.recent);
+      //     .firstWhere((element) => element.kind == MetaKindValue.recent);
       // recentSourceList.insert(0, item);
       // final currentKindSourceList =
       //     sourceListPool.firstWhere((element) => element.kind == _kind);
       // if (currentKindSourceList.nextCreatedAt != null) {
       //   currentKindSourceList.insert(0, item);
       // }
-      // TODO: не работает Hero при добавлении из категории типа KindId
+      // TODO: не работает Hero при добавлении из категории типа KindValue
       final tag = widget.arguments.tabIndex == null
           ? null
           : '${allKinds[widget.arguments.tabIndex].value}-${newItem.id}';
@@ -466,7 +466,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 class AddItemRouteArguments {
   AddItemRouteArguments({this.kind, this.tabIndex});
 
-  final KindId kind;
+  final KindValue kind;
   final int tabIndex;
 }
 

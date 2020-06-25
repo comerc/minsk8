@@ -11,9 +11,9 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   ItemsRepository(
     this.context,
     this.kind,
-  ) : assert([MetaKindId, KindId].contains(kind.runtimeType));
+  ) : assert([MetaKindValue, KindValue].contains(kind.runtimeType));
 
-  bool get isMetaKind => kind.runtimeType == MetaKindId;
+  bool get isMetaKind => kind.runtimeType == MetaKindValue;
   String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
   String nextCreatedAt; // = startCreatedAt;
@@ -49,11 +49,11 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       if (isMetaKind) {
         options = QueryOptions(
           documentNode: {
-            MetaKindId.recent: Queries.getItems,
-            MetaKindId.fan: Queries.getItemsForFan,
-            MetaKindId.best: Queries.getItemsForBest,
-            MetaKindId.promo: Queries.getItemsForPromo,
-            MetaKindId.urgent: Queries.getItemsForUrgent
+            MetaKindValue.recent: Queries.getItems,
+            MetaKindValue.fan: Queries.getItemsForFan,
+            MetaKindValue.best: Queries.getItemsForBest,
+            MetaKindValue.promo: Queries.getItemsForPromo,
+            MetaKindValue.urgent: Queries.getItemsForUrgent
           }[kind],
           variables: variables,
           fetchPolicy: FetchPolicy.noCache,

@@ -35,5 +35,5 @@ class KindsScreen extends StatelessWidget {
 class KindsRouteArguments {
   KindsRouteArguments(this.value);
 
-  final KindId value;
+  final KindValue value;
 }
