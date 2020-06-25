@@ -7,6 +7,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: подставлять tag для возврата на витрину из otherItems
+
 class ItemScreen extends StatefulWidget {
   ItemScreen(this.arguments);
 
@@ -66,6 +68,7 @@ class _ItemScreenState extends State<ItemScreen> {
     final panelSlideLabelWidth = 32.0;
     final separatorWidth = 16.0;
     final otherItemWidth = (size.width - 4 * separatorWidth) / 3.25;
+    final member = widget.arguments.member;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -77,9 +80,17 @@ class _ItemScreenState extends State<ItemScreen> {
               : Colors.pink.withOpacity(0.8),
           actions: [
             PopupMenuButton(
-              onSelected: (_PopupMenuValue value) {
+              onSelected: (_PopupMenuValue value) async {
                 if (value == _PopupMenuValue.delete) {
-                  // TODO: диалог подтвержения
+                  final result = await showDialog(
+                    context: context,
+                    child: ConfirmDialog(
+                        title: 'Вы уверены, что хотите удалить лот?',
+                        content:
+                            'Размещать его повторно\nзапрещено — возможен бан.',
+                        ok: 'Удалить'),
+                  );
+                  if (result != true) return;
                   final GraphQLClient client =
                       GraphQLProvider.of(context).value;
                   final options = MutationOptions(
@@ -117,7 +128,23 @@ class _ItemScreenState extends State<ItemScreen> {
               itemBuilder: (BuildContext context) {
                 final profile =
                     Provider.of<ProfileModel>(context, listen: false);
-                final isMy = profile.member.id == item.member.id;
+                final isMy = profile.member.id == member.id;
+                final submenuItems = <PopupMenuEntry<_PopupMenuValue>>[];
+                if (!isMy && !item.isClosed)
+                  submenuItems.add(PopupMenuItem(
+                    value: _PopupMenuValue.askQuestion,
+                    child: Text('Задать вопрос по лоту'),
+                  ));
+                if (!isMy)
+                  submenuItems.add(PopupMenuItem(
+                    value: _PopupMenuValue.toModerate,
+                    child: Text('Пожаловаться на лот'),
+                  ));
+                if (isMy && !item.isClosed)
+                  submenuItems.add(PopupMenuItem(
+                    value: _PopupMenuValue.delete,
+                    child: Text('Удалить лот'),
+                  ));
                 return <PopupMenuEntry<_PopupMenuValue>>[
                   PopupMenuItem(
                     value: _PopupMenuValue.goToMember,
@@ -127,14 +154,14 @@ class _ItemScreenState extends State<ItemScreen> {
                           height: 48,
                           width: 48,
                           child: ExtendedImage.network(
-                            item.member.avatarUrl,
+                            member.avatarUrl,
                             fit: BoxFit.cover,
                             enableLoadState: false,
                           ),
                         ),
                         SizedBox(width: 8),
                         Text(
-                          item.member.nickname,
+                          member.nickname,
                           style: TextStyle(
                             fontSize: kFontSize * kGoldenRatio,
                             fontWeight: FontWeight.w600,
@@ -144,22 +171,8 @@ class _ItemScreenState extends State<ItemScreen> {
                       ],
                     ),
                   ),
-                  PopupMenuDivider(),
-                  if (!isMy && !item.isClosed)
-                    PopupMenuItem(
-                      value: _PopupMenuValue.askQuestion,
-                      child: Text('Задать вопрос по лоту'),
-                    ),
-                  if (!isMy)
-                    PopupMenuItem(
-                      value: _PopupMenuValue.toModerate,
-                      child: Text('Пожаловаться на лот'),
-                    ),
-                  if (isMy && !item.isClosed)
-                    PopupMenuItem(
-                      value: _PopupMenuValue.delete,
-                      child: Text('Удалить лот'),
-                    ),
+                  if (submenuItems.length > 0) PopupMenuDivider(),
+                  ...submenuItems,
                 ];
               },
             ),
@@ -410,7 +423,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                       arguments: ItemRouteArguments(
                                         otherItem,
                                         tag: otherItem.id,
-                                        member: widget.arguments.member,
+                                        member: member,
                                       ),
                                     );
                                   },

@@ -58,6 +58,7 @@ export 'widgets/added_item_dailog.dart';
 export 'widgets/address_text.dart';
 export 'widgets/bid_dialog.dart';
 export 'widgets/cancel_item_dialog.dart';
+export 'widgets/confirm_dialog.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/delivery_label.dart';
 export 'widgets/distance_button.dart';
