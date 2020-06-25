@@ -53,7 +53,7 @@ class ItemModel {
 
   bool get isClosed {
     // описание состояний - смотри комменты в диалогах WantButton
-    if (isBlocked ?? false || isLocalDeleted) {
+    if (isBlockedOrLocalDeleted) {
       return true;
     } else if (win != null) {
       return true;
@@ -96,6 +96,7 @@ class ItemModel {
   }
 
   bool get isLocalDeleted => localDeletedItemIds.contains(id);
+  bool get isBlockedOrLocalDeleted => (isBlocked ?? false) || isLocalDeleted;
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);

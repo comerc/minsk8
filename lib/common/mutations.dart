@@ -26,7 +26,7 @@ class Mutations {
 
   static final deleteItem = gql(r'''
     mutation deleteItem($id: uuid) {
-      delete_item(where: {id: {_eq: $id}}) {
+      update_item(where: {id: {_eq: $id}}, _set: {is_blocked: true}) {
         affected_rows
       }
     }

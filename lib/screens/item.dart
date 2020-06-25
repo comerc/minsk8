@@ -91,7 +91,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     if (result.hasException) {
                       throw result.exception;
                     }
-                    if (result.data['delete_item']['affected_rows'] != 1) {
+                    if (result.data['update_item']['affected_rows'] != 1) {
                       throw Exception('Invalid delete_item.affected_rows');
                     }
                   }).catchError((error) {
@@ -358,7 +358,7 @@ class _ItemScreenState extends State<ItemScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (!item.isLocalDeleted)
+                      if (!item.isBlockedOrLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: panelChildWidth,
@@ -369,7 +369,8 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0 && !item.isLocalDeleted)
+                      if (_otherItems.length > 0 &&
+                          !item.isBlockedOrLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
@@ -381,7 +382,8 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0 && !item.isLocalDeleted)
+                      if (_otherItems.length > 0 &&
+                          !item.isBlockedOrLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,
@@ -530,7 +532,7 @@ class _ItemScreenState extends State<ItemScreen> {
   }
 
   Widget _buildStatusText(ItemModel item) {
-    if (item.isBlocked ?? false || item.isLocalDeleted) {
+    if (item.isBlockedOrLocalDeleted) {
       return Text(
         'Заблокировано',
       );

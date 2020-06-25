@@ -103,7 +103,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             loadStateChanged: loadStateChanged,
           ),
           _buildText(item.text),
-          if (item.isBlocked ?? false || item.isLocalDeleted)
+          if (item.isBlockedOrLocalDeleted)
             _buildStatus(
               'Заблокировано',
               isClosed: true,

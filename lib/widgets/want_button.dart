@@ -34,19 +34,20 @@ class WantButton extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (item.isBlocked ?? false) {
-                  return InfoDialog(
-                    icon: FontAwesomeIcons.ban,
-                    title: 'Лот заблокирован\nза нарушение правил',
-                    description:
-                        'Когда всё хорошо начиналось,\nно потом что-то пошло не так',
-                  );
-                }
+                // сначала isLocalDeleted, потом isBlocked
                 if (item.isLocalDeleted) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.ban,
                     title: 'Лот удалён',
                     description: 'Вы удалили этот лот',
+                  );
+                }
+                if (item.isBlocked ?? false) {
+                  return InfoDialog(
+                    icon: FontAwesomeIcons.ban,
+                    title: 'Лот заблокирован',
+                    description:
+                        'Когда всё хорошо начиналось,\nно потом что-то пошло не так',
                   );
                 }
                 if (item.win != null) {
