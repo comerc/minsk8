@@ -369,8 +369,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0 &&
-                          !item.isBlockedOrLocalDeleted)
+                      if (_otherItems.length > 0)
                         Container(
                           padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
@@ -382,8 +381,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0 &&
-                          !item.isBlockedOrLocalDeleted)
+                      if (_otherItems.length > 0)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,
