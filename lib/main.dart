@@ -10,6 +10,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
+// TODO: поменять все print(object) на debugPrint(String) ?
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -60,7 +61,7 @@ final localDeletedItemIds = Set<String>();
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('App build');
+    // print('App build');
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'minsk8',

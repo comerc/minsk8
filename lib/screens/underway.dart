@@ -12,12 +12,12 @@ class _UnderwayScreenState extends State<UnderwayScreen> {
   @override
   void initState() {
     super.initState();
-    print('UnderwayScreen initState');
+    // print('UnderwayScreen initState');
   }
 
   @override
   void dispose() {
-    print('UnderwayScreen dispose');
+    // print('UnderwayScreen dispose');
     super.dispose();
   }
 

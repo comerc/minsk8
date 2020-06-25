@@ -33,7 +33,7 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('lyfecycle state = $state');
+    // print('lyfecycle state = $state');
     // services.forEach((service) {
     //   if (state == AppLifecycleState.resumed) {
     //     service.start();

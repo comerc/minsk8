@@ -166,11 +166,11 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
   void didUpdateWidget(_AnimatedLabel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.visible && !widget.visible) {
-      print('forward');
+      // print('forward');
       _controller.forward();
     }
     if (!oldWidget.visible && widget.visible) {
-      print('reverse');
+      // print('reverse');
       _controller.reverse();
     }
   }
