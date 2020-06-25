@@ -30,6 +30,7 @@ class InfoDialog extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: Colors.black.withOpacity(0.8),
             ),
           ),
         ),

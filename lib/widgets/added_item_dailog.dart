@@ -23,8 +23,9 @@ class AddedItemDialog extends StatelessWidget {
             needModerate ? 'Лот успешно добавлен' : 'Ура! Ваш лот добавлен',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
+              // fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: Colors.black.withOpacity(0.8),
             ),
           ),
         ),
