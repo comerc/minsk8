@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -25,6 +26,7 @@ enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _ItemScreenState extends State<ItemScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
@@ -72,6 +74,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,
@@ -103,7 +106,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       throw result.exception;
                     }
                     if (result.data['update_item']['affected_rows'] != 1) {
-                      throw Exception('Invalid delete_item.affected_rows');
+                      throw Exception('Invalid update_item.affected_rows');
                     }
                   }).catchError((error) {
                     print(error);
@@ -118,11 +121,35 @@ class _ItemScreenState extends State<ItemScreen> {
                   });
                 }
                 if (value == _PopupMenuValue.toModerate) {
-                  if (item.isClosed) {
-                    // TODO: открыть письмо для жалобы
-                  } else {
-                    // TODO: открыть диалог
-                  }
+                  final result = await showDialog(
+                    context: context,
+                    child: ClaimDialog(),
+                  );
+                  if (result == null) return;
+                  final snackBar = SnackBar(content: Text('Жалоба принята'));
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  final GraphQLClient client =
+                      GraphQLProvider.of(context).value;
+                  final options = MutationOptions(
+                    documentNode: Mutations.upsertModeration,
+                    variables: {
+                      'item_id': item.id,
+                      'claim': EnumToString.parse(result),
+                    },
+                    fetchPolicy: FetchPolicy.noCache,
+                  );
+                  client.mutate(options).then((QueryResult result) {
+                    if (result.hasException) {
+                      throw result.exception;
+                    }
+                    if (result.data['insert_moderation']['affected_rows'] !=
+                        1) {
+                      throw Exception(
+                          'Invalid insert_moderation.affected_rows');
+                    }
+                  }).catchError((error) {
+                    print(error);
+                  });
                 }
               },
               itemBuilder: (BuildContext context) {

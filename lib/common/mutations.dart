@@ -2,6 +2,15 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
 class Mutations {
+  static final upsertModeration = gql(r'''
+    mutation upsertModeration($item_id: uuid $claim: claim_enum) {
+      insert_moderation(objects: {item_id: $item_id, claim: $claim}, 
+      on_conflict: {constraint: moderation_pkey, update_columns: claim}) {
+        affected_rows
+      }
+    }
+  ''');
+
   static final insertItem = gql(r'''
     mutation insertItem(
       $images: jsonb
