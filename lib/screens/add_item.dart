@@ -198,19 +198,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (!_isValidText) {
       showDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('Опишите лот: что это, состояние, размер...'),
-            actions: [
-              FlatButton(
-                child: Text('ОК'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+        child: AlertDialog(
+          content: Text('Опишите лот: что это, состояние, размер...'),
+          actions: [
+            FlatButton(
+              child: Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
       ).then((_) {
         _textFocusNode.requestFocus();
       });
@@ -219,37 +217,33 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (_images.length == 0) {
       showDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('Добавьте фотографию лота'),
-            actions: [
-              FlatButton(
-                child: Text('ОК'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+        child: AlertDialog(
+          content: Text('Добавьте фотографию лота'),
+          actions: [
+            FlatButton(
+              child: Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
       );
       return;
     }
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              buildProgressIndicator(context),
-              SizedBox(width: 8),
-              Text('Загрузка...'),
-            ],
-          ),
-        );
-      },
+      child: AlertDialog(
+        content: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            buildProgressIndicator(context),
+            SizedBox(width: 8),
+            Text('Загрузка...'),
+          ],
+        ),
+      ),
     );
     final GraphQLClient client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
