@@ -169,6 +169,29 @@ class Queries {
             created_at
           }
         }
+        notifications {
+          created_at
+          proclamation {
+            id
+            item {
+              ...itemFields
+              member {
+                ...memberFields
+              }
+            }
+            text  
+          }
+          suggestion {
+            id
+            item {
+              ...itemFields
+              member {
+                ...memberFields
+              }
+            }
+            question
+          }
+        }
       }
     }
   ''')..definitions.addAll(Fragments.itemFields.definitions);

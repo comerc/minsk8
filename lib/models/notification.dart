@@ -1,33 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
 part 'notification.g.dart';
 
 @JsonSerializable()
 class NotificationModel {
-  final String id;
-  @JsonKey(nullable: true)
-  final ItemModel item;
-  @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
-  final QuestionValue question;
-  @JsonKey(nullable: true)
-  final String text;
   final DateTime createdAt;
+  @JsonKey(nullable: true)
+  final ProclamationModel proclamation;
+  @JsonKey(nullable: true)
+  final SuggestionModel suggestion;
 
   NotificationModel({
-    this.id,
-    this.item,
-    this.question,
-    this.text,
     this.createdAt,
+    this.proclamation,
+    this.suggestion,
   });
-
-  static _questionFromString(String value) =>
-      EnumToString.fromString(QuestionValue.values, value);
-
-  static _questionToString(QuestionValue question) =>
-      EnumToString.parse(question);
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       _$NotificationModelFromJson(json);
