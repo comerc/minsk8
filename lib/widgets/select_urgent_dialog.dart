@@ -20,7 +20,7 @@ Future<UrgentStatus> selectUrgentDialog(
               (i) => InkWell(
                 child: ListTile(
                   title: Text(urgents[i].name),
-                  subtitle: Text(urgents[i].description),
+                  subtitle: Text(urgents[i].text),
                   selected: selected == urgents[i].value,
                   trailing: Icon((selected == urgents[i].value
                       ? Icons.check_box

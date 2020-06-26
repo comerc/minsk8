@@ -1,12 +1,12 @@
 class UrgentModel {
   final UrgentStatus value;
   final String name;
-  final String description;
+  final String text;
 
   UrgentModel(
     this.value,
     this.name,
-    this.description,
+    this.text,
   );
 }
 

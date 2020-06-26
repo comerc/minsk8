@@ -1,8 +1,13 @@
-class ClaimModel {
+import 'package:minsk8/import.dart';
+
+class ClaimModel implements EnumModel {
+  ClaimModel(this.value, this.name);
+
   final ClaimValue value;
   final String name;
 
-  ClaimModel(this.value, this.name);
+  get enumValue => value;
+  get enumName => name;
 }
 
 enum ClaimValue { forbidden, repeat, duplicate, invalid_kind, other }

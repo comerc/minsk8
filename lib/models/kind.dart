@@ -1,12 +1,17 @@
-class KindModel {
+import 'package:minsk8/import.dart';
+
+class KindModel implements EnumModel {
+  KindModel(this.value, this.name, this.rawSvg, {this.isNew})
+      : assert([MetaKindValue, KindValue].contains(value.runtimeType));
+
   final value;
   // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
   final String name;
   final String rawSvg;
   final bool isNew;
 
-  KindModel(this.value, this.name, this.rawSvg, {this.isNew})
-      : assert([MetaKindValue, KindValue].contains(value.runtimeType));
+  get enumValue => value;
+  get enumName => name;
 }
 
 enum MetaKindValue { recent, fan, best, promo, urgent }

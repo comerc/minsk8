@@ -21,6 +21,8 @@ class ItemScreen extends StatefulWidget {
   }
 }
 
+// TODO: добавить пункт меню "подписаться на участника"
+
 enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
@@ -121,9 +123,12 @@ class _ItemScreenState extends State<ItemScreen> {
                   });
                 }
                 if (value == _PopupMenuValue.toModerate) {
-                  final result = await showDialog(
+                  final result = await showDialog<ClaimValue>(
                     context: context,
-                    child: ClaimDialog(),
+                    builder: (BuildContext context) {
+                      return EnumModelDialog<ClaimModel>(
+                          title: 'Укажите причину жалобы', elements: claims);
+                    },
                   );
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
@@ -146,6 +151,44 @@ class _ItemScreenState extends State<ItemScreen> {
                         1) {
                       throw Exception(
                           'Invalid insert_moderation.affected_rows');
+                    }
+                  }).catchError((error) {
+                    print(error);
+                  });
+                }
+                if (value == _PopupMenuValue.askQuestion) {
+                  final result = await showDialog<QuestionValue>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return EnumModelDialog<QuestionModel>(
+                          title: 'Что Вы хотите узнать о лоте?',
+                          elements: questions);
+                    },
+                  );
+                  if (result == null) return;
+                  final snackBar = SnackBar(
+                      content: Text(
+                          'Вопрос принят и будет передан автору, чтобы дополнил описание'));
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  final GraphQLClient client =
+                      GraphQLProvider.of(context).value;
+                  // TODO: нужно записывать member_id получателя, а не свой
+                  final options = MutationOptions(
+                    documentNode: Mutations.upsertNotification,
+                    variables: {
+                      'item_id': item.id,
+                      'question': EnumToString.parse(result),
+                    },
+                    fetchPolicy: FetchPolicy.noCache,
+                  );
+                  client.mutate(options).then((QueryResult result) {
+                    if (result.hasException) {
+                      throw result.exception;
+                    }
+                    if (result.data['insert_notification']['affected_rows'] !=
+                        1) {
+                      throw Exception(
+                          'Invalid insert_notification.affected_rows');
                     }
                   }).catchError((error) {
                     print(error);
