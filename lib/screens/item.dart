@@ -174,7 +174,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       GraphQLProvider.of(context).value;
                   // TODO: нужно записывать member_id получателя, а не свой
                   final options = MutationOptions(
-                    documentNode: Mutations.upsertNotification,
+                    documentNode: Mutations.insertSuggestion,
                     variables: {
                       'item_id': item.id,
                       'question': EnumToString.parse(result),
@@ -185,10 +185,10 @@ class _ItemScreenState extends State<ItemScreen> {
                     if (result.hasException) {
                       throw result.exception;
                     }
-                    if (result.data['insert_notification']['affected_rows'] !=
+                    if (result.data['insert_suggestion']['affected_rows'] !=
                         1) {
                       throw Exception(
-                          'Invalid insert_notification.affected_rows');
+                          'Invalid insert_suggestion.affected_rows');
                     }
                   }).catchError((error) {
                     print(error);

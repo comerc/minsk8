@@ -2,10 +2,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
 class Mutations {
-  static final upsertNotification = gql(r'''
-    mutation upsertNotification($item_id: uuid $question: question_enum) {
-      insert_notification(objects: {item_id: $item_id, question: $question}, 
-      on_conflict: {constraint: notification_pkey, update_columns: question}) {
+  static final insertSuggestion = gql(r'''
+    mutation insertSuggestion($item_id: uuid $question: question_enum) {
+      insert_suggestion(objects: {item_id: $item_id, question: $question}) {
         affected_rows
       }
     }
