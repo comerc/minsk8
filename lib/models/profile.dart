@@ -10,14 +10,14 @@ class ProfileModel extends ChangeNotifier {
   final List<PaymentModel> payments;
   final List<WishModel> wishes;
   final List<BidModel> bids;
-  // final List<NotificationModel> notifications;
+  final List<NotificationModel> notifications;
 
   ProfileModel({
     this.member,
     this.payments,
     this.wishes,
     this.bids,
-    // this.notifications,
+    this.notifications,
   });
 
   get avatarUrl => 'https://example.com/avatars/?id=${member.id}';
