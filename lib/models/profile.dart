@@ -20,8 +20,6 @@ class ProfileModel extends ChangeNotifier {
     this.notifications,
   });
 
-  get avatarUrl => 'https://example.com/avatars/?id=${member.id}';
-
   get balance => 0; // TODO: реализовать баланс по сумме payments
 
   int getWishIndex(String itemId) =>
