@@ -5,6 +5,9 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+final pullToRefreshNotificationKey =
+    GlobalKey<PullToRefreshNotificationState>();
+
 class ShowcaseScreen extends StatefulWidget {
   @override
   _ShowcaseScreenState createState() => _ShowcaseScreenState();
@@ -53,6 +56,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     return Scaffold(
       drawer: MainDrawer('/showcase'),
       body: PullToRefreshNotification(
+        key: pullToRefreshNotificationKey,
         color: Colors.blue,
         pullBackOnRefresh: true,
         onRefresh: _onRefresh,

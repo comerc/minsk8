@@ -269,31 +269,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
-      // final itemData = newItem.toJson();
-      itemData['member'] = profile.member.toJson();
-      final fullItem = ItemModel.fromJson(itemData);
-      sourceListPool.forEach((ItemsRepository sourceList) {
-        if (sourceList.nextCreatedAt == null) {
-          return;
-        }
-        sourceList.forEach((ItemModel item) {
-          if (item.member.id == profile.member.id) {
-            item.member.items.insert(0, newItem);
-          }
-        });
-        if ([MetaKindValue.recent, _kind].contains(sourceList.kind)) {
-          sourceList.insert(0, fullItem);
-        }
-      });
-      // final recentSourceList = sourceListPool
-      //     .firstWhere((element) => element.kind == MetaKindValue.recent);
-      // recentSourceList.insert(0, item);
-      // final currentKindSourceList =
-      //     sourceListPool.firstWhere((element) => element.kind == _kind);
-      // if (currentKindSourceList.nextCreatedAt != null) {
-      //   currentKindSourceList.insert(0, item);
-      // }
+      pullToRefreshNotificationKey.currentState.show();
       // TODO: не работает Hero при добавлении из категории типа KindValue
+      // TODO: а где AddedItemDialog?
       final tag = widget.arguments.tabIndex == null
           ? null
           : '${allKinds[widget.arguments.tabIndex].value}-${newItem.id}';
