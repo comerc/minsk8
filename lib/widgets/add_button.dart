@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 typedef int GetTabIndexCallback();
 
-Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
+Widget buildAddButton(BuildContext context) {
   return FloatingActionButton(
     backgroundColor: Colors.white,
     foregroundColor: Colors.pinkAccent,
@@ -18,7 +18,6 @@ Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
           '/add_item',
           arguments: AddItemRouteArguments(
             kind: kind,
-            tabIndex: getTabIndex(),
           ),
         );
       });

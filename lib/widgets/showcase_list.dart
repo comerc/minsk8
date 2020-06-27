@@ -7,11 +7,16 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
 import 'package:minsk8/import.dart';
 
 class ShowcaseList extends StatefulWidget {
+  ShowcaseList({
+    Key key,
+    this.tabIndex,
+  })  : scrollPositionKey = Key(allKinds[tabIndex].name),
+        sourceList = sourceListPool[tabIndex],
+        super(key: key);
+
   final Key scrollPositionKey;
   final ItemsRepository sourceList;
-
-  ShowcaseList({Key key, this.scrollPositionKey, this.sourceList})
-      : super(key: key);
+  final int tabIndex;
 
   @override
   _ShowcaseListState createState() => _ShowcaseListState();
@@ -55,11 +60,9 @@ class _ShowcaseListState extends State<ShowcaseList>
               mainAxisSpacing: 32,
             ),
             itemBuilder: (BuildContext context, ItemModel item, int index) {
-              final tag = '${widget.sourceList.kind}-${item.id}';
               return ShowcaseItem(
                 item: item,
-                index: index,
-                tag: tag,
+                tabIndex: widget.tabIndex,
               );
             },
             sourceList: widget.sourceList,

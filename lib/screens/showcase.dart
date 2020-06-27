@@ -22,6 +22,14 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     super.initState();
     _initDynamicLinks();
     _tabController = TabController(length: allKinds.length, vsync: this);
+    // TODO: после добавления лота, рефрешить вкладки: категорию лота, и MetaKindVal.recent
+    // _tabController.addListener(() {
+    //   if (_tabController.indexIsChanging) {
+    //     Future.delayed(const Duration(milliseconds: 200), () {
+    //       pullToRefreshNotificationKey.currentState.show();
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -84,17 +92,13 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             controller: _tabController,
             children: List.generate(
               allKinds.length,
-              (index) => ShowcaseList(
-                scrollPositionKey: Key(allKinds[index].name),
-                sourceList: sourceListPool[index],
-              ),
+              (index) => ShowcaseList(tabIndex: index),
             ),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton:
-          buildAddButton(context, getTabIndex: () => _tabController.index),
+      floatingActionButton: buildAddButton(context),
       bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
       extendBody: true,
     );

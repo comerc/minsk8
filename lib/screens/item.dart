@@ -8,7 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: подставлять tag для возврата на витрину из otherItems
+// TODO: Другие лоты участника показывают только 10 элементов
 
 class ItemScreen extends StatefulWidget {
   ItemScreen(this.arguments);
@@ -61,7 +61,10 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     final item = widget.arguments.item;
-    final tag = widget.arguments.tag;
+    final tabIndex = widget.arguments.tabIndex;
+    final tag = tabIndex == null
+        ? '${item.id}'
+        : '${allKinds[tabIndex].value}-${item.id}';
     final size = MediaQuery.of(context).size;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
@@ -259,7 +262,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   Stack(
                     children: [
                       Container(),
-                      if (tag != null && _showHero != null)
+                      if (_showHero != null)
                         Center(
                           child: SizedBox(
                             height: carouselSliderHeight,
@@ -492,7 +495,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                       },
                                       arguments: ItemRouteArguments(
                                         otherItem,
-                                        tag: otherItem.id,
+                                        tabIndex: tabIndex,
                                         member: member,
                                       ),
                                     );
@@ -647,13 +650,13 @@ class _ItemScreenState extends State<ItemScreen> {
 class ItemRouteArguments {
   ItemRouteArguments(
     this.item, {
-    this.tag,
+    this.tabIndex,
     this.member,
     this.isShowcase,
   });
 
   final ItemModel item;
-  final String tag;
+  final int tabIndex;
   final MemberModel member;
   final bool isShowcase;
 }

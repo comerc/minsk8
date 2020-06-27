@@ -6,13 +6,11 @@ class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({
     Key key,
     this.item,
-    this.index,
-    this.tag,
+    this.tabIndex,
   }) : super(key: key);
 
   final ItemModel item;
-  final int index;
-  final String tag;
+  final int tabIndex;
 
   @override
   _ShowcaseItemState createState() {
@@ -49,7 +47,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               '/item',
               arguments: ItemRouteArguments(
                 widget.item,
-                tag: widget.tag,
+                tabIndex: widget.tabIndex,
                 member: widget.item.member,
                 isShowcase: true,
               ),
@@ -60,7 +58,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             });
           },
           child: Hero(
-            tag: widget.tag,
+            tag: '${allKinds[widget.tabIndex].value}-${widget.item.id}',
             child: _buildImage(widget.item),
           ),
         ),

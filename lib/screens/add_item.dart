@@ -270,18 +270,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
       pullToRefreshNotificationKey.currentState.show();
-      // TODO: не работает Hero при добавлении из категории типа KindValue
       // TODO: а где AddedItemDialog?
-      final tag = widget.arguments.tabIndex == null
-          ? null
-          : '${allKinds[widget.arguments.tabIndex].value}-${newItem.id}';
       Navigator.of(context)
         ..pop() // for showDialog
         ..pushReplacementNamed(
           '/item',
           arguments: ItemRouteArguments(
             newItem,
-            tag: tag,
             member: profile.member,
           ),
         );
@@ -442,10 +437,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
 }
 
 class AddItemRouteArguments {
-  AddItemRouteArguments({this.kind, this.tabIndex});
+  AddItemRouteArguments({this.kind});
 
   final KindValue kind;
-  final int tabIndex;
 }
 
 class ImageData {
