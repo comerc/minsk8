@@ -21,7 +21,7 @@ class ShowcaseItem extends StatefulWidget {
 }
 
 class _ShowcaseItemState extends State<ShowcaseItem> {
-  bool isBottom = true;
+  bool _isBottom = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             //   },
             // ));
             setState(() {
-              isBottom = false;
+              _isBottom = false;
             });
             Navigator.pushNamed(
               context,
@@ -55,7 +55,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               ),
             ).then((_) {
               setState(() {
-                isBottom = true;
+                _isBottom = true;
               });
             });
           },
@@ -71,7 +71,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // SizedBox(
         //   height: 5,
         // ),
-        if (isBottom)
+        if (_isBottom)
           _buildBottom(widget.item),
         // SizedBox(
         //   height: 8,
