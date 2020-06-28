@@ -269,7 +269,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
-      pullToRefreshNotificationKey.currentState.show();
+      _reloadTab(_kind);
+      _reloadTab(MetaKindValue.recent);
       // TODO: а где AddedItemDialog?
       Navigator.of(context)
         ..pop() // for showDialog
@@ -434,12 +435,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final result = await showCancelItemDialog(context);
     return result ?? false; // if enableDrag, result may be null
   }
+
+  _reloadTab(kind) {
+    final index = allKinds.indexWhere((element) => element.enumValue == kind);
+    if (index == widget.arguments.tabIndex) {
+      pullToRefreshNotificationKey.currentState.show();
+    } else if (!poolForReloadTabs.contains(index)) {
+      poolForReloadTabs.add(index);
+    }
+  }
 }
 
 class AddItemRouteArguments {
-  AddItemRouteArguments({this.kind});
+  AddItemRouteArguments({this.kind, this.tabIndex});
 
   final KindValue kind;
+  final int tabIndex;
 }
 
 class ImageData {

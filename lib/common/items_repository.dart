@@ -4,6 +4,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
+bool _isFirstLoadData = true;
+
 class ItemsRepository extends LoadingMoreBase<ItemModel> {
   final BuildContext context;
   final kind;
@@ -20,6 +22,14 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   bool _isFirst; // = true;
   bool _hasMore; // = true;
   bool _forceRefresh; // = false;
+
+  bool _isHandleRefresh = false;
+  bool get isHandleRefresh => _isHandleRefresh;
+  bool _isLoadDataByTabChange = false;
+  bool get isLoadDataByTabChange => _isLoadDataByTabChange;
+  resetTabChangeFlag() {
+    _isLoadDataByTabChange = false;
+  }
 
   @override
   bool get hasMore =>
@@ -39,7 +49,15 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   }
 
   @override
-  Future<bool> loadData([bool isloadMoreAction = false]) async {
+  Future<bool> loadData([bool isLoadMoreAction = false]) async {
+    if (_isHandleRefresh) {
+      _isHandleRefresh = false;
+    } else if (_isFirstLoadData) {
+      _isFirstLoadData = false;
+    } else {
+      _isLoadDataByTabChange = true;
+    }
+    // print('loadData $_isLoadDataByTabChange $kind');
     assert(nextCreatedAt != null); // (?) инициализируется только в refresh()
     bool isSuccess = false;
     try {
@@ -93,5 +111,10 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       print(stack);
     }
     return isSuccess;
+  }
+
+  Future<bool> handleRefresh([bool clearBeforeRequest = false]) async {
+    _isHandleRefresh = true;
+    return refresh(clearBeforeRequest);
   }
 }

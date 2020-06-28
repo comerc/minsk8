@@ -8,6 +8,8 @@ import 'package:minsk8/import.dart';
 final pullToRefreshNotificationKey =
     GlobalKey<PullToRefreshNotificationState>();
 
+final poolForReloadTabs = <int>[];
+
 class ShowcaseScreen extends StatefulWidget {
   @override
   _ShowcaseScreenState createState() => _ShowcaseScreenState();
@@ -22,14 +24,23 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     super.initState();
     _initDynamicLinks();
     _tabController = TabController(length: allKinds.length, vsync: this);
-    // TODO: после добавления лота, рефрешить вкладки: категорию лота, и MetaKindVal.recent
-    // _tabController.addListener(() {
-    //   if (_tabController.indexIsChanging) {
-    //     Future.delayed(const Duration(milliseconds: 200), () {
-    //       pullToRefreshNotificationKey.currentState.show();
-    //     });
-    //   }
-    // });
+    _tabController.addListener(() {
+      final sourceList = sourceListPool[_tabController.index];
+      if (!_tabController.indexIsChanging) {
+        // print(
+        //     '${_tabController.indexIsChanging} ${_tabController.index} ${sourceList.isLoadDataByTabChange}');
+        if (sourceList.isLoadDataByTabChange) {
+          if (_tabController.index > 0) {
+            final sourceListBefore = sourceListPool[_tabController.index - 1];
+            sourceListBefore.resetTabChangeFlag();
+          }
+          sourceList.resetTabChangeFlag();
+        } else if (poolForReloadTabs.remove(_tabController.index)) {
+          // print('pullToRefreshNotificationKey');
+          pullToRefreshNotificationKey.currentState.show();
+        }
+      }
+    });
   }
 
   @override
@@ -98,7 +109,10 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildAddButton(context),
+      floatingActionButton: buildAddButton(
+        context,
+        getTabIndex: () => _tabController.index,
+      ),
       bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
       extendBody: true,
     );
@@ -154,7 +168,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
   Future<bool> _onRefresh() async {
     // print('onRefresh');
     final sourceList = sourceListPool[_tabController.index];
-    return await sourceList.refresh(true);
+    return await sourceList.handleRefresh(true);
   }
 
   void _initDynamicLinks() async {
