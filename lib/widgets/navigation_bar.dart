@@ -65,8 +65,8 @@ class NavigationBar extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, tab.routeName, (route) => false);
+                // TODO: не убивать ShowcaseScreen!
+                // tab.routeName
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,

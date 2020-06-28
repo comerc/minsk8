@@ -133,8 +133,7 @@ class App extends StatelessWidget {
         );
         // );
       },
-      initialRoute: '/showcase',
-      // home: NestedScrollViewDemo(),
+      home: HomeScreen(),
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
@@ -147,7 +146,6 @@ class App extends StatelessWidget {
             EditItemScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => MarkdownScreen('faq.md', title: 'FAQ'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
-        '/home': (_) => HomeScreen(),
         '/image_capture': (_) => ImageCaptureScreen(),
         '/image_pinch': (_) => ImagePinchScreen(),
         '/zoom': (BuildContext context) =>
@@ -158,6 +156,7 @@ class App extends StatelessWidget {
             ItemScreen(ModalRoute.of(context).settings.arguments),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
+        '/load_data': (_) => LoadDataScreen(),
         '/login': (_) => LoginScreen(),
         '/my_item_map': (_) => MyItemMapScreen(),
         '/my_items': (_) => MyItemsScreen(),

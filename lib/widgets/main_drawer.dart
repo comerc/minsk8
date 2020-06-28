@@ -59,6 +59,10 @@ final mainRoutes = [
     'arguments': KindsRouteArguments(KindValue.pets),
   },
   {
+    'title': 'Load Data',
+    'routeName': '/load_data',
+  },
+  {
     'title': 'Login',
     'routeName': '/login',
   },
@@ -134,7 +138,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                Navigator.popUntil(context, (route) => false);
               },
               child: Container(
                 color: Colors.red,

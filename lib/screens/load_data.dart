@@ -1,11 +1,10 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 var hasMore = true;
 
-class HomeScreen extends StatelessWidget {
+class LoadDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
