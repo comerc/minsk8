@@ -28,13 +28,13 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       final sourceList = sourceListPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
         // print(
-        //     '${_tabController.indexIsChanging} ${_tabController.index} ${sourceList.isLoadDataByTabChange}');
+        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].enumValue}');
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
             final sourceListBefore = sourceListPool[_tabController.index - 1];
-            sourceListBefore.resetTabChangeFlag();
+            sourceListBefore.resetIsLoadDataByTabChange();
           }
-          sourceList.resetTabChangeFlag();
+          sourceList.resetIsLoadDataByTabChange();
         } else if (poolForReloadTabs.remove(_tabController.index)) {
           // print('pullToRefreshNotificationKey');
           pullToRefreshNotificationKey.currentState.show();

@@ -4,8 +4,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
-bool _isFirstLoadData = true;
-
 class ItemsRepository extends LoadingMoreBase<ItemModel> {
   final BuildContext context;
   final kind;
@@ -15,19 +13,20 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     this.kind,
   ) : assert([MetaKindValue, KindValue].contains(kind.runtimeType));
 
+  static bool _isStart = true;
+
   bool get isMetaKind => kind.runtimeType == MetaKindValue;
   String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
-  String nextCreatedAt; // = startCreatedAt;
-  bool _isFirst; // = true;
-  bool _hasMore; // = true;
-  bool _forceRefresh; // = false;
+  String nextCreatedAt;
+  // bool _isFirst;
+  bool _hasMore;
+  bool _forceRefresh;
 
   bool _isHandleRefresh = false;
-  bool get isHandleRefresh => _isHandleRefresh;
   bool _isLoadDataByTabChange = false;
   bool get isLoadDataByTabChange => _isLoadDataByTabChange;
-  resetTabChangeFlag() {
+  resetIsLoadDataByTabChange() {
     _isLoadDataByTabChange = false;
   }
 
@@ -37,8 +36,9 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
+    // print('refresh');
     nextCreatedAt = startCreatedAt;
-    _isFirst = true;
+    // _isFirst = true;
     _hasMore = true;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
@@ -50,15 +50,18 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
+    // print('isLoadMoreAction: $isLoadMoreAction');
     if (_isHandleRefresh) {
       _isHandleRefresh = false;
-    } else if (_isFirstLoadData) {
-      _isFirstLoadData = false;
-    } else {
+    } else if (_isStart) {
+      _isStart = false;
+    } else if (!isLoadMoreAction) {
+      // отсек флагами все другие случаи,
+      // это флаг включается при смене таба
       _isLoadDataByTabChange = true;
     }
     // print('loadData $_isLoadDataByTabChange $kind');
-    assert(nextCreatedAt != null); // (?) инициализируется только в refresh()
+    assert(nextCreatedAt != null);
     bool isSuccess = false;
     try {
       // TODO: may be WatchQueryOptions?
@@ -92,8 +95,11 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
         throw result.exception;
       }
       final items = [...result.data['items'] as List];
-      if (_isFirst) {
-        _isFirst = false;
+      // if (_isFirst) {
+      //   _isFirst = false;
+      //   this.clear();
+      // }
+      if (!isLoadMoreAction) {
         this.clear();
       }
       _hasMore = items.length == kGraphQLItemsLimit;
