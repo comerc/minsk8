@@ -34,7 +34,7 @@ export 'screens/chat.dart';
 export 'screens/custom_dialog.dart';
 export 'screens/edit_item.dart';
 export 'screens/forgot_password.dart';
-export 'screens/_home.dart';
+export 'screens/home.dart';
 export 'screens/image_capture.dart';
 export 'screens/image_pinch.dart';
 export 'screens/item_map.dart';
