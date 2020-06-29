@@ -9,16 +9,11 @@ final mainRoutes = [
   {
     'title': 'Add Item',
     'routeName': '/add_item',
-    'arguments': AddItemRouteArguments(kind: KindValue.technics),
+    'arguments': AddItemRouteArguments(kind: KindValue.technics, tabIndex: 0),
   },
   {
     'title': 'Animation',
     'routeName': '/animation',
-  },
-  {
-    'title': 'Chat',
-    'routeName': '/chat',
-    'arguments': ChatRouteArguments(0),
   },
   {
     'title': 'Custom Dialog',
@@ -83,10 +78,6 @@ final mainRoutes = [
     'routeName': '/profile_map',
   },
   {
-    'title': 'Profile',
-    'routeName': '/profile',
-  },
-  {
     'title': 'Search',
     'routeName': '/search',
   },
@@ -105,10 +96,6 @@ final mainRoutes = [
   {
     'title': 'Start',
     'routeName': '/start',
-  },
-  {
-    'title': 'Underway',
-    'routeName': '/underway',
   },
   {
     'title': 'Useful Tips',
