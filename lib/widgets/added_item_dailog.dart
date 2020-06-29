@@ -3,8 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class AddedItemDialog extends StatelessWidget {
-  AddedItemDialog({this.needModerate: false});
+  AddedItemDialog(this.item, {this.needModerate: false});
 
+  final ItemModel item;
   final bool needModerate;
 
   @override
@@ -60,10 +61,7 @@ class AddedItemDialog extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Navigator.of(context)
-                    ..pop()
-                    ..pop()
-                    ..pushNamed('/kinds');
+                  Navigator.of(context).pop(true);
                 },
                 color: Colors.red,
                 textColor: Colors.white,
@@ -84,7 +82,9 @@ class AddedItemDialog extends StatelessWidget {
                       Text('Поделитесь и получите бонус'),
                     ],
                   ),
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () {
+                    share(item);
+                  },
                   color: Colors.white,
                   textColor: Colors.red,
                   shape: OutlineInputBorder(

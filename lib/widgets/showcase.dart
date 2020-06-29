@@ -16,7 +16,7 @@ class Showcase extends StatefulWidget {
 
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
-  static final poolForReloadTabs = <int>[];
+  static final poolForReloadTabs = Set<int>();
 
   final int tabIndex;
   final ShowcaseOnChangeTabIndex onChangeTabIndex;

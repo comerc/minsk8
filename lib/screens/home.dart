@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

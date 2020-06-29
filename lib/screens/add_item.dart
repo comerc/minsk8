@@ -240,7 +240,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             buildProgressIndicator(context),
-            SizedBox(width: 8),
+            SizedBox(width: 16),
             Text('Загрузка...'),
           ],
         ),
@@ -262,7 +262,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       },
       fetchPolicy: FetchPolicy.noCache,
     );
-    client.mutate(options).then((QueryResult result) {
+    client.mutate(options).then((QueryResult result) async {
       if (result.hasException) {
         throw result.exception;
       }
@@ -270,23 +270,36 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
-      try {
-        _reloadTab(_kind);
-        _reloadTab(MetaKindValue.recent);
-      } catch (error) {
-        print(error);
-      }
-
-      // TODO: а где AddedItemDialog?
-      Navigator.of(context)
-        ..pop() // for showDialog
-        ..pushReplacementNamed(
-          '/item',
-          arguments: ItemRouteArguments(
-            newItem,
-            member: profile.member,
+      _reloadTab(_kind);
+      _reloadTab(MetaKindValue.recent);
+      Navigator.of(context).pop(); // for showDialog "Загрузка..."
+      final value = await showDialog(
+        context: context,
+        child: AddedItemDialog(
+          newItem,
+          needModerate: _kind == KindValue.service,
+        ),
+      );
+      if (value ?? false) {
+        final kind = await Navigator.of(context).pushReplacementNamed('/kinds');
+        if (kind == null) return;
+        Navigator.pushNamed(
+          homeKey.currentContext, // hack
+          '/add_item',
+          arguments: AddItemRouteArguments(
+            kind: kind,
+            tabIndex: widget.arguments.tabIndex,
           ),
         );
+        return;
+      }
+      Navigator.of(context).pushReplacementNamed(
+        '/item',
+        arguments: ItemRouteArguments(
+          newItem,
+          member: profile.member,
+        ),
+      );
     }).catchError((error) {
       print(error);
       Navigator.of(context).pop();
@@ -341,6 +354,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<bool> _getImage(int index, ImageSource imageSource) async {
+    // TODO: в _handleAddItem нужно ждать загрузку фоток
     final picker = ImagePicker();
     PickedFile pickedFile;
     try {
