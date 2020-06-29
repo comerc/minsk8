@@ -6,16 +6,19 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
 import 'package:minsk8/import.dart';
 
 class Showcase extends StatefulWidget {
+  Showcase({Key key}) : super(key: key);
+
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>[];
 
   @override
-  _ShowcaseState createState() => _ShowcaseState();
+  ShowcaseState createState() => ShowcaseState();
 }
 
-class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
+class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   TabController _tabController;
+  int get tabIndex => _tabController.index;
 
   @override
   void initState() {

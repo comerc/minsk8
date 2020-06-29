@@ -8,6 +8,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _tabIndex = 0;
+  final _showcaseKey = GlobalKey<ShowcaseState>();
 
   @override
   void initState() {
@@ -23,11 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
-      body: Center(child: Text('1234')),
+      body: Showcase(key: _showcaseKey),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
-        tabIndex: _tabIndex,
+        getTabIndex: () => _showcaseKey.currentState.tabIndex,
       ),
       bottomNavigationBar:
           NavigationBar(tabIndex: _tabIndex, onChange: _onChange),
