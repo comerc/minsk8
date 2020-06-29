@@ -1,44 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class NavigationBar extends StatelessWidget {
-  final String currentRouteName;
-  final double height = kNavigationBarHeight;
-  final Color backgroundColor = Colors.white;
-  final Color color = Colors.grey;
-  final Color selectedColor = Colors.pinkAccent;
+typedef NavigationBarOnChange = void Function(int tabIndex);
 
-  NavigationBar({this.currentRouteName});
+class NavigationBar extends StatelessWidget {
+  NavigationBar({this.tabIndex, this.onChange});
+
+  final int tabIndex;
+  final NavigationBarOnChange onChange;
+  final double _height = kNavigationBarHeight;
+  final Color _backgroundColor = Colors.white;
+  final Color _color = Colors.grey;
+  final Color _selectedColor = Colors.pinkAccent;
+  final _tabs = [
+    _NavigationBarTab(
+      title: 'Showcase',
+      icon: Icons.home,
+      value: _NavigationBarTabValue.showcase,
+    ),
+    _NavigationBarTab(
+      title: 'Underway',
+      icon: Icons.widgets, // Icons.queue,
+      value: _NavigationBarTabValue.underway,
+    ),
+    _NavigationBarTab(
+      title: 'Chat',
+      icon: Icons.chat,
+      value: _NavigationBarTabValue.chat,
+    ),
+    _NavigationBarTab(
+      title: 'Profile',
+      icon: Icons.account_box,
+      value: _NavigationBarTabValue.profile,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> items = tabs
-        .map(
-          (tab) => _buildTabItem(
-            context: context,
-            tab: tab,
-            isSelected: currentRouteName == tab.routeName,
-          ),
-        )
-        .toList();
-    items.insert(items.length >> 1, _buildMiddleTabItem());
+    final children = List.generate(
+      _tabs.length,
+      (index) => _buildTabItem(
+        context: context,
+        index: index,
+        isSelected: index == tabIndex,
+      ),
+    );
+    children.insert(children.length >> 1, _buildMiddleTabItem());
     return BottomAppBar(
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: items,
+        children: children,
       ),
       shape: CircularNotchedRectangle(),
       clipBehavior: Clip.hardEdge,
       notchMargin: 8,
-      color: this.backgroundColor,
+      color: _backgroundColor,
     );
   }
 
   Widget _buildMiddleTabItem() {
     return Expanded(
       child: SizedBox(
-        height: this.height,
+        height: _height,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,21 +76,21 @@ class NavigationBar extends StatelessWidget {
 
   Widget _buildTabItem({
     BuildContext context,
-    _NavigationBarTab tab,
+    int index,
     bool isSelected,
   }) {
-    Color color = isSelected ? this.selectedColor : this.color;
+    final tab = _tabs[index];
+    final color = isSelected ? _selectedColor : _color;
     return Expanded(
       child: SizedBox(
-        height: this.height,
+        height: _height,
         child: Tooltip(
           message: tab.title,
           child: Material(
             type: MaterialType.transparency,
             child: InkWell(
               onTap: () {
-                // TODO: не убивать ShowcaseScreen!
-                // tab.routeName
+                onChange(index);
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -91,33 +115,12 @@ class NavigationBar extends StatelessWidget {
   }
 }
 
+enum _NavigationBarTabValue { showcase, underway, chat, profile }
+
 class _NavigationBarTab {
+  _NavigationBarTab({this.title, this.icon, this.value});
+
   String title;
   IconData icon;
-  String routeName;
-
-  _NavigationBarTab({this.title, this.icon, this.routeName});
+  _NavigationBarTabValue value;
 }
-
-final tabs = [
-  _NavigationBarTab(
-    title: 'Showcase',
-    icon: Icons.widgets,
-    routeName: '/showcase',
-  ),
-  _NavigationBarTab(
-    title: 'Underway',
-    icon: Icons.queue,
-    routeName: '/underway',
-  ),
-  _NavigationBarTab(
-    title: 'Chat',
-    icon: Icons.chat,
-    routeName: '/chat',
-  ),
-  _NavigationBarTab(
-    title: 'Profile',
-    icon: Icons.account_box,
-    routeName: '/profile',
-  ),
-];

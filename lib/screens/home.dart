@@ -7,6 +7,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _tabIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -20,15 +22,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MainDrawer(null),
+      drawer: isInDebugMode ? MainDrawer(null) : null,
       body: Center(child: Text('1234')),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
-        // getTabIndex: () => _tabController.index,
+        tabIndex: _tabIndex,
       ),
-      bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
+      bottomNavigationBar:
+          NavigationBar(tabIndex: _tabIndex, onChange: _onChange),
       extendBody: true,
     );
+  }
+
+  void _onChange(int tabIndex) {
+    setState(() {
+      _tabIndex = tabIndex;
+    });
   }
 }
