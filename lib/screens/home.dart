@@ -7,8 +7,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _tabIndex = 0;
-  final _showcaseKey = GlobalKey<ShowcaseState>();
+  int _navigationBartabIndex = 0;
+  int _showcaseTabIndex = 0;
 
   @override
   void initState() {
@@ -22,23 +22,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final body = [
+      Showcase(
+          tabIndex: _showcaseTabIndex,
+          onChangeTabIndex: _onChangeShowcaseTabIndex),
+      Underway(),
+      Chat(),
+      Profile()
+    ];
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
-      body: Showcase(key: _showcaseKey),
+      body: body[_navigationBartabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
-        getTabIndex: () => _showcaseKey.currentState.tabIndex,
+        getTabIndex: () => _showcaseTabIndex,
       ),
-      bottomNavigationBar:
-          NavigationBar(tabIndex: _tabIndex, onChange: _onChange),
+      bottomNavigationBar: NavigationBar(
+          tabIndex: _navigationBartabIndex,
+          onChangeTabIndex: _onChangeNavigationBarTabIndex),
       extendBody: true,
     );
   }
 
-  void _onChange(int tabIndex) {
+  void _onChangeNavigationBarTabIndex(int tabIndex) {
     setState(() {
-      _tabIndex = tabIndex;
+      _navigationBartabIndex = tabIndex;
     });
+  }
+
+  void _onChangeShowcaseTabIndex(int tabIndex) {
+    _showcaseTabIndex = tabIndex;
   }
 }

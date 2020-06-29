@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-typedef NavigationBarOnChange = void Function(int tabIndex);
+typedef NavigationBarOnChangeTabIndex = void Function(int tabIndex);
 
 class NavigationBar extends StatelessWidget {
-  NavigationBar({this.tabIndex, this.onChange});
+  NavigationBar({this.tabIndex, this.onChangeTabIndex});
 
   final int tabIndex;
-  final NavigationBarOnChange onChange;
+  final NavigationBarOnChangeTabIndex onChangeTabIndex;
   final double _height = kNavigationBarHeight;
   final Color _backgroundColor = Colors.white;
   final Color _color = Colors.grey;
@@ -90,7 +90,7 @@ class NavigationBar extends StatelessWidget {
             type: MaterialType.transparency,
             child: InkWell(
               onTap: () {
-                onChange(index);
+                onChangeTabIndex(index);
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
