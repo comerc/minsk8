@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: внедрить свайпы для переходов между картинками
+// TODO: внедрить свайпы для переходов между картинками,
+// для этого нужна карусель на одном общем Screen
 
 class ZoomScreen extends StatefulWidget {
   ZoomScreen(this.arguments);

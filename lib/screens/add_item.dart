@@ -231,7 +231,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
-    // TODO: добавить CANCEL в диалог, если подвисла загрузка
+    // TODO: добавить CANCEL в диалог, если подвисла загрузка (или Timeout?)
     showDialog(
       context: context,
       barrierDismissible: false,

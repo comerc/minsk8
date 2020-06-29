@@ -8,7 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: Другие лоты участника показывают только 10 элементов
+// TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
 
 class ItemScreen extends StatefulWidget {
   ItemScreen(this.arguments);
@@ -175,7 +175,6 @@ class _ItemScreenState extends State<ItemScreen> {
                   _scaffoldKey.currentState.showSnackBar(snackBar);
                   final GraphQLClient client =
                       GraphQLProvider.of(context).value;
-                  // TODO: нужно записывать member_id получателя, а не свой
                   final options = MutationOptions(
                     documentNode: Mutations.insertSuggestion,
                     variables: {
