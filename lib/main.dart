@@ -57,6 +57,7 @@ void main() {
 PersistedData appState;
 List<ItemsRepository> sourceListPool;
 final localDeletedItemIds = Set<String>();
+final homeKey = GlobalKey();
 
 class App extends StatelessWidget {
   @override
@@ -133,7 +134,7 @@ class App extends StatelessWidget {
         );
         // );
       },
-      home: HomeScreen(),
+      home: HomeScreen(key: homeKey),
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
