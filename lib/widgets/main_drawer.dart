@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 final mainRoutes = [
@@ -43,11 +45,29 @@ final mainRoutes = [
     'arguments':
         ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
   },
-  // {
-  //   'title': 'Item',
-  //   'routeName': '/item',
-  //   'arguments': ItemRouteArguments(profile.member.items[0]),
-  // },
+  {
+    'title': 'Item',
+    'routeName': '/item',
+    // ignore: top_level_function_literal_block
+    'arguments': (BuildContext context) async {
+      final profile = Provider.of<ProfileModel>(context, listen: false);
+      final options = QueryOptions(
+        documentNode: Queries.getItem,
+        variables: {'id': profile.member.items[0].id},
+        fetchPolicy: FetchPolicy.noCache,
+      );
+      final client = GraphQLProvider.of(context).value;
+      final result = await client.query(options);
+      if (result.hasException) {
+        throw result.exception;
+      }
+      final item = ItemModel.fromJson(result.data['item']);
+      return ItemRouteArguments(
+        item,
+        member: item.member,
+      );
+    },
+  },
   {
     'title': 'Select Kind(s)',
     'routeName': '/kinds',
@@ -125,7 +145,10 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.popUntil(context, (route) => false);
+                Navigator.popUntil(
+                  context,
+                  (route) => route.isFirst,
+                );
               },
               child: Container(
                 color: Colors.red,
@@ -144,17 +167,21 @@ class MainDrawer extends StatelessWidget {
               return ListTile(
                 title: Text(mainRoute['title']),
                 selected: currentRouteName == mainRoute['routeName'],
-                onTap: () {
-                  if (mainRoute['arguments'] == null) {
+                onTap: () async {
+                  final arguments = (mainRoute['arguments'] is Function)
+                      ? await (mainRoute['arguments'] as Function)(context)
+                      : mainRoute['arguments'];
+                  if (arguments == null) {
                     Navigator.pushNamed(
                       context,
                       mainRoute['routeName'],
                     );
+                    return;
                   }
                   Navigator.pushNamed(
                     context,
                     mainRoute['routeName'],
-                    arguments: mainRoute['arguments'],
+                    arguments: arguments,
                   );
                 },
               );

@@ -4,6 +4,17 @@ import './fragments.dart';
 // TODO: заменить class Queries.getItems > namespace queries.getItems
 
 class Queries {
+  static final getItem = gql(r'''
+    query getItem($id: uuid!) {
+      item(id: $id) {
+        ...itemFields
+        member {
+          ...memberFields
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
   static final getItems = gql(r'''
     query getItems($next_created_at: timestamptz) {
       items(
