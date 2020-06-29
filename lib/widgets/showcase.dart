@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
@@ -180,7 +181,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     return await sourceList.handleRefresh(true);
   }
 
-  void _initDynamicLinks() async {
+  Future<void> _initDynamicLinks() async {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
     _openDeepLink(data?.link);
     FirebaseDynamicLinks.instance.onLink(
@@ -194,17 +195,29 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     );
   }
 
-  void _openDeepLink(Uri link) {
-    if (link == null) return;
-    if (link.path == '/item') {
-      // TODO: Queries.getItem
-      // final id = link.queryParameters['id'];
-      // Navigator.pushNamed(
-      //   context,
-      //   '/item',
-      //   arguments: ItemRouteArguments(id),
-      // );
+  Future<void> _openDeepLink(Uri link) async {
+    if (link == null || link.path != '/item') return;
+    final id = link.queryParameters['id'];
+    final options = QueryOptions(
+      documentNode: Queries.getItem,
+      variables: {'id': id},
+      fetchPolicy: FetchPolicy.noCache,
+    );
+    final client = GraphQLProvider.of(context).value;
+    final result = await client.query(options);
+    if (result.hasException) {
+      throw result.exception;
     }
+    final item = ItemModel.fromJson(result.data['item']);
+    final arguments = ItemRouteArguments(
+      item,
+      member: item.member,
+    );
+    Navigator.pushNamed(
+      context,
+      '/item',
+      arguments: arguments,
+    );
   }
 }
 
