@@ -231,6 +231,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
+    // TODO: добавить CANCEL в диалог, если подвисла загрузка
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -269,8 +270,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
-      _reloadTab(_kind);
-      _reloadTab(MetaKindValue.recent);
+      try {
+        _reloadTab(_kind);
+        _reloadTab(MetaKindValue.recent);
+      } catch (error) {
+        print(error);
+      }
+
       // TODO: а где AddedItemDialog?
       Navigator.of(context)
         ..pop() // for showDialog
@@ -437,11 +443,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   _reloadTab(kind) {
+    final tabIndex = widget.arguments.tabIndex;
+    if (tabIndex == null) return;
     final index = allKinds.indexWhere((element) => element.enumValue == kind);
+    // TODO: tabIndex не отдается на вкладке Chat
     if (index == widget.arguments.tabIndex) {
-      pullToRefreshNotificationKey.currentState.show();
-    } else if (!poolForReloadTabs.contains(index)) {
-      poolForReloadTabs.add(index);
+      ShowcaseScreen.pullToRefreshNotificationKey.currentState.show();
+    } else if (!ShowcaseScreen.poolForReloadTabs.contains(index)) {
+      ShowcaseScreen.poolForReloadTabs.add(index);
     }
   }
 }

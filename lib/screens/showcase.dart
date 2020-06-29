@@ -5,12 +5,11 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-final pullToRefreshNotificationKey =
-    GlobalKey<PullToRefreshNotificationState>();
-
-final poolForReloadTabs = <int>[];
-
 class ShowcaseScreen extends StatefulWidget {
+  static final pullToRefreshNotificationKey =
+      GlobalKey<PullToRefreshNotificationState>();
+  static final poolForReloadTabs = <int>[];
+
   @override
   _ShowcaseScreenState createState() => _ShowcaseScreenState();
 }
@@ -29,15 +28,21 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
       if (!_tabController.indexIsChanging) {
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].enumValue}');
+
+        // если для категории еще не было загрузки (переходом по tab-у),
+        // то добавление нового item-а в /add_item зря добавит tab в ShowcaseScreen.poolForReloadTabs,
+        // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
+        final isContaintsInPool =
+            ShowcaseScreen.poolForReloadTabs.remove(_tabController.index);
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
             final sourceListBefore = sourceListPool[_tabController.index - 1];
             sourceListBefore.resetIsLoadDataByTabChange();
           }
           sourceList.resetIsLoadDataByTabChange();
-        } else if (poolForReloadTabs.remove(_tabController.index)) {
+        } else if (isContaintsInPool) {
           // print('pullToRefreshNotificationKey');
-          pullToRefreshNotificationKey.currentState.show();
+          ShowcaseScreen.pullToRefreshNotificationKey.currentState.show();
         }
       }
     });
@@ -75,7 +80,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
     return Scaffold(
       drawer: MainDrawer('/showcase'),
       body: PullToRefreshNotification(
-        key: pullToRefreshNotificationKey,
+        key: ShowcaseScreen.pullToRefreshNotificationKey,
         color: Colors.blue,
         pullBackOnRefresh: true,
         onRefresh: _onRefresh,
