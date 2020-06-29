@@ -5,17 +5,16 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-class ShowcaseScreen extends StatefulWidget {
+class Showcase extends StatefulWidget {
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>[];
 
   @override
-  _ShowcaseScreenState createState() => _ShowcaseScreenState();
+  _ShowcaseState createState() => _ShowcaseState();
 }
 
-class _ShowcaseScreenState extends State<ShowcaseScreen>
-    with TickerProviderStateMixin {
+class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -30,10 +29,10 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].enumValue}');
 
         // если для категории еще не было загрузки (переходом по tab-у),
-        // то добавление нового item-а в /add_item зря добавит tab в ShowcaseScreen.poolForReloadTabs,
+        // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
         final isContaintsInPool =
-            ShowcaseScreen.poolForReloadTabs.remove(_tabController.index);
+            Showcase.poolForReloadTabs.remove(_tabController.index);
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
             final sourceListBefore = sourceListPool[_tabController.index - 1];
@@ -42,7 +41,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
           sourceList.resetIsLoadDataByTabChange();
         } else if (isContaintsInPool) {
           // print('pullToRefreshNotificationKey');
-          ShowcaseScreen.pullToRefreshNotificationKey.currentState.show();
+          Showcase.pullToRefreshNotificationKey.currentState.show();
         }
       }
     });
@@ -77,49 +76,39 @@ class _ShowcaseScreenState extends State<ShowcaseScreen>
             tabBarHeight +
             // TODO: ??? если потянуть список вниз и вверх, то он наплывает на табы
             44;
-    return Scaffold(
-      drawer: MainDrawer('/showcase'),
-      body: PullToRefreshNotification(
-        key: ShowcaseScreen.pullToRefreshNotificationKey,
-        color: Colors.blue,
-        pullBackOnRefresh: true,
-        onRefresh: _onRefresh,
-        maxDragOffset: 100,
-        child: extended.NestedScrollView(
-          physics: ClampingScrollPhysics(),
-          pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
-          innerScrollPositionKeyBuilder: () =>
-              Key(allKinds[_tabController.index].name),
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            PullToRefreshContainer(_buildAppBar),
-            SliverPersistentHeader(
-              pinned: true,
-              floating: false,
-              delegate: CommonSliverPersistentHeaderDelegate(
-                Container(
-                  child: tabBar,
-                  // color: Colors.white,
-                ),
-                tabBarHeight,
+    return PullToRefreshNotification(
+      key: Showcase.pullToRefreshNotificationKey,
+      color: Colors.blue,
+      pullBackOnRefresh: true,
+      onRefresh: _onRefresh,
+      maxDragOffset: 100,
+      child: extended.NestedScrollView(
+        physics: ClampingScrollPhysics(),
+        pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
+        innerScrollPositionKeyBuilder: () =>
+            Key(allKinds[_tabController.index].name),
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          PullToRefreshContainer(_buildAppBar),
+          SliverPersistentHeader(
+            pinned: true,
+            floating: false,
+            delegate: CommonSliverPersistentHeaderDelegate(
+              Container(
+                child: tabBar,
+                // color: Colors.white,
               ),
+              tabBarHeight,
             ),
-          ],
-          body: TabBarView(
-            controller: _tabController,
-            children: List.generate(
-              allKinds.length,
-              (index) => ShowcaseList(tabIndex: index),
-            ),
+          ),
+        ],
+        body: TabBarView(
+          controller: _tabController,
+          children: List.generate(
+            allKinds.length,
+            (index) => ShowcaseList(tabIndex: index),
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildAddButton(
-        context,
-        getTabIndex: () => _tabController.index,
-      ),
-      bottomNavigationBar: NavigationBar(currentRouteName: '/showcase'),
-      extendBody: true,
     );
   }
 

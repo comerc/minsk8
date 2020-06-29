@@ -139,8 +139,6 @@ class App extends StatelessWidget {
         '/add_item': (BuildContext context) =>
             AddItemScreen(ModalRoute.of(context).settings.arguments),
         '/animation': (_) => AnimationScreen(),
-        '/chat': (BuildContext context) =>
-            ChatScreen(ModalRoute.of(context).settings.arguments),
         '/custom_dialog': (_) => CustomDialogScreen(),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
@@ -163,13 +161,10 @@ class App extends StatelessWidget {
         '/notifications': (_) => NotificationsScreen(),
         '/pay': (_) => PayScreen(),
         '/profile_map': (_) => ProfileMapScreen(),
-        '/profile': (_) => ProfileScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
-        '/showcase': (_) => ShowcaseScreen(),
         '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
-        '/underway': (_) => UnderwayScreen(),
         '/useful_tips': (_) =>
             MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
         '/wallet': (_) => WalletScreen(),

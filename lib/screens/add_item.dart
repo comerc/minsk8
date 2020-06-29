@@ -443,14 +443,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   _reloadTab(kind) {
-    final tabIndex = widget.arguments.tabIndex;
-    if (tabIndex == null) return;
     final index = allKinds.indexWhere((element) => element.enumValue == kind);
-    // TODO: tabIndex не отдается на вкладке Chat
     if (index == widget.arguments.tabIndex) {
-      ShowcaseScreen.pullToRefreshNotificationKey.currentState.show();
-    } else if (!ShowcaseScreen.poolForReloadTabs.contains(index)) {
-      ShowcaseScreen.poolForReloadTabs.add(index);
+      Showcase.pullToRefreshNotificationKey.currentState.show();
+    } else if (!Showcase.poolForReloadTabs.contains(index)) {
+      Showcase.poolForReloadTabs.add(index);
     }
   }
 }
