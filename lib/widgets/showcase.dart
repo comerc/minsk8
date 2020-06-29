@@ -5,12 +5,20 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
+
 class Showcase extends StatefulWidget {
-  Showcase({Key key}) : super(key: key);
+  Showcase({
+    this.tabIndex,
+    this.onChangeTabIndex,
+  });
 
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>[];
+
+  final int tabIndex;
+  final ShowcaseOnChangeTabIndex onChangeTabIndex;
 
   @override
   ShowcaseState createState() => ShowcaseState();
@@ -24,13 +32,17 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _initDynamicLinks();
-    _tabController = TabController(length: allKinds.length, vsync: this);
+    _tabController = TabController(
+      initialIndex: widget.tabIndex,
+      length: allKinds.length,
+      vsync: this,
+    );
     _tabController.addListener(() {
       final sourceList = sourceListPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
+        widget.onChangeTabIndex(_tabController.index);
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].enumValue}');
-
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
