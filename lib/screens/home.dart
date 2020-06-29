@@ -10,25 +10,26 @@ class _HomeScreenState extends State<HomeScreen> {
   int _navigationBartabIndex = 0;
   int _showcaseTabIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final body = [
       Showcase(
-          tabIndex: _showcaseTabIndex,
-          onChangeTabIndex: _onChangeShowcaseTabIndex),
+        tabIndex: _showcaseTabIndex,
+        onChangeTabIndex: _onChangeShowcaseTabIndex,
+      ),
       Underway(),
       Chat(),
-      Profile()
+      Profile(),
     ];
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
@@ -39,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
         getTabIndex: () => _showcaseTabIndex,
       ),
       bottomNavigationBar: NavigationBar(
-          tabIndex: _navigationBartabIndex,
-          onChangeTabIndex: _onChangeNavigationBarTabIndex),
+        tabIndex: _navigationBartabIndex,
+        onChangeTabIndex: _onChangeNavigationBarTabIndex,
+      ),
       extendBody: true,
     );
   }
