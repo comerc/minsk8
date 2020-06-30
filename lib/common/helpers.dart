@@ -127,3 +127,10 @@ Future<String> placemarkFromCoordinates(LatLng center) async {
   }
   return result;
 }
+
+class SizeInt {
+  SizeInt(this.width, this.height);
+
+  final int width;
+  final int height;
+}
