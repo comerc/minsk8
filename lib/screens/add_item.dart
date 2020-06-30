@@ -29,10 +29,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   // bool isLoading = false;
   bool _isSubmited = false;
   ImageSource _imageSource;
-  List<ImageData> _images = [];
+  List<_ImageData> _images = [];
   UrgentStatus _urgent = UrgentStatus.not_urgent;
   KindValue _kind;
   FocusNode _textFocusNode;
+  Function _cancel;
 
   String get _urgentName =>
       urgents
@@ -184,7 +185,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _onAfterBuild(Duration timeStamp) {
     showImageSourceDialog(context).then((ImageSource imageSource) {
       if (imageSource == null) return;
-      _getImage(0, imageSource).then((bool result) {
+      _pickImage(0, imageSource).then((bool result) {
         if (!result) return;
         _imageSource = imageSource;
       });
@@ -337,14 +338,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (_imageSource == null) {
       showImageSourceDialog(context).then((ImageSource imageSource) {
         if (imageSource == null) return;
-        _getImage(index, imageSource).then((bool result) {
+        _pickImage(index, imageSource).then((bool result) {
           if (!result) return;
           _imageSource = imageSource;
         });
       });
       return;
     }
-    _getImage(index, _imageSource);
+    _pickImage(index, _imageSource);
   }
 
   void _handleDeleteImage(int index) {
@@ -353,8 +354,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  Future<bool> _getImage(int index, ImageSource imageSource) async {
-    // TODO: в _handleAddItem нужно ждать загрузку фоток
+  Future<bool> _pickImage(int index, ImageSource imageSource) async {
     final picker = ImagePicker();
     PickedFile pickedFile;
     try {
@@ -366,7 +366,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return false;
     }
     final bytes = await pickedFile.readAsBytes();
-    final imageData = ImageData(bytes);
+    final imageData = _ImageData(bytes);
     setState(() {
       if (index < _images.length) {
         _images.removeAt(index);
@@ -379,28 +379,70 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return true;
   }
 
-  Future<void> _uploadImage(ImageData imageData) async {
-    // TODO: FirebaseStorage ругается "no auth token for request"
-    final storage =
-        // FirebaseStorage.instance;
-        FirebaseStorage(storageBucket: kStorageBucket);
+  final queue = Future.value();
+
+  Future<void> _uploadImage(_ImageData imageData) async {
+    // final completer = Completer<void>();
+    // // TODO: FirebaseStorage ругается "no auth token for request"
+    // final storage =
+    //     // FirebaseStorage.instance;
+    //     FirebaseStorage(storageBucket: kStorageBucket);
+    // final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
+    // // TODO: оптимизировать размер данных картинок перед выгрузкой
+    // final uploadTask = storage.ref().child(filePath).putData(bytes);
+    // final streamSubscription = uploadTask.events.listen((event) async {
+    //   // TODO: if (event.type == StorageTaskEventType.progress)
+    //   if (event.type != StorageTaskEventType.success) return;
+    //   final downloadUrl = await event.snapshot.ref.getDownloadURL();
+    //   final image = ExtendedImage.memory(bytes);
+    //   final size = await _calculateImageDimension(image);
+    //   imageData.model = ImageModel(
+    //     url: downloadUrl,
+    //     width: size.width,
+    //     height: size.height,
+    //   );
+    //   await Future.delayed(Duration(seconds: 10));
+    //   completer.complete();
+    // });
+    // await uploadTask.onComplete;
+    // streamSubscription.cancel();
+    // await completer.future;
     final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
-    // TODO: оптимизировать размер данных картинок перед выгрузкой
-    final uploadTask = storage.ref().child(filePath).putData(imageData.bytes);
-    final streamSubscription = uploadTask.events.listen((event) async {
-      // TODO: if (event.type == StorageTaskEventType.progress)
-      if (event.type != StorageTaskEventType.success) return;
-      final downloadUrl = await event.snapshot.ref.getDownloadURL();
-      final image = ExtendedImage.memory(imageData.bytes);
-      final size = await _calculateImageDimension(image);
-      imageData.model = ImageModel(
-        url: downloadUrl,
-        width: size.width,
-        height: size.height,
-      );
+    final storageReference = FirebaseStorage.instance.ref().child(filePath);
+    final uploadTask = storageReference.putData(imageData.bytes);
+    StreamSubscription streamSubscription;
+    streamSubscription = uploadTask.events.listen((event) async {
+      if (event.type == StorageTaskEventType.progress) {
+        print(
+            'progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
+      }
     });
+    _cancel = () {
+      try {
+        uploadTask
+            .cancel(); // если сразу вызвать снаружи, то падает - обернул в try-catch
+        streamSubscription.cancel();
+        streamSubscription = null;
+        _cancel = null;
+        setState(() {
+          _images.remove(imageData);
+        });
+      } catch (error) {
+        print(error);
+      }
+    };
     await uploadTask.onComplete;
-    streamSubscription.cancel();
+    _cancel = null;
+    streamSubscription?.cancel();
+    if (uploadTask.isCanceled) return;
+    final downloadUrl = await storageReference.getDownloadURL();
+    final image = ExtendedImage.memory(imageData.bytes);
+    final size = await _calculateImageDimension(image);
+    imageData.model = ImageModel(
+      url: downloadUrl,
+      width: size.width,
+      height: size.height,
+    );
   }
 
   Future<SizeInt> _calculateImageDimension(ExtendedImage image) {
@@ -473,16 +515,9 @@ class AddItemRouteArguments {
   final int tabIndex;
 }
 
-class ImageData {
-  ImageData(this.bytes);
+class _ImageData {
+  _ImageData(this.bytes);
 
   final Uint8List bytes;
   ImageModel model;
-}
-
-class SizeInt {
-  SizeInt(this.width, this.height);
-
-  final int width;
-  final int height;
 }
