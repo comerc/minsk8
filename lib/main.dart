@@ -11,6 +11,7 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 // TODO: поменять все print(object) на debugPrint(String) ?
+// TODO: timeout для подписок GraphQL, смотри примеры
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
