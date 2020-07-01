@@ -33,7 +33,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   UrgentStatus _urgent = UrgentStatus.not_urgent;
   KindValue _kind;
   FocusNode _textFocusNode;
-  Function _cancel;
+  StorageUploadTask _uploadTask;
+  Future<void> _uploadQueue = Future.value();
 
   String get _urgentName =>
       urgents
@@ -193,6 +194,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _handleAddItem() async {
+    await _uploadQueue;
     // if (isLoading) {
     //   return;
     // }
@@ -263,7 +265,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       },
       fetchPolicy: FetchPolicy.noCache,
     );
-    client.mutate(options).then((QueryResult result) async {
+    client
+        .mutate(options)
+        .timeout(Duration(seconds: kGraphQLMutationTimeout))
+        .then((QueryResult result) async {
       if (result.hasException) {
         throw result.exception;
       }
@@ -302,7 +307,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ),
       );
     }).catchError((error) {
-      print(error);
+      debugPrint(error.toString());
+      // TODO: сообщение пользователю об ошибке
       Navigator.of(context).pop();
     });
     // await Future.delayed(const Duration(seconds: 1));
@@ -356,15 +362,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<bool> _pickImage(int index, ImageSource imageSource) async {
     final picker = ImagePicker();
-    PickedFile pickedFile;
-    try {
-      pickedFile = await picker.getImage(source: imageSource);
-    } catch (error) {
+    final pickedFile =
+        await picker.getImage(source: imageSource).catchError((error) {
       debugPrint(error.toString());
-    }
-    if (pickedFile == null) {
-      return false;
-    }
+    });
+    if (pickedFile == null) return false;
     final bytes = await pickedFile.readAsBytes();
     final imageData = _ImageData(bytes);
     setState(() {
@@ -375,11 +377,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
         _images.add(imageData);
       }
     });
-    _uploadImage(imageData);
+    _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
+    _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
+    _uploadQueue = _uploadQueue.catchError((error) {
+      if (error is TimeoutException) {
+        _cancelUploadImage(imageData);
+        // TODO: сообщение пользователю об ошибке
+      }
+      debugPrint(error.toString());
+    });
     return true;
   }
-
-  final queue = Future.value();
 
   Future<void> _uploadImage(_ImageData imageData) async {
     // final completer = Completer<void>();
@@ -409,32 +417,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
     // await completer.future;
     final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
     final storageReference = FirebaseStorage.instance.ref().child(filePath);
-    final uploadTask = storageReference.putData(imageData.bytes);
-    StreamSubscription streamSubscription;
-    streamSubscription = uploadTask.events.listen((event) async {
+    _uploadTask = storageReference.putData(imageData.bytes);
+    final streamSubscription = _uploadTask.events.listen((event) async {
       if (event.type == StorageTaskEventType.progress) {
         print(
             'progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
       }
+      // TODO: добавить индикатор загрузки и кнопку отмены
     });
-    _cancel = () {
-      try {
-        uploadTask
-            .cancel(); // если сразу вызвать снаружи, то падает - обернул в try-catch
-        streamSubscription.cancel();
-        streamSubscription = null;
-        _cancel = null;
-        setState(() {
-          _images.remove(imageData);
-        });
-      } catch (error) {
-        print(error);
-      }
-    };
-    await uploadTask.onComplete;
-    _cancel = null;
-    streamSubscription?.cancel();
-    if (uploadTask.isCanceled) return;
+    await _uploadTask.onComplete;
+    await streamSubscription.cancel();
+    final isCanceled = _uploadTask.isCanceled;
+    _uploadTask = null;
+    if (isCanceled) return;
     final downloadUrl = await storageReference.getDownloadURL();
     final image = ExtendedImage.memory(imageData.bytes);
     final size = await _calculateImageDimension(image);
@@ -443,6 +438,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
       width: size.width,
       height: size.height,
     );
+  }
+
+  void _cancelUploadImage(_ImageData imageData) {
+    try {
+      if (_uploadTask.isComplete || _uploadTask.isCanceled) return;
+      _uploadTask
+          .cancel(); // если сразу вызвать снаружи, то падает - обернул в try-catch
+      setState(() {
+        _images.remove(imageData);
+      });
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   Future<SizeInt> _calculateImageDimension(ExtendedImage image) {
