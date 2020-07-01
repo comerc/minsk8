@@ -12,6 +12,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 
+enum ImageUploadStatus { loading, error }
+
 class AddItemScreen extends StatefulWidget {
   AddItemScreen(this.arguments);
 
@@ -355,6 +357,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _handleDeleteImage(int index) {
+    // if (_cancelUploadImage()) {
+    // }
+
     setState(() {
       _images.removeAt(index);
     });
@@ -381,7 +386,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
-        _cancelUploadImage(imageData);
+        if (_cancelUploadImage())
+          setState(() {
+            _images.remove(imageData);
+          });
         // TODO: сообщение пользователю об ошибке
       }
       debugPrint(error.toString());
@@ -440,17 +448,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  void _cancelUploadImage(_ImageData imageData) {
+  bool _cancelUploadImage() {
     try {
-      if (_uploadTask.isComplete || _uploadTask.isCanceled) return;
-      _uploadTask
-          .cancel(); // если сразу вызвать снаружи, то падает - обернул в try-catch
-      setState(() {
-        _images.remove(imageData);
-      });
+      if (_uploadTask.isComplete || _uploadTask.isCanceled) return false;
+      // если сразу вызвать снаружи, то падает - обернул в try-catch
+      _uploadTask.cancel();
+      return true;
     } catch (error) {
       debugPrint(error.toString());
     }
+    return false;
   }
 
   Future<SizeInt> _calculateImageDimension(ExtendedImage image) {
