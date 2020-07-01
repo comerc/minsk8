@@ -106,7 +106,10 @@ class _ItemScreenState extends State<ItemScreen> {
                     variables: {'id': item.id},
                     fetchPolicy: FetchPolicy.noCache,
                   );
-                  client.mutate(options).then((QueryResult result) {
+                  client
+                      .mutate(options)
+                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                      .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
                     }
@@ -146,7 +149,10 @@ class _ItemScreenState extends State<ItemScreen> {
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
-                  client.mutate(options).then((QueryResult result) {
+                  client
+                      .mutate(options)
+                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                      .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
                     }
@@ -183,7 +189,10 @@ class _ItemScreenState extends State<ItemScreen> {
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
-                  client.mutate(options).then((QueryResult result) {
+                  client
+                      .mutate(options)
+                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                      .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
                     }

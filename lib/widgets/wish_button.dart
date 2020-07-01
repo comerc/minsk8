@@ -121,7 +121,10 @@ void updateWish(context, isLiked, item) {
     variables: {'item_id': item.id},
     fetchPolicy: FetchPolicy.noCache,
   );
-  client.mutate(options).then((QueryResult result) {
+  client
+      .mutate(options)
+      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+      .then((QueryResult result) {
     if (result.hasException) {
       throw result.exception;
     }

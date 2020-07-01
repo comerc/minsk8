@@ -19,3 +19,6 @@ const kBigButtonWidth = kBigButtonHeight * kGoldenRatio;
 const kBigButtonIconSize = kButtonIconSize * kGoldenRatio;
 const kAnimationTime = 400;
 const kMinLeadingWidth = 40;
+const kGraphQLMutationTimeout = 20;
+const kGraphQLQueryTimeout = 20;
+const kImageUploadTimeout = 20;
