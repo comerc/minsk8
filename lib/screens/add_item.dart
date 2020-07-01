@@ -12,7 +12,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 
-enum ImageUploadStatus { loading, error }
+enum ImageUploadStatus { progress, error }
 
 class AddItemScreen extends StatefulWidget {
   AddItemScreen(this.arguments);
@@ -26,6 +26,7 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   // final _formKey = GlobalKey<FormState>();
   TextEditingController _textController;
   // bool isLoading = false;
@@ -35,7 +36,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   UrgentStatus _urgent = UrgentStatus.not_urgent;
   KindValue _kind;
   FocusNode _textFocusNode;
-  StorageUploadTask _uploadTask;
   Future<void> _uploadQueue = Future.value();
 
   String get _urgentName =>
@@ -170,6 +170,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Что отдаёте?'),
           actions: [
@@ -196,10 +197,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _handleAddItem() async {
-    await _uploadQueue;
-    // if (isLoading) {
-    //   return;
-    // }
     if (!_isValidText) {
       showDialog(
         context: context,
@@ -219,7 +216,24 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
       return;
     }
-    if (_images.length == 0) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: AlertDialog(
+        content: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            buildProgressIndicator(context),
+            SizedBox(width: 16),
+            Text('Загрузка...'),
+          ],
+        ),
+      ),
+    );
+    await _uploadQueue;
+    final images = _images.where((value) => value.uploadStatus == null);
+    if (images.length == 0) {
+      Navigator.of(context).pop(); // for showDialog "Загрузка..."
       showDialog(
         context: context,
         child: AlertDialog(
@@ -236,26 +250,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
-    // TODO: добавить CANCEL в диалог, если подвисла загрузка (или Timeout?)
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: AlertDialog(
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            buildProgressIndicator(context),
-            SizedBox(width: 16),
-            Text('Загрузка...'),
-          ],
-        ),
-      ),
-    );
     final GraphQLClient client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
       documentNode: Mutations.insertItem,
       variables: {
-        'images': _images.map((element) => element.model.toJson()).toList(),
+        'images': images.map((element) => element.model.toJson()).toList(),
         'text': _text, // TODO: как защитить от атаки?
         'urgent': EnumToString.parse(_urgent),
         'kind': EnumToString.parse(_kind),
@@ -269,6 +268,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
     client
         .mutate(options)
+        // TODO: если таймаут, то фокус на поле ввода и клавиатура - не хочу
+        // .timeout(Duration(milliseconds: 100))
         .timeout(Duration(seconds: kGraphQLMutationTimeout))
         .then((QueryResult result) async {
       if (result.hasException) {
@@ -310,27 +311,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
     }).catchError((error) {
       debugPrint(error.toString());
-      // TODO: сообщение пользователю об ошибке
       Navigator.of(context).pop();
+      final snackBar = SnackBar(
+          content: Text('Не удалось загрузить лот, попробуйте ещё раз'));
+      _scaffoldKey.currentState.showSnackBar(snackBar);
     });
-    // await Future.delayed(const Duration(seconds: 1));
-    // return;
-    // if (!_formKey.currentState.validate()) {
-    //   return;
-    // }
-    // setState(() {
-    //   isLoading = true;
-    // });
-    // try {
-    //   // Navigator.pushReplacementNamed(
-    //   //   context,
-    //   // );
-    // } catch (e) {
-    //   // setState(() {
-    //   //   isLoading = false;
-    //   // });
-    //   print(e);
-    // }
   }
 
   Widget _buildAddImageButton(int index) {
@@ -339,6 +324,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       hasIcon: _images.length == index,
       onTap: _images.length > index ? _handleDeleteImage : _handleAddImage,
       bytes: _images.length > index ? _images[index].bytes : null,
+      uploadStatus: _images.length > index ? _images[index].uploadStatus : null,
     );
   }
 
@@ -357,9 +343,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _handleDeleteImage(int index) {
-    // if (_cancelUploadImage()) {
-    // }
-
+    _cancelUploadImage(_images[index]);
     setState(() {
       _images.removeAt(index);
     });
@@ -386,11 +370,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
-        if (_cancelUploadImage())
-          setState(() {
-            _images.remove(imageData);
-          });
-        // TODO: сообщение пользователю об ошибке
+        _cancelUploadImage(imageData);
+        // если не получилось выполнить отмену, то ничего страшного
+        // выставлен флал imageData.uploadStatus = ImageUploadStatus.error
+        // и по нему строится список images для загрузки в GraphQL
+        imageData.uploadStatus = ImageUploadStatus.error;
+        if (mounted) setState(() {});
+        final snackBar = SnackBar(
+            content:
+                Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
+        _scaffoldKey.currentState.showSnackBar(snackBar);
       }
       debugPrint(error.toString());
     });
@@ -425,18 +414,24 @@ class _AddItemScreenState extends State<AddItemScreen> {
     // await completer.future;
     final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
     final storageReference = FirebaseStorage.instance.ref().child(filePath);
-    _uploadTask = storageReference.putData(imageData.bytes);
-    final streamSubscription = _uploadTask.events.listen((event) async {
+    imageData.uploadTask = storageReference.putData(imageData.bytes);
+    final streamSubscription =
+        imageData.uploadTask.events.listen((event) async {
       if (event.type == StorageTaskEventType.progress) {
         print(
             'progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
       }
       // TODO: добавить индикатор загрузки и кнопку отмены
     });
-    await _uploadTask.onComplete;
+    // await Future.delayed(Duration(seconds: 5));
+    await imageData.uploadTask.onComplete;
+    if (imageData.uploadStatus == ImageUploadStatus.progress) {
+      imageData.uploadStatus = null;
+      if (mounted) setState(() {});
+    }
     await streamSubscription.cancel();
-    final isCanceled = _uploadTask.isCanceled;
-    _uploadTask = null;
+    final isCanceled = imageData.uploadTask.isCanceled;
+    imageData.uploadTask = null;
     if (isCanceled) return;
     final downloadUrl = await storageReference.getDownloadURL();
     final image = ExtendedImage.memory(imageData.bytes);
@@ -448,16 +443,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  bool _cancelUploadImage() {
+  void _cancelUploadImage(_ImageData imageData) {
     try {
-      if (_uploadTask.isComplete || _uploadTask.isCanceled) return false;
+      if (imageData.uploadTask == null ||
+          imageData.uploadTask.isComplete ||
+          imageData.uploadTask.isCanceled) return;
       // если сразу вызвать снаружи, то падает - обернул в try-catch
-      _uploadTask.cancel();
-      return true;
+      imageData.uploadTask.cancel();
     } catch (error) {
       debugPrint(error.toString());
     }
-    return false;
   }
 
   Future<SizeInt> _calculateImageDimension(ExtendedImage image) {
@@ -534,5 +529,7 @@ class _ImageData {
   _ImageData(this.bytes);
 
   final Uint8List bytes;
+  StorageUploadTask uploadTask;
+  ImageUploadStatus uploadStatus = ImageUploadStatus.progress;
   ImageModel model;
 }

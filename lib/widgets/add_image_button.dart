@@ -13,14 +13,14 @@ class AddImageButton extends StatelessWidget {
     this.hasIcon,
     this.onTap,
     this.bytes,
-    this.status = ImageUploadStatus.loading,
+    this.uploadStatus,
   }) : super(key: key);
 
   final int index;
   final bool hasIcon;
   final AddImageButtonOnTap onTap;
   final Uint8List bytes;
-  final ImageUploadStatus status;
+  final ImageUploadStatus uploadStatus;
 
   // TODO: по длинному тапу - редактирование фотографии (кроп, поворот, и т.д.)
 
@@ -41,17 +41,17 @@ class AddImageButton extends StatelessWidget {
                   : Ink.image(
                       fit: BoxFit.cover,
                       image: ExtendedImage.memory(bytes).image,
-                      child: status == null
+                      child: uploadStatus == null
                           ? null
                           : Stack(
                               fit: StackFit.expand,
                               children: [
                                 Container(color: Colors.white.withOpacity(0.4)),
-                                if (status == ImageUploadStatus.loading)
+                                if (uploadStatus == ImageUploadStatus.progress)
                                   Center(
                                     child: buildProgressIndicator(context),
                                   ),
-                                if (status == ImageUploadStatus.error)
+                                if (uploadStatus == ImageUploadStatus.error)
                                   Center(
                                     child: Icon(
                                       FontAwesomeIcons.solidTimesCircle,
