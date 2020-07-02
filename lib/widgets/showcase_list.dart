@@ -6,7 +6,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// TODO: почему лоты со статусом "завершено" отображаются на витрине при запросах с сервера?
+// TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
 
 class ShowcaseList extends StatefulWidget {

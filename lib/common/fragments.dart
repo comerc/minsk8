@@ -34,6 +34,7 @@ class Fragments {
       last_activity_at
       items(
         where: {
+          is_winned: {_is_null: true},  
           is_blocked: {_is_null: true}, 
           transferred_at: {_is_null: true}, 
           moderated_at: {_is_null: false}

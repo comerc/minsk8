@@ -20,7 +20,8 @@ class Queries {
       items(
         where: 
           {
-            created_at: {_lte: $next_created_at}, 
+            created_at: {_lte: $next_created_at},
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false}
@@ -42,6 +43,7 @@ class Queries {
           {
             total_wishes: {_is_null: false},
             created_at: {_lte: $next_created_at}, 
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false}
@@ -63,6 +65,7 @@ class Queries {
           {
             price: {_is_null: false},
             created_at: {_lte: $next_created_at}, 
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false}
@@ -84,6 +87,7 @@ class Queries {
           {
             is_promo: {_is_null: false},
             created_at: {_lte: $next_created_at}, 
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false}
@@ -105,6 +109,7 @@ class Queries {
           {
             urgent: {_eq: very_urgent},
             created_at: {_lte: $next_created_at}, 
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false}
@@ -126,6 +131,7 @@ class Queries {
           {
             kind: {_eq: $kind},
             created_at: {_lte: $next_created_at} 
+            is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
             moderated_at: {_is_null: false},
