@@ -89,11 +89,10 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       }
       final client = GraphQLProvider.of(context).value;
       // to show loading more clearly, in your app,remove this
-      // await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 500));
       final result = await client
           .query(options)
           .timeout(Duration(seconds: kGraphQLQueryTimeout));
-      // TODO: после таймаута не даёт второй раз потянуть сверху, чтобы сделать refresh
       if (result.hasException) {
         throw result.exception;
       }

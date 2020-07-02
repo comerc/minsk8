@@ -55,7 +55,9 @@ dependencies:
   extended_nested_scroll_view: # 0.3.8
     # path: ../extended_nested_scroll_view/
     git: git://github.com/comerc/extended_nested_scroll_view.git
-  pull_to_refresh_notification: 0.3.3
+  pull_to_refresh_notification: # 0.3.4
+    # path: ../pull_to_refresh_notification/
+    git: git://github.com/comerc/pull_to_refresh_notification.git
   share: 0.6.3+5
 
   json_annotation: 3.0.0
