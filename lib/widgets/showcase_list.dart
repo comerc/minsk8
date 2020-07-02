@@ -6,6 +6,9 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+// TODO: почему лоты со статусом "завершено" отображаются на витрине при запросах с сервера?
+// TODO: кнопка "обновить ленту" - через какое-то время её показывать?
+
 class ShowcaseList extends StatefulWidget {
   ShowcaseList({
     Key key,
@@ -148,12 +151,13 @@ class _ShowcaseListState extends State<ShowcaseList>
           'Кажется, что-то пошло не так?',
         );
         result = _buildBackground(false, result);
-        // TODO: заменить на InkWell, как в Queries.getProfile
-        result = GestureDetector(
-          onTap: () {
-            widget.sourceList.errorRefresh();
-          },
-          child: result,
+        result = Material(
+          child: InkWell(
+            onTap: () {
+              widget.sourceList.errorRefresh();
+            },
+            child: result,
+          ),
         );
         break;
       case IndicatorStatus.fullScreenError:
@@ -162,12 +166,13 @@ class _ShowcaseListState extends State<ShowcaseList>
           'Кажется, что-то пошло не так?',
         );
         result = _buildBackground(true, result);
-        // TODO: заменить на InkWell, как в Queries.getProfile
-        result = GestureDetector(
-          onTap: () {
-            widget.sourceList.errorRefresh();
-          },
-          child: result,
+        result = Material(
+          child: InkWell(
+            onTap: () {
+              widget.sourceList.errorRefresh();
+            },
+            child: result,
+          ),
         );
         if (isSliver) {
           result = SliverFillRemaining(

@@ -98,13 +98,12 @@ class App extends StatelessWidget {
               builder: (QueryResult result,
                   {VoidCallback refetch, FetchMore fetchMore}) {
                 if (result.hasException) {
+                  debugPrint(getOperationExceptionToString(result.exception));
                   return Material(
                     child: InkWell(
                       onTap: refetch,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                            getOperationExceptionToString(result.exception)),
+                      child: Center(
+                        child: Text('Кажется, что-то пошло не так?'),
                       ),
                     ),
                   );
