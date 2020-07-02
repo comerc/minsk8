@@ -3,6 +3,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: кнопка ОК и её функционал
+
 class BidDialog extends StatelessWidget {
   BidDialog(this.item);
 
