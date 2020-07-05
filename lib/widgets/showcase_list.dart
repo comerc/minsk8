@@ -8,6 +8,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
+// TODO: обновить loading_more_list до версии 3.0.0, но там убрали waterfallFlowDelegate
 
 class ShowcaseList extends StatefulWidget {
   ShowcaseList({
