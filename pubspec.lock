@@ -272,10 +272,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "89380fcc973e398b2f93e425d35236cddc35a5bc"
+      resolved-ref: "2f7c042ee43299a887c2c016dc73911db5a30e58"
       url: "git://github.com/comerc/extended_nested_scroll_view.git"
     source: git
-    version: "0.3.8"
+    version: "1.0.0"
   file:
     dependency: transitive
     description:
@@ -1057,4 +1057,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.7.2 <3.0.0"
-  flutter: ">=1.16.0 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"
