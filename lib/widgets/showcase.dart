@@ -6,8 +6,6 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// TODO: прятать заголовок, когда скролл ленты
-
 typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
 
 class Showcase extends StatefulWidget {
@@ -86,96 +84,113 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     final tabBarHeight = tabBar.preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final pinnedHeaderHeight =
-        // statusBar height
+        // pinned statusBar height
         statusBarHeight +
             // pinned SliverAppBar height in header
-            kToolbarHeight +
+            // kToolbarHeight +
             // pinned tabbar height in header
-            tabBarHeight +
-            // TODO: ??? если потянуть список вниз и вверх, то он наплывает на табы
-            44;
-    return PullToRefreshNotification(
-      key: Showcase.pullToRefreshNotificationKey,
-      color: Colors.blue,
-      pullBackOnRefresh: true,
-      onRefresh: _onRefresh,
-      maxDragOffset: 100,
-      child: extended.NestedScrollView(
-        physics: ClampingScrollPhysics(),
-        pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
-        innerScrollPositionKeyBuilder: () =>
-            Key(allKinds[_tabController.index].name),
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          PullToRefreshContainer(_buildAppBar),
-          SliverPersistentHeader(
-            pinned: true,
-            floating: false,
-            delegate: CommonSliverPersistentHeaderDelegate(
-              Container(
-                child: tabBar,
-                // color: Colors.white,
+            tabBarHeight;
+    final child = extended.NestedScrollView(
+      physics: ClampingScrollPhysics(),
+      pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
+      innerScrollPositionKeyBuilder: () =>
+          Key(allKinds[_tabController.index].name),
+      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: CommonSliverPersistentHeaderDelegate(
+            child: Container(height: statusBarHeight),
+            height: statusBarHeight,
+          ),
+        ),
+        PullToRefreshContainer(
+          (PullToRefreshScrollNotificationInfo info) => SliverPersistentHeader(
+            delegate: SliverAppBarDelegate(info: info, height: kToolbarHeight),
+          ),
+        ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: CommonSliverPersistentHeaderDelegate(
+            child: Container(
+              child: tabBar,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: Offset(0, 2),
+                    blurRadius: 2,
+                  )
+                ],
               ),
-              tabBarHeight,
             ),
+            height: tabBarHeight,
           ),
-        ],
-        body: TabBarView(
-          controller: _tabController,
-          children: List.generate(
-            allKinds.length,
-            (index) => ShowcaseList(tabIndex: index),
-          ),
+        ),
+      ],
+      body: TabBarView(
+        controller: _tabController,
+        children: List.generate(
+          allKinds.length,
+          (index) => ShowcaseList(tabIndex: index),
         ),
       ),
     );
-  }
-
-  Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
-    // Widget action = Padding(
-    //   child: info?.refreshWiget ?? Icon(Icons.more_horiz),
-    //   padding: EdgeInsets.all(15),
-    // );
-    final offset = info?.dragOffset ?? 0.0;
-    // Widget child = Container();
-    // if (info != null) {
-    //   if (info.mode == RefreshIndicatorMode.error) {
-    //     child = GestureDetector(
-    //       onTap: () {
-    //         // refreshNotification;
-    //         info?.pullToRefreshNotificationState?.show();
-    //       },
-    //       child: Text(
-    //         (info.mode?.toString() ?? '') + " click to retry" ?? '',
-    //         style: TextStyle(fontSize: 10),
-    //       ),
-    //     );
-    //     action = Container();
-    //   } else {
-    //     // child = Text(
-    //     //   info?.mode?.toString() ?? '',
-    //     //   style: TextStyle(fontSize: 10),
-    //     // );
-    //   }
-    // }
-    return SliverAppBar(
-      pinned: true,
-      title: Text('Showcase'),
-      centerTitle: true,
-      // expandedHeight: 200 + offset,
-      expandedHeight: offset,
-      // actions: [action],
-      // flexibleSpace: FlexibleSpaceBar(
-      //   //centerTitle: true,
-      //   title: child,
-      //   collapseMode: CollapseMode.pin,
-      //   background: Image.asset(
-      //     "assets/467141054.jpg",
-      //     //fit: offset > 0 ? BoxFit.cover : BoxFit.fill,
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
+    return PullToRefreshNotification(
+      key: Showcase.pullToRefreshNotificationKey,
+      pullBackOnRefresh: true,
+      onRefresh: _onRefresh,
+      maxDragOffset: 100,
+      child: child,
     );
   }
+
+  // Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
+  //   // Widget action = Padding(
+  //   //   child: info?.refreshWiget ?? Icon(Icons.more_horiz),
+  //   //   padding: EdgeInsets.all(15),
+  //   // );
+  //   final offset = info?.dragOffset ?? 0.0;
+  //   // Widget child = Container();
+  //   // if (info != null) {
+  //   //   if (info.mode == RefreshIndicatorMode.error) {
+  //   //     child = GestureDetector(
+  //   //       onTap: () {
+  //   //         // refreshNotification;
+  //   //         info?.pullToRefreshNotificationState?.show();
+  //   //       },
+  //   //       child: Text(
+  //   //         (info.mode?.toString() ?? '') + " click to retry" ?? '',
+  //   //         style: TextStyle(fontSize: 10),
+  //   //       ),
+  //   //     );
+  //   //     action = Container();
+  //   //   } else {
+  //   //     child = Text(
+  //   //       info?.mode?.toString() ?? '',
+  //   //       style: TextStyle(fontSize: 10),
+  //   //     );
+  //   //   }
+  //   // }
+  //   return SliverAppBar(
+  //     pinned: true,
+  //     title: Text('Showcase'),
+  //     centerTitle: true,
+  //     // expandedHeight: 200 + offset,
+  //     expandedHeight: offset,
+  //     // actions: [action],
+  //     // flexibleSpace: FlexibleSpaceBar(
+  //     //   //centerTitle: true,
+  //     //   title: child,
+  //     //   collapseMode: CollapseMode.pin,
+  //     //   background: Image.asset(
+  //     //     "assets/467141054.jpg",
+  //     //     //fit: offset > 0 ? BoxFit.cover : BoxFit.fill,
+  //     //     fit: BoxFit.cover,
+  //     //   ),
+  //     // ),
+  //   );
+  // }
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
@@ -230,7 +245,7 @@ class CommonSliverPersistentHeaderDelegate
   final Widget child;
   final double height;
 
-  CommonSliverPersistentHeaderDelegate(this.child, this.height);
+  CommonSliverPersistentHeaderDelegate({this.child, this.height});
 
   @override
   double get minExtent => height;
@@ -247,6 +262,73 @@ class CommonSliverPersistentHeaderDelegate
   @override
   bool shouldRebuild(CommonSliverPersistentHeaderDelegate oldDelegate) {
     //print("shouldRebuild---------------");
+    return oldDelegate != this;
+  }
+}
+
+class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  SliverAppBarDelegate({this.info, this.height});
+
+  final PullToRefreshScrollNotificationInfo info;
+  // final expandedHeight = 200.0;
+  final double height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // print(expandedHeight);
+    return Stack(
+      fit: StackFit.expand,
+      overflow: Overflow.visible,
+      children: [
+        Container(
+          color: Colors.white,
+          child: Text('Title'),
+        ),
+        // Image.network(
+        //   "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+        //   fit: BoxFit.cover,
+        // ),
+        // Center(
+        //   child: Opacity(
+        //     opacity: shrinkOffset / expandedHeight,
+        //     child: Text(
+        //       "MySliverAppBar",
+        //       style: TextStyle(
+        //         color: Colors.white,
+        //         fontWeight: FontWeight.w700,
+        //         fontSize: 23,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // Positioned(
+        //   top: expandedHeight / 2 - shrinkOffset,
+        //   left: MediaQuery.of(context).size.width / 4,
+        //   child: Opacity(
+        //     opacity: (1 - shrinkOffset / expandedHeight),
+        //     child: Card(
+        //       elevation: 10,
+        //       child: SizedBox(
+        //         height: expandedHeight,
+        //         width: MediaQuery.of(context).size.width / 2,
+        //         child: FlutterLogo(),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+      ],
+    );
+  }
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return oldDelegate != this;
   }
 }
