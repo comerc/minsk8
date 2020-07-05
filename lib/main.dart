@@ -189,6 +189,19 @@ class App extends StatelessWidget {
       //   builder: (BuildContext context) => UnknownPage(settings.name),
       // ),
     );
+    result = AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        // For Android.
+        // Use [light] for white status bar and [dark] for black status bar.
+        statusBarIconBrightness: Brightness.dark,
+        // For iOS.
+        // Use [dark] for white status bar and [light] for black status bar.
+        statusBarBrightness: Brightness.dark,
+      ),
+      child: result,
+    );
+
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
