@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: item.text.trim()
-
 class EditItemScreen extends StatelessWidget {
   EditItemScreen(this.arguments);
 
