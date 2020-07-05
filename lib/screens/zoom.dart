@@ -5,7 +5,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: внедрить свайпы для переходов между картинками,
-// для этого нужна карусель на одном общем Screen
+// для этого нужна карусель на одном общем Screen - PageView
 
 class ZoomScreen extends StatefulWidget {
   ZoomScreen(this.arguments);
