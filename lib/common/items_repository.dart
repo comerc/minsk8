@@ -50,7 +50,7 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
 
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
-    print('isLoadMoreAction: $isLoadMoreAction');
+    // print('isLoadMoreAction: $isLoadMoreAction');
     if (_isHandleRefresh) {
       _isHandleRefresh = false;
     } else if (_isStart) {
