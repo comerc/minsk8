@@ -83,6 +83,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     //     // 1000 * 60 * 60 * 24 * 1 +
     //     1000 * 10;
     final image = item.images[0];
+    // TODO: на маленьких экранах может не влезать слишком длинная картинка,
+    // надо обрезать по высоте по максимально допустимому image.width / image.height
     return AspectRatio(
       aspectRatio: image.width / image.height,
       child:
