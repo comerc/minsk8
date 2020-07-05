@@ -24,18 +24,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final body = [
-      Showcase(
-        tabIndex: _showcaseTabIndex,
-        onChangeTabIndex: _onChangeShowcaseTabIndex,
-      ),
-      Underway(),
-      Chat(),
-      Profile(),
-    ];
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
-      body: body[_navigationBartabIndex],
+      body: IndexedStack(
+        children: [
+          Showcase(
+            tabIndex: _showcaseTabIndex,
+            onChangeTabIndex: _onChangeShowcaseTabIndex,
+          ),
+          Underway(),
+          Chat(),
+          Profile(),
+        ],
+        index: _navigationBartabIndex,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
