@@ -90,6 +90,9 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
+            if (appState['mainAddress'] == null) {
+              appState['mainAddress'] = 'Ждановичи'; // TODO: /profile_map
+            }
             return Query(
               options: QueryOptions(
                 documentNode: Queries.getProfile,
