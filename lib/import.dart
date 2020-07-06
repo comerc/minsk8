@@ -44,6 +44,7 @@ export 'screens/login.dart';
 export 'screens/markdown.dart';
 export 'screens/my_item_map.dart';
 export 'screens/my_items.dart';
+export 'screens/nested_scroll_view.dart';
 export 'screens/notifications.dart';
 export 'screens/pay.dart';
 export 'screens/profile_map.dart';

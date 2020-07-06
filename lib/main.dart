@@ -140,7 +140,7 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      // initialRoute: '/login', // TODO: /item по внешней ссылке
+      // initialRoute: '/nested_scroll_view', // TODO: /item по внешней ссылке
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
@@ -165,6 +165,7 @@ class App extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         '/my_item_map': (_) => MyItemMapScreen(),
         '/my_items': (_) => MyItemsScreen(),
+        '/nested_scroll_view': (_) => NestedScrollViewScreen(),
         '/notifications': (_) => NotificationsScreen(),
         '/pay': (_) => PayScreen(),
         '/profile_map': (_) => ProfileMapScreen(),
