@@ -92,6 +92,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             // pinned tabbar height in header
             tabBarHeight;
     final child = extended.NestedScrollView(
+      // TODO: floatHeaderSlivers: true https://github.com/fluttercandies/extended_nested_scroll_view/issues/38
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () =>
