@@ -12,6 +12,8 @@ import 'package:minsk8/import.dart';
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 // TODO: поменять все print(object) на debugPrint(String) ?
 // TODO: timeout для подписок GraphQL, смотри примеры
+// TODO: ThemeData.shadowColor https://github.com/flutter/flutter/pull/60337
+// TODO: shadowColor to AppBar and AppBarTheme https://github.com/flutter/flutter/pull/58708
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -67,10 +69,11 @@ class App extends StatelessWidget {
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'minsk8',
-      // theme: ThemeData(
-      //   primarySwatch: mapBoxBlue,
-      //   visualDensity: VisualDensity.adaptivePlatformDensity
-      // ),
+      theme: ThemeData(
+        //   primarySwatch: mapBoxBlue,
+        //   visualDensity: VisualDensity.adaptivePlatformDensity
+        appBarTheme: AppBarTheme(brightness: Brightness.light),
+      ),
       builder: (BuildContext context, Widget child) {
         sourceListPool = allKinds
             .map((kind) => ItemsRepository(context, kind.value))
@@ -132,9 +135,9 @@ class App extends StatelessWidget {
             );
           },
         );
-        // );
       },
       home: HomeScreen(key: homeKey),
+      // initialRoute: '/login', // TODO: /item по внешней ссылке
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
@@ -190,7 +193,7 @@ class App extends StatelessWidget {
       // ),
     );
     result = AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         // For Android.
         // Use [light] for white status bar and [dark] for black status bar.
@@ -201,7 +204,6 @@ class App extends StatelessWidget {
       ),
       child: result,
     );
-
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
