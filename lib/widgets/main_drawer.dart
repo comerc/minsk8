@@ -108,10 +108,6 @@ final mainRoutes = [
     'routeName': '/settings',
   },
   {
-    'title': 'Showcase',
-    'routeName': '/showcase',
-  },
-  {
     'title': 'Sign Up',
     'routeName': '/sign_up',
   },
