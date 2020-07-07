@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'utils.dart' as utils;
 
+// TODO: Card + elevation / AnnotatedRegion<SystemUiOverlayStyle> для теней контролов
+// https://stackoverflow.com/questions/53299232/elevation-not-working-on-flutter-material
+
 typedef void ChangeRadiusCallback(double value);
 
 class AreaLayerMapPluginOptions extends LayerOptions {
