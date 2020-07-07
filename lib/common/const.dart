@@ -22,3 +22,4 @@ const kMinLeadingWidth = 40;
 const kGraphQLMutationTimeout = 20;
 const kGraphQLQueryTimeout = 20;
 const kImageUploadTimeout = 20;
+const kAppBarElevation = 4.0;

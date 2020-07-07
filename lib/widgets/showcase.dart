@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -101,32 +102,37 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
         SliverPersistentHeader(
           pinned: true,
           delegate: CommonSliverPersistentHeaderDelegate(
-            child: SizedBox(height: statusBarHeight),
+            builder: (BuildContext context, double shrinkOffset,
+                bool overlapsContent) {
+              return SizedBox(height: statusBarHeight);
+            },
             height: statusBarHeight,
+          ),
+        ),
+        SliverPersistentHeader(
+          delegate: CommonSliverPersistentHeaderDelegate(
+            builder: (BuildContext context, double shrinkOffset,
+                bool overlapsContent) {
+              return ShowcaseAppBar();
+            },
+            height: kToolbarHeight,
           ),
         ),
         PullToRefreshContainer(
           (PullToRefreshScrollNotificationInfo info) => SliverPersistentHeader(
-            delegate: SliverAppBarDelegate(info: info, height: kToolbarHeight),
-          ),
-        ),
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: CommonSliverPersistentHeaderDelegate(
-            child: Container(
-              child: tabBar,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(0, 2),
-                    blurRadius: 2,
-                  )
-                ],
-              ),
+            pinned: true,
+            delegate: CommonSliverPersistentHeaderDelegate(
+              builder: (BuildContext context, double shrinkOffset,
+                  bool overlapsContent) {
+                return ShowcaseTabBar(
+                  info: info,
+                  shrinkOffset: shrinkOffset,
+                  // overlapsContent: overlapsContent,
+                  tabBar: tabBar,
+                );
+              },
+              height: tabBarHeight,
             ),
-            height: tabBarHeight,
           ),
         ),
       ],
@@ -140,7 +146,6 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     );
     return PullToRefreshNotification(
       key: Showcase.pullToRefreshNotificationKey,
-      pullBackOnRefresh: true,
       onRefresh: _onRefresh,
       maxDragOffset: 100,
       child: child,
@@ -242,12 +247,15 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   }
 }
 
+typedef Widget CommonSliverPersistentHeaderDelegateBuilder(
+    BuildContext context, double shrinkOffset, bool overlapsContent);
+
 class CommonSliverPersistentHeaderDelegate
     extends SliverPersistentHeaderDelegate {
-  final Widget child;
   final double height;
+  final CommonSliverPersistentHeaderDelegateBuilder builder;
 
-  CommonSliverPersistentHeaderDelegate({this.child, this.height});
+  CommonSliverPersistentHeaderDelegate({this.builder, this.height});
 
   @override
   double get minExtent => height;
@@ -258,133 +266,121 @@ class CommonSliverPersistentHeaderDelegate
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return child;
+    return builder(context, shrinkOffset, overlapsContent);
   }
 
   @override
   bool shouldRebuild(CommonSliverPersistentHeaderDelegate oldDelegate) {
-    //print("shouldRebuild---------------");
+    // TODO: оптимизировать
     return oldDelegate != this;
   }
 }
 
-class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  SliverAppBarDelegate({this.info, this.height});
-
-  final PullToRefreshScrollNotificationInfo info;
-  // final expandedHeight = 200.0;
-  final double height;
-
+class ShowcaseAppBar extends StatelessWidget {
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // print(expandedHeight);
-    return Stack(
-      fit: StackFit.expand,
-      overflow: Overflow.visible,
-      children: [
-        Container(
-          color: Colors.white,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(width: 16),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(width: 16),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      'Без названия',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
-                    ),
+              Container(
+                child: Text(
+                  'Без названия',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black.withOpacity(0.8),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Text(
-                      "${appState['mainAddress']} — ${appState['radius'].toInt()} км",
-                      style: TextStyle(
-                        fontSize: kFontSize,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-              Spacer(),
-              AspectRatio(
-                aspectRatio: 1,
-                child: Tooltip(
-                  message: 'Настройки витрины',
-                  child: Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(kButtonIconSize * 2)),
-                      child: Container(
-                        child: Icon(
-                          FontAwesomeIcons.slidersH,
-                          color: Colors.black.withOpacity(0.8),
-                          size: kButtonIconSize,
-                        ),
-                      ),
-                      onTap: () {}, // TODO: /settings
-                    ),
+              Container(
+                padding: EdgeInsets.only(top: 4),
+                child: Text(
+                  "${appState['mainAddress']} — ${appState['radius'].toInt()} км",
+                  style: TextStyle(
+                    fontSize: kFontSize,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black.withOpacity(0.6),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-        // Image.network(
-        //   "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        //   fit: BoxFit.cover,
-        // ),
-        // Center(
-        //   child: Opacity(
-        //     opacity: shrinkOffset / expandedHeight,
-        //     child: Text(
-        //       "MySliverAppBar",
-        //       style: TextStyle(
-        //         color: Colors.white,
-        //         fontWeight: FontWeight.w700,
-        //         fontSize: 23,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // Positioned(
-        //   top: expandedHeight / 2 - shrinkOffset,
-        //   left: MediaQuery.of(context).size.width / 4,
-        //   child: Opacity(
-        //     opacity: (1 - shrinkOffset / expandedHeight),
-        //     child: Card(
-        //       elevation: 10,
-        //       child: SizedBox(
-        //         height: expandedHeight,
-        //         width: MediaQuery.of(context).size.width / 2,
-        //         child: FlutterLogo(),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
+          Spacer(),
+          AspectRatio(
+            aspectRatio: 1,
+            child: Tooltip(
+              message: 'Настройки витрины',
+              child: Material(
+                color: Colors.white,
+                child: InkWell(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(kButtonIconSize * 2)),
+                  child: Container(
+                    child: Icon(
+                      FontAwesomeIcons.slidersH,
+                      color: Colors.black.withOpacity(0.8),
+                      size: kButtonIconSize,
+                    ),
+                  ),
+                  onTap: () {}, // TODO: /settings
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+}
+
+class ShowcaseTabBar extends StatelessWidget {
+  ShowcaseTabBar({
+    this.info,
+    this.shrinkOffset,
+    // this.overlapsContent,
+    this.tabBar,
+  });
+
+  final PullToRefreshScrollNotificationInfo info;
+  final double shrinkOffset;
+  // final bool overlapsContent;
+  final TabBar tabBar;
 
   @override
-  double get maxExtent => height;
-
-  @override
-  double get minExtent => height;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return oldDelegate != this;
+  Widget build(BuildContext context) {
+    final AppBarTheme appBarTheme = AppBarTheme.of(context);
+    final Brightness brightness = appBarTheme.brightness;
+    final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
+    final child = AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: Material(
+        elevation: kAppBarElevation,
+        color: Colors.white,
+        child: tabBar,
+      ),
+    );
+    final offset = info?.dragOffset ?? 0.0;
+    return Stack(
+      fit: StackFit.expand,
+      overflow: Overflow.visible,
+      children: [
+        Positioned(
+          top: shrinkOffset + offset,
+          left: 0,
+          right: 0,
+          child: Center(child: info?.refreshWiget),
+        ),
+        child,
+      ],
+    );
   }
 }
