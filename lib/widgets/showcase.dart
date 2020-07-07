@@ -295,7 +295,7 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 children: [
                   Container(
                     child: Text(
-                      'Отдам Даром',
+                      'Без названия',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
