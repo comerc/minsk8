@@ -8,6 +8,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+// TODO: InkWell для картинок
+
 typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
 
 class Showcase extends StatefulWidget {
@@ -202,7 +204,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   Future<bool> _onRefresh() async {
     // print('onRefresh');
     final sourceList = sourceListPool[_tabController.index];
-    return await sourceList.handleRefresh(true);
+    return await sourceList.handleRefresh();
   }
 
   Future<void> _initDynamicLinks() async {

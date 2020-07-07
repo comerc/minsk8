@@ -51,8 +51,10 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
     // print('isLoadMoreAction: $isLoadMoreAction');
+    bool clearAfterRequest = false;
     if (_isHandleRefresh) {
       _isHandleRefresh = false;
+      clearAfterRequest = true;
     } else if (_isStart) {
       _isStart = false;
     } else if (!isLoadMoreAction) {
@@ -89,29 +91,39 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
       }
       final client = GraphQLProvider.of(context).value;
       // to show loading more clearly, in your app,remove this
-      await Future.delayed(Duration(milliseconds: 500));
+      if (!clearAfterRequest) {
+        await Future.delayed(Duration(milliseconds: 500));
+      }
       final result = await client
           .query(options)
           .timeout(Duration(seconds: kGraphQLQueryTimeout));
       if (result.hasException) {
         throw result.exception;
       }
-      final items = [...result.data['items'] as List];
+      final dataItems = [...result.data['items'] as List];
+      // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
+      final items = <ItemModel>[];
       // if (_isFirst) {
       //   _isFirst = false;
       //   this.clear();
       // }
-      if (!isLoadMoreAction) {
-        this.clear();
-      }
-      _hasMore = items.length == kGraphQLItemsLimit;
+      _hasMore = dataItems.length == kGraphQLItemsLimit;
       if (_hasMore) {
-        final itemElement = ItemModel.fromJson(items.removeLast());
+        final itemElement = ItemModel.fromJson(dataItems.removeLast());
         nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
       }
-      for (final item in items) {
-        this.add(ItemModel.fromJson(item));
+      for (final dataItem in dataItems) {
+        items.add(ItemModel.fromJson(dataItem));
       }
+      if (this.length > 0 && clearAfterRequest) {
+        // TODO: (?) как отменить IndicatorStatus.loadingMoreBusying
+        // indicatorStatus = IndicatorStatus.none;
+        this.clear();
+        onStateChanged(this);
+        // TODO: (?) как в Dart реализуется SetTimeout(0) для event loop
+        await Future.delayed(Duration(milliseconds: 500));
+      }
+      this.addAll(items);
       isSuccess = true;
     } catch (exception, stack) {
       isSuccess = false;
@@ -121,8 +133,8 @@ class ItemsRepository extends LoadingMoreBase<ItemModel> {
     return isSuccess;
   }
 
-  Future<bool> handleRefresh([bool clearBeforeRequest = false]) async {
+  Future<bool> handleRefresh() async {
     _isHandleRefresh = true;
-    return refresh(clearBeforeRequest);
+    return refresh(false);
   }
 }
