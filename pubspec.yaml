@@ -49,9 +49,10 @@ dependencies:
   like_button: # 0.1.9
     # path: ../like_button/
     git: git://github.com/comerc/like_button.git
-  loading_more_list: # 1.0.3
+  loading_more_list:
+    3.0.0
     # path: ../loading_more_list/
-    git: git://github.com/comerc/loading_more_list.git
+    # git: git://github.com/comerc/loading_more_list.git
   http_client_helper: ^0.2.1
   extended_nested_scroll_view: # 1.0.0
     # path: ../extended_nested_scroll_view/

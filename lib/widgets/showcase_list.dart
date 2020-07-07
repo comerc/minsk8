@@ -8,7 +8,6 @@ import 'package:minsk8/import.dart';
 
 // TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
-// TODO: обновить loading_more_list до версии 3.0.0, но там убрали waterfallFlowDelegate
 
 class ShowcaseList extends StatefulWidget {
   ShowcaseList({
@@ -42,26 +41,22 @@ class _ShowcaseListState extends State<ShowcaseList>
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
         slivers: [
-          // SliverPersistentHeader(
-          //   pinned: false,
-          //   floating: false,
-          //   delegate: CommonSliverPersistentHeaderDelegate(
-          //     Container(
-          //       alignment: Alignment.center,
-          //       height: headerHeight,
-          //       color: Colors.red,
-          //       child:
-          //           Text("This is a single sliver List with no pinned header"),
-          //       //color: Colors.white,
-          //     ),
-          //     headerHeight,
-          //   ),
-          // ),
           LoadingMoreSliverList(SliverListConfig<ItemModel>(
-            waterfallFlowDelegate: WaterfallFlowDelegate(
+            extendedListDelegate:
+                SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
               mainAxisSpacing: 32,
+              collectGarbage: (List<int> garbages) {
+                garbages.forEach((index) {
+                  final item = widget.sourceList[index];
+                  final image = item.images[0];
+                  final provider = ExtendedNetworkImageProvider(
+                    image.getDummyUrl(item.id),
+                  );
+                  provider.evict();
+                });
+              },
             ),
             itemBuilder: (BuildContext context, ItemModel item, int index) {
               return ShowcaseItem(
@@ -76,16 +71,6 @@ class _ShowcaseListState extends State<ShowcaseList>
             // showGlowTrailing: false,
             padding: EdgeInsets.all(16),
             lastChildLayoutType: LastChildLayoutType.foot,
-            collectGarbage: (List<int> indexes) {
-              indexes.forEach((index) {
-                final item = widget.sourceList[index];
-                final image = item.images[0];
-                final provider = ExtendedNetworkImageProvider(
-                  image.getDummyUrl(item.id),
-                );
-                provider.evict();
-              });
-            },
           ))
         ],
       ),
