@@ -321,12 +321,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _buildAddImageButton(int index) {
+    final isExistIndex = _images.length > index;
     return AddImageButton(
       index: index,
       hasIcon: _images.length == index,
-      onTap: _images.length > index ? _handleDeleteImage : _handleAddImage,
-      bytes: _images.length > index ? _images[index].bytes : null,
-      uploadStatus: _images.length > index ? _images[index].uploadStatus : null,
+      onTap: isExistIndex ? _handleDeleteImage : _handleAddImage,
+      bytes: isExistIndex ? _images[index].bytes : null,
+      uploadStatus: isExistIndex ? _images[index].uploadStatus : null,
     );
   }
 
