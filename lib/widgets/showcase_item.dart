@@ -26,42 +26,12 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () {
-            // Navigator.of(context).push(PageRouteBuilder(
-            //   settings: RouteSettings(
-            //     arguments: ItemRouteArguments(item, tag: tag),
-            //   ),
-            //   pageBuilder: (context, animation, secondaryAnimation) =>
-            //       ItemScreen(),
-            //   transitionsBuilder:
-            //       (context, animation, secondaryAnimation, child) {
-            //     return child;
-            //   },
-            // ));
-            setState(() {
-              _isBottom = false;
-            });
-            Navigator.pushNamed(
-              context,
-              '/item',
-              arguments: ItemRouteArguments(
-                widget.item,
-                tabIndex: widget.tabIndex,
-                member: widget.item.member,
-                isShowcase: true,
-              ),
-            ).then((_) {
-              setState(() {
-                _isBottom = true;
-              });
-            });
-          },
-          child: Hero(
-            tag: '${allKinds[widget.tabIndex].value}-${widget.item.id}',
-            child: _buildImage(widget.item),
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () {
+        //   },
+        //   child:
+        _buildImage(widget.item),
+        // ),
         // SizedBox(
         //   height: 5,
         // ),
@@ -83,60 +53,97 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     //     // 1000 * 60 * 60 * 24 * 1 +
     //     1000 * 10;
     final image = item.images[0];
-    // TODO: на маленьких экранах может не влезать слишком длинная картинка,
-    // надо обрезать по высоте по максимально допустимому image.width / image.height
-    return AspectRatio(
-      aspectRatio: image.width / image.height,
-      child:
-          // ClipRRect(
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          // child:
-          Stack(
-        fit: StackFit.expand,
-        children: [
-          ExtendedImage.network(
-            image.getDummyUrl(item.id),
-            fit: BoxFit.fill,
-            // shape: BoxShape.rectangle,
-            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
-            // borderRadius: BorderRadius.all(kImageBorderRadius),
-            loadStateChanged: loadStateChanged,
-          ),
-          _buildText(item.text),
-          if (item.isBlockedOrLocalDeleted)
-            _buildStatus(
-              'Заблокировано',
-              isClosed: true,
-            )
-          else if (item.transferredAt != null)
-            _buildStatus(
-              'Забрали',
-              isClosed: true,
-            )
-          else if (item.win != null)
-            _buildStatus(
-              'Завершено',
-              isClosed: true,
-            )
-          else if (item.expiresAt != null)
-            CountdownTimer(
-              endTime: item.expiresAt.millisecondsSinceEpoch,
-              builder: (BuildContext context, int seconds) {
-                return _buildStatus(
-                  seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
-                  isClosed: seconds < 1,
-                );
-              },
-            )
-          else if (item.urgent != UrgentStatus.none)
-            _buildStatus(
-              urgents
-                  .firstWhere((urgentModel) => urgentModel.value == item.urgent)
-                  .name,
-              isClosed: false,
+    return Material(
+      child: InkWell(
+        onTap: () {
+          // Navigator.of(context).push(PageRouteBuilder(
+          //   settings: RouteSettings(
+          //     arguments: ItemRouteArguments(item, tag: tag),
+          //   ),
+          //   pageBuilder: (context, animation, secondaryAnimation) =>
+          //       ItemScreen(),
+          //   transitionsBuilder:
+          //       (context, animation, secondaryAnimation, child) {
+          //     return child;
+          //   },
+          // ));
+          setState(() {
+            _isBottom = false;
+          });
+          Navigator.pushNamed(
+            context,
+            '/item',
+            arguments: ItemRouteArguments(
+              widget.item,
+              tabIndex: widget.tabIndex,
+              member: widget.item.member,
+              isShowcase: true,
             ),
-          // _buildTopRightLabel(item.images.length.toString()),
-        ],
+          ).then((_) {
+            setState(() {
+              _isBottom = true;
+            });
+          });
+        },
+        splashColor: Colors.white.withOpacity(0.4),
+        // TODO: на маленьких экранах может не влезать слишком длинная картинка,
+        // надо обрезать по высоте по максимально допустимому image.width / image.height
+        child: AspectRatio(
+          aspectRatio: image.width / image.height,
+          child: Hero(
+            tag: '${allKinds[widget.tabIndex].value}-${widget.item.id}',
+            child: Ink.image(
+              fit: BoxFit.fill,
+              image: ExtendedImage.network(
+                image.getDummyUrl(item.id),
+                // shape: BoxShape.rectangle,
+                // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
+                // borderRadius: BorderRadius.all(kImageBorderRadius),
+                loadStateChanged: loadStateChanged,
+              ).image,
+              child: Stack(
+                // fit: StackFit.expand,
+                children: [
+                  _buildText(item.text),
+                  if (item.isBlockedOrLocalDeleted)
+                    _buildStatus(
+                      'Заблокировано',
+                      isClosed: true,
+                    )
+                  else if (item.transferredAt != null)
+                    _buildStatus(
+                      'Забрали',
+                      isClosed: true,
+                    )
+                  else if (item.win != null)
+                    _buildStatus(
+                      'Завершено',
+                      isClosed: true,
+                    )
+                  else if (item.expiresAt != null)
+                    CountdownTimer(
+                      endTime: item.expiresAt.millisecondsSinceEpoch,
+                      builder: (BuildContext context, int seconds) {
+                        return _buildStatus(
+                          seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+                          isClosed: seconds < 1,
+                        );
+                      },
+                    )
+                  else if (item.urgent != UrgentStatus.none)
+                    _buildStatus(
+                      urgents
+                          .firstWhere(
+                              (urgentModel) => urgentModel.value == item.urgent)
+                          .name,
+                      isClosed: false,
+                    ),
+                  // _buildTopRightLabel(item.images.length.toString()),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

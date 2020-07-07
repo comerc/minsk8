@@ -315,57 +315,62 @@ class _ItemScreenState extends State<ItemScreen> {
                           ),
                         ),
                       if (_isCarouselSlider)
-                        GestureDetector(
-                          onTap: () async {
-                            setState(() {
-                              _showHero = _ShowHero.forOpenZoom;
-                              _isCarouselSlider = false;
-                            });
-                            // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
-                            // await SystemChrome.setPreferredOrientations([
-                            //   DeviceOrientation.landscapeRight,
-                            //   DeviceOrientation.landscapeLeft,
-                            //   DeviceOrientation.portraitUp,
-                            //   DeviceOrientation.portraitDown,
-                            // ]);
-                            // await Future.delayed(Duration(milliseconds: 100));
-                            Navigator.pushNamed(
-                              context,
-                              '/zoom',
-                              arguments: ZoomRouteArguments(
-                                item,
-                                tag: tag,
-                                index: _currentIndex,
-                                onWillPop: _onWillPopForZoom,
+                        CarouselSlider(
+                          initialPage: _currentIndex,
+                          height: carouselSliderHeight,
+                          autoPlay: item.images.length > 1,
+                          enableInfiniteScroll: item.images.length > 1,
+                          pauseAutoPlayOnTouch: const Duration(seconds: 10),
+                          enlargeCenterPage: true,
+                          viewportFraction:
+                              ItemCarouselSliderSettings.viewportFraction,
+                          onPageChanged: (index) {
+                            _currentIndex = index;
+                          },
+                          items: List.generate(item.images.length, (index) {
+                            return Container(
+                              width: size.width,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: ItemCarouselSliderSettings
+                                      .itemHorizontalMargin),
+                              child: Material(
+                                child: InkWell(
+                                  onTap: () async {
+                                    setState(() {
+                                      _showHero = _ShowHero.forOpenZoom;
+                                      _isCarouselSlider = false;
+                                    });
+                                    // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
+                                    // await SystemChrome.setPreferredOrientations([
+                                    //   DeviceOrientation.landscapeRight,
+                                    //   DeviceOrientation.landscapeLeft,
+                                    //   DeviceOrientation.portraitUp,
+                                    //   DeviceOrientation.portraitDown,
+                                    // ]);
+                                    // await Future.delayed(Duration(milliseconds: 100));
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/zoom',
+                                      arguments: ZoomRouteArguments(
+                                        item,
+                                        tag: tag,
+                                        index: index,
+                                        onWillPop: _onWillPopForZoom,
+                                      ),
+                                    );
+                                  },
+                                  splashColor: Colors.white.withOpacity(0.4),
+                                  child: Ink.image(
+                                    fit: BoxFit.cover,
+                                    image: ExtendedImage.network(
+                                      item.images[index].getDummyUrl(item.id),
+                                      loadStateChanged: loadStateChanged,
+                                    ).image,
+                                  ),
+                                ),
                               ),
                             );
-                          },
-                          child: CarouselSlider(
-                            initialPage: _currentIndex,
-                            height: carouselSliderHeight,
-                            autoPlay: item.images.length > 1,
-                            enableInfiniteScroll: item.images.length > 1,
-                            pauseAutoPlayOnTouch: const Duration(seconds: 10),
-                            enlargeCenterPage: true,
-                            viewportFraction:
-                                ItemCarouselSliderSettings.viewportFraction,
-                            onPageChanged: (index) {
-                              _currentIndex = index;
-                            },
-                            items: List.generate(item.images.length, (index) {
-                              return Container(
-                                width: size.width,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: ItemCarouselSliderSettings
-                                        .itemHorizontalMargin),
-                                child: ExtendedImage.network(
-                                  item.images[index].getDummyUrl(item.id),
-                                  fit: BoxFit.cover,
-                                  loadStateChanged: loadStateChanged,
-                                ),
-                              );
-                            }),
-                          ),
+                          }),
                         ),
                     ],
                   ),
@@ -491,34 +496,39 @@ class _ItemScreenState extends State<ItemScreen> {
                               return Container(
                                 width: otherItemWidth,
                                 color: Colors.red,
-                                child: GestureDetector(
-                                  // TODO: т.к. картинки квадратные, можно переключать на следующую
-                                  // onLongPress: () {},
-                                  onTap: () {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      '/item',
-                                      (Route route) {
-                                        return route.settings.name != '/item';
-                                      },
-                                      arguments: ItemRouteArguments(
-                                        otherItem,
-                                        tabIndex: tabIndex,
-                                        member: member,
-                                      ),
-                                    );
-                                  },
-                                  child:
-                                      // Hero(
-                                      //   tag: otherItem.id,
-                                      //   child:
-                                      ExtendedImage.network(
-                                    otherItem.images[0]
-                                        .getDummyUrl(otherItem.id),
-                                    fit: BoxFit.cover,
-                                    enableLoadState: false,
+                                child: Material(
+                                  child: InkWell(
+                                    // TODO: т.к. картинки квадратные, можно переключать на следующую
+                                    // onLongPress: () {},
+                                    onTap: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        '/item',
+                                        (Route route) {
+                                          return route.settings.name != '/item';
+                                        },
+                                        arguments: ItemRouteArguments(
+                                          otherItem,
+                                          tabIndex: tabIndex,
+                                          member: member,
+                                        ),
+                                      );
+                                    },
+                                    splashColor: Colors.white.withOpacity(0.4),
+                                    // child : Hero(
+                                    //   tag: otherItem.id,
+                                    //   child:
+                                    child: Ink.image(
+                                      fit: BoxFit.cover,
+                                      image: ExtendedImage.network(
+                                        otherItem.images[0]
+                                            .getDummyUrl(otherItem.id),
+                                        fit: BoxFit.cover,
+                                        enableLoadState: false,
+                                      ).image,
+                                    ),
+                                    // ),
                                   ),
-                                  // ),
                                 ),
                               );
                             },

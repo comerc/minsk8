@@ -8,8 +8,6 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// TODO: InkWell для картинок
-
 typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
 
 class Showcase extends StatefulWidget {

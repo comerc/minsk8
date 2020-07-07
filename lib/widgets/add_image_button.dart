@@ -29,41 +29,46 @@ class AddImageButton extends StatelessWidget {
     return Tooltip(
       message: 'Добавить/удалить фотографию',
       child: Material(
-        child: InkWell(
-          child: hasIcon
-              ? Icon(
-                  FontAwesomeIcons.camera,
-                  color: Colors.black.withOpacity(0.8),
-                  size: kBigButtonIconSize,
-                )
-              : bytes == null
-                  ? Container()
-                  : Ink.image(
-                      fit: BoxFit.cover,
-                      image: ExtendedImage.memory(bytes).image,
-                      child: uploadStatus == null
-                          ? null
-                          : Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                Container(color: Colors.white.withOpacity(0.4)),
-                                if (uploadStatus == ImageUploadStatus.progress)
-                                  Center(
-                                    child: buildProgressIndicator(context),
-                                  ),
-                                if (uploadStatus == ImageUploadStatus.error)
-                                  Center(
-                                    child: Icon(
-                                      FontAwesomeIcons.solidTimesCircle,
-                                      color: Colors.red,
-                                      size: kBigButtonIconSize,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                    ),
-          onTap: _onTap,
-        ),
+        child: bytes == null
+            // продублировал InkWell, чтобы не переопределять splashColor
+            ? InkWell(
+                child: hasIcon
+                    ? Icon(
+                        FontAwesomeIcons.camera,
+                        color: Colors.black.withOpacity(0.8),
+                        size: kBigButtonIconSize,
+                      )
+                    : Container(),
+                onTap: _onTap,
+              )
+            : InkWell(
+                splashColor: Colors.white.withOpacity(0.4),
+                child: Ink.image(
+                  fit: BoxFit.cover,
+                  image: ExtendedImage.memory(bytes).image,
+                  child: uploadStatus == null
+                      ? null
+                      : Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Container(color: Colors.white.withOpacity(0.4)),
+                            if (uploadStatus == ImageUploadStatus.progress)
+                              Center(
+                                child: buildProgressIndicator(context),
+                              ),
+                            if (uploadStatus == ImageUploadStatus.error)
+                              Center(
+                                child: Icon(
+                                  FontAwesomeIcons.solidTimesCircle,
+                                  color: Colors.red,
+                                  size: kBigButtonIconSize,
+                                ),
+                              ),
+                          ],
+                        ),
+                ),
+                onTap: _onTap,
+              ),
       ),
     );
   }
