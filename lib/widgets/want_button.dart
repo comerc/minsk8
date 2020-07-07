@@ -15,7 +15,7 @@ class WantButton extends StatelessWidget {
         color: item.isClosed ? null : Colors.red,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
-          splashColor: Colors.white,
+          splashColor: Colors.white.withOpacity(0.4),
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: Container(
             alignment: Alignment.center,

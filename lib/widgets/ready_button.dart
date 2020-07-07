@@ -14,7 +14,7 @@ class ReadyButton extends StatelessWidget {
         // borderRadius: BorderRadius.circular(8),
         color: Colors.red,
         child: InkWell(
-          splashColor: Colors.white,
+          splashColor: Colors.white.withOpacity(0.4),
           child: Container(
             alignment: Alignment.center,
             child: Text(

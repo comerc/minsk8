@@ -15,7 +15,7 @@ class PriceButton extends StatelessWidget {
         color: Colors.yellow.withOpacity(0.5),
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
-          splashColor: Colors.white,
+          splashColor: Colors.white.withOpacity(0.4),
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: Container(
             height: kButtonHeight,
