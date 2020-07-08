@@ -249,17 +249,36 @@ class MediaQueryWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //If the design is based on the size of the iPhone6 ​​(iPhone6 ​​750*1334)
+    //If the design is based on the size of the Nexus 7 (2013)
     //If you want to set the font size is scaled according to the system's "font size" assist option
-    // ScreenUtil.instance =
-    //     ScreenUtil(width: 300, height: 700, allowFontScaling: true)
-    //       ..init(context);
+    // ScreenUtil.init(width: 1920, height: 1200, allowFontScaling: true);
+    // printScreenInformation();
     final data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(textScaleFactor: 1),
       child: child,
     );
+    // TODO: Responsive App https://medium.com/nonstopio/let-make-responsive-app-in-flutter-e48428795476
   }
+
+  // void printScreenInformation() {
+  //   print('Device width dp:${ScreenUtil.screenWidth}'); //Device width
+  //   print('Device height dp:${ScreenUtil.screenHeight}'); //Device height
+  //   print(
+  //       'Device pixel density:${ScreenUtil.pixelRatio}'); //Device pixel density
+  //   print(
+  //       'Bottom safe zone distance dp:${ScreenUtil.bottomBarHeight}'); //Bottom safe zone distance，suitable for buttons with full screen
+  //   print(
+  //       'Status bar height dp:${ScreenUtil.statusBarHeight}dp'); //Status bar height , Notch will be higher Unit dp
+  //   print(
+  //       'Ratio of actual width dp to design draft px:${ScreenUtil().scaleWidth}');
+  //   print(
+  //       'Ratio of actual height dp to design draft px:${ScreenUtil().scaleHeight}');
+  //   print(
+  //       'The ratio of font and width to the size of the design:${ScreenUtil().scaleWidth * ScreenUtil.pixelRatio}');
+  //   print(
+  //       'The ratio of height width to the size of the design:${ScreenUtil().scaleHeight * ScreenUtil.pixelRatio}');
+  // }
 }
 
 // String typenameDataIdFromObject(Object object) {
