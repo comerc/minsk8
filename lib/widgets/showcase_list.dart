@@ -13,7 +13,7 @@ class ShowcaseList extends StatefulWidget {
   ShowcaseList({
     Key key,
     this.tabIndex,
-  })  : scrollPositionKey = Key(allKinds[tabIndex].name),
+  })  : scrollPositionKey = Key(allKinds[tabIndex].value.toString()),
         sourceList = sourceListPool[tabIndex],
         super(key: key);
 

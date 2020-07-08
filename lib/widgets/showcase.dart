@@ -28,7 +28,7 @@ class Showcase extends StatefulWidget {
 
 class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   TabController _tabController;
-  int get tabIndex => _tabController.index;
+  // int get tabIndex => _tabController.index;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       if (!_tabController.indexIsChanging) {
         widget.onChangeTabIndex(_tabController.index);
         // print(
-        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].enumValue}');
+        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
@@ -96,7 +96,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () =>
-          Key(allKinds[_tabController.index].name),
+          Key(allKinds[_tabController.index].value.toString()),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverPersistentHeader(
           pinned: true,
@@ -123,7 +123,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             delegate: CommonSliverPersistentHeaderDelegate(
               builder: (BuildContext context, double shrinkOffset,
                   bool overlapsContent) {
-                return ShowcaseTabBar(
+                return ListTabBar(
                   info: info,
                   shrinkOffset: shrinkOffset,
                   // overlapsContent: overlapsContent,
@@ -246,35 +246,6 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   }
 }
 
-typedef Widget CommonSliverPersistentHeaderDelegateBuilder(
-    BuildContext context, double shrinkOffset, bool overlapsContent);
-
-class CommonSliverPersistentHeaderDelegate
-    extends SliverPersistentHeaderDelegate {
-  final double height;
-  final CommonSliverPersistentHeaderDelegateBuilder builder;
-
-  CommonSliverPersistentHeaderDelegate({this.builder, this.height});
-
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return builder(context, shrinkOffset, overlapsContent);
-  }
-
-  @override
-  bool shouldRebuild(CommonSliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: оптимизировать
-    return oldDelegate != this;
-  }
-}
-
 class ShowcaseAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -337,58 +308,6 @@ class ShowcaseAppBar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ShowcaseTabBar extends StatelessWidget {
-  ShowcaseTabBar({
-    this.info,
-    this.shrinkOffset,
-    // this.overlapsContent,
-    this.tabBar,
-  });
-
-  final PullToRefreshScrollNotificationInfo info;
-  final double shrinkOffset;
-  // final bool overlapsContent;
-  final TabBar tabBar;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Wrapper for overlayStyle
-    // final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    // final Brightness brightness = appBarTheme.brightness;
-    // final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
-    //     ? SystemUiOverlayStyle.light
-    //     : SystemUiOverlayStyle.dark;
-    // final child = AnnotatedRegion<SystemUiOverlayStyle>(
-    //   value: overlayStyle,
-    //   child:
-    //   Material(
-    //     elevation: kAppBarElevation,
-    //     color: Colors.white,
-    //     child: tabBar,
-    //   ),
-    // );
-    final child = Material(
-      elevation: kAppBarElevation,
-      color: Colors.white,
-      child: tabBar,
-    );
-    final offset = info?.dragOffset ?? 0.0;
-    return Stack(
-      fit: StackFit.expand,
-      overflow: Overflow.visible,
-      children: [
-        Positioned(
-          top: shrinkOffset + offset,
-          left: 0,
-          right: 0,
-          child: Center(child: info?.refreshWiget),
-        ),
-        child,
-      ],
     );
   }
 }

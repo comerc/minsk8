@@ -6,6 +6,7 @@ export 'common/helpers.dart';
 export 'common/items_repository.dart';
 export 'common/mutations.dart';
 export 'common/queries.dart';
+export 'common/sliver_persistent_header.dart';
 
 export 'models/bid.dart';
 export 'models/chat.dart';
@@ -73,6 +74,7 @@ export 'widgets/image_source_dialog.dart';
 export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
 export 'widgets/life_cycle_manager.dart';
+export 'widgets/list_tab_bar.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/map.dart';
 export 'widgets/navigation_bar.dart';
