@@ -7,10 +7,12 @@ class ShowcaseItem extends StatefulWidget {
     Key key,
     this.item,
     this.tabIndex,
+    this.isCover,
   }) : super(key: key);
 
   final ItemModel item;
   final int tabIndex;
+  final bool isCover;
 
   @override
   _ShowcaseItemState createState() {
@@ -39,8 +41,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // SizedBox(
         //   height: 5,
         // ),
-        if (_isBottom)
-          _buildBottom(widget.item),
+        _buildBottom(widget.item),
         // SizedBox(
         //   height: 8,
         // ),
@@ -89,11 +90,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // TODO: на маленьких экранах может не влезать слишком длинная картинка,
         // надо обрезать по высоте по максимально допустимому image.width / image.height
         child: AspectRatio(
-          aspectRatio: image.width / image.height,
+          aspectRatio: widget.isCover ? 1 : image.width / image.height,
           child: Hero(
             tag: '${allKinds[widget.tabIndex].value}-${widget.item.id}',
             child: Ink.image(
-              fit: BoxFit.fill,
+              fit: widget.isCover ? BoxFit.cover : BoxFit.contain,
               image: ExtendedImage.network(
                 image.getDummyUrl(item.id),
                 // shape: BoxShape.rectangle,
@@ -149,6 +150,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   Widget _buildBottom(ItemModel item) {
+    if (!_isBottom) {
+      return SizedBox(
+        height: kButtonHeight,
+      );
+    }
     return Row(
       children: [
         // ExtendedImage.network(
