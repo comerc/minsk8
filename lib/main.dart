@@ -138,7 +138,7 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      // initialRoute: '/nested_scroll_view', // TODO: /item по внешней ссылке
+      // initialRoute: '/nested_scroll_view', // TODO: /item по внешней ссылке Dynamic Link
       routes: <String, WidgetBuilder>{
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
