@@ -315,7 +315,7 @@ class ShowcaseAppBar extends StatelessWidget {
           AspectRatio(
             aspectRatio: 1,
             child: Tooltip(
-              message: 'Настройки витрины',
+              message: 'Настройки',
               child: Material(
                 color: Colors.white,
                 child: InkWell(
@@ -328,7 +328,9 @@ class ShowcaseAppBar extends StatelessWidget {
                       size: kButtonIconSize,
                     ),
                   ),
-                  onTap: () {}, // TODO: /settings
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings');
+                  }, // TODO: /settings
                 ),
               ),
             ),
