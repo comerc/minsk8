@@ -12,8 +12,6 @@ import 'package:minsk8/import.dart';
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 // TODO: поменять все print(object) на debugPrint(String) ?
 // TODO: timeout для подписок GraphQL, смотри примеры
-// TODO: ThemeData.shadowColor https://github.com/flutter/flutter/pull/60337
-// TODO: shadowColor to AppBar and AppBarTheme https://github.com/flutter/flutter/pull/58708
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
