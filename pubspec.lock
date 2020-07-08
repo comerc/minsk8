@@ -270,12 +270,10 @@ packages:
   extended_nested_scroll_view:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "2f7c042ee43299a887c2c016dc73911db5a30e58"
-      url: "git://github.com/comerc/extended_nested_scroll_view.git"
-    source: git
-    version: "1.0.0"
+      name: extended_nested_scroll_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   file:
     dependency: transitive
     description:
@@ -576,12 +574,10 @@ packages:
   like_button:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b2b9705dab3436ea38753ccee3de812d99e7ae34
-      url: "git://github.com/comerc/like_button.git"
-    source: git
-    version: "0.1.9"
+      name: like_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   loading_more_list:
     dependency: "direct main"
     description:

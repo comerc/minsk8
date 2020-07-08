@@ -46,17 +46,10 @@ dependencies:
       url: git@github.com:TheFe91/pinch_zoom_image.git
 
   extended_image: ^0.7.3+1
-  like_button: # 0.1.9
-    # path: ../like_button/
-    git: git://github.com/comerc/like_button.git
-  loading_more_list:
-    3.0.0
-    # path: ../loading_more_list/
-    # git: git://github.com/comerc/loading_more_list.git
+  like_button: 1.0.1
+  loading_more_list: 3.0.0
   http_client_helper: ^0.2.1
-  extended_nested_scroll_view: # 1.0.0
-    # path: ../extended_nested_scroll_view/
-    git: git://github.com/comerc/extended_nested_scroll_view.git
+  extended_nested_scroll_view: 1.0.1
   pull_to_refresh_notification: # 0.3.5
     # path: ../pull_to_refresh_notification/
     git: git://github.com/comerc/pull_to_refresh_notification.git
