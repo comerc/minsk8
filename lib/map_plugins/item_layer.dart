@@ -59,21 +59,13 @@ class _ItemLayerState extends State<_ItemLayer> {
             left: 16,
             right: 16,
             child: IgnorePointer(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                // color: Colors.white,
-                child: Text(
-                    'Укажите местоположение лота, чтобы пользователи поблизости его увидели'),
-                decoration: BoxDecoration(
+              child: Material(
+                elevation: kButtonElevation,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   color: Colors.white,
-                  // borderRadius: BorderRadius.all(Radius.circular(28)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      offset: Offset(0, 2),
-                      blurRadius: 2,
-                    )
-                  ],
+                  child: Text(
+                      'Укажите местоположение лота, чтобы пользователи поблизости его увидели'),
                 ),
               ),
             ),

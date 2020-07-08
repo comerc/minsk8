@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'utils.dart' as utils;
-
-// TODO: Card + elevation / AnnotatedRegion<SystemUiOverlayStyle> для теней контролов
-// https://stackoverflow.com/questions/53299232/elevation-not-working-on-flutter-material
+import 'package:minsk8/import.dart';
 
 typedef void ChangeRadiusCallback(double value);
 
@@ -105,82 +103,81 @@ class _AreaLayerState extends State<_AreaLayer>
                   right: 16,
                   bottom: 16,
                 ),
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        blurRadius: 2,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          height: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: [
-                                  TextSpan(
-                                    text: 'Радиус',
-                                  ),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                      height: _iconSmallSize,
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: String.fromCharCode(
-                                              _icon.codePoint),
-                                          style: TextStyle(
-                                            fontSize: _iconSmallSize,
-                                            fontFamily: _icon.fontFamily,
-                                            color: Colors.pinkAccent,
+                child: Material(
+                  elevation: kButtonElevation,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    child: Column(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            height: double.infinity,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: [
+                                    TextSpan(
+                                      text: 'Радиус',
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                        height: _iconSmallSize,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: String.fromCharCode(
+                                                _icon.codePoint),
+                                            style: TextStyle(
+                                              fontSize: _iconSmallSize,
+                                              fontFamily: _icon.fontFamily,
+                                              color: Colors.pinkAccent,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  TextSpan(
-                                    style: DefaultTextStyle.of(context)
-                                        .style
-                                        .copyWith(fontWeight: FontWeight.w600),
-                                    text: '${_radius.toInt()} км',
-                                  ),
-                                ],
+                                    TextSpan(
+                                      style: DefaultTextStyle.of(context)
+                                          .style
+                                          .copyWith(
+                                              fontWeight: FontWeight.w600),
+                                      text: '${_radius.toInt()} км',
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          child: Slider(
-                            value: _radius,
-                            onChanged: (value) {
-                              setState(() {
-                                _radius = value;
-                                widget.options.onChangeRadius(value);
-                              });
-                            },
-                            min: 1,
-                            max: maxRadius,
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            child: Slider(
+                              value: _radius,
+                              onChanged: (value) {
+                                setState(() {
+                                  _radius = value;
+                                  widget.options.onChangeRadius(value);
+                                });
+                              },
+                              min: 1,
+                              max: maxRadius,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

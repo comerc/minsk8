@@ -271,31 +271,13 @@ class _CurrentPosition extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(
-        right: 16,
-        bottom: 16,
-      ),
-      child: Container(
-        height: 56,
-        width: 56,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(28)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              offset: Offset(0, 2),
-              blurRadius: 2,
-            )
-          ],
-        ),
-        child: FlatButton(
-          child: Icon(
-            Icons.my_location,
-          ),
-          shape: CircleBorder(),
-          onPressed: onCurrentPositionClick,
-        ),
+      padding: EdgeInsets.only(bottom: 16),
+      child: MaterialButton(
+        color: Colors.white,
+        child: Icon(Icons.my_location),
+        height: kBigButtonHeight,
+        shape: CircleBorder(),
+        onPressed: onCurrentPositionClick,
       ),
     );
   }
@@ -316,18 +298,8 @@ class _MapReadyButton extends StatelessWidget {
         bottom: 16,
       ),
       child: Container(
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              offset: Offset(0, 2),
-              blurRadius: 2,
-            )
-          ],
-        ),
         height: kBigButtonHeight,
-        child: ReadyButton(onTap: onTap),
+        child: ReadyButton(onTap: onTap, isRaised: true),
       ),
     );
   }

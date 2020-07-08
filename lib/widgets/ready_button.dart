@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:minsk8/import.dart';
 // import 'package:minsk8/import.dart';
 
 class ReadyButton extends StatelessWidget {
-  ReadyButton({this.onTap});
+  ReadyButton({this.onTap, this.isRaised = false});
 
   final Function onTap;
+  final bool isRaised;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
       message: 'Подтвердить',
       child: Material(
+        elevation: isRaised ? kButtonElevation : 0,
         // borderRadius: BorderRadius.circular(8),
         color: Colors.red,
         child: InkWell(

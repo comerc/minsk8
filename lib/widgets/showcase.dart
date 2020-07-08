@@ -355,18 +355,25 @@ class ShowcaseTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    final Brightness brightness = appBarTheme.brightness;
-    final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
-        ? SystemUiOverlayStyle.light
-        : SystemUiOverlayStyle.dark;
-    final child = AnnotatedRegion<SystemUiOverlayStyle>(
-      value: overlayStyle,
-      child: Material(
-        elevation: kAppBarElevation,
-        color: Colors.white,
-        child: tabBar,
-      ),
+    // TODO: Wrapper for overlayStyle
+    // final AppBarTheme appBarTheme = AppBarTheme.of(context);
+    // final Brightness brightness = appBarTheme.brightness;
+    // final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+    //     ? SystemUiOverlayStyle.light
+    //     : SystemUiOverlayStyle.dark;
+    // final child = AnnotatedRegion<SystemUiOverlayStyle>(
+    //   value: overlayStyle,
+    //   child:
+    //   Material(
+    //     elevation: kAppBarElevation,
+    //     color: Colors.white,
+    //     child: tabBar,
+    //   ),
+    // );
+    final child = Material(
+      elevation: kAppBarElevation,
+      color: Colors.white,
+      child: tabBar,
     );
     final offset = info?.dragOffset ?? 0.0;
     return Stack(
