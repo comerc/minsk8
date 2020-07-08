@@ -55,6 +55,7 @@ class _WishButtonState extends State<WishButton> {
                 size: widget.iconSize,
               );
             },
+            likeCountPadding: null,
             likeCount: null, // item.favorites,
             // countBuilder: (int count, bool isLiked, String text) {
             //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
