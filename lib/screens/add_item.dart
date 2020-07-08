@@ -512,7 +512,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   _reloadTab(kind) {
-    final index = allKinds.indexWhere((element) => element.enumValue == kind);
+    final index = allKinds.indexWhere((element) => element.value == kind);
     if (index == widget.arguments.tabIndex) {
       Showcase.pullToRefreshNotificationKey.currentState.show();
     } else if (!Showcase.poolForReloadTabs.contains(index)) {
