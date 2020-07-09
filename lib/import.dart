@@ -3,9 +3,9 @@
 export 'common/const.dart';
 export 'common/fake_data.dart';
 export 'common/helpers.dart';
-export 'common/items_repository.dart';
 export 'common/mutations.dart';
 export 'common/queries.dart';
+export 'common/showcase_data.dart';
 export 'common/sliver_persistent_header.dart';
 
 export 'models/bid.dart';

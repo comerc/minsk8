@@ -40,22 +40,23 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       vsync: this,
     );
     _tabController.addListener(() {
-      final sourceList = sourceListPool[_tabController.index];
+      final showcaseData = showcaseDataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
         widget.onChangeTabIndex(_tabController.index);
         // print(
-        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
+        //     'indexIsChanging ${showcaseData.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
-        // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
+        // а потому удаление выполняю в любом случае, без оглядки на showcaseData.isLoadDataByTabChange
         final isContaintsInPool =
             Showcase.poolForReloadTabs.remove(_tabController.index);
-        if (sourceList.isLoadDataByTabChange) {
+        if (showcaseData.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
-            final sourceListBefore = sourceListPool[_tabController.index - 1];
-            sourceListBefore.resetIsLoadDataByTabChange();
+            final showcaseDataBefore =
+                showcaseDataPool[_tabController.index - 1];
+            showcaseDataBefore.resetIsLoadDataByTabChange();
           }
-          sourceList.resetIsLoadDataByTabChange();
+          showcaseData.resetIsLoadDataByTabChange();
         } else if (isContaintsInPool) {
           // print('pullToRefreshNotificationKey');
           Showcase.pullToRefreshNotificationKey.currentState.show();
@@ -200,8 +201,8 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    final sourceList = sourceListPool[_tabController.index];
-    return await sourceList.handleRefresh();
+    final showcaseData = showcaseDataPool[_tabController.index];
+    return await showcaseData.handleRefresh();
   }
 
   Future<void> _initDynamicLinks() async {

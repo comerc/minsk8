@@ -56,7 +56,7 @@ void main() {
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 
 PersistedData appState;
-List<ItemsRepository> sourceListPool;
+List<ShowcaseData> showcaseDataPool;
 final localDeletedItemIds = Set<String>();
 final homeKey = GlobalKey();
 
@@ -73,9 +73,8 @@ class App extends StatelessWidget {
         appBarTheme: AppBarTheme(brightness: Brightness.light),
       ),
       builder: (BuildContext context, Widget child) {
-        sourceListPool = allKinds
-            .map((kind) => ItemsRepository(context, kind.value))
-            .toList();
+        showcaseDataPool =
+            allKinds.map((kind) => ShowcaseData(context, kind.value)).toList();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -230,10 +229,10 @@ class App extends StatelessWidget {
     result = LifeCycleManager(
       onInitState: () {},
       onDispose: () {
-        sourceListPool?.forEach((sourceList) {
-          sourceList.dispose();
+        showcaseDataPool?.forEach((showcaseData) {
+          showcaseData.dispose();
         });
-        sourceListPool = null;
+        showcaseDataPool = null;
       },
       child: result,
     );

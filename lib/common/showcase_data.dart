@@ -4,11 +4,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
-class ItemsRepository extends LoadingMoreBase<ItemModel> {
+class ShowcaseData extends LoadingMoreBase<ItemModel> {
   final BuildContext context;
   final kind;
 
-  ItemsRepository(
+  ShowcaseData(
     this.context,
     this.kind,
   ) : assert([MetaKindValue, KindValue].contains(kind.runtimeType));

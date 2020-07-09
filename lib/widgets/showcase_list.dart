@@ -14,11 +14,11 @@ class ShowcaseList extends StatefulWidget {
     Key key,
     this.tabIndex,
   })  : scrollPositionKey = Key(allKinds[tabIndex].value.toString()),
-        sourceList = sourceListPool[tabIndex],
+        showcaseData = showcaseDataPool[tabIndex],
         super(key: key);
 
   final Key scrollPositionKey;
-  final ItemsRepository sourceList;
+  final ShowcaseData showcaseData;
   final int tabIndex;
 
   @override
@@ -55,7 +55,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               mainAxisSpacing: 32,
               collectGarbage: (List<int> garbages) {
                 garbages.forEach((index) {
-                  final item = widget.sourceList[index];
+                  final item = widget.showcaseData[index];
                   final image = item.images[0];
                   final provider = ExtendedNetworkImageProvider(
                     image.getDummyUrl(item.id),
@@ -71,7 +71,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                 isCover: isSmallWidth,
               );
             },
-            sourceList: widget.sourceList,
+            sourceList: widget.showcaseData,
             indicatorBuilder: _buildIndicator,
             // isLastOne: false,
             // showGlowLeading: false,
@@ -147,7 +147,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Material(
           child: InkWell(
             onTap: () {
-              widget.sourceList.errorRefresh();
+              widget.showcaseData.errorRefresh();
             },
             child: result,
           ),
@@ -162,7 +162,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Material(
           child: InkWell(
             onTap: () {
-              widget.sourceList.errorRefresh();
+              widget.showcaseData.errorRefresh();
             },
             child: result,
           ),
