@@ -173,19 +173,6 @@ class Queries {
             }
           }
         }
-        bids {
-          item {
-            ...itemFields
-            member {
-              ...memberFields
-            }
-          }
-          value
-          updated_at
-          win {
-            created_at
-          }
-        }
         notifications {
           created_at
           proclamation {
@@ -229,6 +216,24 @@ class Queries {
 
   static final getWantItems = gql(r'''
     query getWantItems {
+      wants {
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+        value
+        updated_at
+        win {
+          created_at
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
+  static final getPastItems = gql(r'''
+    query getPastItems {
       wishes {
         created_at
         item {
@@ -243,20 +248,6 @@ class Queries {
 
   static final getGiveItems = gql(r'''
     query getGiveItems {
-      wishes {
-        created_at
-        item {
-          ...itemFields
-          member {
-            ...memberFields
-          }
-        }
-      }
-    }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
-
-  static final getPastItems = gql(r'''
-    query getPastItems {
       wishes {
         created_at
         item {
