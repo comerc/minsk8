@@ -1,25 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
-part 'bid.g.dart';
+part 'want.g.dart';
 
 @JsonSerializable()
-class BidModel {
+class WantModel {
   final ItemModel item;
   final int value;
   final DateTime updatedAt;
   @JsonKey(nullable: true)
   final WinModel win;
 
-  BidModel({
+  WantModel({
     this.item,
     this.value,
     this.updatedAt,
     this.win,
   });
 
-  factory BidModel.fromJson(Map<String, dynamic> json) =>
-      _$BidModelFromJson(json);
+  factory WantModel.fromJson(Map<String, dynamic> json) =>
+      _$WantModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BidModelToJson(this);
+  Map<String, dynamic> toJson() => _$WantModelToJson(this);
 }

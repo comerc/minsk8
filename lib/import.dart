@@ -10,7 +10,6 @@ export 'common/showcase_data.dart';
 export 'common/sliver_persistent_header.dart';
 export 'common/underway_data.dart';
 
-export 'models/bid.dart';
 export 'models/chat.dart';
 export 'models/claim.dart';
 export 'models/distance.dart';
@@ -28,6 +27,7 @@ export 'models/profile.dart';
 export 'models/question.dart';
 export 'models/suggestion.dart';
 export 'models/urgent.dart';
+export 'models/want.dart';
 export 'models/win.dart';
 export 'models/wish.dart';
 
