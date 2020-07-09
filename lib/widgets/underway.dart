@@ -111,7 +111,7 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
   }
 }
 
-enum UnderwayTabValue { wish, want, give, past }
+enum UnderwayTabValue { wish, want, past, give }
 
 class UnderwayTab {
   UnderwayTab(this.value, this.name);

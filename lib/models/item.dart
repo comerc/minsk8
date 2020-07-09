@@ -74,6 +74,8 @@ class ItemModel {
     return false;
   }
 
+  dynamic meta;
+
   static _urgentFromString(String value) =>
       EnumToString.fromString(UrgentStatus.values, value);
 
