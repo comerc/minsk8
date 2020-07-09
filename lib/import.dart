@@ -8,6 +8,7 @@ export 'common/mutations.dart';
 export 'common/queries.dart';
 export 'common/showcase_data.dart';
 export 'common/sliver_persistent_header.dart';
+export 'common/underway_data.dart';
 
 export 'models/bid.dart';
 export 'models/chat.dart';

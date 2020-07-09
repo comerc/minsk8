@@ -31,6 +31,13 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
   bool get hasMore =>
       _forceRefresh || (_hasMore && (isInfinite || this.length < 40));
 
+  set hasMore(value) {
+    _hasMore = value;
+  }
+
+  /// List<dynamic> or Map<String, dynamic>
+  List<ItemModel> getItems(dynamic data); // abstract
+
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     // print('refresh');
@@ -74,21 +81,11 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
       if (result.hasException) {
         throw result.exception;
       }
-      final dataItems = [...result.data['items'] as List];
-      // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
-      final items = <ItemModel>[];
       // if (_isFirst) {
       //   _isFirst = false;
       //   this.clear();
       // }
-      _hasMore = dataItems.length == kGraphQLItemsLimit;
-      if (_hasMore) {
-        final itemElement = ItemModel.fromJson(dataItems.removeLast());
-        nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
-      }
-      for (final dataItem in dataItems) {
-        items.add(ItemModel.fromJson(dataItem));
-      }
+      final items = getItems(result.data);
       if (this.length > 0 && clearAfterRequest) {
         // TODO: (?) как отменить IndicatorStatus.loadingMoreBusying
         // indicatorStatus = IndicatorStatus.none;

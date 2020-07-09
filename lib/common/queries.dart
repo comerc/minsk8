@@ -212,4 +212,60 @@ class Queries {
       }
     }
   ''')..definitions.addAll(Fragments.itemFields.definitions);
+
+  static final getWishItems = gql(r'''
+    query getWishItems {
+      wishes {
+        created_at
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
+  static final getWantItems = gql(r'''
+    query getWantItems {
+      wishes {
+        created_at
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
+  static final getGiveItems = gql(r'''
+    query getGiveItems {
+      wishes {
+        created_at
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
+
+  static final getPastItems = gql(r'''
+    query getPastItems {
+      wishes {
+        created_at
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.itemFields.definitions);
 }
