@@ -36,9 +36,9 @@ class UnderwayData extends CommonData {
         UnderwayTabValue.give: 'wishes',
       }[tabValue]] as List
     ];
-
     // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
     final items = <ItemModel>[];
+    hasMore = false;
     for (final dataItem in dataItems) {
       final metaModel = {
         UnderwayTabValue.wish: () => WishModel.fromJson(dataItem),

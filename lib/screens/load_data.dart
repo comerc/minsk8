@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
-var hasMore = true;
+var _hasMore = true;
 
 class LoadDataScreen extends StatelessWidget {
   @override
@@ -44,7 +44,7 @@ class LoadDataScreen extends StatelessWidget {
               //       const Divider(),
               // );
 
-              final minusOne = hasMore ? 1 : 0;
+              final minusOne = _hasMore ? 1 : 0;
               final length = result.data['items'].length;
               return Container(
                 child: ListView(
@@ -65,7 +65,7 @@ class LoadDataScreen extends StatelessWidget {
                           buildProgressIndicator(context),
                         ],
                       ),
-                    if (hasMore)
+                    if (_hasMore)
                       RaisedButton(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +103,7 @@ class LoadDataScreen extends StatelessWidget {
                                 previousItems.removeLast();
                                 final fetchMoreItems =
                                     fetchMoreResultData['items'] as List;
-                                hasMore =
+                                _hasMore =
                                     fetchMoreItems.length == kGraphQLItemsLimit;
                                 return {
                                   'items': [

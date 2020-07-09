@@ -15,6 +15,7 @@ class Showcase extends StatefulWidget {
     this.onChangeTabIndex,
   });
 
+  static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = Set<int>();
@@ -40,23 +41,23 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       vsync: this,
     );
     _tabController.addListener(() {
-      final showcaseData = showcaseDataPool[_tabController.index];
+      final sourceList = Showcase.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
         widget.onChangeTabIndex(_tabController.index);
         // print(
-        //     'indexIsChanging ${showcaseData.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
+        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
-        // а потому удаление выполняю в любом случае, без оглядки на showcaseData.isLoadDataByTabChange
+        // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
         final isContaintsInPool =
             Showcase.poolForReloadTabs.remove(_tabController.index);
-        if (showcaseData.isLoadDataByTabChange) {
+        if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
-            final showcaseDataBefore =
-                showcaseDataPool[_tabController.index - 1];
-            showcaseDataBefore.resetIsLoadDataByTabChange();
+            final sourceListBefore =
+                Showcase.dataPool[_tabController.index - 1];
+            sourceListBefore.resetIsLoadDataByTabChange();
           }
-          showcaseData.resetIsLoadDataByTabChange();
+          sourceList.resetIsLoadDataByTabChange();
         } else if (isContaintsInPool) {
           // print('pullToRefreshNotificationKey');
           Showcase.pullToRefreshNotificationKey.currentState.show();
@@ -96,8 +97,9 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       floatHeaderSlivers: true,
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
-      innerScrollPositionKeyBuilder: () =>
-          Key(allKinds[_tabController.index].value.toString()),
+      innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
+      // innerScrollPositionKeyBuilder: () =>
+      //     Key(allKinds[_tabController.index].value.toString()),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverPersistentHeader(
           pinned: true,
@@ -140,7 +142,10 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           allKinds.length,
-          (index) => ShowcaseList(tabIndex: index),
+          (index) => CommonList(
+            tabIndex: index,
+            sourceList: Showcase.dataPool[index],
+          ),
         ),
       ),
     );
@@ -201,8 +206,8 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    final showcaseData = showcaseDataPool[_tabController.index];
-    return await showcaseData.handleRefresh();
+    final sourceList = Showcase.dataPool[_tabController.index];
+    return await sourceList.handleRefresh();
   }
 
   Future<void> _initDynamicLinks() async {

@@ -56,7 +56,6 @@ void main() {
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 
 PersistedData appState;
-List<ShowcaseData> showcaseDataPool;
 final localDeletedItemIds = Set<String>();
 final homeKey = GlobalKey();
 
@@ -74,8 +73,11 @@ class App extends StatelessWidget {
       ),
       builder: (BuildContext context, Widget child) {
         final client = GraphQLProvider.of(context).value;
-        showcaseDataPool =
+        Showcase.dataPool =
             allKinds.map((kind) => ShowcaseData(client, kind.value)).toList();
+        Underway.dataPool = UnderwayTabValue.values
+            .map((value) => UnderwayData(client, value))
+            .toList();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -230,10 +232,14 @@ class App extends StatelessWidget {
     result = LifeCycleManager(
       onInitState: () {},
       onDispose: () {
-        showcaseDataPool?.forEach((showcaseData) {
-          showcaseData.dispose();
+        Showcase.dataPool?.forEach((data) {
+          data.dispose();
         });
-        showcaseDataPool = null;
+        Showcase.dataPool = null;
+        Underway.dataPool?.forEach((data) {
+          data.dispose();
+        });
+        Underway.dataPool = null;
       },
       child: result,
     );

@@ -9,23 +9,23 @@ import 'package:minsk8/import.dart';
 // TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
 
-class ShowcaseList extends StatefulWidget {
-  ShowcaseList({
+class CommonList extends StatefulWidget {
+  CommonList({
     Key key,
     this.tabIndex,
-  })  : scrollPositionKey = Key(allKinds[tabIndex].value.toString()),
-        showcaseData = showcaseDataPool[tabIndex],
+    this.sourceList,
+  })  : scrollPositionKey = Key('$tabIndex'),
         super(key: key);
 
   final Key scrollPositionKey;
-  final ShowcaseData showcaseData;
+  final CommonData sourceList;
   final int tabIndex;
 
   @override
-  _ShowcaseListState createState() => _ShowcaseListState();
+  _CommonListState createState() => _CommonListState();
 }
 
-class _ShowcaseListState extends State<ShowcaseList>
+class _CommonListState extends State<CommonList>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -55,7 +55,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               mainAxisSpacing: 32,
               collectGarbage: (List<int> garbages) {
                 garbages.forEach((index) {
-                  final item = widget.showcaseData[index];
+                  final item = widget.sourceList[index];
                   final image = item.images[0];
                   final provider = ExtendedNetworkImageProvider(
                     image.getDummyUrl(item.id),
@@ -71,7 +71,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                 isCover: isSmallWidth,
               );
             },
-            sourceList: widget.showcaseData,
+            sourceList: widget.sourceList,
             indicatorBuilder: _buildIndicator,
             // isLastOne: false,
             // showGlowLeading: false,
@@ -147,7 +147,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Material(
           child: InkWell(
             onTap: () {
-              widget.showcaseData.errorRefresh();
+              widget.sourceList.errorRefresh();
             },
             child: result,
           ),
@@ -162,7 +162,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         result = Material(
           child: InkWell(
             onTap: () {
-              widget.showcaseData.errorRefresh();
+              widget.sourceList.errorRefresh();
             },
             child: result,
           ),

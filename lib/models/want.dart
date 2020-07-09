@@ -5,7 +5,7 @@ part 'want.g.dart';
 
 @JsonSerializable()
 class WantModel {
-  final ItemModel item;
+  ItemModel item;
   final int value;
   final DateTime updatedAt;
   @JsonKey(nullable: true)

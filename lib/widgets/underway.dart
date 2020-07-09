@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
 class Underway extends StatefulWidget {
+  static List<UnderwayData> dataPool;
+
   @override
   UnderwayState createState() => UnderwayState();
 }
@@ -55,7 +58,7 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
             // pinned tabbar height in header
             tabBarHeight;
     final child = extended.NestedScrollView(
-      floatHeaderSlivers: true,
+      floatHeaderSlivers: false,
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
@@ -92,7 +95,10 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           _tabs.length,
-          (index) => UnderwayList(tabIndex: index),
+          (index) => CommonList(
+            tabIndex: index,
+            sourceList: Underway.dataPool[index],
+          ),
         ),
       ),
     );
@@ -105,9 +111,8 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    // final showcaseData = showcaseDataPool[_tabController.index];
-    // return await showcaseData.handleRefresh();
-    return true;
+    final sourceList = Underway.dataPool[_tabController.index];
+    return await sourceList.handleRefresh();
   }
 }
 
@@ -117,34 +122,4 @@ class UnderwayTab {
   UnderwayTab(this.value, this.name);
   final UnderwayTabValue value;
   final String name;
-}
-
-class UnderwayList extends StatefulWidget {
-  UnderwayList({
-    Key key,
-    this.tabIndex,
-  })  : scrollPositionKey = Key('$tabIndex'),
-        // showcaseData = showcaseDataPool[tabIndex],
-        super(key: key);
-
-  final Key scrollPositionKey;
-  // final ShowcaseData showcaseData;
-  final int tabIndex;
-
-  @override
-  _UnderwayListState createState() => _UnderwayListState();
-}
-
-class _UnderwayListState extends State<UnderwayList>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return Center(
-      child: Text(widget.scrollPositionKey.toString()),
-    );
-  }
 }
