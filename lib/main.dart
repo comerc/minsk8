@@ -73,8 +73,9 @@ class App extends StatelessWidget {
         appBarTheme: AppBarTheme(brightness: Brightness.light),
       ),
       builder: (BuildContext context, Widget child) {
+        final client = GraphQLProvider.of(context).value;
         showcaseDataPool =
-            allKinds.map((kind) => ShowcaseData(context, kind.value)).toList();
+            allKinds.map((kind) => ShowcaseData(client, kind.value)).toList();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {

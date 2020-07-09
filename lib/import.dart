@@ -1,6 +1,7 @@
 // library import;
 
 export 'common/const.dart';
+export 'common/data.dart';
 export 'common/fake_data.dart';
 export 'common/helpers.dart';
 export 'common/mutations.dart';

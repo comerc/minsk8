@@ -105,8 +105,8 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    // final sourceList = sourceListPool[_tabController.index];
-    // return await sourceList.handleRefresh();
+    // final showcaseData = showcaseDataPool[_tabController.index];
+    // return await showcaseData.handleRefresh();
     return true;
   }
 }
@@ -124,11 +124,11 @@ class UnderwayList extends StatefulWidget {
     Key key,
     this.tabIndex,
   })  : scrollPositionKey = Key('$tabIndex'),
-        // sourceList = sourceListPool[tabIndex],
+        // showcaseData = showcaseDataPool[tabIndex],
         super(key: key);
 
   final Key scrollPositionKey;
-  // final ItemsRepository sourceList;
+  // final ShowcaseData showcaseData;
   final int tabIndex;
 
   @override
