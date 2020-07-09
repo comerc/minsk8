@@ -53,6 +53,7 @@ class _PlacesState extends State<Places> {
         }
       },
       loadingBuilder: (BuildContext context) {
+        // TODO: https://github.com/AbdulRahmanAlHamali/flutter_typeahead/issues/208
         // устраняет паразитное мигание при передаче фокуса
         if (!_isLoading) return null;
         return Align(
