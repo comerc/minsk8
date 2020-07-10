@@ -142,7 +142,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           allKinds.length,
-          (index) => CommonList(
+          (index) => ShowcaseList(
             tabIndex: index,
             sourceList: Showcase.dataPool[index],
           ),

@@ -95,7 +95,7 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           _tabs.length,
-          (index) => CommonList(
+          (index) => ShowcaseList(
             tabIndex: index,
             sourceList: Underway.dataPool[index],
           ),

@@ -9,8 +9,8 @@ import 'package:minsk8/import.dart';
 // TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
 
-class CommonList extends StatefulWidget {
-  CommonList({
+class ShowcaseList extends StatefulWidget {
+  ShowcaseList({
     Key key,
     this.tabIndex,
     this.sourceList,
@@ -22,10 +22,10 @@ class CommonList extends StatefulWidget {
   final int tabIndex;
 
   @override
-  _CommonListState createState() => _CommonListState();
+  _ShowcaseListState createState() => _ShowcaseListState();
 }
 
-class _CommonListState extends State<CommonList>
+class _ShowcaseListState extends State<ShowcaseList>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
