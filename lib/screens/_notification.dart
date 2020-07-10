@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class MyItemsScreen extends StatelessWidget {
+class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Items'),
+        title: Text('Notification'),
       ),
-      drawer: MainDrawer('/my_items'),
-      body: Center(
-        child: Text('xxx'),
-      ),
+      drawer: MainDrawer('/_notification'),
+      body: Center(child: Text('notification')),
     );
   }
 }

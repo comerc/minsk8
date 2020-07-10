@@ -140,33 +140,32 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      // initialRoute: '/nested_scroll_view', // TODO: /item по внешней ссылке Dynamic Link
+      initialRoute:
+          '/_notifiaction', // TODO: /item по внешней ссылке Dynamic Link
       routes: <String, WidgetBuilder>{
+        '/_animation': (_) => AnimationScreen(),
+        '/_custom_dialog': (_) => CustomDialogScreen(),
+        '/_image_capture': (_) => ImageCaptureScreen(),
+        '/_image_pinch': (_) => ImagePinchScreen(),
+        '/_load_data': (_) => LoadDataScreen(),
+        '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
+        '/_notifiaction': (_) => NotificationScreen(),
+        // ****
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
         '/add_item': (BuildContext context) =>
             AddItemScreen(ModalRoute.of(context).settings.arguments),
-        '/animation': (_) => AnimationScreen(),
-        '/custom_dialog': (_) => CustomDialogScreen(),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => MarkdownScreen('faq.md', title: 'FAQ'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
-        '/image_capture': (_) => ImageCaptureScreen(),
-        '/image_pinch': (_) => ImagePinchScreen(),
-        '/zoom': (BuildContext context) =>
-            ZoomScreen(ModalRoute.of(context).settings.arguments),
         '/item_map': (BuildContext context) =>
             ItemMapScreen(ModalRoute.of(context).settings.arguments),
         '/item': (BuildContext context) =>
             ItemScreen(ModalRoute.of(context).settings.arguments),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
-        '/load_data': (_) => LoadDataScreen(),
         '/login': (_) => LoginScreen(),
         '/my_item_map': (_) => MyItemMapScreen(),
-        '/my_items': (_) => MyItemsScreen(),
-        '/nested_scroll_view': (_) => NestedScrollViewScreen(),
-        '/notifications': (_) => NotificationsScreen(),
         '/pay': (_) => PayScreen(),
         '/profile_map': (_) => ProfileMapScreen(),
         '/search': (_) => SearchScreen(),
@@ -176,7 +175,8 @@ class App extends StatelessWidget {
         '/useful_tips': (_) =>
             MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
         '/wallet': (_) => WalletScreen(),
-        '/wishes': (_) => WishesScreen(),
+        '/zoom': (BuildContext context) =>
+            ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
       // onGenerateRoute: (RouteSettings settings) {
       //   // if (settings.name == '/item') {

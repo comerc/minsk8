@@ -5,6 +5,38 @@ import 'package:minsk8/import.dart';
 
 final mainRoutes = [
   {
+    'title': 'Animation',
+    'routeName': '/_animation',
+  },
+  {
+    'title': 'Custom Dialog',
+    'routeName': '/_custom_dialog',
+    'arguments': CustomDialogScreen(),
+  },
+  {
+    'title': 'Image Capture',
+    'routeName': '/_image_capture',
+  },
+  {
+    'title': 'Image Pinch',
+    'routeName': '/_image_pinch',
+    'arguments':
+        ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
+  },
+  {
+    'title': 'Load Data',
+    'routeName': '/_load_data',
+  },
+  {
+    'title': 'Notification',
+    'routeName': '/_notification',
+  },
+  {
+    'title': 'Notifications',
+    'routeName': '/_notifications',
+  },
+  // ****
+  {
     'title': 'About',
     'routeName': '/about',
   },
@@ -12,15 +44,6 @@ final mainRoutes = [
     'title': 'Add Item',
     'routeName': '/add_item',
     'arguments': AddItemRouteArguments(kind: KindValue.technics),
-  },
-  {
-    'title': 'Animation',
-    'routeName': '/animation',
-  },
-  {
-    'title': 'Custom Dialog',
-    'routeName': '/custom_dialog',
-    'arguments': CustomDialogScreen(),
   },
   {
     'title': 'Edit Item',
@@ -34,16 +57,6 @@ final mainRoutes = [
   {
     'title': 'Forgot Password',
     'routeName': '/forgot_password',
-  },
-  {
-    'title': 'Image Capture',
-    'routeName': '/image_capture',
-  },
-  {
-    'title': 'Image Pinch',
-    'routeName': '/image_pinch',
-    'arguments':
-        ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
   },
   {
     'title': 'Item',
@@ -76,20 +89,12 @@ final mainRoutes = [
     'arguments': KindsRouteArguments(KindValue.pets),
   },
   {
-    'title': 'Load Data',
-    'routeName': '/load_data',
-  },
-  {
     'title': 'Login',
     'routeName': '/login',
   },
   {
     'title': 'My Items',
     'routeName': '/my_items',
-  },
-  {
-    'title': 'Notifications',
-    'routeName': '/notifications',
   },
   {
     'title': 'Pay',

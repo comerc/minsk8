@@ -35,7 +35,7 @@ class _AnimationScreenState extends State<AnimationScreen>
       appBar: AppBar(
         title: Text('Animation'),
       ),
-      drawer: MainDrawer('/animation'),
+      drawer: MainDrawer('/_animation'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

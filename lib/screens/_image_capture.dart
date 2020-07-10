@@ -82,7 +82,7 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
           ],
         ),
       ),
-      drawer: MainDrawer('/image_capture'),
+      drawer: MainDrawer('/_image_capture'),
       body: Column(
         children: [
           if (_imageFile != null) ...[

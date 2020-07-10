@@ -64,9 +64,9 @@ class CustomDialogScreen extends StatelessWidget {
         // );
       }),
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Custom Dialog'),
       ),
-      drawer: MainDrawer('/login'),
+      drawer: MainDrawer('/_custom_dialog'),
       body: Center(
         child: Text('xxx'),
       ),

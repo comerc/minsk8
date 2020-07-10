@@ -9,9 +9,9 @@ class LoadDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Load Data'),
       ),
-      drawer: MainDrawer('/home'),
+      drawer: MainDrawer('/_load_data'),
       body: Center(
         child: Query(
           options: QueryOptions(
