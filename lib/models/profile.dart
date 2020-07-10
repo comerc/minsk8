@@ -25,7 +25,7 @@ class ProfileModel extends ChangeNotifier {
   get balance => 0; // TODO: реализовать баланс по сумме payments
 
   int getWishIndex(String itemId) =>
-      wishes.indexWhere((wish) => wish.item.id == itemId);
+      wishes.indexWhere((wish) => wish.itemId == itemId);
 
   void updateWish(int index, WishModel wish, bool isLiked) {
     if (isLiked) {

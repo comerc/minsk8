@@ -113,7 +113,7 @@ void updateWish(context, isLiked, item) {
       ? profile.wishes[index] // index check with currentIsLiked
       : WishModel(
           createdAt: DateTime.now(),
-          item: item,
+          itemId: item.id,
         );
   profile.updateWish(index, wish, !isLiked);
   final GraphQLClient client = GraphQLProvider.of(context).value;

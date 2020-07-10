@@ -10,11 +10,13 @@ class WishModel {
   final DateTime createdAt;
   @JsonKey(nullable: true) // надо для items.wishes
   ItemModel item;
-  // final String itemId; // надо для on_wishes_deleted
+  @JsonKey(nullable: true) // надо для items.wishes
+  final String itemId;
 
   WishModel({
     this.createdAt,
     this.item,
+    this.itemId,
   });
 
   factory WishModel.fromJson(Map<String, dynamic> json) =>
