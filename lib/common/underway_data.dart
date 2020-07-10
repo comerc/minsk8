@@ -1,25 +1,23 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: переименовать таблицу bid > want
-
 class UnderwayData extends CommonData {
   UnderwayData(
     GraphQLClient client,
     this.tabValue,
   ) : super(client);
 
-  final UnderwayTabValue tabValue;
+  final UnderwayValue tabValue;
 
   @override
   QueryOptions get options {
     // final variables = {'next_created_at': nextCreatedAt};
     return QueryOptions(
       documentNode: {
-        UnderwayTabValue.wish: Queries.getWishItems,
-        UnderwayTabValue.want: Queries.getWantItems,
-        UnderwayTabValue.past: Queries.getPastItems,
-        UnderwayTabValue.give: Queries.getGiveItems,
+        UnderwayValue.wish: Queries.getWishItems,
+        UnderwayValue.want: Queries.getWantItems,
+        UnderwayValue.past: Queries.getPastItems,
+        UnderwayValue.give: Queries.getGiveItems,
       }[tabValue],
       // variables: variables,
       fetchPolicy: FetchPolicy.noCache,
@@ -30,10 +28,10 @@ class UnderwayData extends CommonData {
   List<ItemModel> getItems(data) {
     final dataItems = [
       ...data[{
-        UnderwayTabValue.wish: 'wishes',
-        UnderwayTabValue.want: 'bids',
-        UnderwayTabValue.past: 'wishes',
-        UnderwayTabValue.give: 'wishes',
+        UnderwayValue.wish: 'wishes',
+        UnderwayValue.want: 'bids',
+        UnderwayValue.past: 'wishes',
+        UnderwayValue.give: 'wishes',
       }[tabValue]] as List
     ];
     // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
@@ -41,10 +39,10 @@ class UnderwayData extends CommonData {
     hasMore = false;
     for (final dataItem in dataItems) {
       final metaModel = {
-        UnderwayTabValue.wish: () => WishModel.fromJson(dataItem),
-        UnderwayTabValue.want: () => WantModel.fromJson(dataItem),
-        UnderwayTabValue.past: () => WishModel.fromJson(dataItem),
-        UnderwayTabValue.give: () => WishModel.fromJson(dataItem),
+        UnderwayValue.wish: () => WishModel.fromJson(dataItem),
+        UnderwayValue.want: () => WantModel.fromJson(dataItem),
+        UnderwayValue.past: () => WishModel.fromJson(dataItem),
+        UnderwayValue.give: () => WishModel.fromJson(dataItem),
       }[tabValue]();
       final item = normalizeItem(metaModel);
       items.add(item);

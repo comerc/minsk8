@@ -93,7 +93,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       crossAxisCount: 2,
                       children: List.generate(
                         4,
-                        (i) => _buildAddImageButton(i + 1),
+                        (index) => _buildAddImageButton(index + 1),
                       ),
                     ),
                   ],
@@ -281,8 +281,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.items.insert(0, newItem);
-      _reloadTab(_kind);
-      _reloadTab(MetaKindValue.recent);
+      _reloadShowcaseTab(_kind);
+      _reloadShowcaseTab(MetaKindValue.recent);
+      _reloadUnderwayModel();
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
       final value = await showDialog(
         context: context,
@@ -511,12 +512,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return result ?? false; // if enableDrag, result may be null
   }
 
-  _reloadTab(kind) {
+  _reloadShowcaseTab(kind) {
     final index = allKinds.indexWhere((element) => element.value == kind);
-    if (index == widget.arguments.tabIndex) {
-      Showcase.pullToRefreshNotificationKey.currentState.show();
-    } else if (!Showcase.poolForReloadTabs.contains(index)) {
-      Showcase.poolForReloadTabs.add(index);
+    if (index == widget.arguments.tabIndex?.showcase) {
+      ShowcasePage.pullToRefreshNotificationKey.currentState.show();
+    } else if (!ShowcasePage.poolForReloadTabs.contains(index)) {
+      ShowcasePage.poolForReloadTabs.add(index);
+    }
+  }
+
+  _reloadUnderwayModel() {
+    final index = UnderwayValue.values
+        .indexWhere((element) => element == UnderwayValue.give);
+    if (index == widget.arguments.tabIndex?.underway) {
+      UnderwayPage.pullToRefreshNotificationKey.currentState.show();
+    } else if (!UnderwayPage.poolForReloadTabs.contains(index)) {
+      UnderwayPage.poolForReloadTabs.add(index);
     }
   }
 }
@@ -525,7 +536,14 @@ class AddItemRouteArguments {
   AddItemRouteArguments({this.kind, this.tabIndex});
 
   final KindValue kind;
-  final int tabIndex;
+  final AddItemRouteArgumentsTabIndex tabIndex;
+}
+
+class AddItemRouteArgumentsTabIndex {
+  AddItemRouteArgumentsTabIndex({this.showcase = 0, this.underway = 0});
+
+  final int showcase;
+  final int underway;
 }
 
 class _ImageData {

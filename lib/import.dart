@@ -26,6 +26,7 @@ export 'models/proclamation.dart';
 export 'models/profile.dart';
 export 'models/question.dart';
 export 'models/suggestion.dart';
+export 'models/underway.dart';
 export 'models/urgent.dart';
 export 'models/want.dart';
 export 'models/win.dart';
@@ -91,7 +92,8 @@ export 'widgets/share_button.dart';
 export 'widgets/showcase.dart';
 export 'widgets/showcase_list.dart';
 export 'widgets/showcase_item.dart';
-export 'widgets/underway.dart';
+export 'widgets/showcase_page.dart';
+export 'widgets/underway_page.dart';
 export 'widgets/want_button.dart';
 export 'widgets/wish_button.dart';
 

@@ -5,55 +5,27 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
-
-class Showcase extends StatelessWidget {
+class Showcase extends StatefulWidget {
   Showcase({
-    this.showcaseKey,
-  });
-
-  final Key showcaseKey;
-  static List<ShowcaseData> dataPool;
-  static final pullToRefreshNotificationKey =
-      GlobalKey<PullToRefreshNotificationState>();
-  static final poolForReloadTabs = Set<int>();
-
-  @override
-  Widget build(BuildContext context) {
-    return CommonShowcase(
-      key: showcaseKey,
-      dataPool: Showcase.dataPool,
-      pullToRefreshNotificationKey: Showcase.pullToRefreshNotificationKey,
-      poolForReloadTabs: Showcase.poolForReloadTabs,
-      hasAppBar: true,
-    );
-  }
-}
-
-class CommonShowcase extends StatefulWidget {
-  CommonShowcase({
     Key key,
+    this.tabModels,
     this.dataPool,
     this.pullToRefreshNotificationKey,
     this.poolForReloadTabs,
     this.hasAppBar: false,
-    // this.tabIndex,
-    // this.onChangeTabIndex,
-  }) : super(key: key == null ? GlobalKey() : key);
+  }) : super(key: key);
 
-  final List<ShowcaseData> dataPool;
+  final List<EnumModel> tabModels;
+  final List<CommonData> dataPool;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
   final Set<int> poolForReloadTabs;
-  // final int tabIndex;
-  // final ShowcaseOnChangeTabIndex onChangeTabIndex;
   final bool hasAppBar;
 
   @override
-  CommonShowcaseState createState() => CommonShowcaseState();
+  ShowcaseState createState() => ShowcaseState();
 }
 
-class CommonShowcaseState extends State<CommonShowcase>
-    with TickerProviderStateMixin {
+class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
   TabController _tabController;
   int get tabIndex => _tabController.index;
 
@@ -61,16 +33,14 @@ class CommonShowcaseState extends State<CommonShowcase>
   void initState() {
     super.initState();
     _tabController = TabController(
-      // initialIndex: widget.tabIndex,
-      length: allKinds.length,
+      length: widget.tabModels.length,
       vsync: this,
     );
     _tabController.addListener(() {
       final sourceList = widget.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
-        // widget.onChangeTabIndex(_tabController.index);
         // print(
-        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
+        //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового item-а в /add_item зря добавит tab в widget.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
@@ -106,7 +76,9 @@ class CommonShowcaseState extends State<CommonShowcase>
       indicatorWeight: 2,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
-      tabs: allKinds.map((kind) => Tab(text: kind.name)).toList(),
+      tabs: widget.tabModels
+          .map((element) => Tab(text: element.enumName))
+          .toList(),
     );
     final tabBarHeight = tabBar.preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
@@ -122,8 +94,6 @@ class CommonShowcaseState extends State<CommonShowcase>
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
-      // innerScrollPositionKeyBuilder: () =>
-      //     Key(allKinds[_tabController.index].value.toString()),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverPersistentHeader(
           pinned: true,
@@ -166,7 +136,7 @@ class CommonShowcaseState extends State<CommonShowcase>
       body: TabBarView(
         controller: _tabController,
         children: List.generate(
-          allKinds.length,
+          widget.tabModels.length,
           (index) => ShowcaseList(
             tabIndex: index,
             sourceList: widget.dataPool[index],

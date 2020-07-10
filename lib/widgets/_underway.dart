@@ -14,11 +14,11 @@ class Underway extends StatefulWidget {
 
 class UnderwayState extends State<Underway> with TickerProviderStateMixin {
   TabController _tabController;
-  final List<UnderwayTab> _tabs = [
-    UnderwayTab(UnderwayTabValue.wish, 'Желаю'),
-    UnderwayTab(UnderwayTabValue.want, 'Забираю'),
-    UnderwayTab(UnderwayTabValue.past, 'Мимо'),
-    UnderwayTab(UnderwayTabValue.give, 'Отдаю'),
+  final List<UnderwayModel> _tabs = [
+    UnderwayModel(UnderwayValue.wish, 'Желаю'),
+    UnderwayModel(UnderwayValue.want, 'Забираю'),
+    UnderwayModel(UnderwayValue.past, 'Мимо'),
+    UnderwayModel(UnderwayValue.give, 'Отдаю'),
   ];
 
   @override
@@ -114,12 +114,4 @@ class UnderwayState extends State<Underway> with TickerProviderStateMixin {
     final sourceList = Underway.dataPool[_tabController.index];
     return await sourceList.handleRefresh();
   }
-}
-
-enum UnderwayTabValue { wish, want, past, give }
-
-class UnderwayTab {
-  UnderwayTab(this.value, this.name);
-  final UnderwayTabValue value;
-  final String name;
 }

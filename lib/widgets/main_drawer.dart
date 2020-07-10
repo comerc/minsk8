@@ -11,7 +11,7 @@ final mainRoutes = [
   {
     'title': 'Add Item',
     'routeName': '/add_item',
-    'arguments': AddItemRouteArguments(kind: KindValue.technics, tabIndex: 0),
+    'arguments': AddItemRouteArguments(kind: KindValue.technics),
   },
   {
     'title': 'Animation',

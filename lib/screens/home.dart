@@ -12,8 +12,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _navigationBartabIndex = 0;
-  // int _showcaseTabIndex = 0;
-  final _showcaseKey = GlobalKey<CommonShowcaseState>();
+  final _showcaseKey = GlobalKey<ShowcaseState>();
+  final _underwayKey = GlobalKey<ShowcaseState>();
 
   @override
   void initState() {
@@ -21,23 +21,18 @@ class _HomeScreenState extends State<HomeScreen> {
     _initDynamicLinks();
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
       body: IndexedStack(
         children: [
-          Showcase(
+          ShowcasePage(
             showcaseKey: _showcaseKey,
-            // tabIndex: _showcaseTabIndex,
-            // onChangeTabIndex: _onChangeShowcaseTabIndex,
           ),
-          Underway(),
+          UnderwayPage(
+            showcaseKey: _underwayKey,
+          ),
           Chat(),
           Profile(),
         ],
@@ -46,7 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
-        getTabIndex: () => _showcaseKey.currentState.tabIndex,
+        getTabIndex: () => AddItemRouteArgumentsTabIndex(
+          showcase: _showcaseKey.currentState.tabIndex,
+          underway: _underwayKey.currentState.tabIndex,
+        ),
       ),
       bottomNavigationBar: NavigationBar(
         tabIndex: _navigationBartabIndex,
@@ -61,10 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _navigationBartabIndex = tabIndex;
     });
   }
-
-  // void _onChangeShowcaseTabIndex(int tabIndex) {
-  //   _showcaseTabIndex = tabIndex;
-  // }
 
   Future<void> _initDynamicLinks() async {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
