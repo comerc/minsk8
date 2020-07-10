@@ -1,66 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
+// typedef ShowcaseOnChangeTabIndex = void Function(int tabIndex);
 
-class Showcase extends StatefulWidget {
+class Showcase extends StatelessWidget {
   Showcase({
-    this.tabIndex,
-    this.onChangeTabIndex,
+    this.showcaseKey,
   });
 
+  final Key showcaseKey;
   static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = Set<int>();
 
-  final int tabIndex;
-  final ShowcaseOnChangeTabIndex onChangeTabIndex;
-
   @override
-  ShowcaseState createState() => ShowcaseState();
+  Widget build(BuildContext context) {
+    return CommonShowcase(
+      key: showcaseKey,
+      dataPool: Showcase.dataPool,
+      pullToRefreshNotificationKey: Showcase.pullToRefreshNotificationKey,
+      poolForReloadTabs: Showcase.poolForReloadTabs,
+      hasAppBar: true,
+    );
+  }
 }
 
-class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
+class CommonShowcase extends StatefulWidget {
+  CommonShowcase({
+    Key key,
+    this.dataPool,
+    this.pullToRefreshNotificationKey,
+    this.poolForReloadTabs,
+    this.hasAppBar: false,
+    // this.tabIndex,
+    // this.onChangeTabIndex,
+  }) : super(key: key == null ? GlobalKey() : key);
+
+  final List<ShowcaseData> dataPool;
+  final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
+  final Set<int> poolForReloadTabs;
+  // final int tabIndex;
+  // final ShowcaseOnChangeTabIndex onChangeTabIndex;
+  final bool hasAppBar;
+
+  @override
+  CommonShowcaseState createState() => CommonShowcaseState();
+}
+
+class CommonShowcaseState extends State<CommonShowcase>
+    with TickerProviderStateMixin {
   TabController _tabController;
-  // int get tabIndex => _tabController.index;
+  int get tabIndex => _tabController.index;
 
   @override
   void initState() {
     super.initState();
-    _initDynamicLinks();
     _tabController = TabController(
-      initialIndex: widget.tabIndex,
+      // initialIndex: widget.tabIndex,
       length: allKinds.length,
       vsync: this,
     );
     _tabController.addListener(() {
-      final sourceList = Showcase.dataPool[_tabController.index];
+      final sourceList = widget.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
-        widget.onChangeTabIndex(_tabController.index);
+        // widget.onChangeTabIndex(_tabController.index);
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${allKinds[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
-        // то добавление нового item-а в /add_item зря добавит tab в Showcase.poolForReloadTabs,
+        // то добавление нового item-а в /add_item зря добавит tab в widget.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
         final isContaintsInPool =
-            Showcase.poolForReloadTabs.remove(_tabController.index);
+            widget.poolForReloadTabs.remove(_tabController.index);
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
-            final sourceListBefore =
-                Showcase.dataPool[_tabController.index - 1];
+            final sourceListBefore = widget.dataPool[_tabController.index - 1];
             sourceListBefore.resetIsLoadDataByTabChange();
           }
           sourceList.resetIsLoadDataByTabChange();
         } else if (isContaintsInPool) {
           // print('pullToRefreshNotificationKey');
-          Showcase.pullToRefreshNotificationKey.currentState.show();
+          widget.pullToRefreshNotificationKey.currentState.show();
         }
       }
     });
@@ -94,7 +118,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             // pinned tabbar height in header
             tabBarHeight;
     final child = extended.NestedScrollView(
-      floatHeaderSlivers: true,
+      floatHeaderSlivers: widget.hasAppBar,
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
@@ -111,15 +135,16 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             height: statusBarHeight,
           ),
         ),
-        SliverPersistentHeader(
-          delegate: CommonSliverPersistentHeaderDelegate(
-            builder: (BuildContext context, double shrinkOffset,
-                bool overlapsContent) {
-              return ShowcaseAppBar();
-            },
-            height: kToolbarHeight,
+        if (widget.hasAppBar)
+          SliverPersistentHeader(
+            delegate: CommonSliverPersistentHeaderDelegate(
+              builder: (BuildContext context, double shrinkOffset,
+                  bool overlapsContent) {
+                return _AppBar();
+              },
+              height: kToolbarHeight,
+            ),
           ),
-        ),
         PullToRefreshContainer(
           (PullToRefreshScrollNotificationInfo info) => SliverPersistentHeader(
             pinned: true,
@@ -144,13 +169,13 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
           allKinds.length,
           (index) => ShowcaseList(
             tabIndex: index,
-            sourceList: Showcase.dataPool[index],
+            sourceList: widget.dataPool[index],
           ),
         ),
       ),
     );
     return PullToRefreshNotification(
-      key: Showcase.pullToRefreshNotificationKey,
+      key: widget.pullToRefreshNotificationKey,
       onRefresh: _onRefresh,
       maxDragOffset: 100,
       child: child,
@@ -206,53 +231,12 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    final sourceList = Showcase.dataPool[_tabController.index];
+    final sourceList = widget.dataPool[_tabController.index];
     return await sourceList.handleRefresh();
-  }
-
-  Future<void> _initDynamicLinks() async {
-    final data = await FirebaseDynamicLinks.instance.getInitialLink();
-    _openDeepLink(data?.link);
-    FirebaseDynamicLinks.instance.onLink(
-      onSuccess: (PendingDynamicLinkData data) async {
-        _openDeepLink(data?.link);
-      },
-      onError: (OnLinkErrorException error) async {
-        // print('onLinkError');
-        print(error.message);
-      },
-    );
-  }
-
-  Future<void> _openDeepLink(Uri link) async {
-    if (link == null || link.path != '/item') return;
-    final id = link.queryParameters['id'];
-    final options = QueryOptions(
-      documentNode: Queries.getItem,
-      variables: {'id': id},
-      fetchPolicy: FetchPolicy.noCache,
-    );
-    final client = GraphQLProvider.of(context).value;
-    final result = await client
-        .query(options)
-        .timeout(Duration(seconds: kGraphQLQueryTimeout));
-    if (result.hasException) {
-      throw result.exception;
-    }
-    final item = ItemModel.fromJson(result.data['item']);
-    final arguments = ItemRouteArguments(
-      item,
-      member: item.member,
-    );
-    Navigator.pushNamed(
-      context,
-      '/item',
-      arguments: arguments,
-    );
   }
 }
 
-class ShowcaseAppBar extends StatelessWidget {
+class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
