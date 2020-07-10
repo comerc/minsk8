@@ -14,6 +14,7 @@ export 'models/chat.dart';
 export 'models/claim.dart';
 export 'models/distance.dart';
 export 'models/enum.dart';
+export 'models/give.dart';
 export 'models/image.dart';
 export 'models/item.dart';
 export 'models/kind.dart';
