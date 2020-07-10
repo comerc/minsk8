@@ -1,7 +1,9 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+// TODO: разблюдовать Fragments.fragments
+
 class Fragments {
-  static final itemFields = gql(r'''
+  static final fragments = gql(r'''
     fragment itemFields on item {
       id
       created_at
@@ -42,6 +44,20 @@ class Fragments {
         order_by: {created_at: desc}
       ) {
         ...itemFields
+      }
+    }
+
+    fragment wantFields on want {
+      item {
+        ...itemFields
+        member {
+          ...memberFields
+        }
+      }
+      value
+      updated_at
+      win {
+        created_at
       }
     }
   ''');
