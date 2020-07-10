@@ -7,13 +7,21 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _navigationBartabIndex = 0;
+class HomeScreenState extends State<HomeScreen> {
   final _showcaseKey = GlobalKey<ShowcaseState>();
   final _underwayKey = GlobalKey<ShowcaseState>();
+  int _tabIndex = 0;
+  int get tabIndex => _tabIndex;
+  int get _subTabIndex => [
+        _showcaseKey.currentState?.tabIndex,
+        _underwayKey.currentState?.tabIndex,
+        null,
+        null,
+      ][_tabIndex];
+  String get tagPrefix => '$_tabIndex-$_subTabIndex';
 
   @override
   void initState() {
@@ -25,38 +33,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: isInDebugMode ? MainDrawer(null) : null,
-      body: IndexedStack(
-        children: [
-          ShowcasePage(
-            showcaseKey: _showcaseKey,
-          ),
-          UnderwayPage(
-            showcaseKey: _underwayKey,
-          ),
-          Chat(),
-          Profile(),
-        ],
-        index: _navigationBartabIndex,
-      ),
+      body: [
+        ShowcasePage(
+          showcaseKey: _showcaseKey,
+        ),
+        UnderwayPage(
+          showcaseKey: _underwayKey,
+        ),
+        Chat(),
+        Profile(),
+      ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
         getTabIndex: () => AddItemRouteArgumentsTabIndex(
-          showcase: _showcaseKey.currentState.tabIndex,
-          underway: _underwayKey.currentState.tabIndex,
+          showcase: _showcaseKey.currentState?.tabIndex,
+          underway: _underwayKey.currentState?.tabIndex,
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        tabIndex: _navigationBartabIndex,
-        onChangeTabIndex: _onChangeNavigationBarTabIndex,
+        tabIndex: _tabIndex,
+        onChangeTabIndex: _onChangeTabIndex,
       ),
       extendBody: true,
     );
   }
 
-  void _onChangeNavigationBarTabIndex(int tabIndex) {
+  void _onChangeTabIndex(int tabIndex) {
     setState(() {
-      _navigationBartabIndex = tabIndex;
+      _tabIndex = tabIndex;
     });
   }
 

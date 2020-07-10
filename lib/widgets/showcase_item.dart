@@ -76,7 +76,6 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             '/item',
             arguments: ItemRouteArguments(
               widget.item,
-              tabIndex: widget.tabIndex,
               member: widget.item.member,
               isShowcase: true,
             ),
@@ -92,7 +91,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         child: AspectRatio(
           aspectRatio: widget.isCover ? 1 : image.width / image.height,
           child: Hero(
-            tag: '${allKinds[widget.tabIndex].value}-${widget.item.id}',
+            tag:
+                '${homeKey.currentState.tabIndex}-${widget.tabIndex}-${widget.item.id}',
             child: Ink.image(
               fit: widget.isCover ? BoxFit.cover : BoxFit.contain,
               image: ExtendedImage.network(

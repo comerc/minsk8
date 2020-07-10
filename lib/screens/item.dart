@@ -61,10 +61,7 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     final item = widget.arguments.item;
-    final tabIndex = widget.arguments.tabIndex;
-    final tag = tabIndex == null
-        ? '${item.id}'
-        : '${allKinds[tabIndex].value}-${item.id}';
+    final tag = '${homeKey.currentState.tagPrefix}-${item.id}';
     final size = MediaQuery.of(context).size;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
@@ -509,7 +506,6 @@ class _ItemScreenState extends State<ItemScreen> {
                                         },
                                         arguments: ItemRouteArguments(
                                           otherItem,
-                                          tabIndex: tabIndex,
                                           member: member,
                                         ),
                                       );
@@ -668,13 +664,11 @@ class _ItemScreenState extends State<ItemScreen> {
 class ItemRouteArguments {
   ItemRouteArguments(
     this.item, {
-    this.tabIndex,
     this.member,
     this.isShowcase,
   });
 
   final ItemModel item;
-  final int tabIndex;
   final MemberModel member;
   final bool isShowcase;
 }

@@ -57,7 +57,7 @@ void main() {
 
 PersistedData appState;
 final localDeletedItemIds = Set<String>();
-final homeKey = GlobalKey();
+final homeKey = GlobalKey<HomeScreenState>();
 
 class App extends StatelessWidget {
   @override
