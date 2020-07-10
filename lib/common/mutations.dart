@@ -39,7 +39,7 @@ class Mutations {
         ...itemFields
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final deleteItem = gql(r'''
     mutation deleteItem($id: uuid) {
