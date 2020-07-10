@@ -20,7 +20,8 @@ class UnderwayPage extends StatelessWidget {
       tabModels: [
         UnderwayModel(UnderwayValue.wish, 'Желаю'),
         UnderwayModel(UnderwayValue.want, 'Забираю'),
-        UnderwayModel(UnderwayValue.past, 'Мимо'),
+        // UnderwayModel(UnderwayValue.take, 'Забираю'),
+        // UnderwayModel(UnderwayValue.past, 'Мимо'),
         UnderwayModel(UnderwayValue.give, 'Отдаю'),
       ],
       dataPool: UnderwayPage.dataPool,

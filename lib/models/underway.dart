@@ -1,6 +1,12 @@
 import 'package:minsk8/import.dart';
 
-enum UnderwayValue { wish, want, past, give }
+enum UnderwayValue {
+  wish,
+  want,
+  // take,
+  // past,
+  give
+}
 
 class UnderwayModel implements EnumModel {
   UnderwayModel(this.value, this.name);

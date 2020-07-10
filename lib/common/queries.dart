@@ -13,7 +13,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItems = gql(r'''
     query getItems($next_created_at: timestamptz) {
@@ -34,7 +34,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItemsForFan = gql(r'''
     query getItemsForFan($next_created_at: timestamptz) {
@@ -56,7 +56,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItemsForBest = gql(r'''
     query getItemsForBest($next_created_at: timestamptz) {
@@ -78,7 +78,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItemsForPromo = gql(r'''
     query getItemsForPromo($next_created_at: timestamptz) {
@@ -100,7 +100,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItemsForUrgent = gql(r'''
     query getItemsForUrgent($next_created_at: timestamptz) {
@@ -122,7 +122,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getItemsByKind = gql(r'''
     query getItemsByKind($next_created_at: timestamptz, $kind: kind_enum) {
@@ -144,7 +144,7 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getProfile = gql(r'''
     query getProfile($member_id: uuid!) {
@@ -166,12 +166,7 @@ class Queries {
         }
         wishes {
           created_at
-          item {
-            ...itemFields
-            member {
-              ...memberFields
-            }
-          }
+          item_id
         }
         notifications {
           created_at
@@ -198,11 +193,13 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getWishItems = gql(r'''
     query getWishItems {
-      wishes {
+      wishes(
+        order_by: {created_at: desc}
+      ) {
         created_at
         item {
           ...itemFields
@@ -212,43 +209,65 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getWantItems = gql(r'''
     query getWantItems {
-      wants {
-        item {
-          ...itemFields
-          member {
-            ...memberFields
-          }
-        }
-        value
-        updated_at
-        win {
-          created_at
-        }
+      wants(
+        order_by: {updated_at: desc}
+      ) {
+        ...wantFields
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getPastItems = gql(r'''
-    query getPastItems {
-      wishes {
-        created_at
-        item {
-          ...itemFields
-          member {
-            ...memberFields
-          }
-        }
-      }
-    }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  // static final getWantItems = gql(r'''
+  //   query getWantItems {
+  //     wants(
+  //       where:
+  //         {
+  //           is_winned: {_is_null: true},
+  //         },
+  //       order_by: {updated_at: desc}
+  //     ) {
+  //       ...wantFields
+  //     }
+  //   }
+  // ''')..definitions.addAll(Fragments.fragments.definitions);
+
+  // static final getTakeItems = gql(r'''
+  //   query getTakeItems {
+  //     wants(
+  //       where:
+  //         {
+  //           is_winned: {_eq: true},
+  //         },
+  //       order_by: {updated_at: desc}
+  //     ) {
+  //       ...wantFields
+  //     }
+  //   }
+  // ''')..definitions.addAll(Fragments.fragments.definitions);
+
+  // static final getPastItems = gql(r'''
+  //   query getPastItems {
+  //     wants(
+  //       where:
+  //         {
+  //           is_winned: {_eq: false},
+  //         },
+  //       order_by: {updated_at: desc}
+  //     ) {
+  //       ...wantFields
+  //     }
+  //   }
+  // ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getGiveItems = gql(r'''
     query getGiveItems {
-      wishes {
+      gives(
+        order_by: {created_at: desc}
+      ) {
         created_at
         item {
           ...itemFields
@@ -258,5 +277,5 @@ class Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.itemFields.definitions);
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 }

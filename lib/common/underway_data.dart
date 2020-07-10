@@ -1,6 +1,8 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: объединить в один запрос .want .take .past и фильтровать по is_winned на клиенте
+
 class UnderwayData extends CommonData {
   UnderwayData(
     GraphQLClient client,
@@ -16,7 +18,8 @@ class UnderwayData extends CommonData {
       documentNode: {
         UnderwayValue.wish: Queries.getWishItems,
         UnderwayValue.want: Queries.getWantItems,
-        UnderwayValue.past: Queries.getPastItems,
+        // UnderwayValue.take: Queries.getTakeItems,
+        // UnderwayValue.past: Queries.getPastItems,
         UnderwayValue.give: Queries.getGiveItems,
       }[tabValue],
       // variables: variables,
@@ -29,9 +32,10 @@ class UnderwayData extends CommonData {
     final dataItems = [
       ...data[{
         UnderwayValue.wish: 'wishes',
-        UnderwayValue.want: 'bids',
-        UnderwayValue.past: 'wishes',
-        UnderwayValue.give: 'wishes',
+        UnderwayValue.want: 'wants',
+        // UnderwayValue.take: 'wants',
+        // UnderwayValue.past: 'wants',
+        UnderwayValue.give: 'gives',
       }[tabValue]] as List
     ];
     // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
@@ -41,8 +45,9 @@ class UnderwayData extends CommonData {
       final metaModel = {
         UnderwayValue.wish: () => WishModel.fromJson(dataItem),
         UnderwayValue.want: () => WantModel.fromJson(dataItem),
-        UnderwayValue.past: () => WishModel.fromJson(dataItem),
-        UnderwayValue.give: () => WishModel.fromJson(dataItem),
+        // UnderwayValue.take: () => WantModel.fromJson(dataItem),
+        // UnderwayValue.past: () => WantModel.fromJson(dataItem),
+        UnderwayValue.give: () => GiveModel.fromJson(dataItem),
       }[tabValue]();
       final item = normalizeItem(metaModel);
       items.add(item);
