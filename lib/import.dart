@@ -26,6 +26,7 @@ export 'models/payment.dart';
 export 'models/proclamation.dart';
 export 'models/profile.dart';
 export 'models/question.dart';
+export 'models/received_notification.dart';
 export 'models/suggestion.dart';
 export 'models/underway.dart';
 export 'models/urgent.dart';

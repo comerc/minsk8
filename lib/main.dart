@@ -1,17 +1,27 @@
-// import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-// import 'package:extended_image/extended_image.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 // TODO: поменять все print(object) на debugPrint(String) ?
 // TODO: timeout для подписок GraphQL, смотри примеры
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+// Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
+final BehaviorSubject<ReceivedNotificationModel>
+    didReceiveLocalNotificationSubject =
+    BehaviorSubject<ReceivedNotificationModel>();
+final BehaviorSubject<String> selectNotificationSubject =
+    BehaviorSubject<String>();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -28,6 +38,30 @@ void main() {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
+    // of the `IOSFlutterLocalNotificationsPlugin` class
+    var initializationSettingsIOS = IOSInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+        onDidReceiveLocalNotification:
+            (int id, String title, String body, String payload) async {
+          didReceiveLocalNotificationSubject.add(ReceivedNotificationModel(
+              id: id, title: title, body: body, payload: payload));
+        });
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String payload) async {
+      if (payload != null) {
+        debugPrint('notification payload: ' + payload);
+      }
+      selectNotificationSubject.add(payload);
+    });
     runApp(App());
   }, (error, stackTrace) {
     print(error);
@@ -140,8 +174,8 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      initialRoute:
-          '/_notifiaction', // TODO: /item по внешней ссылке Dynamic Link
+      // initialRoute:
+      //     '/_notifiaction', // TODO: /item по внешней ссылке Dynamic Link
       routes: <String, WidgetBuilder>{
         '/_animation': (_) => AnimationScreen(),
         '/_custom_dialog': (_) => CustomDialogScreen(),

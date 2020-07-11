@@ -1,5 +1,6 @@
 name: minsk8
 description: A new Flutter project.
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -53,7 +54,7 @@ dependencies:
   pull_to_refresh_notification: # 0.3.5
     # path: ../pull_to_refresh_notification/
     git: git://github.com/comerc/pull_to_refresh_notification.git
-  share: 0.6.3+5
+  share: 0.6.4+3
 
   json_annotation: 3.0.1
   enum_to_string: 1.0.8
@@ -74,6 +75,9 @@ dependencies:
   characters: 1.0.0
 
   # flutter_screenutil: 2.2.0
+
+  flutter_local_notifications: 1.4.4+2
+  rxdart: 0.23.1
 
 dev_dependencies:
   flutter_test:
