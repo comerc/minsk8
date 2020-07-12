@@ -100,11 +100,11 @@ class App extends StatelessWidget {
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'minsk8',
-      theme: ThemeData(
-        //   primarySwatch: mapBoxBlue,
-        //   visualDensity: VisualDensity.adaptivePlatformDensity
-        appBarTheme: AppBarTheme(brightness: Brightness.light),
-      ),
+      // theme: ThemeData(
+      //   //   primarySwatch: mapBoxBlue,
+      //   //   visualDensity: VisualDensity.adaptivePlatformDensity
+      //   appBarTheme: AppBarTheme(brightness: Brightness.light),
+      // ),
       builder: (BuildContext context, Widget child) {
         final client = GraphQLProvider.of(context).value;
         ShowcasePage.dataPool =
@@ -230,18 +230,18 @@ class App extends StatelessWidget {
       //   builder: (BuildContext context) => UnknownPage(settings.name),
       // ),
     );
-    result = AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        // For Android.
-        // Use [light] for white status bar and [dark] for black status bar.
-        statusBarIconBrightness: Brightness.dark,
-        // For iOS.
-        // Use [dark] for white status bar and [light] for black status bar.
-        statusBarBrightness: Brightness.dark,
-      ),
-      child: result,
-    );
+    // result = AnnotatedRegion<SystemUiOverlayStyle>(
+    //   value: SystemUiOverlayStyle(
+    //     statusBarColor: Colors.white,
+    //     // For Android.
+    //     // Use [light] for white status bar and [dark] for black status bar.
+    //     statusBarIconBrightness: Brightness.dark,
+    //     // For iOS.
+    //     // Use [dark] for white status bar and [light] for black status bar.
+    //     statusBarBrightness: Brightness.dark,
+    //   ),
+    //   child: result,
+    // );
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(

@@ -44,7 +44,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         appBar: AppBar(
           title: Text('Notification'),
         ),
-        drawer: MainDrawer('/_notification'),
+        // drawer: MainDrawer('/_notification'),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
@@ -354,6 +354,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
+      print('selectNotificationSubject.stream.listen');
       await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => _SecondScreen(payload)),
@@ -361,16 +362,61 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
+  // Future<void> _showNotification() async {
+  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  //     'your channel id',
+  //     'your channel name',
+  //     'your channel description',
+  //     importance: Importance.Max,
+  //     priority: Priority.High,
+  //     ticker: 'ticker',
+  //   );
+  //   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+  //   var platformChannelSpecifics = NotificationDetails(
+  //       androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+  //   await flutterLocalNotificationsPlugin.show(
+  //       0, 'plain title', 'plain body', platformChannelSpecifics,
+  //       payload: 'item x');
+  // }
+
   Future<void> _showNotification() async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
+    var androidChannelSpecifics = AndroidNotificationDetails(
+      'CHANNEL_ID 1',
+      'CHANNEL_NAME 1',
+      "CHANNEL_DESCRIPTION 1",
+      icon: 'secondary_icon',
+      sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+      largeIcon: DrawableResourceAndroidBitmap('sample_large_icon'),
+      // icon: 'secondary_icon',
+      // sound: RawResourceAndroidNotificationSound('my_sound'),
+      // largeIcon: DrawableResourceAndroidBitmap('large_notf_icon'),
+      enableLights: true,
+      color: const Color.fromARGB(255, 255, 0, 0),
+      ledColor: const Color.fromARGB(255, 255, 0, 0),
+      ledOnMs: 1000,
+      ledOffMs: 500,
+      importance: Importance.Max,
+      priority: Priority.High,
+      playSound: true,
+      timeoutAfter: 5000,
+      styleInformation: DefaultStyleInformation(true, true),
+    );
+    var iosChannelSpecifics = IOSNotificationDetails(
+      sound: 'slow_spring_board.aiff',
+    );
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+      androidChannelSpecifics,
+      iosChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.schedule(
+      0,
+      'Test Title',
+      'Test Body',
+      scheduleNotificationDateTime,
+      platformChannelSpecifics,
+      payload: 'Test Payload',
+    );
   }
 
   Future<void> _showNotificationWithNoBody() async {

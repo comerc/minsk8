@@ -32,7 +32,11 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: isInDebugMode ? MainDrawer(null) : null,
+      // drawer: isInDebugMode ? MainDrawer(null) : null,
+      appBar: PreferredSize(
+        child: Container(),
+        preferredSize: Size(0, 0),
+      ),
       body: [
         ShowcasePage(
           showcaseKey: _showcaseKey,
