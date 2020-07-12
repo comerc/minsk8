@@ -353,68 +353,185 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
       print('selectNotificationSubject.stream.listen');
-      await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => _SecondScreen(payload)),
-      );
+      // await Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => _SecondScreen(payload)),
+      // );
     });
   }
 
-  // Future<void> _showNotification() async {
-  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //     'your channel id',
-  //     'your channel name',
-  //     'your channel description',
-  //     importance: Importance.Max,
-  //     priority: Priority.High,
-  //     ticker: 'ticker',
-  //   );
-  //   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-  //   var platformChannelSpecifics = NotificationDetails(
-  //       androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  //   await flutterLocalNotificationsPlugin.show(
-  //       0, 'plain title', 'plain body', platformChannelSpecifics,
-  //       payload: 'item x');
-  // }
-
   Future<void> _showNotification() async {
-    var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
-    var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 1',
-      'CHANNEL_NAME 1',
-      "CHANNEL_DESCRIPTION 1",
-      icon: 'secondary_icon',
-      sound: RawResourceAndroidNotificationSound('slow_spring_board'),
-      largeIcon: DrawableResourceAndroidBitmap('sample_large_icon'),
-      // icon: 'secondary_icon',
-      // sound: RawResourceAndroidNotificationSound('my_sound'),
-      // largeIcon: DrawableResourceAndroidBitmap('large_notf_icon'),
-      enableLights: true,
-      color: const Color.fromARGB(255, 255, 0, 0),
-      ledColor: const Color.fromARGB(255, 255, 0, 0),
-      ledOnMs: 1000,
-      ledOffMs: 500,
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      'your channel description',
       importance: Importance.Max,
       priority: Priority.High,
-      playSound: true,
-      timeoutAfter: 5000,
-      styleInformation: DefaultStyleInformation(true, true),
+      ticker: 'ticker',
     );
-    var iosChannelSpecifics = IOSNotificationDetails(
-      sound: 'slow_spring_board.aiff',
-    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-      androidChannelSpecifics,
-      iosChannelSpecifics,
-    );
-    await flutterLocalNotificationsPlugin.schedule(
-      0,
-      'Test Title',
-      'Test Body',
-      scheduleNotificationDateTime,
-      platformChannelSpecifics,
-      payload: 'Test Payload',
-    );
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'plain title', 'plain body', platformChannelSpecifics,
+        payload: 'item x');
+  }
+
+  // Schedule a Notification
+  // http://www.coderzheaven.com/2020/07/04/local-notifications-in-flutter/
+  // Future<void> _showNotification() async {
+  //   var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'CHANNEL_ID 1',
+  //     'CHANNEL_NAME 1',
+  //     "CHANNEL_DESCRIPTION 1",
+  //     icon: 'secondary_icon',
+  //     sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+  //     largeIcon: DrawableResourceAndroidBitmap('sample_large_icon'),
+  //     // icon: 'secondary_icon',
+  //     // sound: RawResourceAndroidNotificationSound('my_sound'),
+  //     // largeIcon: DrawableResourceAndroidBitmap('large_notf_icon'),
+  //     enableLights: true,
+  //     color: const Color.fromARGB(255, 255, 0, 0),
+  //     ledColor: const Color.fromARGB(255, 255, 0, 0),
+  //     ledOnMs: 1000,
+  //     ledOffMs: 500,
+  //     importance: Importance.Max,
+  //     priority: Priority.High,
+  //     playSound: true,
+  //     timeoutAfter: 5000,
+  //     styleInformation: DefaultStyleInformation(true, true),
+  //   );
+  //   var iosChannelSpecifics = IOSNotificationDetails(
+  //     sound: 'slow_spring_board.aiff',
+  //   );
+  //   var platformChannelSpecifics = NotificationDetails(
+  //     androidChannelSpecifics,
+  //     iosChannelSpecifics,
+  //   );
+  //   await flutterLocalNotificationsPlugin.schedule(
+  //     0,
+  //     'Test Title',
+  //     'Test Body',
+  //     scheduleNotificationDateTime,
+  //     platformChannelSpecifics,
+  //     payload: 'Test Payload',
+  //   );
+  // }
+
+  // Show Notification Daily at a time
+  // http://www.coderzheaven.com/2020/07/04/local-notifications-in-flutter/
+  // Future<void> _showNotification() async {
+  //   var time = Time(16, 58);
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'CHANNEL_ID 4',
+  //     'CHANNEL_NAME 4',
+  //     "CHANNEL_DESCRIPTION 4",
+  //     importance: Importance.Max,
+  //     priority: Priority.High,
+  //   );
+  //   var iosChannelSpecifics = IOSNotificationDetails();
+  //   var platformChannelSpecifics =
+  //       NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+  //   await flutterLocalNotificationsPlugin.showDailyAtTime(
+  //     0,
+  //     'Test Title at ${time.hour}:${time.minute}.${time.second}',
+  //     'Test Body', //null
+  //     time,
+  //     platformChannelSpecifics,
+  //     payload: 'Test Payload',
+  //   );
+  // }
+
+  // Show Weekly at Day and Time
+  // http://www.coderzheaven.com/2020/07/04/local-notifications-in-flutter/
+  // Future<void> _showNotification() async {
+  //   var time = Time(17, 01);
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'CHANNEL_ID 5',
+  //     'CHANNEL_NAME 5',
+  //     "CHANNEL_DESCRIPTION 5",
+  //     importance: Importance.Max,
+  //     priority: Priority.High,
+  //   );
+  //   var iosChannelSpecifics = IOSNotificationDetails();
+  //   var platformChannelSpecifics =
+  //       NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+  //   await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(
+  //     0,
+  //     'Test Title at ${time.hour}:${time.minute}.${time.second}',
+  //     'Test Body', //null
+  //     Day.Sunday,
+  //     time,
+  //     platformChannelSpecifics,
+  //     payload: 'Test Payload',
+  //   );
+  // }
+
+  // Repeated Notifications
+  // http://www.coderzheaven.com/2020/07/04/local-notifications-in-flutter/
+  // Future<void> _showNotification() async {
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'CHANNEL_ID 3',
+  //     'CHANNEL_NAME 3',
+  //     "CHANNEL_DESCRIPTION 3",
+  //     importance: Importance.Max,
+  //     priority: Priority.High,
+  //     styleInformation: DefaultStyleInformation(true, true),
+  //   );
+  //   var iosChannelSpecifics = IOSNotificationDetails();
+  //   var platformChannelSpecifics =
+  //       NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+  //   await flutterLocalNotificationsPlugin.periodicallyShow(
+  //     0,
+  //     'Repeating Test Title',
+  //     'Repeating Test Body',
+  //     RepeatInterval.EveryMinute,
+  //     platformChannelSpecifics,
+  //     payload: 'Test Payload',
+  //   );
+  // }
+
+  // Show Notification with Attachment
+  // http://www.coderzheaven.com/2020/07/04/local-notifications-in-flutter/
+  // Future<void> _showNotification() async {
+  //   var attachmentPicturePath = await _downloadAndSaveFile(
+  //       'https://via.placeholder.com/800x200', 'attachment_img.jpg');
+  //   var iOSPlatformSpecifics = IOSNotificationDetails(
+  //     attachments: [IOSNotificationAttachment(attachmentPicturePath)],
+  //   );
+  //   var bigPictureStyleInformation = BigPictureStyleInformation(
+  //     FilePathAndroidBitmap(attachmentPicturePath),
+  //     contentTitle: '<b>Attached Image</b>',
+  //     htmlFormatContentTitle: true,
+  //     summaryText: 'Test Image',
+  //     htmlFormatSummaryText: true,
+  //   );
+  //   var androidChannelSpecifics = AndroidNotificationDetails(
+  //     'CHANNEL ID 2',
+  //     'CHANNEL NAME 2',
+  //     'CHANNEL DESCRIPTION 2',
+  //     importance: Importance.High,
+  //     priority: Priority.High,
+  //     styleInformation: bigPictureStyleInformation,
+  //   );
+  //   var notificationDetails =
+  //       NotificationDetails(androidChannelSpecifics, iOSPlatformSpecifics);
+  //   await flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     'Title with attachment',
+  //     'Body with Attachment',
+  //     notificationDetails,
+  //   );
+  // }
+
+  Future<String> _downloadAndSaveFile(String url, String fileName) async {
+    var directory = await getApplicationDocumentsDirectory();
+    var filePath = '${directory.path}/$fileName';
+    var response = await http.get(url);
+    var file = File(filePath);
+    await file.writeAsBytes(response.bodyBytes);
+    return filePath;
   }
 
   Future<void> _showNotificationWithNoBody() async {
@@ -531,15 +648,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     await flutterLocalNotificationsPlugin.show(
         0, 'insistent title', 'insistent body', platformChannelSpecifics,
         payload: 'item x');
-  }
-
-  Future<String> _downloadAndSaveFile(String url, String fileName) async {
-    var directory = await getApplicationDocumentsDirectory();
-    var filePath = '${directory.path}/$fileName';
-    var response = await http.get(url);
-    var file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return filePath;
   }
 
   Future<void> _showBigPictureNotification() async {
