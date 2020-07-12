@@ -31,10 +31,6 @@ final mainRoutes = [
     'title': 'Notification',
     'routeName': '/_notification',
   },
-  {
-    'title': 'Notifications',
-    'routeName': '/_notifications',
-  },
   // ****
   {
     'title': 'About',
@@ -148,8 +144,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.popUntil(
-                  context,
+                Navigator.of(context).popUntil(
                   (route) => route.isFirst,
                 );
               },
@@ -171,18 +166,18 @@ class MainDrawer extends StatelessWidget {
                 title: Text(mainRoute['title']),
                 selected: currentRouteName == mainRoute['routeName'],
                 onTap: () async {
+                  Navigator.of(context).popUntil(
+                      (route) => route.settings.name == kInitialRouteName);
                   final arguments = (mainRoute['arguments'] is Function)
                       ? await (mainRoute['arguments'] as Function)(context)
                       : mainRoute['arguments'];
                   if (arguments == null) {
-                    Navigator.pushNamed(
-                      context,
+                    Navigator.of(context).pushNamed(
                       mainRoute['routeName'],
                     );
                     return;
                   }
-                  Navigator.pushNamed(
-                    context,
+                  Navigator.of(context).pushNamed(
                     mainRoute['routeName'],
                     arguments: arguments,
                   );

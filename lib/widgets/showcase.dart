@@ -95,16 +95,6 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: CommonSliverPersistentHeaderDelegate(
-            builder: (BuildContext context, double shrinkOffset,
-                bool overlapsContent) {
-              return SizedBox(height: statusBarHeight);
-            },
-            height: statusBarHeight,
-          ),
-        ),
         if (widget.hasAppBar)
           SliverPersistentHeader(
             delegate: CommonSliverPersistentHeaderDelegate(

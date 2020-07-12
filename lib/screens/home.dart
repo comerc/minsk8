@@ -34,7 +34,7 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // drawer: isInDebugMode ? MainDrawer(null) : null,
       appBar: PreferredSize(
-        child: Container(),
+        child: Container(), // TODO: Stack + Positioned для MainDrawer
         preferredSize: Size(0, 0),
       ),
       body: [
