@@ -121,7 +121,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             delegate: CommonSliverPersistentHeaderDelegate(
               builder: (BuildContext context, double shrinkOffset,
                   bool overlapsContent) {
-                return ListTabBar(
+                return ShowcaseTabBar(
                   info: info,
                   shrinkOffset: shrinkOffset,
                   // overlapsContent: overlapsContent,
