@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Ivaskuu/tinder_cards
 // TODO: https://github.com/Dn-a/flutter_tags
 
-class Profile extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(

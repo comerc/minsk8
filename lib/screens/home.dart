@@ -44,8 +44,8 @@ class HomeScreenState extends State<HomeScreen> {
         UnderwayPage(
           showcaseKey: _underwayKey,
         ),
-        Chat(),
-        Profile(),
+        ChatPage(),
+        ProfilePage(),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(

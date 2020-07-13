@@ -10,7 +10,7 @@ import 'package:minsk8/import.dart';
 // https://getstream.io/chat/
 // https://pub.dev/packages/flutter_chat
 
-class Chat extends StatelessWidget {
+class ChatPage extends StatelessWidget {
   // Chat(this.arguments);
 
   // final ChatRouteArguments arguments;
