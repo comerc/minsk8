@@ -512,7 +512,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return result ?? false; // if enableDrag, result may be null
   }
 
-  _reloadShowcaseTab(kind) {
+  void _reloadShowcaseTab(kind) {
     final index = allKinds.indexWhere((element) => element.value == kind);
     if (index == widget.arguments.tabIndex?.showcase) {
       ShowcasePage.pullToRefreshNotificationKey.currentState.show();
@@ -521,7 +521,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
-  _reloadUnderwayModel() {
+  void _reloadUnderwayModel() {
     final index = UnderwayValue.values
         .indexWhere((element) => element == UnderwayValue.give);
     if (index == widget.arguments.tabIndex?.underway) {
