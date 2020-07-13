@@ -21,6 +21,7 @@ class MapWidget extends StatefulWidget {
     this.onChangeRadius,
     this.markerPoint,
     this.isItem = false,
+    this.isReadyButton = false,
   }) : super(key: key);
 
   final LatLng center;
@@ -30,6 +31,7 @@ class MapWidget extends StatefulWidget {
   final ChangeRadiusCallback onChangeRadius;
   final LatLng markerPoint;
   final bool isItem;
+  final bool isReadyButton;
 
   @override
   MapWidgetState createState() {
@@ -147,32 +149,42 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (widget.isItem)
           ItemLayerMapPluginOptions(
             markerIconSize: markerIconSize,
-            footer: [
-              _CurrentPosition(
-                onCurrentPositionClick: _onCurrentPositionClick,
-              ),
-              _MapReadyButton(onTap: () {
-                final center = _mapController.center;
-                final zoom = _mapController.zoom;
-                appState['center'] = [center.latitude, center.longitude];
-                appState['zoom'] = zoom;
-                placemarkFromCoordinates(center).then((value) {
-                  appState['address'] = value;
-                  Navigator.of(context).pop(true);
-                });
-              }),
-            ],
+            currentPosition: _CurrentPosition(
+              onCurrentPositionClick: _onCurrentPositionClick,
+            ),
+            readyButton: _MapReadyButton(onTap: () {
+              final center = _mapController.center;
+              final zoom = _mapController.zoom;
+              appState['center'] = [center.latitude, center.longitude];
+              appState['zoom'] = zoom;
+              placemarkFromCoordinates(center).then((value) {
+                appState['address'] = value;
+                Navigator.of(context).pop(true);
+              });
+            }),
           ),
         if (!widget.isItem)
           AreaLayerMapPluginOptions(
             markerIconSize: markerIconSize,
             initialRadius: widget.initialRadius,
             onChangeRadius: widget.onChangeRadius,
-            footer: [
-              _CurrentPosition(
-                onCurrentPositionClick: _onCurrentPositionClick,
-              ),
-            ],
+            currentPosition: _CurrentPosition(
+              onCurrentPositionClick: _onCurrentPositionClick,
+            ),
+            readyButton: widget.isReadyButton
+                ? _MapReadyButton(onTap: () {
+                    final center = _mapController.center;
+                    final zoom = _mapController.zoom;
+                    appState['center'] = [center.latitude, center.longitude];
+                    appState['zoom'] = zoom;
+                    placemarkFromCoordinates(center).then((value) {
+                      appState['address'] = value;
+                      // TODO: mainAddress
+                      // appState['mainAddress'] = value;
+                      Navigator.of(context).pop(true);
+                    });
+                  })
+                : null,
             // onMoveToCurrentPosition: (destCenter, destZoom) {
             //   setState(() {
             //     _currentPosition = destCenter;

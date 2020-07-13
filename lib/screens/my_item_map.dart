@@ -48,6 +48,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       center: _center,
       zoom: _zoom,
       isItem: true,
+      isReadyButton: true,
       onPositionChanged: _onPositionChanged,
     );
     return Scaffold(

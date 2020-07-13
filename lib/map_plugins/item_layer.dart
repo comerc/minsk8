@@ -5,11 +5,13 @@ import 'package:minsk8/import.dart';
 
 class ItemLayerMapPluginOptions extends LayerOptions {
   final double markerIconSize;
-  final List<Widget> footer;
+  final Widget currentPosition;
+  final Widget readyButton;
 
   ItemLayerMapPluginOptions({
     this.markerIconSize,
-    this.footer,
+    this.currentPosition,
+    this.readyButton,
   });
 }
 
@@ -107,7 +109,10 @@ class _ItemLayerState extends State<_ItemLayer> {
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: widget.options.footer,
+          children: [
+            widget.options.currentPosition,
+            widget.options.readyButton,
+          ],
         ),
       ],
     );

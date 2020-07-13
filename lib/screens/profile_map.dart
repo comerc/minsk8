@@ -17,7 +17,6 @@ class ProfileMapScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Profile Map'),
       ),
-      drawer: MainDrawer('/profile_map'),
       body: MapWidget(
         center: appState['center'] == null
             ? LatLng(
@@ -40,6 +39,7 @@ class ProfileMapScreen extends StatelessWidget {
         onChangeRadius: (value) {
           appState['radius'] = value;
         },
+        isReadyButton: true,
       ),
     );
   }

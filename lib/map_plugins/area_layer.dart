@@ -9,13 +9,15 @@ class AreaLayerMapPluginOptions extends LayerOptions {
   final double markerIconSize;
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
-  final List<Widget> footer;
+  final Widget currentPosition;
+  final Widget readyButton;
 
   AreaLayerMapPluginOptions({
     this.markerIconSize,
     this.initialRadius,
     this.onChangeRadius,
-    this.footer,
+    this.currentPosition,
+    this.readyButton,
   });
 }
 
@@ -94,7 +96,7 @@ class _AreaLayerState extends State<_AreaLayer>
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ...widget.options.footer,
+            widget.options.currentPosition,
             if (widget.options.onChangeRadius != null)
               Container(
                 alignment: Alignment.bottomCenter,
@@ -181,6 +183,7 @@ class _AreaLayerState extends State<_AreaLayer>
                   ),
                 ),
               ),
+            if (widget.options.readyButton != null) widget.options.readyButton,
           ],
         ),
       ],
