@@ -1,17 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() {
+    return _SettingsScreenState();
+  }
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final panelChildWidth = size.width - 32.0; // for padding
+    final child = Column(
+      children: [
+        SizedBox(height: 16),
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Местоположение лотов',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.black.withOpacity(0.8),
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        Container(
+          constraints: BoxConstraints(minHeight: 40),
+          child: SelectButton(
+            tooltip: 'Местоположение',
+            text:
+                "${appState['mainAddress']} — ${appState['radius'].toInt()} км",
+            onTap: _selectLocation,
+          ),
+        ),
+        Spacer(),
+        Container(
+          height: kBigButtonHeight,
+          width: panelChildWidth,
+          child: ReadyButton(onTap: _handleOK),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+      ],
+    );
+    // Expanding content to fit the viewport
+    final body = LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: IntrinsicHeight(
+              child: child,
+            ),
+          ),
+        );
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Настройки'),
+        actions: [
+          IconButton(
+            tooltip: 'Подтвердить',
+            icon: Icon(Icons.check),
+            onPressed: _handleOK,
+          ),
+        ],
       ),
-      // drawer: MainDrawer('/settings'),
-      body: Center(
-        child: Text('xxx'),
-      ),
+      body: body,
     );
+  }
+
+  void _selectLocation() {
+    Navigator.pushNamed(
+      context,
+      '/profile_map',
+    ).then((value) {
+      if (value == null) return;
+      setState(() {});
+    });
+  }
+
+  void _handleOK() {
+    Navigator.of(context).pop(true);
   }
 }
