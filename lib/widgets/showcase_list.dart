@@ -43,6 +43,7 @@ class _ShowcaseListState extends State<ShowcaseList>
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       widget.scrollPositionKey,
       LoadingMoreCustomScrollView(
+        // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
         showGlowLeading: false,
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
@@ -73,9 +74,7 @@ class _ShowcaseListState extends State<ShowcaseList>
             },
             sourceList: widget.sourceList,
             indicatorBuilder: _buildIndicator,
-            // isLastOne: false,
-            // showGlowLeading: false,
-            // showGlowTrailing: false,
+            // TODO: https://github.com/fluttercandies/loading_more_list/issues/20
             padding: EdgeInsets.all(16),
             lastChildLayoutType: LastChildLayoutType.foot,
           ))
