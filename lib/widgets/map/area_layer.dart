@@ -9,14 +9,14 @@ class MapAreaLayerOptions extends LayerOptions {
   final double markerIconSize;
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
-  final Widget currentPosition;
+  final MapCurrentPositionCallback onCurrentPosition;
   final Widget readyButton;
 
   MapAreaLayerOptions({
     this.markerIconSize,
     this.initialRadius,
     this.onChangeRadius,
-    this.currentPosition,
+    this.onCurrentPosition,
     this.readyButton,
   });
 }
@@ -96,7 +96,9 @@ class _AreaLayerState extends State<_AreaLayer>
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            widget.options.currentPosition,
+            MapCurrentPosition(
+              onCurrentPosition: widget.options.onCurrentPosition,
+            ),
             if (widget.options.onChangeRadius != null)
               Container(
                 alignment: Alignment.bottomCenter,

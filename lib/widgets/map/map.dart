@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'area_layer.dart';
 import 'item_layer.dart';
@@ -302,9 +301,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (widget.isItem)
           MapItemLayerOptions(
             markerIconSize: markerIconSize,
-            currentPosition: _CurrentPosition(
-              onCurrentPositionClick: _onCurrentPositionClick,
-            ),
+            onCurrentPosition: _onCurrentPosition,
             readyButton: _MapReadyButton(onTap: () {
               final center = _mapController.center;
               final zoom = _mapController.zoom;
@@ -321,9 +318,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             markerIconSize: markerIconSize,
             initialRadius: widget.initialRadius,
             onChangeRadius: widget.onChangeRadius,
-            currentPosition: _CurrentPosition(
-              onCurrentPositionClick: _onCurrentPositionClick,
-            ),
+            onCurrentPosition: _onCurrentPosition,
             readyButton: widget.isReadyButton
                 ? _MapReadyButton(onTap: () {
                     final center = _mapController.center;
@@ -356,95 +351,25 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     );
   }
 
-  Future<void> _onCurrentPositionClick() async {
-    if (appState['isNeverAskAgain'] ?? false) {
-      final geolocationStatus =
-          await Geolocator().checkGeolocationPermissionStatus();
-      if (GeolocationStatus.granted == geolocationStatus) {
-        appState['isNeverAskAgain'] = false;
-      } else {
-        final isOK = await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: Text(
-                "You need to allow access to device's location in Permissions from App Settings."),
-            actions: [
-              FlatButton(
-                child: Text('CANCEL'),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-              ),
-            ],
-          ),
-        );
-        if (isOK ?? false) {
-          final permissionHandler = PermissionHandler();
-          await permissionHandler.openAppSettings();
-        }
-        return;
-      }
-    }
-    final isShown = await PermissionHandler()
-        .shouldShowRequestPermissionRationale(PermissionGroup.location);
-    try {
-      final Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-      setState(() {
-        appState['currentPosition'] = [position.latitude, position.longitude];
-        // _currentPosition =
-        //     LatLng(position.latitude, position.longitude);
-        animatedMapMove(
-          destCenter: LatLng(position.latitude, position.longitude),
-          destZoom: 10,
-        );
-      });
-      // if (widget.options.onMoveToCurrentPosition == null) {
-      //   widget.mapState.move(
-      //       LatLng(position.latitude, position.longitude),
-      //       widget.mapState.zoom);
-      // } else {
-      //   widget.options.onMoveToCurrentPosition(
-      //       LatLng(position.latitude, position.longitude),
-      //       widget.mapState.zoom);
-      // }
-    } catch (error) {
-      debugPrint(error.toString());
-      if (isShown) {
-        final isNeverAskAgain = !(await PermissionHandler()
-            .shouldShowRequestPermissionRationale(PermissionGroup.location));
-        if (isNeverAskAgain) {
-          appState['isNeverAskAgain'] = true;
-        }
-      }
-    }
-  }
-}
-
-class _CurrentPosition extends StatelessWidget {
-  _CurrentPosition({this.onCurrentPositionClick});
-
-  final Function onCurrentPositionClick;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(bottom: 16),
-      child: MaterialButton(
-        color: Colors.white,
-        child: Icon(Icons.my_location),
-        height: kBigButtonHeight,
-        shape: CircleBorder(),
-        onPressed: onCurrentPositionClick,
-      ),
-    );
+  void _onCurrentPosition(Position position) {
+    setState(() {
+      appState['currentPosition'] = [position.latitude, position.longitude];
+      // _currentPosition =
+      //     LatLng(position.latitude, position.longitude);
+      animatedMapMove(
+        destCenter: LatLng(position.latitude, position.longitude),
+        destZoom: 10,
+      );
+    });
+    // if (widget.options.onMoveToCurrentPosition == null) {
+    //   widget.mapState.move(
+    //       LatLng(position.latitude, position.longitude),
+    //       widget.mapState.zoom);
+    // } else {
+    //   widget.options.onMoveToCurrentPosition(
+    //       LatLng(position.latitude, position.longitude),
+    //       widget.mapState.zoom);
+    // }
   }
 }
 

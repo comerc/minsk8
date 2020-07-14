@@ -5,12 +5,12 @@ import 'package:minsk8/import.dart';
 
 class MapItemLayerOptions extends LayerOptions {
   final double markerIconSize;
-  final Widget currentPosition;
+  final MapCurrentPositionCallback onCurrentPosition;
   final Widget readyButton;
 
   MapItemLayerOptions({
     this.markerIconSize,
-    this.currentPosition,
+    this.onCurrentPosition,
     this.readyButton,
   });
 }
@@ -110,7 +110,9 @@ class _ItemLayerState extends State<_ItemLayer> {
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            widget.options.currentPosition,
+            MapCurrentPosition(
+              onCurrentPosition: widget.options.onCurrentPosition,
+            ),
             widget.options.readyButton,
           ],
         ),
