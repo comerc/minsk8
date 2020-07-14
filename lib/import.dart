@@ -79,7 +79,11 @@ export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
 export 'widgets/life_cycle_manager.dart';
 export 'widgets/main_drawer.dart';
-export 'widgets/map.dart';
+// export 'widgets/map/area_layer.dart'; // local import
+// export 'widgets/map/item_layer.dart'; // local import
+export 'widgets/map/map.dart';
+// export 'widgets/map/scale_layer.dart'; // local import
+// export 'widgets/map/zoom_layer.dart'; // local import
 export 'widgets/navigation_bar.dart';
 export 'widgets/places.dart';
 export 'widgets/price_button.dart';

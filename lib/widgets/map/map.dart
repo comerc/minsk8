@@ -3,10 +3,10 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
-import '../map_plugins/area_layer.dart';
-import '../map_plugins/item_layer.dart';
-import '../map_plugins/scale_layer.dart';
-import '../map_plugins/zoom_layer.dart';
+import 'area_layer.dart';
+import 'item_layer.dart';
+import 'scale_layer.dart';
+import 'zoom_layer.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: добавить копирайт sputnik и osm
