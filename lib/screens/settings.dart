@@ -33,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: SelectButton(
             tooltip: 'Местоположение',
             text:
-                "${appState['ProfileMap.address']} — ${appState['radius'].toInt()} км",
+                "${appState['ProfileMap.address']} — ${appState['ProfileMap.radius'].toInt()} км",
             onTap: _selectLocation,
           ),
         ),

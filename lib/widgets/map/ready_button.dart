@@ -6,11 +6,13 @@ class MapReadyButton extends StatefulWidget {
   MapReadyButton({
     this.center,
     this.zoom,
+    this.radius,
     this.saveModes,
   }) : assert(saveModes != null);
 
   final LatLng center;
   final double zoom;
+  final double radius;
   final List<MapSaveMode> saveModes;
 
   @override
@@ -39,6 +41,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
   _onTap() {
     final center = widget.center;
     final zoom = widget.zoom;
+    final radius = widget.radius;
     final saveModes = widget.saveModes;
     bool isLoading = true;
     showDialog(
@@ -62,6 +65,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
         appState['ProfileMap.center'] = [center.latitude, center.longitude];
         appState['ProfileMap.address'] = value.short;
         appState['ProfileMap.zoom'] = zoom;
+        appState['ProfileMap.radius'] = radius;
       }
       if (saveModes.contains(MapSaveMode.myItem)) {
         appState['MyItemMap.center'] = [center.latitude, center.longitude];

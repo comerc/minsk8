@@ -7,15 +7,11 @@ typedef void ChangeRadiusCallback(double value);
 
 class MapAreaLayerOptions extends LayerOptions {
   final double markerIconSize;
-  final double initialRadius;
-  final ChangeRadiusCallback onChangeRadius;
   final MapCurrentPositionCallback onCurrentPosition;
   final List<MapSaveMode> saveModes;
 
   MapAreaLayerOptions({
     this.markerIconSize,
-    this.initialRadius,
-    this.onChangeRadius,
     this.onCurrentPosition,
     this.saveModes,
   });
@@ -59,7 +55,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
   @override
   void initState() {
     super.initState();
-    _radius = widget.options.initialRadius ?? maxRadius / 2;
+    _radius = appState['ProfileMap.radius'] ?? maxRadius / 2;
   }
 
   double get paintedRadius {
@@ -172,7 +168,6 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                               onChanged: (value) {
                                 setState(() {
                                   _radius = value;
-                                  widget.options.onChangeRadius(value);
                                 });
                               },
                               min: 1,
@@ -189,6 +184,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
               MapReadyButton(
                 center: widget.mapState.center,
                 zoom: widget.mapState.zoom,
+                radius: _radius,
                 saveModes: widget.options.saveModes,
               ),
           ],

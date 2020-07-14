@@ -16,7 +16,7 @@ class MapAddress {
   String detail = '(none)';
 }
 
-enum MapSaveMode { showcase, myItem, all }
+enum MapSaveMode { showcase, myItem }
 
 class MapWidget extends StatefulWidget {
   MapWidget({
@@ -310,8 +310,6 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (!widget.isMyItem)
           MapAreaLayerOptions(
             markerIconSize: markerIconSize,
-            initialRadius: appState['radius'],
-            onChangeRadius: _onChangeRadius,
             onCurrentPosition: _onCurrentPosition,
             saveModes: widget.saveModes,
             // onMoveToCurrentPosition: (destCenter, destZoom) {
@@ -330,10 +328,6 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (isInDebugMode) MapZoomLayerOptions(),
       ],
     );
-  }
-
-  void _onChangeRadius(double radius) {
-    appState['radius'] = radius;
   }
 
   void _onCurrentPosition(Position position) {
