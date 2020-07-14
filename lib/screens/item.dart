@@ -28,7 +28,7 @@ enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _ItemScreenState extends State<ItemScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
@@ -76,7 +76,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        key: _scaffoldKey,
+        // key: _scaffoldKey,
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,
@@ -135,7 +135,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   );
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
-                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  Scaffold.of(context).showSnackBar(snackBar);
                   final GraphQLClient client =
                       GraphQLProvider.of(context).value;
                   final options = MutationOptions(
@@ -175,7 +175,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   final snackBar = SnackBar(
                       content: Text(
                           'Вопрос принят и будет передан автору, чтобы дополнил описание'));
-                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  Scaffold.of(context).showSnackBar(snackBar);
                   final GraphQLClient client =
                       GraphQLProvider.of(context).value;
                   final options = MutationOptions(
