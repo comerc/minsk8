@@ -47,7 +47,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       key: _mapKey,
       center: _center,
       zoom: _zoom,
-      isItem: true,
+      isMyItem: true,
       isReadyButton: true,
       onPositionChanged: _onPositionChanged,
     );
@@ -117,9 +117,8 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       _timer = Timer(Duration(milliseconds: kAnimationTime), () {
         if (_timer == null) return;
         _timer = null;
-        MapWidget.placemarkFromCoordinates(position.center).then((location) {
-          final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-          itemMap.show(location);
+        MapWidget.placemarkFromCoordinates(position.center).then((value) {
+          itemMap.show(value);
         });
       });
     }

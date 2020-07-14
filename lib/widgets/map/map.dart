@@ -4,7 +4,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'area_layer.dart';
-import 'item_layer.dart';
+import 'my_item_layer.dart';
 import 'scale_layer.dart';
 import 'zoom_layer.dart';
 import 'package:minsk8/import.dart';
@@ -20,7 +20,7 @@ class MapWidget extends StatefulWidget {
     this.initialRadius,
     this.onChangeRadius,
     this.markerPoint,
-    this.isItem = false,
+    this.isMyItem = false,
     this.isReadyButton = false,
   }) : super(key: key);
 
@@ -30,7 +30,7 @@ class MapWidget extends StatefulWidget {
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final LatLng markerPoint;
-  final bool isItem;
+  final bool isMyItem;
   final bool isReadyButton;
 
   @override
@@ -258,7 +258,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
         plugins: [
-          widget.isItem ? MapItemLayer() : MapAreaLayer(),
+          widget.isMyItem ? MapMyItemLayer() : MapAreaLayer(),
           MapScaleLayer(),
           if (isInDebugMode) MapZoomLayer(),
         ],
@@ -298,12 +298,12 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               ),
             ],
           ),
-        if (widget.isItem)
-          MapItemLayerOptions(
+        if (widget.isMyItem)
+          MapMyItemLayerOptions(
             markerIconSize: markerIconSize,
             onCurrentPosition: _onCurrentPosition,
           ),
-        if (!widget.isItem)
+        if (!widget.isMyItem)
           MapAreaLayerOptions(
             markerIconSize: markerIconSize,
             initialRadius: widget.initialRadius,

@@ -3,44 +3,44 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class MapItemLayerOptions extends LayerOptions {
+class MapMyItemLayerOptions extends LayerOptions {
   final double markerIconSize;
   final MapCurrentPositionCallback onCurrentPosition;
 
-  MapItemLayerOptions({
+  MapMyItemLayerOptions({
     this.markerIconSize,
     this.onCurrentPosition,
   });
 }
 
-class MapItemLayer implements MapPlugin {
+class MapMyItemLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapItemLayerOptions)) {
-      throw Exception('Unknown options type for MapItemLayer'
+    if (!(options is MapMyItemLayerOptions)) {
+      throw Exception('Unknown options type for MapMyItemLayer'
           'plugin: $options');
     }
-    return _MapItemLayer(options: options, mapState: mapState);
+    return _MapMyItemLayer(options: options, mapState: mapState);
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is MapItemLayerOptions;
+    return options is MapMyItemLayerOptions;
   }
 }
 
-class _MapItemLayer extends StatefulWidget {
-  final MapItemLayerOptions options;
+class _MapMyItemLayer extends StatefulWidget {
+  final MapMyItemLayerOptions options;
   final MapState mapState;
 
-  _MapItemLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapMyItemLayer({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
-  _MapItemLayerState createState() => _MapItemLayerState();
+  _MapMyItemLayerState createState() => _MapMyItemLayerState();
 }
 
-class _MapItemLayerState extends State<_MapItemLayer> {
+class _MapMyItemLayerState extends State<_MapMyItemLayer> {
   @override
   void initState() {
     super.initState();
