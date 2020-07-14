@@ -163,6 +163,33 @@ class MapWidget extends StatefulWidget {
     longitude = longitude > 180 ? 180 : longitude;
     return LatLng(latitude, longitude);
   }
+
+  static Future<String> placemarkFromCoordinates(LatLng center) async {
+    String result = '(none)';
+    try {
+      List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
+          center.latitude, center.longitude,
+          localeIdentifier: 'ru');
+      final placemark = placemarks[0];
+      if (placemark.locality != '') {
+        result = placemark.locality;
+      } else if (placemark.subAdministrativeArea != '') {
+        result = placemark.subAdministrativeArea;
+      } else if (placemark.administrativeArea != '') {
+        result = placemark.administrativeArea;
+      } else if (placemark.country != '') {
+        result = placemark.country;
+      }
+      if (placemark.thoroughfare != '') {
+        result = result + ', ' + placemark.thoroughfare;
+      } else if (placemark.name != '' && placemark.name != result) {
+        result = result + ', ' + placemark.name;
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+    return result;
+  }
 }
 
 class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
@@ -283,7 +310,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               final zoom = _mapController.zoom;
               appState['center'] = [center.latitude, center.longitude];
               appState['zoom'] = zoom;
-              placemarkFromCoordinates(center).then((value) {
+              MapWidget.placemarkFromCoordinates(center).then((value) {
                 appState['address'] = value;
                 Navigator.of(context).pop(true);
               });

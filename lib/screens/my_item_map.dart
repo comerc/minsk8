@@ -117,7 +117,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       _timer = Timer(Duration(milliseconds: kAnimationTime), () {
         if (_timer == null) return;
         _timer = null;
-        placemarkFromCoordinates(position.center).then((location) {
+        MapWidget.placemarkFromCoordinates(position.center).then((location) {
           final itemMap = Provider.of<ItemMapModel>(context, listen: false);
           itemMap.show(location);
         });
