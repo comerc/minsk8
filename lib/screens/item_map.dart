@@ -15,7 +15,7 @@ class ItemMapScreen extends StatelessWidget {
       ),
       body: MapWidget(
         center: item.location,
-        zoom: 13,
+        zoom: 13, // TODO: или сохранять, какой выбрал пользователь?
         markerPoint: item.location,
       ),
     );

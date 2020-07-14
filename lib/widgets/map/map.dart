@@ -11,27 +11,30 @@ import 'package:minsk8/import.dart';
 
 // TODO: добавить копирайт sputnik и osm
 
+class MapAddress {
+  String short = '(none)';
+  String detail = '(none)';
+}
+
+enum MapSaveMode { showcase, myItem, all }
+
 class MapWidget extends StatefulWidget {
   MapWidget({
     Key key,
     this.center,
     this.zoom,
     this.onPositionChanged,
-    this.initialRadius,
-    this.onChangeRadius,
     this.markerPoint,
     this.isMyItem = false,
-    this.isReadyButton = false,
+    this.saveModes,
   }) : super(key: key);
 
   final LatLng center;
   final double zoom;
   final PositionCallback onPositionChanged;
-  final double initialRadius;
-  final ChangeRadiusCallback onChangeRadius;
   final LatLng markerPoint;
   final bool isMyItem;
-  final bool isReadyButton;
+  final List<MapSaveMode> saveModes;
 
   @override
   MapWidgetState createState() {
@@ -163,26 +166,27 @@ class MapWidget extends StatefulWidget {
     return LatLng(latitude, longitude);
   }
 
-  static Future<String> placemarkFromCoordinates(LatLng center) async {
-    String result = '(none)';
+  static Future<MapAddress> placemarkFromCoordinates(LatLng center) async {
+    // String result = '(none)';
+    final result = MapAddress();
     try {
       List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
           center.latitude, center.longitude,
           localeIdentifier: 'ru');
       final placemark = placemarks[0];
       if (placemark.locality != '') {
-        result = placemark.locality;
+        result.short = placemark.locality;
       } else if (placemark.subAdministrativeArea != '') {
-        result = placemark.subAdministrativeArea;
+        result.short = placemark.subAdministrativeArea;
       } else if (placemark.administrativeArea != '') {
-        result = placemark.administrativeArea;
+        result.short = placemark.administrativeArea;
       } else if (placemark.country != '') {
-        result = placemark.country;
+        result.short = placemark.country;
       }
       if (placemark.thoroughfare != '') {
-        result = result + ', ' + placemark.thoroughfare;
-      } else if (placemark.name != '' && placemark.name != result) {
-        result = result + ', ' + placemark.name;
+        result.detail = result.short + ', ' + placemark.thoroughfare;
+      } else if (placemark.name != '' && placemark.name != result.short) {
+        result.detail = result.short + ', ' + placemark.name;
       }
     } catch (e) {
       debugPrint('$e');
@@ -306,10 +310,10 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (!widget.isMyItem)
           MapAreaLayerOptions(
             markerIconSize: markerIconSize,
-            initialRadius: widget.initialRadius,
-            onChangeRadius: widget.onChangeRadius,
+            initialRadius: appState['radius'],
+            onChangeRadius: _onChangeRadius,
             onCurrentPosition: _onCurrentPosition,
-            isReadyButton: widget.isReadyButton,
+            saveModes: widget.saveModes,
             // onMoveToCurrentPosition: (destCenter, destZoom) {
             //   setState(() {
             //     _currentPosition = destCenter;
@@ -326,6 +330,10 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         if (isInDebugMode) MapZoomLayerOptions(),
       ],
     );
+  }
+
+  void _onChangeRadius(double radius) {
+    appState['radius'] = radius;
   }
 
   void _onCurrentPosition(Position position) {

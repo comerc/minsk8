@@ -124,8 +124,9 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
-            if (appState['mainAddress'] == null) {
-              appState['mainAddress'] = 'Ждановичи'; // TODO: /profile_map
+            if (appState['ProfileMap.address'] == null) {
+              appState['ProfileMap.address'] =
+                  'Ждановичи'; // TODO: /profile_map
             }
             return Query(
               options: QueryOptions(
@@ -201,7 +202,8 @@ class App extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         '/my_item_map': (_) => MyItemMapScreen(),
         '/pay': (_) => PayScreen(),
-        '/profile_map': (_) => ProfileMapScreen(),
+        '/profile_map': (BuildContext context) =>
+            ProfileMapScreen(ModalRoute.of(context).settings.arguments),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
         '/sign_up': (_) => SignUpScreen(),

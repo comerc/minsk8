@@ -21,7 +21,7 @@ class MyItemMapModel extends ChangeNotifier {
   }
 
   init() {
-    _address = appState['address'] ?? '(none)';
+    _address = appState['MyItemMap.address'] ?? '(none)';
     _visible = true;
   }
 }

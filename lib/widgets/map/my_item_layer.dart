@@ -114,6 +114,7 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
             MapReadyButton(
               center: widget.mapState.center,
               zoom: widget.mapState.zoom,
+              saveModes: [MapSaveMode.myItem],
             ),
           ],
         ),

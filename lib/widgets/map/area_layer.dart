@@ -10,14 +10,14 @@ class MapAreaLayerOptions extends LayerOptions {
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final MapCurrentPositionCallback onCurrentPosition;
-  final bool isReadyButton;
+  final List<MapSaveMode> saveModes;
 
   MapAreaLayerOptions({
     this.markerIconSize,
     this.initialRadius,
     this.onChangeRadius,
     this.onCurrentPosition,
-    this.isReadyButton = false,
+    this.saveModes,
   });
 }
 
@@ -75,7 +75,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (widget.options.onChangeRadius != null)
+        if (widget.options.saveModes != null)
           Center(
             child: CustomPaint(
               painter: _MapAreaLayerPainter(
@@ -83,7 +83,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
               ),
             ),
           ),
-        if (widget.options.onChangeRadius != null)
+        if (widget.options.saveModes != null)
           Container(
             margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
             alignment: Alignment.center,
@@ -99,7 +99,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
             MapCurrentPosition(
               onCurrentPosition: widget.options.onCurrentPosition,
             ),
-            if (widget.options.onChangeRadius != null)
+            if (widget.options.saveModes != null)
               Container(
                 alignment: Alignment.bottomCenter,
                 padding: EdgeInsets.only(
@@ -185,10 +185,11 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                   ),
                 ),
               ),
-            if (widget.options.isReadyButton)
+            if (widget.options.saveModes != null)
               MapReadyButton(
                 center: widget.mapState.center,
                 zoom: widget.mapState.zoom,
+                saveModes: widget.options.saveModes,
               ),
           ],
         ),

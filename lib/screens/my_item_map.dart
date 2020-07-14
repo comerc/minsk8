@@ -18,16 +18,6 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   bool _isPlaces = false;
   final _formFieldKey = GlobalKey<FormFieldState>();
   final _mapKey = GlobalKey<MapWidgetState>();
-  final _center = appState['center'] == null
-      ? LatLng(
-          kDefaultMapCenter[0],
-          kDefaultMapCenter[1],
-        )
-      : LatLng(
-          appState['center'][0],
-          appState['center'][1],
-        );
-  final _zoom = appState['zoom'] ?? 8.0;
 
   @override
   void initState() {
@@ -45,10 +35,17 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   Widget build(BuildContext context) {
     final body = MapWidget(
       key: _mapKey,
-      center: _center,
-      zoom: _zoom,
+      center: appState['MyItemMap.center'] == null
+          ? LatLng(
+              kDefaultMapCenter[0],
+              kDefaultMapCenter[1],
+            )
+          : LatLng(
+              appState['MyItemMap.center'][0],
+              appState['MyItemMap.center'][1],
+            ),
+      zoom: appState['MyItemMap.zoom'] ?? 8.0,
       isMyItem: true,
-      isReadyButton: true,
       onPositionChanged: _onPositionChanged,
     );
     return Scaffold(
@@ -107,21 +104,21 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
     _timer = null;
   }
 
-  void _onPositionChanged(MapPosition position, _) {
-    if (_isPostFrame) {
-      final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
-      if (myItemMap.visible) {
-        myItemMap.hide();
-      }
-      _disposeTimer();
-      _timer = Timer(Duration(milliseconds: kAnimationTime), () {
-        if (_timer == null) return;
-        _timer = null;
-        MapWidget.placemarkFromCoordinates(position.center).then((value) {
-          myItemMap.show(value);
-        });
-      });
+  void _onPositionChanged(MapPosition position, bool hasGesture) {
+    if (!_isPostFrame) return;
+    final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
+    if (myItemMap.visible) {
+      myItemMap.hide();
     }
+    _disposeTimer();
+    _timer = Timer(Duration(milliseconds: kAnimationTime), () {
+      if (_timer == null) return;
+      _timer = null;
+      MapWidget.placemarkFromCoordinates(position.center)
+          .then((MapAddress value) {
+        myItemMap.show(value.detail);
+      });
+    });
   }
 
   _onSuggestionSelected(suggestion) {

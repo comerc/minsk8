@@ -11,6 +11,10 @@ import 'package:minsk8/import.dart';
 
 // class ProfileMapScreenState extends State<ProfileMapScreen> {
 class ProfileMapScreen extends StatelessWidget {
+  ProfileMapScreen(this.arguments);
+
+  final ProfileMapRouteArguments arguments;
+
   @override
   Widget build(context) {
     return Scaffold(
@@ -18,29 +22,26 @@ class ProfileMapScreen extends StatelessWidget {
         title: Text('Profile Map'),
       ),
       body: MapWidget(
-        center: appState['center'] == null
+        center: appState['ProfileMap.center'] == null
             ? LatLng(
                 kDefaultMapCenter[0],
                 kDefaultMapCenter[1],
               )
             : LatLng(
-                appState['center'][0],
-                appState['center'][1],
+                appState['ProfileMap.center'][0],
+                appState['ProfileMap.center'][1],
               ),
-        zoom: appState['zoom'] ?? 8,
-        onPositionChanged: (position, _) {
-          appState['center'] = [
-            position.center.latitude,
-            position.center.longitude
-          ];
-          appState['zoom'] = position.zoom;
-        },
-        initialRadius: appState['radius'],
-        onChangeRadius: (value) {
-          appState['radius'] = value;
-        },
-        isReadyButton: true,
+        zoom: appState['ProfileMap.zoom'] ?? 8,
+        saveModes: arguments.isShowcaseOnly
+            ? [MapSaveMode.showcase]
+            : [MapSaveMode.showcase, MapSaveMode.myItem],
       ),
     );
   }
+}
+
+class ProfileMapRouteArguments {
+  ProfileMapRouteArguments({this.isShowcaseOnly = false});
+
+  final bool isShowcaseOnly;
 }

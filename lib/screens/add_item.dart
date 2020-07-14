@@ -28,11 +28,7 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // final _formKey = GlobalKey<FormState>();
   TextEditingController _textController;
-  // bool isLoading = false;
-  bool _isSubmited = false;
   ImageSource _imageSource;
   List<_ImageData> _images = [];
   UrgentStatus _urgent = UrgentStatus.not_urgent;
@@ -70,7 +66,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final size = MediaQuery.of(context).size;
     final panelChildWidth = size.width - 32.0; // for padding
     final gridSpacing = 8.0;
-    // final child = Form(key: _formKey, child:
     final child = Column(
       children: [
         Container(
@@ -139,7 +134,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Местоположение',
-            text: appState['address'] ?? 'Местоположение',
+            text: appState['MyItemMap.address'] ?? 'Местоположение',
             onTap: _selectLocation,
           ),
         ),
@@ -172,7 +167,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Что отдаёте?'),
           actions: [
@@ -218,9 +212,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
       return;
     }
+    bool isLoading = true;
     showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: false, // TODO: как отменить загрузку?
       child: AlertDialog(
         content: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,9 +257,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         'kind': EnumToString.parse(_kind),
         'location': {
           'type': 'Point',
-          'coordinates': appState['center'],
+          'coordinates': appState['MyItemMap.center'],
         },
-        'address': appState['address'],
+        'address': appState['MyItemMap.address'],
       },
       fetchPolicy: FetchPolicy.noCache,
     );
@@ -277,6 +272,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (result.hasException) {
         throw result.exception;
       }
+      isLoading = false;
+      Navigator.of(context).pop(); // for showDialog "Загрузка..."
       final itemData = result.data['insert_item_one'];
       final newItem = ItemModel.fromJson(itemData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
@@ -284,7 +281,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);
       _reloadUnderwayModel();
-      Navigator.of(context).pop(); // for showDialog "Загрузка..."
       final value = await showDialog(
         context: context,
         child: AddedItemDialog(
@@ -314,10 +310,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
     }).catchError((error) {
       debugPrint(error.toString());
-      Navigator.of(context).pop();
+      if (isLoading) {
+        Navigator.of(context).pop(); // for showDialog "Загрузка..."
+      }
       final snackBar = SnackBar(
           content: Text('Не удалось загрузить лот, попробуйте ещё раз'));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
+      Scaffold.of(context).showSnackBar(snackBar);
     });
   }
 
@@ -383,7 +381,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         final snackBar = SnackBar(
             content:
                 Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
-        _scaffoldKey.currentState.showSnackBar(snackBar);
+        Scaffold.of(context).showSnackBar(snackBar);
       }
       debugPrint(error.toString());
     });
@@ -506,7 +504,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    if (_isSubmited) return true;
     if (_images.length == 0 && !_isValidText) return true;
     final result = await showCancelItemDialog(context);
     return result ?? false; // if enableDrag, result may be null

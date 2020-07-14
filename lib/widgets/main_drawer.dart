@@ -99,6 +99,7 @@ final mainRoutes = [
   {
     'title': 'Profile Map',
     'routeName': '/profile_map',
+    'arguments': ProfileMapRouteArguments(),
   },
   {
     'title': 'Search',
