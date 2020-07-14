@@ -124,10 +124,6 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
-            if (appState['ProfileMap.address'] == null) {
-              appState['ProfileMap.address'] =
-                  'Ждановичи'; // TODO: /profile_map
-            }
             return Query(
               options: QueryOptions(
                 documentNode: Queries.getProfile,

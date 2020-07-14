@@ -82,6 +82,7 @@ export 'widgets/main_drawer.dart';
 // export 'widgets/map/area_layer.dart'; // local import
 export 'widgets/map/current_position.dart';
 export 'widgets/map/map.dart';
+export 'widgets/map/map_info.dart';
 // export 'widgets/map/my_item_layer.dart'; // local import
 export 'widgets/map/ready_button.dart';
 // export 'widgets/map/scale_layer.dart'; // local import

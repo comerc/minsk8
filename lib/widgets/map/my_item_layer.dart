@@ -50,47 +50,8 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
 
   @override
   Widget build(BuildContext context) {
-    final isInfo = appState['MyItemMap.isInfo'] ?? true;
     return Stack(
       children: [
-        if (isInfo)
-          Positioned(
-            top: 48,
-            left: 16,
-            right: 16,
-            child: IgnorePointer(
-              child: Material(
-                elevation: kButtonElevation,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  color: Colors.white,
-                  child: Text(
-                      'Укажите местоположение лота, чтобы пользователи поблизости его увидели'),
-                ),
-              ),
-            ),
-          ),
-        if (isInfo)
-          Positioned(
-            top: 48,
-            right: 16,
-            child: Tooltip(
-              message: 'Закрыть',
-              child: Material(
-                child: InkWell(
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.black.withOpacity(0.8),
-                    size: 20,
-                  ),
-                  onTap: () {
-                    appState['MyItemMap.isInfo'] = false;
-                    setState(() {});
-                  },
-                ),
-              ),
-            ),
-          ),
         Container(
           margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
           alignment: Alignment.center,

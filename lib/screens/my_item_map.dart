@@ -33,7 +33,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final body = MapWidget(
+    Widget body = MapWidget(
       key: _mapKey,
       center: appState['MyItemMap.center'] == null
           ? LatLng(
@@ -48,6 +48,16 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       isMyItem: true,
       onPositionChanged: _onPositionChanged,
     );
+    if (appState['MyItemMap.isInfo'] ?? true) {
+      body = buildMapInfo(
+        'Укажите местоположение лота, чтобы пользователи поблизости его увидели',
+        child: body,
+        onClose: () {
+          appState['MyItemMap.isInfo'] = false;
+          setState(() {});
+        },
+      );
+    }
     return Scaffold(
       appBar: _isPlaces
           ? AppBar(
