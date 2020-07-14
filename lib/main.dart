@@ -174,8 +174,8 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      // initialRoute:
-      //     kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link
+      initialRoute:
+          kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link
       routes: <String, WidgetBuilder>{
         '/_animation': (_) => AnimationScreen(),
         '/_custom_dialog': (_) => CustomDialogScreen(),
