@@ -109,16 +109,16 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
 
   void _onPositionChanged(MapPosition position, _) {
     if (_isPostFrame) {
-      final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-      if (itemMap.visible) {
-        itemMap.hide();
+      final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
+      if (myItemMap.visible) {
+        myItemMap.hide();
       }
       _disposeTimer();
       _timer = Timer(Duration(milliseconds: kAnimationTime), () {
         if (_timer == null) return;
         _timer = null;
         MapWidget.placemarkFromCoordinates(position.center).then((value) {
-          itemMap.show(value);
+          myItemMap.show(value);
         });
       });
     }

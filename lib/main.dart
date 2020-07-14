@@ -163,8 +163,8 @@ class App extends StatelessWidget {
                             ProfileModel.fromJson(result.data['profile'])),
                     ChangeNotifierProvider<DistanceModel>(
                         create: (_) => DistanceModel()),
-                    ChangeNotifierProvider<ItemMapModel>(
-                        create: (_) => ItemMapModel()),
+                    ChangeNotifierProvider<MyItemMapModel>(
+                        create: (_) => MyItemMapModel()),
                   ],
                   child: MediaQueryWrap(child),
                 );

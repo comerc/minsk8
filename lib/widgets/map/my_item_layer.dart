@@ -44,8 +44,8 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
   @override
   void initState() {
     super.initState();
-    final itemMap = Provider.of<ItemMapModel>(context, listen: false);
-    itemMap.init();
+    final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
+    myItemMap.init();
   }
 
   @override
@@ -125,8 +125,11 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
 class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final itemMap = Provider.of<ItemMapModel>(context);
-    return _AnimatedLabel(visible: itemMap.visible, address: itemMap.address);
+    final myItemMap = Provider.of<MyItemMapModel>(context);
+    return _AnimatedLabel(
+      visible: myItemMap.visible,
+      address: myItemMap.address,
+    );
   }
 }
 
