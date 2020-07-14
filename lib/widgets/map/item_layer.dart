@@ -6,12 +6,10 @@ import 'package:minsk8/import.dart';
 class MapItemLayerOptions extends LayerOptions {
   final double markerIconSize;
   final MapCurrentPositionCallback onCurrentPosition;
-  final Widget readyButton;
 
   MapItemLayerOptions({
     this.markerIconSize,
     this.onCurrentPosition,
-    this.readyButton,
   });
 }
 
@@ -113,7 +111,10 @@ class _ItemLayerState extends State<_ItemLayer> {
             MapCurrentPosition(
               onCurrentPosition: widget.options.onCurrentPosition,
             ),
-            widget.options.readyButton,
+            MapReadyButton(
+              center: widget.mapState.center,
+              zoom: widget.mapState.zoom,
+            ),
           ],
         ),
       ],

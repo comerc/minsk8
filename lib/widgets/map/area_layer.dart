@@ -10,14 +10,14 @@ class MapAreaLayerOptions extends LayerOptions {
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final MapCurrentPositionCallback onCurrentPosition;
-  final Widget readyButton;
+  final bool isReadyButton;
 
   MapAreaLayerOptions({
     this.markerIconSize,
     this.initialRadius,
     this.onChangeRadius,
     this.onCurrentPosition,
-    this.readyButton,
+    this.isReadyButton = false,
   });
 }
 
@@ -185,7 +185,11 @@ class _AreaLayerState extends State<_AreaLayer>
                   ),
                 ),
               ),
-            if (widget.options.readyButton != null) widget.options.readyButton,
+            if (widget.options.isReadyButton)
+              MapReadyButton(
+                center: widget.mapState.center,
+                zoom: widget.mapState.zoom,
+              ),
           ],
         ),
       ],

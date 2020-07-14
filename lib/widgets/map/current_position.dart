@@ -11,12 +11,12 @@ class MapCurrentPosition extends StatefulWidget {
   final MapCurrentPositionCallback onCurrentPosition;
 
   @override
-  MapCurrentPositionState createState() {
-    return MapCurrentPositionState();
+  _MapCurrentPositionState createState() {
+    return _MapCurrentPositionState();
   }
 }
 
-class MapCurrentPositionState extends State<MapCurrentPosition> {
+class _MapCurrentPositionState extends State<MapCurrentPosition> {
   @override
   Widget build(BuildContext context) {
     return Container(

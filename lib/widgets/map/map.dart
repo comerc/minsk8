@@ -302,16 +302,6 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           MapItemLayerOptions(
             markerIconSize: markerIconSize,
             onCurrentPosition: _onCurrentPosition,
-            readyButton: _MapReadyButton(onTap: () {
-              final center = _mapController.center;
-              final zoom = _mapController.zoom;
-              appState['center'] = [center.latitude, center.longitude];
-              appState['zoom'] = zoom;
-              MapWidget.placemarkFromCoordinates(center).then((value) {
-                appState['address'] = value;
-                Navigator.of(context).pop(true);
-              });
-            }),
           ),
         if (!widget.isItem)
           MapAreaLayerOptions(
@@ -319,20 +309,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             initialRadius: widget.initialRadius,
             onChangeRadius: widget.onChangeRadius,
             onCurrentPosition: _onCurrentPosition,
-            readyButton: widget.isReadyButton
-                ? _MapReadyButton(onTap: () {
-                    final center = _mapController.center;
-                    final zoom = _mapController.zoom;
-                    appState['center'] = [center.latitude, center.longitude];
-                    appState['zoom'] = zoom;
-                    MapWidget.placemarkFromCoordinates(center).then((value) {
-                      appState['address'] = value;
-                      // TODO: mainAddress
-                      // appState['mainAddress'] = value;
-                      Navigator.of(context).pop(true);
-                    });
-                  })
-                : null,
+            isReadyButton: widget.isReadyButton,
             // onMoveToCurrentPosition: (destCenter, destZoom) {
             //   setState(() {
             //     _currentPosition = destCenter;
@@ -370,27 +347,5 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     //       LatLng(position.latitude, position.longitude),
     //       widget.mapState.zoom);
     // }
-  }
-}
-
-class _MapReadyButton extends StatelessWidget {
-  _MapReadyButton({this.onTap});
-
-  final Function onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        bottom: 16,
-      ),
-      child: Container(
-        height: kBigButtonHeight,
-        child: ReadyButton(onTap: onTap, isRaised: true),
-      ),
-    );
   }
 }
