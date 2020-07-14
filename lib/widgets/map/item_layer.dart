@@ -21,7 +21,7 @@ class MapItemLayer implements MapPlugin {
       throw Exception('Unknown options type for MapItemLayer'
           'plugin: $options');
     }
-    return _ItemLayer(options: options, mapState: mapState);
+    return _MapItemLayer(options: options, mapState: mapState);
   }
 
   @override
@@ -30,17 +30,17 @@ class MapItemLayer implements MapPlugin {
   }
 }
 
-class _ItemLayer extends StatefulWidget {
+class _MapItemLayer extends StatefulWidget {
   final MapItemLayerOptions options;
   final MapState mapState;
 
-  _ItemLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapItemLayer({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
-  _ItemLayerState createState() => _ItemLayerState();
+  _MapItemLayerState createState() => _MapItemLayerState();
 }
 
-class _ItemLayerState extends State<_ItemLayer> {
+class _MapItemLayerState extends State<_MapItemLayer> {
   @override
   void initState() {
     super.initState();

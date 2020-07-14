@@ -14,7 +14,7 @@ class MapZoomLayer implements MapPlugin {
       throw Exception('Unknown options type for MapZoomLayer'
           'plugin: $options');
     }
-    return _Zoom(mapState: mapState);
+    return _MapZoomLayer(mapState: mapState);
   }
 
   @override
@@ -23,16 +23,16 @@ class MapZoomLayer implements MapPlugin {
   }
 }
 
-class _Zoom extends StatefulWidget {
+class _MapZoomLayer extends StatefulWidget {
   final MapState mapState;
 
-  _Zoom({Key key, this.mapState}) : super(key: key);
+  _MapZoomLayer({Key key, this.mapState}) : super(key: key);
 
   @override
-  _ZoomState createState() => _ZoomState();
+  _MapZoomLayerState createState() => _MapZoomLayerState();
 }
 
-class _ZoomState extends State<_Zoom> {
+class _MapZoomLayerState extends State<_MapZoomLayer> {
   @override
   Widget build(BuildContext context) {
     return ButtonBar(

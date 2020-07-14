@@ -29,7 +29,7 @@ class MapAreaLayer implements MapPlugin {
       throw Exception('Unknown options type for MapAreaLayer'
           'plugin: $options');
     }
-    return _AreaLayer(options: options, mapState: mapState);
+    return _MapAreaLayer(options: options, mapState: mapState);
   }
 
   @override
@@ -38,19 +38,19 @@ class MapAreaLayer implements MapPlugin {
   }
 }
 
-class _AreaLayer extends StatefulWidget {
+class _MapAreaLayer extends StatefulWidget {
   final MapAreaLayerOptions options;
   final MapState mapState;
 
-  _AreaLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapAreaLayer({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
-  _AreaLayerState createState() => _AreaLayerState();
+  _MapAreaLayerState createState() => _MapAreaLayerState();
 }
 
 const maxRadius = 100.0;
 
-class _AreaLayerState extends State<_AreaLayer>
+class _MapAreaLayerState extends State<_MapAreaLayer>
     with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
@@ -78,7 +78,7 @@ class _AreaLayerState extends State<_AreaLayer>
         if (widget.options.onChangeRadius != null)
           Center(
             child: CustomPaint(
-              painter: _AreaLayerPainter(
+              painter: _MapAreaLayerPainter(
                 radius: paintedRadius,
               ),
             ),
@@ -197,14 +197,14 @@ class _AreaLayerState extends State<_AreaLayer>
   }
 }
 
-class _AreaLayerPainter extends CustomPainter {
+class _MapAreaLayerPainter extends CustomPainter {
   final double radius;
   final Paint _paintFill;
   final Paint _paintStroke;
   // final double iconSize;
   // final TextPainter _textPainter;
 
-  _AreaLayerPainter({
+  _MapAreaLayerPainter({
     this.radius,
     // this.iconSize,
     // IconData icon,

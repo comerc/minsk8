@@ -25,7 +25,7 @@ class MapScaleLayer implements MapPlugin {
     if (!(options is MapScaleLayerOption)) {
       throw Exception('Unknown options type for MapScaleLayer: $options');
     }
-    return ScaleLayer(options, mapState, stream);
+    return _MapScaleLayer(options, mapState, stream);
   }
 
   @override
@@ -34,7 +34,7 @@ class MapScaleLayer implements MapPlugin {
   }
 }
 
-class ScaleLayer extends StatelessWidget {
+class _MapScaleLayer extends StatelessWidget {
   final MapScaleLayerOption options;
   final MapState map;
   final Stream<Null> stream;
@@ -64,7 +64,7 @@ class ScaleLayer extends StatelessWidget {
     5
   ];
 
-  ScaleLayer(this.options, this.map, this.stream);
+  _MapScaleLayer(this.options, this.map, this.stream);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class ScaleLayer extends StatelessWidget {
     final width = end.x - start.x;
 
     return CustomPaint(
-      painter: ScalePainter(
+      painter: _MapScalePainter(
         width,
         displayDistance,
         lineColor: options.lineColor,
@@ -93,8 +93,8 @@ class ScaleLayer extends StatelessWidget {
   }
 }
 
-class ScalePainter extends CustomPainter {
-  ScalePainter(this.width, this.text,
+class _MapScalePainter extends CustomPainter {
+  _MapScalePainter(this.width, this.text,
       {this.padding, this.textStyle, this.lineWidth, this.lineColor});
   final double width;
   final EdgeInsets padding;
