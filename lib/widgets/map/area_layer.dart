@@ -5,14 +5,14 @@ import 'package:minsk8/import.dart';
 
 typedef void ChangeRadiusCallback(double value);
 
-class AreaLayerMapPluginOptions extends LayerOptions {
+class MapAreaLayerOptions extends LayerOptions {
   final double markerIconSize;
   final double initialRadius;
   final ChangeRadiusCallback onChangeRadius;
   final Widget currentPosition;
   final Widget readyButton;
 
-  AreaLayerMapPluginOptions({
+  MapAreaLayerOptions({
     this.markerIconSize,
     this.initialRadius,
     this.onChangeRadius,
@@ -21,12 +21,12 @@ class AreaLayerMapPluginOptions extends LayerOptions {
   });
 }
 
-class AreaLayerMapPlugin implements MapPlugin {
+class MapAreaLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is AreaLayerMapPluginOptions)) {
-      throw Exception('Unknown options type for AreaLayerMapPlugin'
+    if (!(options is MapAreaLayerOptions)) {
+      throw Exception('Unknown options type for MapAreaLayer'
           'plugin: $options');
     }
     return _AreaLayer(options: options, mapState: mapState);
@@ -34,12 +34,12 @@ class AreaLayerMapPlugin implements MapPlugin {
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is AreaLayerMapPluginOptions;
+    return options is MapAreaLayerOptions;
   }
 }
 
 class _AreaLayer extends StatefulWidget {
-  final AreaLayerMapPluginOptions options;
+  final MapAreaLayerOptions options;
   final MapState mapState;
 
   _AreaLayer({Key key, this.options, this.mapState}) : super(key: key);

@@ -106,9 +106,9 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
         plugins: [
-          widget.isItem ? ItemLayerMapPlugin() : AreaLayerMapPlugin(),
-          ScaleLayerMapPlugin(),
-          if (isInDebugMode) ZoomLayerMapPlugin(),
+          widget.isItem ? MapItemLayer() : MapAreaLayer(),
+          MapScaleLayer(),
+          if (isInDebugMode) MapZoomLayer(),
         ],
       ),
       layers: [
@@ -147,7 +147,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             ],
           ),
         if (widget.isItem)
-          ItemLayerMapPluginOptions(
+          MapItemLayerOptions(
             markerIconSize: markerIconSize,
             currentPosition: _CurrentPosition(
               onCurrentPositionClick: _onCurrentPositionClick,
@@ -164,7 +164,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             }),
           ),
         if (!widget.isItem)
-          AreaLayerMapPluginOptions(
+          MapAreaLayerOptions(
             markerIconSize: markerIconSize,
             initialRadius: widget.initialRadius,
             onChangeRadius: widget.onChangeRadius,
@@ -192,13 +192,13 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
             //   animatedMapMove(destCenter, destZoom);
             // },
           ),
-        ScaleLayerMapPluginOption(
+        MapScaleLayerOption(
           lineColor: Colors.blue,
           lineWidth: 2,
           textStyle: TextStyle(color: Colors.blue, fontSize: 12),
           padding: EdgeInsets.all(10),
         ),
-        if (isInDebugMode) ZoomLayerMapPluginOptions(),
+        if (isInDebugMode) MapZoomLayerOptions(),
       ],
     );
   }

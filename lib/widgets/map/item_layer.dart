@@ -3,24 +3,24 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class ItemLayerMapPluginOptions extends LayerOptions {
+class MapItemLayerOptions extends LayerOptions {
   final double markerIconSize;
   final Widget currentPosition;
   final Widget readyButton;
 
-  ItemLayerMapPluginOptions({
+  MapItemLayerOptions({
     this.markerIconSize,
     this.currentPosition,
     this.readyButton,
   });
 }
 
-class ItemLayerMapPlugin implements MapPlugin {
+class MapItemLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is ItemLayerMapPluginOptions)) {
-      throw Exception('Unknown options type for ItemLayerMapPlugin'
+    if (!(options is MapItemLayerOptions)) {
+      throw Exception('Unknown options type for MapItemLayer'
           'plugin: $options');
     }
     return _ItemLayer(options: options, mapState: mapState);
@@ -28,12 +28,12 @@ class ItemLayerMapPlugin implements MapPlugin {
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is ItemLayerMapPluginOptions;
+    return options is MapItemLayerOptions;
   }
 }
 
 class _ItemLayer extends StatefulWidget {
-  final ItemLayerMapPluginOptions options;
+  final MapItemLayerOptions options;
   final MapState mapState;
 
   _ItemLayer({Key key, this.options, this.mapState}) : super(key: key);

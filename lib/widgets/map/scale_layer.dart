@@ -5,37 +5,37 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'utils.dart' as utils;
 
-class ScaleLayerMapPluginOption extends LayerOptions {
+class MapScaleLayerOption extends LayerOptions {
   TextStyle textStyle;
   Color lineColor;
   double lineWidth;
   final EdgeInsets padding;
 
-  ScaleLayerMapPluginOption(
+  MapScaleLayerOption(
       {this.textStyle,
       this.lineColor = Colors.white,
       this.lineWidth = 2,
       this.padding});
 }
 
-class ScaleLayerMapPlugin implements MapPlugin {
+class MapScaleLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is ScaleLayerMapPluginOption)) {
-      throw Exception('Unknown options type for ScaleLayerMapPlugin: $options');
+    if (!(options is MapScaleLayerOption)) {
+      throw Exception('Unknown options type for MapScaleLayer: $options');
     }
     return ScaleLayer(options, mapState, stream);
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is ScaleLayerMapPluginOption;
+    return options is MapScaleLayerOption;
   }
 }
 
 class ScaleLayer extends StatelessWidget {
-  final ScaleLayerMapPluginOption options;
+  final MapScaleLayerOption options;
   final MapState map;
   final Stream<Null> stream;
   final scale = [
