@@ -109,7 +109,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                 ),
                 child: Material(
                   elevation: kButtonElevation,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  // borderRadius: BorderRadius.all(Radius.circular(8)),
                   child: Container(
                     padding: EdgeInsets.all(8),
                     alignment: Alignment.center,
@@ -117,7 +117,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      // borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: Column(
                       children: [
