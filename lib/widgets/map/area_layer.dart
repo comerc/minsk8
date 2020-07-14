@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'utils.dart' as utils;
+// import 'utils.dart' as utils;
 import 'package:minsk8/import.dart';
 
 typedef void ChangeRadiusCallback(double value);
@@ -65,7 +65,7 @@ class _AreaLayerState extends State<_AreaLayer>
   double get paintedRadius {
     final center = widget.mapState.center;
     final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, _radius * 1000);
+        MapWidget.calculateEndingGlobalCoordinates(center, 90, _radius * 1000);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
     return end.x - start.x;

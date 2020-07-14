@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'utils.dart' as utils;
+import 'package:minsk8/import.dart';
 
 class MapScaleLayerOption extends LayerOptions {
   TextStyle textStyle;
@@ -73,7 +73,7 @@ class ScaleLayer extends StatelessWidget {
     final center = map.center;
     final start = map.project(center);
     final targetPoint =
-        utils.calculateEndingGlobalCoordinates(center, 90, distance);
+        MapWidget.calculateEndingGlobalCoordinates(center, 90, distance);
     final end = map.project(targetPoint);
     final displayDistance = distance > 999
         ? '${(distance / 1000).toStringAsFixed(0)} km'
