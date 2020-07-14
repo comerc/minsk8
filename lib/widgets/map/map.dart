@@ -330,7 +330,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
                     final zoom = _mapController.zoom;
                     appState['center'] = [center.latitude, center.longitude];
                     appState['zoom'] = zoom;
-                    placemarkFromCoordinates(center).then((value) {
+                    MapWidget.placemarkFromCoordinates(center).then((value) {
                       appState['address'] = value;
                       // TODO: mainAddress
                       // appState['mainAddress'] = value;
