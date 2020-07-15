@@ -55,7 +55,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
   @override
   void initState() {
     super.initState();
-    _radius = appState['ProfileMap.radius'] ?? maxRadius / 2;
+    _radius = appState['ShowcaseMap.radius'] ?? maxRadius / 2;
   }
 
   double get paintedRadius {

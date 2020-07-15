@@ -62,10 +62,10 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       isLoading = false;
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
       if (saveModes.contains(MapSaveMode.showcase)) {
-        appState['ProfileMap.center'] = [center.latitude, center.longitude];
-        appState['ProfileMap.address'] = value.short;
-        appState['ProfileMap.zoom'] = zoom;
-        appState['ProfileMap.radius'] = radius;
+        appState['ShowcaseMap.center'] = [center.latitude, center.longitude];
+        appState['ShowcaseMap.address'] = value.short;
+        appState['ShowcaseMap.zoom'] = zoom;
+        appState['ShowcaseMap.radius'] = radius;
       }
       if (saveModes.contains(MapSaveMode.myItem)) {
         appState['MyItemMap.center'] = [center.latitude, center.longitude];

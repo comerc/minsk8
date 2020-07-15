@@ -33,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: SelectButton(
             tooltip: 'Местоположение',
             text:
-                "${appState['ProfileMap.address']} — ${appState['ProfileMap.radius'].toInt()} км",
+                "${appState['ShowcaseMap.address']} — ${appState['ShowcaseMap.radius'].toInt()} км",
             onTap: _selectLocation,
           ),
         ),
@@ -81,10 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _selectLocation() {
     Navigator.pushNamed(
       context,
-      '/profile_map',
-      arguments: ProfileMapRouteArguments(
-        isShowcaseOnly: true,
-      ),
+      '/showcase_map',
     ).then((value) {
       if (value == null) return;
       setState(() {});

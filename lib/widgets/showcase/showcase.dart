@@ -222,7 +222,7 @@ class _AppBar extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(top: 4),
                 child: Text(
-                  "${appState['ProfileMap.address']} — ${appState['ProfileMap.radius'].toInt()} км",
+                  "${appState['ShowcaseMap.address']} — ${appState['ShowcaseMap.radius'].toInt()} км",
                   style: TextStyle(
                     fontSize: kFontSize,
                     fontWeight: FontWeight.w600,
