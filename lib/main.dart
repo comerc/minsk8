@@ -92,6 +92,7 @@ void main() {
 PersistedData appState;
 final localDeletedItemIds = Set<String>();
 final homeKey = GlobalKey<HomeScreenState>();
+final mapKey = GlobalKey<MapWidgetState>();
 
 class App extends StatelessWidget {
   @override
@@ -171,8 +172,9 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(key: homeKey),
-      initialRoute:
-          kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link
+      initialRoute: '/start',
+      // initialRoute:
+      //     kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link
       routes: <String, WidgetBuilder>{
         '/_animation': (_) => AnimationScreen(),
         '/_custom_dialog': (_) => CustomDialogScreen(),
@@ -198,12 +200,12 @@ class App extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         '/my_item_map': (_) => MyItemMapScreen(),
         '/pay': (_) => PayScreen(),
-        '/profile_map': (BuildContext context) =>
-            ProfileMapScreen(ModalRoute.of(context).settings.arguments),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
+        '/showcase_map': (_) => ShowcaseMapScreen(),
         '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
+        '/start_map': (_) => StartMapScreen(),
         '/useful_tips': (_) =>
             MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
         '/wallet': (_) => WalletScreen(),

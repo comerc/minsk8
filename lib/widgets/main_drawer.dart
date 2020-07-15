@@ -97,11 +97,6 @@ final mainRoutes = [
     'routeName': '/pay',
   },
   {
-    'title': 'Profile Map',
-    'routeName': '/profile_map',
-    'arguments': ProfileMapRouteArguments(),
-  },
-  {
     'title': 'Search',
     'routeName': '/search',
   },
@@ -110,12 +105,16 @@ final mainRoutes = [
     'routeName': '/settings',
   },
   {
+    'title': 'Showcase Map',
+    'routeName': '/showcase_map',
+  },
+  {
     'title': 'Sign Up',
     'routeName': '/sign_up',
   },
   {
-    'title': 'Start',
-    'routeName': '/start',
+    'title': 'Start Map',
+    'routeName': '/start_map',
   },
   {
     'title': 'Useful Tips',
