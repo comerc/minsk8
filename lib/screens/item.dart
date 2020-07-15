@@ -28,7 +28,6 @@ enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _ItemScreenState extends State<ItemScreen> {
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
@@ -61,7 +60,7 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     final item = widget.arguments.item;
-    final tag = '${homeKey.currentState.tagPrefix}-${item.id}';
+    final tag = '${HomeScreen.globalKey.currentState.tagPrefix}-${item.id}';
     final size = MediaQuery.of(context).size;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
@@ -76,7 +75,6 @@ class _ItemScreenState extends State<ItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        // key: _scaffoldKey,
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,

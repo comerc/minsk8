@@ -91,8 +91,6 @@ void main() {
 
 PersistedData appState;
 final localDeletedItemIds = Set<String>();
-final homeKey = GlobalKey<HomeScreenState>();
-final mapKey = GlobalKey<MapWidgetState>();
 
 class App extends StatelessWidget {
   @override
@@ -171,7 +169,7 @@ class App extends StatelessWidget {
           },
         );
       },
-      home: HomeScreen(key: homeKey),
+      home: HomeScreen(),
       initialRoute: '/start',
       // initialRoute:
       //     kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link

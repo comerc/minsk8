@@ -26,7 +26,9 @@ class MapWidget extends StatefulWidget {
     this.markerPoint,
     this.isMyItem = false,
     this.saveModes,
-  }) : super(key: mapKey);
+  }) : super(key: globalKey);
+
+  static final globalKey = GlobalKey<MapWidgetState>();
 
   final LatLng center;
   final double zoom;

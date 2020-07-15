@@ -4,20 +4,20 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen() : super(key: globalKey);
+
+  static final globalKey = GlobalKey<HomeScreenState>();
 
   @override
   HomeScreenState createState() => HomeScreenState();
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  final _showcaseKey = GlobalKey<ShowcaseState>();
-  final _underwayKey = GlobalKey<ShowcaseState>();
   int _tabIndex = 0;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
-        _showcaseKey.currentState?.tabIndex,
-        _underwayKey.currentState?.tabIndex,
+        ShowcasePage.showcaseKey.currentState?.tabIndex,
+        UnderwayPage.showcaseKey.currentState?.tabIndex,
         null,
         null,
       ][_tabIndex];
@@ -38,12 +38,8 @@ class HomeScreenState extends State<HomeScreen> {
         preferredSize: Size(0, 0),
       ),
       body: [
-        ShowcasePage(
-          showcaseKey: _showcaseKey,
-        ),
-        UnderwayPage(
-          showcaseKey: _underwayKey,
-        ),
+        ShowcasePage(),
+        UnderwayPage(),
         ChatPage(),
         ProfilePage(),
       ][_tabIndex],
@@ -51,8 +47,8 @@ class HomeScreenState extends State<HomeScreen> {
       floatingActionButton: buildAddButton(
         context,
         getTabIndex: () => AddItemRouteArgumentsTabIndex(
-          showcase: _showcaseKey.currentState?.tabIndex,
-          underway: _underwayKey.currentState?.tabIndex,
+          showcase: ShowcasePage.showcaseKey.currentState?.tabIndex,
+          underway: UnderwayPage.showcaseKey.currentState?.tabIndex,
         ),
       ),
       bottomNavigationBar: NavigationBar(

@@ -292,7 +292,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         final kind = await Navigator.of(context).pushReplacementNamed('/kinds');
         if (kind == null) return;
         Navigator.pushNamed(
-          homeKey.currentContext, // hack
+          HomeScreen.globalKey.currentContext, // hack
           '/add_item',
           arguments: AddItemRouteArguments(
             kind: kind,

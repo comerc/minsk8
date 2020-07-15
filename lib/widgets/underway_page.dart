@@ -3,11 +3,9 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class UnderwayPage extends StatelessWidget {
-  UnderwayPage({
-    this.showcaseKey,
-  });
+  UnderwayPage();
 
-  final Key showcaseKey;
+  static final showcaseKey = GlobalKey<ShowcaseState>();
   static List<UnderwayData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
