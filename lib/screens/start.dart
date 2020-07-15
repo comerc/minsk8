@@ -21,10 +21,10 @@ class StartScreenState extends State<StartScreen> {
   }
 
   Future<void> initStartMap() async {
-    appState['StartMap.isInitialized'] = false;
     if (appState['StartMap.isInitialized'] ?? false) {
       return;
     }
+    // TODO: WelcomeScreen
     final value = await Navigator.of(context).pushNamed('/start_map');
     if (value ?? false) {
       appState['StartMap.isInitialized'] = true;
