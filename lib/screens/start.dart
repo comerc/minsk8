@@ -17,18 +17,22 @@ class StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(context) {
-    return Scaffold();
+    return Scaffold(body: Center(child: Text('Старт...')));
   }
 
-  void _onAfterBuild(Duration timeStamp) {
+  Future<void> initStartMap() async {
+    appState['StartMap.isInitialized'] = false;
     if (appState['StartMap.isInitialized'] ?? false) {
-      Navigator.of(context).pop();
       return;
     }
-    Navigator.of(context).pushReplacementNamed('/start_map').then((value) {
-      if (value ?? false) {
-        appState['StartMap.isInitialized'] = true;
-      }
-    });
+    final value = await Navigator.of(context).pushNamed('/start_map');
+    if (value ?? false) {
+      appState['StartMap.isInitialized'] = true;
+    }
+  }
+
+  void _onAfterBuild(Duration timeStamp) async {
+    await initStartMap();
+    HomeScreen.globalKey.currentState.initDynamicLinks();
   }
 }

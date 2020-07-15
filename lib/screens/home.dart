@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -24,18 +26,12 @@ class HomeScreenState extends State<HomeScreen> {
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
 
   @override
-  void initState() {
-    super.initState();
-    _initDynamicLinks();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // drawer: isInDebugMode ? MainDrawer(null) : null,
       appBar: PreferredSize(
         child: Container(), // TODO: Stack + Positioned для MainDrawer
-        preferredSize: Size(0, 0),
+        preferredSize: Size(0, 0), // hack
       ),
       body: [
         ShowcasePage(),
@@ -65,22 +61,43 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> _initDynamicLinks() async {
+  Future<void> initDynamicLinks() async {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
-    _openDeepLink(data?.link);
+    // for StartScreen
+    _openDeepLink(data?.link).then((ItemRouteArguments arguments) {
+      if (arguments == null) {
+        Navigator.of(context).pop();
+        return;
+      }
+      Navigator.pushReplacementNamed(
+        context,
+        '/item',
+        arguments: arguments,
+      );
+    }).catchError((error) {
+      debugPrint(error.toString());
+      Navigator.of(context).pop();
+    });
     FirebaseDynamicLinks.instance.onLink(
       onSuccess: (PendingDynamicLinkData data) async {
-        _openDeepLink(data?.link);
+        final arguments = await _openDeepLink(data?.link);
+        if (arguments == null) {
+          return;
+        }
+        Navigator.pushNamed(
+          context,
+          '/item',
+          arguments: arguments,
+        );
       },
       onError: (OnLinkErrorException error) async {
-        // print('onLinkError');
-        print(error.message);
+        debugPrint(error.message);
       },
     );
   }
 
-  Future<void> _openDeepLink(Uri link) async {
-    if (link == null || link.path != '/item') return;
+  Future<ItemRouteArguments> _openDeepLink(Uri link) async {
+    if (link == null || link.path != '/item') return null;
     final id = link.queryParameters['id'];
     final options = QueryOptions(
       documentNode: Queries.getItem,
@@ -95,14 +112,9 @@ class HomeScreenState extends State<HomeScreen> {
       throw result.exception;
     }
     final item = ItemModel.fromJson(result.data['item']);
-    final arguments = ItemRouteArguments(
+    return ItemRouteArguments(
       item,
       member: item.member,
-    );
-    Navigator.pushNamed(
-      context,
-      '/item',
-      arguments: arguments,
     );
   }
 }
