@@ -505,8 +505,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<bool> _onWillPop() async {
     if (_images.length == 0 && !_isValidText) return true;
-    final result = await showCancelItemDialog(context);
-    return result ?? false; // if enableDrag, result may be null
+    final result = await showModalBottomSheet(
+      context: context,
+      builder: (context) => buildModalBottomSheet(
+        context,
+        description: 'Вы очень близки к тому,\nчтобы отдать эту вещь.',
+      ),
+    );
+    // if enableDrag, result may be null
+    return result ?? false;
   }
 
   void _reloadShowcaseTab(kind) {
