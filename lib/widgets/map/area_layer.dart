@@ -50,18 +50,18 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
     with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
-  double _radius;
+  int _radius;
 
   @override
   void initState() {
     super.initState();
-    _radius = appState['ShowcaseMap.radius'] ?? maxRadius / 2;
+    _radius = appState['ShowcaseMap.radius'] ?? (maxRadius / 2).round();
   }
 
   double get paintedRadius {
     final center = widget.mapState.center;
-    final targetPoint =
-        MapWidget.calculateEndingGlobalCoordinates(center, 90, _radius * 1000);
+    final targetPoint = MapWidget.calculateEndingGlobalCoordinates(
+        center, 90, _radius.toDouble() * 1000);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
     return end.x - start.x;
@@ -152,7 +152,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                                           .style
                                           .copyWith(
                                               fontWeight: FontWeight.w600),
-                                      text: '${_radius.toInt()} км',
+                                      text: '$_radius км',
                                     ),
                                   ],
                                 ),
@@ -164,10 +164,10 @@ class _MapAreaLayerState extends State<_MapAreaLayer>
                           flex: 1,
                           child: Container(
                             child: Slider(
-                              value: _radius,
-                              onChanged: (value) {
+                              value: _radius.toDouble(),
+                              onChanged: (double value) {
                                 setState(() {
-                                  _radius = value;
+                                  _radius = value.toInt();
                                 });
                               },
                               min: 1,

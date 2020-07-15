@@ -12,7 +12,7 @@ class MapReadyButton extends StatefulWidget {
 
   final LatLng center;
   final double zoom;
-  final double radius;
+  final int radius;
   final List<MapSaveMode> saveModes;
 
   @override
