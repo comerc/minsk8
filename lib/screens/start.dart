@@ -21,7 +21,6 @@ class StartScreenState extends State<StartScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) {
-    appState['StartMap.isInitialized'] = false;
     if (appState['StartMap.isInitialized'] ?? false) {
       Navigator.of(context).pop();
       return;
