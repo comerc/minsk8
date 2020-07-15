@@ -241,9 +241,8 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     });
 
     animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.dispose();
-      } else if (status == AnimationStatus.dismissed) {
+      if ([AnimationStatus.completed, AnimationStatus.dismissed]
+          .contains(status)) {
         controller.dispose();
       }
     });
