@@ -20,14 +20,13 @@ enum MapSaveMode { showcase, myItem }
 
 class MapWidget extends StatefulWidget {
   MapWidget({
-    Key key,
     this.center,
     this.zoom,
     this.onPositionChanged,
     this.markerPoint,
     this.isMyItem = false,
     this.saveModes,
-  }) : super(key: key);
+  }) : super(key: mapKey);
 
   final LatLng center;
   final double zoom;
