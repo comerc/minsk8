@@ -15,9 +15,6 @@ class MyItemMapScreen extends StatefulWidget {
 class _MyItemMapScreenState extends State<MyItemMapScreen> {
   bool _isPostFrame = false;
   Timer _timer;
-  bool _isPlaces = false;
-  final _formFieldKey = GlobalKey<FormFieldState>();
-  final _mapKey = GlobalKey<MapWidgetState>();
 
   @override
   void initState() {
@@ -34,17 +31,11 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   @override
   Widget build(BuildContext context) {
     Widget body = MapWidget(
-      key: _mapKey,
-      center: appState['MyItemMap.center'] == null
-          ? LatLng(
-              kDefaultMapCenter[0],
-              kDefaultMapCenter[1],
-            )
-          : LatLng(
-              appState['MyItemMap.center'][0],
-              appState['MyItemMap.center'][1],
-            ),
-      zoom: appState['MyItemMap.zoom'] ?? 8.0,
+      center: LatLng(
+        appState['MyItemMap.center'][0],
+        appState['MyItemMap.center'][1],
+      ),
+      zoom: appState['MyItemMap.zoom'],
       isMyItem: true,
       onPositionChanged: _onPositionChanged,
     );
@@ -59,51 +50,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       );
     }
     return Scaffold(
-      appBar: _isPlaces
-          ? AppBar(
-              backgroundColor: Colors.white,
-              leading: IconButton(
-                tooltip: 'Назад',
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black.withOpacity(0.8),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isPlaces = false;
-                  });
-                },
-              ),
-              title: Places(
-                  formFieldKey: _formFieldKey,
-                  onSuggestionSelected: _onSuggestionSelected),
-              actions: [
-                IconButton(
-                  tooltip: 'Отменить',
-                  icon: Icon(
-                    Icons.close,
-                    color: Colors.black.withOpacity(0.8),
-                  ),
-                  onPressed: () {
-                    _formFieldKey.currentState.reset();
-                  },
-                )
-              ],
-            )
-          : AppBar(
-              title: Text('Местоположение'),
-              actions: [
-                IconButton(
-                  tooltip: 'Искать',
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {
-                      _isPlaces = true;
-                    });
-                  },
-                ),
-              ],
-            ),
+      appBar: PlacesAppBar(),
       body: body,
       resizeToAvoidBottomInset: false,
     );
@@ -128,19 +75,6 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
           .then((MapAddress value) {
         myItemMap.show(value.detail);
       });
-    });
-  }
-
-  _onSuggestionSelected(suggestion) {
-    _mapKey.currentState.animatedMapMove(
-      destCenter: LatLng(
-        suggestion['_geoloc']['lat'],
-        suggestion['_geoloc']['lng'],
-      ),
-      destZoom: 13,
-    );
-    setState(() {
-      _isPlaces = false;
     });
   }
 }
