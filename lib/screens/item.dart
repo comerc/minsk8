@@ -50,7 +50,7 @@ class _ItemScreenState extends State<ItemScreen> {
     distance.updateCurrentPosition(item.location);
   }
 
-  void _onAfterBuild(_) {
+  void _onAfterBuild(Duration timeStamp) {
     final RenderBox renderBox =
         _panelColumnKey.currentContext.findRenderObject();
     setState(() {
