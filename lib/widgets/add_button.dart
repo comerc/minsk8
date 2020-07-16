@@ -28,6 +28,6 @@ Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
       Icons.add,
       size: kBigButtonIconSize * 1.2,
     ),
-    elevation: 2,
+    elevation: kButtonElevation,
   );
 }
