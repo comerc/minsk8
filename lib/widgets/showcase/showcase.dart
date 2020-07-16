@@ -94,7 +94,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
         if (widget.hasAppBar)
           SliverPersistentHeader(
             delegate: CommonSliverPersistentHeaderDelegate(

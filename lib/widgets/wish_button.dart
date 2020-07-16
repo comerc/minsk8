@@ -102,7 +102,7 @@ class _WishButtonState extends State<WishButton> {
   }
 }
 
-void updateWish(context, isLiked, item) {
+void updateWish(BuildContext context, bool isLiked, ItemModel item) {
   final profile = Provider.of<ProfileModel>(context, listen: false);
   final index = profile.getWishIndex(item.id);
   final currentIsLiked = index != -1;
