@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:package_info/package_info.dart';
 import 'package:minsk8/import.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +24,13 @@ class HomeScreenState extends State<HomeScreen> {
         null,
       ][_tabIndex];
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
+  String _version;
+
+  @override
+  void initState() {
+    super.initState();
+    _initVersion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class HomeScreenState extends State<HomeScreen> {
         ShowcasePage(),
         UnderwayPage(),
         ChatPage(),
-        ProfilePage(),
+        ProfilePage(version: _version),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
@@ -116,5 +123,16 @@ class HomeScreenState extends State<HomeScreen> {
       item,
       member: item.member,
     );
+  }
+
+  Future<void> _initVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final version = packageInfo.version;
+    final buildNumber = packageInfo.buildNumber;
+    _version = '$version+$buildNumber';
+    // если активная страница - ProfilePage
+    if (mounted && _tabIndex == 3) {
+      setState(() {});
+    }
   }
 }

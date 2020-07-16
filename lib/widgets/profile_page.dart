@@ -6,7 +6,21 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Ivaskuu/tinder_cards
 // TODO: https://github.com/Dn-a/flutter_tags
 
+// class ProfilePage extends StatefulWidget {
+//   ProfilePage();
+
+//   @override
+//   ProfilePageState createState() {
+//     return ProfilePageState();
+//   }
+// }
+
+// class ProfilePageState extends State<ProfilePage> {
 class ProfilePage extends StatelessWidget {
+  ProfilePage({this.version});
+
+  final String version;
+
   final _menu = {
     '/wallet': 'Движение Кармы',
     '/feedback': 'Обратная связь',
@@ -70,8 +84,8 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        Text('Версия: ${123}'),
-        SizedBox(height: 200),
+        Text('Версия: $version'),
+        SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
   }
