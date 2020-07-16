@@ -24,8 +24,8 @@ class StartMapScreenState extends State<StartMapScreen> {
       saveModes: [MapSaveMode.showcase, MapSaveMode.myItem],
     );
     if (_isInfo) {
-      body = buildMapInfo(
-        'Укажите желаемое местоположение, чтобы смотреть лоты поблизости',
+      body = MapInfo(
+        text: 'Укажите желаемое местоположение, чтобы смотреть лоты поблизости',
         child: body,
         onClose: () {
           setState(() {

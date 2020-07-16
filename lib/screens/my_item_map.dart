@@ -40,8 +40,9 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       onPositionChanged: _onPositionChanged,
     );
     if (appState['MyItemMap.isInfo'] ?? true) {
-      body = buildMapInfo(
-        'Укажите местоположение лота, чтобы пользователи поблизости его увидели',
+      body = MapInfo(
+        text:
+            'Укажите местоположение лота, чтобы участники поблизости его увидели',
         child: body,
         onClose: () {
           appState['MyItemMap.isInfo'] = false;
