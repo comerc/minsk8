@@ -105,3 +105,11 @@ class SizeInt {
   final int width;
   final int height;
 }
+
+int getCrossAxisCount(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  final isSmallWidth = width < 600;
+  final isMediumWidth = width < 1200;
+  final isLargeWidth = width < 2400;
+  return isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
+}

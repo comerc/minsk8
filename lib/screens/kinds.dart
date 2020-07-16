@@ -15,7 +15,7 @@ class KindsScreen extends StatelessWidget {
         title: Text('Выберите категорию'),
       ),
       body: GridView.count(
-        crossAxisCount: 2,
+        crossAxisCount: getCrossAxisCount(context),
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
         padding: EdgeInsets.all(8),
