@@ -6,34 +6,73 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Ivaskuu/tinder_cards
 // TODO: https://github.com/Dn-a/flutter_tags
 
-const menu = ['1111', '2222', '3333', '4444'];
-
 class ProfilePage extends StatelessWidget {
+  final _menu = {
+    '/wallet': 'Движение Кармы',
+    '/feedback': 'Обратная связь',
+    '/faq': 'Вопросы и ответы',
+    '/useful_tips': 'Полезные советы',
+    '/about': 'О проекте',
+  }.entries.toList();
+
   @override
   Widget build(BuildContext context) {
-    return GlowNotificationWidget(ListView.separated(
-      itemCount: menu.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-          child: ListTile(
-            title: Text(menu[index]),
-            trailing: Icon(
-              Icons.navigate_next,
-              color: Colors.black.withOpacity(0.8),
-              size: kButtonIconSize,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Container(
+        //   height: 48,
+        //   width: 48,
+        //   child: ExtendedImage.network(
+        //     member.avatarUrl,
+        //     fit: BoxFit.cover,
+        //     enableLoadState: false,
+        //   ),
+        // ),
+        Text('сколько кармы'),
+        Text('nick name'),
+        FlatButton(
+          child: Text('ПОВЫСИТЬ КАРМУ'),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/wallet');
+          },
+          color: Colors.red,
+          textColor: Colors.white,
+        ),
+        Expanded(
+          child: GlowNotificationWidget(
+            ListView.separated(
+              itemCount: _menu.length,
+              itemBuilder: (BuildContext context, int index) {
+                final entry = _menu[index];
+                return InkWell(
+                  child: ListTile(
+                    title: Text(entry.value),
+                    trailing: Icon(
+                      Icons.navigate_next,
+                      color: Colors.black.withOpacity(0.8),
+                      size: kButtonIconSize,
+                    ),
+                    dense: true,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(entry.key);
+                  },
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                  indent: 16,
+                  endIndent: 16,
+                  height: 1,
+                );
+              },
             ),
-            dense: true,
           ),
-          onTap: () {},
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider(
-          indent: 16,
-          endIndent: 16,
-          height: 1,
-        );
-      },
-    ));
+        ),
+        Text('Версия: ${123}'),
+        SizedBox(height: 200),
+      ],
+    );
   }
 }

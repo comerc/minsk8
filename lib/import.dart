@@ -44,15 +44,17 @@ export 'screens/_notification.dart';
 
 export 'screens/add_item.dart';
 export 'screens/edit_item.dart';
+export 'screens/feedback.dart';
 export 'screens/forgot_password.dart';
 export 'screens/home.dart';
+export 'screens/how_to_pay.dart';
 export 'screens/item_map.dart';
 export 'screens/item.dart';
 export 'screens/kinds.dart';
 export 'screens/login.dart';
 export 'screens/markdown.dart';
 export 'screens/my_item_map.dart';
-export 'screens/pay.dart';
+export 'screens/payment.dart';
 export 'screens/search.dart';
 export 'screens/settings.dart';
 export 'screens/showcase_map.dart';

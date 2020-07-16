@@ -24,4 +24,4 @@ const kGraphQLQueryTimeout = 20;
 const kImageUploadTimeout = 20;
 const kAppBarElevation = 4.0; // [AppBar] uses a default value of 4.0.
 const kButtonElevation = 2.0;
-const kInitialRouteName = '/settings';
+const kInitialRouteName = '/start';

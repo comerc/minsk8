@@ -174,9 +174,8 @@ class App extends StatelessWidget {
           },
         );
       },
-      // home: HomeScreen(), // вместо этого использую onGenerateRoute
-      initialRoute: '/start',
-      // initialRoute: kInitialRouteName,
+      home: HomeScreen(),
+      initialRoute: kInitialRouteName,
       routes: <String, WidgetBuilder>{
         '/_animation': (_) => AnimationScreen(),
         '/_custom_dialog': (_) => CustomDialogScreen(),
@@ -191,8 +190,10 @@ class App extends StatelessWidget {
             AddItemScreen(ModalRoute.of(context).settings.arguments),
         '/edit_item': (BuildContext context) =>
             EditItemScreen(ModalRoute.of(context).settings.arguments),
-        '/faq': (_) => MarkdownScreen('faq.md', title: 'FAQ'),
+        '/faq': (_) => MarkdownScreen('faq.md', title: 'Вопросы и ответы'),
+        '/feedback': (_) => FeedbackScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
+        '/how_to_pay': (_) => HowToPayScreen(),
         '/item_map': (BuildContext context) =>
             ItemMapScreen(ModalRoute.of(context).settings.arguments),
         '/item': (BuildContext context) =>
@@ -214,28 +215,28 @@ class App extends StatelessWidget {
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
-      onGenerateRoute: (RouteSettings settings) {
-        // if (settings.name == '/item') {
-        //   return Platform.isIOS
-        //       ? TransparentCupertinoPageRoute(
-        //           settings: settings,
-        //           builder: (BuildContext context) => ItemScreen())
-        //       : TransparentMaterialPageRoute(
-        //           settings: settings,
-        //           builder: (BuildContext context) => ItemScreen());
-        // }
-        // fix of https://github.com/FirebaseExtended/flutterfire/issues/2488
-        if (settings.name == '/') {
-          final homeSettings = RouteSettings(name: '/home');
-          return Platform.isIOS
-              ? CupertinoPageRoute(
-                  settings: homeSettings, builder: (_) => HomeScreen())
-              : MaterialPageRoute(
-                  settings: homeSettings, builder: (_) => HomeScreen());
-        }
-        // print('onGenerateRoute: $settings');
-        return null;
-      },
+      // onGenerateRoute: (RouteSettings settings) {
+      //   // if (settings.name == '/item') {
+      //   //   return Platform.isIOS
+      //   //       ? TransparentCupertinoPageRoute(
+      //   //           settings: settings,
+      //   //           builder: (BuildContext context) => ItemScreen())
+      //   //       : TransparentMaterialPageRoute(
+      //   //           settings: settings,
+      //   //           builder: (BuildContext context) => ItemScreen());
+      //   // }
+      //   print('onGenerateRoute: $settings');
+      //   // TODO: how to fix https://github.com/FirebaseExtended/flutterfire/issues/2488
+      //   if (settings.name == '/') {
+      //     final homeSettings = RouteSettings(name: '/home');
+      //     return Platform.isIOS
+      //         ? CupertinoPageRoute(
+      //             settings: homeSettings, builder: (_) => HomeScreen())
+      //         : MaterialPageRoute(
+      //             settings: homeSettings, builder: (_) => HomeScreen());
+      //   }
+      //   return null;
+      // },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),

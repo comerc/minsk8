@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class PayScreen extends StatelessWidget {
+class HowToPayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pay'),
+        title: Text('How To Pay'),
       ),
-      drawer: MainDrawer('/pay'),
       body: Center(
         child: Text('xxx'),
       ),

@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int _tabIndex = 0;
+  int _tabIndex = 3;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
         ShowcasePage.showcaseKey.currentState?.tabIndex,
