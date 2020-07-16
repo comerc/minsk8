@@ -37,6 +37,7 @@ class ShowcaseTabBar extends StatelessWidget {
       color: Colors.white,
       child: Center(child: tabBar),
     );
+    // TODO: индикатор должен смещаться обратно наполовину, пока идёт загрузка
     final offset = info?.dragOffset ?? 0.0;
     return Stack(
       fit: StackFit.expand,
