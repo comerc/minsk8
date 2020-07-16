@@ -10,12 +10,19 @@ class KindsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: проверить на IPad Retina и Samsung Note 12
+    final width = MediaQuery.of(context).size.width;
+    final isSmallWidth = width < kSmallWidth;
+    final isMediumWidth = width < kMediumWidth;
+    final isLargeWidth = width < kLargeWidth;
+    final crossAxisCount =
+        isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
     return Scaffold(
       appBar: AppBar(
         title: Text('Выберите категорию'),
       ),
       body: GridView.count(
-        crossAxisCount: getCrossAxisCount(context),
+        crossAxisCount: crossAxisCount,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
         padding: EdgeInsets.all(8),

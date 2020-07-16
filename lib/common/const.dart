@@ -25,3 +25,6 @@ const kImageUploadTimeout = 20;
 const kAppBarElevation = 4.0; // [AppBar] uses a default value of 4.0.
 const kButtonElevation = 2.0;
 const kInitialRouteName = '/start';
+const kSmallWidth = 600;
+const kMediumWidth = 1200;
+const kLargeWidth = 2400;

@@ -34,6 +34,12 @@ class _ShowcaseListState extends State<ShowcaseList>
   Widget build(BuildContext context) {
     super.build(context);
     // TODO: проверить на IPad Retina и Samsung Note 12
+    final width = MediaQuery.of(context).size.width;
+    final isSmallWidth = width < kSmallWidth;
+    final isMediumWidth = width < kMediumWidth;
+    final isLargeWidth = width < kLargeWidth;
+    final crossAxisCount =
+        isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       widget.scrollPositionKey,
       LoadingMoreCustomScrollView(
@@ -45,7 +51,7 @@ class _ShowcaseListState extends State<ShowcaseList>
           LoadingMoreSliverList(SliverListConfig<ItemModel>(
             extendedListDelegate:
                 SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-              crossAxisCount: getCrossAxisCount(context),
+              crossAxisCount: crossAxisCount,
               crossAxisSpacing: 16,
               mainAxisSpacing: 32,
               collectGarbage: (List<int> garbages) {
