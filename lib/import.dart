@@ -98,6 +98,7 @@ export 'widgets/ready_button.dart';
 export 'widgets/select_button.dart';
 export 'widgets/select_urgent_dialog.dart';
 export 'widgets/share_button.dart';
+export 'widgets/showcase/app_bar.dart';
 export 'widgets/showcase/showcase.dart';
 export 'widgets/showcase/list.dart';
 export 'widgets/showcase/item.dart';

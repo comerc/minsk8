@@ -31,7 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
       // drawer: isInDebugMode ? MainDrawer(null) : null,
       appBar: PreferredSize(
         child: Container(), // TODO: Stack + Positioned для MainDrawer
-        preferredSize: Size(0, 0), // hack
+        preferredSize: Size.zero, // hack
       ),
       body: [
         ShowcasePage(),
