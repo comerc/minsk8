@@ -7,8 +7,10 @@ import 'package:minsk8/import.dart';
 // https://hasura.io/docs/1.0/graphql/manual/api-reference/schema-metadata-api/scheduled-triggers.html
 // https://hasura.io/docs/1.0/graphql/manual/scheduled-triggers/create-one-off-scheduled-event.html
 
-class BidDialog extends StatelessWidget {
-  BidDialog(this.item);
+//
+
+class WantDialog extends StatelessWidget {
+  WantDialog(this.item);
 
   final ItemModel item;
 

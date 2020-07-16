@@ -66,7 +66,7 @@ class WantButton extends StatelessWidget {
                         'Дождитесь объявления победителя,\nвозможно именно Вам повезёт!',
                   );
                 }
-                return BidDialog(item);
+                return WantDialog(item);
               },
             );
           },

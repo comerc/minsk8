@@ -66,7 +66,6 @@ export 'widgets/add_button.dart';
 export 'widgets/add_image_button.dart';
 export 'widgets/added_item_dailog.dart';
 export 'widgets/address_text.dart';
-export 'widgets/bid_dialog.dart';
 export 'widgets/chat_page.dart';
 export 'widgets/confirm_dialog.dart';
 export 'widgets/countdown_timer.dart';
@@ -106,6 +105,7 @@ export 'widgets/showcase/page.dart';
 export 'widgets/showcase/tab_bar.dart';
 export 'widgets/underway_page.dart';
 export 'widgets/want_button.dart';
+export 'widgets/want_dialog.dart';
 export 'widgets/wish_button.dart';
 
 export 'main.dart';
