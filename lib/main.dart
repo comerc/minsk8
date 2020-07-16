@@ -101,7 +101,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('App build');
     Widget result = MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: isInDebugMode,
       navigatorObservers: [observer],
       title: 'minsk8',
       // theme: ThemeData(
