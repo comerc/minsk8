@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:minsk8/import.dart';
 
@@ -13,14 +17,11 @@ import 'package:minsk8/import.dart';
 // TODO: поменять все print(object) на debugPrint(String) ?
 // TODO: timeout для подписок GraphQL, смотри примеры
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
-final BehaviorSubject<ReceivedNotificationModel>
-    didReceiveLocalNotificationSubject =
+final didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotificationModel>();
-final BehaviorSubject<String> selectNotificationSubject =
-    BehaviorSubject<String>();
+final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 void main() {
@@ -93,11 +94,15 @@ PersistedData appState;
 final localDeletedItemIds = Set<String>();
 
 class App extends StatelessWidget {
+  static final analytics = FirebaseAnalytics();
+  static final observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     // print('App build');
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [observer],
       title: 'minsk8',
       // theme: ThemeData(
       //   //   primarySwatch: mapBoxBlue,
@@ -169,10 +174,9 @@ class App extends StatelessWidget {
           },
         );
       },
-      home: HomeScreen(),
+      // home: HomeScreen(), // вместо этого использую onGenerateRoute
       initialRoute: '/start',
-      // initialRoute:
-      //     kInitialRouteName, // TODO: /item по внешней ссылке Dynamic Link
+      // initialRoute: kInitialRouteName,
       routes: <String, WidgetBuilder>{
         '/_animation': (_) => AnimationScreen(),
         '/_custom_dialog': (_) => CustomDialogScreen(),
@@ -210,19 +214,28 @@ class App extends StatelessWidget {
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
-      // onGenerateRoute: (RouteSettings settings) {
-      //   // if (settings.name == '/item') {
-      //   //   return Platform.isIOS
-      //   //       ? TransparentCupertinoPageRoute(
-      //   //           settings: settings,
-      //   //           builder: (BuildContext context) => ItemScreen())
-      //   //       : TransparentMaterialPageRoute(
-      //   //           settings: settings,
-      //   //           builder: (BuildContext context) => ItemScreen());
-      //   // }
-      //   print('onGenerateRoute: $settings');
-      //   return null;
-      // },
+      onGenerateRoute: (RouteSettings settings) {
+        // if (settings.name == '/item') {
+        //   return Platform.isIOS
+        //       ? TransparentCupertinoPageRoute(
+        //           settings: settings,
+        //           builder: (BuildContext context) => ItemScreen())
+        //       : TransparentMaterialPageRoute(
+        //           settings: settings,
+        //           builder: (BuildContext context) => ItemScreen());
+        // }
+        // fix of https://github.com/FirebaseExtended/flutterfire/issues/2488
+        if (settings.name == '/') {
+          final homeSettings = RouteSettings(name: '/home');
+          return Platform.isIOS
+              ? CupertinoPageRoute(
+                  settings: homeSettings, builder: (_) => HomeScreen())
+              : MaterialPageRoute(
+                  settings: homeSettings, builder: (_) => HomeScreen());
+        }
+        // print('onGenerateRoute: $settings');
+        return null;
+      },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),
