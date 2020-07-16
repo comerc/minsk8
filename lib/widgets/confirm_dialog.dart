@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minsk8/import.dart';
+// import 'package:minsk8/import.dart';
 
 class ConfirmDialog extends StatelessWidget {
   ConfirmDialog({this.title, this.content, this.cancel, this.ok});

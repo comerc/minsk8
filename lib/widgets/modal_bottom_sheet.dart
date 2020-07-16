@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minsk8/import.dart';
+// import 'package:minsk8/import.dart';
 
 Widget buildModalBottomSheet(BuildContext context, {String description}) {
   return Container(
