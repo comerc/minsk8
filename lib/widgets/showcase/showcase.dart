@@ -91,6 +91,8 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     final child = extended.NestedScrollView(
       floatHeaderSlivers: widget.hasAppBar,
       physics: ClampingScrollPhysics(),
+      // TODO:in case list is not full screen and remove ios Bouncing
+      // physics: const AlwaysScrollableClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
@@ -105,21 +107,23 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             ),
           ),
         PullToRefreshContainer(
-          (PullToRefreshScrollNotificationInfo info) => SliverPersistentHeader(
-            pinned: true,
-            delegate: CommonSliverPersistentHeaderDelegate(
-              builder: (BuildContext context, double shrinkOffset,
-                  bool overlapsContent) {
-                return ShowcaseTabBar(
-                  info: info,
-                  shrinkOffset: shrinkOffset,
-                  // overlapsContent: overlapsContent,
-                  tabBar: tabBar,
-                );
-              },
-              height: tabBarHeight,
-            ),
-          ),
+          (PullToRefreshScrollNotificationInfo info) {
+            return SliverPersistentHeader(
+              pinned: true,
+              delegate: CommonSliverPersistentHeaderDelegate(
+                builder: (BuildContext context, double shrinkOffset,
+                    bool overlapsContent) {
+                  return ShowcaseTabBar(
+                    info: info,
+                    shrinkOffset: shrinkOffset,
+                    // overlapsContent: overlapsContent,
+                    tabBar: tabBar,
+                  );
+                },
+                height: tabBarHeight,
+              ),
+            );
+          },
         ),
       ],
       body: TabBarView(
@@ -136,7 +140,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     return PullToRefreshNotification(
       key: widget.pullToRefreshNotificationKey,
       onRefresh: _onRefresh,
-      maxDragOffset: 100,
+      maxDragOffset: kMaxDragOffset,
       child: child,
     );
   }
