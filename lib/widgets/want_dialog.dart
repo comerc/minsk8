@@ -81,7 +81,7 @@ class WantDialog extends StatelessWidget {
           child: Text(
             item.price == null
                 ? 'Точно сможете забрать?'
-                : 'Предложить +1 = ${gold(item.price + 1)}?',
+                : 'Предложить +1 = ${getPluralGold(item.price + 1)}?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,

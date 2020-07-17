@@ -90,7 +90,7 @@ String getOperationExceptionToString(OperationException operationException) {
   return text;
 }
 
-String gold(int howMany) => Intl.plural(
+String getPluralGold(int howMany) => Intl.plural(
       howMany,
       name: 'gold',
       args: [howMany],
@@ -99,7 +99,7 @@ String gold(int howMany) => Intl.plural(
       locale: 'ru',
     );
 
-String karma(int howMany) => Intl.plural(
+String getPluralKarma(int howMany) => Intl.plural(
       howMany,
       name: 'karma',
       args: [howMany],
