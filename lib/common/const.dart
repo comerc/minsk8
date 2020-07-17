@@ -1,5 +1,7 @@
 // import 'package:flutter/material.dart';
 
+// TODO: установить дефолтные шрифты, и выпилить из кода kFontSize
+// TODO: для увеличения шрифта: DefaultTextStyle.of(context).style.fontSize * kGoldenRatio,
 const kFontSize = 12.0;
 // const kImageBorderRadius = Radius.circular(10.0);
 const kNavigationBarHeight = 60.0;
