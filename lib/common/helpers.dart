@@ -99,6 +99,16 @@ String gold(int howMany) => Intl.plural(
       locale: 'ru',
     );
 
+String karma(int howMany) => Intl.plural(
+      howMany,
+      name: 'karma',
+      args: [howMany],
+      one: '$howMany карма',
+      other: '$howMany кармы',
+      many: '$howMany карм',
+      locale: 'ru',
+    );
+
 class SizeInt {
   SizeInt(this.width, this.height);
 
