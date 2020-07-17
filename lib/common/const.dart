@@ -30,3 +30,4 @@ const kInitialRouteName = '/start';
 const kSmallWidth = 600;
 const kMediumWidth = 1200;
 const kLargeWidth = 2400;
+const kMaxDragOffset = 100.0;
