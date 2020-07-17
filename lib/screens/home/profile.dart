@@ -38,20 +38,44 @@ class HomeProfile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 8),
-        // TODO: InkWell, но Ink.image не умеет делать круглую картинку
-        // https://medium.com/@RayLiVerified/create-a-rounded-image-icon-with-ripple-effect-in-flutter-eb0f4a720b90
-        // https://stackoverflow.com/questions/55565865/create-circle-button-with-network-image-and-ripple-effect
-        // https://www.codegrepper.com/code-examples/dart/ink+image+clip+flutter
-        Material(
-          shape: CircleBorder(),
-          color: Colors.white,
-          child: ExtendedImage.network(
-            profile.member.avatarUrl,
-            width: 96,
-            height: 96,
-            shape: BoxShape.circle,
-            fit: BoxFit.cover,
-            enableLoadState: false,
+        Container(
+          width: 96,
+          height: 96,
+          child: Tooltip(
+            message: 'Поменять аватарку',
+            child: Material(
+              type: MaterialType.circle,
+              clipBehavior: Clip.hardEdge,
+              color: Colors.white,
+              child: InkWell(
+                onTap: () {
+                  // TODO: загрузка аватарки
+                  showDialog(
+                    context: context,
+                    child: AlertDialog(
+                      content: Text(
+                          'Поменять аватарку можно будет в следующей версии.'),
+                      actions: [
+                        FlatButton(
+                          child: Text('ОК'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                splashColor: Colors.white.withOpacity(0.4),
+                child: Ink.image(
+                  fit: BoxFit.cover,
+                  image: ExtendedImage.network(
+                    profile.member.avatarUrl,
+                    enableLoadState: false,
+                  ).image,
+                ),
+              ),
+            ),
           ),
         ),
         Text('nick name'),

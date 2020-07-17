@@ -232,6 +232,7 @@ class _ItemScreenState extends State<ItemScreen> {
                           child: ExtendedImage.network(
                             member.avatarUrl,
                             fit: BoxFit.cover,
+                            shape: BoxShape.circle,
                             enableLoadState: false,
                           ),
                         ),
@@ -517,7 +518,6 @@ class _ItemScreenState extends State<ItemScreen> {
                                       image: ExtendedImage.network(
                                         otherItem.images[0]
                                             .getDummyUrl(otherItem.id),
-                                        fit: BoxFit.cover,
                                         enableLoadState: false,
                                       ).image,
                                     ),
