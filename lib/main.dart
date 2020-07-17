@@ -226,15 +226,6 @@ class App extends StatelessWidget {
       //   //           builder: (BuildContext context) => ItemScreen());
       //   // }
       //   print('onGenerateRoute: $settings');
-      //   // TODO: how to fix https://github.com/FirebaseExtended/flutterfire/issues/2488
-      //   if (settings.name == '/') {
-      //     final homeSettings = RouteSettings(name: '/home');
-      //     return Platform.isIOS
-      //         ? CupertinoPageRoute(
-      //             settings: homeSettings, builder: (_) => HomeScreen())
-      //         : MaterialPageRoute(
-      //             settings: homeSettings, builder: (_) => HomeScreen());
-      //   }
       //   return null;
       // },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(

@@ -30,6 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _initVersion();
+    App.analytics.setCurrentScreen(screenName: '/home');
   }
 
   @override
