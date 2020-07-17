@@ -519,9 +519,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _reloadShowcaseTab(kind) {
     final index = allKinds.indexWhere((element) => element.value == kind);
     if (index == widget.arguments.tabIndex?.showcase) {
-      ShowcasePage.pullToRefreshNotificationKey.currentState.show();
-    } else if (!ShowcasePage.poolForReloadTabs.contains(index)) {
-      ShowcasePage.poolForReloadTabs.add(index);
+      HomeShowcase.pullToRefreshNotificationKey.currentState.show();
+    } else if (!HomeShowcase.poolForReloadTabs.contains(index)) {
+      HomeShowcase.poolForReloadTabs.add(index);
     }
   }
 
@@ -529,9 +529,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final index = UnderwayValue.values
         .indexWhere((element) => element == UnderwayValue.give);
     if (index == widget.arguments.tabIndex?.underway) {
-      UnderwayPage.pullToRefreshNotificationKey.currentState.show();
-    } else if (!UnderwayPage.poolForReloadTabs.contains(index)) {
-      UnderwayPage.poolForReloadTabs.add(index);
+      HomeUnderway.pullToRefreshNotificationKey.currentState.show();
+    } else if (!HomeUnderway.poolForReloadTabs.contains(index)) {
+      HomeUnderway.poolForReloadTabs.add(index);
     }
   }
 }

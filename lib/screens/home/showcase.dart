@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcasePage extends StatelessWidget {
-  ShowcasePage();
+class HomeShowcase extends StatelessWidget {
+  HomeShowcase();
 
   static final showcaseKey = GlobalKey<ShowcaseState>();
   static List<ShowcaseData> dataPool;
@@ -16,9 +16,9 @@ class ShowcasePage extends StatelessWidget {
     return Showcase(
       key: showcaseKey,
       tabModels: allKinds,
-      dataPool: ShowcasePage.dataPool,
-      pullToRefreshNotificationKey: ShowcasePage.pullToRefreshNotificationKey,
-      poolForReloadTabs: ShowcasePage.poolForReloadTabs,
+      dataPool: HomeShowcase.dataPool,
+      pullToRefreshNotificationKey: HomeShowcase.pullToRefreshNotificationKey,
+      poolForReloadTabs: HomeShowcase.poolForReloadTabs,
       hasAppBar: true,
     );
   }

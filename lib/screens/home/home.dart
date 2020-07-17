@@ -15,11 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int _tabIndex = 3;
+  int _tabIndex = 0;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
-        ShowcasePage.showcaseKey.currentState?.tabIndex,
-        UnderwayPage.showcaseKey.currentState?.tabIndex,
+        HomeShowcase.showcaseKey.currentState?.tabIndex,
+        HomeUnderway.showcaseKey.currentState?.tabIndex,
         null,
         null,
       ][_tabIndex];
@@ -41,17 +41,17 @@ class HomeScreenState extends State<HomeScreen> {
         preferredSize: Size.zero, // hack
       ),
       body: [
-        ShowcasePage(),
-        UnderwayPage(),
-        ChatPage(),
-        ProfilePage(version: _version),
+        HomeShowcase(),
+        HomeUnderway(),
+        HomeChat(),
+        HomeProfile(version: _version),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
         getTabIndex: () => AddItemRouteArgumentsTabIndex(
-          showcase: ShowcasePage.showcaseKey.currentState?.tabIndex,
-          underway: UnderwayPage.showcaseKey.currentState?.tabIndex,
+          showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
+          underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
         ),
       ),
       bottomNavigationBar: NavigationBar(
@@ -130,7 +130,7 @@ class HomeScreenState extends State<HomeScreen> {
     final version = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
     _version = '$version+$buildNumber';
-    // если активная страница - ProfilePage
+    // если активная страница - HomeProfile
     if (mounted && _tabIndex == 3) {
       setState(() {});
     }

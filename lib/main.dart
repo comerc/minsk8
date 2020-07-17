@@ -111,9 +111,9 @@ class App extends StatelessWidget {
       // ),
       builder: (BuildContext context, Widget child) {
         final client = GraphQLProvider.of(context).value;
-        ShowcasePage.dataPool =
+        HomeShowcase.dataPool =
             allKinds.map((kind) => ShowcaseData(client, kind.value)).toList();
-        UnderwayPage.dataPool = UnderwayValue.values
+        HomeUnderway.dataPool = UnderwayValue.values
             .map((value) => UnderwayData(client, value))
             .toList();
         return PersistedStateBuilder(
@@ -278,14 +278,14 @@ class App extends StatelessWidget {
     result = LifeCycleManager(
       onInitState: () {},
       onDispose: () {
-        ShowcasePage.dataPool?.forEach((data) {
+        HomeShowcase.dataPool?.forEach((data) {
           data.dispose();
         });
-        ShowcasePage.dataPool = null;
-        UnderwayPage.dataPool?.forEach((data) {
+        HomeShowcase.dataPool = null;
+        HomeUnderway.dataPool?.forEach((data) {
           data.dispose();
         });
-        UnderwayPage.dataPool = null;
+        HomeUnderway.dataPool = null;
       },
       child: result,
     );

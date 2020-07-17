@@ -8,18 +8,18 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Ivaskuu/tinder_cards
 // TODO: https://github.com/Dn-a/flutter_tags
 
-// class ProfilePage extends StatefulWidget {
-//   ProfilePage();
+// class HomeProfile extends StatefulWidget {
+//   HomeProfile();
 
 //   @override
-//   ProfilePageState createState() {
-//     return ProfilePageState();
+//   HomeProfileState createState() {
+//     return HomeProfileState();
 //   }
 // }
 
-// class ProfilePageState extends State<ProfilePage> {
-class ProfilePage extends StatelessWidget {
-  ProfilePage({this.version});
+// class HomeProfileState extends State<HomeProfile> {
+class HomeProfile extends StatelessWidget {
+  HomeProfile({this.version});
 
   final String version;
 

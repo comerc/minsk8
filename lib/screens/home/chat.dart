@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 // https://getstream.io/chat/
 // https://pub.dev/packages/flutter_chat
 
-class ChatPage extends StatelessWidget {
+class HomeChat extends StatelessWidget {
   // Chat(this.arguments);
 
   // final ChatRouteArguments arguments;
