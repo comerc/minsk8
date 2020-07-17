@@ -21,9 +21,10 @@ import 'package:minsk8/import.dart';
 
 // class HomeProfileState extends State<HomeProfile> {
 class HomeProfile extends StatelessWidget {
-  HomeProfile({this.version});
+  HomeProfile({this.version, this.hasUpdate});
 
   final String version;
+  final bool hasUpdate;
 
   final _menu = {
     '/wallet': 'Движение Кармы',
@@ -83,16 +84,32 @@ class HomeProfile extends StatelessWidget {
             ),
           ),
         ),
-        Text('nick name'),
-        Text('сколько кармы'),
+        SizedBox(height: 8),
+        Text(
+          profile.member.nickname,
+          style: TextStyle(
+            fontSize: kFontSize * kGoldenRatio,
+            fontWeight: FontWeight.w600,
+            color: Colors.black.withOpacity(0.8),
+          ),
+        ),
+        Text(
+          getPluralKarma(profile.balance),
+          style: TextStyle(
+            // fontSize: kFontSize,
+            fontWeight: FontWeight.w600,
+            color: Colors.red,
+          ),
+        ),
         FlatButton(
           child: Text('ПОВЫСИТЬ КАРМУ'),
           onPressed: () {
-            Navigator.of(context).pushNamed('/wallet');
+            Navigator.of(context).pushNamed('/how_to_pay');
           },
           color: Colors.red,
           textColor: Colors.white,
         ),
+        SizedBox(height: 16),
         Expanded(
           child: GlowNotificationWidget(
             ListView.separated(
@@ -101,7 +118,14 @@ class HomeProfile extends StatelessWidget {
                 final entry = _menu[index];
                 return InkWell(
                   child: ListTile(
-                    title: Text(entry.value),
+                    title: index == 0
+                        ? Text(
+                            entry.value,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          )
+                        : Text(entry.value),
                     trailing: Icon(
                       Icons.navigate_next,
                       color: Colors.black.withOpacity(0.8),
@@ -124,6 +148,14 @@ class HomeProfile extends StatelessWidget {
             ),
           ),
         ),
+        if (hasUpdate) Text('Доступна новая версия'),
+        if (hasUpdate)
+          OutlineButton(
+            child: Text('Обновить приложение'),
+            onPressed: () {
+              // TODO: go to update
+            },
+          ),
         Text('Версия: $version'),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
