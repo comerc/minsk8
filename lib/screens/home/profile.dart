@@ -8,6 +8,8 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Ivaskuu/tinder_cards
 // TODO: https://github.com/Dn-a/flutter_tags
 
+// TODO: текстовое поле для описания себя в профиле (усложняет модерацию)
+
 // class HomeProfile extends StatefulWidget {
 //   HomeProfile();
 
@@ -50,6 +52,8 @@ class HomeProfile extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   // TODO: загрузка аватарки
+                  // TODO: распознование лица и обрезание картинки
+                  // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (усложняет модерацию)
                   showDialog(
                     context: context,
                     child: AlertDialog(
