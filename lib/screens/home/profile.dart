@@ -46,6 +46,7 @@ class HomeProfile extends StatelessWidget {
           child: Tooltip(
             message: 'Поменять аватарку',
             child: Material(
+              elevation: kButtonElevation,
               type: MaterialType.circle,
               clipBehavior: Clip.hardEdge,
               color: Colors.white,
