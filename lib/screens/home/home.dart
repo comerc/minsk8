@@ -25,11 +25,14 @@ class HomeScreenState extends State<HomeScreen> {
       ][_tabIndex];
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
   String _version;
+  bool _hasUpdate;
 
   @override
   void initState() {
     super.initState();
     _initVersion();
+    // TODO: реализовать hasUpdate
+    _hasUpdate = isInDebugMode;
     App.analytics.setCurrentScreen(screenName: '/home');
   }
 
@@ -45,7 +48,7 @@ class HomeScreenState extends State<HomeScreen> {
         HomeShowcase(),
         HomeUnderway(),
         HomeChat(),
-        HomeProfile(version: _version),
+        HomeProfile(version: _version, hasUpdate: _hasUpdate),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
