@@ -22,7 +22,8 @@ class ProfileModel extends ChangeNotifier {
     this.notifications,
   });
 
-  get balance => 0; // TODO: реализовать баланс по сумме payments
+  get balance =>
+      payments.fold<int>(0, (value, element) => value + element.value);
 
   int getWishIndex(String itemId) =>
       wishes.indexWhere((wish) => wish.itemId == itemId);
