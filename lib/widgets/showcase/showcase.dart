@@ -91,8 +91,6 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
     final child = extended.NestedScrollView(
       floatHeaderSlivers: widget.hasAppBar,
       physics: ClampingScrollPhysics(),
-      // TODO:in case list is not full screen and remove ios Bouncing
-      // physics: const AlwaysScrollableClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
       innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
@@ -144,53 +142,6 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
       child: child,
     );
   }
-
-  // Widget _buildAppBar(PullToRefreshScrollNotificationInfo info) {
-  //   // Widget action = Padding(
-  //   //   child: info?.refreshWiget ?? Icon(Icons.more_horiz),
-  //   //   padding: EdgeInsets.all(15),
-  //   // );
-  //   final offset = info?.dragOffset ?? 0.0;
-  //   // Widget child = Container();
-  //   // if (info != null) {
-  //   //   if (info.mode == RefreshIndicatorMode.error) {
-  //   //     child = GestureDetector(
-  //   //       onTap: () {
-  //   //         // refreshNotification;
-  //   //         info?.pullToRefreshNotificationState?.show();
-  //   //       },
-  //   //       child: Text(
-  //   //         (info.mode?.toString() ?? '') + " click to retry" ?? '',
-  //   //         style: TextStyle(fontSize: 10),
-  //   //       ),
-  //   //     );
-  //   //     action = Container();
-  //   //   } else {
-  //   //     child = Text(
-  //   //       info?.mode?.toString() ?? '',
-  //   //       style: TextStyle(fontSize: 10),
-  //   //     );
-  //   //   }
-  //   // }
-  //   return SliverAppBar(
-  //     pinned: true,
-  //     title: Text('Showcase'),
-  //     centerTitle: true,
-  //     // expandedHeight: 200 + offset,
-  //     expandedHeight: offset,
-  //     // actions: [action],
-  //     // flexibleSpace: FlexibleSpaceBar(
-  //     //   //centerTitle: true,
-  //     //   title: child,
-  //     //   collapseMode: CollapseMode.pin,
-  //     //   background: Image.asset(
-  //     //     "assets/467141054.jpg",
-  //     //     //fit: offset > 0 ? BoxFit.cover : BoxFit.fill,
-  //     //     fit: BoxFit.cover,
-  //     //   ),
-  //     // ),
-  //   );
-  // }
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
