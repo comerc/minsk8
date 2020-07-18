@@ -64,14 +64,15 @@ class _PlacesState extends State<Places> {
         );
       },
       itemBuilder: (BuildContext context, suggestion) {
-        String title = '';
+        var title = '';
         final subtitles = <String>[];
         try {
           final source = suggestion['_highlightResult'];
           title = source['locale_names'][0]['value'];
           if (source['city'] != null) subtitles.add(source['city'][0]['value']);
-          if (source['administrative'] != null)
+          if (source['administrative'] != null) {
             subtitles.add(source['administrative'][0]['value']);
+          }
           subtitles.add(source['country']['value']);
           // final source = suggestion;
           // title = source['locale_names'][0];
@@ -117,7 +118,7 @@ class _PlacesState extends State<Places> {
 
   Future<Map> _request(String pattern) async {
     final cancellationToken = CancellationToken();
-    String msg = '';
+    var msg = '';
     final url = 'https://places-dsn.algolia.net/1/places/query';
     // TODO: вынести в .env
     final headers = {
@@ -125,14 +126,14 @@ class _PlacesState extends State<Places> {
       'X-Algolia-API-Key': '9b9648b0686c2260c39538a17342a285',
     };
     final data = {
-      "query": pattern,
-      "language": "ru",
-      "countries": "ru,by",
-      "type": "address",
-      "hitsPerPage": 10,
-      // "aroundLatLng": "53.90234,27.561901",
-      "aroundLatLngViaIP": false,
-      // "aroundRadius": 4000
+      'query': pattern,
+      'language': 'ru',
+      'countries': 'ru,by',
+      'type': 'address',
+      'hitsPerPage': 10,
+      // 'aroundLatLng': '53.90234,27.561901',
+      'aroundLatLngViaIP': false,
+      // 'aroundRadius': 4000
     };
     try {
       final response = await HttpClientHelper.post(url,
@@ -177,10 +178,11 @@ class _Highlight extends StatelessWidget {
     );
     final matches = regex.allMatches(data) ?? [];
     final out = <TextSpan>[];
-    int start = 0;
+    var start = 0;
     matches.forEach((element) {
-      if (element.start > 0)
+      if (element.start > 0) {
         out.add(TextSpan(text: data.substring(start, element.start)));
+      }
       start = element.end;
       out.add(TextSpan(
         text: element.namedGroup('em'),
@@ -191,8 +193,9 @@ class _Highlight extends StatelessWidget {
             ),
       ));
     });
-    if (start < data.length)
+    if (start < data.length) {
       out.add(TextSpan(text: data.substring(start, data.length)));
+    }
     return RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
