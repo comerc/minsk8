@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef Widget CommonSliverPersistentHeaderDelegateBuilder(
+typedef CommonSliverPersistentHeaderDelegateBuilder = Widget Function(
     BuildContext context, double shrinkOffset, bool overlapsContent);
 
 class CommonSliverPersistentHeaderDelegate

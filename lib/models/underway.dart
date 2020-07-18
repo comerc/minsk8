@@ -13,6 +13,8 @@ class UnderwayModel implements EnumModel {
   final UnderwayValue value;
   final String name;
 
-  get enumValue => value;
-  get enumName => name;
+  @override
+  UnderwayValue get enumValue => value;
+  @override
+  String get enumName => name;
 }

@@ -10,20 +10,20 @@ class CustomDialogScreen extends StatelessWidget {
           barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
-            return new Column(
+            return Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(0),
-                  child: new Container(
+                  child: Container(
                     height: 100,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.purple,
-                    child: new Column(
+                    child: Column(
                       children: <Widget>[
-                        new Text(
+                        Text(
                           'custom dialog text',
-                          style: new TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
                           ),

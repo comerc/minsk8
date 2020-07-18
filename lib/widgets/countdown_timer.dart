@@ -59,11 +59,12 @@ class _CountDownState extends State<CountdownTimer> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return widget.builder(context, _seconds);
   }
 
-  _disposeTimer() {
+  void _disposeTimer() {
     _timer?.cancel();
     _timer = null;
   }
@@ -92,12 +93,12 @@ String formatDDHHMMSS(int seconds) {
     // minutes = hours == -1 ? -1 : 0;
     minutes = 0;
   }
-  String sDD = (days).toString().padLeft(2, '0');
-  String sHH = (hours).toString().padLeft(2, '0');
-  String sMM = (minutes).toString().padLeft(2, '0');
-  String sSS = (seconds).toString().padLeft(2, '0');
+  var sDD = (days).toString().padLeft(2, '0');
+  var sHH = (hours).toString().padLeft(2, '0');
+  var sMM = (minutes).toString().padLeft(2, '0');
+  var sSS = (seconds).toString().padLeft(2, '0');
   if (days == -1) {
-    return "$sHH:$sMM:$sSS";
+    return '$sHH:$sMM:$sSS';
   }
-  return "$sDD:$sHH:$sMM:$sSS";
+  return '$sDD:$sHH:$sMM:$sSS';
 }

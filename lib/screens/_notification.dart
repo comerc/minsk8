@@ -602,7 +602,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<void> _showSoundUriNotification() async {
     // this calls a method over a platform channel implemented within the example app to return the Uri for the default
     // alarm sound and uses as the notification sound
-    String alarmUri = await platform.invokeMethod('getAlarmUri');
+    var alarmUri = await platform.invokeMethod('getAlarmUri');
     final x = UriAndroidNotificationSound(alarmUri);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'uri channel id', 'uri channel name', 'uri channel description',
@@ -732,7 +732,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future<void> _showInboxNotification() async {
-    var lines = List<String>();
+    var lines = <String>[]; // ie List()
     lines.add('line <b>1</b>');
     lines.add('line <i>2</i>');
     var inboxStyleInformation = InboxStyleInformation(lines,
@@ -753,8 +753,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<void> _showMessagingNotification() async {
     // use a platform channel to resolve an Android drawable resource to a URI.
     // This is NOT part of the notifications plugin. Calls made over this channel is handled by the app
-    String imageUri = await platform.invokeMethod('drawableToUri', 'food');
-    var messages = List<Message>();
+    final imageUri = await platform.invokeMethod('drawableToUri', 'food');
+    var messages = <Message>[]; // ie List()
     // First two person objects will use icons that part of the Android app's drawable resources
     var me = Person(
       name: 'Me',
@@ -842,7 +842,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     // create the summary notification to support older devices that pre-date Android 7.0 (API level 24).
     // this is required is regardless of which versions of Android your application is going to support
-    var lines = List<String>();
+    var lines = <String>[]; // ie List()
     lines.add('Alex Faarborg  Check this out');
     lines.add('Jeff Chang    Launch Party');
     var inboxStyleInformation = InboxStyleInformation(lines,

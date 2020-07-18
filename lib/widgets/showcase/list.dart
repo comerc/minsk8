@@ -88,7 +88,7 @@ class _ShowcaseListState extends State<ShowcaseList>
   Widget _buildIndicator(BuildContext context, IndicatorStatus status) {
     //if your list is sliver list ,you should build sliver indicator for it
     //isSliver=true, when use it in sliver list
-    bool isSliver = true;
+    var isSliver = true;
     Widget result;
     switch (status) {
       case IndicatorStatus.none:

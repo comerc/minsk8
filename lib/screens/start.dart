@@ -33,6 +33,7 @@ class StartScreenState extends State<StartScreen> {
 
   void _onAfterBuild(Duration timeStamp) async {
     await initStartMap();
+    // ignore: unawaited_futures
     HomeScreen.globalKey.currentState.initDynamicLinks();
   }
 }

@@ -3,7 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:minsk8/import.dart';
 
-typedef void MapCurrentPositionCallback(Position position);
+typedef MapCurrentPositionCallback = void Function(Position position);
 
 class MapCurrentPosition extends StatefulWidget {
   MapCurrentPosition({this.onCurrentPosition});
@@ -70,7 +70,7 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
     final isShown = await PermissionHandler()
         .shouldShowRequestPermissionRationale(PermissionGroup.location);
     try {
-      final Position position = await Geolocator()
+      final position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
       widget.onCurrentPosition(position);
     } catch (error) {

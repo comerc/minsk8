@@ -8,6 +8,7 @@ class LifeCycleManager extends StatefulWidget {
   final VoidCallback onInitState;
   final VoidCallback onDispose;
 
+  @override
   _LifeCycleManagerState createState() => _LifeCycleManagerState();
 }
 

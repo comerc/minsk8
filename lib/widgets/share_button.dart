@@ -41,7 +41,7 @@ class ShareButton extends StatelessWidget {
 
 // TODO: реализовать ожидание для buildShortLink()
 void share(ItemModel item) async {
-  final DynamicLinkParameters parameters = DynamicLinkParameters(
+  final parameters = DynamicLinkParameters(
     uriPrefix: 'https://minsk8.page.link',
     link: Uri.parse('https://minsk8.example.com/item?id=${item.id}'),
     androidParameters: AndroidParameters(
@@ -61,10 +61,11 @@ void share(ItemModel item) async {
       forcedRedirectEnabled: false,
     ),
   );
-  final ShortDynamicLink shortLink = await parameters.buildShortLink();
-  Uri url = shortLink.shortUrl;
+  final shortLink = await parameters.buildShortLink();
+  final url = shortLink.shortUrl;
   // print('${item.id} $url');
   // TODO: изменить тексты
+  // ignore: unawaited_futures
   Share.share(
     'check out my website $url',
     subject: 'Look what I made!',

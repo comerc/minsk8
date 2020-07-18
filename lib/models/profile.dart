@@ -22,7 +22,7 @@ class ProfileModel extends ChangeNotifier {
     this.notifications,
   });
 
-  get balance =>
+  int get balance =>
       payments.fold<int>(0, (value, element) => value + element.value);
 
   int getWishIndex(String itemId) =>

@@ -31,7 +31,7 @@ class _ItemScreenState extends State<ItemScreen> {
   var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
-  GlobalKey _panelColumnKey = GlobalKey();
+  final _panelColumnKey = GlobalKey();
   double _panelMaxHeight;
   List<ItemModel> _otherItems;
 
@@ -94,13 +94,13 @@ class _ItemScreenState extends State<ItemScreen> {
                         ok: 'Удалить'),
                   );
                   if (result != true) return;
-                  final GraphQLClient client =
-                      GraphQLProvider.of(context).value;
+                  final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.deleteItem,
                     variables: {'id': item.id},
                     fetchPolicy: FetchPolicy.noCache,
                   );
+                  // ignore: unawaited_futures
                   client
                       .mutate(options)
                       .timeout(Duration(seconds: kGraphQLMutationTimeout))
@@ -134,8 +134,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
                   Scaffold.of(context).showSnackBar(snackBar);
-                  final GraphQLClient client =
-                      GraphQLProvider.of(context).value;
+                  final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.upsertModeration,
                     variables: {
@@ -144,6 +143,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
+                  // ignore: unawaited_futures
                   client
                       .mutate(options)
                       .timeout(Duration(seconds: kGraphQLMutationTimeout))
@@ -174,8 +174,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       content: Text(
                           'Вопрос принят и будет передан автору, чтобы дополнил описание'));
                   Scaffold.of(context).showSnackBar(snackBar);
-                  final GraphQLClient client =
-                      GraphQLProvider.of(context).value;
+                  final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.insertSuggestion,
                     variables: {
@@ -184,6 +183,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
+                  // ignore: unawaited_futures
                   client
                       .mutate(options)
                       .timeout(Duration(seconds: kGraphQLMutationTimeout))
@@ -206,21 +206,24 @@ class _ItemScreenState extends State<ItemScreen> {
                     Provider.of<ProfileModel>(context, listen: false);
                 final isMy = profile.member.id == member.id;
                 final submenuItems = <PopupMenuEntry<_PopupMenuValue>>[];
-                if (!isMy && !item.isClosed)
+                if (!isMy && !item.isClosed) {
                   submenuItems.add(PopupMenuItem(
                     value: _PopupMenuValue.askQuestion,
                     child: Text('Задать вопрос по лоту'),
                   ));
-                if (!isMy)
+                }
+                if (!isMy) {
                   submenuItems.add(PopupMenuItem(
                     value: _PopupMenuValue.toModerate,
                     child: Text('Пожаловаться на лот'),
                   ));
-                if (isMy && !item.isClosed)
+                }
+                if (isMy && !item.isClosed) {
                   submenuItems.add(PopupMenuItem(
                     value: _PopupMenuValue.delete,
                     child: Text('Удалить лот'),
                   ));
+                }
                 return <PopupMenuEntry<_PopupMenuValue>>[
                   PopupMenuItem(
                     value: _PopupMenuValue.goToMember,
@@ -248,7 +251,7 @@ class _ItemScreenState extends State<ItemScreen> {
                       ],
                     ),
                   ),
-                  if (submenuItems.length > 0) PopupMenuDivider(),
+                  if (submenuItems.isNotEmpty) PopupMenuDivider(),
                   ...submenuItems,
                 ];
               },
@@ -344,6 +347,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                     //   DeviceOrientation.portraitDown,
                                     // ]);
                                     // await Future.delayed(Duration(milliseconds: 100));
+                                    // ignore: unawaited_futures
                                     Navigator.pushNamed(
                                       context,
                                       '/zoom',
@@ -464,7 +468,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0)
+                      if (_otherItems.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
@@ -476,7 +480,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.length > 0)
+                      if (_otherItems.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,

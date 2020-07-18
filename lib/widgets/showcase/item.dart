@@ -226,7 +226,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  _buildStatus(String data, {bool isClosed}) {
+  Widget _buildStatus(String data, {bool isClosed}) {
     return Positioned(
       top: 0,
       left: 0,
@@ -255,61 +255,61 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-// Widget _buildTags(TuChongItem item) {
-//   return Wrap(
-//     runSpacing: 5,
-//     spacing: 5,
-//     children: item.tags.map<Widget>((tag) {
-//       final color = item.tagColors[item.tags.indexOf(tag)];
-//       return Container(
-//         padding: EdgeInsets.all(3),
-//         decoration: BoxDecoration(
-//           color: color,
-//           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
-//           borderRadius: BorderRadius.all(
-//             Radius.circular(5),
-//           ),
-//         ),
-//         child: Text(
-//           tag,
-//           textAlign: TextAlign.start,
-//           style: TextStyle(
-//               fontSize: fontSize,
-//               color:
-//                   color.computeLuminance() < 0.5 ? Colors.white : Colors.black),
-//         ),
-//       );
-//     }).toList(),
-//   );
-// }
+  // Widget _buildTags(TuChongItem item) {
+  //   return Wrap(
+  //     runSpacing: 5,
+  //     spacing: 5,
+  //     children: item.tags.map<Widget>((tag) {
+  //       final color = item.tagColors[item.tags.indexOf(tag)];
+  //       return Container(
+  //         padding: EdgeInsets.all(3),
+  //         decoration: BoxDecoration(
+  //           color: color,
+  //           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
+  //           borderRadius: BorderRadius.all(
+  //             Radius.circular(5),
+  //           ),
+  //         ),
+  //         child: Text(
+  //           tag,
+  //           textAlign: TextAlign.start,
+  //           style: TextStyle(
+  //               fontSize: fontSize,
+  //               color:
+  //                   color.computeLuminance() < 0.5 ? Colors.white : Colors.black),
+  //         ),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
 
-  Widget _buildTopRightLabel(String data) {
-    return Positioned(
-      top: 5,
-      right: 5,
-      child: Container(
-        padding: EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          // color: Colors.grey.withOpacity(0.6),
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey.withOpacity(0.4),
-            width: 1,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
-        child: Text(
-          data,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: kFontSize * kGoldenRatio,
-            color: Colors.orange,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildTopRightLabel(String data) {
+  //   return Positioned(
+  //     top: 5,
+  //     right: 5,
+  //     child: Container(
+  //       padding: EdgeInsets.all(3),
+  //       decoration: BoxDecoration(
+  //         // color: Colors.grey.withOpacity(0.6),
+  //         color: Colors.white,
+  //         border: Border.all(
+  //           color: Colors.grey.withOpacity(0.4),
+  //           width: 1,
+  //         ),
+  //         borderRadius: BorderRadius.all(
+  //           Radius.circular(5),
+  //         ),
+  //       ),
+  //       child: Text(
+  //         data,
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //           fontSize: kFontSize * kGoldenRatio,
+  //           color: Colors.orange,
+  //           fontWeight: FontWeight.w600,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

@@ -15,12 +15,12 @@ class ImageModel {
     this.height,
   });
 
-  getDummyUrl(String id) {
+  String getDummyUrl(String id) {
     final urlHash = generateMd5(url + id);
     return 'https://picsum.photos/seed/$urlHash/${width ~/ 4}/${height ~/ 4}'; // TODO: url
   }
 
-  getLargeDummyUrl(String id) {
+  String getLargeDummyUrl(String id) {
     return getDummyUrl(id);
   }
 

@@ -49,7 +49,7 @@ class ItemModel {
     this.transferredAt,
     this.wishes,
     this.isPromo,
-  }) : assert(images.length > 0);
+  }) : assert(images.isNotEmpty);
 
   bool get isClosed {
     // описание состояний - смотри комменты в диалогах WantButton
@@ -76,17 +76,18 @@ class ItemModel {
 
   dynamic meta;
 
-  static _urgentFromString(String value) =>
+  static UrgentStatus _urgentFromString(String value) =>
       EnumToString.fromString(UrgentStatus.values, value);
 
-  static _urgentToString(UrgentStatus urgent) => EnumToString.parse(urgent);
+  static String _urgentToString(UrgentStatus urgent) =>
+      EnumToString.parse(urgent);
 
-  static _locationFromJson(Map<String, dynamic> json) {
+  static LatLng _locationFromJson(Map<String, dynamic> json) {
     final array = json['coordinates'];
     return LatLng(array[0], array[1]);
   }
 
-  static _locationToJson(LatLng location) {
+  static Map<String, dynamic> _locationToJson(LatLng location) {
     return {
       'type': 'Point',
       'crs': {

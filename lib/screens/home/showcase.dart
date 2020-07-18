@@ -9,7 +9,7 @@ class HomeShowcase extends StatelessWidget {
   static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
-  static final poolForReloadTabs = Set<int>();
+  static final poolForReloadTabs = <int>{}; // ie Set()
 
   @override
   Widget build(BuildContext context) {

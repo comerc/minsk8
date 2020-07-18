@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class AddedItemDialog extends StatelessWidget {
-  AddedItemDialog(this.item, {this.needModerate: false});
+  AddedItemDialog(this.item, {this.needModerate = false});
 
   final ItemModel item;
   final bool needModerate;

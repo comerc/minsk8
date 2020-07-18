@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
-import "package:collection/collection.dart";
+import 'package:collection/collection.dart';
 import 'package:minsk8/import.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -19,16 +19,16 @@ class WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     final dataSet = [
       {
-        "time": "2020-06-16T10:31:12.000Z",
-        "message": "Message1",
+        'time': '2020-06-16T10:31:12.000Z',
+        'message': 'Message1',
       },
       {
-        "time": "2020-06-16T10:29:35.000Z",
-        "message": "Message2",
+        'time': '2020-06-16T10:29:35.000Z',
+        'message': 'Message2',
       },
       {
-        "time": "2020-06-15T09:41:18.000Z",
-        "message": "Message3",
+        'time': '2020-06-15T09:41:18.000Z',
+        'message': 'Message3',
       },
     ];
     final items = [];
@@ -40,7 +40,7 @@ class WalletScreenState extends State<WalletScreen> {
       // Group
       list.forEach((listItem) {
         // List item
-        // print('${listItem["time"]}, ${listItem["message"]}');
+        // print('${listItem['time']}, ${listItem['message']}');
         items.add(listItem);
       });
       // day section divider

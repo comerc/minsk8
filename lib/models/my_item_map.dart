@@ -9,18 +9,18 @@ class MyItemMapModel extends ChangeNotifier {
   bool _visible;
   bool get visible => _visible;
 
-  hide() {
+  void hide() {
     _visible = false;
     notifyListeners();
   }
 
-  show(String address) {
+  void show(String address) {
     _address = address;
     _visible = true;
     notifyListeners();
   }
 
-  init() {
+  void init() {
     _address = appState['MyItemMap.address'] ?? '(none)';
     _visible = true;
   }

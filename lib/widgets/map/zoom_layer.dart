@@ -63,12 +63,12 @@ class _MapZoomLayerState extends State<_MapZoomLayer> {
     );
   }
 
-  _increaseZoom() {
+  void _increaseZoom() {
     final zoom = widget.mapState.zoom + 1;
     widget.mapState.move(widget.mapState.center, zoom);
   }
 
-  _decreaseZoom() {
+  void _decreaseZoom() {
     final zoom = widget.mapState.zoom - 1;
     widget.mapState.move(widget.mapState.center, zoom);
   }

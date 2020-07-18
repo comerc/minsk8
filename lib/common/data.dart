@@ -21,7 +21,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
   bool _isHandleRefresh = false;
   bool _isLoadDataByTabChange = false;
   bool get isLoadDataByTabChange => _isLoadDataByTabChange;
-  resetIsLoadDataByTabChange() {
+  void resetIsLoadDataByTabChange() {
     _isLoadDataByTabChange = false;
   }
 
@@ -29,7 +29,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
 
   @override
   bool get hasMore =>
-      _forceRefresh || (_hasMore && (isInfinite || this.length < 40));
+      _forceRefresh || (_hasMore && (isInfinite || length < 40));
 
   set hasMore(value) {
     _hasMore = value;
@@ -55,7 +55,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
     // print('isLoadMoreAction: $isLoadMoreAction');
-    bool clearAfterRequest = false;
+    var clearAfterRequest = false;
     if (_isHandleRefresh) {
       _isHandleRefresh = false;
       clearAfterRequest = true;
@@ -68,7 +68,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
     }
     // print('loadData $_isLoadDataByTabChange $kind');
     assert(nextCreatedAt != null);
-    bool isSuccess = false;
+    var isSuccess = false;
     try {
       // TODO: may be WatchQueryOptions?
       // to show loading more clearly, in your app,remove this
@@ -86,15 +86,15 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
       //   this.clear();
       // }
       final items = getItems(result.data);
-      if (this.length > 0 && clearAfterRequest) {
+      if (length > 0 && clearAfterRequest) {
         // TODO: (?) как отменить IndicatorStatus.loadingMoreBusying
         // indicatorStatus = IndicatorStatus.none;
-        this.clear();
+        clear();
         onStateChanged(this);
         // TODO: (?) как в Dart реализуется SetTimeout(0) для event loop
         await Future.delayed(Duration(milliseconds: 500));
       }
-      this.addAll(items);
+      addAll(items);
       isSuccess = true;
     } catch (exception, stack) {
       isSuccess = false;

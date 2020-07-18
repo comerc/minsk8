@@ -172,11 +172,13 @@ class MainDrawer extends StatelessWidget {
                       ? await (mainRoute['arguments'] as Function)(context)
                       : mainRoute['arguments'];
                   if (arguments == null) {
+                    // ignore: unawaited_futures
                     Navigator.of(context).pushNamed(
                       mainRoute['routeName'],
                     );
                     return;
                   }
+                  // ignore: unawaited_futures
                   Navigator.of(context).pushNamed(
                     mainRoute['routeName'],
                     arguments: arguments,

@@ -77,6 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> initDynamicLinks() async {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
     // for StartScreen
+    // ignore: unawaited_futures
     _openDeepLink(data?.link).then((ItemRouteArguments arguments) {
       if (arguments == null) {
         Navigator.of(context).pop();
@@ -97,6 +98,7 @@ class HomeScreenState extends State<HomeScreen> {
         if (arguments == null) {
           return;
         }
+        // ignore: unawaited_futures
         Navigator.pushNamed(
           context,
           '/item',

@@ -21,10 +21,11 @@ class MessageModel {
     this.createdAt,
   });
 
-  static _authorFromString(String value) =>
+  static MessageAuthor _authorFromString(String value) =>
       EnumToString.fromString(MessageAuthor.values, value);
 
-  static _authorToString(MessageAuthor author) => EnumToString.parse(author);
+  static String _authorToString(MessageAuthor author) =>
+      EnumToString.parse(author);
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);

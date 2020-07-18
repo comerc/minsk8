@@ -44,7 +44,7 @@ class MapWidget extends StatefulWidget {
 
   static LatLng calculateEndingGlobalCoordinates(
       LatLng start, double startBearing, double distance) {
-    const double piOver180 = PI / 180.0;
+    const piOver180 = PI / 180.0;
 
     double toDegrees(double radians) {
       return radians / piOver180;
@@ -171,7 +171,7 @@ class MapWidget extends StatefulWidget {
     // String result = '(none)';
     final result = MapAddress();
     try {
-      List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(
+      var placemarks = await Geolocator().placemarkFromCoordinates(
           center.latitude, center.longitude,
           localeIdentifier: 'ru');
       final placemark = placemarks[0];

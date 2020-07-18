@@ -30,7 +30,7 @@ class AddItemScreen extends StatefulWidget {
 class _AddItemScreenState extends State<AddItemScreen> {
   TextEditingController _textController;
   ImageSource _imageSource;
-  List<_ImageData> _images = [];
+  final _images = <_ImageData>[];
   UrgentStatus _urgent = UrgentStatus.not_urgent;
   KindValue _kind;
   FocusNode _textFocusNode;
@@ -194,7 +194,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   void _handleAddItem() async {
     if (!_isValidText) {
-      showDialog(
+      await showDialog(
         context: context,
         child: AlertDialog(
           content: Text('Опишите лот: что это, состояние, размер...'),
@@ -207,12 +207,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ],
         ),
-      ).then((_) {
-        _textFocusNode.requestFocus();
-      });
+      );
+      _textFocusNode.requestFocus();
       return;
     }
-    bool isLoading = true;
+    var isLoading = true;
+    // ignore: unawaited_futures
     showDialog(
       context: context,
       barrierDismissible: false, // TODO: как отменить загрузку?
@@ -229,9 +229,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
     await _uploadQueue;
     final images = _images.where((value) => value.uploadStatus == null);
-    if (images.length == 0) {
+    if (images.isEmpty) {
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
-      showDialog(
+      await showDialog(
         context: context,
         child: AlertDialog(
           content: Text('Добавьте фотографию лота'),
@@ -247,7 +247,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
       return;
     }
-    final GraphQLClient client = GraphQLProvider.of(context).value;
+    final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
       documentNode: Mutations.insertItem,
       variables: {
@@ -263,6 +263,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       },
       fetchPolicy: FetchPolicy.noCache,
     );
+    // ignore: unawaited_futures
     client
         .mutate(options)
         // TODO: если таймаут, то фокус на поле ввода и клавиатура - не хочу
@@ -291,6 +292,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (value ?? false) {
         final kind = await Navigator.of(context).pushReplacementNamed('/kinds');
         if (kind == null) return;
+        // ignore: unawaited_futures
         Navigator.pushNamed(
           HomeScreen.globalKey.currentContext, // hack
           '/add_item',
@@ -301,6 +303,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         );
         return;
       }
+      // ignore: unawaited_futures
       Navigator.of(context).pushReplacementNamed(
         '/item',
         arguments: ItemRouteArguments(
@@ -504,7 +507,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    if (_images.length == 0 && !_isValidText) return true;
+    if (_images.isEmpty && !_isValidText) return true;
     final result = await showModalBottomSheet(
       context: context,
       builder: (context) => buildModalBottomSheet(

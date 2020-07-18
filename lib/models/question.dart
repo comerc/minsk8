@@ -6,8 +6,10 @@ class QuestionModel implements EnumModel {
   final QuestionValue value;
   final String name;
 
-  get enumValue => value;
-  get enumName => name;
+  @override
+  QuestionValue get enumValue => value;
+  @override
+  String get enumName => name;
 }
 
 enum QuestionValue { condition, model, size, time, original }

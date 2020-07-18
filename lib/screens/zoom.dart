@@ -60,7 +60,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                 //enableLoadState: false,
                 mode: ExtendedImageMode.gesture,
                 initGestureConfigHandler: (state) {
-                  double initialScale = 1;
+                  var initialScale = 1.0;
                   if (state.extendedImageInfo != null &&
                       state.extendedImageInfo.image != null) {
                     // TODO: пока работает неправильно при смене ориентации
@@ -88,7 +88,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                   ///you can use define pointerDownPosition as you can,
                   ///default value is double tap pointer down position.
                   final pointerDownPosition = state.pointerDownPosition;
-                  double begin = state.gestureDetails.totalScale;
+                  var begin = state.gestureDetails.totalScale;
                   double end;
                   //remove old
                   _animation?.removeListener(animationListener);
@@ -223,7 +223,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   //   return initialScale;
   // }
 
-  _buildInitialRoute(WidgetBuilder builder) {
+  Route _buildInitialRoute(WidgetBuilder builder) {
     final settings = RouteSettings(
       name: '/zoom',
       // isInitialRoute: true, // deprecated
@@ -241,7 +241,7 @@ class _ZoomScreenState extends State<ZoomScreen>
           );
   }
 
-  _jumpToPage({bool isNext}) {
+  void _jumpToPage({bool isNext}) {
     final item = widget.arguments.item;
     final tag = widget.arguments.tag;
     final onWillPop = widget.arguments.onWillPop;

@@ -3,7 +3,7 @@ import 'package:flutter_map/plugin_api.dart';
 // import 'utils.dart' as utils;
 import 'package:minsk8/import.dart';
 
-typedef void ChangeRadiusCallback(double value);
+typedef ChangeRadiusCallback = void Function(double value);
 
 class MapAreaLayerOptions extends LayerOptions {
   final double markerIconSize;

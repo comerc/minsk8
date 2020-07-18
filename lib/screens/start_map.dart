@@ -54,6 +54,7 @@ class StartMapScreenState extends State<StartMapScreen> {
     );
     // if enableDrag, result may be null
     if (result ?? false) {
+      // ignore: unawaited_futures
       SystemNavigator.pop();
     }
     return false;

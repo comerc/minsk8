@@ -7,7 +7,7 @@ class MapReadyButton extends StatefulWidget {
     this.center,
     this.zoom,
     this.radius,
-    this.saveModes,
+    @required this.saveModes,
   }) : assert(saveModes != null);
 
   final LatLng center;
@@ -38,12 +38,12 @@ class _MapReadyButtonState extends State<MapReadyButton> {
     );
   }
 
-  _onTap() {
+  void _onTap() {
     final center = widget.center;
     final zoom = widget.zoom;
     final radius = widget.radius;
     final saveModes = widget.saveModes;
-    bool isLoading = true;
+    var isLoading = true;
     showDialog(
       context: context,
       barrierDismissible: false, // TODO: как отменить загрузку?

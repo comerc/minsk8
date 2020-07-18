@@ -57,7 +57,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
     );
   }
 
-  _disposeTimer() {
+  void _disposeTimer() {
     _timer?.cancel();
     _timer = null;
   }

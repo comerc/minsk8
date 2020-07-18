@@ -151,7 +151,7 @@ class LoadDataScreen extends StatelessWidget {
     );
   }
 
-  _buildItem(bool isLoading, ItemModel item) {
+  Widget _buildItem(bool isLoading, ItemModel item) {
     // print('$isLoading - ${item.id}');
     return ListTile(
       title: Text(item.text),

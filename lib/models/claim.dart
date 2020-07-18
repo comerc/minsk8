@@ -6,8 +6,10 @@ class ClaimModel implements EnumModel {
   final ClaimValue value;
   final String name;
 
-  get enumValue => value;
-  get enumName => name;
+  @override
+  ClaimValue get enumValue => value;
+  @override
+  String get enumName => name;
 }
 
 enum ClaimValue { forbidden, repeat, duplicate, invalid_kind, other }

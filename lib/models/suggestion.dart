@@ -17,10 +17,10 @@ class SuggestionModel {
     this.question,
   });
 
-  static _questionFromString(String value) =>
+  static QuestionValue _questionFromString(String value) =>
       EnumToString.fromString(QuestionValue.values, value);
 
-  static _questionToString(QuestionValue question) =>
+  static String _questionToString(QuestionValue question) =>
       EnumToString.parse(question);
 
   factory SuggestionModel.fromJson(Map<String, dynamic> json) =>

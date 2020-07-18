@@ -11,7 +11,7 @@ class Showcase extends StatefulWidget {
     this.dataPool,
     this.pullToRefreshNotificationKey,
     this.poolForReloadTabs,
-    this.hasAppBar: false,
+    this.hasAppBar = false,
   }) : super(key: key);
 
   final List<EnumModel> tabModels;

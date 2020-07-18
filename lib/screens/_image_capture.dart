@@ -8,7 +8,8 @@ import 'package:uuid/uuid.dart';
 import 'package:minsk8/import.dart';
 
 class ImageCaptureScreen extends StatefulWidget {
-  createState() => _ImageCaptureScreenState();
+  @override
+  _ImageCaptureScreenState createState() => _ImageCaptureScreenState();
 }
 
 class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
@@ -16,7 +17,7 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
 
   /// Cropper plugin
   Future<void> _cropImage() async {
-    File cropped = await ImageCropper.cropImage(
+    final cropped = await ImageCropper.cropImage(
       sourcePath: _imageFile.path,
       // ratioX: 1,
       // ratioY: 1,
@@ -39,7 +40,8 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    File selected = await ImagePicker.pickImage(source: source);
+    // ignore: deprecated_member_use
+    final selected = await ImagePicker.pickImage(source: source);
 
     setState(() {
       _imageFile = selected;
@@ -120,7 +122,8 @@ class Uploader extends StatefulWidget {
 
   Uploader({Key key, this.file}) : super(key: key);
 
-  createState() => _UploaderState();
+  @override
+  _UploaderState createState() => _UploaderState();
 }
 
 class _UploaderState extends State<Uploader> {
@@ -129,15 +132,15 @@ class _UploaderState extends State<Uploader> {
 
   StorageUploadTask _uploadTask;
 
-  _startUpload() {
-    String filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
+  void _startUpload() {
+    final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
 
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
     });
   }
 
-  getDownloadUrl() async {
+  void getDownloadUrl() async {
     final downloadUrl = await _uploadTask.lastSnapshot.ref.getDownloadURL();
     print(downloadUrl);
   }
@@ -150,7 +153,7 @@ class _UploaderState extends State<Uploader> {
           builder: (context, snapshot) {
             var event = snapshot?.data?.snapshot;
 
-            double progressPercent = event != null
+            var progressPercent = event != null
                 ? event.bytesTransferred / event.totalByteCount
                 : 0;
 

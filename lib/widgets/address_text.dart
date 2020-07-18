@@ -9,7 +9,7 @@ class AddressText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = item.address == null ? '' : item.address;
+    var text = item.address ?? '';
     final distance = Provider.of<DistanceModel>(context);
     if (distance.value != null) {
       text = text == '' ? distance.value : '${distance.value} — $text';

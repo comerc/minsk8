@@ -78,6 +78,7 @@ class AnimatedLabel extends AnimatedWidget {
   AnimatedLabel({Key key, Animation<double> animation})
       : super(key: key, listenable: animation);
 
+  @override
   Widget build(BuildContext context) {
     final animation = listenable as Animation<double>;
     return Opacity(

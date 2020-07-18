@@ -12,7 +12,7 @@ class DistanceModel extends ChangeNotifier {
     if (appState['currentPosition'] == null) {
       return;
     }
-    double distanceInMeters = await Geolocator().distanceBetween(
+    final distanceInMeters = await Geolocator().distanceBetween(
         appState['currentPosition'][0],
         appState['currentPosition'][1],
         location.latitude,

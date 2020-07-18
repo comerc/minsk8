@@ -10,8 +10,10 @@ class KindModel implements EnumModel {
   final String rawSvg;
   final bool isNew;
 
-  get enumValue => value;
-  get enumName => name;
+  @override
+  dynamic get enumValue => value;
+  @override
+  String get enumName => name;
 }
 
 enum MetaKindValue { recent, fan, best, promo, urgent }

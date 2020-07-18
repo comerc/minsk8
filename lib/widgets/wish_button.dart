@@ -85,7 +85,7 @@ class _WishButtonState extends State<WishButton> {
     );
   }
 
-  _disposeTimer() {
+  void _disposeTimer() {
     _timer?.cancel();
     _timer = null;
   }
@@ -116,7 +116,7 @@ void updateWish(BuildContext context, bool isLiked, ItemModel item) {
           itemId: item.id,
         );
   profile.updateWish(index, wish, !isLiked);
-  final GraphQLClient client = GraphQLProvider.of(context).value;
+  final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
     documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
     variables: {'item_id': item.id},

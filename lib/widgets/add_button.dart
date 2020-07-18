@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-typedef AddItemRouteArgumentsTabIndex GetTabIndexCallback();
+typedef GetTabIndexCallback = AddItemRouteArgumentsTabIndex Function();
 
 Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
   return FloatingActionButton(

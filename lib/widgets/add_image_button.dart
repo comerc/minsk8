@@ -73,7 +73,7 @@ class AddImageButton extends StatelessWidget {
     );
   }
 
-  _onTap() {
+  void _onTap() {
     onTap(index);
   }
 }

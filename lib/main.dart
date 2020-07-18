@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -91,7 +90,7 @@ void main() {
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 
 PersistedData appState;
-final localDeletedItemIds = Set<String>();
+final localDeletedItemIds = <String>{}; // ie Set()
 
 class App extends StatelessWidget {
   static final analytics = FirebaseAnalytics();

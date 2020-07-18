@@ -23,7 +23,7 @@ class ChatModel {
     this.isCompanionReadAll,
   });
 
-  get id => '${item.id} ${companion.id}';
+  String get id => '${item.id} ${companion.id}';
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);
