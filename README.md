@@ -1,6 +1,6 @@
 # minsk8
 
-Flutter в режиме live-code
+Flutter в режиме [live-code](https://www.youtube.com/playlist?list=PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc)
 
 ## How to start
 
