@@ -28,31 +28,13 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // GestureDetector(
-        //   onTap: () {
-        //   },
-        //   child:
         _buildImage(),
-        // ),
-        // SizedBox(
-        //   height: 5,
-        // ),
-        // _buildTags(),
-        // SizedBox(
-        //   height: 5,
-        // ),
         _buildBottom(),
-        // SizedBox(
-        //   height: 8,
-        // ),
       ],
     );
   }
 
   Widget _buildImage() {
-    // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
-    //     // 1000 * 60 * 60 * 24 * 1 +
-    //     1000 * 10;
     final item = widget.item;
     final isCover = widget.isCover;
     final tabIndex = widget.tabIndex;
@@ -89,8 +71,6 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           });
         },
         splashColor: Colors.white.withOpacity(0.4),
-        // TODO: на маленьких экранах может не влезать слишком длинная картинка,
-        // надо обрезать по высоте по максимально допустимому image.width / image.height
         child: AspectRatio(
           aspectRatio: isCover ? 1 : image.width / image.height,
           child: Hero(
@@ -142,7 +122,6 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                           .name,
                       isClosed: false,
                     ),
-                  // _buildTopRightLabel(item.images.length.toString()),
                 ],
               ),
             ),
@@ -161,23 +140,6 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     }
     return Row(
       children: [
-        // ExtendedImage.network(
-        //   item.avatarUrl,
-        //   width: 25,
-        //   height: 25,
-        //   shape: BoxShape.circle,
-        //   //enableLoadState: false,
-        //   border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
-        //   // loadStateChanged: (state) {
-        //   //   if (state.extendedImageLoadState == LoadState.completed) {
-        //   //     return null;
-        //   //   }
-        //   //   return Image.asset("assets/avatar.jpeg");
-        //   // },
-        // ),
-        // SizedBox(
-        //   width: 16.3,
-        // ),
         item.price == null ? GiftButton(item) : PriceButton(item),
         Spacer(),
         SizedBox(
@@ -259,62 +221,4 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
       ),
     );
   }
-
-  // Widget _buildTags(TuChongItem item) {
-  //   return Wrap(
-  //     runSpacing: 5,
-  //     spacing: 5,
-  //     children: item.tags.map<Widget>((tag) {
-  //       final color = item.tagColors[item.tags.indexOf(tag)];
-  //       return Container(
-  //         padding: EdgeInsets.all(3),
-  //         decoration: BoxDecoration(
-  //           color: color,
-  //           border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
-  //           borderRadius: BorderRadius.all(
-  //             Radius.circular(5),
-  //           ),
-  //         ),
-  //         child: Text(
-  //           tag,
-  //           textAlign: TextAlign.start,
-  //           style: TextStyle(
-  //               fontSize: fontSize,
-  //               color:
-  //                   color.computeLuminance() < 0.5 ? Colors.white : Colors.black),
-  //         ),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
-
-  // Widget _buildTopRightLabel(String data) {
-  //   return Positioned(
-  //     top: 5,
-  //     right: 5,
-  //     child: Container(
-  //       padding: EdgeInsets.all(3),
-  //       decoration: BoxDecoration(
-  //         // color: Colors.grey.withOpacity(0.6),
-  //         color: Colors.white,
-  //         border: Border.all(
-  //           color: Colors.grey.withOpacity(0.4),
-  //           width: 1,
-  //         ),
-  //         borderRadius: BorderRadius.all(
-  //           Radius.circular(5),
-  //         ),
-  //       ),
-  //       child: Text(
-  //         data,
-  //         textAlign: TextAlign.center,
-  //         style: TextStyle(
-  //           fontSize: kFontSize * kGoldenRatio,
-  //           color: Colors.orange,
-  //           fontWeight: FontWeight.w600,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
