@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -62,6 +63,7 @@ void main() {
       }
       selectNotificationSubject.add(payload);
     });
+    await initializeDateFormatting('ru_RU', null);
     runApp(App());
   }, (error, stackTrace) {
     print(error);

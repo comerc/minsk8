@@ -85,6 +85,7 @@ dependencies:
   package_info: 0.4.1
 
   collection: 1.14.12
+  intl: 0.16.1
 
 dev_dependencies:
   flutter_test:
