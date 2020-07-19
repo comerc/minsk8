@@ -41,7 +41,6 @@ class HomeProfile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 8),
-        // TODO: CircleAvatar
         Container(
           width: 96,
           height: 96,
@@ -132,7 +131,6 @@ class HomeProfile extends StatelessWidget {
                       color: Colors.black.withOpacity(0.8),
                       size: kButtonIconSize,
                     ),
-                    // dense: true,
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed(entry.key);
@@ -149,8 +147,7 @@ class HomeProfile extends StatelessWidget {
             ),
           ),
         ),
-        if (hasUpdate)
-          Text('Доступна новая версия'),
+        if (hasUpdate) Text('Доступна новая версия'),
         if (hasUpdate)
           OutlineButton(
             child: Text('Обновить приложение'),

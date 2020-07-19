@@ -63,6 +63,7 @@ void main() {
       }
       selectNotificationSubject.add(payload);
     });
+    // TODO: locale autodetect
     await initializeDateFormatting('ru_RU', null);
     runApp(App());
   }, (error, stackTrace) {

@@ -125,6 +125,7 @@ class _PlacesState extends State<Places> {
       'X-Algolia-Application-Id': 'plD5UEJUGJYT',
       'X-Algolia-API-Key': '9b9648b0686c2260c39538a17342a285',
     };
+    // TODO: locale autodetect?
     final data = {
       'query': pattern,
       'language': 'ru',
