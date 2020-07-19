@@ -32,16 +32,16 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         //   onTap: () {
         //   },
         //   child:
-        _buildImage(widget.item),
+        _buildImage(),
         // ),
         // SizedBox(
         //   height: 5,
         // ),
-        // _buildTags(item),
+        // _buildTags(),
         // SizedBox(
         //   height: 5,
         // ),
-        _buildBottom(widget.item),
+        _buildBottom(),
         // SizedBox(
         //   height: 8,
         // ),
@@ -49,10 +49,13 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  Widget _buildImage(ItemModel item) {
+  Widget _buildImage() {
     // final itemEndTime = DateTime.now().millisecondsSinceEpoch +
     //     // 1000 * 60 * 60 * 24 * 1 +
     //     1000 * 10;
+    final item = widget.item;
+    final isCover = widget.isCover;
+    final tabIndex = widget.tabIndex;
     final image = item.images[0];
     return Material(
       child: InkWell(
@@ -75,8 +78,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
             context,
             '/item',
             arguments: ItemRouteArguments(
-              widget.item,
-              member: widget.item.member,
+              item,
+              member: item.member,
               isShowcase: true,
             ),
           ).then((_) {
@@ -89,12 +92,12 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         // TODO: на маленьких экранах может не влезать слишком длинная картинка,
         // надо обрезать по высоте по максимально допустимому image.width / image.height
         child: AspectRatio(
-          aspectRatio: widget.isCover ? 1 : image.width / image.height,
+          aspectRatio: isCover ? 1 : image.width / image.height,
           child: Hero(
             tag:
-                '${HomeScreen.globalKey.currentState.tabIndex}-${widget.tabIndex}-${widget.item.id}',
+                '${HomeScreen.globalKey.currentState.tabIndex}-${tabIndex}-${item.id}',
             child: Ink.image(
-              fit: widget.isCover ? BoxFit.cover : BoxFit.contain,
+              fit: isCover ? BoxFit.cover : BoxFit.contain,
               image: ExtendedImage.network(
                 image.getDummyUrl(item.id),
                 // shape: BoxShape.rectangle,
@@ -105,7 +108,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               child: Stack(
                 // fit: StackFit.expand,
                 children: [
-                  _buildText(item.text),
+                  _buildText(),
                   if (item.isBlockedOrLocalDeleted)
                     _buildStatus(
                       'Заблокировано',
@@ -149,7 +152,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  Widget _buildBottom(ItemModel item) {
+  Widget _buildBottom() {
+    final item = widget.item;
     if (!_isBottom) {
       return SizedBox(
         height: kButtonHeight,
@@ -190,7 +194,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  Widget _buildText(String text) {
+  Widget _buildText() {
+    final text = widget.item.text;
     return Positioned(
       bottom: 0,
       right: 0,
