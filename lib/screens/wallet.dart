@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:extended_list/extended_list.dart';
-import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
+import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+import 'package:extended_list/extended_list.dart';
 import 'package:minsk8/import.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -14,39 +16,16 @@ class WalletScreen extends StatefulWidget {
 
 class WalletScreenState extends State<WalletScreen> {
   final ShowcaseData sourceList = HomeShowcase.dataPool[0];
+  List<_WalletItem> _items;
+
+  @override
+  void initState() {
+    super.initState();
+    _items = _normalizeItems();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final dataSet = [
-      {
-        'time': '2020-06-16T10:31:12.000Z',
-        'message': 'Message1',
-      },
-      {
-        'time': '2020-06-16T10:29:35.000Z',
-        'message': 'Message2',
-      },
-      {
-        'time': '2020-06-15T09:41:18.000Z',
-        'message': 'Message3',
-      },
-    ];
-    final items = [];
-    var groupByDate = groupBy(dataSet, (obj) => obj['time'].substring(0, 10));
-    groupByDate.forEach((date, list) {
-      // Header
-      // print('${date}:');
-      items.add({'date': date});
-      // Group
-      list.forEach((listItem) {
-        // List item
-        // print('${listItem['time']}, ${listItem['message']}');
-        items.add(listItem);
-      });
-      // day section divider
-      // print('\n');
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Движение Кармы'),
@@ -59,15 +38,43 @@ class WalletScreenState extends State<WalletScreen> {
             ExtendedListView.builder(
               // in case list is not full screen and remove ios Bouncing
               physics: const AlwaysScrollableClampingScrollPhysics(),
-              itemBuilder: (BuildContext c, int i) {
-                print(i);
-                return Container(
-                  alignment: Alignment.center,
-                  height: 60.0,
-                  child: Text('$i'),
+              itemBuilder: (BuildContext context, int index) {
+                final item = _items[index];
+                if (item.date != null) {
+                  return Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(8),
+                    child: Container(
+                      child: Text(item.date),
+                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                final paymentItem = item.paymentItem;
+                return ListTile(
+                  // TODO: иконка приглашённого пользователя
+                  // TODO: иконка системы
+                  // TODO: иконка товара
+                  leading: CircleAvatar(
+                    child: Icon(Icons.image),
+                    backgroundColor: Colors.white,
+                  ),
+                  title: Text(paymentItem.text),
+                  subtitle: Text(
+                    DateFormat.jm('ru_RU').format(
+                      paymentItem.createdAt.toLocal(),
+                    ),
+                  ),
+                  dense: true,
                 );
               },
-              itemCount: 10,
+              itemCount: _items.length,
               padding: EdgeInsets.all(0.0),
             ),
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo info) {
@@ -91,4 +98,41 @@ class WalletScreenState extends State<WalletScreen> {
       return true;
     });
   }
+
+  List<_WalletItem> _normalizeItems() {
+    final profile = Provider.of<ProfileModel>(context, listen: false);
+    var groupByDate = groupBy<PaymentModel, String>(
+      profile.payments,
+      (PaymentModel element) =>
+          element.createdAt.toLocal().toIso8601String().substring(0, 10),
+    );
+    final result = <_WalletItem>[];
+    groupByDate.forEach((String date, List<PaymentModel> list) {
+      result.add(
+        _WalletItem(
+          // TODO: locale autodetect
+          date: DateFormat.yMMMMd('ru_RU').format(
+            DateTime.parse(date),
+          ),
+        ),
+      );
+      list.forEach(
+        (PaymentModel item) {
+          result.add(
+            _WalletItem(paymentItem: item),
+          );
+        },
+      );
+    });
+    return result;
+  }
+}
+
+class _WalletItem {
+  _WalletItem({this.date, this.paymentItem})
+      : assert((date != null || paymentItem != null) &&
+            !(date != null && paymentItem != null));
+
+  String date;
+  PaymentModel paymentItem;
 }
