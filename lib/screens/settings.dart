@@ -48,21 +48,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ],
     );
+    final body = child;
+    // TODO: LayoutBuilder - это тут вообще надо?
     // Expanding content to fit the viewport
-    final body = LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
+    // final body = LayoutBuilder(
+    //   builder: (BuildContext context, BoxConstraints viewportConstraints) {
+    //     return SingleChildScrollView(
+    //       child: ConstrainedBox(
+    //         constraints: BoxConstraints(
+    //           minHeight: viewportConstraints.maxHeight,
+    //         ),
+    //         child: IntrinsicHeight(
+    //           child: child,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
     return Scaffold(
       appBar: AppBar(
         title: Text('Настройки'),

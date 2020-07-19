@@ -41,6 +41,7 @@ class HomeProfile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 8),
+        // TODO: CircleAvatar
         Container(
           width: 96,
           height: 96,
@@ -148,7 +149,8 @@ class HomeProfile extends StatelessWidget {
             ),
           ),
         ),
-        if (hasUpdate) Text('Доступна новая версия'),
+        if (hasUpdate)
+          Text('Доступна новая версия'),
         if (hasUpdate)
           OutlineButton(
             child: Text('Обновить приложение'),

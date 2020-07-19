@@ -229,6 +229,7 @@ class _ItemScreenState extends State<ItemScreen> {
                     value: _PopupMenuValue.goToMember,
                     child: Row(
                       children: [
+                        // TODO: CircleAvatar
                         Container(
                           height: 48,
                           width: 48,

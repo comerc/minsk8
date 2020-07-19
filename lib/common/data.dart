@@ -11,6 +11,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
 
   bool get isInfinite => true;
 
+  // TODO: а запись времени в базу выполняется в utc?
   String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
   String nextCreatedAt;
