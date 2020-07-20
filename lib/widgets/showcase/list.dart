@@ -48,36 +48,38 @@ class _ShowcaseListState extends State<ShowcaseList>
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
         slivers: [
-          LoadingMoreSliverList(SliverListConfig<ItemModel>(
-            extendedListDelegate:
-                SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 32,
-              collectGarbage: (List<int> garbages) {
-                garbages.forEach((index) {
-                  final item = widget.sourceList[index];
-                  final image = item.images[0];
-                  final provider = ExtendedNetworkImageProvider(
-                    image.getDummyUrl(item.id),
-                  );
-                  provider.evict();
-                });
+          LoadingMoreSliverList(
+            SliverListConfig<ItemModel>(
+              extendedListDelegate:
+                  SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 32,
+                collectGarbage: (List<int> garbages) {
+                  garbages.forEach((index) {
+                    final item = widget.sourceList[index];
+                    final image = item.images[0];
+                    final provider = ExtendedNetworkImageProvider(
+                      image.getDummyUrl(item.id),
+                    );
+                    provider.evict();
+                  });
+                },
+              ),
+              itemBuilder: (BuildContext context, ItemModel item, int index) {
+                return ShowcaseItem(
+                  item: item,
+                  tabIndex: widget.tabIndex,
+                  isCover: isSmallWidth,
+                );
               },
+              sourceList: widget.sourceList,
+              indicatorBuilder: _buildIndicator,
+              // TODO: https://github.com/fluttercandies/loading_more_list/issues/20
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              lastChildLayoutType: LastChildLayoutType.foot,
             ),
-            itemBuilder: (BuildContext context, ItemModel item, int index) {
-              return ShowcaseItem(
-                item: item,
-                tabIndex: widget.tabIndex,
-                isCover: isSmallWidth,
-              );
-            },
-            sourceList: widget.sourceList,
-            indicatorBuilder: _buildIndicator,
-            // TODO: https://github.com/fluttercandies/loading_more_list/issues/20
-            padding: EdgeInsets.all(16),
-            lastChildLayoutType: LastChildLayoutType.foot,
-          ))
+          ),
         ],
       ),
     );
@@ -210,6 +212,7 @@ class _ShowcaseListState extends State<ShowcaseList>
 
   Widget _buildBackground(bool full, Widget child) {
     return Container(
+        padding: EdgeInsets.only(bottom: 200),
         width: double.infinity,
         height: full ? double.infinity : kNavigationBarHeight * 2,
         child: child,

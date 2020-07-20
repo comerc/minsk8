@@ -123,6 +123,16 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
             );
           },
         ),
+        // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+        SliverPersistentHeader(
+          delegate: CommonSliverPersistentHeaderDelegate(
+            builder: (BuildContext context, double shrinkOffset,
+                bool overlapsContent) {
+              return Container();
+            },
+            height: 16,
+          ),
+        ),
       ],
       body: TabBarView(
         controller: _tabController,
