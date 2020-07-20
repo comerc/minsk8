@@ -120,17 +120,23 @@ class HomeScreenState extends State<HomeScreen> {
       fetchPolicy: FetchPolicy.noCache,
     );
     final client = GraphQLProvider.of(context).value;
-    final result = await client
-        .query(options)
-        .timeout(Duration(seconds: kGraphQLQueryTimeout));
-    if (result.hasException) {
-      throw result.exception;
+    try {
+      final result = await client
+          .query(options)
+          .timeout(Duration(seconds: kGraphQLQueryTimeout));
+      if (result.hasException) {
+        throw result.exception;
+      }
+      final item = ItemModel.fromJson(result.data['item']);
+      return ItemRouteArguments(
+        item,
+        member: item.member,
+      );
+    } catch (exception, stack) {
+      print(exception);
+      print(stack);
     }
-    final item = ItemModel.fromJson(result.data['item']);
-    return ItemRouteArguments(
-      item,
-      member: item.member,
-    );
+    return null;
   }
 
   Future<void> _initVersion() async {
