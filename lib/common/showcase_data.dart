@@ -45,7 +45,8 @@ class ShowcaseData extends SourceList<ItemModel> {
     final dataItems = [...data['items'] as List];
     // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
     final items = <ItemModel>[];
-    hasMore = dataItems.length == kGraphQLItemsLimit;
+    final hasMore = dataItems.length == kGraphQLItemsLimit;
+    this.hasMore = hasMore;
     if (hasMore) {
       final itemElement = ItemModel.fromJson(dataItems.removeLast());
       nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
