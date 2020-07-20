@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: объединить в один запрос .want .take .past и фильтровать по is_winned на клиенте
 
-class UnderwayData extends CommonData {
+class UnderwayData extends SourceList<ItemModel> {
   UnderwayData(
     GraphQLClient client,
     this.tabValue,

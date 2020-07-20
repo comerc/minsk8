@@ -18,7 +18,7 @@ class ShowcaseList extends StatefulWidget {
         super(key: key);
 
   final Key scrollPositionKey;
-  final CommonData sourceList;
+  final SourceList<ItemModel> sourceList;
   final int tabIndex;
 
   @override

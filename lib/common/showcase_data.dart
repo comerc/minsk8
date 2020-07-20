@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseData extends CommonData {
+class ShowcaseData extends SourceList<ItemModel> {
   ShowcaseData(
     GraphQLClient client,
     this.kind,

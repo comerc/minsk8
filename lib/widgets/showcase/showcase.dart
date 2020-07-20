@@ -15,7 +15,7 @@ class Showcase extends StatefulWidget {
   }) : super(key: key);
 
   final List<EnumModel> tabModels;
-  final List<CommonData> dataPool;
+  final List<SourceList> dataPool;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
   final Set<int> poolForReloadTabs;
   final bool hasAppBar;

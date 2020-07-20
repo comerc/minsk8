@@ -2,8 +2,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
-abstract class CommonData extends LoadingMoreBase<ItemModel> {
-  CommonData(this.client);
+abstract class SourceList<T> extends LoadingMoreBase<T> {
+  SourceList(this.client);
 
   final GraphQLClient client;
 
@@ -36,8 +36,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
     _hasMore = value;
   }
 
-  /// List<dynamic> or Map<String, dynamic>
-  List<ItemModel> getItems(dynamic data); // abstract
+  List<T> getItems(Map<String, dynamic> data); // abstract
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
