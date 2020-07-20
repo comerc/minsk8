@@ -150,7 +150,10 @@ class Queries {
     query getProfile($member_id: uuid!) {
       profile(member_id: $member_id) {
         member {
-          ...memberFields
+          id
+          nickname
+          banned_until
+          last_activity_at
         }
         balance
       }
