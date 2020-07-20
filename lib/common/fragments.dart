@@ -60,18 +60,5 @@ class Fragments {
         created_at
       }
     }
-
-    fragment paymentFields on payment {
-      id
-      text
-      value
-      created_at
-      item {
-        ...itemFields
-        member {
-          ...memberFields
-        }
-      }
-    }
   ''');
 }

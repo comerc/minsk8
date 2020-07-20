@@ -164,8 +164,8 @@ class App extends StatelessWidget {
                     ChangeNotifierProvider<ProfileModel>(
                         create: (_) =>
                             ProfileModel.fromJson(result.data['profile'])),
-                    ChangeNotifierProvider<MyPaymentsModel>(
-                        create: (_) => MyPaymentsModel.fromJson(result.data)),
+                    ChangeNotifierProvider<MyWishesModel>(
+                        create: (_) => MyWishesModel.fromJson(result.data)),
                     ChangeNotifierProvider<DistanceModel>(
                         create: (_) => DistanceModel()),
                     ChangeNotifierProvider<MyItemMapModel>(

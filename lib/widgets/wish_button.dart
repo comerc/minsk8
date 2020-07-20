@@ -32,7 +32,7 @@ class _WishButtonState extends State<WishButton> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context);
+    final myWishes = Provider.of<MyWishesModel>(context);
     return Tooltip(
       message: 'Wish',
       child: Material(
@@ -40,7 +40,7 @@ class _WishButtonState extends State<WishButton> {
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
             animationDuration: animationDuration,
-            isLiked: profile.getWishIndex(widget.item.id) != -1,
+            isLiked: myWishes.getWishIndex(widget.item.id) != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -103,19 +103,19 @@ class _WishButtonState extends State<WishButton> {
 }
 
 void updateWish(BuildContext context, bool isLiked, ItemModel item) {
-  final profile = Provider.of<ProfileModel>(context, listen: false);
-  final index = profile.getWishIndex(item.id);
+  final myWishes = Provider.of<MyWishesModel>(context, listen: false);
+  final index = myWishes.getWishIndex(item.id);
   final currentIsLiked = index != -1;
   if (isLiked != currentIsLiked) {
     return;
   }
   final wish = isLiked
-      ? profile.wishes[index] // index check with currentIsLiked
+      ? myWishes.wishes[index] // index check with currentIsLiked
       : WishModel(
           createdAt: DateTime.now(),
           itemId: item.id,
         );
-  profile.updateWish(index, wish, !isLiked);
+  myWishes.updateWish(index, wish, !isLiked);
   final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
     documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
@@ -130,8 +130,8 @@ void updateWish(BuildContext context, bool isLiked, ItemModel item) {
       throw result.exception;
     }
   }).catchError((error) {
-    final index = profile.getWishIndex(item.id);
-    profile.updateWish(index, wish, isLiked);
+    final index = myWishes.getWishIndex(item.id);
+    myWishes.updateWish(index, wish, isLiked);
     print(error);
   });
 }

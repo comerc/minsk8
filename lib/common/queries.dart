@@ -152,36 +152,10 @@ class Queries {
         member {
           ...memberFields
         }
-        wishes {
-          created_at
-          item_id
-        }
-        notifications {
-          created_at
-          proclamation {
-            id
-            item {
-              ...itemFields
-              member {
-                ...memberFields
-              }
-            }
-            text  
-          }
-          suggestion {
-            id
-            item {
-              ...itemFields
-              member {
-                ...memberFields
-              }
-            }
-            question
-          }
-        }
       }
-      payments {
-        ...paymentFields
+      wishes {
+        created_at
+        item_id
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
@@ -189,7 +163,44 @@ class Queries {
   static final getMyPayments = gql(r'''
     query getMyPayments {
       payments {
-        ...paymentFields
+        id
+        text
+        value
+        created_at
+        item {
+          ...itemFields
+          member {
+            ...memberFields
+          }
+        }
+      }
+    }
+  ''')..definitions.addAll(Fragments.fragments.definitions);
+
+  static final getMyNotifications = gql(r'''
+    query getMyNotifications {
+      notifications {
+        created_at
+        proclamation {
+          id
+          item {
+            ...itemFields
+            member {
+              ...memberFields
+            }
+          }
+          text  
+        }
+        suggestion {
+          id
+          item {
+            ...itemFields
+            member {
+              ...memberFields
+            }
+          }
+          question
+        }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);

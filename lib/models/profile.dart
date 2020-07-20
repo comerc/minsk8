@@ -4,36 +4,15 @@ import 'package:minsk8/import.dart';
 
 part 'profile.g.dart';
 
-// TODO: удалить item из WishModel
-
 @JsonSerializable()
 class ProfileModel extends ChangeNotifier {
-  final MemberModel member;
-  final List<WishModel> wishes;
-  final List<NotificationModel> notifications;
-
   ProfileModel({
     this.member,
-    this.wishes,
-    this.notifications,
+    this.balance,
   });
 
-  int getWishIndex(String itemId) =>
-      wishes.indexWhere((wish) => wish.itemId == itemId);
-
-  void updateWish(int index, WishModel wish, bool isLiked) {
-    if (isLiked) {
-      if (index == -1) {
-        wishes.add(wish);
-        notifyListeners();
-      }
-    } else {
-      if (index != -1) {
-        wishes.removeAt(index);
-        notifyListeners();
-      }
-    }
-  }
+  final MemberModel member;
+  final int balance;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
