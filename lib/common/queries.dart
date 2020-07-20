@@ -152,18 +152,6 @@ class Queries {
         member {
           ...memberFields
         }
-        payments {
-          id
-          text
-          value
-          created_at
-          item {
-            ...itemFields
-            member {
-              ...memberFields
-            }
-          }
-        }
         wishes {
           created_at
           item_id
@@ -191,6 +179,17 @@ class Queries {
             question
           }
         }
+      }
+      payments {
+        ...paymentFields
+      }
+    }
+  ''')..definitions.addAll(Fragments.fragments.definitions);
+
+  static final getMyPayments = gql(r'''
+    query getMyPayments {
+      payments {
+        ...paymentFields
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);

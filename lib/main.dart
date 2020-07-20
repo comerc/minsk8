@@ -92,6 +92,7 @@ void main() {
 
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 
+// TODO: переименовать в appData
 PersistedData appState;
 final localDeletedItemIds = <String>{}; // ie Set()
 
@@ -153,8 +154,7 @@ class App extends StatelessWidget {
                 }
                 if (result.loading) {
                   return Material(
-                    child: Container(
-                      alignment: Alignment.center,
+                    child: Center(
                       child: Text('Loading profile...'),
                     ),
                   );
@@ -164,6 +164,8 @@ class App extends StatelessWidget {
                     ChangeNotifierProvider<ProfileModel>(
                         create: (_) =>
                             ProfileModel.fromJson(result.data['profile'])),
+                    ChangeNotifierProvider<MyPaymentsModel>(
+                        create: (_) => MyPaymentsModel.fromJson(result.data)),
                     ChangeNotifierProvider<DistanceModel>(
                         create: (_) => DistanceModel()),
                     ChangeNotifierProvider<MyItemMapModel>(

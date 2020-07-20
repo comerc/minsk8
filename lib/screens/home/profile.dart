@@ -36,7 +36,8 @@ class HomeProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
+    final profile = Provider.of<ProfileModel>(context);
+    final myPayments = Provider.of<MyPaymentsModel>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -94,7 +95,7 @@ class HomeProfile extends StatelessWidget {
           ),
         ),
         Text(
-          getPluralKarma(profile.balance),
+          getPluralKarma(myPayments.balance),
           style: TextStyle(
             // fontSize: kFontSize,
             fontWeight: FontWeight.w600,

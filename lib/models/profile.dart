@@ -9,21 +9,14 @@ part 'profile.g.dart';
 @JsonSerializable()
 class ProfileModel extends ChangeNotifier {
   final MemberModel member;
-  final List<PaymentModel> payments;
   final List<WishModel> wishes;
-  // final List<BidModel> bids;
   final List<NotificationModel> notifications;
 
   ProfileModel({
     this.member,
-    this.payments,
     this.wishes,
-    // this.bids,
     this.notifications,
   });
-
-  int get balance =>
-      payments.fold<int>(0, (value, element) => value + element.value);
 
   int getWishIndex(String itemId) =>
       wishes.indexWhere((wish) => wish.itemId == itemId);
