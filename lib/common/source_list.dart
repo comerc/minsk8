@@ -75,9 +75,11 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       if (!clearAfterRequest) {
         await Future.delayed(Duration(milliseconds: 400));
       }
-      final result = await client
-          .query(options)
-          .timeout(Duration(seconds: kGraphQLQueryTimeout));
+      // final duration = Duration(
+      //     milliseconds: clearAfterRequest ? 10 : kGraphQLQueryTimeout * 1000);
+      final result = await client.query(options);
+      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+      // .timeout(Duration(seconds: kGraphQLQueryTimeout))
       if (result.hasException) {
         throw result.exception;
       }
@@ -97,7 +99,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       addAll(items);
       isSuccess = true;
     } catch (exception, stack) {
-      isSuccess = false;
+      // TODO: показывать сообщение пользователю
       print(exception);
       print(stack);
     }
