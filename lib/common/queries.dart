@@ -152,6 +152,7 @@ class Queries {
         member {
           ...memberFields
         }
+        balance
       }
       wishes {
         created_at
