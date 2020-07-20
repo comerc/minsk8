@@ -101,9 +101,9 @@ class _ItemScreenState extends State<ItemScreen> {
                     fetchPolicy: FetchPolicy.noCache,
                   );
                   // ignore: unawaited_futures
-                  client
-                      .mutate(options)
-                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                  client.mutate(options)
+                      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+                      // .timeout(Duration(seconds: kGraphQLMutationTimeout))
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
@@ -144,9 +144,9 @@ class _ItemScreenState extends State<ItemScreen> {
                     fetchPolicy: FetchPolicy.noCache,
                   );
                   // ignore: unawaited_futures
-                  client
-                      .mutate(options)
-                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                  client.mutate(options)
+                      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+                      // .timeout(Duration(seconds: kGraphQLMutationTimeout))
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
@@ -184,9 +184,9 @@ class _ItemScreenState extends State<ItemScreen> {
                     fetchPolicy: FetchPolicy.noCache,
                   );
                   // ignore: unawaited_futures
-                  client
-                      .mutate(options)
-                      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+                  client.mutate(options)
+                      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+                      // .timeout(Duration(seconds: kGraphQLMutationTimeout))
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;

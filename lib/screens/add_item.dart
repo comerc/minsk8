@@ -264,11 +264,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
       fetchPolicy: FetchPolicy.noCache,
     );
     // ignore: unawaited_futures
-    client
-        .mutate(options)
+    client.mutate(options)
         // TODO: если таймаут, то фокус на поле ввода и клавиатура - не хочу
         // .timeout(Duration(milliseconds: 100))
-        .timeout(Duration(seconds: kGraphQLMutationTimeout))
+        // TODO: timeout не работает, как ожидается, query всё равно резолвится
+        // .timeout(Duration(seconds: kGraphQLMutationTimeout))
         .then((QueryResult result) async {
       if (result.hasException) {
         throw result.exception;
@@ -372,7 +372,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     });
     _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
-    _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
+    // TODO: проверить, что timeout отменяет загрузку; до выяснения - отключил
+    // _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);

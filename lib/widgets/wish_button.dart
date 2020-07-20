@@ -122,9 +122,9 @@ void updateWish(BuildContext context, bool isLiked, ItemModel item) {
     variables: {'item_id': item.id},
     fetchPolicy: FetchPolicy.noCache,
   );
-  client
-      .mutate(options)
-      .timeout(Duration(seconds: kGraphQLMutationTimeout))
+  client.mutate(options)
+      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+      // .timeout(Duration(seconds: kGraphQLMutationTimeout))
       .then((QueryResult result) {
     if (result.hasException) {
       throw result.exception;

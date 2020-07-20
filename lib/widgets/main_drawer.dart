@@ -66,9 +66,9 @@ final mainRoutes = [
         fetchPolicy: FetchPolicy.noCache,
       );
       final client = GraphQLProvider.of(context).value;
-      final result = await client
-          .query(options)
-          .timeout(Duration(seconds: kGraphQLQueryTimeout));
+      final result = await client.query(options);
+      // TODO: timeout не работает, как ожидается, query всё равно резолвится
+      // .timeout(Duration(seconds: kGraphQLQueryTimeout));
       if (result.hasException) {
         throw result.exception;
       }
