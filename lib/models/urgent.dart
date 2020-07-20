@@ -1,13 +1,13 @@
 class UrgentModel {
-  final UrgentStatus value;
-  final String name;
-  final String text;
-
   UrgentModel(
     this.value,
     this.name,
     this.text,
   );
+
+  final UrgentStatus value;
+  final String name;
+  final String text;
 }
 
 enum UrgentStatus { very_urgent, urgent, not_urgent, none }

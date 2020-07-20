@@ -5,8 +5,28 @@ import 'package:minsk8/import.dart';
 
 part 'item.g.dart';
 
+// TODO: переименовать item > unit
+
 @JsonSerializable()
 class ItemModel {
+  ItemModel({
+    this.id,
+    this.createdAt,
+    this.text,
+    this.member,
+    this.images,
+    this.expiresAt,
+    this.urgent,
+    this.price,
+    this.location,
+    this.address,
+    this.isBlocked,
+    this.win,
+    this.transferredAt,
+    this.wishes,
+    this.isPromo,
+  }) : assert(images.isNotEmpty);
+
   final String id;
   final DateTime createdAt;
   final String text;
@@ -32,24 +52,6 @@ class ItemModel {
   final List<WishModel> wishes;
   @JsonKey(nullable: true)
   final bool isPromo;
-
-  ItemModel({
-    this.id,
-    this.createdAt,
-    this.text,
-    this.member,
-    this.images,
-    this.expiresAt,
-    this.urgent,
-    this.price,
-    this.location,
-    this.address,
-    this.isBlocked,
-    this.win,
-    this.transferredAt,
-    this.wishes,
-    this.isPromo,
-  }) : assert(images.isNotEmpty);
 
   bool get isClosed {
     // описание состояний - смотри комменты в диалогах WantButton

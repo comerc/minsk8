@@ -6,16 +6,16 @@ part 'suggestion.g.dart';
 
 @JsonSerializable()
 class SuggestionModel {
-  final String id;
-  final ItemModel item;
-  @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
-  final QuestionValue question;
-
   SuggestionModel({
     this.id,
     this.item,
     this.question,
   });
+
+  final String id;
+  final ItemModel item;
+  @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
+  final QuestionValue question;
 
   static QuestionValue _questionFromString(String value) =>
       EnumToString.fromString(QuestionValue.values, value);

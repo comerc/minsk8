@@ -5,16 +5,16 @@ part 'proclamation.g.dart';
 
 @JsonSerializable()
 class ProclamationModel {
-  final String id;
-  @JsonKey(nullable: true)
-  final ItemModel item;
-  final String text;
-
   ProclamationModel({
     this.id,
     this.item,
     this.text,
   });
+
+  final String id;
+  @JsonKey(nullable: true)
+  final ItemModel item;
+  final String text;
 
   factory ProclamationModel.fromJson(Map<String, dynamic> json) =>
       _$ProclamationModelFromJson(json);

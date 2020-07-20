@@ -5,18 +5,18 @@ part 'want.g.dart';
 
 @JsonSerializable()
 class WantModel {
-  ItemModel item;
-  final int value;
-  final DateTime updatedAt;
-  @JsonKey(nullable: true)
-  final WinModel win;
-
   WantModel({
     this.item,
     this.value,
     this.updatedAt,
     this.win,
   });
+
+  final ItemModel item;
+  final int value;
+  final DateTime updatedAt;
+  @JsonKey(nullable: true)
+  final WinModel win;
 
   factory WantModel.fromJson(Map<String, dynamic> json) =>
       _$WantModelFromJson(json);

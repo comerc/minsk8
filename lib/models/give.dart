@@ -5,13 +5,13 @@ part 'give.g.dart';
 
 @JsonSerializable()
 class GiveModel {
-  final DateTime createdAt;
-  ItemModel item;
-
   GiveModel({
     this.createdAt,
     this.item,
   });
+
+  final DateTime createdAt;
+  ItemModel item;
 
   factory GiveModel.fromJson(Map<String, dynamic> json) =>
       _$GiveModelFromJson(json);

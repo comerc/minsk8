@@ -5,13 +5,6 @@ part 'payment.g.dart';
 
 @JsonSerializable()
 class PaymentModel {
-  final String id;
-  final String text;
-  final int value;
-  final DateTime createdAt;
-  @JsonKey(nullable: true)
-  final ItemModel item;
-
   PaymentModel({
     this.id,
     this.text,
@@ -19,6 +12,13 @@ class PaymentModel {
     this.createdAt,
     this.item,
   });
+
+  final String id;
+  final String text;
+  final int value;
+  final DateTime createdAt;
+  @JsonKey(nullable: true)
+  final ItemModel item;
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);

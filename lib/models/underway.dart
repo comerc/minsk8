@@ -10,6 +10,7 @@ enum UnderwayValue {
 
 class UnderwayModel implements EnumModel {
   UnderwayModel(this.value, this.name);
+
   final UnderwayValue value;
   final String name;
 

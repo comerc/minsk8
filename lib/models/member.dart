@@ -5,6 +5,14 @@ part 'member.g.dart';
 
 @JsonSerializable()
 class MemberModel {
+  MemberModel({
+    this.id,
+    this.nickname,
+    this.bannedUntil,
+    this.lastActivityAt,
+    this.items,
+  });
+
   final String id;
   final String nickname;
   @JsonKey(nullable: true)
@@ -14,14 +22,6 @@ class MemberModel {
       nullable: true,
       defaultValue: []) // не хочу показывать для items.win.member
   final List<ItemModel> items;
-
-  MemberModel({
-    this.id,
-    this.nickname,
-    this.bannedUntil,
-    this.lastActivityAt,
-    this.items,
-  });
 
   String get avatarUrl => 'https://robohash.org/$id?set=set4';
 

@@ -5,14 +5,6 @@ part 'chat.g.dart';
 
 @JsonSerializable()
 class ChatModel {
-  final ItemModel item;
-  final MemberModel companion;
-  final List<MessageModel> messages;
-  final bool isItemOwnerWritesNow;
-  final bool isCompanionWritesNow;
-  final bool isItemOwnerReadAll;
-  final bool isCompanionReadAll;
-
   ChatModel({
     this.item,
     this.companion,
@@ -22,6 +14,14 @@ class ChatModel {
     this.isItemOwnerReadAll,
     this.isCompanionReadAll,
   });
+
+  final ItemModel item;
+  final MemberModel companion;
+  final List<MessageModel> messages;
+  final bool isItemOwnerWritesNow;
+  final bool isCompanionWritesNow;
+  final bool isItemOwnerReadAll;
+  final bool isCompanionReadAll;
 
   String get id => '${item.id} ${companion.id}';
 

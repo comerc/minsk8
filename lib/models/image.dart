@@ -5,15 +5,15 @@ part 'image.g.dart';
 
 @JsonSerializable()
 class ImageModel {
-  final String url;
-  final int width;
-  final int height;
-
   ImageModel({
     this.url,
     this.width,
     this.height,
   });
+
+  final String url;
+  final int width;
+  final int height;
 
   String getDummyUrl(String id) {
     final urlHash = generateMd5(url + id);

@@ -6,13 +6,6 @@ part 'message.g.dart';
 
 @JsonSerializable()
 class MessageModel {
-  final String id;
-  final String text;
-  @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
-  final MessageAuthor author;
-  final bool isRead;
-  final DateTime createdAt;
-
   MessageModel({
     this.id,
     this.text,
@@ -20,6 +13,13 @@ class MessageModel {
     this.isRead,
     this.createdAt,
   });
+
+  final String id;
+  final String text;
+  @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
+  final MessageAuthor author;
+  final bool isRead;
+  final DateTime createdAt;
 
   static MessageAuthor _authorFromString(String value) =>
       EnumToString.fromString(MessageAuthor.values, value);
