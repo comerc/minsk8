@@ -21,7 +21,7 @@ export 'models/kind.dart';
 export 'models/member.dart';
 export 'models/message.dart';
 export 'models/my_item_map.dart';
-export 'models/my_payments.dart';
+export 'models/_my_payments.dart';
 export 'models/my_wishes.dart';
 export 'models/notification.dart';
 export 'models/payment.dart';
