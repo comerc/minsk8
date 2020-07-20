@@ -270,11 +270,9 @@ packages:
   extended_nested_scroll_view:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "74806aa1883222d44125e8a39797d83b6de32ed8"
-      url: "git://github.com/comerc/extended_nested_scroll_view.git"
-    source: git
+      name: extended_nested_scroll_view
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.0.1"
   file:
     dependency: transitive
@@ -844,11 +842,9 @@ packages:
   pull_to_refresh_notification:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "2ae5b9ffa0809d17ecdd901d404a41af2ed57168"
-      url: "git://github.com/comerc/pull_to_refresh_notification.git"
-    source: git
+      name: pull_to_refresh_notification
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.3.5"
   quiver:
     dependency: transitive
