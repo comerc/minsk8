@@ -74,7 +74,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
       // TODO: may be WatchQueryOptions?
       // to show loading more clearly, in your app,remove this
       if (!clearAfterRequest) {
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 400));
       }
       final result = await client
           .query(options)
@@ -93,7 +93,7 @@ abstract class CommonData extends LoadingMoreBase<ItemModel> {
         clear();
         onStateChanged(this);
         // TODO: (?) как в Dart реализуется SetTimeout(0) для event loop
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 400));
       }
       addAll(items);
       isSuccess = true;
