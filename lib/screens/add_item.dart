@@ -35,6 +35,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   KindValue _kind;
   FocusNode _textFocusNode;
   Future<void> _uploadQueue = Future.value();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String get _urgentName =>
       urgents
@@ -167,6 +168,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Что отдаёте?'),
           actions: [
@@ -318,7 +320,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
       final snackBar = SnackBar(
           content: Text('Не удалось загрузить лот, попробуйте ещё раз'));
-      Scaffold.of(context).showSnackBar(snackBar);
+      _scaffoldKey.currentState.showSnackBar(snackBar);
     });
   }
 
@@ -372,8 +374,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     });
     _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
-    // TODO: проверить, что timeout отменяет загрузку; до выяснения - отключил
-    // _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
+    _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);
@@ -385,7 +386,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         final snackBar = SnackBar(
             content:
                 Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
-        Scaffold.of(context).showSnackBar(snackBar);
+        _scaffoldKey.currentState.showSnackBar(snackBar);
       }
       debugPrint(error.toString());
     });
@@ -428,6 +429,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             'progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
       }
       // TODO: добавить индикатор загрузки и кнопку отмены
+      // TODO: отрабатывать тут StorageTaskEventType.failure и StorageTaskEventType.success
     });
     // await Future.delayed(Duration(seconds: 5));
     await imageData.uploadTask.onComplete;

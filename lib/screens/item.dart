@@ -34,6 +34,7 @@ class _ItemScreenState extends State<ItemScreen> {
   final _panelColumnKey = GlobalKey();
   double _panelMaxHeight;
   List<ItemModel> _otherItems;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -75,6 +76,7 @@ class _ItemScreenState extends State<ItemScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: _buildStatusText(item),
           centerTitle: true,
@@ -133,7 +135,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   );
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
-                  Scaffold.of(context).showSnackBar(snackBar);
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
                   final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.upsertModeration,
@@ -173,7 +175,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   final snackBar = SnackBar(
                       content: Text(
                           'Вопрос принят и будет передан автору, чтобы дополнил описание'));
-                  Scaffold.of(context).showSnackBar(snackBar);
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
                   final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.insertSuggestion,
