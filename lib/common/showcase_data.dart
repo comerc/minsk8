@@ -48,8 +48,8 @@ class ShowcaseData extends SourceList<ItemModel> {
     final hasMore = dataItems.length == kGraphQLItemsLimit;
     this.hasMore = hasMore;
     if (hasMore) {
-      final itemElement = ItemModel.fromJson(dataItems.removeLast());
-      nextCreatedAt = itemElement.createdAt.toUtc().toIso8601String();
+      final item = ItemModel.fromJson(dataItems.removeLast());
+      nextCreatedAt = item.createdAt.toUtc().toIso8601String();
     }
     for (final dataItem in dataItems) {
       items.add(ItemModel.fromJson(dataItem));

@@ -165,8 +165,14 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getMyPayments = gql(r'''
-    query getMyPayments {
-      payments {
+    query getMyPayments($next_created_at: timestamptz) {
+      payments (
+        where: 
+          {
+            created_at: {_lte: $next_created_at} 
+          }, 
+        order_by: {created_at: desc}
+      ) {
         id
         text
         value
@@ -176,6 +182,12 @@ class Queries {
           member {
             ...memberFields
           }
+        }
+        invited_member {
+          id
+          nickname
+          banned_until
+          last_activity_at
         }
       }
     }

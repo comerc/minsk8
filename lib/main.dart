@@ -119,6 +119,7 @@ class App extends StatelessWidget {
         HomeUnderway.dataPool = UnderwayValue.values
             .map((value) => UnderwayData(client, value))
             .toList();
+        WalletScreen.sourceList = WalletData(client);
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {

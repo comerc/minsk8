@@ -9,6 +9,7 @@ export 'common/showcase_data.dart';
 export 'common/sliver_persistent_header.dart';
 export 'common/source_list.dart';
 export 'common/underway_data.dart';
+export 'common/wallet_data.dart';
 
 export 'models/chat.dart';
 export 'models/claim.dart';
@@ -83,6 +84,7 @@ export 'widgets/image_source_dialog.dart';
 export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
 export 'widgets/life_cycle_manager.dart';
+export 'widgets/list_indicator.dart';
 export 'widgets/main_drawer.dart';
 // export 'widgets/map/area_layer.dart'; // local import
 export 'widgets/map/current_position.dart';

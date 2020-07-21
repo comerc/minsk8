@@ -20,7 +20,7 @@ class MemberModel {
   final DateTime lastActivityAt;
   @JsonKey(
       nullable: true,
-      defaultValue: []) // не хочу показывать для items.win.member, profile.member
+      defaultValue: []) // не хочу показывать для items.win.member, profile.member, payments.inviteMember
   final List<ItemModel> items;
 
   String get avatarUrl => 'https://robohash.org/$id?set=set4';

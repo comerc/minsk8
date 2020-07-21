@@ -11,6 +11,7 @@ class PaymentModel {
     this.value,
     this.createdAt,
     this.item,
+    this.invitedMember,
   });
 
   final String id;
@@ -19,6 +20,8 @@ class PaymentModel {
   final DateTime createdAt;
   @JsonKey(nullable: true)
   final ItemModel item;
+  @JsonKey(nullable: true)
+  final MemberModel invitedMember;
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);
