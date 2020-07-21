@@ -32,6 +32,9 @@ class _ZoomScreenState extends State<ZoomScreen>
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: this);
     _currentIndex = widget.arguments.index;
+    final item = widget.arguments.item;
+    App.analytics
+        .setCurrentScreen(screenName: '/zoom ${item.id} [$_currentIndex]');
   }
 
   @override

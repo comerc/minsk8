@@ -10,21 +10,21 @@ import 'package:minsk8/import.dart';
 
 // TODO: текстовое поле для описания себя в профиле (усложняет модерацию)
 
-// class HomeProfile extends StatefulWidget {
-//   HomeProfile();
-
-//   @override
-//   HomeProfileState createState() {
-//     return HomeProfileState();
-//   }
-// }
-
-// class HomeProfileState extends State<HomeProfile> {
-class HomeProfile extends StatelessWidget {
+class HomeProfile extends StatefulWidget {
   HomeProfile({this.version, this.hasUpdate});
 
   final String version;
   final bool hasUpdate;
+
+  @override
+  HomeProfileState createState() {
+    return HomeProfileState();
+  }
+}
+
+class HomeProfileState extends State<HomeProfile> {
+// class HomeProfile extends StatelessWidget {
+//   HomeProfile({this.version, this.hasUpdate});
 
   final _menu = {
     '/wallet': 'Движение Кармы',
@@ -33,6 +33,12 @@ class HomeProfile extends StatelessWidget {
     '/useful_tips': 'Полезные советы',
     '/about': 'О проекте',
   }.entries.toList();
+
+  @override
+  void initState() {
+    super.initState();
+    App.analytics.setCurrentScreen(screenName: '/home/profile');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,15 +153,15 @@ class HomeProfile extends StatelessWidget {
             ),
           ),
         ),
-        if (hasUpdate) Text('Доступна новая версия'),
-        if (hasUpdate)
+        if (widget.hasUpdate) Text('Доступна новая версия'),
+        if (widget.hasUpdate)
           OutlineButton(
             child: Text('Обновить приложение'),
             onPressed: () {
               // TODO: go to update
             },
           ),
-        Text('Версия: $version'),
+        Text('Версия: ${widget.version}'),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );

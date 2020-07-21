@@ -48,6 +48,7 @@ class _ItemScreenState extends State<ItemScreen> {
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(item.location);
     distance.updateCurrentPosition(item.location);
+    App.analytics.setCurrentScreen(screenName: '/item ${item.id}');
   }
 
   void _onAfterBuild(Duration timeStamp) {
