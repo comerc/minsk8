@@ -121,9 +121,8 @@ class HomeScreenState extends State<HomeScreen> {
     );
     final client = GraphQLProvider.of(context).value;
     try {
-      final result = await client.query(options);
-      // TODO: timeout не работает, как ожидается, query всё равно резолвится
-      // .timeout(Duration(seconds: kGraphQLQueryTimeout));
+      final result =
+          await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
       if (result.hasException) {
         throw result.exception;
       }

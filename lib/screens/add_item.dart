@@ -266,11 +266,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       fetchPolicy: FetchPolicy.noCache,
     );
     // ignore: unawaited_futures
-    client.mutate(options)
-        // TODO: если таймаут, то фокус на поле ввода и клавиатура - не хочу
-        // .timeout(Duration(milliseconds: 100))
-        // TODO: timeout не работает, как ожидается, query всё равно резолвится
-        // .timeout(Duration(seconds: kGraphQLMutationTimeout))
+    client
+        .mutate(options)
+        .timeout(kGraphQLMutationTimeoutDuration)
         .then((QueryResult result) async {
       if (result.hasException) {
         throw result.exception;
@@ -374,8 +372,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     });
     _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
-    // TODO: timeout не работает, как ожидается - возможно всё равно резолвится?
-    // _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
+    _uploadQueue = _uploadQueue.timeout(kImageUploadTimeoutDuration);
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);
@@ -433,14 +430,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       // TODO: отрабатывать тут StorageTaskEventType.failure и StorageTaskEventType.success
     });
     await imageData.uploadTask.onComplete;
+    await streamSubscription.cancel();
+    imageData.uploadTask = null;
     if (imageData.uploadStatus == ImageUploadStatus.progress) {
       imageData.uploadStatus = null;
       if (mounted) setState(() {});
     }
-    await streamSubscription.cancel();
-    final isCanceled = imageData.uploadTask.isCanceled;
-    imageData.uploadTask = null;
-    if (isCanceled) return;
+    if (imageData.isCanceled) return;
     final downloadUrl = await storageReference.getDownloadURL();
     final image = ExtendedImage.memory(imageData.bytes);
     final size = await _calculateImageDimension(image);
@@ -452,12 +448,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void _cancelUploadImage(_ImageData imageData) {
+    imageData.isCanceled = true;
     try {
       if (imageData.uploadTask == null ||
           imageData.uploadTask.isComplete ||
           imageData.uploadTask.isCanceled) return;
       // если сразу вызвать снаружи, то падает - обернул в try-catch
-      // TODO: если падает, то не устанавливает флаг uploadTask.isCanceled
       imageData.uploadTask.cancel();
     } catch (error) {
       debugPrint(error.toString());
@@ -564,4 +560,5 @@ class _ImageData {
   StorageUploadTask uploadTask;
   ImageUploadStatus uploadStatus = ImageUploadStatus.progress;
   ImageModel model;
+  bool isCanceled = false;
 }
