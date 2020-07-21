@@ -63,7 +63,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
       if (saveModes.contains(MapSaveMode.showcase)) {
         appState['ShowcaseMap.center'] = [center.latitude, center.longitude];
-        appState['ShowcaseMap.address'] = value.short;
+        appState['ShowcaseMap.address'] = value.simple;
         appState['ShowcaseMap.zoom'] = zoom;
         appState['ShowcaseMap.radius'] = radius;
       }

@@ -12,7 +12,7 @@ import 'package:minsk8/import.dart';
 // TODO: добавить копирайт sputnik и osm
 
 class MapAddress {
-  String short = '(none)';
+  String simple = '(none)';
   String detail = '(none)';
 }
 
@@ -176,18 +176,18 @@ class MapWidget extends StatefulWidget {
           localeIdentifier: 'ru');
       final placemark = placemarks[0];
       if (placemark.locality != '') {
-        result.short = placemark.locality;
+        result.simple = placemark.locality;
       } else if (placemark.subAdministrativeArea != '') {
-        result.short = placemark.subAdministrativeArea;
+        result.simple = placemark.subAdministrativeArea;
       } else if (placemark.administrativeArea != '') {
-        result.short = placemark.administrativeArea;
+        result.simple = placemark.administrativeArea;
       } else if (placemark.country != '') {
-        result.short = placemark.country;
+        result.simple = placemark.country;
       }
       if (placemark.thoroughfare != '') {
-        result.detail = result.short + ', ' + placemark.thoroughfare;
-      } else if (placemark.name != '' && placemark.name != result.short) {
-        result.detail = result.short + ', ' + placemark.name;
+        result.detail = result.simple + ', ' + placemark.thoroughfare;
+      } else if (placemark.name != '' && placemark.name != result.simple) {
+        result.detail = result.simple + ', ' + placemark.name;
       }
     } catch (e) {
       debugPrint('$e');
