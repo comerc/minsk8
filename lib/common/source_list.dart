@@ -29,8 +29,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
   QueryOptions get options; // abstract
 
   @override
-  bool get hasMore =>
-      _forceRefresh || (_hasMore && (isInfinite || length < 40));
+  bool get hasMore => _forceRefresh || _hasMore && (isInfinite || length < 40);
 
   set hasMore(value) {
     _hasMore = value;
