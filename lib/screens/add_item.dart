@@ -374,7 +374,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
     });
     _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
-    _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
+    // TODO: timeout не работает, как ожидается - возможно всё равно резолвится?
+    // _uploadQueue = _uploadQueue.timeout(Duration(seconds: kImageUploadTimeout));
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);
@@ -431,7 +432,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       // TODO: добавить индикатор загрузки и кнопку отмены
       // TODO: отрабатывать тут StorageTaskEventType.failure и StorageTaskEventType.success
     });
-    // await Future.delayed(Duration(seconds: 5));
     await imageData.uploadTask.onComplete;
     if (imageData.uploadStatus == ImageUploadStatus.progress) {
       imageData.uploadStatus = null;
@@ -457,6 +457,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           imageData.uploadTask.isComplete ||
           imageData.uploadTask.isCanceled) return;
       // если сразу вызвать снаружи, то падает - обернул в try-catch
+      // TODO: если падает, то не устанавливает флаг uploadTask.isCanceled
       imageData.uploadTask.cancel();
     } catch (error) {
       debugPrint(error.toString());
