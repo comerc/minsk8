@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
@@ -15,7 +16,6 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
   String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
 
   String nextCreatedAt;
-  // bool _isFirst;
   bool _hasMore;
   bool _forceRefresh;
 
@@ -40,9 +40,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
-    // print('refresh');
     nextCreatedAt = startCreatedAt;
-    // _isFirst = true;
     _hasMore = true;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
@@ -54,7 +52,6 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
 
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
-    // print('isLoadMoreAction: $isLoadMoreAction');
     var clearAfterRequest = false;
     if (_isHandleRefresh) {
       _isHandleRefresh = false;
@@ -66,7 +63,6 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       // это флаг включается при смене таба
       _isLoadDataByTabChange = true;
     }
-    // print('loadData $_isLoadDataByTabChange $kind');
     assert(nextCreatedAt != null);
     var isSuccess = false;
     try {
@@ -75,33 +71,27 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       if (!clearAfterRequest) {
         await Future.delayed(Duration(milliseconds: 400));
       }
-      // final duration = Duration(
-      //     milliseconds: clearAfterRequest ? 10 : kGraphQLQueryTimeout * 1000);
-      final result = await client.query(options);
-      // TODO: timeout не работает, как ожидается, query всё равно резолвится
-      // .timeout(Duration(seconds: kGraphQLQueryTimeout))
+      final duration = Duration(seconds: kGraphQLQueryTimeout);
+      final result = await client.query(options).timeout(duration);
       if (result.hasException) {
         throw result.exception;
       }
-      // if (_isFirst) {
-      //   _isFirst = false;
-      //   this.clear();
-      // }
       final items = getItems(result.data);
       if (length > 0 && clearAfterRequest) {
-        // TODO: (?) как отменить IndicatorStatus.loadingMoreBusying
+        // TODO: как отменить IndicatorStatus.loadingMoreBusying?
         // indicatorStatus = IndicatorStatus.none;
         clear();
         onStateChanged(this);
-        // TODO: (?) как в Dart реализуется SetTimeout(0) для event loop
+        // TODO: по аналогии с JS, как в Dart реализуется SetTimeout(0) для event loop?
         await Future.delayed(Duration(milliseconds: 400));
       }
       addAll(items);
       isSuccess = true;
-    } catch (exception, stack) {
-      // TODO: показывать сообщение пользователю
+    } catch (exception) {
+      hasMore = false;
+      // TODO: показывать сообщение пользователю;
+      // беда в том, что тут IndicatorStatus.none
       print(exception);
-      print(stack);
     }
     return isSuccess;
   }
