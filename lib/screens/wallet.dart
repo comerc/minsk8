@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
-import 'package:sprintf/sprintf.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_list/extended_list.dart';
@@ -55,14 +54,14 @@ class WalletScreenState extends State<WalletScreen> {
                     },
                   ),
                   itemBuilder:
-                      (BuildContext context, WalletItem unit, int index) {
-                    if (unit.displayDate != null) {
+                      (BuildContext context, WalletItem item, int index) {
+                    if (item.displayDate != null) {
                       return Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(8),
                         child: Container(
                           child: Text(
-                            unit.displayDate,
+                            item.displayDate,
                             style: TextStyle(
                               fontSize: kFontSize,
                               fontWeight: FontWeight.w600,
@@ -80,11 +79,29 @@ class WalletScreenState extends State<WalletScreen> {
                         ),
                       );
                     }
-                    final paymentUnit = unit.paymentUnit;
-                    var text = paymentUnit.text;
-                    if (paymentUnit.invitedMember != null) {
-                      text =
-                          sprintf(text, [paymentUnit.invitedMember.nickname]);
+                    final paymentUnit = item.paymentUnit;
+                    var accountValue = paymentUnit.account;
+                    var text = {
+                      // TODO: переработать текст - слишком фамильярно
+                      AccountValue.start:
+                          'Добро пожаловать! Ловите {{value}} для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие вещи. Не ждите! Добавьте первый лот прямо сейчас!',
+                      AccountValue.invite:
+                          'Получено {{value}} Кармы за приглашение участника {{nickname}}. Приглашайте ещё друзей!',
+                      // TODO: несколько разных текстов для unfreeze
+                      AccountValue.unfreeze:
+                          'Разморожено {{value}} Кармы. Желаем найти что-нибудь интересное!',
+                      AccountValue.freeze:
+                          'Заморожено {{value}} Кармы. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
+                      AccountValue.limit:
+                          'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысь Карму: что-нибудь отдай или пригласи друзей',
+                      AccountValue.profit:
+                          'Получено {{value}} Кармы за лот "{{unit}}". Отдайте ещё что-нибудь ненужное!',
+                    }[accountValue];
+                    if (paymentUnit.account == AccountValue.invite) {
+                      // text = interpolate(text, params: {
+                      //   'name': paymentUnit.invitedMember.nickname,
+                      //   'greet': '${4444}'
+                      // });
                     }
                     return ListTile(
                       // TODO: иконка приглашённого пользователя

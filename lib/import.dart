@@ -11,6 +11,7 @@ export 'common/source_list.dart';
 export 'common/underway_data.dart';
 export 'common/wallet_data.dart';
 
+export 'models/account.dart';
 export 'models/chat.dart';
 export 'models/claim.dart';
 export 'models/distance.dart';

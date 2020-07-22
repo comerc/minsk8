@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
 part 'payment.g.dart';
@@ -7,7 +8,7 @@ part 'payment.g.dart';
 class PaymentModel {
   PaymentModel({
     this.id,
-    this.text,
+    this.account,
     this.value,
     this.createdAt,
     this.unit,
@@ -15,13 +16,19 @@ class PaymentModel {
   });
 
   final String id;
-  final String text;
+  final AccountValue account;
   final int value;
   final DateTime createdAt;
   @JsonKey(nullable: true)
   final UnitModel unit;
   @JsonKey(nullable: true)
   final MemberModel invitedMember;
+
+  static AccountValue _accountFromString(String value) =>
+      EnumToString.fromString(AccountValue.values, value);
+
+  static String _accountToString(AccountValue account) =>
+      EnumToString.parse(account);
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);

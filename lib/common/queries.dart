@@ -2,6 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
 // TODO: заменить class Queries.getUnits > namespace queries.getUnits
+// TODO: а может убрать time zone (timestamptz vs timestamp)?
 
 class Queries {
   static final getUnit = gql(r'''
@@ -174,7 +175,7 @@ class Queries {
         order_by: {created_at: desc}
       ) {
         id
-        text
+        account
         value
         created_at
         unit {
