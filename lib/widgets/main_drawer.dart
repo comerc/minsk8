@@ -37,14 +37,14 @@ final mainRoutes = [
     'routeName': '/about',
   },
   {
-    'title': 'Add Item',
-    'routeName': '/add_item',
-    'arguments': AddItemRouteArguments(kind: KindValue.technics),
+    'title': 'Add Unit',
+    'routeName': '/add_unit',
+    'arguments': AddUnitRouteArguments(kind: KindValue.technics),
   },
   {
-    'title': 'Edit Item',
-    'routeName': '/edit_item',
-    'arguments': EditItemRouteArguments(0),
+    'title': 'Edit Unit',
+    'routeName': '/edit_unit',
+    'arguments': EditUnitRouteArguments(0),
   },
   {
     'title': 'FAQ',
@@ -55,14 +55,14 @@ final mainRoutes = [
     'routeName': '/forgot_password',
   },
   {
-    'title': 'Item',
-    'routeName': '/item',
+    'title': 'Unit',
+    'routeName': '/unit',
     // ignore: top_level_function_literal_block
     'arguments': (BuildContext context) async {
       final profile = Provider.of<ProfileModel>(context, listen: false);
       final options = QueryOptions(
-        documentNode: Queries.getItem,
-        variables: {'id': profile.member.items[0].id},
+        documentNode: Queries.getUnit,
+        variables: {'id': profile.member.units[0].id},
         fetchPolicy: FetchPolicy.noCache,
       );
       final client = GraphQLProvider.of(context).value;
@@ -71,10 +71,10 @@ final mainRoutes = [
       if (result.hasException) {
         throw result.exception;
       }
-      final item = ItemModel.fromJson(result.data['item']);
-      return ItemRouteArguments(
-        item,
-        member: item.member,
+      final unit = UnitModel.fromJson(result.data['unit']);
+      return UnitRouteArguments(
+        unit,
+        member: unit.member,
       );
     },
   },
@@ -88,8 +88,8 @@ final mainRoutes = [
     'routeName': '/login',
   },
   {
-    'title': 'My Items',
-    'routeName': '/my_items',
+    'title': 'My Units',
+    'routeName': '/my_units',
   },
   {
     'title': 'Pay',

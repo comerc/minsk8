@@ -52,7 +52,7 @@ class NestedScrollViewScreen extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 50,
-                    child: Center(child: Text('Item $index')),
+                    child: Center(child: Text('Unit $index')),
                   );
                 })));
   }

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
-class AddedItemDialog extends StatelessWidget {
-  AddedItemDialog(this.item, {this.needModerate = false});
+class AddedUnitDialog extends StatelessWidget {
+  AddedUnitDialog(this.unit, {this.needModerate = false});
 
-  final ItemModel item;
+  final UnitModel unit;
   final bool needModerate;
 
   @override
@@ -83,7 +83,7 @@ class AddedItemDialog extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
-                    share(item);
+                    share(unit);
                   },
                   color: Colors.white,
                   textColor: Colors.red,

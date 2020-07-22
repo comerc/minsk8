@@ -15,7 +15,7 @@ class LoadDataScreen extends StatelessWidget {
       body: Center(
         child: Query(
           options: QueryOptions(
-            documentNode: Queries.getItems,
+            documentNode: Queries.getUnits,
             variables: {
               'next_created_at': '2100-01-01',
             },
@@ -33,11 +33,11 @@ class LoadDataScreen extends StatelessWidget {
               // }
               // return ListView.separated(
               //   padding: const EdgeInsets.all(8),
-              //   itemCount: result.data['items'].length,
+              //   itemCount: result.data['units'].length,
               //   itemBuilder: (BuildContext context, int index) {
-              //     final item = ItemModel.fromJson(result.data['items'][index]);
+              //     final unit = UnitModel.fromJson(result.data['units'][index]);
               //     return Container(
-              //       child: Center(child: Text('${item.id}\n${item.text}')),
+              //       child: Center(child: Text('${unit.id}\n${unit.text}')),
               //     );
               //   },
               //   separatorBuilder: (BuildContext context, int index) =>
@@ -45,19 +45,19 @@ class LoadDataScreen extends StatelessWidget {
               // );
 
               final minusOne = _hasMore ? 1 : 0;
-              final length = result.data['items'].length;
+              final length = result.data['units'].length;
               return Container(
                 child: ListView(
                   children: [
                     ...List.generate(
                         length > 0 ? length - minusOne : 0,
-                        (index) => _buildItem(result.loading,
-                            ItemModel.fromJson(result.data['items'][index]))),
+                        (index) => _buildUnit(result.loading,
+                            UnitModel.fromJson(result.data['units'][index]))),
                     // for (var index = 0;
                     //     index < length - minusOne;
                     //     index++)
-                    //   _buildItem(result.loading,
-                    //       ItemModel.fromJson(result.data['items'][index])),
+                    //   _buildUnit(result.loading,
+                    //       UnitModel.fromJson(result.data['units'][index])),
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,30 +85,30 @@ class LoadDataScreen extends StatelessWidget {
                           //       );
                           //     },
 
-                          final index = result.data['items'].length - 1;
-                          final nextItem =
-                              ItemModel.fromJson(result.data['items'][index]);
+                          final index = result.data['units'].length - 1;
+                          final nextUnit =
+                              UnitModel.fromJson(result.data['units'][index]);
                           fetchMore(
                             FetchMoreOptions(
                               variables: {
                                 'next_created_at':
-                                    nextItem.createdAt.toUtc().toIso8601String()
+                                    nextUnit.createdAt.toUtc().toIso8601String()
                               },
                               updateQuery: (
                                 previousResultData,
                                 fetchMoreResultData,
                               ) {
-                                final previousItems =
-                                    previousResultData['items'] as List;
-                                previousItems.removeLast();
-                                final fetchMoreItems =
-                                    fetchMoreResultData['items'] as List;
+                                final previousUnits =
+                                    previousResultData['units'] as List;
+                                previousUnits.removeLast();
+                                final fetchMoreUnits =
+                                    fetchMoreResultData['units'] as List;
                                 _hasMore =
-                                    fetchMoreItems.length == kGraphQLItemsLimit;
+                                    fetchMoreUnits.length == kGraphQLUnitsLimit;
                                 return {
-                                  'items': [
-                                    ...previousItems,
-                                    ...fetchMoreItems,
+                                  'units': [
+                                    ...previousUnits,
+                                    ...fetchMoreUnits,
                                   ]
                                 };
                               },
@@ -151,11 +151,11 @@ class LoadDataScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(bool isLoading, ItemModel item) {
-    // print('$isLoading - ${item.id}');
+  Widget _buildUnit(bool isLoading, UnitModel unit) {
+    // print('$isLoading - ${unit.id}');
     return ListTile(
-      title: Text(item.text),
-      subtitle: Text(item.id),
+      title: Text(unit.text),
+      subtitle: Text(unit.id),
     );
   }
 }

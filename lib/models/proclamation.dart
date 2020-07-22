@@ -7,13 +7,13 @@ part 'proclamation.g.dart';
 class ProclamationModel {
   ProclamationModel({
     this.id,
-    this.item,
+    this.unit,
     this.text,
   });
 
   final String id;
   @JsonKey(nullable: true)
-  final ItemModel item;
+  final UnitModel unit;
   final String text;
 
   factory ProclamationModel.fromJson(Map<String, dynamic> json) =>

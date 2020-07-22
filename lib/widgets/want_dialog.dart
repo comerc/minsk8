@@ -10,9 +10,9 @@ import 'package:minsk8/import.dart';
 //
 
 class WantDialog extends StatelessWidget {
-  WantDialog(this.item);
+  WantDialog(this.unit);
 
-  final ItemModel item;
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class WantDialog extends StatelessWidget {
                 width: imageHeight,
                 margin: EdgeInsets.only(bottom: kButtonHeight / 2),
                 child: ExtendedImage.network(
-                  item.images[0].getDummyUrl(item.id),
+                  unit.images[0].getDummyUrl(unit.id),
                   fit: BoxFit.cover,
                   enableLoadState: false,
                 ),
@@ -40,7 +40,7 @@ class WantDialog extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    item.price == null
+                    unit.price == null
                         ? Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -61,7 +61,7 @@ class WantDialog extends StatelessWidget {
                               alignment: Alignment.center,
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
-                                item.price.toString(),
+                                unit.price.toString(),
                                 style: TextStyle(
                                   fontSize: 23,
                                   color: Colors.red,
@@ -79,9 +79,9 @@ class WantDialog extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 16, bottom: 8),
           child: Text(
-            item.price == null
+            unit.price == null
                 ? 'Точно сможете забрать?'
-                : 'Предложить +1 = ${getPluralGold(item.price + 1)}?',
+                : 'Предложить +1 = ${getPluralGold(unit.price + 1)}?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -102,7 +102,7 @@ class WantDialog extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: Text(
-                  item.price == null
+                  unit.price == null
                       ? 'Только 6 лотов задаром в день.\n\nПовышайте Карму, чтобы увеличить лимит:\nотдавайте и забирайте, приглашайте друзей.'
                       : 'Заморозится до завершения таймера.',
                 ),
@@ -134,8 +134,8 @@ class WantDialog extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/item_map',
-                  arguments: ItemMapRouteArguments(item),
+                  '/unit_map',
+                  arguments: UnitMapRouteArguments(unit),
                 );
               },
               child: Padding(
@@ -165,7 +165,7 @@ class WantDialog extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: kButtonIconSize + 8),
                           constraints: BoxConstraints(maxWidth: 56.0 * 6),
-                          child: AddressText(item),
+                          child: AddressText(unit),
                         ),
                       ],
                     ),

@@ -3,13 +3,11 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
-part 'item.g.dart';
-
-// TODO: переименовать item > unit
+part 'unit.g.dart';
 
 @JsonSerializable()
-class ItemModel {
-  ItemModel({
+class UnitModel {
+  UnitModel({
     this.id,
     this.createdAt,
     this.text,
@@ -30,7 +28,7 @@ class ItemModel {
   final String id;
   final DateTime createdAt;
   final String text;
-  @JsonKey(nullable: true) // надо для items.member.items и profile.member.items
+  @JsonKey(nullable: true) // надо для units.member.units и profile.member.units
   final MemberModel member;
   final List<ImageModel> images;
   @JsonKey(nullable: true)
@@ -100,11 +98,11 @@ class ItemModel {
     };
   }
 
-  bool get isLocalDeleted => localDeletedItemIds.contains(id);
+  bool get isLocalDeleted => localDeletedUnitIds.contains(id);
   bool get isBlockedOrLocalDeleted => (isBlocked ?? false) || isLocalDeleted;
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) =>
-      _$ItemModelFromJson(json);
+  factory UnitModel.fromJson(Map<String, dynamic> json) =>
+      _$UnitModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ItemModelToJson(this);
+  Map<String, dynamic> toJson() => _$UnitModelToJson(this);
 }

@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class GiftButton extends StatelessWidget {
-  GiftButton(this.item);
+  GiftButton(this.unit);
 
-  final ItemModel item;
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {

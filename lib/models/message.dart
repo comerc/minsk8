@@ -33,6 +33,6 @@ class MessageModel {
   Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
 
-enum MessageAuthor { item_owner, companion }
+enum MessageAuthor { unit_owner, companion }
 
 // TODO: прикрутить flutter_svg + https://www.google.com/get/noto/help/emoji/

@@ -1,3 +1,3 @@
-update item set (total_wishes) = 
-  (select count(*) as total from wish where item.id = wish.item_id group by item_id) 
-  from wish where item.id = wish.item_id
+update unit set (total_wishes) = 
+  (select count(*) as total from wish where unit.id = wish.unit_id group by unit_id) 
+  from wish where unit.id = wish.unit_id

@@ -39,13 +39,13 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final children = List.generate(
       _tabs.length,
-      (index) => _buildTabItem(
+      (index) => _buildTabUnit(
         context: context,
         index: index,
         isSelected: index == tabIndex,
       ),
     );
-    children.insert(children.length >> 1, _buildMiddleTabItem());
+    children.insert(children.length >> 1, _buildMiddleTabUnit());
     return BottomAppBar(
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -59,7 +59,7 @@ class NavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildMiddleTabItem() {
+  Widget _buildMiddleTabUnit() {
     return Expanded(
       child: SizedBox(
         height: _height,
@@ -74,7 +74,7 @@ class NavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildTabItem({
+  Widget _buildTabUnit({
     BuildContext context,
     int index,
     bool isSelected,

@@ -3,16 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class WantButton extends StatelessWidget {
-  WantButton(this.item);
+  WantButton(this.unit);
 
-  final ItemModel item;
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
       message: 'Want',
       child: Material(
-        color: item.isClosed ? null : Colors.red,
+        color: unit.isClosed ? null : Colors.red,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),
@@ -23,7 +23,7 @@ class WantButton extends StatelessWidget {
               _getText(),
               style: TextStyle(
                 fontSize: 18,
-                color: item.isClosed
+                color: unit.isClosed
                     ? Colors.black.withOpacity(0.8)
                     : Colors.white,
                 fontWeight: FontWeight.w600,
@@ -35,14 +35,14 @@ class WantButton extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 // сначала isLocalDeleted, потом isBlocked
-                if (item.isLocalDeleted) {
+                if (unit.isLocalDeleted) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.ban,
                     title: 'Лот удалён',
                     description: 'Вы удалили этот лот',
                   );
                 }
-                if (item.isBlocked ?? false) {
+                if (unit.isBlocked ?? false) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.ban,
                     title: 'Лот заблокирован',
@@ -50,15 +50,15 @@ class WantButton extends StatelessWidget {
                         'Когда всё хорошо начиналось,\nно потом что-то пошло не так',
                   );
                 }
-                if (item.win != null) {
+                if (unit.win != null) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.trophy,
-                    title: 'Лот получил(а) — ${item.win.member.nickname}. УРА!',
+                    title: 'Лот получил(а) — ${unit.win.member.nickname}. УРА!',
                     description:
                         'Следите за новыми лотами —\nзаберите тоже что-то крутое\n\nИли что-нибудь отдайте!',
                   );
                 }
-                if (item.isExpired) {
+                if (unit.isExpired) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.frog,
                     title: 'Аукцион по лоту завершён',
@@ -66,7 +66,7 @@ class WantButton extends StatelessWidget {
                         'Дождитесь объявления победителя,\nвозможно именно Вам повезёт!',
                   );
                 }
-                return WantDialog(item);
+                return WantDialog(unit);
               },
             );
           },
@@ -76,12 +76,12 @@ class WantButton extends StatelessWidget {
   }
 
   String _getText() {
-    if (item.isBlocked ?? false || item.isLocalDeleted) {
+    if (unit.isBlocked ?? false || unit.isLocalDeleted) {
       return 'ЗАБЛОКИРОВАНО';
     }
-    if (item.win != null) {
+    if (unit.win != null) {
       return 'УЖЕ ЗАБРАЛИ';
     }
-    return item.isExpired ? 'ЗАВЕРШЕНО' : 'ХОЧУ ЗАБРАТЬ';
+    return unit.isExpired ? 'ЗАВЕРШЕНО' : 'ХОЧУ ЗАБРАТЬ';
   }
 }

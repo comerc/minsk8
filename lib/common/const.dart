@@ -7,7 +7,7 @@ const kFontSize = 12.0;
 const kNavigationBarHeight = 60.0;
 const kStorageBucket = 'gs://minsk8-2.appspot.com';
 const kGraphQLEndpoint = 'https://minsk8.herokuapp.com/v1/graphql';
-const kGraphQLItemsLimit = 11; // заложен +1 для вычисления 'hasMore'
+const kGraphQLUnitsLimit = 11; // заложен +1 для вычисления 'hasMore'
 const kGraphQLPaymentsLimit = 21; // заложен +1 для вычисления 'hasMore'
 // TODO: нужно проксировать через свой backend на случай отказа в обсуживании.
 const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
@@ -27,7 +27,7 @@ const kGraphQLQueryTimeoutDuration = Duration(seconds: 20);
 const kImageUploadTimeoutDuration = Duration(seconds: 20);
 const kAppBarElevation = 4.0; // [AppBar] uses a default value of 4.0.
 const kButtonElevation = 2.0;
-const kInitialRouteName = '/wallet';
+const kInitialRouteName = '/start';
 const kSmallWidth = 600;
 const kMediumWidth = 1200;
 const kLargeWidth = 2400;

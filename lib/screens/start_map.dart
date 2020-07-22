@@ -21,7 +21,7 @@ class StartMapScreenState extends State<StartMapScreen> {
         kDefaultMapCenter[1],
       ),
       zoom: 8,
-      saveModes: [MapSaveMode.showcase, MapSaveMode.myItem],
+      saveModes: [MapSaveMode.showcase, MapSaveMode.myUnit],
     );
     if (_isInfo) {
       body = MapInfo(

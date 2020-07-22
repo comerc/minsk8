@@ -7,15 +7,15 @@ part 'wish.g.dart';
 class WishModel {
   WishModel({
     this.createdAt,
-    this.item,
-    this.itemId,
+    this.unit,
+    this.unitId,
   });
 
   final DateTime createdAt;
   @JsonKey(nullable: true) // надо для MyWishesModel
-  ItemModel item;
-  @JsonKey(nullable: true) // надо для getWishItems
-  final String itemId;
+  UnitModel unit;
+  @JsonKey(nullable: true) // надо для getWishUnits
+  final String unitId;
 
   factory WishModel.fromJson(Map<String, dynamic> json) =>
       _$WishModelFromJson(json);

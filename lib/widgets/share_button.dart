@@ -7,11 +7,11 @@ import 'package:minsk8/import.dart';
 
 class ShareButton extends StatelessWidget {
   ShareButton(
-    this.item, {
+    this.unit, {
     this.iconSize = kButtonIconSize,
   });
 
-  final ItemModel item;
+  final UnitModel unit;
   final double iconSize;
 
   @override
@@ -35,15 +35,15 @@ class ShareButton extends StatelessWidget {
   }
 
   _onTap() {
-    share(item);
+    share(unit);
   }
 }
 
 // TODO: реализовать ожидание для buildShortLink()
-void share(ItemModel item) async {
+void share(UnitModel unit) async {
   final parameters = DynamicLinkParameters(
     uriPrefix: 'https://minsk8.page.link',
-    link: Uri.parse('https://minsk8.example.com/item?id=${item.id}'),
+    link: Uri.parse('https://minsk8.example.com/unit?id=${unit.id}'),
     androidParameters: AndroidParameters(
       packageName: 'com.example.minsk8',
       minimumVersion: 1,
@@ -63,7 +63,7 @@ void share(ItemModel item) async {
   );
   final shortLink = await parameters.buildShortLink();
   final url = shortLink.shortUrl;
-  // print('${item.id} $url');
+  // print('${unit.id} $url');
   // TODO: изменить тексты
   // ignore: unawaited_futures
   Share.share(

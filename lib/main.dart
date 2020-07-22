@@ -94,7 +94,7 @@ void main() {
 
 // TODO: переименовать в appData
 PersistedData appState;
-final localDeletedItemIds = <String>{}; // ie Set()
+final localDeletedUnitIds = <String>{}; // ie Set()
 
 class App extends StatelessWidget {
   static final analytics = FirebaseAnalytics();
@@ -169,8 +169,8 @@ class App extends StatelessWidget {
                         create: (_) => MyWishesModel.fromJson(result.data)),
                     ChangeNotifierProvider<DistanceModel>(
                         create: (_) => DistanceModel()),
-                    ChangeNotifierProvider<MyItemMapModel>(
-                        create: (_) => MyItemMapModel()),
+                    ChangeNotifierProvider<MyUnitMapModel>(
+                        create: (_) => MyUnitMapModel()),
                   ],
                   child: MediaQueryWrap(child),
                 );
@@ -191,22 +191,18 @@ class App extends StatelessWidget {
         '/_notifiaction': (_) => NotificationScreen(),
         // ****
         '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
-        '/add_item': (BuildContext context) =>
-            AddItemScreen(ModalRoute.of(context).settings.arguments),
-        '/edit_item': (BuildContext context) =>
-            EditItemScreen(ModalRoute.of(context).settings.arguments),
+        '/add_unit': (BuildContext context) =>
+            AddUnitScreen(ModalRoute.of(context).settings.arguments),
+        '/edit_unit': (BuildContext context) =>
+            EditUnitScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => MarkdownScreen('faq.md', title: 'Вопросы и ответы'),
         '/feedback': (_) => FeedbackScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/how_to_pay': (_) => HowToPayScreen(),
-        '/item_map': (BuildContext context) =>
-            ItemMapScreen(ModalRoute.of(context).settings.arguments),
-        '/item': (BuildContext context) =>
-            ItemScreen(ModalRoute.of(context).settings.arguments),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
         '/login': (_) => LoginScreen(),
-        '/my_item_map': (_) => MyItemMapScreen(),
+        '/my_unit_map': (_) => MyUnitMapScreen(),
         '/pay': (_) => PayScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
@@ -214,6 +210,10 @@ class App extends StatelessWidget {
         '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
         '/start_map': (_) => StartMapScreen(),
+        '/unit': (BuildContext context) =>
+            UnitScreen(ModalRoute.of(context).settings.arguments),
+        '/unit_map': (BuildContext context) =>
+            UnitMapScreen(ModalRoute.of(context).settings.arguments),
         '/useful_tips': (_) =>
             MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
         '/wallet': (_) => WalletScreen(),
@@ -221,14 +221,14 @@ class App extends StatelessWidget {
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
       // onGenerateRoute: (RouteSettings settings) {
-      //   // if (settings.name == '/item') {
+      //   // if (settings.name == '/unit') {
       //   //   return Platform.isIOS
       //   //       ? TransparentCupertinoPageRoute(
       //   //           settings: settings,
-      //   //           builder: (BuildContext context) => ItemScreen())
+      //   //           builder: (BuildContext context) => UnitScreen())
       //   //       : TransparentMaterialPageRoute(
       //   //           settings: settings,
-      //   //           builder: (BuildContext context) => ItemScreen());
+      //   //           builder: (BuildContext context) => UnitScreen());
       //   // }
       //   print('onGenerateRoute: $settings');
       //   return null;

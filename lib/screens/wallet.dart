@@ -43,26 +43,26 @@ class WalletScreenState extends State<WalletScreen> {
                   extendedListDelegate: ExtendedListDelegate(
                     collectGarbage: (List<int> garbages) {
                       garbages.forEach((index) {
-                        final item =
-                            WalletScreen.sourceList[index].paymentItem?.item;
-                        if (item == null) return;
-                        final image = item.images[0];
+                        final unit =
+                            WalletScreen.sourceList[index].paymentUnit?.unit;
+                        if (unit == null) return;
+                        final image = unit.images[0];
                         final provider = ExtendedNetworkImageProvider(
-                          image.getDummyUrl(item.id),
+                          image.getDummyUrl(unit.id),
                         );
                         provider.evict();
                       });
                     },
                   ),
                   itemBuilder:
-                      (BuildContext context, WalletItem item, int index) {
-                    if (item.displayDate != null) {
+                      (BuildContext context, WalletItem unit, int index) {
+                    if (unit.displayDate != null) {
                       return Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(8),
                         child: Container(
                           child: Text(
-                            item.displayDate,
+                            unit.displayDate,
                             style: TextStyle(
                               fontSize: kFontSize,
                               fontWeight: FontWeight.w600,
@@ -80,11 +80,11 @@ class WalletScreenState extends State<WalletScreen> {
                         ),
                       );
                     }
-                    final paymentItem = item.paymentItem;
-                    var text = paymentItem.text;
-                    if (paymentItem.invitedMember != null) {
+                    final paymentUnit = unit.paymentUnit;
+                    var text = paymentUnit.text;
+                    if (paymentUnit.invitedMember != null) {
                       text =
-                          sprintf(text, [paymentItem.invitedMember.nickname]);
+                          sprintf(text, [paymentUnit.invitedMember.nickname]);
                     }
                     return ListTile(
                       // TODO: иконка приглашённого пользователя
@@ -97,7 +97,7 @@ class WalletScreenState extends State<WalletScreen> {
                       title: Text(text),
                       subtitle: Text(
                         DateFormat.jm('ru_RU').format(
-                          paymentItem.createdAt.toLocal(),
+                          paymentUnit.createdAt.toLocal(),
                         ),
                       ),
                       dense: true,

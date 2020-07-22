@@ -67,10 +67,10 @@ class _MapReadyButtonState extends State<MapReadyButton> {
         appState['ShowcaseMap.zoom'] = zoom;
         appState['ShowcaseMap.radius'] = radius;
       }
-      if (saveModes.contains(MapSaveMode.myItem)) {
-        appState['MyItemMap.center'] = [center.latitude, center.longitude];
-        appState['MyItemMap.address'] = value.detail;
-        appState['MyItemMap.zoom'] = zoom;
+      if (saveModes.contains(MapSaveMode.myUnit)) {
+        appState['MyUnitMap.center'] = [center.latitude, center.longitude];
+        appState['MyUnitMap.address'] = value.detail;
+        appState['MyUnitMap.zoom'] = zoom;
       }
       Navigator.of(context).pop(true);
     }).catchError((error) {

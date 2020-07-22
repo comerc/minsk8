@@ -8,12 +8,12 @@ part 'suggestion.g.dart';
 class SuggestionModel {
   SuggestionModel({
     this.id,
-    this.item,
+    this.unit,
     this.question,
   });
 
   final String id;
-  final ItemModel item;
+  final UnitModel unit;
   @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
   final QuestionValue question;
 

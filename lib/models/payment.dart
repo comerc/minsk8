@@ -10,7 +10,7 @@ class PaymentModel {
     this.text,
     this.value,
     this.createdAt,
-    this.item,
+    this.unit,
     this.invitedMember,
   });
 
@@ -19,7 +19,7 @@ class PaymentModel {
   final int value;
   final DateTime createdAt;
   @JsonKey(nullable: true)
-  final ItemModel item;
+  final UnitModel unit;
   @JsonKey(nullable: true)
   final MemberModel invitedMember;
 

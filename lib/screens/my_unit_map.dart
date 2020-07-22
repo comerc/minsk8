@@ -5,14 +5,14 @@ import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class MyItemMapScreen extends StatefulWidget {
+class MyUnitMapScreen extends StatefulWidget {
   @override
-  _MyItemMapScreenState createState() {
-    return _MyItemMapScreenState();
+  _MyUnitMapScreenState createState() {
+    return _MyUnitMapScreenState();
   }
 }
 
-class _MyItemMapScreenState extends State<MyItemMapScreen> {
+class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
   bool _isPostFrame = false;
   Timer _timer;
 
@@ -32,20 +32,20 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
   Widget build(BuildContext context) {
     Widget body = MapWidget(
       center: LatLng(
-        appState['MyItemMap.center'][0],
-        appState['MyItemMap.center'][1],
+        appState['MyUnitMap.center'][0],
+        appState['MyUnitMap.center'][1],
       ),
-      zoom: appState['MyItemMap.zoom'],
-      isMyItem: true,
+      zoom: appState['MyUnitMap.zoom'],
+      isMyUnit: true,
       onPositionChanged: _onPositionChanged,
     );
-    if (appState['MyItemMap.isInfo'] ?? true) {
+    if (appState['MyUnitMap.isInfo'] ?? true) {
       body = MapInfo(
         text:
             'Укажите местоположение лота, чтобы участники поблизости его увидели',
         child: body,
         onClose: () {
-          appState['MyItemMap.isInfo'] = false;
+          appState['MyUnitMap.isInfo'] = false;
           setState(() {});
         },
       );
@@ -64,9 +64,9 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
 
   void _onPositionChanged(MapPosition position, bool hasGesture) {
     if (!_isPostFrame) return;
-    final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
-    if (myItemMap.visible) {
-      myItemMap.hide();
+    final myUnitMap = Provider.of<MyUnitMapModel>(context, listen: false);
+    if (myUnitMap.visible) {
+      myUnitMap.hide();
     }
     _disposeTimer();
     _timer = Timer(Duration(milliseconds: kAnimationTime), () {
@@ -74,7 +74,7 @@ class _MyItemMapScreenState extends State<MyItemMapScreen> {
       _timer = null;
       MapWidget.placemarkFromCoordinates(position.center)
           .then((MapAddress value) {
-        myItemMap.show(value.detail);
+        myUnitMap.show(value.detail);
       });
     });
   }

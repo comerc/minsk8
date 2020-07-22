@@ -4,7 +4,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'area_layer.dart';
-import 'my_item_layer.dart';
+import 'my_unit_layer.dart';
 import 'scale_layer.dart';
 import 'zoom_layer.dart';
 import 'package:minsk8/import.dart';
@@ -16,7 +16,7 @@ class MapAddress {
   String detail = '(none)';
 }
 
-enum MapSaveMode { showcase, myItem }
+enum MapSaveMode { showcase, myUnit }
 
 class MapWidget extends StatefulWidget {
   MapWidget({
@@ -24,7 +24,7 @@ class MapWidget extends StatefulWidget {
     this.zoom,
     this.onPositionChanged,
     this.markerPoint,
-    this.isMyItem = false,
+    this.isMyUnit = false,
     this.saveModes,
   }) : super(key: globalKey);
 
@@ -34,7 +34,7 @@ class MapWidget extends StatefulWidget {
   final double zoom;
   final PositionCallback onPositionChanged;
   final LatLng markerPoint;
-  final bool isMyItem;
+  final bool isMyUnit;
   final List<MapSaveMode> saveModes;
 
   @override
@@ -262,7 +262,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
         plugins: [
-          widget.isMyItem ? MapMyItemLayer() : MapAreaLayer(),
+          widget.isMyUnit ? MapMyUnitLayer() : MapAreaLayer(),
           MapScaleLayer(),
           if (isInDebugMode) MapZoomLayer(),
         ],
@@ -302,12 +302,12 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               ),
             ],
           ),
-        if (widget.isMyItem)
-          MapMyItemLayerOptions(
+        if (widget.isMyUnit)
+          MapMyUnitLayerOptions(
             markerIconSize: markerIconSize,
             onCurrentPosition: _onCurrentPosition,
           ),
-        if (!widget.isMyItem)
+        if (!widget.isMyUnit)
           MapAreaLayerOptions(
             markerIconSize: markerIconSize,
             onCurrentPosition: _onCurrentPosition,

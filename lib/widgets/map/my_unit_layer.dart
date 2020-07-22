@@ -3,49 +3,49 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class MapMyItemLayerOptions extends LayerOptions {
+class MapMyUnitLayerOptions extends LayerOptions {
   final double markerIconSize;
   final MapCurrentPositionCallback onCurrentPosition;
 
-  MapMyItemLayerOptions({
+  MapMyUnitLayerOptions({
     this.markerIconSize,
     this.onCurrentPosition,
   });
 }
 
-class MapMyItemLayer implements MapPlugin {
+class MapMyUnitLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapMyItemLayerOptions)) {
-      throw Exception('Unknown options type for MapMyItemLayer'
+    if (!(options is MapMyUnitLayerOptions)) {
+      throw Exception('Unknown options type for MapMyUnitLayer'
           'plugin: $options');
     }
-    return _MapMyItemLayer(options: options, mapState: mapState);
+    return _MapMyUnitLayer(options: options, mapState: mapState);
   }
 
   @override
   bool supportsLayer(LayerOptions options) {
-    return options is MapMyItemLayerOptions;
+    return options is MapMyUnitLayerOptions;
   }
 }
 
-class _MapMyItemLayer extends StatefulWidget {
-  final MapMyItemLayerOptions options;
+class _MapMyUnitLayer extends StatefulWidget {
+  final MapMyUnitLayerOptions options;
   final MapState mapState;
 
-  _MapMyItemLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapMyUnitLayer({Key key, this.options, this.mapState}) : super(key: key);
 
   @override
-  _MapMyItemLayerState createState() => _MapMyItemLayerState();
+  _MapMyUnitLayerState createState() => _MapMyUnitLayerState();
 }
 
-class _MapMyItemLayerState extends State<_MapMyItemLayer> {
+class _MapMyUnitLayerState extends State<_MapMyUnitLayer> {
   @override
   void initState() {
     super.initState();
-    final myItemMap = Provider.of<MyItemMapModel>(context, listen: false);
-    myItemMap.init();
+    final myUnitMap = Provider.of<MyUnitMapModel>(context, listen: false);
+    myUnitMap.init();
   }
 
   @override
@@ -75,7 +75,7 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
             MapReadyButton(
               center: widget.mapState.center,
               zoom: widget.mapState.zoom,
-              saveModes: [MapSaveMode.myItem],
+              saveModes: [MapSaveMode.myUnit],
             ),
           ],
         ),
@@ -87,10 +87,10 @@ class _MapMyItemLayerState extends State<_MapMyItemLayer> {
 class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final myItemMap = Provider.of<MyItemMapModel>(context);
+    final myUnitMap = Provider.of<MyUnitMapModel>(context);
     return _AnimatedLabel(
-      visible: myItemMap.visible,
-      address: myItemMap.address,
+      visible: myUnitMap.visible,
+      address: myUnitMap.address,
     );
   }
 }

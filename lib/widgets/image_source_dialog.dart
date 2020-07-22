@@ -9,12 +9,12 @@ Future<ImageSource> showImageSourceDialog(BuildContext context) {
     builder: (context) => SimpleDialog(
       title: Text('Что использовать?'),
       children: [
-        _ImageSourceItem(
+        _ImageSourceUnit(
           icon: FontAwesomeIcons.camera,
           text: 'Камера',
           result: ImageSource.camera,
         ),
-        _ImageSourceItem(
+        _ImageSourceUnit(
           icon: FontAwesomeIcons.solidImages,
           text: 'Галерея',
           result: ImageSource.gallery,
@@ -24,8 +24,8 @@ Future<ImageSource> showImageSourceDialog(BuildContext context) {
   );
 }
 
-class _ImageSourceItem extends StatelessWidget {
-  _ImageSourceItem({
+class _ImageSourceUnit extends StatelessWidget {
+  _ImageSourceUnit({
     Key key,
     this.icon,
     this.text,

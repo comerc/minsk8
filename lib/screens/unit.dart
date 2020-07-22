@@ -10,14 +10,14 @@ import 'package:minsk8/import.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
 
-class ItemScreen extends StatefulWidget {
-  ItemScreen(this.arguments);
+class UnitScreen extends StatefulWidget {
+  UnitScreen(this.arguments);
 
-  final ItemRouteArguments arguments;
+  final UnitRouteArguments arguments;
 
   @override
-  _ItemScreenState createState() {
-    return _ItemScreenState();
+  _UnitScreenState createState() {
+    return _UnitScreenState();
   }
 }
 
@@ -27,28 +27,28 @@ enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
-class _ItemScreenState extends State<ItemScreen> {
+class _UnitScreenState extends State<UnitScreen> {
   var _showHero;
   var _isCarouselSlider = true;
   var _currentIndex = 0;
   final _panelColumnKey = GlobalKey();
   double _panelMaxHeight;
-  List<ItemModel> _otherItems;
+  List<UnitModel> _otherUnits;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    final item = widget.arguments.item;
+    final unit = widget.arguments.unit;
     if (widget.arguments.isShowcase ?? false) {
       _showHero = _ShowHero.forShowcase;
     }
-    _initOtherItems();
+    _initOtherUnits();
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     final distance = Provider.of<DistanceModel>(context, listen: false);
-    distance.updateValue(item.location);
-    distance.updateCurrentPosition(item.location);
-    App.analytics.setCurrentScreen(screenName: '/item ${item.id}');
+    distance.updateValue(unit.location);
+    distance.updateCurrentPosition(unit.location);
+    App.analytics.setCurrentScreen(screenName: '/unit ${unit.id}');
   }
 
   void _onAfterBuild(Duration timeStamp) {
@@ -61,27 +61,27 @@ class _ItemScreenState extends State<ItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.arguments.item;
-    final tag = '${HomeScreen.globalKey.currentState.tagPrefix}-${item.id}';
+    final unit = widget.arguments.unit;
+    final tag = '${HomeScreen.globalKey.currentState.tagPrefix}-${unit.id}';
     final size = MediaQuery.of(context).size;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
     final carouselSliderHeight = bodyHeight / kGoldenRatio -
-        ItemCarouselSliderSettings.verticalPadding * 2;
+        UnitCarouselSliderSettings.verticalPadding * 2;
     final panelMinHeight = bodyHeight - bodyHeight / kGoldenRatio;
     final panelChildWidth = size.width - 32.0; // for padding
     final panelSlideLabelWidth = 32.0;
     final separatorWidth = 16.0;
-    final otherItemWidth = (size.width - 4 * separatorWidth) / 3.25;
+    final otherUnitWidth = (size.width - 4 * separatorWidth) / 3.25;
     final member = widget.arguments.member;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: _buildStatusText(item),
+          title: _buildStatusText(unit),
           centerTitle: true,
-          backgroundColor: item.isClosed
+          backgroundColor: unit.isClosed
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
           actions: [
@@ -99,8 +99,8 @@ class _ItemScreenState extends State<ItemScreen> {
                   if (result != true) return;
                   final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
-                    documentNode: Mutations.deleteItem,
-                    variables: {'id': item.id},
+                    documentNode: Mutations.deleteUnit,
+                    variables: {'id': unit.id},
                     fetchPolicy: FetchPolicy.noCache,
                   );
                   // ignore: unawaited_futures
@@ -111,19 +111,19 @@ class _ItemScreenState extends State<ItemScreen> {
                     if (result.hasException) {
                       throw result.exception;
                     }
-                    if (result.data['update_item']['affected_rows'] != 1) {
-                      throw Exception('Invalid update_item.affected_rows');
+                    if (result.data['update_unit']['affected_rows'] != 1) {
+                      throw Exception('Invalid update_unit.affected_rows');
                     }
                   }).catchError((error) {
                     print(error);
                     if (mounted) {
                       setState(() {
-                        localDeletedItemIds.remove(item.id);
+                        localDeletedUnitIds.remove(unit.id);
                       });
                     }
                   });
                   setState(() {
-                    localDeletedItemIds.add(item.id);
+                    localDeletedUnitIds.add(unit.id);
                   });
                 }
                 if (value == _PopupMenuValue.toModerate) {
@@ -141,7 +141,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   final options = MutationOptions(
                     documentNode: Mutations.upsertModeration,
                     variables: {
-                      'item_id': item.id,
+                      'unit_id': unit.id,
                       'claim': EnumToString.parse(result),
                     },
                     fetchPolicy: FetchPolicy.noCache,
@@ -181,7 +181,7 @@ class _ItemScreenState extends State<ItemScreen> {
                   final options = MutationOptions(
                     documentNode: Mutations.insertSuggestion,
                     variables: {
-                      'item_id': item.id,
+                      'unit_id': unit.id,
                       'question': EnumToString.parse(result),
                     },
                     fetchPolicy: FetchPolicy.noCache,
@@ -208,21 +208,21 @@ class _ItemScreenState extends State<ItemScreen> {
                 final profile =
                     Provider.of<ProfileModel>(context, listen: false);
                 final isMy = profile.member.id == member.id;
-                final submenuItems = <PopupMenuEntry<_PopupMenuValue>>[];
-                if (!isMy && !item.isClosed) {
-                  submenuItems.add(PopupMenuItem(
+                final submenuUnits = <PopupMenuEntry<_PopupMenuValue>>[];
+                if (!isMy && !unit.isClosed) {
+                  submenuUnits.add(PopupMenuItem(
                     value: _PopupMenuValue.askQuestion,
                     child: Text('Задать вопрос по лоту'),
                   ));
                 }
                 if (!isMy) {
-                  submenuItems.add(PopupMenuItem(
+                  submenuUnits.add(PopupMenuItem(
                     value: _PopupMenuValue.toModerate,
                     child: Text('Пожаловаться на лот'),
                   ));
                 }
-                if (isMy && !item.isClosed) {
-                  submenuItems.add(PopupMenuItem(
+                if (isMy && !unit.isClosed) {
+                  submenuUnits.add(PopupMenuItem(
                     value: _PopupMenuValue.delete,
                     child: Text('Удалить лот'),
                   ));
@@ -254,8 +254,8 @@ class _ItemScreenState extends State<ItemScreen> {
                       ],
                     ),
                   ),
-                  if (submenuItems.isNotEmpty) PopupMenuDivider(),
-                  ...submenuItems,
+                  if (submenuUnits.isNotEmpty) PopupMenuDivider(),
+                  ...submenuUnits,
                 ];
               },
             ),
@@ -267,7 +267,7 @@ class _ItemScreenState extends State<ItemScreen> {
               body: Column(
                 children: [
                   SizedBox(
-                    height: ItemCarouselSliderSettings.verticalPadding,
+                    height: UnitCarouselSliderSettings.verticalPadding,
                   ),
                   Stack(
                     children: [
@@ -277,15 +277,15 @@ class _ItemScreenState extends State<ItemScreen> {
                           child: SizedBox(
                             height: carouselSliderHeight,
                             width: size.width *
-                                    ItemCarouselSliderSettings
+                                    UnitCarouselSliderSettings
                                         .viewportFraction -
-                                ItemCarouselSliderSettings
-                                        .itemHorizontalMargin *
+                                UnitCarouselSliderSettings
+                                        .unitHorizontalMargin *
                                     2,
                             child: Hero(
                               tag: tag,
                               child: ExtendedImage.network(
-                                item.images[_currentIndex].getDummyUrl(item.id),
+                                unit.images[_currentIndex].getDummyUrl(unit.id),
                                 fit: BoxFit.cover,
                                 enableLoadState: false,
                               ),
@@ -320,21 +320,21 @@ class _ItemScreenState extends State<ItemScreen> {
                         CarouselSlider(
                           initialPage: _currentIndex,
                           height: carouselSliderHeight,
-                          autoPlay: item.images.length > 1,
-                          enableInfiniteScroll: item.images.length > 1,
+                          autoPlay: unit.images.length > 1,
+                          enableInfiniteScroll: unit.images.length > 1,
                           pauseAutoPlayOnTouch: const Duration(seconds: 10),
                           enlargeCenterPage: true,
                           viewportFraction:
-                              ItemCarouselSliderSettings.viewportFraction,
+                              UnitCarouselSliderSettings.viewportFraction,
                           onPageChanged: (index) {
                             _currentIndex = index;
                           },
-                          items: List.generate(item.images.length, (index) {
+                          items: List.generate(unit.images.length, (index) {
                             return Container(
                               width: size.width,
                               margin: EdgeInsets.symmetric(
-                                  horizontal: ItemCarouselSliderSettings
-                                      .itemHorizontalMargin),
+                                  horizontal: UnitCarouselSliderSettings
+                                      .unitHorizontalMargin),
                               child: Material(
                                 child: InkWell(
                                   onTap: () async {
@@ -355,7 +355,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                       context,
                                       '/zoom',
                                       arguments: ZoomRouteArguments(
-                                        item,
+                                        unit,
                                         tag: tag,
                                         index: index,
                                         onWillPop: _onWillPopForZoom,
@@ -366,7 +366,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                   child: Ink.image(
                                     fit: BoxFit.cover,
                                     image: ExtendedImage.network(
-                                      item.images[index].getDummyUrl(item.id),
+                                      unit.images[index].getDummyUrl(unit.id),
                                       loadStateChanged: loadStateChanged,
                                     ).image,
                                   ),
@@ -407,9 +407,9 @@ class _ItemScreenState extends State<ItemScreen> {
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
                               children: [
-                                item.price == null
-                                    ? GiftButton(item)
-                                    : PriceButton(item),
+                                unit.price == null
+                                    ? GiftButton(unit)
+                                    : PriceButton(unit),
                                 Spacer(),
                               ],
                             ),
@@ -434,9 +434,9 @@ class _ItemScreenState extends State<ItemScreen> {
                                   });
                                   Navigator.pushNamed(
                                     context,
-                                    '/item_map',
-                                    arguments: ItemMapRouteArguments(
-                                      item,
+                                    '/unit_map',
+                                    arguments: UnitMapRouteArguments(
+                                      unit,
                                     ),
                                   ).then((_) {
                                     setState(() {
@@ -455,12 +455,12 @@ class _ItemScreenState extends State<ItemScreen> {
                         padding: EdgeInsets.only(top: 16),
                         width: panelChildWidth,
                         child: Text(
-                          item.text,
+                          unit.text,
                           maxLines: 8,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (!item.isBlockedOrLocalDeleted)
+                      if (!unit.isBlockedOrLocalDeleted)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: panelChildWidth,
@@ -471,7 +471,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.isNotEmpty)
+                      if (_otherUnits.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(top: 24),
                           width: panelChildWidth,
@@ -483,21 +483,21 @@ class _ItemScreenState extends State<ItemScreen> {
                             ),
                           ),
                         ),
-                      if (_otherItems.isNotEmpty)
+                      if (_otherUnits.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,
-                          height: otherItemWidth, // * 1,
+                          height: otherUnitWidth, // * 1,
                           child: ListView.separated(
                             padding: EdgeInsets.symmetric(
                               horizontal: separatorWidth,
                             ),
                             scrollDirection: Axis.horizontal,
-                            itemCount: _otherItems.length,
+                            itemCount: _otherUnits.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final otherItem = _otherItems[index];
+                              final otherUnit = _otherUnits[index];
                               return Container(
-                                width: otherItemWidth,
+                                width: otherUnitWidth,
                                 color: Colors.red,
                                 child: Material(
                                   child: InkWell(
@@ -506,25 +506,25 @@ class _ItemScreenState extends State<ItemScreen> {
                                     onTap: () {
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,
-                                        '/item',
+                                        '/unit',
                                         (Route route) {
-                                          return route.settings.name != '/item';
+                                          return route.settings.name != '/unit';
                                         },
-                                        arguments: ItemRouteArguments(
-                                          otherItem,
+                                        arguments: UnitRouteArguments(
+                                          otherUnit,
                                           member: member,
                                         ),
                                       );
                                     },
                                     splashColor: Colors.white.withOpacity(0.4),
                                     // child : Hero(
-                                    //   tag: otherItem.id,
+                                    //   tag: otherUnit.id,
                                     //   child:
                                     child: Ink.image(
                                       fit: BoxFit.cover,
                                       image: ExtendedImage.network(
-                                        otherItem.images[0]
-                                            .getDummyUrl(otherItem.id),
+                                        otherUnit.images[0]
+                                            .getDummyUrl(otherUnit.id),
                                         enableLoadState: false,
                                       ).image,
                                     ),
@@ -578,19 +578,19 @@ class _ItemScreenState extends State<ItemScreen> {
                   SizedBox(
                     width: kBigButtonWidth,
                     height: kBigButtonHeight,
-                    child: ShareButton(item, iconSize: kBigButtonIconSize),
+                    child: ShareButton(unit, iconSize: kBigButtonIconSize),
                   ),
                   SizedBox(width: 8),
                   SizedBox(
                     width: kBigButtonWidth,
                     height: kBigButtonHeight,
-                    child: WishButton(item, iconSize: kBigButtonIconSize),
+                    child: WishButton(unit, iconSize: kBigButtonIconSize),
                   ),
                   SizedBox(width: 8),
                   Expanded(
                     child: SizedBox(
                       height: kBigButtonHeight,
-                      child: WantButton(item),
+                      child: WantButton(unit),
                     ),
                   ),
                 ],
@@ -626,60 +626,60 @@ class _ItemScreenState extends State<ItemScreen> {
     return true;
   }
 
-  void _initOtherItems() {
-    final memberItems = widget.arguments.member.items;
-    final item = widget.arguments.item;
-    final result = [...memberItems];
-    result.removeWhere((removeItem) => removeItem.id == item.id);
-    _otherItems = result;
+  void _initOtherUnits() {
+    final memberUnits = widget.arguments.member.units;
+    final unit = widget.arguments.unit;
+    final result = [...memberUnits];
+    result.removeWhere((removeUnit) => removeUnit.id == unit.id);
+    _otherUnits = result;
   }
 
-  Widget _buildStatusText(ItemModel item) {
-    if (item.isBlockedOrLocalDeleted) {
+  Widget _buildStatusText(UnitModel unit) {
+    if (unit.isBlockedOrLocalDeleted) {
       return Text(
         'Заблокировано',
       );
     }
-    if (item.win != null) {
+    if (unit.win != null) {
       return Text(
-        'Победитель — ${item.win.member.nickname}',
+        'Победитель — ${unit.win.member.nickname}',
       );
     }
-    if (item.expiresAt != null) {
-      if (item.isExpired) {
+    if (unit.expiresAt != null) {
+      if (unit.isExpired) {
         return Text('Завершено');
       }
       return CountdownTimer(
-          endTime: item.expiresAt.millisecondsSinceEpoch,
+          endTime: unit.expiresAt.millisecondsSinceEpoch,
           builder: (BuildContext context, int seconds) {
             return Text(formatDDHHMMSS(seconds));
           },
           onClose: () {
-            setState(() {}); // for item.isClosed
+            setState(() {}); // for unit.isClosed
           });
     }
     return Text(
       urgents
-          .firstWhere((urgentModel) => urgentModel.value == item.urgent)
+          .firstWhere((urgentModel) => urgentModel.value == unit.urgent)
           .name,
     );
   }
 }
 
-class ItemRouteArguments {
-  ItemRouteArguments(
-    this.item, {
+class UnitRouteArguments {
+  UnitRouteArguments(
+    this.unit, {
     this.member,
     this.isShowcase,
   });
 
-  final ItemModel item;
+  final UnitModel unit;
   final MemberModel member;
   final bool isShowcase;
 }
 
-class ItemCarouselSliderSettings {
-  static const itemHorizontalMargin = 8.0;
+class UnitCarouselSliderSettings {
+  static const unitHorizontalMargin = 8.0;
   static const viewportFraction = 0.8;
   static const verticalPadding = 16.0;
 }

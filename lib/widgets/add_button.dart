@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-typedef GetTabIndexCallback = AddItemRouteArgumentsTabIndex Function();
+typedef GetTabIndexCallback = AddUnitRouteArgumentsTabIndex Function();
 
 Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
   return FloatingActionButton(
@@ -15,15 +15,15 @@ Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
         if (kind == null) return;
         Navigator.pushNamed(
           context,
-          '/add_item',
-          arguments: AddItemRouteArguments(
+          '/add_unit',
+          arguments: AddUnitRouteArguments(
             kind: kind,
             tabIndex: getTabIndex(),
           ),
         );
       });
     },
-    tooltip: 'Add Item',
+    tooltip: 'Add Unit',
     child: Icon(
       Icons.add,
       size: kBigButtonIconSize * 1.2,

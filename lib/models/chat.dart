@@ -6,24 +6,24 @@ part 'chat.g.dart';
 @JsonSerializable()
 class ChatModel {
   ChatModel({
-    this.item,
+    this.unit,
     this.companion,
     this.messages,
-    this.isItemOwnerWritesNow,
+    this.isUnitOwnerWritesNow,
     this.isCompanionWritesNow,
-    this.isItemOwnerReadAll,
+    this.isUnitOwnerReadAll,
     this.isCompanionReadAll,
   });
 
-  final ItemModel item;
+  final UnitModel unit;
   final MemberModel companion;
   final List<MessageModel> messages;
-  final bool isItemOwnerWritesNow;
+  final bool isUnitOwnerWritesNow;
   final bool isCompanionWritesNow;
-  final bool isItemOwnerReadAll;
+  final bool isUnitOwnerReadAll;
   final bool isCompanionReadAll;
 
-  String get id => '${item.id} ${companion.id}';
+  String get id => '${unit.id} ${companion.id}';
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);

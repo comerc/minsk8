@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: объединить в один запрос .want .take .past и фильтровать по is_winned на клиенте
 
-class UnderwayData extends SourceList<ItemModel> {
+class UnderwayData extends SourceList<UnitModel> {
   UnderwayData(
     GraphQLClient client,
     this.tabValue,
@@ -16,11 +16,11 @@ class UnderwayData extends SourceList<ItemModel> {
     // final variables = {'next_created_at': nextCreatedAt};
     return QueryOptions(
       documentNode: {
-        UnderwayValue.wish: Queries.getWishItems,
-        UnderwayValue.want: Queries.getWantItems,
-        // UnderwayValue.take: Queries.getTakeItems,
-        // UnderwayValue.past: Queries.getPastItems,
-        UnderwayValue.give: Queries.getGiveItems,
+        UnderwayValue.wish: Queries.getWishUnits,
+        UnderwayValue.want: Queries.getWantUnits,
+        // UnderwayValue.take: Queries.getTakeUnits,
+        // UnderwayValue.past: Queries.getPastUnits,
+        UnderwayValue.give: Queries.getGiveUnits,
       }[tabValue],
       // variables: variables,
       fetchPolicy: FetchPolicy.noCache,
@@ -28,7 +28,7 @@ class UnderwayData extends SourceList<ItemModel> {
   }
 
   @override
-  List<ItemModel> getItems(data) {
+  List<UnitModel> getItems(data) {
     final dataItems = [
       ...data[{
         UnderwayValue.wish: 'wishes',
@@ -38,8 +38,8 @@ class UnderwayData extends SourceList<ItemModel> {
         UnderwayValue.give: 'gives',
       }[tabValue]] as List
     ];
-    // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
-    final items = <ItemModel>[];
+    // сначала наполняю буфер items, если есть ошибки в UnitModel.fromJson
+    final items = <UnitModel>[];
     hasMore = false;
     for (final dataItem in dataItems) {
       final metaModel = {
@@ -55,9 +55,9 @@ class UnderwayData extends SourceList<ItemModel> {
     return items;
   }
 
-  ItemModel normalizeItem(metaModel) {
-    final item = metaModel.item;
-    metaModel.item = null;
+  UnitModel normalizeItem(metaModel) {
+    final item = metaModel.unit;
+    metaModel.unit = null;
     item.meta = metaModel;
     return item;
   }

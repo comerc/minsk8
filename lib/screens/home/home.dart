@@ -55,7 +55,7 @@ class HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: buildAddButton(
         context,
-        getTabIndex: () => AddItemRouteArgumentsTabIndex(
+        getTabIndex: () => AddUnitRouteArgumentsTabIndex(
           showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
           underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
         ),
@@ -78,14 +78,14 @@ class HomeScreenState extends State<HomeScreen> {
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
     // for StartScreen
     // ignore: unawaited_futures
-    _openDeepLink(data?.link).then((ItemRouteArguments arguments) {
+    _openDeepLink(data?.link).then((UnitRouteArguments arguments) {
       if (arguments == null) {
         Navigator.of(context).pop();
         return;
       }
       Navigator.pushReplacementNamed(
         context,
-        '/item',
+        '/unit',
         arguments: arguments,
       );
     }).catchError((error) {
@@ -101,7 +101,7 @@ class HomeScreenState extends State<HomeScreen> {
         // ignore: unawaited_futures
         Navigator.pushNamed(
           context,
-          '/item',
+          '/unit',
           arguments: arguments,
         );
       },
@@ -111,11 +111,11 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<ItemRouteArguments> _openDeepLink(Uri link) async {
-    if (link == null || link.path != '/item') return null;
+  Future<UnitRouteArguments> _openDeepLink(Uri link) async {
+    if (link == null || link.path != '/unit') return null;
     final id = link.queryParameters['id'];
     final options = QueryOptions(
-      documentNode: Queries.getItem,
+      documentNode: Queries.getUnit,
       variables: {'id': id},
       fetchPolicy: FetchPolicy.noCache,
     );
@@ -126,10 +126,10 @@ class HomeScreenState extends State<HomeScreen> {
       if (result.hasException) {
         throw result.exception;
       }
-      final item = ItemModel.fromJson(result.data['item']);
-      return ItemRouteArguments(
-        item,
-        member: item.member,
+      final unit = UnitModel.fromJson(result.data['unit']);
+      return UnitRouteArguments(
+        unit,
+        member: unit.member,
       );
     } catch (exception, stack) {
       print(exception);

@@ -41,7 +41,7 @@ class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
-        // то добавление нового item-а в /add_item зря добавит tab в widget.poolForReloadTabs,
+        // то добавление нового unit-а в /add_unit зря добавит tab в widget.poolForReloadTabs,
         // а потому удаление выполняю в любом случае, без оглядки на sourceList.isLoadDataByTabChange
         final isContaintsInPool =
             widget.poolForReloadTabs.remove(_tabController.index);

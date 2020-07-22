@@ -6,7 +6,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// TODO: (на сервере) при добавлении победителя, включать item.is_winned - для фильтрации витрины
+// TODO: (на сервере) при добавлении победителя, включать unit.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
 
 class ShowcaseList extends StatefulWidget {
@@ -18,7 +18,7 @@ class ShowcaseList extends StatefulWidget {
         super(key: key);
 
   final Key scrollPositionKey;
-  final SourceList<ItemModel> sourceList;
+  final SourceList<UnitModel> sourceList;
   final int tabIndex;
 
   @override
@@ -49,7 +49,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         physics: ClampingScrollPhysics(),
         slivers: [
           LoadingMoreSliverList(
-            SliverListConfig<ItemModel>(
+            SliverListConfig<UnitModel>(
               extendedListDelegate:
                   SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
@@ -57,18 +57,18 @@ class _ShowcaseListState extends State<ShowcaseList>
                 mainAxisSpacing: 16,
                 collectGarbage: (List<int> garbages) {
                   garbages.forEach((index) {
-                    final item = widget.sourceList[index];
-                    final image = item.images[0];
+                    final unit = widget.sourceList[index];
+                    final image = unit.images[0];
                     final provider = ExtendedNetworkImageProvider(
-                      image.getDummyUrl(item.id),
+                      image.getDummyUrl(unit.id),
                     );
                     provider.evict();
                   });
                 },
               ),
-              itemBuilder: (BuildContext context, ItemModel item, int index) {
+              itemBuilder: (BuildContext context, UnitModel unit, int index) {
                 return ShowcaseItem(
-                  item: item,
+                  unit: unit,
                   tabIndex: widget.tabIndex,
                   isCover: isSmallWidth,
                 );

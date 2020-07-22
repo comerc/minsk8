@@ -12,8 +12,8 @@ class MyWishesModel extends ChangeNotifier {
 
   final List<WishModel> wishes;
 
-  int getWishIndex(String itemId) =>
-      wishes.indexWhere((wish) => wish.itemId == itemId);
+  int getWishIndex(String unitId) =>
+      wishes.indexWhere((wish) => wish.unitId == unitId);
 
   void updateWish(int index, WishModel wish, bool isLiked) {
     if (isLiked) {

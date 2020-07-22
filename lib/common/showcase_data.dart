@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseData extends SourceList<ItemModel> {
+class ShowcaseData extends SourceList<UnitModel> {
   ShowcaseData(
     GraphQLClient client,
     this.kind,
@@ -22,11 +22,11 @@ class ShowcaseData extends SourceList<ItemModel> {
     if (isMetaKind) {
       return QueryOptions(
         documentNode: {
-          MetaKindValue.recent: Queries.getItems,
-          MetaKindValue.fan: Queries.getItemsForFan,
-          MetaKindValue.best: Queries.getItemsForBest,
-          MetaKindValue.promo: Queries.getItemsForPromo,
-          MetaKindValue.urgent: Queries.getItemsForUrgent
+          MetaKindValue.recent: Queries.getUnits,
+          MetaKindValue.fan: Queries.getUnitsForFan,
+          MetaKindValue.best: Queries.getUnitsForBest,
+          MetaKindValue.promo: Queries.getUnitsForPromo,
+          MetaKindValue.urgent: Queries.getUnitsForUrgent
         }[kind],
         variables: variables,
         fetchPolicy: FetchPolicy.noCache,
@@ -34,25 +34,25 @@ class ShowcaseData extends SourceList<ItemModel> {
     }
     variables['kind'] = EnumToString.parse(kind);
     return QueryOptions(
-      documentNode: Queries.getItemsByKind,
+      documentNode: Queries.getUnitsByKind,
       variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );
   }
 
   @override
-  List<ItemModel> getItems(data) {
-    final dataItems = [...data['items'] as List];
-    // сначала наполняю буфер items, если есть ошибки в ItemModel.fromJson
-    final items = <ItemModel>[];
-    final hasMore = dataItems.length == kGraphQLItemsLimit;
+  List<UnitModel> getItems(data) {
+    final dataItems = [...data['units'] as List];
+    // сначала наполняю буфер items, если есть ошибки в UnitModel.fromJson
+    final items = <UnitModel>[];
+    final hasMore = dataItems.length == kGraphQLUnitsLimit;
     this.hasMore = hasMore;
     if (hasMore) {
-      final item = ItemModel.fromJson(dataItems.removeLast());
+      final item = UnitModel.fromJson(dataItems.removeLast());
       nextCreatedAt = item.createdAt.toUtc().toIso8601String();
     }
     for (final dataItem in dataItems) {
-      items.add(ItemModel.fromJson(dataItem));
+      items.add(UnitModel.fromJson(dataItem));
     }
     return items;
   }

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class EditItemScreen extends StatelessWidget {
-  EditItemScreen(this.arguments);
+class EditUnitScreen extends StatelessWidget {
+  EditUnitScreen(this.arguments);
 
-  final EditItemRouteArguments arguments;
+  final EditUnitRouteArguments arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Item'),
+        title: Text('Edit Unit'),
       ),
-      drawer: MainDrawer('/edit_item'),
+      drawer: MainDrawer('/edit_unit'),
       body: Center(
         child: Text('xxx'),
       ),
@@ -20,8 +20,8 @@ class EditItemScreen extends StatelessWidget {
   }
 }
 
-class EditItemRouteArguments {
-  EditItemRouteArguments(this.id);
+class EditUnitRouteArguments {
+  EditUnitRouteArguments(this.id);
 
   final int id;
 }

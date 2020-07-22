@@ -42,7 +42,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
     nextCreatedAt = startCreatedAt;
     _hasMore = true;
     //force to refresh list when you don't want clear list before request
-    //for the case, if your list already has 20 items.
+    //for the case, if your list already has 20 units.
     _forceRefresh = !clearBeforeRequest;
     final result = await super.refresh(clearBeforeRequest);
     _forceRefresh = false;

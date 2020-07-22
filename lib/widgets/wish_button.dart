@@ -7,11 +7,11 @@ import 'package:minsk8/import.dart';
 
 class WishButton extends StatefulWidget {
   WishButton(
-    this.item, {
+    this.unit, {
     this.iconSize = kButtonIconSize,
   });
 
-  final ItemModel item;
+  final UnitModel unit;
   final double iconSize;
 
   @override
@@ -40,7 +40,7 @@ class _WishButtonState extends State<WishButton> {
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
             animationDuration: animationDuration,
-            isLiked: myWishes.getWishIndex(widget.item.id) != -1,
+            isLiked: myWishes.getWishIndex(widget.unit.id) != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -56,7 +56,7 @@ class _WishButtonState extends State<WishButton> {
               );
             },
             likeCountPadding: null,
-            likeCount: null, // item.favorites,
+            likeCount: null, // unit.favorites,
             // countBuilder: (int count, bool isLiked, String text) {
             //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
             //   Widget result;
@@ -74,7 +74,7 @@ class _WishButtonState extends State<WishButton> {
             //     );
             //   return result;
             // },
-            // likeCountAnimationType: item.favorites < 1000
+            // likeCountAnimationType: unit.favorites < 1000
             //     ? LikeCountAnimationType.part
             //     : LikeCountAnimationType.none,
             onTap: _onTap,
@@ -96,15 +96,15 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : animationDuration, () {
       _disposeTimer();
-      updateWish(context, isLiked, widget.item);
+      updateWish(context, isLiked, widget.unit);
     });
     return !isLiked;
   }
 }
 
-void updateWish(BuildContext context, bool isLiked, ItemModel item) {
+void updateWish(BuildContext context, bool isLiked, UnitModel unit) {
   final myWishes = Provider.of<MyWishesModel>(context, listen: false);
-  final index = myWishes.getWishIndex(item.id);
+  final index = myWishes.getWishIndex(unit.id);
   final currentIsLiked = index != -1;
   if (isLiked != currentIsLiked) {
     return;
@@ -113,13 +113,13 @@ void updateWish(BuildContext context, bool isLiked, ItemModel item) {
       ? myWishes.wishes[index] // index check with currentIsLiked
       : WishModel(
           createdAt: DateTime.now(),
-          itemId: item.id,
+          unitId: unit.id,
         );
   myWishes.updateWish(index, wish, !isLiked);
   final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
     documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
-    variables: {'item_id': item.id},
+    variables: {'unit_id': unit.id},
     fetchPolicy: FetchPolicy.noCache,
   );
   client
@@ -130,7 +130,7 @@ void updateWish(BuildContext context, bool isLiked, ItemModel item) {
       throw result.exception;
     }
   }).catchError((error) {
-    final index = myWishes.getWishIndex(item.id);
+    final index = myWishes.getWishIndex(unit.id);
     myWishes.updateWish(index, wish, isLiked);
     print(error);
   });

@@ -16,18 +16,18 @@ import 'package:minsk8/import.dart';
 
 enum ImageUploadStatus { progress, error }
 
-class AddItemScreen extends StatefulWidget {
-  AddItemScreen(this.arguments);
+class AddUnitScreen extends StatefulWidget {
+  AddUnitScreen(this.arguments);
 
-  final AddItemRouteArguments arguments;
+  final AddUnitRouteArguments arguments;
 
   @override
-  _AddItemScreenState createState() {
-    return _AddItemScreenState();
+  _AddUnitScreenState createState() {
+    return _AddUnitScreenState();
   }
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
+class _AddUnitScreenState extends State<AddUnitScreen> {
   TextEditingController _textController;
   ImageSource _imageSource;
   final _images = <_ImageData>[];
@@ -135,7 +135,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Местоположение',
-            text: appState['MyItemMap.address'] ?? 'Местоположение',
+            text: appState['MyUnitMap.address'] ?? 'Местоположение',
             onTap: _selectLocation,
           ),
         ),
@@ -143,7 +143,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         Container(
           height: kBigButtonHeight,
           width: panelChildWidth,
-          child: ReadyButton(onTap: _handleAddItem),
+          child: ReadyButton(onTap: _handleAddUnit),
         ),
         SizedBox(
           height: 16,
@@ -175,7 +175,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             IconButton(
               tooltip: 'Подтвердить',
               icon: Icon(Icons.check),
-              onPressed: _handleAddItem,
+              onPressed: _handleAddUnit,
             ),
           ],
         ),
@@ -194,7 +194,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  void _handleAddItem() async {
+  void _handleAddUnit() async {
     if (!_isValidText) {
       await showDialog(
         context: context,
@@ -251,7 +251,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
-      documentNode: Mutations.insertItem,
+      documentNode: Mutations.insertUnit,
       variables: {
         'images': images.map((element) => element.model.toJson()).toList(),
         'text': _text, // TODO: как защитить от атаки?
@@ -259,9 +259,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         'kind': EnumToString.parse(_kind),
         'location': {
           'type': 'Point',
-          'coordinates': appState['MyItemMap.center'],
+          'coordinates': appState['MyUnitMap.center'],
         },
-        'address': appState['MyItemMap.address'],
+        'address': appState['MyUnitMap.address'],
       },
       fetchPolicy: FetchPolicy.noCache,
     );
@@ -275,17 +275,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
       isLoading = false;
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
-      final itemData = result.data['insert_item_one'];
-      final newItem = ItemModel.fromJson(itemData);
+      final unitData = result.data['insert_unit_one'];
+      final newUnit = UnitModel.fromJson(unitData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
-      profile.member.items.insert(0, newItem);
+      profile.member.units.insert(0, newUnit);
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);
       _reloadUnderwayModel();
       final value = await showDialog(
         context: context,
-        child: AddedItemDialog(
-          newItem,
+        child: AddedUnitDialog(
+          newUnit,
           needModerate: _kind == KindValue.service,
         ),
       );
@@ -295,8 +295,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         // ignore: unawaited_futures
         Navigator.pushNamed(
           HomeScreen.globalKey.currentContext, // hack
-          '/add_item',
-          arguments: AddItemRouteArguments(
+          '/add_unit',
+          arguments: AddUnitRouteArguments(
             kind: kind,
             tabIndex: widget.arguments.tabIndex,
           ),
@@ -305,9 +305,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
       }
       // ignore: unawaited_futures
       Navigator.of(context).pushReplacementNamed(
-        '/item',
-        arguments: ItemRouteArguments(
-          newItem,
+        '/unit',
+        arguments: UnitRouteArguments(
+          newUnit,
           member: profile.member,
         ),
       );
@@ -499,7 +499,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _selectLocation() {
     Navigator.pushNamed(
       context,
-      '/my_item_map',
+      '/my_unit_map',
     ).then((value) {
       if (value == null) return;
       setState(() {});
@@ -539,15 +539,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 }
 
-class AddItemRouteArguments {
-  AddItemRouteArguments({this.kind, this.tabIndex});
+class AddUnitRouteArguments {
+  AddUnitRouteArguments({this.kind, this.tabIndex});
 
   final KindValue kind;
-  final AddItemRouteArgumentsTabIndex tabIndex;
+  final AddUnitRouteArgumentsTabIndex tabIndex;
 }
 
-class AddItemRouteArgumentsTabIndex {
-  AddItemRouteArgumentsTabIndex({this.showcase = 0, this.underway = 0});
+class AddUnitRouteArgumentsTabIndex {
+  AddUnitRouteArgumentsTabIndex({this.showcase = 0, this.underway = 0});
 
   final int showcase;
   final int underway;

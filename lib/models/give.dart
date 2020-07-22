@@ -7,11 +7,11 @@ part 'give.g.dart';
 class GiveModel {
   GiveModel({
     this.createdAt,
-    this.item,
+    this.unit,
   });
 
   final DateTime createdAt;
-  ItemModel item;
+  UnitModel unit;
 
   factory GiveModel.fromJson(Map<String, dynamic> json) =>
       _$GiveModelFromJson(json);

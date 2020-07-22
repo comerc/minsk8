@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class PriceButton extends StatelessWidget {
-  PriceButton(this.item);
+  PriceButton(this.unit);
 
-  final ItemModel item;
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class PriceButton extends StatelessWidget {
               horizontal: 16,
             ),
             child: Text(
-              item.price.toString(),
+              unit.price.toString(),
               style: TextStyle(
                 fontSize: 23,
                 color: Colors.red,
@@ -36,7 +36,7 @@ class PriceButton extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                if (item.isClosed) {
+                if (unit.isClosed) {
                   return AlertDialog(
                     content: Text('Сколько предложено за лот'),
                     actions: [

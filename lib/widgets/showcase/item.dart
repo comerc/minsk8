@@ -5,12 +5,12 @@ import 'package:minsk8/import.dart';
 class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({
     Key key,
-    this.item,
+    this.unit,
     this.tabIndex,
     this.isCover,
   }) : super(key: key);
 
-  final ItemModel item;
+  final UnitModel unit;
   final int tabIndex;
   final bool isCover;
 
@@ -35,19 +35,19 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   Widget _buildImage() {
-    final item = widget.item;
+    final unit = widget.unit;
     final isCover = widget.isCover;
     final tabIndex = widget.tabIndex;
-    final image = item.images[0];
+    final image = unit.images[0];
     return Material(
       child: InkWell(
         onTap: () {
           // Navigator.of(context).push(PageRouteBuilder(
           //   settings: RouteSettings(
-          //     arguments: ItemRouteArguments(item, tag: tag),
+          //     arguments: UnitRouteArguments(unit, tag: tag),
           //   ),
           //   pageBuilder: (context, animation, secondaryAnimation) =>
-          //       ItemScreen(),
+          //       UnitScreen(),
           //   transitionsBuilder:
           //       (context, animation, secondaryAnimation, child) {
           //     return child;
@@ -58,10 +58,10 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           });
           Navigator.pushNamed(
             context,
-            '/item',
-            arguments: ItemRouteArguments(
-              item,
-              member: item.member,
+            '/unit',
+            arguments: UnitRouteArguments(
+              unit,
+              member: unit.member,
               isShowcase: true,
             ),
           ).then((_) {
@@ -75,11 +75,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           aspectRatio: isCover ? 1 : image.width / image.height,
           child: Hero(
             tag:
-                '${HomeScreen.globalKey.currentState.tabIndex}-${tabIndex}-${item.id}',
+                '${HomeScreen.globalKey.currentState.tabIndex}-${tabIndex}-${unit.id}',
             child: Ink.image(
               fit: isCover ? BoxFit.cover : BoxFit.contain,
               image: ExtendedImage.network(
-                image.getDummyUrl(item.id),
+                image.getDummyUrl(unit.id),
                 // shape: BoxShape.rectangle,
                 // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
                 // borderRadius: BorderRadius.all(kImageBorderRadius),
@@ -89,24 +89,24 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                 // fit: StackFit.expand,
                 children: [
                   _buildText(),
-                  if (item.isBlockedOrLocalDeleted)
+                  if (unit.isBlockedOrLocalDeleted)
                     _buildStatus(
                       'Заблокировано',
                       isClosed: true,
                     )
-                  else if (item.transferredAt != null)
+                  else if (unit.transferredAt != null)
                     _buildStatus(
                       'Забрали',
                       isClosed: true,
                     )
-                  else if (item.win != null)
+                  else if (unit.win != null)
                     _buildStatus(
                       'Завершено',
                       isClosed: true,
                     )
-                  else if (item.expiresAt != null)
+                  else if (unit.expiresAt != null)
                     CountdownTimer(
-                      endTime: item.expiresAt.millisecondsSinceEpoch,
+                      endTime: unit.expiresAt.millisecondsSinceEpoch,
                       builder: (BuildContext context, int seconds) {
                         return _buildStatus(
                           seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
@@ -114,11 +114,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                         );
                       },
                     )
-                  else if (item.urgent != UrgentStatus.none)
+                  else if (unit.urgent != UrgentStatus.none)
                     _buildStatus(
                       urgents
                           .firstWhere(
-                              (urgentModel) => urgentModel.value == item.urgent)
+                              (urgentModel) => urgentModel.value == unit.urgent)
                           .name,
                       isClosed: false,
                     ),
@@ -132,7 +132,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   Widget _buildBottom() {
-    final item = widget.item;
+    final unit = widget.unit;
     if (!_isBottom) {
       return SizedBox(
         height: kButtonHeight,
@@ -140,24 +140,24 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     }
     return Row(
       children: [
-        item.price == null ? GiftButton(item) : PriceButton(item),
+        unit.price == null ? GiftButton(unit) : PriceButton(unit),
         Spacer(),
         SizedBox(
           width: kButtonWidth,
           height: kButtonHeight,
-          child: ShareButton(item),
+          child: ShareButton(unit),
         ),
         SizedBox(
           width: kButtonWidth,
           height: kButtonHeight,
-          child: WishButton(item),
+          child: WishButton(unit),
         ),
       ],
     );
   }
 
   Widget _buildText() {
-    final text = widget.item.text;
+    final text = widget.unit.text;
     return Positioned(
       bottom: 0,
       right: 0,

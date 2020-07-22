@@ -1,13 +1,13 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
-// TODO: заменить class Queries.getItems > namespace queries.getItems
+// TODO: заменить class Queries.getUnits > namespace queries.getUnits
 
 class Queries {
-  static final getItem = gql(r'''
-    query getItem($id: uuid!) {
-      item(id: $id) {
-        ...itemFields
+  static final getUnit = gql(r'''
+    query getUnit($id: uuid!) {
+      unit(id: $id) {
+        ...unitFields
         member {
           ...memberFields
         }
@@ -15,9 +15,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItems = gql(r'''
-    query getItems($next_created_at: timestamptz) {
-      items(
+  static final getUnits = gql(r'''
+    query getUnits($next_created_at: timestamptz) {
+      units(
         where: 
           {
             created_at: {_lte: $next_created_at},
@@ -28,7 +28,7 @@ class Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -36,9 +36,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItemsForFan = gql(r'''
-    query getItemsForFan($next_created_at: timestamptz) {
-      items(
+  static final getUnitsForFan = gql(r'''
+    query getUnitsForFan($next_created_at: timestamptz) {
+      units(
         where: 
           {
             total_wishes: {_is_null: false},
@@ -50,7 +50,7 @@ class Queries {
           }, 
         order_by: {total_wishes: desc, created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -58,9 +58,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItemsForBest = gql(r'''
-    query getItemsForBest($next_created_at: timestamptz) {
-      items(
+  static final getUnitsForBest = gql(r'''
+    query getUnitsForBest($next_created_at: timestamptz) {
+      units(
         where: 
           {
             price: {_is_null: false},
@@ -72,7 +72,7 @@ class Queries {
           }, 
         order_by: {price: desc, created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -80,9 +80,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItemsForPromo = gql(r'''
-    query getItemsForPromo($next_created_at: timestamptz) {
-      items(
+  static final getUnitsForPromo = gql(r'''
+    query getUnitsForPromo($next_created_at: timestamptz) {
+      units(
         where: 
           {
             is_promo: {_is_null: false},
@@ -94,7 +94,7 @@ class Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -102,9 +102,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItemsForUrgent = gql(r'''
-    query getItemsForUrgent($next_created_at: timestamptz) {
-      items(
+  static final getUnitsForUrgent = gql(r'''
+    query getUnitsForUrgent($next_created_at: timestamptz) {
+      units(
         where: 
           {
             urgent: {_eq: very_urgent},
@@ -116,7 +116,7 @@ class Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -124,9 +124,9 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getItemsByKind = gql(r'''
-    query getItemsByKind($next_created_at: timestamptz, $kind: kind_enum) {
-      items(
+  static final getUnitsByKind = gql(r'''
+    query getUnitsByKind($next_created_at: timestamptz, $kind: kind_enum) {
+      units(
         where: 
           {
             kind: {_eq: $kind},
@@ -138,7 +138,7 @@ class Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
         member {
           ...memberFields
         }
@@ -159,7 +159,7 @@ class Queries {
       }
       wishes {
         created_at
-        item_id
+        unit_id
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
@@ -177,8 +177,8 @@ class Queries {
         text
         value
         created_at
-        item {
-          ...itemFields
+        unit {
+          ...unitFields
           member {
             ...memberFields
           }
@@ -199,8 +199,8 @@ class Queries {
         created_at
         proclamation {
           id
-          item {
-            ...itemFields
+          unit {
+            ...unitFields
             member {
               ...memberFields
             }
@@ -209,8 +209,8 @@ class Queries {
         }
         suggestion {
           id
-          item {
-            ...itemFields
+          unit {
+            ...unitFields
             member {
               ...memberFields
             }
@@ -221,14 +221,14 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getWishItems = gql(r'''
-    query getWishItems {
+  static final getWishUnits = gql(r'''
+    query getWishUnits {
       wishes(
         order_by: {created_at: desc}
       ) {
         created_at
-        item {
-          ...itemFields
+        unit {
+          ...unitFields
           member {
             ...memberFields
           }
@@ -237,8 +237,8 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getWantItems = gql(r'''
-    query getWantItems {
+  static final getWantUnits = gql(r'''
+    query getWantUnits {
       wants(
         order_by: {updated_at: desc}
       ) {
@@ -247,8 +247,8 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  // static final getWantItems = gql(r'''
-  //   query getWantItems {
+  // static final getWantUnits = gql(r'''
+  //   query getWantUnits {
   //     wants(
   //       where:
   //         {
@@ -261,8 +261,8 @@ class Queries {
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  // static final getTakeItems = gql(r'''
-  //   query getTakeItems {
+  // static final getTakeUnits = gql(r'''
+  //   query getTakeUnits {
   //     wants(
   //       where:
   //         {
@@ -275,8 +275,8 @@ class Queries {
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  // static final getPastItems = gql(r'''
-  //   query getPastItems {
+  // static final getPastUnits = gql(r'''
+  //   query getPastUnits {
   //     wants(
   //       where:
   //         {
@@ -289,14 +289,14 @@ class Queries {
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getGiveItems = gql(r'''
-    query getGiveItems {
+  static final getGiveUnits = gql(r'''
+    query getGiveUnits {
       gives(
         order_by: {created_at: desc}
       ) {
         created_at
-        item {
-          ...itemFields
+        unit {
+          ...unitFields
           member {
             ...memberFields
           }

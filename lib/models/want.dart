@@ -6,13 +6,13 @@ part 'want.g.dart';
 @JsonSerializable()
 class WantModel {
   WantModel({
-    this.item,
+    this.unit,
     this.value,
     this.updatedAt,
     this.win,
   });
 
-  final ItemModel item;
+  final UnitModel unit;
   final int value;
   final DateTime updatedAt;
   @JsonKey(nullable: true)

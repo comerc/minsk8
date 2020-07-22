@@ -4,7 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Fragments {
   static final fragments = gql(r'''
-    fragment itemFields on item {
+    fragment unitFields on unit {
       id
       created_at
       text
@@ -34,7 +34,7 @@ class Fragments {
       nickname
       banned_until
       last_activity_at
-      items(
+      units(
         where: {
           is_winned: {_is_null: true},  
           is_blocked: {_is_null: true}, 
@@ -43,13 +43,13 @@ class Fragments {
         }, 
         order_by: {created_at: desc}
       ) {
-        ...itemFields
+        ...unitFields
       }
     }
 
     fragment wantFields on want {
-      item {
-        ...itemFields
+      unit {
+        ...unitFields
         member {
           ...memberFields
         }

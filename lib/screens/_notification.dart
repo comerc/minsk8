@@ -373,7 +373,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   // Schedule a Notification
@@ -542,7 +542,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'plain title', null, platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _cancelNotification() async {
@@ -646,7 +646,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'insistent title', 'insistent body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showBigPictureNotification() async {
@@ -957,7 +957,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'no badge title', 'no badge body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showProgressNotification() async {
@@ -983,7 +983,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             'progress notification title',
             'progress notification body',
             platformChannelSpecifics,
-            payload: 'item x');
+            payload: 'unit x');
       });
     }
   }
@@ -1007,7 +1007,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         'indeterminate progress notification title',
         'indeterminate progress notification body',
         platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showNotificationWithUpdatedChannelDescription() async {
@@ -1026,7 +1026,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         'updated notification channel',
         'check settings to see updated channel description',
         platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showPublicNotification() async {
@@ -1041,7 +1041,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(0, 'public notification title',
         'public notification body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showNotificationWithIconBadge() async {
@@ -1052,7 +1052,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'icon badge title', 'icon badge body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showNotificationWithoutTimestamp() async {
@@ -1064,7 +1064,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showNotificationWithCustomTimestamp() async {
@@ -1082,7 +1082,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+        payload: 'unit x');
   }
 
   Future<void> _showNotificationWithAttachment() async {

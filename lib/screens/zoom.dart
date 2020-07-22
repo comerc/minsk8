@@ -32,9 +32,9 @@ class _ZoomScreenState extends State<ZoomScreen>
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: this);
     _currentIndex = widget.arguments.index;
-    final item = widget.arguments.item;
+    final unit = widget.arguments.unit;
     App.analytics
-        .setCurrentScreen(screenName: '/zoom ${item.id} [$_currentIndex]');
+        .setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
   }
 
   @override
@@ -45,7 +45,7 @@ class _ZoomScreenState extends State<ZoomScreen>
 
   @override
   Widget build(BuildContext context) {
-    final item = widget.arguments.item;
+    final unit = widget.arguments.unit;
     final tag = widget.arguments.tag;
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -57,7 +57,7 @@ class _ZoomScreenState extends State<ZoomScreen>
             Hero(
               tag: tag,
               child: ExtendedImage.network(
-                item.images[_currentIndex].getLargeDummyUrl(item.id),
+                unit.images[_currentIndex].getLargeDummyUrl(unit.id),
                 fit: BoxFit.contain,
                 loadStateChanged: loadStateChanged,
                 //enableLoadState: false,
@@ -143,9 +143,9 @@ class _ZoomScreenState extends State<ZoomScreen>
                     ),
                   ),
                   Spacer(),
-                  if (item.images.length > 1)
+                  if (unit.images.length > 1)
                     Text(
-                      '${_currentIndex + 1}/${item.images.length}',
+                      '${_currentIndex + 1}/${unit.images.length}',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -153,7 +153,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                 ],
               ),
             ),
-            if (item.images.length > 1)
+            if (unit.images.length > 1)
               Center(
                 child: Row(
                   children: [
@@ -245,17 +245,17 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 
   void _jumpToPage({bool isNext}) {
-    final item = widget.arguments.item;
+    final unit = widget.arguments.unit;
     final tag = widget.arguments.tag;
     final onWillPop = widget.arguments.onWillPop;
-    final lastIndex = item.images.length - 1;
+    final lastIndex = unit.images.length - 1;
     // Navigator.pushAndRemoveUntil(
     Navigator.pushReplacement(
       context,
       _buildInitialRoute(
         (BuildContext context) => ZoomScreen(
           ZoomRouteArguments(
-            item,
+            unit,
             tag: tag,
             index: isNext
                 ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
@@ -334,9 +334,9 @@ class NoAnimationMaterialPageRoute<T> extends MaterialPageRoute<T> {
 typedef WillPopZoomCallback = Future<bool> Function(int index);
 
 class ZoomRouteArguments {
-  ZoomRouteArguments(this.item, {this.tag, this.index, this.onWillPop});
+  ZoomRouteArguments(this.unit, {this.tag, this.index, this.onWillPop});
 
-  final ItemModel item;
+  final UnitModel unit;
   final String tag;
   final int index;
   final WillPopZoomCallback onWillPop;
