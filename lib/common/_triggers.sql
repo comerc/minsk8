@@ -95,6 +95,12 @@ RETURNS trigger AS $BODY$
   DECLARE _balance INTEGER;
   BEGIN
     IF NEW.account = 'limit' THEN
+      IF NEW.unit_id IS NULL THEN
+        RAISE EXCEPTION 'Argument "unit_id" must be not null';
+      END IF;
+      IF NEW.value IS NOT NULL THEN
+        RAISE EXCEPTION 'Argument "value" must be null';
+      END IF;
       _limit := (SELECT value FROM payment 
         WHERE created_at > now() - interval '1 day' AND account = 'limit' AND member_id = NEW.member_id
         ORDER BY value LIMIT 1);
@@ -103,39 +109,34 @@ RETURNS trigger AS $BODY$
       END IF;
       _limit := _limit - 1;
       IF _limit < 0 THEN
-        RAISE EXCEPTION 'Limit must be greater than 0';
+        RAISE EXCEPTION 'Argument "limit" must be greater than 0';
       END IF;
       NEW.value := _limit;
-    END IF;    
-    RETURN NEW;
-  END;
-$BODY$ LANGUAGE plpgsql;  
-
-CREATE TRIGGER before_insert_payment BEFORE INSERT ON payment FOR EACH ROW EXECUTE PROCEDURE before_insert_payment();
-
---
-DROP TRIGGER IF EXISTS after_insert_payment ON payment;
-DROP FUNCTION IF EXISTS after_insert_payment();
-
-CREATE FUNCTION after_insert_payment()
-RETURNS trigger AS $BODY$
-  DECLARE _limit INTEGER;
-  DECLARE _balance INTEGER;
-  BEGIN
-    IF NEW.account = 'start' OR NEW.account = 'limit' THEN
-      -- nothing
     ELSIF NEW.account = 'freeze' THEN
+      IF NEW.unit_id IS NULL THEN
+        RAISE EXCEPTION 'Argument "unit_id" must be not null';
+      END IF;
       _balance := (SELECT balance FROM profile WHERE member_id = NEW.member_id);
       _balance := _balance - NEW.value;
       IF _balance < 0 THEN
-        RAISE EXCEPTION 'Balance must be greater than 0';
+        RAISE EXCEPTION 'Argument "balance" must be greater than 0';
       END IF;
       UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
-    ELSIF NEW.account = 'unfreeze' OR NEW.account = 'invite' OR NEW.account = 'profit' THEN
+    ELSIF NEW.account = 'unfreeze' THEN
+      IF NEW.unit_id IS NULL THEN
+        RAISE EXCEPTION 'Argument "unit_id" must be not null';
+      END IF;
+      UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
+    ELSIF NEW.account = 'invite' THEN
+      IF NEW.invite_member_id IS NULL THEN
+        RAISE EXCEPTION 'Argument "invite_member_id" must be not null';
+      END IF;
+      UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
+    ELSIF NEW.account = 'profit' THEN
       UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
     END IF;    
     RETURN NEW;
   END;
 $BODY$ LANGUAGE plpgsql;  
 
-CREATE TRIGGER after_insert_payment AFTER INSERT ON payment FOR EACH ROW EXECUTE PROCEDURE after_insert_payment();
+CREATE TRIGGER before_insert_payment BEFORE INSERT ON payment FOR EACH ROW EXECUTE PROCEDURE before_insert_payment();
