@@ -47,10 +47,10 @@ class HomeProfileState extends State<HomeProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 8),
+        SizedBox(height: 16),
         Container(
-          width: 96,
-          height: 96,
+          width: 80,
+          height: 80,
           child: Tooltip(
             message: 'Поменять аватарку',
             child: Material(

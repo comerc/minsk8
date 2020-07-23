@@ -233,8 +233,8 @@ class _UnitScreenState extends State<UnitScreen> {
                     child: Row(
                       children: [
                         Container(
-                          height: 48,
-                          width: 48,
+                          height: 40,
+                          width: 40,
                           // TODO: Ink.image
                           child: ExtendedImage.network(
                             member.avatarUrl,

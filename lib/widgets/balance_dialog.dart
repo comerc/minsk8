@@ -25,12 +25,12 @@ class _BalanceDialogState extends State<BalanceDialog> {
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       children: [
         SizedBox(
-          height: 8,
+          height: 16,
         ),
         Center(
           child: SizedBox(
-            height: 48,
-            width: 48,
+            height: 80,
+            width: 80,
             child: ExtendedImage.network(
               profile.member.avatarUrl,
               fit: BoxFit.cover,
@@ -40,7 +40,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
           ),
         ),
         SizedBox(
-          height: 8,
+          height: 16,
         ),
         Text(
           'У Вас ${profile.balance} Кармы',
