@@ -14,7 +14,7 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: radius * 2,
       height: radius * 2,
       child: Material(
