@@ -126,6 +126,9 @@ RETURNS trigger AS $BODY$
       IF NEW.unit_id IS NULL THEN
         RAISE EXCEPTION 'Argument "unit_id" must be not null';
       END IF;
+      IF NEW.text_variant IS NULL THEN
+        RAISE EXCEPTION 'Argument "text_variant" must be not null';
+      END IF;
       UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
     ELSIF NEW.account = 'invite' THEN
       IF NEW.invite_member_id IS NULL THEN

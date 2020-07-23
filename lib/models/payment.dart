@@ -9,6 +9,7 @@ class PaymentModel {
   PaymentModel({
     this.id,
     this.account,
+    this.textVariant,
     this.value,
     this.createdAt,
     this.unit,
@@ -17,6 +18,8 @@ class PaymentModel {
 
   final String id;
   final AccountValue account;
+  @JsonKey(nullable: true)
+  final int textVariant;
   final int value;
   final DateTime createdAt;
   @JsonKey(nullable: true)

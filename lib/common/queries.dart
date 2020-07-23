@@ -190,6 +190,7 @@ class Queries {
           banned_until
           last_activity_at
         }
+        text_variant
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
