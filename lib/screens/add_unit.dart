@@ -512,7 +512,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       context: context,
       builder: (context) => buildModalBottomSheet(
         context,
-        description: 'Вы очень близки к тому,\nчтобы отдать эту вещь.',
+        description: 'Вы очень близки к тому,\nчтобы отдать этот лот.',
       ),
     );
     // if enableDrag, result may be null
