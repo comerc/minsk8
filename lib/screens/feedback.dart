@@ -1,16 +1,111 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-// import 'package:minsk8/import.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:launch_review/launch_review.dart';
+import 'package:minsk8/import.dart';
 
 class FeedbackScreen extends StatelessWidget {
+  final _market = Platform.isIOS ? 'Apple Store' : 'Google Play';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback'),
+        title: Text('Обратная связь'),
       ),
-      body: Center(
-        child: Text('xxx'),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              child: Icon(
+                FontAwesomeIcons.gift,
+                color: Colors.deepOrangeAccent,
+                size: kBigButtonIconSize,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text('⭐ ⭐ ⭐ ⭐ ⭐'),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              'Нравится приложение?',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              'Оцени нас в $_market\nи оставь отзыв',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            Text(
+              'Мы станем ещё лучше',
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            FlatButton(
+              child: Text('Оценить приложение'),
+              onPressed: () {
+                // TODO: how to open market?
+                // launch_review
+                // For iOS 9 and above, your Info.plist file MUST have the following:
+                // <key>LSApplicationQueriesSchemes</key>
+                // <array>
+                //         <string>itms-beta</string>
+                //         <string>itms</string>
+                // </array>
+                // LaunchReview.launch(
+                //   androidAppId: kAndroidAppId,
+                //   iOSAppId: kIOSAppId,
+                // );
+              },
+              color: Colors.red,
+              textColor: Colors.white,
+            ),
+            OutlineButton(
+              child: Text('Сообщить о проблеме'),
+              onPressed: () {
+                _launchFeedback(context);
+              },
+              textColor: Colors.red,
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _launchFeedback(BuildContext context) async {
+    final profile = Provider.of<ProfileModel>(context, listen: false);
+    final emailUri = Uri(
+      scheme: 'mailto',
+      path: kSupportEmail,
+      queryParameters: {
+        'subject': 'Сообщить о проблеме',
+        'body': 'member_id=${profile.member.id}'
+      },
+    );
+    final emailUrl = emailUri.toString();
+    if (await canLaunch(emailUrl)) {
+      await launch(emailUrl);
+      // TODO: реализовать webUrl
+      // } else if (await canLaunch(webUrl)) {
+      //   await launch(webUrl);
+    } else {
+      throw 'Could not launch $emailUrl';
+    }
   }
 }

@@ -5,12 +5,15 @@
 const kFontSize = 12.0;
 // const kImageBorderRadius = Radius.circular(10.0);
 const kNavigationBarHeight = 60.0;
+const kAndroidAppId = 'com.iyaffle.rangoli';
+const kIOSAppId = '585027354';
+const kSupportEmail = 'smith@example.com';
 const kStorageBucket = 'gs://minsk8-2.appspot.com';
+const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
 const kGraphQLEndpoint = 'https://minsk8.herokuapp.com/v1/graphql';
 const kGraphQLUnitsLimit = 11; // заложен +1 для вычисления 'hasMore'
 const kGraphQLPaymentsLimit = 21; // заложен +1 для вычисления 'hasMore'
 // TODO: нужно проксировать через свой backend на случай отказа в обсуживании.
-const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
 const kGoldenRatio = 1.61803;
 const kTextMaxLength = 280; // как twitter
 const kButtonHeight = 32.0;
@@ -32,3 +35,4 @@ const kSmallWidth = 600;
 const kMediumWidth = 1200;
 const kLargeWidth = 2400;
 const kMaxDragOffset = 100.0;
+const kBigAvatarRadius = 40.0;
