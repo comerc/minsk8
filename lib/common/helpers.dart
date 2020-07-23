@@ -118,7 +118,7 @@ class SizeInt {
 String interpolate(String string, {Map<String, dynamic> params = const {}}) {
   var result = string;
   for (var entry in params.entries) {
-    result = result.replaceAll('{{${entry.key}}}', entry.value);
+    result = result.replaceAll('{{${entry.key}}}', '${entry.value}');
   }
   return result;
 }
