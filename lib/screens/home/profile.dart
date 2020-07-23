@@ -122,25 +122,27 @@ class HomeProfileState extends State<HomeProfile> {
               itemCount: _menu.length,
               itemBuilder: (BuildContext context, int index) {
                 final entry = _menu[index];
-                return InkWell(
-                  child: ListTile(
-                    title: index == 0
-                        ? Text(
-                            entry.value,
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          )
-                        : Text(entry.value),
-                    trailing: Icon(
-                      Icons.navigate_next,
-                      color: Colors.black.withOpacity(0.8),
-                      size: kButtonIconSize,
+                return Material(
+                  child: InkWell(
+                    child: ListTile(
+                      title: index == 0
+                          ? Text(
+                              entry.value,
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            )
+                          : Text(entry.value),
+                      trailing: Icon(
+                        Icons.navigate_next,
+                        color: Colors.black.withOpacity(0.8),
+                        size: kButtonIconSize,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(entry.key);
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(entry.key);
-                  },
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

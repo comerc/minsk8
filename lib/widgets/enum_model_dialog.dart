@@ -16,13 +16,16 @@ class EnumModelDialog<T extends EnumModel> extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: List.generate(
           elements.length,
-          (index) => InkWell(
-            child: ListTile(
-              title: Text(elements[index].enumName),
+          (index) => Material(
+            color: Colors.white,
+            child: InkWell(
+              child: ListTile(
+                title: Text(elements[index].enumName),
+              ),
+              onTap: () {
+                Navigator.of(context).pop(elements[index].enumValue);
+              },
             ),
-            onTap: () {
-              Navigator.of(context).pop(elements[index].enumValue);
-            },
           ),
         ),
       ),

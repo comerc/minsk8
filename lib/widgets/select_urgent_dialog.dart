@@ -17,19 +17,21 @@ Future<UrgentStatus> selectUrgentDialog(
             ),
             ...List.generate(
               urgents.length,
-              (index) => InkWell(
-                child: ListTile(
-                  title: Text(urgents[index].name),
-                  subtitle: Text(urgents[index].text),
-                  selected: selected == urgents[index].value,
-                  trailing: Icon((selected == urgents[index].value
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank)),
-                  dense: true,
+              (index) => Material(
+                child: InkWell(
+                  child: ListTile(
+                    title: Text(urgents[index].name),
+                    subtitle: Text(urgents[index].text),
+                    selected: selected == urgents[index].value,
+                    trailing: Icon((selected == urgents[index].value
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank)),
+                    dense: true,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop(urgents[index].value);
+                  },
                 ),
-                onTap: () {
-                  Navigator.of(context).pop(urgents[index].value);
-                },
               ),
             ),
             SizedBox(height: 32)
