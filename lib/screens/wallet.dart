@@ -18,9 +18,36 @@ class WalletScreen extends StatefulWidget {
 }
 
 class WalletScreenState extends State<WalletScreen> {
+  static bool _isFirst = true;
+  static bool _isOpen1 = false;
+  static bool _isOpen2 = false;
+
   @override
   void initState() {
     super.initState();
+    if (_isFirst) {
+      _isFirst = false;
+    } else {
+      WalletScreen.sourceList.refresh(true);
+    }
+    if (_isOpen1) {
+      _isOpen2 = true;
+    } else {
+      _isOpen1 = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!_isOpen2) {
+      WalletScreen.sourceList.clear();
+    }
+    if (_isOpen2) {
+      _isOpen2 = false;
+    } else {
+      _isOpen1 = false;
+    }
+    super.dispose();
   }
 
   @override
@@ -106,10 +133,12 @@ class WalletScreenState extends State<WalletScreen> {
                       }
                       textData = (textData as List)[textVariant];
                     }
+                    Function action;
                     Widget image;
                     String text = textData;
                     <AccountValue, Function>{
                       AccountValue.start: () {
+                        action = _getBalanceAction;
                         // TODO: поменять на иконку приложения
                         image = Icon(
                           FontAwesomeIcons.gift,
@@ -120,6 +149,7 @@ class WalletScreenState extends State<WalletScreen> {
                         });
                       },
                       AccountValue.invite: () {
+                        action = _getBalanceAction;
                         image = AspectRatio(
                           aspectRatio: 1,
                           child: ExtendedImage.network(
@@ -135,18 +165,21 @@ class WalletScreenState extends State<WalletScreen> {
                         });
                       },
                       AccountValue.unfreeze: () {
+                        action = _getUnitAction(payment.unit);
                         image = _getUnitImage(payment.unit);
                         text = interpolate(text, params: {
                           'value': payment.value,
                         });
                       },
                       AccountValue.freeze: () {
+                        action = _getUnitAction(payment.unit);
                         image = _getUnitImage(payment.unit);
                         text = interpolate(text, params: {
                           'value': payment.value,
                         });
                       },
                       AccountValue.limit: () {
+                        action = _getUnitAction(payment.unit);
                         image = _getUnitImage(payment.unit);
                         text = interpolate(text, params: {
                           'value': payment.value,
@@ -154,25 +187,31 @@ class WalletScreenState extends State<WalletScreen> {
                         });
                       },
                       AccountValue.profit: () {
+                        action = _getUnitAction(payment.unit);
                         image = _getUnitImage(payment.unit);
                         text = interpolate(text, params: {
                           'value': payment.value,
                         });
                       },
                     }[payment.account]();
-                    // TODO: InkWell
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: image,
-                        backgroundColor: Colors.white,
-                      ),
-                      title: Text(text),
-                      subtitle: Text(
-                        DateFormat.jm('ru_RU').format(
-                          payment.createdAt.toLocal(),
+
+                    return Material(
+                      child: InkWell(
+                        onTap: action,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: image,
+                            backgroundColor: Colors.white,
+                          ),
+                          title: Text(text),
+                          subtitle: Text(
+                            DateFormat.jm('ru_RU').format(
+                              payment.createdAt.toLocal(),
+                            ),
+                          ),
+                          dense: true,
                         ),
                       ),
-                      dense: true,
                     );
                   },
                   sourceList: WalletScreen.sourceList,
@@ -187,7 +226,7 @@ class WalletScreenState extends State<WalletScreen> {
                     );
                   },
                   lastChildLayoutType: LastChildLayoutType.foot,
-                ))
+                )),
               ],
             ),
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo info) {
@@ -220,5 +259,33 @@ class WalletScreenState extends State<WalletScreen> {
         enableLoadState: false,
       ),
     );
+  }
+
+  Function _getUnitAction(UnitModel unit) {
+    return () {
+      Navigator.pushNamed(
+        context,
+        '/unit',
+        arguments: UnitRouteArguments(
+          unit,
+          member: unit.member,
+        ),
+      );
+    };
+  }
+
+  void _getBalanceAction() {
+    showDialog(
+      context: context,
+      child: BalanceDialog(),
+    ).then((value) {
+      if (value == null) return;
+      Navigator.pushReplacement(
+        context,
+        buildInitialRoute('/wallet')(
+          (_) => WalletScreen(),
+        ),
+      );
+    });
   }
 }
