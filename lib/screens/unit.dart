@@ -232,17 +232,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     value: _PopupMenuValue.goToMember,
                     child: Row(
                       children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          // TODO: Ink.image
-                          child: ExtendedImage.network(
-                            member.avatarUrl,
-                            fit: BoxFit.cover,
-                            shape: BoxShape.circle,
-                            enableLoadState: false,
-                          ),
-                        ),
+                        Avatar(member.avatarUrl),
                         SizedBox(width: 8),
                         Text(
                           member.nickname,

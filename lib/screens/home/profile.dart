@@ -48,46 +48,34 @@ class HomeProfileState extends State<HomeProfile> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: 16),
-        Container(
-          width: 80,
-          height: 80,
-          child: Tooltip(
-            message: 'Поменять аватарку',
-            child: Material(
-              elevation: kButtonElevation,
-              type: MaterialType.circle,
-              clipBehavior: Clip.hardEdge,
-              color: Colors.white,
-              child: InkWell(
-                onTap: () {
-                  // TODO: загрузка аватарки
-                  // TODO: распознование лица и обрезание картинки
-                  // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (усложняет модерацию)
-                  showDialog(
-                    context: context,
-                    child: AlertDialog(
-                      content: Text(
-                          'Поменять аватарку можно будет в следующей версии.'),
-                      actions: [
-                        FlatButton(
-                          child: Text('ОК'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                splashColor: Colors.white.withOpacity(0.4),
-                child: Ink.image(
-                  fit: BoxFit.cover,
-                  image: ExtendedImage.network(
-                    profile.member.avatarUrl,
-                    enableLoadState: false,
-                  ).image,
-                ),
-              ),
+        Tooltip(
+          message: 'Поменять аватарку',
+          child: Avatar(
+            profile.member.avatarUrl,
+            radius: 40,
+            elevation: kButtonElevation,
+            child: InkWell(
+              onTap: () {
+                // TODO: загрузка аватарки
+                // TODO: распознование лица и обрезание картинки
+                // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (усложняет модерацию)
+                showDialog(
+                  context: context,
+                  child: AlertDialog(
+                    content: Text(
+                        'Поменять аватарку можно будет в следующей версии.'),
+                    actions: [
+                      FlatButton(
+                        child: Text('ОК'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+              splashColor: Colors.white.withOpacity(0.4),
             ),
           ),
         ),
@@ -171,39 +159,5 @@ class HomeProfileState extends State<HomeProfile> {
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
-
-    // Stack(
-    //   fit: StackFit.expand,
-    //   children: [
-    // Positioned(
-    //   top: 96,
-    //   left: 0,
-    //   right: 0,
-    //   child: Align(
-    //     alignment: Alignment.center,
-    //     child: Material(
-    //       elevation: kButtonElevation,
-    //       borderRadius: BorderRadius.all(
-    //         Radius.circular(8),
-    //       ),
-    //       child: Container(
-    //         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    //         decoration: BoxDecoration(
-    //           color: Colors.white,
-    //           // border: Border.all(
-    //           //   color: Colors.grey.withOpacity(0.4),
-    //           //   width: 1,
-    //           // ),
-    //           borderRadius: BorderRadius.all(
-    //             Radius.circular(8),
-    //           ),
-    //         ),
-    //         child: Text('сколько кармы'),
-    //       ),
-    //     ),
-    //   ),
-    // ),
-    //   ],
-    // );
   }
 }

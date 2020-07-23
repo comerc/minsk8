@@ -135,15 +135,18 @@ class WalletScreenState extends State<WalletScreen> {
                         textData = (textData as List)[textVariant];
                       }
                       Function action;
-                      Widget image;
+                      Widget avatar;
                       String text = textData;
                       <AccountValue, Function>{
                         AccountValue.start: () {
                           action = _getBalanceAction;
                           // TODO: поменять на иконку приложения
-                          image = Icon(
-                            FontAwesomeIcons.gift,
-                            color: Colors.deepOrangeAccent,
+                          avatar = CircleAvatar(
+                            child: Icon(
+                              FontAwesomeIcons.gift,
+                              color: Colors.deepOrangeAccent,
+                            ),
+                            backgroundColor: Colors.white,
                           );
                           text = interpolate(text, params: {
                             'value': payment.value,
@@ -151,15 +154,7 @@ class WalletScreenState extends State<WalletScreen> {
                         },
                         AccountValue.invite: () {
                           action = _getBalanceAction;
-                          image = AspectRatio(
-                            aspectRatio: 1,
-                            child: ExtendedImage.network(
-                              payment.invitedMember.avatarUrl,
-                              fit: BoxFit.cover,
-                              shape: BoxShape.circle,
-                              enableLoadState: false,
-                            ),
-                          );
+                          avatar = Avatar(payment.invitedMember.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value,
                             'member': payment.invitedMember.nickname,
@@ -167,21 +162,21 @@ class WalletScreenState extends State<WalletScreen> {
                         },
                         AccountValue.unfreeze: () {
                           action = _getUnitAction(payment.unit);
-                          image = _getUnitImage(payment.unit);
+                          avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value,
                           });
                         },
                         AccountValue.freeze: () {
                           action = _getUnitAction(payment.unit);
-                          image = _getUnitImage(payment.unit);
+                          avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value,
                           });
                         },
                         AccountValue.limit: () {
                           action = _getUnitAction(payment.unit);
-                          image = _getUnitImage(payment.unit);
+                          avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value,
                             'limit': 7,
@@ -189,7 +184,7 @@ class WalletScreenState extends State<WalletScreen> {
                         },
                         AccountValue.profit: () {
                           action = _getUnitAction(payment.unit);
-                          image = _getUnitImage(payment.unit);
+                          avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value,
                           });
@@ -200,10 +195,7 @@ class WalletScreenState extends State<WalletScreen> {
                         child: InkWell(
                           onTap: action,
                           child: ListTile(
-                            leading: CircleAvatar(
-                              child: image,
-                              backgroundColor: Colors.white,
-                            ),
+                            leading: avatar,
                             title: Text(text),
                             subtitle: Text(
                               DateFormat.jm('ru_RU').format(
@@ -249,18 +241,6 @@ class WalletScreenState extends State<WalletScreen> {
   Future<bool> _onRefresh() async {
     final sourceList = WalletScreen.sourceList;
     return await sourceList.handleRefresh();
-  }
-
-  Widget _getUnitImage(UnitModel unit) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: ExtendedImage.network(
-        unit.images[0].getDummyUrl(unit.id),
-        fit: BoxFit.cover,
-        shape: BoxShape.circle,
-        enableLoadState: false,
-      ),
-    );
   }
 
   Function _getUnitAction(UnitModel unit) {

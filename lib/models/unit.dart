@@ -101,6 +101,8 @@ class UnitModel {
   bool get isLocalDeleted => localDeletedUnitIds.contains(id);
   bool get isBlockedOrLocalDeleted => (isBlocked ?? false) || isLocalDeleted;
 
+  String get avatarUrl => images[0].getDummyUrl(id);
+
   factory UnitModel.fromJson(Map<String, dynamic> json) =>
       _$UnitModelFromJson(json);
 
