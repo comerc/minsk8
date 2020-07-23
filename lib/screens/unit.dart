@@ -235,6 +235,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         Container(
                           height: 48,
                           width: 48,
+                          // TODO: Ink.image
                           child: ExtendedImage.network(
                             member.avatarUrl,
                             fit: BoxFit.cover,
