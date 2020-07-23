@@ -27,16 +27,11 @@ class _BalanceDialogState extends State<BalanceDialog> {
         SizedBox(
           height: 16,
         ),
-        Center(
-          child: SizedBox(
-            height: 80,
-            width: 80,
-            child: ExtendedImage.network(
-              profile.member.avatarUrl,
-              fit: BoxFit.cover,
-              shape: BoxShape.circle,
-              enableLoadState: false,
-            ),
+        Container(
+          alignment: Alignment.topCenter,
+          child: Avatar(
+            profile.member.avatarUrl,
+            radius: kBigAvatarRadius,
           ),
         ),
         SizedBox(
