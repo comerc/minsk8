@@ -9,6 +9,7 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/Dn-a/flutter_tags
 
 // TODO: текстовое поле для описания себя в профиле (усложняет модерацию)
+// TODO: при изменении аватарки или баланса - нужно оповещать другие свои устройства
 
 class HomeProfile extends StatefulWidget {
   HomeProfile({this.version, this.hasUpdate});
@@ -158,6 +159,9 @@ class HomeProfileState extends State<HomeProfile> {
         if (widget.hasUpdate) Text('Доступна новая версия'),
         if (widget.hasUpdate)
           OutlineButton(
+            // TODO: почему не установить цвет для OutlineButton
+            // color: Colors.white,
+            // textColor: Colors.pinkAccent,
             child: Text('Обновить приложение'),
             onPressed: () {
               // TODO: go to update
