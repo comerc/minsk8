@@ -66,167 +66,169 @@ class WalletScreenState extends State<WalletScreen> {
               // in case list is not full screen and remove ios Bouncing
               physics: AlwaysScrollableClampingScrollPhysics(),
               slivers: [
-                LoadingMoreSliverList(SliverListConfig<WalletItem>(
-                  extendedListDelegate: ExtendedListDelegate(
-                    collectGarbage: (List<int> garbages) {
-                      garbages.forEach((index) {
-                        final unit =
-                            WalletScreen.sourceList[index].payment?.unit;
-                        if (unit == null) return;
-                        final image = unit.images[0];
-                        final provider = ExtendedNetworkImageProvider(
-                          image.getDummyUrl(unit.id),
-                        );
-                        provider.evict();
-                      });
-                    },
-                  ),
-                  itemBuilder:
-                      (BuildContext context, WalletItem item, int index) {
-                    if (item.displayDate != null) {
-                      return Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(8),
-                        child: Container(
-                          child: Text(
-                            item.displayDate,
-                            style: TextStyle(
-                              fontSize: kFontSize,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(0.8),
+                LoadingMoreSliverList(
+                  SliverListConfig<WalletItem>(
+                    extendedListDelegate: ExtendedListDelegate(
+                      collectGarbage: (List<int> garbages) {
+                        garbages.forEach((index) {
+                          final unit =
+                              WalletScreen.sourceList[index].payment?.unit;
+                          if (unit == null) return;
+                          final image = unit.images[0];
+                          final provider = ExtendedNetworkImageProvider(
+                            image.getDummyUrl(unit.id),
+                          );
+                          provider.evict();
+                        });
+                      },
+                    ),
+                    itemBuilder:
+                        (BuildContext context, WalletItem item, int index) {
+                      if (item.displayDate != null) {
+                        return Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(8),
+                          child: Container(
+                            child: Text(
+                              item.displayDate,
+                              style: TextStyle(
+                                fontSize: kFontSize,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(0.8),
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(kFontSize),
+                              ),
                             ),
                           ),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(kFontSize),
+                        );
+                      }
+                      final payment = item.payment;
+                      var textData = {
+                        AccountValue.start:
+                            'Добро пожаловать! Ловите {{value}} Кармы для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие лоты. Не ждите! Добавьте первый лот прямо сейчас!',
+                        AccountValue.invite:
+                            'Получено {{value}} Кармы за приглашение участника {{member}}. Приглашайте ещё друзей!',
+                        AccountValue.unfreeze: [
+                          'Разморожено {{value}} Кармы. Желаем найти что-нибудь интересное!',
+                          'Разморожено {{value}} Кармы. Желаем найти что-нибудь хорошее! 😊',
+                          'Разморожено {{value}} Кармы. Нажмите "Добавить в ожидание" на лоте, чтобы получать уведомления о появлении похожих!',
+                        ],
+                        AccountValue.freeze:
+                            'Ставка на лот принята! Заморожено {{value}} Кармы. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
+                        AccountValue.limit:
+                            'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысь Карму: что-нибудь отдай или пригласи друзей.',
+                        AccountValue.profit:
+                            'Получено {{value}} Кармы за лот. Отдайте ещё что-нибудь ненужное!',
+                      }[payment.account];
+                      if (textData is List) {
+                        var textVariant = payment.textVariant;
+                        if (textVariant == null ||
+                            textVariant >= (textData as List).length) {
+                          textVariant = 0;
+                        }
+                        textData = (textData as List)[textVariant];
+                      }
+                      Function action;
+                      Widget image;
+                      String text = textData;
+                      <AccountValue, Function>{
+                        AccountValue.start: () {
+                          action = _getBalanceAction;
+                          // TODO: поменять на иконку приложения
+                          image = Icon(
+                            FontAwesomeIcons.gift,
+                            color: Colors.deepOrangeAccent,
+                          );
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                          });
+                        },
+                        AccountValue.invite: () {
+                          action = _getBalanceAction;
+                          image = AspectRatio(
+                            aspectRatio: 1,
+                            child: ExtendedImage.network(
+                              payment.invitedMember.avatarUrl,
+                              fit: BoxFit.cover,
+                              shape: BoxShape.circle,
+                              enableLoadState: false,
                             ),
+                          );
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                            'member': payment.invitedMember.nickname,
+                          });
+                        },
+                        AccountValue.unfreeze: () {
+                          action = _getUnitAction(payment.unit);
+                          image = _getUnitImage(payment.unit);
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                          });
+                        },
+                        AccountValue.freeze: () {
+                          action = _getUnitAction(payment.unit);
+                          image = _getUnitImage(payment.unit);
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                          });
+                        },
+                        AccountValue.limit: () {
+                          action = _getUnitAction(payment.unit);
+                          image = _getUnitImage(payment.unit);
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                            'limit': 7,
+                          });
+                        },
+                        AccountValue.profit: () {
+                          action = _getUnitAction(payment.unit);
+                          image = _getUnitImage(payment.unit);
+                          text = interpolate(text, params: {
+                            'value': payment.value,
+                          });
+                        },
+                      }[payment.account]();
+
+                      return Material(
+                        child: InkWell(
+                          onTap: action,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: image,
+                              backgroundColor: Colors.white,
+                            ),
+                            title: Text(text),
+                            subtitle: Text(
+                              DateFormat.jm('ru_RU').format(
+                                payment.createdAt.toLocal(),
+                              ),
+                            ),
+                            dense: true,
                           ),
                         ),
                       );
-                    }
-                    final payment = item.payment;
-                    var textData = {
-                      AccountValue.start:
-                          'Добро пожаловать! Ловите {{value}} Кармы для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие лоты. Не ждите! Добавьте первый лот прямо сейчас!',
-                      AccountValue.invite:
-                          'Получено {{value}} Кармы за приглашение участника {{member}}. Приглашайте ещё друзей!',
-                      AccountValue.unfreeze: [
-                        'Разморожено {{value}} Кармы. Желаем найти что-нибудь интересное!',
-                        'Разморожено {{value}} Кармы. Желаем найти что-нибудь хорошее! 😊',
-                        'Разморожено {{value}} Кармы. Нажмите "Добавить в ожидание" на лоте, чтобы получать уведомления о появлении похожих!',
-                      ],
-                      AccountValue.freeze:
-                          'Ставка на лот принята! Заморожено {{value}} Кармы. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
-                      AccountValue.limit:
-                          'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысь Карму: что-нибудь отдай или пригласи друзей.',
-                      AccountValue.profit:
-                          'Получено {{value}} Кармы за лот. Отдайте ещё что-нибудь ненужное!',
-                    }[payment.account];
-                    if (textData is List) {
-                      var textVariant = payment.textVariant;
-                      if (textVariant == null ||
-                          textVariant >= (textData as List).length) {
-                        textVariant = 0;
-                      }
-                      textData = (textData as List)[textVariant];
-                    }
-                    Function action;
-                    Widget image;
-                    String text = textData;
-                    <AccountValue, Function>{
-                      AccountValue.start: () {
-                        action = _getBalanceAction;
-                        // TODO: поменять на иконку приложения
-                        image = Icon(
-                          FontAwesomeIcons.gift,
-                          color: Colors.deepOrangeAccent,
-                        );
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                        });
-                      },
-                      AccountValue.invite: () {
-                        action = _getBalanceAction;
-                        image = AspectRatio(
-                          aspectRatio: 1,
-                          child: ExtendedImage.network(
-                            payment.invitedMember.avatarUrl,
-                            fit: BoxFit.cover,
-                            shape: BoxShape.circle,
-                            enableLoadState: false,
-                          ),
-                        );
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                          'member': payment.invitedMember.nickname,
-                        });
-                      },
-                      AccountValue.unfreeze: () {
-                        action = _getUnitAction(payment.unit);
-                        image = _getUnitImage(payment.unit);
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                        });
-                      },
-                      AccountValue.freeze: () {
-                        action = _getUnitAction(payment.unit);
-                        image = _getUnitImage(payment.unit);
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                        });
-                      },
-                      AccountValue.limit: () {
-                        action = _getUnitAction(payment.unit);
-                        image = _getUnitImage(payment.unit);
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                          'limit': 7,
-                        });
-                      },
-                      AccountValue.profit: () {
-                        action = _getUnitAction(payment.unit);
-                        image = _getUnitImage(payment.unit);
-                        text = interpolate(text, params: {
-                          'value': payment.value,
-                        });
-                      },
-                    }[payment.account]();
-
-                    return Material(
-                      child: InkWell(
-                        onTap: action,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: image,
-                            backgroundColor: Colors.white,
-                          ),
-                          title: Text(text),
-                          subtitle: Text(
-                            DateFormat.jm('ru_RU').format(
-                              payment.createdAt.toLocal(),
-                            ),
-                          ),
-                          dense: true,
-                        ),
-                      ),
-                    );
-                  },
-                  sourceList: WalletScreen.sourceList,
-                  indicatorBuilder: (
-                    BuildContext context,
-                    IndicatorStatus status,
-                  ) {
-                    return buildListIndicator(
-                      context: context,
-                      status: status,
-                      sourceList: WalletScreen.sourceList,
-                    );
-                  },
-                  lastChildLayoutType: LastChildLayoutType.foot,
-                )),
+                    },
+                    sourceList: WalletScreen.sourceList,
+                    indicatorBuilder: (
+                      BuildContext context,
+                      IndicatorStatus status,
+                    ) {
+                      return buildListIndicator(
+                        context: context,
+                        status: status,
+                        sourceList: WalletScreen.sourceList,
+                      );
+                    },
+                    lastChildLayoutType: LastChildLayoutType.foot,
+                  ),
+                ),
               ],
             ),
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo info) {
