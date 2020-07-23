@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -43,7 +44,7 @@ class WalletScreenState extends State<WalletScreen> {
                     collectGarbage: (List<int> garbages) {
                       garbages.forEach((index) {
                         final unit =
-                            WalletScreen.sourceList[index].paymentUnit?.unit;
+                            WalletScreen.sourceList[index].payment?.unit;
                         if (unit == null) return;
                         final image = unit.images[0];
                         final provider = ExtendedNetworkImageProvider(
@@ -79,42 +80,96 @@ class WalletScreenState extends State<WalletScreen> {
                         ),
                       );
                     }
-                    final paymentUnit = item.paymentUnit;
-                    var accountValue = paymentUnit.account;
-                    var text = {
-                      // TODO: переработать текст - слишком фамильярно
+                    final payment = item.payment;
+                    var textData = {
                       AccountValue.start:
-                          'Добро пожаловать! Ловите {{value}} для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие вещи. Не ждите! Добавьте первый лот прямо сейчас!',
+                          'Добро пожаловать! Ловите {{value}} Кармы для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие лоты. Не ждите! Добавьте первый лот прямо сейчас!',
                       AccountValue.invite:
-                          'Получено {{value}} Кармы за приглашение участника {{nickname}}. Приглашайте ещё друзей!',
-                      // TODO: несколько разных текстов для unfreeze
-                      AccountValue.unfreeze:
-                          'Разморожено {{value}} Кармы. Желаем найти что-нибудь интересное!',
+                          'Получено {{value}} Кармы за приглашение участника {{member}}. Приглашайте ещё друзей!',
+                      AccountValue.unfreeze: [
+                        'Разморожено {{value}} Кармы. Желаем найти что-нибудь интересное!',
+                        'Разморожено {{value}} Кармы. Желаем найти что-нибудь хорошее! 😊',
+                        'Разморожено {{value}} Кармы. Нажмите "Добавить в ожидание" на лоте, чтобы получать уведомления о появлении похожих!',
+                      ],
                       AccountValue.freeze:
-                          'Заморожено {{value}} Кармы. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
+                          'Ставка на лот принята! Заморожено {{value}} Кармы. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
                       AccountValue.limit:
-                          'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысь Карму: что-нибудь отдай или пригласи друзей',
+                          'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысь Карму: что-нибудь отдай или пригласи друзей.',
                       AccountValue.profit:
-                          'Получено {{value}} Кармы за лот "{{unit}}". Отдайте ещё что-нибудь ненужное!',
-                    }[accountValue];
-                    if (paymentUnit.account == AccountValue.invite) {
-                      // text = interpolate(text, params: {
-                      //   'name': paymentUnit.invitedMember.nickname,
-                      //   'greet': '${4444}'
-                      // });
+                          'Получено {{value}} Кармы за лот. Отдайте ещё что-нибудь ненужное!',
+                    }[payment.account];
+                    if (textData is List) {
+                      var textVariant = payment.textVariant;
+                      if (textVariant == null ||
+                          textVariant >= (textData as List).length) {
+                        textVariant = 0;
+                      }
+                      textData = (textData as List)[textVariant];
                     }
+                    Widget image;
+                    String text = textData;
+                    <AccountValue, Function>{
+                      AccountValue.start: () {
+                        // TODO: поменять на иконку приложения
+                        image = Icon(
+                          FontAwesomeIcons.gift,
+                          color: Colors.deepOrangeAccent,
+                        );
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                        });
+                      },
+                      AccountValue.invite: () {
+                        image = AspectRatio(
+                          aspectRatio: 1,
+                          child: ExtendedImage.network(
+                            payment.invitedMember.avatarUrl,
+                            fit: BoxFit.cover,
+                            shape: BoxShape.circle,
+                            enableLoadState: false,
+                          ),
+                        );
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                          'member': payment.invitedMember.nickname,
+                        });
+                      },
+                      AccountValue.unfreeze: () {
+                        image = _getUnitImage(payment.unit);
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                        });
+                      },
+                      AccountValue.freeze: () {
+                        image = _getUnitImage(payment.unit);
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                        });
+                      },
+                      AccountValue.limit: () {
+                        image = _getUnitImage(payment.unit);
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                          'limit': 7,
+                        });
+                      },
+                      AccountValue.profit: () {
+                        image = _getUnitImage(payment.unit);
+                        text = interpolate(text, params: {
+                          'value': payment.value,
+                        });
+                      },
+                    }[payment.account]();
+                    // TODO: InkWell
                     return ListTile(
-                      // TODO: иконка приглашённого пользователя
-                      // TODO: иконка системы
-                      // TODO: иконка товара
                       leading: CircleAvatar(
-                        child: Icon(Icons.image),
+                        child: image,
                         backgroundColor: Colors.white,
                       ),
                       title: Text(text),
                       subtitle: Text(
                         DateFormat.jm('ru_RU').format(
-                          paymentUnit.createdAt.toLocal(),
+                          payment.createdAt.toLocal(),
                         ),
                       ),
                       dense: true,
@@ -153,5 +208,17 @@ class WalletScreenState extends State<WalletScreen> {
   Future<bool> _onRefresh() async {
     final sourceList = WalletScreen.sourceList;
     return await sourceList.handleRefresh();
+  }
+
+  Widget _getUnitImage(UnitModel unit) {
+    return AspectRatio(
+      aspectRatio: 1,
+      child: ExtendedImage.network(
+        unit.images[0].getDummyUrl(unit.id),
+        fit: BoxFit.cover,
+        shape: BoxShape.circle,
+        enableLoadState: false,
+      ),
+    );
   }
 }
