@@ -52,7 +52,7 @@ class HomeProfileState extends State<HomeProfile> {
           message: 'Поменять аватарку',
           child: Avatar(
             profile.member.avatarUrl,
-            radius: 40,
+            radius: kBigAvatarRadius,
             elevation: kButtonElevation,
             child: InkWell(
               onTap: () {
@@ -153,6 +153,7 @@ class HomeProfileState extends State<HomeProfile> {
             child: Text('Обновить приложение'),
             onPressed: () {
               // TODO: go to update
+              // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
             },
           ),
         Text('Версия: ${widget.version}'),
