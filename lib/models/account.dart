@@ -12,6 +12,7 @@ class AccountModel implements EnumModel {
   String get enumName => name;
 }
 
+// TODO: share link?
 enum AccountValue { start, invite, unfreeze, freeze, limit, profit }
 
 // final accounts = [
