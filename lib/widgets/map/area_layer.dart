@@ -22,8 +22,7 @@ class MapAreaLayer implements MapPlugin {
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (!(options is MapAreaLayerOptions)) {
-      throw Exception('Unknown options type for MapAreaLayer'
-          'plugin: $options');
+      throw 'Unknown options type for MapAreaLayer: $options';
     }
     return _MapAreaLayer(options: options, mapState: mapState);
   }

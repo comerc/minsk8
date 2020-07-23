@@ -11,8 +11,7 @@ class MapZoomLayer implements MapPlugin {
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (!(options is MapZoomLayerOptions)) {
-      throw Exception('Unknown options type for MapZoomLayer'
-          'plugin: $options');
+      throw 'Unknown options type for MapZoomLayer: $options';
     }
     return _MapZoomLayer(mapState: mapState);
   }

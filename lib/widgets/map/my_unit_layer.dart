@@ -18,8 +18,7 @@ class MapMyUnitLayer implements MapPlugin {
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (!(options is MapMyUnitLayerOptions)) {
-      throw Exception('Unknown options type for MapMyUnitLayer'
-          'plugin: $options');
+      throw 'Unknown options type for MapMyUnitLayer: $options';
     }
     return _MapMyUnitLayer(options: options, mapState: mapState);
   }

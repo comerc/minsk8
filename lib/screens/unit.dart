@@ -112,7 +112,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       throw result.exception;
                     }
                     if (result.data['update_unit']['affected_rows'] != 1) {
-                      throw Exception('Invalid update_unit.affected_rows');
+                      throw 'Invalid update_unit.affected_rows';
                     }
                   }).catchError((error) {
                     print(error);
@@ -156,8 +156,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     }
                     if (result.data['insert_moderation']['affected_rows'] !=
                         1) {
-                      throw Exception(
-                          'Invalid insert_moderation.affected_rows');
+                      throw 'Invalid insert_moderation.affected_rows';
                     }
                   }).catchError((error) {
                     print(error);
@@ -196,8 +195,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     }
                     if (result.data['insert_suggestion']['affected_rows'] !=
                         1) {
-                      throw Exception(
-                          'Invalid insert_suggestion.affected_rows');
+                      throw 'Invalid insert_suggestion.affected_rows';
                     }
                   }).catchError((error) {
                     print(error);

@@ -23,7 +23,7 @@ class MapScaleLayer implements MapPlugin {
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
     if (!(options is MapScaleLayerOption)) {
-      throw Exception('Unknown options type for MapScaleLayer: $options');
+      throw 'Unknown options type for MapScaleLayer: $options';
     }
     return _MapScaleLayer(options, mapState, stream);
   }
