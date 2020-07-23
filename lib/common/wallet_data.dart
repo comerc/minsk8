@@ -30,13 +30,13 @@ class WalletData extends SourceList<WalletItem> {
     final hasMore = dataItems.length == kGraphQLPaymentsLimit;
     this.hasMore = hasMore;
     if (hasMore) {
-      final paymentUnit = PaymentModel.fromJson(dataItems.removeLast());
-      nextCreatedAt = paymentUnit.createdAt.toUtc().toIso8601String();
+      final payment = PaymentModel.fromJson(dataItems.removeLast());
+      nextCreatedAt = payment.createdAt.toUtc().toIso8601String();
     }
     for (final dataItem in dataItems) {
-      final paymentUnit = PaymentModel.fromJson(dataItem);
+      final payment = PaymentModel.fromJson(dataItem);
       final date =
-          paymentUnit.createdAt.toLocal().toIso8601String().substring(0, 10);
+          payment.createdAt.toLocal().toIso8601String().substring(0, 10);
       if (_nextDate != date) {
         _nextDate = date;
         items.add(
@@ -48,17 +48,17 @@ class WalletData extends SourceList<WalletItem> {
           ),
         );
       }
-      items.add(WalletItem(paymentUnit: paymentUnit));
+      items.add(WalletItem(payment: payment));
     }
     return items;
   }
 }
 
 class WalletItem {
-  WalletItem({this.displayDate, this.paymentUnit})
-      : assert((displayDate != null || paymentUnit != null) &&
-            !(displayDate != null && paymentUnit != null));
+  WalletItem({this.displayDate, this.payment})
+      : assert((displayDate != null || payment != null) &&
+            !(displayDate != null && payment != null));
 
   String displayDate;
-  PaymentModel paymentUnit;
+  PaymentModel payment;
 }
