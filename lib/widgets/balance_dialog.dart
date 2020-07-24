@@ -38,7 +38,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
           height: 16,
         ),
         Text(
-          'У Вас ${profile.balance} Кармы',
+          'У Вас ${getPluralGold(profile.balance)}',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -50,14 +50,14 @@ class _BalanceDialogState extends State<BalanceDialog> {
           height: 8,
         ),
         OutlineButton(
-          child: Text('Движение Кармы'),
+          child: Text('Движение Золотых'),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
           textColor: Colors.red,
         ),
         FlatButton(
-          child: Text('Повысить Карму'),
+          child: Text('Добавить Золотых'),
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed('/how_to_pay');

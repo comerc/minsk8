@@ -93,20 +93,21 @@ String getPluralGold(int howMany) => Intl.plural(
       howMany,
       name: 'gold',
       args: [howMany],
-      one: '$howMany золотой',
-      other: '$howMany золотых',
+      one: '$howMany Золотой',
+      other: '$howMany Золотых',
       locale: 'ru',
     );
 
-String getPluralKarma(int howMany) => Intl.plural(
-      howMany,
-      name: 'karma',
-      args: [howMany],
-      one: '$howMany карма',
-      other: '$howMany кармы',
-      many: '$howMany карм',
-      locale: 'ru',
-    );
+// заменил Karma на Gold
+// String getPluralKarma(int howMany) => Intl.plural(
+//       howMany,
+//       name: 'karma',
+//       args: [howMany],
+//       one: '$howMany Карма',
+//       other: '$howMany Кармы',
+//       many: '$howMany Карм',
+//       locale: 'ru',
+//     );
 
 class SizeInt {
   SizeInt(this.width, this.height);

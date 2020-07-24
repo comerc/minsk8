@@ -103,7 +103,7 @@ class WantDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: Text(
                   unit.price == null
-                      ? 'Только 6 лотов задаром в день.\n\nПовышайте Карму, чтобы увеличить лимит:\nотдавайте и забирайте, приглашайте друзей.'
+                      ? 'Только $kFreeLimit лотов задаром в день.\n\nДобавьте Золотых, чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.'
                       : 'Заморозится до завершения таймера.',
                 ),
               ),

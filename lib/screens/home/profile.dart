@@ -89,7 +89,7 @@ class HomeProfileState extends State<HomeProfile> {
           ),
         ),
         Text(
-          getPluralKarma(profile.balance),
+          getPluralGold(profile.balance),
           style: TextStyle(
             // fontSize: kFontSize,
             fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class HomeProfileState extends State<HomeProfile> {
           ),
         ),
         FlatButton(
-          child: Text('ПОВЫСИТЬ КАРМУ'),
+          child: Text('ДОБАВИТЬ ЗОЛОТЫХ'),
           onPressed: () {
             Navigator.of(context).pushNamed('/how_to_pay');
           },

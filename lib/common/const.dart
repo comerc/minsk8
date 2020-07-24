@@ -36,3 +36,4 @@ const kMediumWidth = 1200;
 const kLargeWidth = 2400;
 const kMaxDragOffset = 100.0;
 const kBigAvatarRadius = 40.0;
+const kFreeLimit = 7;
