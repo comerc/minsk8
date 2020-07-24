@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:minsk8/import.dart';
 
-class PayScreen extends StatelessWidget {
+class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
