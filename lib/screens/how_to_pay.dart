@@ -7,7 +7,6 @@ import 'package:minsk8/import.dart';
 class HowToPayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Добавить Золотых'),
@@ -20,32 +19,8 @@ class HowToPayScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(
-                    FontAwesomeIcons.gift,
-                    color: Colors.deepOrangeAccent,
-                    size: kBigButtonIconSize,
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'У Вас ${getPluralGold(profile.balance)}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black.withOpacity(0.8),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'увеличьте их одним из способов',
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+                  _Logo(),
+                  _Title(),
                   _Menu(),
                 ],
               ),
@@ -69,6 +44,117 @@ class HowToPayScreen extends StatelessWidget {
   }
 }
 
+class _Title extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final profile = Provider.of<ProfileModel>(context, listen: false);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'У Вас ${getPluralGold(profile.balance)}',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black.withOpacity(0.8),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+          'увеличьте их одним из способов',
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150,
+      width: 200,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 150 / 2 - kBigButtonIconSize / 2 + 10,
+            left: 200 / 2 - kBigButtonIconSize / 2,
+            child: Icon(
+              FontAwesomeIcons.gift,
+              color: Colors.deepOrangeAccent,
+              size: kBigButtonIconSize,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 20,
+            child: Transform.rotate(
+              angle: -.4,
+              child: Icon(
+                FontAwesomeIcons.book,
+                color: Colors.deepOrangeAccent,
+                // size: kButtonIconSize,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: 0,
+            child: Transform.rotate(
+              angle: -.4,
+              child: Icon(
+                FontAwesomeIcons.bicycle,
+                color: Colors.deepOrangeAccent,
+                // size: kButtonIconSize,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 100,
+            child: Transform.rotate(
+              angle: .4,
+              child: Icon(
+                FontAwesomeIcons.chair,
+                color: Colors.deepOrangeAccent,
+                // size: kButtonIconSize,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            right: 0,
+            child: Transform.rotate(
+              angle: -.4,
+              child: Icon(
+                FontAwesomeIcons.mobileAlt,
+                color: Colors.deepOrangeAccent,
+                // size: kButtonIconSize,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 20,
+            child: Transform.rotate(
+              angle: -.4,
+              child: Icon(
+                FontAwesomeIcons.wineBottle,
+                color: Colors.deepOrangeAccent,
+                // size: kButtonIconSize,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _Menu extends StatelessWidget {
   final _menu = {
     '/add_unit': [
@@ -87,27 +173,40 @@ class _Menu extends StatelessWidget {
     return GlowNotificationWidget(
       ListView.separated(
         shrinkWrap: true,
+        padding: EdgeInsets.symmetric(horizontal: 16),
         itemCount: _menu.length,
         itemBuilder: (BuildContext context, int index) {
           final entry = _menu[index];
           return Material(
+            color: index == _menu.length - 1 ? Colors.red : Colors.white,
             child: InkWell(
               child: ListTile(
+                dense: true,
                 title: index == _menu.length - 1
                     ? Text(
                         entry.value[0],
                         style: TextStyle(
-                          color: Colors.red,
+                          color: Colors.white,
                         ),
                       )
                     : Text(entry.value[0]),
-                subtitle: Text(entry.value[1]),
+                subtitle: index == _menu.length - 1
+                    ? Text(
+                        entry.value[1],
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(entry.value[1]),
                 trailing: Icon(
                   Icons.navigate_next,
-                  color: Colors.black.withOpacity(0.8),
+                  color: index == _menu.length - 1
+                      ? Colors.white
+                      : Colors.black.withOpacity(0.8),
                   size: kButtonIconSize,
                 ),
               ),
+              onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 if (entry.key == '/add_unit') {
                   Navigator.pushNamed(
@@ -132,11 +231,7 @@ class _Menu extends StatelessWidget {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            indent: 16,
-            endIndent: 16,
-            height: 1,
-          );
+          return SizedBox(height: 8);
         },
       ),
     );
