@@ -198,6 +198,7 @@ class App extends StatelessWidget {
         '/faq': (_) => MarkdownScreen('faq.md', title: 'Вопросы и ответы'),
         '/feedback': (_) => FeedbackScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
+        '/invite': (_) => InviteScreen(),
         '/how_to_pay': (_) => HowToPayScreen(),
         '/how_it_works': (_) =>
             MarkdownScreen('how_it_works.md', title: 'Как это работает'),
@@ -206,7 +207,7 @@ class App extends StatelessWidget {
         '/ledger': (_) => LedgerScreen(),
         '/login': (_) => LoginScreen(),
         '/my_unit_map': (_) => MyUnitMapScreen(),
-        '/pay': (_) => PayScreen(),
+        '/payment': (_) => PaymentScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
         '/showcase_map': (_) => ShowcaseMapScreen(),

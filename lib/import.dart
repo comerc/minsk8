@@ -54,6 +54,7 @@ export 'screens/home/home.dart';
 export 'screens/home/profile.dart';
 export 'screens/home/showcase.dart';
 export 'screens/home/underway.dart';
+export 'screens/invite.dart';
 export 'screens/how_to_pay.dart';
 export 'screens/kinds.dart';
 export 'screens/ledger.dart';
