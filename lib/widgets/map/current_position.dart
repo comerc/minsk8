@@ -22,12 +22,16 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
     return Container(
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(bottom: 16),
-      child: MaterialButton(
-        color: Colors.white,
-        child: Icon(Icons.my_location),
-        height: kBigButtonHeight,
-        shape: CircleBorder(),
-        onPressed: _onCurrentPositionClick,
+      // Tooltip перекрывает onLongPress для FlutterMap
+      child: Tooltip(
+        message: 'Где я?',
+        child: MaterialButton(
+          color: Colors.white,
+          child: Icon(Icons.my_location),
+          height: kBigButtonHeight,
+          shape: CircleBorder(),
+          onPressed: _onCurrentPositionClick,
+        ),
       ),
     );
   }

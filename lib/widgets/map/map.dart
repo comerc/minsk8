@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'area_layer.dart';
 import 'my_unit_layer.dart';
 import 'scale_layer.dart';
@@ -261,6 +263,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         zoom: widget.zoom,
         minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
+        onLongPress: _handleLongPress,
         plugins: [
           widget.isMyUnit ? MapMyUnitLayer() : MapAreaLayer(),
           MapScaleLayer(),
@@ -349,5 +352,15 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     //       LatLng(position.latitude, position.longitude),
     //       widget.mapState.zoom);
     // }
+  }
+
+  void _handleLongPress(LatLng point) async {
+    final url = Platform.isIOS
+        ? 'http://maps.apple.com/?ll=${point.latitude},${point.longitude}'
+        : 'geo:${point.latitude},${point.longitude}';
+    if (!await canLaunch(url)) {
+      throw 'Could not launch $url';
+    }
+    await launch(url);
   }
 }

@@ -10,6 +10,7 @@ class ReadyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Tooltip перекрывает onLongPress для FlutterMap
     return Tooltip(
       message: 'Подтвердить',
       child: Material(
