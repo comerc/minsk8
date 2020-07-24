@@ -119,7 +119,7 @@ class App extends StatelessWidget {
         HomeUnderway.dataPool = UnderwayValue.values
             .map((value) => UnderwayData(client, value))
             .toList();
-        WalletScreen.sourceList = WalletData(client);
+        LedgerScreen.sourceList = LedgerData(client);
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -201,6 +201,7 @@ class App extends StatelessWidget {
         '/how_to_pay': (_) => HowToPayScreen(),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
+        '/ledger': (_) => LedgerScreen(),
         '/login': (_) => LoginScreen(),
         '/my_unit_map': (_) => MyUnitMapScreen(),
         '/pay': (_) => PayScreen(),
@@ -216,7 +217,6 @@ class App extends StatelessWidget {
             UnitMapScreen(ModalRoute.of(context).settings.arguments),
         '/useful_tips': (_) =>
             MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
-        '/wallet': (_) => WalletScreen(),
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },

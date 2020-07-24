@@ -2,8 +2,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:minsk8/import.dart';
 
-class WalletData extends SourceList<WalletItem> {
-  WalletData(
+class LedgerData extends SourceList<LedgerItem> {
+  LedgerData(
     GraphQLClient client,
   ) : super(client);
 
@@ -23,10 +23,10 @@ class WalletData extends SourceList<WalletItem> {
   }
 
   @override
-  List<WalletItem> getItems(data) {
+  List<LedgerItem> getItems(data) {
     final dataItems = [...data['payments'] as List];
     // сначала наполняю буфер items, если есть ошибки в PaymentModel.fromJson
-    final items = <WalletItem>[];
+    final items = <LedgerItem>[];
     final hasMore = dataItems.length == kGraphQLPaymentsLimit;
     this.hasMore = hasMore;
     if (hasMore) {
@@ -40,7 +40,7 @@ class WalletData extends SourceList<WalletItem> {
       if (_nextDate != date) {
         _nextDate = date;
         items.add(
-          WalletItem(
+          LedgerItem(
             // TODO: locale autodetect
             displayDate: DateFormat.yMMMMd('ru_RU').format(
               DateTime.parse(date),
@@ -48,14 +48,14 @@ class WalletData extends SourceList<WalletItem> {
           ),
         );
       }
-      items.add(WalletItem(payment: payment));
+      items.add(LedgerItem(payment: payment));
     }
     return items;
   }
 }
 
-class WalletItem {
-  WalletItem({this.displayDate, this.payment})
+class LedgerItem {
+  LedgerItem({this.displayDate, this.payment})
       : assert((displayDate != null || payment != null) &&
             !(displayDate != null && payment != null));
 

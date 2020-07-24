@@ -84,6 +84,10 @@ final mainRoutes = [
     'arguments': KindsRouteArguments(KindValue.pets),
   },
   {
+    'title': 'Ledger',
+    'routeName': '/ledger',
+  },
+  {
     'title': 'Login',
     'routeName': '/login',
   },
@@ -118,10 +122,6 @@ final mainRoutes = [
   {
     'title': 'Useful Tips',
     'routeName': '/useful_tips',
-  },
-  {
-    'title': 'Wallet',
-    'routeName': '/wallet',
   },
   {
     'title': 'Wishes',

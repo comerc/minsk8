@@ -28,7 +28,7 @@ class HomeProfileState extends State<HomeProfile> {
 //   HomeProfile({this.version, this.hasUpdate});
 
   final _menu = {
-    '/wallet': 'Движение Кармы',
+    '/ledger': 'Движение Золотых',
     '/feedback': 'Обратная связь',
     '/faq': 'Вопросы и ответы',
     '/useful_tips': 'Полезные советы',

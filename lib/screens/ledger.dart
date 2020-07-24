@@ -8,16 +8,16 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_list/extended_list.dart';
 import 'package:minsk8/import.dart';
 
-class WalletScreen extends StatefulWidget {
-  static WalletData sourceList;
+class LedgerScreen extends StatefulWidget {
+  static LedgerData sourceList;
 
   @override
-  WalletScreenState createState() {
-    return WalletScreenState();
+  LedgerScreenState createState() {
+    return LedgerScreenState();
   }
 }
 
-class WalletScreenState extends State<WalletScreen> {
+class LedgerScreenState extends State<LedgerScreen> {
   static bool _isFirst = true;
   static bool _isOpen1 = false;
   static bool _isOpen2 = false;
@@ -28,7 +28,7 @@ class WalletScreenState extends State<WalletScreen> {
     if (_isFirst) {
       _isFirst = false;
     } else {
-      WalletScreen.sourceList.refresh(true);
+      LedgerScreen.sourceList.refresh(true);
     }
     if (_isOpen1) {
       _isOpen2 = true;
@@ -40,7 +40,7 @@ class WalletScreenState extends State<WalletScreen> {
   @override
   void dispose() {
     if (!_isOpen2) {
-      WalletScreen.sourceList.clear();
+      LedgerScreen.sourceList.clear();
     }
     if (_isOpen2) {
       _isOpen2 = false;
@@ -54,7 +54,7 @@ class WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Движение Кармы'),
+        title: Text('Движение Золотых'),
       ),
       body: PullToRefreshNotification(
         onRefresh: _onRefresh,
@@ -67,12 +67,12 @@ class WalletScreenState extends State<WalletScreen> {
               physics: AlwaysScrollableClampingScrollPhysics(),
               slivers: [
                 LoadingMoreSliverList(
-                  SliverListConfig<WalletItem>(
+                  SliverListConfig<LedgerItem>(
                     extendedListDelegate: ExtendedListDelegate(
                       collectGarbage: (List<int> garbages) {
                         garbages.forEach((index) {
                           final unit =
-                              WalletScreen.sourceList[index].payment?.unit;
+                              LedgerScreen.sourceList[index].payment?.unit;
                           if (unit == null) return;
                           final image = unit.images[0];
                           final provider = ExtendedNetworkImageProvider(
@@ -83,7 +83,7 @@ class WalletScreenState extends State<WalletScreen> {
                       },
                     ),
                     itemBuilder:
-                        (BuildContext context, WalletItem item, int index) {
+                        (BuildContext context, LedgerItem item, int index) {
                       if (item.displayDate != null) {
                         return Container(
                           alignment: Alignment.center,
@@ -207,7 +207,7 @@ class WalletScreenState extends State<WalletScreen> {
                         ),
                       );
                     },
-                    sourceList: WalletScreen.sourceList,
+                    sourceList: LedgerScreen.sourceList,
                     indicatorBuilder: (
                       BuildContext context,
                       IndicatorStatus status,
@@ -215,7 +215,7 @@ class WalletScreenState extends State<WalletScreen> {
                       return buildListIndicator(
                         context: context,
                         status: status,
-                        sourceList: WalletScreen.sourceList,
+                        sourceList: LedgerScreen.sourceList,
                       );
                     },
                     lastChildLayoutType: LastChildLayoutType.foot,
@@ -239,7 +239,7 @@ class WalletScreenState extends State<WalletScreen> {
   }
 
   Future<bool> _onRefresh() async {
-    final sourceList = WalletScreen.sourceList;
+    final sourceList = LedgerScreen.sourceList;
     return await sourceList.handleRefresh();
   }
 
@@ -264,8 +264,8 @@ class WalletScreenState extends State<WalletScreen> {
       if (value == null) return;
       Navigator.pushReplacement(
         context,
-        buildInitialRoute('/wallet')(
-          (_) => WalletScreen(),
+        buildInitialRoute('/ledger')(
+          (_) => LedgerScreen(),
         ),
       );
     });

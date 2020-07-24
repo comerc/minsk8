@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 // import 'package:minsk8/import.dart';
 
-// TODO: как сделать splash для элемента списка WalletScreen и пункта меню UnitScreen?
+// TODO: как сделать splash для элемента списка LedgerScreen и пункта меню UnitScreen?
 
 class Avatar extends StatelessWidget {
   Avatar(this.url, {this.radius = 20, this.elevation = 0, this.child});
