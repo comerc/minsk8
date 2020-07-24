@@ -52,6 +52,9 @@ class FeedbackScreen extends StatelessWidget {
             ),
             Text(
               'Мы станем ещё лучше',
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.6),
+              ),
             ),
             SizedBox(
               height: 8,
