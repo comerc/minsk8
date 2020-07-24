@@ -22,6 +22,7 @@ class EnumModelDialog<T extends EnumModel> extends StatelessWidget {
               child: ListTile(
                 title: Text(elements[index].enumName),
               ),
+              onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 Navigator.of(context).pop(elements[index].enumValue);
               },
@@ -32,6 +33,7 @@ class EnumModelDialog<T extends EnumModel> extends StatelessWidget {
       actions: [
         FlatButton(
           child: Text('Отмена'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             Navigator.of(context).pop();
           },

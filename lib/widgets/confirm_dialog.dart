@@ -41,6 +41,7 @@ class ConfirmDialog extends StatelessWidget {
             children: [
               OutlineButton(
                 child: Text(cancel ?? 'Отмена'),
+                onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -50,6 +51,7 @@ class ConfirmDialog extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(ok),
+                onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },

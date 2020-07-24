@@ -60,6 +60,7 @@ class AddedUnitDialog extends StatelessWidget {
                     Text('Добавьте ещё один лот'),
                   ],
                 ),
+                onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
@@ -82,6 +83,7 @@ class AddedUnitDialog extends StatelessWidget {
                       Text('Поделитесь и получите бонус'),
                     ],
                   ),
+                  onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     share(unit);
                   },

@@ -98,6 +98,7 @@ class HomeProfileState extends State<HomeProfile> {
         ),
         FlatButton(
           child: Text('ПОВЫСИТЬ КАРМУ'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             Navigator.of(context).pushNamed('/how_to_pay');
           },
@@ -128,6 +129,7 @@ class HomeProfileState extends State<HomeProfile> {
                         size: kButtonIconSize,
                       ),
                     ),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
                     onTap: () {
                       Navigator.of(context).pushNamed(entry.key);
                     },
@@ -150,7 +152,9 @@ class HomeProfileState extends State<HomeProfile> {
             // TODO: почему не установить цвет для OutlineButton
             // color: Colors.white,
             // textColor: Colors.pinkAccent,
+            textColor: Colors.black.withOpacity(0.8),
             child: Text('Обновить приложение'),
+            onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
               // TODO: go to update
               // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2

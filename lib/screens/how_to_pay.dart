@@ -9,7 +9,7 @@ class HowToPayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Повысить Карму'),
+        title: Text('Как повысить Карму'),
       ),
       body: Container(
         alignment: Alignment.topCenter,
@@ -33,6 +33,7 @@ class HowToPayScreen extends StatelessWidget {
                   color: Colors.black.withOpacity(0.6),
                 ),
               ),
+              onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
                 Navigator.of(context).pushNamed('/how_it_works');
               },
@@ -64,7 +65,7 @@ class _Title extends StatelessWidget {
           height: 8,
         ),
         Text(
-          'увеличьте их одним из способов',
+          'увеличьте её одним из способов',
           textAlign: TextAlign.center,
         ),
       ],
@@ -212,7 +213,7 @@ class _Menu extends StatelessWidget {
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 if (entry.key == '/add_unit') {
-                  Navigator.pushNamed(
+                  Navigator.pushReplacementNamed(
                     context,
                     '/kinds',
                   ).then((kind) {
@@ -227,7 +228,7 @@ class _Menu extends StatelessWidget {
                     );
                   });
                 } else {
-                  Navigator.of(context).pushNamed(entry.key);
+                  Navigator.of(context).pushReplacementNamed(entry.key);
                 }
               },
             ),

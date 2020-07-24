@@ -51,6 +51,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
         ),
         OutlineButton(
           child: Text('Движение Кармы'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             Navigator.of(context).pop(true);
           },
@@ -58,6 +59,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
         ),
         FlatButton(
           child: Text('Повысить Карму'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed('/how_to_pay');

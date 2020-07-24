@@ -326,6 +326,8 @@ class _UnitScreenState extends State<UnitScreen> {
                                       .unitHorizontalMargin),
                               child: Material(
                                 child: InkWell(
+                                  onLongPress:
+                                      () {}, // чтобы сократить время для splashColor
                                   onTap: () async {
                                     setState(() {
                                       _showHero = _ShowHero.forOpenZoom;
@@ -492,6 +494,8 @@ class _UnitScreenState extends State<UnitScreen> {
                                   child: InkWell(
                                     // TODO: т.к. картинки квадратные, можно переключать на следующую
                                     // onLongPress: () {},
+                                    onLongPress:
+                                        () {}, // чтобы сократить время для splashColor
                                     onTap: () {
                                       Navigator.pushNamedAndRemoveUntil(
                                         context,

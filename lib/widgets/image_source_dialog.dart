@@ -38,26 +38,29 @@ class _ImageSourceUnit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialogOption(
-      onPressed: () {
-        Navigator.of(context).pop(result);
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: Colors.black.withOpacity(0.8),
-            size: kBigButtonIconSize,
-          ),
-          Flexible(
-            child: Padding(
-              padding: EdgeInsetsDirectional.only(start: 16),
-              child: Text(text),
+    return GestureDetector(
+      onLongPress: () {}, // чтобы сократить время для splashColor
+      child: SimpleDialogOption(
+        onPressed: () {
+          Navigator.of(context).pop(result);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Colors.black.withOpacity(0.8),
+              size: kBigButtonIconSize,
             ),
-          ),
-        ],
+            Flexible(
+              child: Padding(
+                padding: EdgeInsetsDirectional.only(start: 16),
+                child: Text(text),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

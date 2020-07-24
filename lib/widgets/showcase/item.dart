@@ -41,6 +41,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     final image = unit.images[0];
     return Material(
       child: InkWell(
+        onLongPress: () {}, // чтобы сократить время для splashColor
         onTap: () {
           // Navigator.of(context).push(PageRouteBuilder(
           //   settings: RouteSettings(

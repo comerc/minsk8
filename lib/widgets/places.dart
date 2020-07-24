@@ -83,15 +83,18 @@ class _PlacesState extends State<Places> {
         } catch (e) {
           debugPrint('$e');
         }
-        return ListTile(
-          leading: Container(
-            padding:
-                EdgeInsets.only(left: kMinLeadingWidth - kBigButtonIconSize),
-            child: Icon(Icons.location_on, size: kBigButtonIconSize),
+        return GestureDetector(
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          child: ListTile(
+            leading: Container(
+              padding:
+                  EdgeInsets.only(left: kMinLeadingWidth - kBigButtonIconSize),
+              child: Icon(Icons.location_on, size: kBigButtonIconSize),
+            ),
+            // leading: Icon(Icons.location_on, size: kBigButtonIconSize),
+            title: _Highlight(title),
+            subtitle: _Highlight(subtitles.join(', ')),
           ),
-          // leading: Icon(Icons.location_on, size: kBigButtonIconSize),
-          title: _Highlight(title),
-          subtitle: _Highlight(subtitles.join(', ')),
         );
       },
       onSuggestionSelected: widget.onSuggestionSelected,

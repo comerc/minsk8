@@ -28,6 +28,7 @@ Future<UrgentStatus> selectUrgentDialog(
                         : Icons.check_box_outline_blank)),
                     dense: true,
                   ),
+                  onLongPress: () {}, // чтобы сократить время для splashColor
                   onTap: () {
                     Navigator.of(context).pop(urgents[index].value);
                   },

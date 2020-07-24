@@ -57,31 +57,41 @@ class FeedbackScreen extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            FlatButton(
-              child: Text('Оценить приложение'),
-              onPressed: () {
-                // TODO: how to open market?
-                // launch_review
-                // For iOS 9 and above, your Info.plist file MUST have the following:
-                // <key>LSApplicationQueriesSchemes</key>
-                // <array>
-                //         <string>itms-beta</string>
-                //         <string>itms</string>
-                // </array>
-                // LaunchReview.launch(
-                //   androidAppId: kAndroidAppId,
-                //   iOSAppId: kIOSAppId,
-                // );
-              },
-              color: Colors.red,
-              textColor: Colors.white,
-            ),
-            OutlineButton(
-              child: Text('Сообщить о проблеме'),
-              onPressed: () {
-                _launchFeedback(context);
-              },
-              textColor: Colors.red,
+            Container(
+              width: 200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FlatButton(
+                    child: Text('Оценить приложение'),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onPressed: () {
+                      // TODO: how to open market?
+                      // launch_review
+                      // For iOS 9 and above, your Info.plist file MUST have the following:
+                      // <key>LSApplicationQueriesSchemes</key>
+                      // <array>
+                      //         <string>itms-beta</string>
+                      //         <string>itms</string>
+                      // </array>
+                      // LaunchReview.launch(
+                      //   androidAppId: kAndroidAppId,
+                      //   iOSAppId: kIOSAppId,
+                      // );
+                    },
+                    color: Colors.red,
+                    textColor: Colors.white,
+                  ),
+                  OutlineButton(
+                    child: Text('Сообщить о проблеме'),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onPressed: () {
+                      _launchFeedback(context);
+                    },
+                    textColor: Colors.red,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

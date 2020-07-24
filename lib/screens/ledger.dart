@@ -194,6 +194,8 @@ class LedgerScreenState extends State<LedgerScreen> {
 
                       return Material(
                         child: InkWell(
+                          onLongPress:
+                              () {}, // чтобы сократить время для splashColor
                           onTap: action,
                           child: ListTile(
                             leading: avatar,

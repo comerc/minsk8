@@ -69,6 +69,7 @@ Widget buildListIndicator({
       result = _buildBackground(false, result);
       result = Material(
         child: InkWell(
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onTap: () {
             sourceList.errorRefresh();
           },
@@ -84,6 +85,7 @@ Widget buildListIndicator({
       result = _buildBackground(true, result);
       result = Material(
         child: InkWell(
+          onLongPress: () {}, // чтобы сократить время для splashColor
           onTap: () {
             sourceList.errorRefresh();
           },

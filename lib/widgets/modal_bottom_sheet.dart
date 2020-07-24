@@ -29,6 +29,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
           children: [
             OutlineButton(
               child: Text('Закрыть'),
+              onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
@@ -38,6 +39,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
             ),
             FlatButton(
               child: Text('Остаться'),
+              onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
