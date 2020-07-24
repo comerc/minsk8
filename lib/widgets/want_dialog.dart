@@ -81,7 +81,7 @@ class WantDialog extends StatelessWidget {
           child: Text(
             unit.price == null
                 ? 'Точно сможете забрать?'
-                : 'Предложить +1 = ${getPluralGold(unit.price + 1)}?',
+                : 'Предложить +1 = ${getPluralKarma(unit.price + 1)}?',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -103,7 +103,7 @@ class WantDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: Text(
                   unit.price == null
-                      ? 'Только $kFreeLimit лотов задаром в день.\n\nДобавьте Золотых, чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.'
+                      ? 'Только $kFreeLimit лотов даром в день.\n\nПовысьте Карму, чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.'
                       : 'Заморозится до завершения таймера.',
                 ),
               ),

@@ -89,25 +89,25 @@ String getOperationExceptionToString(OperationException operationException) {
   return text;
 }
 
-String getPluralGold(int howMany) => Intl.plural(
-      howMany,
-      name: 'gold',
-      args: [howMany],
-      one: '$howMany Золотой',
-      other: '$howMany Золотых',
-      locale: 'ru',
-    );
-
-// заменил Karma на Gold
-// String getPluralKarma(int howMany) => Intl.plural(
+// заменил Gold на Karma
+// String getPluralGold(int howMany) => Intl.plural(
 //       howMany,
-//       name: 'karma',
+//       name: 'gold',
 //       args: [howMany],
-//       one: '$howMany Карма',
-//       other: '$howMany Кармы',
-//       many: '$howMany Карм',
+//       one: '$howMany Золотой',
+//       other: '$howMany Золотых',
 //       locale: 'ru',
 //     );
+
+String getPluralKarma(int howMany) => Intl.plural(
+      howMany,
+      name: 'karma',
+      args: [howMany],
+      one: '$howMany Карма',
+      other: '$howMany Кармы',
+      many: '$howMany Карм',
+      locale: 'ru',
+    );
 
 class SizeInt {
   SizeInt(this.width, this.height);

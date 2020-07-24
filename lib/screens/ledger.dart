@@ -54,7 +54,7 @@ class LedgerScreenState extends State<LedgerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Движение Золотых'),
+        title: Text('Движение Кармы'),
       ),
       body: PullToRefreshNotification(
         onRefresh: _onRefresh,
@@ -122,7 +122,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                         AccountValue.freeze:
                             'Ставка на лот принята! Заморожено {{value}}. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
                         AccountValue.limit:
-                            'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — добавьте Золотых: что-нибудь отдайте или пригласите друзей.',
+                            'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысьте Карму: что-нибудь отдайте или пригласите друзей.',
                         AccountValue.profit:
                             'Получено {{value}} за лот. Отдайте ещё что-нибудь ненужное!',
                       }[payment.account];
@@ -149,14 +149,14 @@ class LedgerScreenState extends State<LedgerScreen> {
                             backgroundColor: Colors.white,
                           );
                           text = interpolate(text, params: {
-                            'value': getPluralGold(payment.value),
+                            'value': getPluralKarma(payment.value),
                           });
                         },
                         AccountValue.invite: () {
                           action = _getBalanceAction;
                           avatar = Avatar(payment.invitedMember.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': getPluralGold(payment.value),
+                            'value': getPluralKarma(payment.value),
                             'member': payment.invitedMember.nickname,
                           });
                         },
@@ -164,21 +164,21 @@ class LedgerScreenState extends State<LedgerScreen> {
                           action = _getUnitAction(payment.unit);
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': getPluralGold(payment.value),
+                            'value': getPluralKarma(payment.value),
                           });
                         },
                         AccountValue.freeze: () {
                           action = _getUnitAction(payment.unit);
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': getPluralGold(payment.value),
+                            'value': getPluralKarma(payment.value),
                           });
                         },
                         AccountValue.limit: () {
                           action = _getUnitAction(payment.unit);
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': payment.value, // это не Золотые!
+                            'value': payment.value, // это не Карма!
                             'limit':
                                 kFreeLimit, // TODO: зависит от payment.createdAt
                           });
@@ -187,7 +187,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                           action = _getUnitAction(payment.unit);
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': getPluralGold(payment.value),
+                            'value': getPluralKarma(payment.value),
                           });
                         },
                       }[payment.account]();

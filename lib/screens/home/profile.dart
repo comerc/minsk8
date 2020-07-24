@@ -28,7 +28,7 @@ class HomeProfileState extends State<HomeProfile> {
 //   HomeProfile({this.version, this.hasUpdate});
 
   final _menu = {
-    '/ledger': 'Движение Золотых',
+    '/ledger': 'Движение Кармы',
     '/feedback': 'Обратная связь',
     '/faq': 'Вопросы и ответы',
     '/useful_tips': 'Полезные советы',
@@ -89,7 +89,7 @@ class HomeProfileState extends State<HomeProfile> {
           ),
         ),
         Text(
-          getPluralGold(profile.balance),
+          getPluralKarma(profile.balance),
           style: TextStyle(
             // fontSize: kFontSize,
             fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class HomeProfileState extends State<HomeProfile> {
           ),
         ),
         FlatButton(
-          child: Text('ДОБАВИТЬ ЗОЛОТЫХ'),
+          child: Text('ПОВЫСИТЬ КАРМУ'),
           onPressed: () {
             Navigator.of(context).pushNamed('/how_to_pay');
           },

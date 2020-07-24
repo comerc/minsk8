@@ -9,7 +9,7 @@ class HowToPayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Добавить Золотых'),
+        title: Text('Повысить Карму'),
       ),
       body: Container(
         alignment: Alignment.topCenter,
@@ -52,7 +52,7 @@ class _Title extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'У Вас ${getPluralGold(profile.balance)}',
+          'У Вас ${getPluralKarma(profile.balance)}',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -162,12 +162,12 @@ class _Menu extends StatelessWidget {
   final _menu = {
     '/add_unit': [
       'ОТДАЙТЕ ХОРОШИЕ ВЕЩИ',
-      'получите за них Золотые от участников'
+      'получите за них Карму от участников'
     ],
-    '/invite': ['ПРИГЛАСИТЕ ДРУЗЕЙ', 'получите +1 Золотой за каждого новичка'],
+    '/invite': ['ПРИГЛАСИТЕ ДРУЗЕЙ', 'получите +1 Кармы за каждого новичка'],
     '/payment': [
       'ПОЛУЧИТЕ БЫСТРО',
-      'до +${getPluralGold(kMaxPay)} за поддержку проекта'
+      'до +${getPluralKarma(kMaxPay)} за поддержку проекта'
     ],
   }.entries.toList();
 
