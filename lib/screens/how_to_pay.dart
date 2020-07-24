@@ -75,18 +75,21 @@ class _Title extends StatelessWidget {
 class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final height = 150.0;
+    final width = 200.0;
+    final logoSize = 40.0;
     return Container(
-      height: 150,
-      width: 200,
+      height: height,
+      width: width,
       child: Stack(
         children: [
           Positioned(
-            top: 150 / 2 - kBigButtonIconSize / 2 + 10,
-            left: 200 / 2 - kBigButtonIconSize / 2,
+            top: height / 2 - logoSize / 2 + 10,
+            left: width / 2 - logoSize / 2,
             child: Icon(
               FontAwesomeIcons.gift,
               color: Colors.deepOrangeAccent,
-              size: kBigButtonIconSize,
+              size: logoSize,
             ),
           ),
           Positioned(
@@ -97,7 +100,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.book,
                 color: Colors.deepOrangeAccent,
-                // size: kButtonIconSize,
+                size: logoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -109,7 +112,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.bicycle,
                 color: Colors.deepOrangeAccent,
-                // size: kButtonIconSize,
+                size: logoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -121,7 +124,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.chair,
                 color: Colors.deepOrangeAccent,
-                // size: kButtonIconSize,
+                size: logoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -133,7 +136,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.mobileAlt,
                 color: Colors.deepOrangeAccent,
-                // size: kButtonIconSize,
+                size: logoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -145,7 +148,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.wineBottle,
                 color: Colors.deepOrangeAccent,
-                // size: kButtonIconSize,
+                size: logoSize / kGoldenRatio,
               ),
             ),
           ),
