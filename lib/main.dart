@@ -199,6 +199,8 @@ class App extends StatelessWidget {
         '/feedback': (_) => FeedbackScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/how_to_pay': (_) => HowToPayScreen(),
+        '/how_it_works': (_) =>
+            MarkdownScreen('how_it_works.md', title: 'Как это работает'),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
         '/ledger': (_) => LedgerScreen(),
