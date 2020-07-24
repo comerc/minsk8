@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: скроллировать к выбранному элементу, если он вне видимости
+// TODO: Вы получите Золотые от забирающих и бонус 3 Золотых за первый отданный лот
 
 class KindsScreen extends StatelessWidget {
   KindsScreen(this.arguments);
