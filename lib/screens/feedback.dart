@@ -16,17 +16,15 @@ class FeedbackScreen extends StatelessWidget {
         title: Text('Обратная связь'),
       ),
       body: Container(
+        alignment: Alignment.topCenter,
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              alignment: Alignment.topCenter,
-              child: Icon(
-                FontAwesomeIcons.gift,
-                color: Colors.deepOrangeAccent,
-                size: kBigButtonIconSize,
-              ),
+            Icon(
+              FontAwesomeIcons.gift,
+              color: Colors.deepOrangeAccent,
+              size: kBigButtonIconSize,
             ),
             SizedBox(height: 16),
             Text('⭐ ⭐ ⭐ ⭐ ⭐'),
