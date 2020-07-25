@@ -99,7 +99,7 @@ class _Logo extends StatelessWidget {
             child: Transform.rotate(
               angle: -.4,
               child: Icon(
-                FontAwesomeIcons.book,
+                FontAwesomeIcons.cat,
                 color: Colors.deepOrangeAccent,
                 size: logoSize / kGoldenRatio,
               ),
