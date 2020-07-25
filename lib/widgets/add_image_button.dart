@@ -54,7 +54,10 @@ class AddImageButton extends StatelessWidget {
                             Container(color: Colors.white.withOpacity(0.4)),
                             if (uploadStatus == ImageUploadStatus.progress)
                               Center(
-                                child: buildProgressIndicator(context),
+                                child: buildProgressIndicator(
+                                  context,
+                                  hasAnimatedColor: true,
+                                ),
                               ),
                             if (uploadStatus == ImageUploadStatus.error)
                               Center(

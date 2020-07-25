@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 class PaymentScreen extends StatelessWidget {
   @override
@@ -9,7 +9,10 @@ class PaymentScreen extends StatelessWidget {
         title: Text('Payment'),
       ),
       body: Center(
-        child: Text('xxx'),
+        child: buildProgressIndicator(
+          context,
+          hasAnimatedColor: true,
+        ),
       ),
     );
   }
