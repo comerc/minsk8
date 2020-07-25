@@ -6,6 +6,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: внедрить свайпы для переходов между картинками,
 // для этого нужна карусель на одном общем Screen - PageView
+// TODO: Исследовать ExtendedImage.heroBuilderForSlidingPage
 
 class ZoomScreen extends StatefulWidget {
   ZoomScreen(this.arguments);
@@ -60,7 +61,6 @@ class _ZoomScreenState extends State<ZoomScreen>
                 unit.images[_currentIndex].getLargeDummyUrl(unit.id),
                 fit: BoxFit.contain,
                 loadStateChanged: loadStateChanged,
-                //enableLoadState: false,
                 mode: ExtendedImageMode.gesture,
                 initGestureConfigHandler: (state) {
                   var initialScale = 1.0;

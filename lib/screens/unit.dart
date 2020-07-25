@@ -276,6 +276,7 @@ class _UnitScreenState extends State<UnitScreen> {
                               child: ExtendedImage.network(
                                 unit.images[_currentIndex].getDummyUrl(unit.id),
                                 fit: BoxFit.cover,
+                                // TODO: если _openDeepLink, то нужно включать
                                 enableLoadState: false,
                               ),
                               flightShuttleBuilder: (
@@ -518,7 +519,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                       image: ExtendedImage.network(
                                         otherUnit.images[0]
                                             .getDummyUrl(otherUnit.id),
-                                        enableLoadState: false,
+                                        loadStateChanged: loadStateChanged,
                                       ).image,
                                     ),
                                     // ),

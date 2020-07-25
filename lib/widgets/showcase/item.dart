@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: загрузка блюриной миниатюры, пока грузится большая картинка
+
 class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({
     Key key,
