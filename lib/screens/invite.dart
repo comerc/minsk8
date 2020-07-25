@@ -18,11 +18,7 @@ class InviteScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    FontAwesomeIcons.gift,
-                    color: Colors.deepOrangeAccent,
-                    size: 40,
-                  ),
+                  Logo(),
                   SizedBox(height: 48),
                   Text(
                     'Приглашайте друзей\nи получайте Карму',

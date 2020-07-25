@@ -17,17 +17,12 @@ class GiftButton extends StatelessWidget {
           child: Container(
             height: kButtonHeight,
             width: kButtonWidth,
-            child: Icon(
-              FontAwesomeIcons.gift,
-              color: Colors.deepOrangeAccent,
-              size: kButtonIconSize,
-            ),
+            child: Logo(size: kButtonIconSize),
           ),
           onTap: () {
             showDialog(
               context: context,
               child: InfoDialog(
-                icon: FontAwesomeIcons.gift,
                 title: 'Заберите лот даром, если\nне будет других желающих',
                 description:
                     'Нажмите "хочу забрать",\n дождитесь окончания таймера',

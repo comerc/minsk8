@@ -142,10 +142,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                           action = _getBalanceAction;
                           // TODO: поменять на иконку приложения
                           avatar = CircleAvatar(
-                            child: Icon(
-                              FontAwesomeIcons.gift,
-                              color: Colors.deepOrangeAccent,
-                            ),
+                            child: Logo(size: kDefaultIconSize),
                             backgroundColor: Colors.white,
                           );
                           text = interpolate(text, params: {

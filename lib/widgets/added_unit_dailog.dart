@@ -13,11 +13,7 @@ class AddedUnitDialog extends StatelessWidget {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       children: [
-        Icon(
-          FontAwesomeIcons.gift,
-          color: Colors.deepOrangeAccent,
-          size: kButtonIconSize,
-        ),
+        Logo(size: kButtonIconSize),
         Padding(
           padding: EdgeInsets.only(top: 16),
           child: Text(

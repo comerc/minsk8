@@ -21,11 +21,7 @@ class FeedbackScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              FontAwesomeIcons.gift,
-              color: Colors.deepOrangeAccent,
-              size: kBigButtonIconSize,
-            ),
+            Logo(size: kBigButtonIconSize),
             SizedBox(height: 16),
             Text('⭐ ⭐ ⭐ ⭐ ⭐'),
             SizedBox(

@@ -17,11 +17,13 @@ class InfoDialog extends StatelessWidget {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       children: [
-        Icon(
-          icon,
-          color: Colors.deepOrangeAccent,
-          size: kButtonIconSize,
-        ),
+        (icon == null)
+            ? Logo(size: kButtonIconSize)
+            : Icon(
+                icon,
+                color: Colors.deepOrangeAccent,
+                size: kButtonIconSize,
+              ),
         Padding(
           padding: EdgeInsets.only(top: 16),
           child: Text(

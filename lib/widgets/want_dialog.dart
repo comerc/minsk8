@@ -47,11 +47,7 @@ class WantDialog extends StatelessWidget {
                               color: Colors.white,
                             ),
                             padding: EdgeInsets.all(8),
-                            child: Icon(
-                              FontAwesomeIcons.gift,
-                              color: Colors.deepOrangeAccent,
-                              size: kButtonIconSize,
-                            ),
+                            child: Logo(size: kButtonIconSize),
                           )
                         : Container(
                             color: Colors.white,

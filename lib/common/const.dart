@@ -38,3 +38,5 @@ const kMaxDragOffset = 100.0;
 const kBigAvatarRadius = 40.0;
 const kFreeLimit = 7;
 const kMaxPay = 144;
+const kLogoSize = 40.0;
+const kDefaultIconSize = 24.0;

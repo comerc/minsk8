@@ -19,7 +19,7 @@ class HowToPayScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _Logo(),
+                  _BigLogo(),
                   _Title(),
                   _Menu(),
                 ],
@@ -73,25 +73,20 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _Logo extends StatelessWidget {
+class _BigLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = 150.0;
     final width = 200.0;
-    final logoSize = 40.0;
     return Container(
       height: height,
       width: width,
       child: Stack(
         children: [
           Positioned(
-            top: height / 2 - logoSize / 2 + 10,
-            left: width / 2 - logoSize / 2,
-            child: Icon(
-              FontAwesomeIcons.gift,
-              color: Colors.deepOrangeAccent,
-              size: logoSize,
-            ),
+            top: height / 2 - kLogoSize / 2 + 10,
+            left: width / 2 - kLogoSize / 2,
+            child: Logo(),
           ),
           Positioned(
             bottom: 0,
@@ -101,7 +96,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.cat,
                 color: Colors.deepOrangeAccent,
-                size: logoSize / kGoldenRatio,
+                size: kLogoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -113,7 +108,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.bicycle,
                 color: Colors.deepOrangeAccent,
-                size: logoSize / kGoldenRatio,
+                size: kLogoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -125,7 +120,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.chair,
                 color: Colors.deepOrangeAccent,
-                size: logoSize / kGoldenRatio,
+                size: kLogoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -137,7 +132,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.mobileAlt,
                 color: Colors.deepOrangeAccent,
-                size: logoSize / kGoldenRatio,
+                size: kLogoSize / kGoldenRatio,
               ),
             ),
           ),
@@ -149,7 +144,7 @@ class _Logo extends StatelessWidget {
               child: Icon(
                 FontAwesomeIcons.wineBottle,
                 color: Colors.deepOrangeAccent,
-                size: logoSize / kGoldenRatio,
+                size: kLogoSize / kGoldenRatio,
               ),
             ),
           ),

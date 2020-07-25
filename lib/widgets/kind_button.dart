@@ -38,11 +38,10 @@ class KindButton extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    // TODO: поменять иконки для категорий
-                    FontAwesomeIcons.gift,
-                    color: isSelected ? Colors.white : Colors.deepOrangeAccent,
+                  // TODO: поменять иконки для категорий
+                  Logo(
                     size: kBigButtonIconSize,
+                    hasShaderMask: !isSelected,
                   ),
                   SizedBox(height: 8),
                   Text(

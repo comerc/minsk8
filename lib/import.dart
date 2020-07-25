@@ -89,6 +89,7 @@ export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
 export 'widgets/life_cycle_manager.dart';
 export 'widgets/list_indicator.dart';
+export 'widgets/logo.dart';
 export 'widgets/main_drawer.dart';
 export 'widgets/map/current_position.dart';
 export 'widgets/map/info.dart';
