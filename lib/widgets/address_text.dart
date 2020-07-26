@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: выбросить после отказа использования в UnitMapScreen
+
 class AddressText extends StatelessWidget {
   AddressText(this.unit);
 

@@ -155,6 +155,7 @@ class HomeProfileState extends State<HomeProfile> {
             // color: Colors.white,
             // textColor: Colors.pinkAccent,
             textColor: Colors.black.withOpacity(0.8),
+            // TODO: Перезапустить
             child: Text('Обновить приложение'),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
