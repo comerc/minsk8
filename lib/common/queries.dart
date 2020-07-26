@@ -177,6 +177,7 @@ class Queries {
         id
         account
         value
+        balance
         created_at
         unit {
           ...unitFields

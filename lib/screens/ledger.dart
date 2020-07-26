@@ -112,18 +112,18 @@ class LedgerScreenState extends State<LedgerScreen> {
                         AccountValue.start:
                             'Добро пожаловать! Ловите {{value}} для старта - пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие лоты. Не ждите! Добавьте первый лот прямо сейчас!',
                         AccountValue.invite:
-                            'Получено {{value}} за приглашение участника {{member}}. Приглашайте ещё друзей!',
+                            'Получено {{value}} (всего {{balance}}) за приглашение участника {{member}}. Приглашайте ещё друзей!',
                         AccountValue.unfreeze: [
-                          'Разморожено {{value}}. Желаем найти что-нибудь интересное!',
-                          'Разморожено {{value}}. Желаем найти что-нибудь хорошее! 😊',
-                          'Разморожено {{value}}. Нажмите "Добавить в ожидание" на лоте, чтобы получать уведомления о появлении похожих!',
+                          'Разморожено {{value}} (всего {{balance}}). Желаем найти что-нибудь интересное!',
+                          'Разморожено {{value}} (всего {{balance}}). Желаем найти что-нибудь хорошее! 😊',
+                          'Разморожено {{value}} (всего {{balance}}). Нажмите «Добавить в ожидание» на лоте, чтобы получать уведомления о появлении похожих!',
                         ],
                         AccountValue.freeze:
-                            'Ставка на лот принята! Заморожено {{value}}. Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
+                            'Ставка на лот принята! Заморожено {{value}} (всего {{balance}}). Она будет разморожена по окончанию таймера или при отказе от лота. Удачи!',
                         AccountValue.limit:
-                            'Заявка на лот принята. Доступно заявок на лоты "Даром" — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысьте Карму: что-нибудь отдайте или пригласите друзей.',
+                            'Заявка на лот принята. Доступно заявок на лоты «Даром» — {{limit}} в день. Осталось сегодня — {{value}}. Чтобы увеличить лимит — повысьте Карму (всего {{balance}}): что-нибудь отдайте или пригласите друзей.',
                         AccountValue.profit:
-                            'Получено {{value}} за лот. Отдайте ещё что-нибудь ненужное!',
+                            'Получено {{value}} (всего {{balance}}) за лот. Отдайте ещё что-нибудь ненужное!',
                       }[payment.account];
                       if (textData is List) {
                         var textVariant = payment.textVariant;
@@ -154,6 +154,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                           text = interpolate(text, params: {
                             'value': getPluralKarma(payment.value),
                             'member': payment.invitedMember.nickname,
+                            'balance': payment.balance,
                           });
                         },
                         AccountValue.unfreeze: () {
@@ -161,13 +162,15 @@ class LedgerScreenState extends State<LedgerScreen> {
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': getPluralKarma(payment.value),
+                            'balance': payment.balance,
                           });
                         },
                         AccountValue.freeze: () {
                           action = _getUnitAction(payment.unit);
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
-                            'value': getPluralKarma(payment.value),
+                            'value': getPluralKarma(payment.value.abs()),
+                            'balance': payment.balance,
                           });
                         },
                         AccountValue.limit: () {
@@ -175,8 +178,8 @@ class LedgerScreenState extends State<LedgerScreen> {
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': payment.value, // это не Карма!
-                            'limit':
-                                kFreeLimit, // TODO: зависит от payment.createdAt
+                            'limit': getWantLimit(payment.balance),
+                            'balance': payment.balance,
                           });
                         },
                         AccountValue.profit: () {
@@ -184,6 +187,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                           avatar = Avatar(payment.unit.avatarUrl);
                           text = interpolate(text, params: {
                             'value': getPluralKarma(payment.value),
+                            'balance': payment.balance,
                           });
                         },
                       }[payment.account]();

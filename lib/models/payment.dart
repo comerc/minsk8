@@ -11,6 +11,7 @@ class PaymentModel {
     this.account,
     this.textVariant,
     this.value,
+    this.balance,
     this.createdAt,
     this.unit,
     this.invitedMember,
@@ -21,6 +22,7 @@ class PaymentModel {
   @JsonKey(nullable: true)
   final int textVariant;
   final int value;
+  final int balance;
   final DateTime createdAt;
   @JsonKey(nullable: true)
   final UnitModel unit;

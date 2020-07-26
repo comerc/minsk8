@@ -91,9 +91,11 @@ DROP FUNCTION IF EXISTS before_insert_payment();
 
 CREATE FUNCTION before_insert_payment()
 RETURNS trigger AS $BODY$
-  DECLARE _limit INTEGER;
   DECLARE _balance INTEGER;
+  DECLARE _count INTEGER;
+  DECLARE _limit INTEGER;
   BEGIN
+    _balance := (SELECT balance FROM profile WHERE member_id = NEW.member_id);
     IF NEW.account = 'limit' THEN
       IF NEW.unit_id IS NULL THEN
         RAISE EXCEPTION 'Argument "unit_id" must be not null';
@@ -101,23 +103,22 @@ RETURNS trigger AS $BODY$
       IF NEW.value IS NOT NULL THEN
         RAISE EXCEPTION 'Argument "value" must be null';
       END IF;
-      _limit := (SELECT value FROM payment 
-        WHERE created_at > now() - interval '1 day' AND account = 'limit' AND member_id = NEW.member_id
-        ORDER BY value LIMIT 1);
-      IF _limit IS NULL THEN
-        _limit := 7;
+      _count := (SELECT count(*) FROM payment 
+        WHERE created_at > now() - interval '1 day' AND account = 'limit' AND member_id = NEW.member_id);
+      IF _balance >= 7 THEN
+        _limit = 10;
+      ELSE
+        _limit = _balance + 3;
       END IF;
-      _limit := _limit - 1;
-      IF _limit < 0 THEN
-        RAISE EXCEPTION 'Argument "limit" must be greater than 0';
+      NEW.value := _limit - _count - 1;
+      IF NEW.value < 0 THEN
+        RAISE EXCEPTION 'Calculated argument "value" must be greater than 0';
       END IF;
-      NEW.value := _limit;
     ELSIF NEW.account = 'freeze' THEN
       IF NEW.unit_id IS NULL THEN
         RAISE EXCEPTION 'Argument "unit_id" must be not null';
       END IF;
-      _balance := (SELECT balance FROM profile WHERE member_id = NEW.member_id);
-      _balance := _balance - NEW.value;
+      _balance := _balance + NEW.value;
       IF _balance < 0 THEN
         RAISE EXCEPTION 'Argument "balance" must be greater than 0';
       END IF;
@@ -129,15 +130,19 @@ RETURNS trigger AS $BODY$
       IF NEW.text_variant IS NULL THEN
         RAISE EXCEPTION 'Argument "text_variant" must be not null';
       END IF;
-      UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
+      _balance := _balance + NEW.value;
+      UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
     ELSIF NEW.account = 'invite' THEN
       IF NEW.invite_member_id IS NULL THEN
         RAISE EXCEPTION 'Argument "invite_member_id" must be not null';
       END IF;
-      UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
+      _balance := _balance + NEW.value;
+      UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
     ELSIF NEW.account = 'profit' THEN
-      UPDATE profile SET balance = balance + NEW.value WHERE member_id = NEW.member_id;
-    END IF;    
+      _balance := _balance + NEW.value;
+      UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
+    END IF;
+    NEW.balance = _balance;
     RETURN NEW;
   END;
 $BODY$ LANGUAGE plpgsql;  

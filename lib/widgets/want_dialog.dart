@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
+import 'package:provider/provider.dart';
 
 // TODO: кнопка ОК и её функционал
 // https://hasura.io/docs/1.0/graphql/manual/api-reference/schema-metadata-api/scheduled-triggers.html
 // https://hasura.io/docs/1.0/graphql/manual/scheduled-triggers/create-one-off-scheduled-event.html
-
-//
 
 class WantDialog extends StatelessWidget {
   WantDialog(this.unit);
@@ -15,6 +14,7 @@ class WantDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<ProfileModel>(context, listen: false);
     final imageHeight = 96.0;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16),
@@ -96,10 +96,27 @@ class WantDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
-                child: Text(
-                  unit.price == null
-                      ? 'Только $kFreeLimit лотов даром в день.\n\nПовысьте Карму, чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.'
-                      : 'Заморозится до завершения таймера.',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      unit.price == null
+                          ? 'Только ${getWantLimit(profile.balance)} лотов даром в день.'
+                          : 'Заморозится до завершения таймера.',
+                    ),
+                    if (unit.price == null &&
+                        (profile.balance < kMaxWantBalance))
+                      Padding(
+                        padding: EdgeInsets.only(top: 8),
+                        child: Text(
+                          'Повысьте Карму (всего ${profile.balance}), чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ],

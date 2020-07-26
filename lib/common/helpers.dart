@@ -123,3 +123,9 @@ String interpolate(String string, {Map<String, dynamic> params = const {}}) {
   }
   return result;
 }
+
+int getWantLimit(int balance) {
+  return (balance >= kMaxWantBalance)
+      ? kMaxWantLimit
+      : balance + (kMaxWantLimit - kMaxWantBalance);
+}
