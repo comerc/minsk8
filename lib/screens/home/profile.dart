@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/faob-dev/folding_cell
 // TODO: https://github.com/Ivaskuu/tinder_cards
-// TODO: https://github.com/Dn-a/flutter_tags
 
 // TODO: текстовое поле для описания себя в профиле (усложняет модерацию)
 // TODO: при изменении аватарки или баланса - нужно оповещать другие свои устройства
+
+// TODO: AboutDialog - показывает все лицензии, используемые в приложении (см. "Flutter Widget of the Week")
 
 class HomeProfile extends StatefulWidget {
   HomeProfile({this.version, this.hasUpdate});
@@ -96,6 +96,7 @@ class HomeProfileState extends State<HomeProfile> {
             color: Colors.red,
           ),
         ),
+        // TODO: ещё надо отображать текущую замороженную Карму
         FlatButton(
           child: Text('ПОВЫСИТЬ КАРМУ'),
           onLongPress: () {}, // чтобы сократить время для splashColor
@@ -146,7 +147,8 @@ class HomeProfileState extends State<HomeProfile> {
             ),
           ),
         ),
-        if (widget.hasUpdate) Text('Доступна новая версия'),
+        if (widget.hasUpdate)
+          Text('Доступна новая версия'),
         if (widget.hasUpdate)
           OutlineButton(
             // TODO: почему не установить цвет для OutlineButton

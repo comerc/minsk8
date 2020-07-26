@@ -9,6 +9,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
+// TODO: как отказаться от лота до окончания таймера, по которому мной включён таймер?
 
 class UnitScreen extends StatefulWidget {
   UnitScreen(this.arguments);
