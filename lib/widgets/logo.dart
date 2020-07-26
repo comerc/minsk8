@@ -11,6 +11,7 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget result = Icon(
+      // TODO: поменять на иконку приложения
       FontAwesomeIcons.gift,
       color: Colors.white,
       size: size,
