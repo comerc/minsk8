@@ -13,6 +13,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: добавить копирайт sputnik и osm
 
+// TODO: убрать '(none)' - это для отображения, а для данных нужно вернуть null
+// искать применение надо по appState['MyUnitMap.address'], и не допускать пустой строки
 class MapAddress {
   String simple = '(none)';
   String detail = '(none)';
@@ -325,7 +327,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         MapScaleLayerOption(
           lineColor: Colors.blue,
           lineWidth: 2,
-          textStyle: TextStyle(color: Colors.blue, fontSize: 12),
+          textStyle: TextStyle(color: Colors.blue, fontSize: kFontSize),
           padding: EdgeInsets.all(10),
         ),
         if (isInDebugMode) MapZoomLayerOptions(),

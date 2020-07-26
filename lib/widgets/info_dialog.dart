@@ -64,7 +64,7 @@ class InfoDialog extends StatelessWidget {
                   child: Text(
                     'Как забирать и отдавать лоты?',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: kFontSize,
                       decoration: TextDecoration.underline,
                     ),
                   ),
