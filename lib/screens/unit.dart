@@ -371,10 +371,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   ),
                 ],
               ),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.0),
-                topRight: Radius.circular(16.0),
-              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               // parallaxEnabled: true,
               // parallaxOffset: .8,
               maxHeight: _panelMaxHeight == null
