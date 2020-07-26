@@ -76,6 +76,7 @@ export 'widgets/add_button.dart';
 export 'widgets/add_image_button.dart';
 export 'widgets/added_unit_dailog.dart';
 export 'widgets/address_text.dart';
+export 'widgets/auto_increase_field.dart';
 export 'widgets/avatar.dart';
 export 'widgets/balance_dialog.dart';
 export 'widgets/confirm_dialog.dart';
