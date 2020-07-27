@@ -56,8 +56,8 @@ class LedgerData extends SourceList<LedgerItem> {
 
 class LedgerItem {
   LedgerItem({this.displayDate, this.payment})
-      : assert((displayDate != null || payment != null) &&
-            !(displayDate != null && payment != null));
+      : assert(displayDate != null || payment != null),
+        assert(!(displayDate != null && payment != null));
 
   String displayDate;
   PaymentModel payment;
