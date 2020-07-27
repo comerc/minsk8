@@ -76,7 +76,7 @@ class WantButton extends StatelessWidget {
   }
 
   String _getText() {
-    if (unit.isBlocked ?? false || unit.isLocalDeleted) {
+    if ((unit.isBlocked ?? false) || unit.isLocalDeleted) {
       return 'ЗАБЛОКИРОВАНО';
     }
     if (unit.win != null) {
