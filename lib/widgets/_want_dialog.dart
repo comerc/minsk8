@@ -58,7 +58,7 @@ class WantDialog extends StatelessWidget {
                               child: Text(
                                 unit.price.toString(),
                                 style: TextStyle(
-                                  fontSize: 23,
+                                  fontSize: kPriceFontSize,
                                   color: Colors.red,
                                   fontWeight: FontWeight.w600,
                                 ),

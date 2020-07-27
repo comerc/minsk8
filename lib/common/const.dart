@@ -41,3 +41,4 @@ const kLogoSize = 40.0;
 const kDefaultIconSize = 24.0;
 const kMaxWantLimit = 10;
 const kMaxWantBalance = 7;
+const kPriceFontSize = 23.0;
