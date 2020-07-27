@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class AutoIncreaseField extends StatefulWidget {
-  AutoIncreaseField({this.unit});
+  AutoIncreaseField({this.child});
 
-  final UnitModel unit;
+  final Widget child;
 
   @override
   _AutoIncreaseFieldState createState() {
@@ -22,8 +22,8 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(duration: const Duration(seconds: 4), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 100), vsync: this);
     _animation = Tween<double>(begin: 0, end: 100).animate(_controller);
   }
 
@@ -33,32 +33,27 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Divider(height: 1),
         Tooltip(
           message:
               _value ? 'Выключить автоповышение' : 'Включить автоповышение',
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              child: SwitchListTile.adaptive(
-                title: Text('Автоповышение'),
-                value: _value,
-                onChanged: _handleChanged,
-              ),
+          child: SwitchListTile.adaptive(
+            dense: true,
+            title: Text(
+              'Автоповышение',
             ),
+            value: _value,
+            onChanged: _handleChanged,
           ),
         ),
         _AnimatedSizedBox(
           animation: _animation,
-          visible: _visible,
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              '1111',
-            ),
-          ),
+          child: _visible
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: widget.child,
+                )
+              : null,
         ),
-        Divider(height: 1),
       ],
     );
   }
@@ -84,11 +79,12 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
 }
 
 class _AnimatedSizedBox extends AnimatedWidget {
-  _AnimatedSizedBox(
-      {Key key, Animation<double> animation, this.visible, this.child})
-      : super(key: key, listenable: animation);
+  _AnimatedSizedBox({
+    Key key,
+    Animation<double> animation,
+    this.child,
+  }) : super(key: key, listenable: animation);
 
-  final bool visible;
   final Widget child;
 
   @override
@@ -96,7 +92,7 @@ class _AnimatedSizedBox extends AnimatedWidget {
     final animation = listenable as Animation<double>;
     return SizedBox(
       height: animation.value,
-      child: visible ? child : null,
+      child: child,
     );
   }
 }
