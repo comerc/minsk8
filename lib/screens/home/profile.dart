@@ -126,7 +126,7 @@ class HomeProfileState extends State<HomeProfile> {
                           : Text(entry.value),
                       trailing: Icon(
                         Icons.navigate_next,
-                        color: Colors.black.withOpacity(0.8),
+                        color: Colors.black.withOpacity(0.3),
                         size: kButtonIconSize,
                       ),
                     ),

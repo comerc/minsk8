@@ -27,7 +27,7 @@ class SelectButton extends StatelessWidget {
               SizedBox(width: 16),
               Icon(
                 Icons.navigate_next,
-                color: Colors.black.withOpacity(0.8),
+                color: Colors.black.withOpacity(0.3),
                 size: kButtonIconSize,
               ),
               SizedBox(width: 16),

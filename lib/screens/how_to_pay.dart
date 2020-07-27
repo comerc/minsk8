@@ -201,7 +201,7 @@ class _Menu extends StatelessWidget {
                   Icons.navigate_next,
                   color: index == _menu.length - 1
                       ? Colors.white
-                      : Colors.black.withOpacity(0.8),
+                      : Colors.black.withOpacity(0.3),
                   size: kButtonIconSize,
                 ),
               ),
