@@ -18,6 +18,7 @@ class PaymentModel {
   });
 
   final String id;
+  // @JsonKey(fromJson: _accountFromString, toJson: _accountToString)
   final AccountValue account;
   @JsonKey(nullable: true)
   final int textVariant;
@@ -29,11 +30,11 @@ class PaymentModel {
   @JsonKey(nullable: true)
   final MemberModel invitedMember;
 
-  static AccountValue _accountFromString(String value) =>
-      EnumToString.fromString(AccountValue.values, value);
+  // static AccountValue _accountFromString(String value) =>
+  //     EnumToString.fromString(AccountValue.values, value);
 
-  static String _accountToString(AccountValue account) =>
-      EnumToString.parse(account);
+  // static String _accountToString(AccountValue account) =>
+  //     EnumToString.parse(account);
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);

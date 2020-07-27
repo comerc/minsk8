@@ -14,14 +14,14 @@ class SuggestionModel {
 
   final String id;
   final UnitModel unit;
-  @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
+  // @JsonKey(fromJson: _questionFromString, toJson: _questionToString)
   final QuestionValue question;
 
-  static QuestionValue _questionFromString(String value) =>
-      EnumToString.fromString(QuestionValue.values, value);
+  // static QuestionValue _questionFromString(String value) =>
+  //     EnumToString.fromString(QuestionValue.values, value);
 
-  static String _questionToString(QuestionValue question) =>
-      EnumToString.parse(question);
+  // static String _questionToString(QuestionValue question) =>
+  //     EnumToString.parse(question);
 
   factory SuggestionModel.fromJson(Map<String, dynamic> json) =>
       _$SuggestionModelFromJson(json);

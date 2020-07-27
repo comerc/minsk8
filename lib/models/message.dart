@@ -16,16 +16,16 @@ class MessageModel {
 
   final String id;
   final String text;
-  @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
+  // @JsonKey(fromJson: _authorFromString, toJson: _authorToString)
   final MessageAuthor author;
   final bool isRead;
   final DateTime createdAt;
 
-  static MessageAuthor _authorFromString(String value) =>
-      EnumToString.fromString(MessageAuthor.values, value);
+  // static MessageAuthor _authorFromString(String value) =>
+  //     EnumToString.fromString(MessageAuthor.values, value);
 
-  static String _authorToString(MessageAuthor author) =>
-      EnumToString.parse(author);
+  // static String _authorToString(MessageAuthor author) =>
+  //     EnumToString.parse(author);
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
