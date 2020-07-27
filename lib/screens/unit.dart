@@ -450,17 +450,17 @@ class _UnitScreenState extends State<UnitScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      if (!unit.isBlockedOrLocalDeleted)
-                        Container(
-                          padding: EdgeInsets.only(top: 16),
-                          width: panelChildWidth,
-                          child: Text(
-                            'Самовывоз',
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                        ),
+                      // if (!unit.isBlockedOrLocalDeleted)
+                      //   Container(
+                      //     padding: EdgeInsets.only(top: 16),
+                      //     width: panelChildWidth,
+                      //     child: Text(
+                      //       'Самовывоз',
+                      //       style: TextStyle(
+                      //         color: Colors.black.withOpacity(0.6),
+                      //       ),
+                      //     ),
+                      //   ),
                       if (_otherUnits.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(top: 24),
