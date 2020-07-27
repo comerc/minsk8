@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class AutoIncreaseField extends StatefulWidget {
-  AutoIncreaseField({this.child});
+  AutoIncreaseField({this.child, this.height});
 
   final Widget child;
+  final double height;
 
   @override
   _AutoIncreaseFieldState createState() {
@@ -24,7 +25,8 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
     super.initState();
     _controller = AnimationController(
         duration: const Duration(milliseconds: 100), vsync: this);
-    _animation = Tween<double>(begin: 0, end: 100).animate(_controller);
+    _animation =
+        Tween<double>(begin: 0, end: widget.height).animate(_controller);
   }
 
   @override
@@ -39,7 +41,11 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
           child: SwitchListTile.adaptive(
             dense: true,
             title: Text(
-              'Автоповышение',
+              'Автоповышение ставки',
+              // такой же стиль для 'Самовывоз'
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.8),
+              ),
             ),
             value: _value,
             onChanged: _handleChanged,
@@ -50,6 +56,7 @@ class _AutoIncreaseFieldState extends State<AutoIncreaseField>
           child: _visible
               ? Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
+                  // TODO: _AnimatedOpacity
                   child: widget.child,
                 )
               : null,

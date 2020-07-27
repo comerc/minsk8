@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/rendering.dart';
 import 'package:minsk8/import.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +61,7 @@ class WantDialog extends StatelessWidget {
                               child: Text(
                                 unit.price.toString(),
                                 style: TextStyle(
-                                  fontSize: 23,
+                                  fontSize: kPriceFontSize,
                                   color: Colors.red,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -90,11 +91,17 @@ class WantDialog extends StatelessWidget {
           message: 'Show Map',
           child: ListTile(
             dense: true,
-            title: Text('Самовывоз'),
+            title: Text(
+              'Самовывоз',
+              // такой же стиль для 'Автоповышение ставки'
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
             subtitle: unit.address == null ? null : Text(unit.address),
             trailing: Icon(
               Icons.navigate_next,
-              color: Colors.black.withOpacity(0.8),
+              color: Colors.black.withOpacity(0.3),
               size: kButtonIconSize,
             ),
             onTap: () {
@@ -108,10 +115,60 @@ class WantDialog extends StatelessWidget {
         ),
         Divider(height: 1),
         AutoIncreaseField(
-          child: Text(
-            '1111',
-          ),
-        ),
+            height: 200,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 8),
+                // Row(
+                //   children: [
+                Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.red,
+                    color: Colors.yellow.withOpacity(0.5),
+
+                    // shape: BoxShape.rectangle,
+                    // border: Border.all(
+                    //     color: Colors.grey.withOpacity(0.4), width: 1),
+                    // borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                  ),
+                  // width: kButtonHeight * kGoldenRatio * 4,
+                  height: kButtonHeight,
+                  child: ListWheelScrollViewX(
+                    scrollDirection: Axis.horizontal,
+                    itemExtent: kButtonHeight * kGoldenRatio,
+                    useMagnifier: true,
+                    magnification: kGoldenRatio,
+                    builder: (BuildContext context, int index) {
+                      return Container(
+                        // width: 100,
+                        // height: 22,
+                        // padding: EdgeInsets.all(8),
+                        // color: Colors.blueAccent,
+                        alignment: Alignment.center,
+                        child: Text(
+                          index.toString(),
+                          style: TextStyle(
+                            fontSize: kPriceFontSize / kGoldenRatio,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+
+                          // style: TextStyle(
+                          //   fontSize: 12,
+                          //   color: Colors.black.withOpacity(0.8),
+                          // ),
+                          // textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                // ],
+                // ),
+                // SizedBox(height: 8),
+              ],
+            )),
         Divider(height: 1),
         SizedBox(height: 16),
         Text(
@@ -121,7 +178,7 @@ class WantDialog extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: kFontSize,
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withOpacity(0.3),
           ),
         ),
         SizedBox(height: 16),
@@ -150,6 +207,53 @@ class WantDialog extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class ListWheelScrollViewX extends StatelessWidget {
+  ListWheelScrollViewX({
+    Key key,
+    @required this.builder,
+    @required this.itemExtent,
+    this.controller,
+    this.onSelectedItemChanged,
+    this.scrollDirection = Axis.vertical,
+    this.diameterRatio = 2,
+    this.useMagnifier = false,
+    this.magnification = 1,
+  }) : super(key: key);
+
+  final Widget Function(BuildContext, int) builder;
+  final Axis scrollDirection;
+  final FixedExtentScrollController controller;
+  final double itemExtent;
+  final double diameterRatio;
+  final bool useMagnifier;
+  final double magnification;
+  final void Function(int) onSelectedItemChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return RotatedBox(
+      quarterTurns: scrollDirection == Axis.horizontal ? 3 : 0,
+      child: ListWheelScrollView.useDelegate(
+        onSelectedItemChanged: onSelectedItemChanged,
+        controller: controller,
+        itemExtent: itemExtent,
+        diameterRatio: diameterRatio,
+        useMagnifier: useMagnifier,
+        magnification: magnification,
+        physics: FixedExtentScrollPhysics(),
+        childDelegate: ListWheelChildBuilderDelegate(
+          builder: (BuildContext context, int index) {
+            return RotatedBox(
+              quarterTurns: scrollDirection == Axis.horizontal ? 1 : 0,
+              child: builder(context, index),
+            );
+          },
+        ),
+      ),
     );
   }
 }
