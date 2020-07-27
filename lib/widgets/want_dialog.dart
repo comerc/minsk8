@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 // https://hasura.io/docs/1.0/graphql/manual/api-reference/schema-metadata-api/scheduled-triggers.html
 // https://hasura.io/docs/1.0/graphql/manual/scheduled-triggers/create-one-off-scheduled-event.html
 
+// TODO: автоповышение
+
 class WantDialog extends StatelessWidget {
   WantDialog(this.unit);
 
@@ -71,123 +73,82 @@ class WantDialog extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 16, bottom: 8),
-          child: Text(
-            unit.price == null
-                ? 'Точно сможете забрать?'
-                : 'Предложить +1 = ${getPluralKarma(unit.price + 1)}?',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.black.withOpacity(0.8),
-            ),
+        SizedBox(height: 16),
+        Text(
+          unit.price == null
+              ? 'Точно сможете забрать?'
+              : 'Предложить ${getPluralKarma(unit.price + 1)}?',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black.withOpacity(0.8),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Stack(
-            children: [
-              Icon(
-                Icons.info_outline,
-                color: Colors.blueAccent,
-                size: kButtonIconSize,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      unit.price == null
-                          ? 'Только ${getWantLimit(profile.balance)} лотов даром в день.'
-                          : 'Заморозится до завершения таймера.',
-                    ),
-                    if (unit.price == null &&
-                        (profile.balance < kMaxWantBalance))
-                      Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
-                          'Повысьте Карму (всего ${profile.balance}), чтобы увеличить лимит:\nчто-нибудь отдайте или пригласите друзей.',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black.withOpacity(0.6),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Stack(
-            children: [
-              Icon(
-                Icons.timer,
-                color: Colors.black.withOpacity(0.8),
-                size: kButtonIconSize,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
-                child: DeliveryLabel(),
-              ),
-            ],
-          ),
-        ),
+        SizedBox(height: 8),
         Tooltip(
           message: 'Show Map',
-          child: Material(
-            color: Colors.white,
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  '/unit_map',
-                  arguments: UnitMapRouteArguments(unit),
-                );
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.pinkAccent,
-                          size: kButtonIconSize,
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.navigate_next,
-                          color: Colors.black.withOpacity(0.8),
-                          size: kButtonIconSize,
-                        ),
-                      ],
-                    ),
-                    Flex(
-                      direction: Axis.vertical,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: kButtonIconSize + 8),
-                          constraints: BoxConstraints(maxWidth: 56.0 * 6),
-                          child: AddressText(unit),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+          child: ListTile(
+            dense: true,
+            title: Text('Самовывоз'),
+            subtitle: unit.address == null ? null : Text(unit.address),
+            trailing: Icon(
+              Icons.navigate_next,
+              color: Colors.black.withOpacity(0.8),
+              size: kButtonIconSize,
             ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/unit_map',
+                arguments: UnitMapRouteArguments(unit),
+              );
+            },
+          ),
+        ),
+        Divider(height: 1),
+        AutoIncreaseField(
+          child: Text(
+            '1111',
+          ),
+        ),
+        Divider(height: 1),
+        SizedBox(height: 16),
+        Text(
+          unit.price == null
+              ? 'Только ${getWantLimit(profile.balance)} лотов даром в день'
+              : 'Карма заморозится до конца таймера',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: kFontSize,
+            color: Colors.black.withOpacity(0.6),
           ),
         ),
         SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlineButton(
+              child: Text('Отмена'),
+              onLongPress: () {}, // чтобы сократить время для splashColor
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            SizedBox(
+              width: 16,
+            ),
+            FlatButton(
+              child: Text('Да'),
+              onLongPress: () {}, // чтобы сократить время для splashColor
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              color: Colors.red,
+              textColor: Colors.white,
+            ),
+          ],
+        ),
       ],
     );
   }
