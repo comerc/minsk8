@@ -34,7 +34,7 @@ class ShareButton extends StatelessWidget {
     );
   }
 
-  _onTap() {
+  void _onTap() {
     share(unit);
   }
 }
