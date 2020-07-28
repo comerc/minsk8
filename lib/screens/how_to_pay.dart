@@ -177,7 +177,7 @@ class _Menu extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final entry = _menu[index];
           return Material(
-            color: index == _menu.length - 1 ? Colors.red : Colors.white,
+            color: index == _menu.length - 1 ? Colors.green : Colors.white,
             child: InkWell(
               child: ListTile(
                 dense: true,

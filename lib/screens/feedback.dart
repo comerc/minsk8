@@ -74,7 +74,7 @@ class FeedbackScreen extends StatelessWidget {
                       //   iOSAppId: kIOSAppId,
                       // );
                     },
-                    color: Colors.red,
+                    color: Colors.green,
                     textColor: Colors.white,
                   ),
                   OutlineButton(
@@ -83,7 +83,7 @@ class FeedbackScreen extends StatelessWidget {
                     onPressed: () {
                       _launchFeedback(context);
                     },
-                    textColor: Colors.red,
+                    textColor: Colors.green,
                   ),
                 ],
               ),

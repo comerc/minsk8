@@ -55,7 +55,7 @@ class ConfirmDialog extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                color: Colors.red,
+                color: Colors.green,
                 textColor: Colors.white,
               ),
             ],

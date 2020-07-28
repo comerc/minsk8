@@ -16,7 +16,7 @@ class ReadyButton extends StatelessWidget {
       child: Material(
         elevation: isRaised ? kButtonElevation : 0,
         // borderRadius: BorderRadius.circular(8),
-        color: Colors.red,
+        color: Colors.green,
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),
           child: Container(

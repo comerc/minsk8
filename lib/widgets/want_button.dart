@@ -12,7 +12,7 @@ class WantButton extends StatelessWidget {
     return Tooltip(
       message: 'Want',
       child: Material(
-        color: unit.isClosed ? null : Colors.red,
+        color: unit.isClosed ? null : Colors.green,
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),

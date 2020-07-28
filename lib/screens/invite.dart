@@ -49,7 +49,7 @@ class InviteScreen extends StatelessWidget {
                     onPressed: () {
                       // TODO: go to share link
                     },
-                    color: Colors.red,
+                    color: Colors.green,
                     textColor: Colors.white,
                   ),
                   OutlineButton(

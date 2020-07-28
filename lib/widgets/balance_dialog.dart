@@ -54,7 +54,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
           onPressed: () {
             Navigator.of(context).pop(true);
           },
-          textColor: Colors.red,
+          textColor: Colors.green,
         ),
         FlatButton(
           child: Text('Повысить Карму'),
@@ -63,7 +63,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
             Navigator.of(context).pop();
             Navigator.of(context).pushNamed('/how_to_pay');
           },
-          color: Colors.red,
+          color: Colors.green,
           textColor: Colors.white,
         ),
       ],

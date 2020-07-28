@@ -103,7 +103,7 @@ class HomeProfileState extends State<HomeProfile> {
           onPressed: () {
             Navigator.of(context).pushNamed('/how_to_pay');
           },
-          color: Colors.red,
+          color: Colors.green,
           textColor: Colors.white,
         ),
         SizedBox(height: 16),
@@ -116,14 +116,15 @@ class HomeProfileState extends State<HomeProfile> {
                 return Material(
                   child: InkWell(
                     child: ListTile(
-                      title: index == 0
-                          ? Text(
-                              entry.value,
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            )
-                          : Text(entry.value),
+                      // title: index == 0
+                      //     ? Text(
+                      //         entry.value,
+                      //         style: TextStyle(
+                      //           color: Colors.green,
+                      //         ),
+                      //       )
+                      //     : Text(entry.value),
+                      title: Text(entry.value),
                       trailing: Icon(
                         Icons.navigate_next,
                         color: Colors.black.withOpacity(0.3),

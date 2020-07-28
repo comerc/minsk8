@@ -43,6 +43,7 @@ class AddedUnitDialog extends StatelessWidget {
           ),
           child: Column(
             children: [
+              // TODO: FlatButton
               MaterialButton(
                 minWidth: double.infinity,
                 child: Row(
@@ -60,12 +61,13 @@ class AddedUnitDialog extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                color: Colors.red,
+                color: Colors.green,
                 textColor: Colors.white,
                 elevation: 0,
                 highlightElevation: 0,
               ),
               if (!needModerate)
+                // TODO: OutlineButton
                 MaterialButton(
                   minWidth: double.infinity,
                   child: Row(
@@ -84,10 +86,10 @@ class AddedUnitDialog extends StatelessWidget {
                     share(unit);
                   },
                   color: Colors.white,
-                  textColor: Colors.red,
+                  textColor: Colors.green,
                   shape: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(2),
-                      borderSide: BorderSide(color: Colors.red)),
+                      borderSide: BorderSide(color: Colors.green)),
                   elevation: 0,
                   highlightElevation: 0,
                 ),
