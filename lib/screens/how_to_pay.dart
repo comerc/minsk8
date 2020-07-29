@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading_more_list/loading_more_list.dart';
-import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class HowToPayScreen extends StatelessWidget {
@@ -48,12 +47,11 @@ class HowToPayScreen extends StatelessWidget {
 class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          'У Вас ${getPluralKarma(profile.balance)}',
+          'Повысить Карму',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -65,7 +63,7 @@ class _Title extends StatelessWidget {
           height: 8,
         ),
         Text(
-          'увеличьте её одним из способов',
+          'чтобы забирать нужные вещи',
           textAlign: TextAlign.center,
         ),
       ],
