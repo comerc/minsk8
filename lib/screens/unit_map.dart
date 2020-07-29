@@ -11,6 +11,7 @@ class UnitMapScreen extends StatelessWidget {
     final unit = arguments.unit;
     return Scaffold(
       // TODO: добавить аватарку и описание лота
+      // TODO: отображать адрес в инфо-боксе
       appBar: AppBar(
         title: AddressText(unit),
       ),

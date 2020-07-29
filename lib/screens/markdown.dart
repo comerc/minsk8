@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: добавить обработку ссылок
+// TODO: добавить переносы (like hyphenator)
+// https://github.com/flutter/flutter/issues/18443
+
 class MarkdownScreen extends StatefulWidget {
   MarkdownScreen(this.filename, {this.title});
 
