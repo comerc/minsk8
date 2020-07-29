@@ -81,7 +81,7 @@ class FeedbackScreen extends StatelessWidget {
                     child: Text('Сообщить о проблеме'),
                     onLongPress: () {}, // чтобы сократить время для splashColor
                     onPressed: () {
-                      _launchFeedback(context);
+                      launchFeedback(context, subject: 'Сообщить о проблеме');
                     },
                     textColor: Colors.green,
                   ),
@@ -92,26 +92,5 @@ class FeedbackScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _launchFeedback(BuildContext context) async {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
-    final emailUri = Uri(
-      scheme: 'mailto',
-      path: kSupportEmail,
-      queryParameters: {
-        'subject': 'Сообщить о проблеме',
-        'body': 'member_id=${profile.member.id}'
-      },
-    );
-    final emailUrl = emailUri.toString();
-    if (await canLaunch(emailUrl)) {
-      await launch(emailUrl);
-      // TODO: реализовать webUrl
-      // } else if (await canLaunch(webUrl)) {
-      //   await launch(webUrl);
-    } else {
-      throw 'Could not launch $emailUrl';
-    }
   }
 }

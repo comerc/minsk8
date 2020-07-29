@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:intl/intl.dart';
 import 'package:minsk8/import.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -148,4 +149,25 @@ int getWantLimit(int balance) {
 int getNearestStep(List<int> steps, int value) {
   return steps.firstWhere((int element) => element >= value,
       orElse: () => steps.last);
+}
+
+void launchFeedback(BuildContext context, {String subject}) async {
+  final profile = Provider.of<ProfileModel>(context, listen: false);
+  final emailUri = Uri(
+    scheme: 'mailto',
+    path: kSupportEmail,
+    queryParameters: {
+      'subject': subject,
+      'body': 'member_id=${profile.member.id}'
+    },
+  );
+  final emailUrl = emailUri.toString();
+  if (await canLaunch(emailUrl)) {
+    await launch(emailUrl);
+    // TODO: реализовать webUrl
+    // } else if (await canLaunch(webUrl)) {
+    //   await launch(webUrl);
+  } else {
+    throw 'Could not launch $emailUrl';
+  }
 }
