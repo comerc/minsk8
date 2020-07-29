@@ -44,8 +44,8 @@ class _MapAreaLayer extends StatefulWidget {
 
 const maxRadius = 100.0;
 
-class _MapAreaLayerState extends State<_MapAreaLayer>
-    with SingleTickerProviderStateMixin {
+class _MapAreaLayerState extends State<_MapAreaLayer> {
+  // with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
   int _radius;

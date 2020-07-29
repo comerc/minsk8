@@ -24,7 +24,8 @@ class Showcase extends StatefulWidget {
   ShowcaseState createState() => ShowcaseState();
 }
 
-class ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
+class ShowcaseState extends State<Showcase>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   int get tabIndex => _tabController.index;
 
