@@ -74,7 +74,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 0), // hack
           child: Text(
-            'У Вас только ${getPluralKarma(widget.balance)}. Повысьте, чтобы установить желаемый максимум.',
+            'У Вас только ${getPluralKarma(widget.balance)}. Получите\u00A0ещё, чтобы установить желаемый максимум.',
             style: TextStyle(
               fontSize: kFontSize,
               color: Colors.red,
@@ -85,7 +85,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
           height: 8,
         ),
         FlatButton(
-          child: Text('КУПИТЬ ${getPluralKarma(step).toUpperCase()}'),
+          child: Text('ПОЛУЧИТЬ ${getPluralKarma(step).toUpperCase()}'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             print(step);
@@ -105,7 +105,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 0), // hack
           child: Text(
-            'Ставка будет повышаться автоматически на +${getPluralKarma(1)} до заданного максимума:',
+            'Ставка будет повышаться автоматически на\u00A0+${getPluralKarma(1)} до\u00A0заданного максимума:',
             style: TextStyle(
               fontSize: kFontSize,
               color: Colors.black.withOpacity(0.6),

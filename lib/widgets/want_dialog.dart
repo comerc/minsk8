@@ -146,8 +146,8 @@ class WantDialog extends StatelessWidget {
         SizedBox(height: 16),
         Text(
           unit.price == null
-              ? 'Только ${getWantLimit(profile.balance)} лотов даром в день'
-              : 'Карма заморозится до конца таймера',
+              ? 'Только ${getWantLimit(profile.balance)} лотов даром в\u00A0день'
+              : 'Карма заморозится до\u00A0конца таймера',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: kFontSize,
