@@ -1,105 +1,179 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-class AutoIncreaseField extends StatefulWidget {
-  AutoIncreaseField({this.child, this.height});
+const Duration _kExpand = Duration(milliseconds: 200);
 
-  final Widget child;
-  final double height;
+class AutoIncreaseField extends StatefulWidget {
+  AutoIncreaseField({key, this.price, this.balance}) : super(key: key);
+
+  final int price;
+  final int balance;
 
   @override
-  _AutoIncreaseFieldState createState() {
-    return _AutoIncreaseFieldState();
+  AutoIncreaseFieldState createState() {
+    return AutoIncreaseFieldState();
   }
 }
 
-class _AutoIncreaseFieldState extends State<AutoIncreaseField>
-    with SingleTickerProviderStateMixin {
-  var _value = false;
-  var _visible = false;
-  Animation<double> _animation;
-  AnimationController _controller;
+class AutoIncreaseFieldState extends State<AutoIncreaseField>
+    with TickerProviderStateMixin {
+  FixedExtentScrollController _controller;
+  bool _isExpanded = false;
+  int get _minValue => widget.price == null ? 2 : widget.price + 3;
+  int _currentValue;
+
+  int get currentValue => _currentValue;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 100), vsync: this);
-    _animation =
-        Tween<double>(begin: 0, end: widget.height).animate(_controller);
+    _currentValue = _minValue + 10;
+    _controller = FixedExtentScrollController(initialItem: _currentValue);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final needValue = max(0, _currentValue - widget.balance);
+    final step = getNearestStep(kPaymentSteps, needValue);
+    final header = Tooltip(
+      message:
+          _isExpanded ? 'Выключить автоповышение' : 'Включить автоповышение',
+      child: SwitchListTile.adaptive(
+        contentPadding: EdgeInsets.zero,
+        dense: true,
+        title: Text(
+          'Автоповышение ставки',
+          // такой же стиль для 'Самовывоз'
+          style: TextStyle(
+            color: Colors.black.withOpacity(0.8),
+          ),
+        ),
+        value: _isExpanded,
+        onChanged: (bool value) {
+          setState(() {
+            _isExpanded = value;
+            if (!_isExpanded) {
+              // stop
+              _controller.jumpToItem(_controller.selectedItem);
+            }
+          });
+        },
+      ),
+    );
+    final message = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 0), // hack
+          child: Text(
+            'У Вас только ${getPluralKarma(widget.balance)}. Повысьте, чтобы установить желаемый максимум.',
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.red,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        FlatButton(
+          child: Text('КУПИТЬ ${getPluralKarma(step).toUpperCase()}'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            print(step);
+            // TODO: переход к оплате
+            // Navigator.of(context).pop(true);
+          },
+          color: Colors.green,
+          textColor: Colors.white,
+        ),
+      ],
+    );
+    final body = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 8),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 0), // hack
+          child: Text(
+            'Ставка будет повышаться автоматически на +${getPluralKarma(1)} до заданного максимума:',
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.black.withOpacity(0.6),
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        Container(
+          color: Colors.yellow.withOpacity(0.5),
+          height: kButtonHeight,
+          child: ExtendedListWheelScrollView(
+            scrollDirection: Axis.horizontal,
+            itemExtent: kButtonHeight * kGoldenRatio,
+            useMagnifier: true,
+            magnification: kGoldenRatio,
+            onSelectedItemChanged: (int index) {
+              setState(() {
+                _currentValue = index;
+              });
+            },
+            controller: _controller,
+            minIndex: _minValue,
+            maxIndex: 999999,
+            builder: (BuildContext context, int index) {
+              return Center(
+                child: Text(
+                  index.toString(),
+                  style: TextStyle(
+                    fontSize: kPriceFontSize / kGoldenRatio,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        _buildAnimatedSize(
+          needValue > 0 ? message : Container(),
+        ),
+        SizedBox(height: 16),
+      ],
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Tooltip(
-          message:
-              _value ? 'Выключить автоповышение' : 'Включить автоповышение',
-          child: SwitchListTile.adaptive(
-            dense: true,
-            title: Text(
-              'Автоповышение ставки',
-              // такой же стиль для 'Самовывоз'
-              style: TextStyle(
-                color: Colors.black.withOpacity(0.8),
-              ),
-            ),
-            value: _value,
-            onChanged: _handleChanged,
+        header,
+        _buildAnimatedSize(
+          Offstage(
+            child: body,
+            offstage: !_isExpanded,
           ),
-        ),
-        _AnimatedSizedBox(
-          animation: _animation,
-          child: _visible
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  // TODO: _AnimatedOpacity
-                  child: widget.child,
-                )
-              : null,
         ),
       ],
     );
   }
 
-  void _handleChanged(bool value) async {
-    if (value) {
-      setState(() {
-        _value = true;
-      });
-      await _controller.forward();
-      setState(() {
-        _visible = true;
-      });
-    } else {
-      setState(() {
-        _value = false;
-        _visible = false;
-      });
-      // ignore: unawaited_futures
-      _controller.reverse();
-    }
-  }
-}
-
-class _AnimatedSizedBox extends AnimatedWidget {
-  _AnimatedSizedBox({
-    Key key,
-    Animation<double> animation,
-    this.child,
-  }) : super(key: key, listenable: animation);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
-    return SizedBox(
-      height: animation.value,
+  Widget _buildAnimatedSize(Widget child) {
+    return AnimatedSize(
       child: child,
+      alignment: Alignment.topCenter,
+      duration: _kExpand,
+      reverseDuration: _kExpand,
+      vsync: this,
     );
   }
 }

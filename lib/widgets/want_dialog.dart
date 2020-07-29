@@ -8,12 +8,24 @@ import 'package:provider/provider.dart';
 // https://hasura.io/docs/1.0/graphql/manual/api-reference/schema-metadata-api/scheduled-triggers.html
 // https://hasura.io/docs/1.0/graphql/manual/scheduled-triggers/create-one-off-scheduled-event.html
 
-// TODO: автоповышение
+// class WantDialog extends StatefulWidget {
+//   WantDialog(this.unit);
 
+//   final UnitModel unit;
+
+//   @override
+//   _WantDialogState createState() {
+//     return _WantDialogState();
+//   }
+// }
+
+// class _WantDialogState extends State<WantDialog> {
 class WantDialog extends StatelessWidget {
   WantDialog(this.unit);
 
   final UnitModel unit;
+
+  static final autoIncreaseFieldKey = GlobalKey<AutoIncreaseFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +110,15 @@ class WantDialog extends StatelessWidget {
                 color: Colors.black.withOpacity(0.8),
               ),
             ),
-            subtitle: unit.address == null ? null : Text(unit.address),
+            subtitle: unit.address == null
+                ? null
+                : ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 0), // hack
+                    child: Text(
+                      unit.address,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
             trailing: Icon(
               Icons.navigate_next,
               color: Colors.black.withOpacity(0.3),
@@ -114,61 +134,14 @@ class WantDialog extends StatelessWidget {
           ),
         ),
         Divider(height: 1),
-        AutoIncreaseField(
-            height: 200,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 8),
-                // Row(
-                //   children: [
-                Container(
-                  decoration: BoxDecoration(
-                    // color: Colors.red,
-                    color: Colors.yellow.withOpacity(0.5),
-
-                    // shape: BoxShape.rectangle,
-                    // border: Border.all(
-                    //     color: Colors.grey.withOpacity(0.4), width: 1),
-                    // borderRadius: BorderRadius.all(Radius.circular(2.0)),
-                  ),
-                  // width: kButtonHeight * kGoldenRatio * 4,
-                  height: kButtonHeight,
-                  child: ListWheelScrollViewX(
-                    scrollDirection: Axis.horizontal,
-                    itemExtent: kButtonHeight * kGoldenRatio,
-                    useMagnifier: true,
-                    magnification: kGoldenRatio,
-                    builder: (BuildContext context, int index) {
-                      return Container(
-                        // width: 100,
-                        // height: 22,
-                        // padding: EdgeInsets.all(8),
-                        // color: Colors.blueAccent,
-                        alignment: Alignment.center,
-                        child: Text(
-                          index.toString(),
-                          style: TextStyle(
-                            fontSize: kPriceFontSize / kGoldenRatio,
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-
-                          // style: TextStyle(
-                          //   fontSize: 12,
-                          //   color: Colors.black.withOpacity(0.8),
-                          // ),
-                          // textAlign: TextAlign.center,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                // ],
-                // ),
-                // SizedBox(height: 8),
-              ],
-            )),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: AutoIncreaseField(
+            key: autoIncreaseFieldKey,
+            price: unit.price,
+            balance: 20, // profile.balance,
+          ),
+        ),
         Divider(height: 1),
         SizedBox(height: 16),
         Text(
@@ -196,64 +169,19 @@ class WantDialog extends StatelessWidget {
               width: 16,
             ),
             FlatButton(
-              child: Text('Да'),
+              child: Text(unit.price == null ? 'Да' : 'Хорошо'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
+                final end = autoIncreaseFieldKey.currentState.currentValue;
+                print(end);
                 Navigator.of(context).pop(true);
               },
-              color: Colors.red,
+              color: Colors.green,
               textColor: Colors.white,
             ),
           ],
         ),
       ],
-    );
-  }
-}
-
-class ListWheelScrollViewX extends StatelessWidget {
-  ListWheelScrollViewX({
-    Key key,
-    @required this.builder,
-    @required this.itemExtent,
-    this.controller,
-    this.onSelectedItemChanged,
-    this.scrollDirection = Axis.vertical,
-    this.diameterRatio = 2,
-    this.useMagnifier = false,
-    this.magnification = 1,
-  }) : super(key: key);
-
-  final Widget Function(BuildContext, int) builder;
-  final Axis scrollDirection;
-  final FixedExtentScrollController controller;
-  final double itemExtent;
-  final double diameterRatio;
-  final bool useMagnifier;
-  final double magnification;
-  final void Function(int) onSelectedItemChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: scrollDirection == Axis.horizontal ? 3 : 0,
-      child: ListWheelScrollView.useDelegate(
-        onSelectedItemChanged: onSelectedItemChanged,
-        controller: controller,
-        itemExtent: itemExtent,
-        diameterRatio: diameterRatio,
-        useMagnifier: useMagnifier,
-        magnification: magnification,
-        physics: FixedExtentScrollPhysics(),
-        childDelegate: ListWheelChildBuilderDelegate(
-          builder: (BuildContext context, int index) {
-            return RotatedBox(
-              quarterTurns: scrollDirection == Axis.horizontal ? 1 : 0,
-              child: builder(context, index),
-            );
-          },
-        ),
-      ),
     );
   }
 }

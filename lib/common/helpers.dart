@@ -90,24 +90,39 @@ String getOperationExceptionToString(OperationException operationException) {
 }
 
 // заменил Gold на Karma
+// String getPluralCoin(int howMany) => Intl.plural(
+//       howMany,
+//       name: 'coin',
+//       args: [howMany],
+//       one: '$howMany Монета',
+//       other: '$howMany Монеты',
+//       many: '$howMany Монет',
+//       zero: 'Нет Монет',
+//       locale: 'ru',
+//     ).replaceAll(' ', '\u00A0');
+
 // String getPluralGold(int howMany) => Intl.plural(
 //       howMany,
 //       name: 'gold',
 //       args: [howMany],
 //       one: '$howMany Золотой',
 //       other: '$howMany Золотых',
+//       zero: 'Нет Золотых',
 //       locale: 'ru',
-//     );
+//     ).replaceAll(' ', '\u00A0');
 
-String getPluralKarma(int howMany) => Intl.plural(
-      howMany,
-      name: 'karma',
-      args: [howMany],
-      one: '$howMany Карма',
-      other: '$howMany Кармы',
-      many: '$howMany Карм',
-      locale: 'ru',
-    );
+// String getPluralKarma(int howMany) => Intl.plural(
+//       howMany,
+//       name: 'karma',
+//       args: [howMany],
+//       one: '$howMany Карма',
+//       other: '$howMany Кармы',
+//       many: '$howMany Карм',
+//       zero: 'Нет Кармы',
+//       locale: 'ru',
+//     ).replaceAll(' ', '\u00A0');
+
+String getPluralKarma(int howMany) => '$howMany\u00A0Кармы';
 
 class SizeInt {
   SizeInt(this.width, this.height);
@@ -128,4 +143,9 @@ int getWantLimit(int balance) {
   return (balance >= kMaxWantBalance)
       ? kMaxWantLimit
       : balance + (kMaxWantLimit - kMaxWantBalance);
+}
+
+int getNearestStep(List<int> steps, int value) {
+  return steps.firstWhere((int element) => element >= value,
+      orElse: () => steps.last);
 }

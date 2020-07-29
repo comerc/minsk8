@@ -42,3 +42,4 @@ const kDefaultIconSize = 24.0;
 const kMaxWantLimit = 10;
 const kMaxWantBalance = 7;
 const kPriceFontSize = 23.0;
+const kPaymentSteps = [6, 36, 72, 144];
