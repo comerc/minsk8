@@ -18,10 +18,10 @@ class WantDialog extends StatelessWidget {
     final imageHeight = 96.0;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16),
-      children: [
+      children: <Widget>[
         Center(
           child: Stack(
-            children: [
+            children: <Widget>[
               Container(
                 height: imageHeight,
                 width: imageHeight,
@@ -38,7 +38,7 @@ class WantDialog extends StatelessWidget {
                 bottom: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     unit.price == null
                         ? Container(
                             decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class WantDialog extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Stack(
-            children: [
+            children: <Widget>[
               Icon(
                 Icons.info_outline,
                 color: Colors.blueAccent,
@@ -98,7 +98,7 @@ class WantDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kButtonIconSize + 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       unit.price == null
                           ? 'Только ${getWantLimit(profile.balance)} лотов даром в день.'
@@ -125,7 +125,7 @@ class WantDialog extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Stack(
-            children: [
+            children: <Widget>[
               Icon(
                 Icons.timer,
                 color: Colors.black.withOpacity(0.8),
@@ -153,9 +153,9 @@ class WantDialog extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Stack(
-                  children: [
+                  children: <Widget>[
                     Row(
-                      children: [
+                      children: <Widget>[
                         Icon(
                           Icons.location_on,
                           color: Colors.pinkAccent,
@@ -172,7 +172,7 @@ class WantDialog extends StatelessWidget {
                     Flex(
                       direction: Axis.vertical,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                      children: <Widget>[
                         Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: kButtonIconSize + 8),

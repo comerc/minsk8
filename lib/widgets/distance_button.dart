@@ -18,7 +18,7 @@ class DistanceButton extends StatelessWidget {
     Widget text = RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
-        children: [
+        children: <InlineSpan>[
           WidgetSpan(
             child: SizedBox(
               height: iconSize,

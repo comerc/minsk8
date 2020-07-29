@@ -9,12 +9,12 @@ class ShowcaseAppBar extends StatelessWidget {
       color: Colors.white,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           SizedBox(width: 16),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Container(
                 child: Text(
                   'Без названия',

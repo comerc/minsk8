@@ -12,11 +12,11 @@ class InviteScreen extends StatelessWidget {
         alignment: Alignment.topCenter,
         color: Colors.white,
         child: Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Logo(),
                   SizedBox(height: 48),
                   Text(
@@ -43,7 +43,7 @@ class InviteScreen extends StatelessWidget {
               width: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
                   FlatButton(
                     child: Text('Пригласить друзей'),
                     onPressed: () {

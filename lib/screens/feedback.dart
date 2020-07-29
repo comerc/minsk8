@@ -19,7 +19,7 @@ class FeedbackScreen extends StatelessWidget {
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Logo(size: kBigButtonIconSize),
             SizedBox(height: 16),
             Text('⭐ ⭐ ⭐ ⭐ ⭐'),
@@ -56,7 +56,7 @@ class FeedbackScreen extends StatelessWidget {
               width: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                children: <Widget>[
                   FlatButton(
                     child: Text('Оценить приложение'),
                     onLongPress: () {}, // чтобы сократить время для splashColor

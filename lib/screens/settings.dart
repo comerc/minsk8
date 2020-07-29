@@ -16,7 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final size = MediaQuery.of(context).size;
     final panelChildWidth = size.width - 32.0; // for padding
     final child = Column(
-      children: [
+      children: <Widget>[
         SizedBox(height: 16),
         Container(
           alignment: Alignment.centerLeft,

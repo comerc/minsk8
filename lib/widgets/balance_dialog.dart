@@ -22,7 +22,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
     final profile = Provider.of<ProfileModel>(context, listen: false);
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      children: [
+      children: <Widget>[
         SizedBox(
           height: 16,
         ),

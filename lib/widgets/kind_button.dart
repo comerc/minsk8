@@ -17,7 +17,7 @@ class KindButton extends StatelessWidget {
         child: InkWell(
           child: Stack(
             fit: StackFit.expand,
-            children: [
+            children: <Widget>[
               if (model.isNew ?? false)
                 Positioned(
                   top: 0,
@@ -36,7 +36,7 @@ class KindButton extends StatelessWidget {
                 ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   // TODO: поменять иконки для категорий
                   Logo(
                     size: kBigButtonIconSize,

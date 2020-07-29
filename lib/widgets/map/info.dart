@@ -12,7 +12,7 @@ class MapInfo extends StatelessWidget {
   Widget build(context) {
     const closeIconSize = 20.0;
     return Stack(
-      children: [
+      children: <Widget>[
         child,
         Positioned(
           top: 48,
@@ -25,7 +25,7 @@ class MapInfo extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 color: Colors.white,
                 child: Stack(
-                  children: [
+                  children: <Widget>[
                     Icon(
                       Icons.info_outline,
                       color: Colors.blueAccent,

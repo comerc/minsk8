@@ -68,7 +68,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children: <Widget>[
         if (widget.options.saveModes != null)
           Center(
             child: CustomPaint(
@@ -89,7 +89,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
           ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          children: <Widget>[
             MapCurrentPosition(
               onCurrentPosition: widget.options.onCurrentPosition,
             ),
@@ -117,7 +117,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                         // borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           Flexible(
                             flex: 1,
                             child: Container(
@@ -128,7 +128,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                                 child: RichText(
                                   text: TextSpan(
                                     style: DefaultTextStyle.of(context).style,
-                                    children: [
+                                    children: <InlineSpan>[
                                       TextSpan(
                                         text: 'Радиус',
                                       ),

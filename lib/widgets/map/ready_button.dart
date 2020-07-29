@@ -50,7 +50,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       child: AlertDialog(
         content: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             buildProgressIndicator(context),
             SizedBox(width: 16),
             Text('Загрузка...'),

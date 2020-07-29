@@ -62,7 +62,7 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.photo_camera,
@@ -86,13 +86,13 @@ class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
       ),
       drawer: MainDrawer('/_image_capture'),
       body: Column(
-        children: [
+        children: <Widget>[
           if (_imageFile != null) ...[
             Container(
                 padding: EdgeInsets.all(32), child: Image.file(_imageFile)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 FlatButton(
                   child: Icon(Icons.crop),
                   onPressed: _cropImage,
@@ -164,7 +164,7 @@ class _UploaderState extends State<Uploader> {
             return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   if (_uploadTask.isComplete)
                     Text('🎉🎉🎉',
                         style: TextStyle(

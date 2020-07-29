@@ -15,7 +15,7 @@ Future<UrgentStatus> selectUrgentDialog(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Padding(
               padding: EdgeInsets.only(left: 16, bottom: 16, top: 32),
               child: Text(

@@ -68,20 +68,20 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     final panelChildWidth = size.width - 32.0; // for padding
     final gridSpacing = 8.0;
     final child = Column(
-      children: [
+      children: <Widget>[
         Container(
           padding: EdgeInsets.only(top: 16),
           color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Container(
                 height: (panelChildWidth - gridSpacing) / 2,
                 width: panelChildWidth,
                 child: GridView.count(
                   crossAxisSpacing: gridSpacing,
                   crossAxisCount: 2,
-                  children: [
+                  children: <Widget>[
                     _buildAddImageButton(0),
                     GridView.count(
                       mainAxisSpacing: gridSpacing,
@@ -221,7 +221,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       child: AlertDialog(
         content: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             buildProgressIndicator(context),
             SizedBox(width: 16),
             Text('Загрузка...'),

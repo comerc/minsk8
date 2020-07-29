@@ -59,7 +59,7 @@ class LedgerScreenState extends State<LedgerScreen> {
         onRefresh: _onRefresh,
         maxDragOffset: kMaxDragOffset,
         child: Stack(
-          children: [
+          children: <Widget>[
             LoadingMoreCustomScrollView(
               rebuildCustomScrollView: true,
               // in case list is not full screen and remove ios Bouncing

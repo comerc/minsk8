@@ -42,7 +42,7 @@ class ShowcaseTabBar extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       overflow: Overflow.visible,
-      children: [
+      children: <Widget>[
         Positioned(
           top: shrinkOffset + offset,
           left: 0,

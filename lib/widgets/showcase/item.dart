@@ -29,7 +29,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         _buildImage(),
         _buildBottom(),
       ],
@@ -90,7 +90,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               ).image,
               child: Stack(
                 // fit: StackFit.expand,
-                children: [
+                children: <Widget>[
                   _buildText(),
                   if (unit.isBlockedOrLocalDeleted)
                     _buildStatus(
@@ -142,7 +142,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
       );
     }
     return Row(
-      children: [
+      children: <Widget>[
         unit.price == null ? GiftButton(unit) : PriceButton(unit),
         Spacer(),
         SizedBox(

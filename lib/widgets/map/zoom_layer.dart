@@ -35,7 +35,7 @@ class _MapZoomLayerState extends State<_MapZoomLayer> {
   @override
   Widget build(BuildContext context) {
     return ButtonBar(
-      children: [
+      children: <Widget>[
         IconButton(
           tooltip: 'Increase',
           iconSize: 32,

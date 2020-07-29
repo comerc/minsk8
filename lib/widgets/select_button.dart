@@ -16,7 +16,7 @@ class SelectButton extends StatelessWidget {
       child: Material(
         child: InkWell(
           child: Row(
-            children: [
+            children: <Widget>[
               SizedBox(width: 16),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),

@@ -21,7 +21,7 @@ Widget buildListIndicator({
     case IndicatorStatus.loadingMoreBusying:
       result = Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
             // margin: EdgeInsets.only(right: 5),
             height: 15,
@@ -36,7 +36,7 @@ Widget buildListIndicator({
     case IndicatorStatus.fullScreenBusying:
       result = Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Container(
             // margin: EdgeInsets.only(right: 5),
             height: 30,

@@ -12,7 +12,7 @@ class AddedUnitDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      children: [
+      children: <Widget>[
         Logo(size: kButtonIconSize),
         Padding(
           padding: EdgeInsets.only(top: 16),
@@ -42,13 +42,13 @@ class AddedUnitDialog extends StatelessWidget {
             right: needModerate ? 72 : 32,
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               // TODO: FlatButton
               MaterialButton(
                 minWidth: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Icon(
                       FontAwesomeIcons.plus,
                       size: kButtonIconSize,
@@ -72,7 +72,7 @@ class AddedUnitDialog extends StatelessWidget {
                   minWidth: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Icon(
                         FontAwesomeIcons.share,
                         size: kButtonIconSize,

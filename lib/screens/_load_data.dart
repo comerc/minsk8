@@ -48,7 +48,7 @@ class LoadDataScreen extends StatelessWidget {
               final length = result.data['units'].length;
               return Container(
                 child: ListView(
-                  children: [
+                  children: <Widget>[
                     ...List.generate(
                         length > 0 ? length - minusOne : 0,
                         (index) => _buildUnit(result.loading,
@@ -61,7 +61,7 @@ class LoadDataScreen extends StatelessWidget {
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           buildProgressIndicator(context),
                         ],
                       ),
@@ -69,7 +69,7 @@ class LoadDataScreen extends StatelessWidget {
                       RaisedButton(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Text('Load More'),
                           ],
                         ),

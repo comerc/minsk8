@@ -100,7 +100,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
     final body = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+      children: <Widget>[
         SizedBox(height: 8),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 0), // hack
@@ -155,7 +155,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+      children: <Widget>[
         header,
         _buildAnimatedSize(
           Offstage(

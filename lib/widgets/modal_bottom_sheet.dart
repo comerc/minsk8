@@ -5,7 +5,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
   return Container(
     child: Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         SizedBox(
           height: 32,
         ),
@@ -26,7 +26,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
         ),
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             OutlineButton(
               child: Text('Закрыть'),
               onLongPress: () {}, // чтобы сократить время для splashColor

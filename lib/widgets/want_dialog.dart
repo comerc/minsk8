@@ -33,10 +33,10 @@ class WantDialog extends StatelessWidget {
     final imageHeight = 96.0;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16),
-      children: [
+      children: <Widget>[
         Center(
           child: Stack(
-            children: [
+            children: <Widget>[
               Container(
                 height: imageHeight,
                 width: imageHeight,
@@ -53,7 +53,7 @@ class WantDialog extends StatelessWidget {
                 bottom: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     unit.price == null
                         ? Container(
                             decoration: BoxDecoration(
@@ -157,7 +157,7 @@ class WantDialog extends StatelessWidget {
         SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             OutlineButton(
               child: Text('Отмена'),
               onLongPress: () {}, // чтобы сократить время для splashColor

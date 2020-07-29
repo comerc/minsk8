@@ -7,7 +7,7 @@ class DeliveryLabel extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
-        children: [
+        children: <InlineSpan>[
           TextSpan(
             text: 'Самовывоз',
             style: DefaultTextStyle.of(context).style.copyWith(

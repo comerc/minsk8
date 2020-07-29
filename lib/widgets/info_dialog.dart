@@ -16,7 +16,7 @@ class InfoDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      children: [
+      children: <Widget>[
         (icon == null)
             ? Logo(size: kButtonIconSize)
             : Icon(

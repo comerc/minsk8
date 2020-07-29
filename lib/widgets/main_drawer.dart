@@ -138,7 +138,7 @@ class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: [
+        children: <Widget>[
           DrawerHeader(
             padding: EdgeInsets.zero,
             child: GestureDetector(

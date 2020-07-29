@@ -8,7 +8,7 @@ Future<ImageSource> showImageSourceDialog(BuildContext context) {
     context: context,
     builder: (context) => SimpleDialog(
       title: Text('Что использовать?'),
-      children: [
+      children: <Widget>[
         _ImageSourceUnit(
           icon: FontAwesomeIcons.camera,
           text: 'Камера',
@@ -47,7 +47,7 @@ class _ImageSourceUnit extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Icon(
               icon,
               color: Colors.black.withOpacity(0.8),

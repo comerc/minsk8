@@ -13,7 +13,7 @@ class ConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      children: [
+      children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 16, bottom: 8),
           child: Text(
@@ -38,7 +38,7 @@ class ConfirmDialog extends StatelessWidget {
           padding: EdgeInsets.only(top: 16),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: <Widget>[
               OutlineButton(
                 child: Text(cancel ?? 'Отмена'),
                 onLongPress: () {}, // чтобы сократить время для splashColor

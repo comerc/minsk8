@@ -46,7 +46,7 @@ class HomeProfileState extends State<HomeProfile> {
     final profile = Provider.of<ProfileModel>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
+      children: <Widget>[
         SizedBox(height: 16),
         Tooltip(
           message: 'Поменять аватарку',

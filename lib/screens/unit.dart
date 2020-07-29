@@ -230,7 +230,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   PopupMenuItem(
                     value: _PopupMenuValue.goToMember,
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         Avatar(member.avatarUrl),
                         SizedBox(width: 8),
                         Text(
@@ -252,15 +252,15 @@ class _UnitScreenState extends State<UnitScreen> {
           ],
         ),
         body: Stack(
-          children: [
+          children: <Widget>[
             SlidingUpPanel(
               body: Column(
-                children: [
+                children: <Widget>[
                   SizedBox(
                     height: UnitCarouselSliderSettings.verticalPadding,
                   ),
                   Stack(
-                    children: [
+                    children: <Widget>[
                       Container(),
                       if (_showHero != null)
                         Center(
@@ -382,21 +382,21 @@ class _UnitScreenState extends State<UnitScreen> {
               panel: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     key: _panelColumnKey,
-                    children: [
+                    children: <Widget>[
                       SizedBox(
                         height: 16,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Container(
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
-                              children: [
+                              children: <Widget>[
                                 unit.price == null
                                     ? GiftButton(unit)
                                     : PriceButton(unit),
@@ -415,7 +415,7 @@ class _UnitScreenState extends State<UnitScreen> {
                           Container(
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
                             child: Row(
-                              children: [
+                              children: <Widget>[
                                 Spacer(),
                                 DistanceButton(onTap: () {
                                   final savedIndex = _currentIndex;
@@ -565,7 +565,7 @@ class _UnitScreenState extends State<UnitScreen> {
               right: 16,
               left: 16,
               child: Row(
-                children: [
+                children: <Widget>[
                   SizedBox(
                     width: kBigButtonWidth,
                     height: kBigButtonHeight,

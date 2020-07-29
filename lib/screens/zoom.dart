@@ -53,7 +53,7 @@ class _ZoomScreenState extends State<ZoomScreen>
         color: Colors.black,
         child: Stack(
           fit: StackFit.expand,
-          children: [
+          children: <Widget>[
             Hero(
               tag: tag,
               child: ExtendedImage.network(
@@ -122,7 +122,7 @@ class _ZoomScreenState extends State<ZoomScreen>
               left: 0,
               right: 16,
               child: Row(
-                children: [
+                children: <Widget>[
                   Tooltip(
                     message: 'Close',
                     child: ButtonTheme(
@@ -155,7 +155,7 @@ class _ZoomScreenState extends State<ZoomScreen>
             if (unit.images.length > 1)
               Center(
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Tooltip(
                       message: 'Back',
                       child: ButtonTheme(

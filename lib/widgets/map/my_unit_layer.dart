@@ -50,7 +50,7 @@ class _MapMyUnitLayerState extends State<_MapMyUnitLayer> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children: <Widget>[
         Container(
           margin: EdgeInsets.only(bottom: widget.options.markerIconSize),
           alignment: Alignment.center,
@@ -67,7 +67,7 @@ class _MapMyUnitLayerState extends State<_MapMyUnitLayer> {
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+          children: <Widget>[
             MapCurrentPosition(
               onCurrentPosition: widget.options.onCurrentPosition,
             ),

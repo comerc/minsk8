@@ -50,7 +50,7 @@ class AddImageButton extends StatelessWidget {
                       ? null
                       : Stack(
                           fit: StackFit.expand,
-                          children: [
+                          children: <Widget>[
                             Container(color: Colors.white.withOpacity(0.4)),
                             if (uploadStatus == ImageUploadStatus.progress)
                               Center(

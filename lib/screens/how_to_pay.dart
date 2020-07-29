@@ -14,11 +14,11 @@ class HowToPayScreen extends StatelessWidget {
       body: Container(
         alignment: Alignment.topCenter,
         child: Column(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   _BigLogo(),
                   _Title(),
                   _Menu(),
@@ -51,7 +51,7 @@ class _Title extends StatelessWidget {
     final profile = Provider.of<ProfileModel>(context, listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Text(
           'У Вас ${getPluralKarma(profile.balance)}',
           textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class _BigLogo extends StatelessWidget {
       height: height,
       width: width,
       child: Stack(
-        children: [
+        children: <Widget>[
           Positioned(
             top: height / 2 - kLogoSize / 2 + 10,
             left: width / 2 - kLogoSize / 2,

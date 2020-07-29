@@ -181,7 +181,7 @@ class _Highlight extends StatelessWidget {
       captureGroupName: 'em',
     );
     final matches = regex.allMatches(data) ?? [];
-    final out = <TextSpan>[];
+    final out = <InlineSpan>[];
     var start = 0;
     matches.forEach((element) {
       if (element.start > 0) {
@@ -203,7 +203,7 @@ class _Highlight extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
-        children: [...out],
+        children: out.toList(),
       ),
     );
   }
