@@ -52,7 +52,7 @@ Future<UrgentStatus> selectUrgentDialog(
                                 padding: EdgeInsets.all(4),
                                 child: Icon(
                                   Icons.check,
-                                  color: Colors.green,
+                                  color: Colors.red,
                                   size: kButtonIconSize,
                                 ),
                               )

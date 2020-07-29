@@ -488,7 +488,6 @@ class _UnitScreenState extends State<UnitScreen> {
                               final otherUnit = _otherUnits[index];
                               return Container(
                                 width: otherUnitWidth,
-                                color: Colors.red,
                                 child: Material(
                                   child: InkWell(
                                     // TODO: т.к. картинки квадратные, можно переключать на следующую
