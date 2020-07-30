@@ -20,16 +20,16 @@ class ZoomScreen extends StatefulWidget {
 
 class _ZoomScreenState extends State<ZoomScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+  AnimationController _controller;
   Animation<double> _animation;
-  Function animationListener;
+  Function _animationListener;
   List<double> doubleTapScales = [1, 1.5, 2];
   int _currentIndex;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
+    _controller = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: this);
     _currentIndex = widget.arguments.index;
     final unit = widget.arguments.unit;
@@ -39,7 +39,7 @@ class _ZoomScreenState extends State<ZoomScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -93,11 +93,11 @@ class _ZoomScreenState extends State<ZoomScreen>
                   var begin = state.gestureDetails.totalScale;
                   double end;
                   //remove old
-                  _animation?.removeListener(animationListener);
+                  _animation?.removeListener(_animationListener);
                   //stop pre
-                  _animationController.stop();
+                  _controller.stop();
                   //reset to use
-                  _animationController.reset();
+                  _controller.reset();
                   if (begin == doubleTapScales[0]) {
                     end = doubleTapScales[1];
                   } else if (begin == doubleTapScales[1]) {
@@ -105,15 +105,15 @@ class _ZoomScreenState extends State<ZoomScreen>
                   } else {
                     end = doubleTapScales[0];
                   }
-                  animationListener = () {
+                  _animationListener = () {
                     state.handleDoubleTap(
                         scale: _animation.value,
                         doubleTapPosition: pointerDownPosition);
                   };
-                  _animation = _animationController
-                      .drive(Tween<double>(begin: begin, end: end));
-                  _animation.addListener(animationListener);
-                  _animationController.forward();
+                  _animation =
+                      _controller.drive(Tween<double>(begin: begin, end: end));
+                  _animation.addListener(_animationListener);
+                  _controller.forward();
                 },
               ),
             ),
