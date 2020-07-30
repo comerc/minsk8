@@ -25,6 +25,7 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
       // Tooltip перекрывает onLongPress для FlutterMap
       child: Tooltip(
         message: 'Где я?',
+        // TODO: FlatButton
         child: MaterialButton(
           color: Colors.white,
           child: Icon(Icons.my_location),
