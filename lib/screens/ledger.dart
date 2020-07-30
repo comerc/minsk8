@@ -190,7 +190,6 @@ class LedgerScreenState extends State<LedgerScreen> {
                           });
                         },
                       }[payment.account]();
-
                       return Material(
                         child: InkWell(
                           onLongPress:
