@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
@@ -116,31 +117,33 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
         Container(
           color: Colors.yellow.withOpacity(0.5),
           height: kButtonHeight,
-          child: ExtendedListWheelScrollView(
-            scrollDirection: Axis.horizontal,
-            itemExtent: kButtonHeight * kGoldenRatio,
-            useMagnifier: true,
-            magnification: kGoldenRatio,
-            onSelectedItemChanged: (int index) {
-              setState(() {
-                _currentValue = index;
-              });
-            },
-            controller: _controller,
-            minIndex: _minValue,
-            maxIndex: 999999,
-            builder: (BuildContext context, int index) {
-              return Center(
-                child: Text(
-                  index.toString(),
-                  style: TextStyle(
-                    fontSize: kPriceFontSize / kGoldenRatio,
-                    color: Colors.red,
-                    fontWeight: FontWeight.w600,
+          child: GlowNotificationWidget(
+            ExtendedListWheelScrollView(
+              scrollDirection: Axis.horizontal,
+              itemExtent: kButtonHeight * kGoldenRatio,
+              useMagnifier: true,
+              magnification: kGoldenRatio,
+              onSelectedItemChanged: (int index) {
+                setState(() {
+                  _currentValue = index;
+                });
+              },
+              controller: _controller,
+              minIndex: _minValue,
+              maxIndex: 999999,
+              builder: (BuildContext context, int index) {
+                return Center(
+                  child: Text(
+                    index.toString(),
+                    style: TextStyle(
+                      fontSize: kPriceFontSize / kGoldenRatio,
+                      color: Colors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
         SizedBox(
