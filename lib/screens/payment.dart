@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+const Duration _kDuration = Duration(milliseconds: 200);
+
 class PaymentScreen extends StatefulWidget {
   @override
   _PaymentScreenState createState() {
@@ -12,13 +14,34 @@ class _PaymentScreenState extends State<PaymentScreen>
     with TickerProviderStateMixin {
 // class PaymentScreen extends StatelessWidget {
 
+  int _activeIndex;
+
   @override
   void initState() {
     super.initState();
+    _activeIndex = 1;
   }
+
+  final _steps = {
+    '1': 'd1',
+    '2': 'd2',
+    '3': 'd3',
+    '4': 'd4',
+  }.entries.toList();
+
+  var _change = false;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final listViewPadding = 16.0;
+    final separatorSize = 4.0;
+
+    final commonSize =
+        (size.width - listViewPadding * 2 - separatorSize * 2) / 3;
+    final activeSize = commonSize * 1.15;
+    final shadowSize = (commonSize * 3 - activeSize) / 2;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Получить Карму'),
@@ -28,6 +51,82 @@ class _PaymentScreenState extends State<PaymentScreen>
         color: Colors.white,
         child: Column(
           children: <Widget>[
+            SizedBox(height: 16),
+            Container(
+              height: activeSize / kGoldenRatio,
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: listViewPadding),
+                scrollDirection: Axis.horizontal,
+                itemCount: _steps.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final isActive = index == _activeIndex;
+                  return AnimatedContainer(
+                    duration: _kDuration,
+                    alignment: Alignment.center,
+                    width: isActive ? activeSize : shadowSize,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            _activeIndex = index;
+                            _change = !_change;
+                          },
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: _kDuration,
+                        height: isActive
+                            ? activeSize / kGoldenRatio
+                            : shadowSize / kGoldenRatio,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey.withOpacity(0.3),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Flexible(
+                              child: Center(
+                                  child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    '${kPaymentSteps[index]}',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Кармы',
+                                    style: TextStyle(
+                                      fontSize: kFontSize,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                            ),
+                            Flexible(
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(width: separatorSize);
+                },
+              ),
+            ),
+            SizedBox(height: 16),
+
             // Expanded(
             //   child: Column(
             //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -169,3 +268,49 @@ class _PaymentButtonState extends State<_PaymentButton>
     );
   }
 }
+
+// class _Step extends StatefulWidget {
+//   _Step({this.alignment, this.reverse});
+
+//   final AlignmentGeometry alignment;
+//   final bool reverse;
+
+//   @override
+//   _StepState createState() => _StepState();
+// }
+
+// class _StepState extends State<_Step> with SingleTickerProviderStateMixin {
+//   AnimationController _controller;
+//   Animation<double> _animation;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = AnimationController(
+//       vsync: this,
+//       duration: Duration(seconds: 2),
+//     );
+//     final curvedAnimation = CurvedAnimation(
+//       parent: _controller,
+//       curve: Curves.easeInCubic,
+//     );
+//     // _animation = Tween<double>(begin: 1, end: 1.2).animate(curvedAnimation);
+//     if (widget.reverse) {
+//       _controller.reverse();
+//     } else {
+//       _controller.forward();
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedContainer();
+
+//   }
+// }
