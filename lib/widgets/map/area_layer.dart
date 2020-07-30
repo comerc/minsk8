@@ -119,7 +119,6 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                       child: Column(
                         children: <Widget>[
                           Flexible(
-                            flex: 1,
                             child: Container(
                               height: double.infinity,
                               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -162,7 +161,6 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                             ),
                           ),
                           Flexible(
-                            flex: 1,
                             child: Container(
                               child: Slider(
                                 value: _radius.toDouble(),
