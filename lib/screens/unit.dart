@@ -408,9 +408,11 @@ class _UnitScreenState extends State<UnitScreen> {
                             width: panelSlideLabelWidth,
                             height: 4,
                             decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
+                              color: Colors.grey.withOpacity(0.3),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(2),
+                              ),
+                            ),
                           ),
                           Container(
                             width: (panelChildWidth - panelSlideLabelWidth) / 2,
