@@ -33,14 +33,27 @@ class _PaymentScreenState extends State<PaymentScreen>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final width = MediaQuery.of(context).size.width;
+    // final isSmallWidth = width < kSmallWidth;
+    // final isMediumWidth = width < kMediumWidth;
+    final isLargeWidth = width < kLargeWidth;
     final listViewPadding = 16.0;
-    final separatorSize = 4.0;
-
-    final commonSize =
-        (size.width - listViewPadding * 2 - separatorSize * 2) / 3;
-    final activeSize = commonSize * 1.15;
-    final shadowSize = (commonSize * 3 - activeSize) / 2;
+    final separatorWidth = 4.0;
+    final lengthInScreen = isLargeWidth ? 3 : 4;
+    final commonWidth =
+        (width - listViewPadding * 2 - separatorWidth * (lengthInScreen - 1)) /
+            lengthInScreen;
+    final activeWidth = commonWidth * 1.15;
+    final shadowWidth =
+        (commonWidth * lengthInScreen - activeWidth) / (lengthInScreen - 1);
+    final borderWidth = 1.0;
+    final shadowHeight = shadowWidth / kGoldenRatio;
+    final shadowInnerHeight = shadowHeight - borderWidth * 2;
+    final shadowHeaderHeight =
+        shadowInnerHeight * kGoldenRatio - shadowInnerHeight;
+    final activeHeight = activeWidth / kGoldenRatio;
+    final activeInnerHeight = activeHeight - borderWidth * 2;
+    final activeHeaderHeight = activeInnerHeight / 2;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +66,7 @@ class _PaymentScreenState extends State<PaymentScreen>
           children: <Widget>[
             SizedBox(height: 16),
             Container(
-              height: activeSize / kGoldenRatio,
+              height: activeHeight,
               child: ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: listViewPadding),
                 scrollDirection: Axis.horizontal,
@@ -63,7 +76,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   return AnimatedContainer(
                     duration: _kDuration,
                     alignment: Alignment.center,
-                    width: isActive ? activeSize : shadowSize,
+                    width: isActive ? activeWidth : shadowWidth,
                     child: GestureDetector(
                       onTap: () {
                         setState(
@@ -75,13 +88,11 @@ class _PaymentScreenState extends State<PaymentScreen>
                       },
                       child: AnimatedContainer(
                         duration: _kDuration,
-                        height: isActive
-                            ? activeSize / kGoldenRatio
-                            : shadowSize / kGoldenRatio,
+                        height: isActive ? activeHeight : shadowHeight,
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.grey.withOpacity(0.3),
-                            width: 1,
+                            width: borderWidth,
                           ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
@@ -89,9 +100,16 @@ class _PaymentScreenState extends State<PaymentScreen>
                         ),
                         child: Column(
                           children: <Widget>[
-                            Flexible(
-                              child: Center(
-                                  child: Column(
+                            // Flexible(
+                            //   flex: isActive ? 1 : headerFlex,
+                            //   child:
+                            AnimatedContainer(
+                              duration: _kDuration,
+                              height: isActive
+                                  ? activeHeaderHeight
+                                  : shadowHeaderHeight,
+                              alignment: Alignment.center,
+                              child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
@@ -109,10 +127,31 @@ class _PaymentScreenState extends State<PaymentScreen>
                                     ),
                                   ),
                                 ],
-                              )),
+                              ),
                             ),
-                            Flexible(
-                              child: Container(),
+                            // ),
+                            // Flexible(
+                            //   flex: isActive ? 1 : footerFlex,
+                            //   child:
+                            // AnimatedContainer(
+                            //     duration: _kDuration,
+                            //     height: isActive
+                            //         ? activeFooterHeight
+                            //         : shadowFooterHeight,
+                            //     color: Colors.blue),
+                            // ),
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(8),
+                                ),
+                                child: _withShaderMask(
+                                  has: index != 0,
+                                  child: Container(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -121,7 +160,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(width: separatorSize);
+                  return SizedBox(width: separatorWidth);
                 },
               ),
             ),
@@ -187,6 +226,23 @@ class _PaymentScreenState extends State<PaymentScreen>
         ),
       ),
     );
+  }
+
+  Widget _withShaderMask({Widget child, bool has}) {
+    if (has) {
+      return ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return LinearGradient(
+            colors: [Colors.deepOrange, Colors.yellow],
+            tileMode: TileMode.mirror,
+            begin: Alignment.topLeft,
+            end: Alignment(0.8, 1.2),
+          ).createShader(bounds);
+        },
+        child: child,
+      );
+    }
+    return child;
   }
 }
 
