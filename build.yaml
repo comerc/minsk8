@@ -1,3 +1,14 @@
+# builders:
+#   markdown:
+#     import: "package:minsk8/common/markdown_builder.dart"
+#     builder_factories:
+#       - markdownBuilder
+#     build_extensions:
+#       .md:
+#         - .html
+#     auto_apply: root_package
+#     required_inputs:
+#       - .md
 targets:
   $default:
     builders:

@@ -67,10 +67,6 @@ Widget loadStateChanged(ExtendedImageState state) {
   });
 }
 
-Future<String> loadAsset(BuildContext context, String filename) async {
-  return await DefaultAssetBundle.of(context).loadString('assets/$filename');
-}
-
 String getOperationExceptionToString(OperationException operationException) {
   var text = operationException.toString();
   if (operationException.clientException != null) {

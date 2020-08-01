@@ -21,6 +21,7 @@ import 'package:minsk8/import.dart';
 // TODO: выставить textColor для кнопок, чтобы получить цветной InkWell (см. еще на MaterialButton.splashColor)
 // TODO: auto_animated
 // TODO: профилирование анимации debugProfileBuildsEnabled: true,
+// TODO: проверить везде fit: StackFit.expand,
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
