@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: добавить подпись "выгода"
+// TODO: что будет на маленьком экране, когда содержимое не влезает по высоте?
 
 const Duration _kDuration = Duration(milliseconds: 400);
 
@@ -58,216 +59,253 @@ class _PaymentScreenState extends State<PaymentScreen>
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 16),
-            Container(
-              height: activeHeight,
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: listViewPadding),
-                scrollDirection: Axis.horizontal,
-                controller: _controller,
-                itemCount: kPaymentSteps.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final isActive = index == _activeIndex;
-                  final paymentStep = kPaymentSteps[index];
-                  final pilotOnePrice =
-                      kPaymentSteps[0].price / kPaymentSteps[0].amount;
-                  final currentOnePrice =
-                      kPaymentSteps[index].price / kPaymentSteps[index].amount;
-                  final discount =
-                      (100 - (currentOnePrice / pilotOnePrice) * 100).floor();
-                  return Center(
-                    child: AnimatedContainer(
-                      duration: _kDuration,
-                      width: isActive ? activeWidth : shadowWidth,
-                      height: isActive ? activeHeight : shadowHeight,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            AnimatedOpacity(
-                              duration: _kDuration,
-                              opacity: isActive ? borderOpacity : 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: borderWidth,
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 16),
+                  Logo(),
+                  SizedBox(height: 48),
+                  Text(
+                    'Получите Карму\nза поддержку проекта',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  FlatButton(
+                    child: Text(
+                      'Вместе мы сделаем мир лучше',
+                      style: TextStyle(
+                        fontSize: kFontSize,
+                        fontWeight: FontWeight.normal,
+                        // color: Colors.black.withOpacity(0.6),
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/make_it_together');
+                    },
+                    textColor: Colors.black.withOpacity(0.6),
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    height: activeHeight,
+                    child: ListView.separated(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: listViewPadding),
+                      scrollDirection: Axis.horizontal,
+                      controller: _controller,
+                      itemCount: kPaymentSteps.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final isActive = index == _activeIndex;
+                        final paymentStep = kPaymentSteps[index];
+                        final pilotOnePrice =
+                            kPaymentSteps[0].price / kPaymentSteps[0].amount;
+                        final currentOnePrice = kPaymentSteps[index].price /
+                            kPaymentSteps[index].amount;
+                        final discount =
+                            (100 - (currentOnePrice / pilotOnePrice) * 100)
+                                .floor();
+                        return Center(
+                          child: AnimatedContainer(
+                            duration: _kDuration,
+                            width: isActive ? activeWidth : shadowWidth,
+                            height: isActive ? activeHeight : shadowHeight,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
                               ),
-                            ),
-                            Container(
-                              alignment: Alignment.bottomCenter,
-                              padding:
-                                  EdgeInsets.only(bottom: priceBottomPadding),
-                              child: Text(
-                                '${paymentStep.price} \$',
-                                style: TextStyle(
-                                  fontSize: kFontSize,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                AnimatedContainer(
-                                  duration: _kDuration,
-                                  height: isActive
-                                      ? activeHeaderHeight
-                                      : shadowHeaderHeight,
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        '${paymentStep.amount}',
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black.withOpacity(0.8),
+                              child: Stack(
+                                children: <Widget>[
+                                  AnimatedOpacity(
+                                    duration: _kDuration,
+                                    opacity: isActive ? borderOpacity : 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: borderWidth,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8),
                                         ),
                                       ),
-                                      Text(
-                                        'Кармы',
-                                        style: TextStyle(
-                                          fontSize: kFontSize,
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.bottomCenter,
+                                    padding: EdgeInsets.only(
+                                        bottom: priceBottomPadding),
+                                    child: Text(
+                                      '${paymentStep.price} \$',
+                                      style: TextStyle(
+                                        fontSize: kFontSize,
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      AnimatedContainer(
+                                        duration: _kDuration,
+                                        height: isActive
+                                            ? activeHeaderHeight
+                                            : shadowHeaderHeight,
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              '${paymentStep.amount}',
+                                              style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                            Text(
+                                              'Кармы',
+                                              style: TextStyle(
+                                                fontSize: kFontSize,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                if (index != 0)
-                                  Stack(
-                                    fit: StackFit.passthrough,
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: <Color>[
-                                              Colors.deepOrange,
-                                              Colors.yellow
-                                            ],
-                                            tileMode: TileMode.mirror,
-                                            begin: Alignment.topLeft,
-                                            end: Alignment(0.8, 1.2),
-                                          ),
-                                        ),
-                                        padding: EdgeInsets.only(
-                                            top: shadowLineHeight),
-                                        child: ClipRect(
-                                          child: ExtendedAnimatedAlign(
-                                            duration: _kDuration,
-                                            alignment: Alignment.topCenter,
-                                            heightFactor: isActive ? 1 : 0,
-                                            child: AnimatedContainer(
-                                              duration: _kDuration,
-                                              height: isActive
-                                                  ? activeFooterHeight -
-                                                      shadowLineHeight
-                                                  : shadowFooterHeight -
-                                                      shadowLineHeight,
-                                              alignment: Alignment.bottomCenter,
+                                      if (index != 0)
+                                        Stack(
+                                          fit: StackFit.passthrough,
+                                          children: <Widget>[
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: <Color>[
+                                                    Colors.deepOrange,
+                                                    Colors.yellow
+                                                  ],
+                                                  tileMode: TileMode.mirror,
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment(0.8, 1.2),
+                                                ),
+                                              ),
                                               padding: EdgeInsets.only(
-                                                  bottom: priceBottomPadding),
-                                              child: Text(
-                                                '${paymentStep.price} \$',
-                                                style: TextStyle(
-                                                  fontSize: kFontSize,
-                                                  color: Colors.white,
+                                                  top: shadowLineHeight),
+                                              child: ClipRect(
+                                                child: ExtendedAnimatedAlign(
+                                                  duration: _kDuration,
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  heightFactor:
+                                                      isActive ? 1 : 0,
+                                                  child: AnimatedContainer(
+                                                    duration: _kDuration,
+                                                    height: isActive
+                                                        ? activeFooterHeight -
+                                                            shadowLineHeight
+                                                        : shadowFooterHeight -
+                                                            shadowLineHeight,
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    padding: EdgeInsets.only(
+                                                        bottom:
+                                                            priceBottomPadding),
+                                                    child: Text(
+                                                      '${paymentStep.price} \$',
+                                                      style: TextStyle(
+                                                        fontSize: kFontSize,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                      AnimatedPadding(
-                                        duration: _kDuration,
-                                        padding: EdgeInsets.only(
-                                            top: isActive ? 10 : 0),
-                                        child: AnimatedContainer(
-                                          duration: _kDuration,
-                                          height:
-                                              isActive ? 23 : shadowLineHeight,
-                                          child: FittedBox(
-                                            child: Text(
-                                              '+ $discount%',
-                                              style: TextStyle(
-                                                fontSize: kFontSize,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
+                                            AnimatedPadding(
+                                              duration: _kDuration,
+                                              padding: EdgeInsets.only(
+                                                  top: isActive ? 10 : 0),
+                                              child: AnimatedContainer(
+                                                duration: _kDuration,
+                                                height: isActive
+                                                    ? 23
+                                                    : shadowLineHeight,
+                                                child: FittedBox(
+                                                  child: Text(
+                                                    '+ $discount%',
+                                                    style: TextStyle(
+                                                      fontSize: kFontSize,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ),
                                     ],
                                   ),
-                              ],
-                            ),
-                            AnimatedOpacity(
-                              duration: _kDuration,
-                              opacity: isActive ? 0 : borderOpacity,
-                              child: Container(color: Colors.grey),
-                            ),
-                            Tooltip(
-                              message: _activeIndex == index
-                                  ? 'Получить'
-                                  : 'Выбрать',
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    if (_activeIndex == index) {
-                                      _handlePayment();
-                                      return;
-                                    }
-                                    setState(
-                                      () {
-                                        _activeIndex = index;
-                                        // иначе надо переделать позиционирование
-                                        assert(kPaymentSteps.length == 4);
-                                        _controller.animateTo(
-                                          _activeIndex <
-                                                  kPaymentSteps.length / 2
-                                              ? 0
-                                              : _controller
-                                                  .position.maxScrollExtent,
-                                          duration: _kDuration,
-                                          curve: Curves.linear,
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
+                                  AnimatedOpacity(
+                                    duration: _kDuration,
+                                    opacity: isActive ? 0 : borderOpacity,
+                                    child: Container(color: Colors.grey),
+                                  ),
+                                  Tooltip(
+                                    message: _activeIndex == index
+                                        ? 'Получить'
+                                        : 'Выбрать',
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (_activeIndex == index) {
+                                            _handlePayment();
+                                            return;
+                                          }
+                                          setState(
+                                            () {
+                                              _activeIndex = index;
+                                              // иначе надо переделать позиционирование
+                                              assert(kPaymentSteps.length == 4);
+                                              _controller.animateTo(
+                                                _activeIndex <
+                                                        kPaymentSteps.length / 2
+                                                    ? 0
+                                                    : _controller.position
+                                                        .maxScrollExtent,
+                                                duration: _kDuration,
+                                                curve: Curves.linear,
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: separatorWidth);
+                      },
                     ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(width: separatorWidth);
-                },
+                  ),
+                  SizedBox(height: 16),
+                ],
               ),
             ),
-            SizedBox(height: 16),
-            // Expanded(
-            //   child: Column(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: <Widget>[
-            //       // _Logo(),
-            //       // _Title(),
-            //       // _Menu(),
-            //     ],
-            //   ),
-            // ),
+
             // FlatButton(
             //   child: Text(
             //     'КАК ЭТО РАБОТАЕТ',
@@ -295,6 +333,14 @@ class _PaymentScreenState extends State<PaymentScreen>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   _PaymentButton(onTap: _handlePayment),
+                  OutlineButton(
+                    child: Text('НЕТ, СПАСИБО'),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    textColor: Colors.black.withOpacity(0.8),
+                  ),
                 ],
               ),
             ),
@@ -310,7 +356,7 @@ class _PaymentScreenState extends State<PaymentScreen>
               ),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
-                Navigator.of(context).pushNamed('/how_it_works');
+                launchFeedback(context, subject: 'Не получается оплатить');
               },
               textColor: Colors.red,
             ),
@@ -388,9 +434,9 @@ class _PaymentButtonState extends State<_PaymentButton>
               alignment: Alignment.center,
               child: Container(
                 child: Text(
-                  'ПОЛУЧИТЬ',
+                  'ДА, ПОЛУЧИТЬ',
                   style: TextStyle(
-                    fontSize: kFontSize,
+                    fontSize: kButtonFontSize,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
