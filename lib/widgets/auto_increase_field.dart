@@ -73,7 +73,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 0), // hack
+          constraints: BoxConstraints(maxWidth: 0), // TODO: убрать hack
           child: Text(
             'У Вас только ${getPluralKarma(widget.balance)}. Получите\u00A0ещё, чтобы установить желаемый максимум.',
             style: TextStyle(
@@ -104,7 +104,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
       children: <Widget>[
         SizedBox(height: 8),
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 0), // hack
+          constraints: BoxConstraints(maxWidth: 0), // TODO: убрать hack
           child: Text(
             'Ставка будет повышаться автоматически на\u00A0+${getPluralKarma(1)} до\u00A0заданного максимума:',
             style: TextStyle(

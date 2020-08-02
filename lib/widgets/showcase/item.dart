@@ -3,6 +3,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: загрузка блюриной миниатюры, пока грузится большая картинка
+// TODO: пока грузится картинка, показывать серый прямоугольник
 
 class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({

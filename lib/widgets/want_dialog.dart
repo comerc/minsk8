@@ -113,7 +113,8 @@ class WantDialog extends StatelessWidget {
             subtitle: unit.address == null
                 ? null
                 : ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 0), // hack
+                    constraints:
+                        BoxConstraints(maxWidth: 0), // TODO: убрать hack
                     child: Text(
                       unit.address,
                       overflow: TextOverflow.ellipsis,
