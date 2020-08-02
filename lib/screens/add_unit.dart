@@ -38,7 +38,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String get _urgentName =>
-      urgents
+      kUrgents
           .firstWhere((UrgentModel element) => element.value == _urgent,
               orElse: () => null)
           ?.name ??
@@ -89,7 +89,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
                       crossAxisCount: 2,
                       children: List.generate(
                         4,
-                        (index) => _buildAddImageButton(index + 1),
+                        (int index) => _buildAddImageButton(index + 1),
                       ),
                     ),
                   ],
@@ -127,7 +127,9 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Категория',
-            text: kinds.firstWhere((element) => element.value == _kind).name,
+            text: kKinds
+                .firstWhere((KindModel element) => element.value == _kind)
+                .name,
             onTap: _selectKind,
           ),
         ),
@@ -171,7 +173,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Что отдаёте?'),
-          actions: [
+          actions: <Widget>[
             IconButton(
               tooltip: 'Подтвердить',
               icon: Icon(Icons.check),
@@ -200,7 +202,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         context: context,
         child: AlertDialog(
           content: Text('Опишите лот: что это, состояние, размер...'),
-          actions: [
+          actions: <Widget>[
             FlatButton(
               child: Text('ОК'),
               onPressed: () {
@@ -237,7 +239,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         context: context,
         child: AlertDialog(
           content: Text('Добавьте фотографию лота'),
-          actions: [
+          actions: <Widget>[
             FlatButton(
               child: Text('ОК'),
               onPressed: () {
@@ -253,7 +255,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     final options = MutationOptions(
       documentNode: Mutations.insertUnit,
       variables: {
-        'images': images.map((element) => element.model.toJson()).toList(),
+        'images':
+            images.map((_ImageData element) => element.model.toJson()).toList(),
         'text': _text, // TODO: как защитить от атаки?
         'urgent': EnumToString.parse(_urgent),
         'kind': EnumToString.parse(_kind),
@@ -520,7 +523,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _reloadShowcaseTab(kind) {
-    final index = allKinds.indexWhere((element) => element.value == kind);
+    final index =
+        kAllKinds.indexWhere((EnumModel element) => element.value == kind);
     if (index == widget.arguments.tabIndex?.showcase) {
       HomeShowcase.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeShowcase.poolForReloadTabs.contains(index)) {
@@ -530,7 +534,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   void _reloadUnderwayModel() {
     final index = UnderwayValue.values
-        .indexWhere((element) => element == UnderwayValue.give);
+        .indexWhere((UnderwayValue element) => element == UnderwayValue.give);
     if (index == widget.arguments.tabIndex?.underway) {
       HomeUnderway.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeUnderway.poolForReloadTabs.contains(index)) {

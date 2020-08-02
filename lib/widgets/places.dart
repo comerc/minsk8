@@ -183,7 +183,7 @@ class _Highlight extends StatelessWidget {
     final matches = regex.allMatches(data) ?? [];
     final out = <InlineSpan>[];
     var start = 0;
-    matches.forEach((element) {
+    matches.forEach((RegExpMatch element) {
       if (element.start > 0) {
         out.add(TextSpan(text: data.substring(start, element.start)));
       }

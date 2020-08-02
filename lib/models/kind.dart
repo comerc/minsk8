@@ -1,19 +1,21 @@
 import 'package:minsk8/import.dart';
 
 class KindModel implements EnumModel {
-  KindModel(this.value, this.name, this.rawSvg, {this.isNew})
-      : assert([MetaKindValue, KindValue].contains(value.runtimeType));
+  KindModel(value, name, this.rawSvg, {this.isNew})
+      : assert([MetaKindValue, KindValue].contains(value.runtimeType)),
+        _value = value,
+        _name = name;
 
-  final value;
+  final _value;
   // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
-  final String name;
+  final String _name;
   final String rawSvg;
   final bool isNew;
 
   @override
-  dynamic get enumValue => value;
+  dynamic get value => _value;
   @override
-  String get enumName => name;
+  String get name => _name;
 }
 
 enum MetaKindValue { recent, fan, best, promo, urgent }
@@ -31,16 +33,16 @@ enum KindValue {
   pets
 }
 
-final allKinds = [
+final kAllKinds = <EnumModel>[
   KindModel(MetaKindValue.recent, 'Новое', '<svg />'),
   KindModel(MetaKindValue.fan, 'Интересное', '<svg />'),
   KindModel(MetaKindValue.best, 'Лучшее', '<svg />'),
   KindModel(MetaKindValue.promo, 'Промо', '<svg />'),
   KindModel(MetaKindValue.urgent, 'Срочно', '<svg />'),
-  ...kinds,
+  ...kKinds,
 ];
 
-final kinds = [
+final kKinds = <KindModel>[
   KindModel(KindValue.technics, 'Техника', '<svg />'),
   KindModel(KindValue.garment, 'Одежда', '<svg />'),
   KindModel(KindValue.eat, 'Еда', '<svg />', isNew: true),

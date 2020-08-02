@@ -51,7 +51,7 @@ class LoadDataScreen extends StatelessWidget {
                   children: <Widget>[
                     ...List.generate(
                         length > 0 ? length - minusOne : 0,
-                        (index) => _buildUnit(result.loading,
+                        (int index) => _buildUnit(result.loading,
                             UnitModel.fromJson(result.data['units'][index]))),
                     // for (var index = 0;
                     //     index < length - minusOne;

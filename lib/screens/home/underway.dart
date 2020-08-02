@@ -15,7 +15,7 @@ class HomeUnderway extends StatelessWidget {
   Widget build(BuildContext context) {
     return Showcase(
       key: showcaseKey,
-      tabModels: [
+      tabModels: <UnderwayModel>[
         UnderwayModel(UnderwayValue.wish, 'Желаю'),
         UnderwayModel(UnderwayValue.want, 'Забираю'),
         // UnderwayModel(UnderwayValue.take, 'Забираю'),

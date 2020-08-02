@@ -1,4 +1,4 @@
 abstract class EnumModel {
-  dynamic get enumValue;
-  String get enumName;
+  dynamic get value;
+  String get name;
 }

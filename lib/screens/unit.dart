@@ -85,7 +85,7 @@ class _UnitScreenState extends State<UnitScreen> {
           backgroundColor: unit.isClosed
               ? Colors.grey.withOpacity(0.8)
               : Colors.pink.withOpacity(0.8),
-          actions: [
+          actions: <Widget>[
             PopupMenuButton(
               onSelected: (_PopupMenuValue value) async {
                 if (value == _PopupMenuValue.delete) {
@@ -132,7 +132,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return EnumModelDialog<ClaimModel>(
-                          title: 'Укажите причину жалобы', elements: claims);
+                          title: 'Укажите причину жалобы', elements: kClaims);
                     },
                   );
                   if (result == null) return;
@@ -169,7 +169,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     builder: (BuildContext context) {
                       return EnumModelDialog<QuestionModel>(
                           title: 'Что Вы хотите узнать о лоте?',
-                          elements: questions);
+                          elements: kQuestions);
                     },
                   );
                   if (result == null) return;
@@ -317,10 +317,10 @@ class _UnitScreenState extends State<UnitScreen> {
                           enlargeCenterPage: true,
                           viewportFraction:
                               UnitCarouselSliderSettings.viewportFraction,
-                          onPageChanged: (index) {
+                          onPageChanged: (int index) {
                             _currentIndex = index;
                           },
-                          items: List.generate(unit.images.length, (index) {
+                          items: List.generate(unit.images.length, (int index) {
                             return Container(
                               width: size.width,
                               margin: EdgeInsets.symmetric(
@@ -550,7 +550,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter,
-                      colors: [
+                      colors: <Color>[
                         Colors.white.withOpacity(0.0),
                         Colors.white.withOpacity(0.4),
                       ],
@@ -650,8 +650,9 @@ class _UnitScreenState extends State<UnitScreen> {
           });
     }
     return Text(
-      urgents
-          .firstWhere((urgentModel) => urgentModel.value == unit.urgent)
+      kUrgents
+          .firstWhere(
+              (UrgentModel urgentModel) => urgentModel.value == unit.urgent)
           .name,
     );
   }

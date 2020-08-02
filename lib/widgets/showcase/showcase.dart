@@ -77,7 +77,7 @@ class ShowcaseState extends State<Showcase>
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
       tabs: widget.tabModels
-          .map((element) => Tab(text: element.enumName))
+          .map((EnumModel element) => Tab(text: element.name))
           .toList(),
     );
     final tabBarHeight = tabBar.preferredSize.height;
@@ -139,7 +139,7 @@ class ShowcaseState extends State<Showcase>
         controller: _tabController,
         children: List.generate(
           widget.tabModels.length,
-          (index) => ShowcaseList(
+          (int index) => ShowcaseList(
             tabIndex: index,
             sourceList: widget.dataPool[index],
           ),

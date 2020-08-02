@@ -49,7 +49,7 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
           builder: (context) => AlertDialog(
             content: Text(
                 "You need to allow access to device's location in Permissions from App Settings."),
-            actions: [
+            actions: <Widget>[
               FlatButton(
                 child: Text('CANCEL'),
                 onPressed: () {

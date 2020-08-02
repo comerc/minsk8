@@ -11,7 +11,7 @@ class ShowcaseMapScreen extends StatelessWidget {
         appState['ShowcaseMap.center'][1],
       ),
       zoom: appState['ShowcaseMap.zoom'],
-      saveModes: [MapSaveMode.showcase],
+      saveModes: <MapSaveMode>[MapSaveMode.showcase],
     );
     return Scaffold(
       appBar: PlacesAppBar(),

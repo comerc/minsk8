@@ -25,7 +25,7 @@ class Logo extends StatelessWidget {
             center: Alignment.topLeft,
             radius: 1,
             tileMode: TileMode.mirror,
-            colors: [Colors.yellow, Colors.deepOrange],
+            colors: <Color>[Colors.yellow, Colors.deepOrange],
           ).createShader(bounds);
         },
         child: result,

@@ -15,7 +15,7 @@ class HomeShowcase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Showcase(
       key: showcaseKey,
-      tabModels: allKinds,
+      tabModels: kAllKinds,
       dataPool: HomeShowcase.dataPool,
       pullToRefreshNotificationKey: HomeShowcase.pullToRefreshNotificationKey,
       poolForReloadTabs: HomeShowcase.poolForReloadTabs,

@@ -64,7 +64,7 @@ class HomeProfileState extends State<HomeProfile> {
                   child: AlertDialog(
                     content: Text(
                         'Поменять аватарку можно будет в следующей версии.'),
-                    actions: [
+                    actions: <Widget>[
                       FlatButton(
                         child: Text('ОК'),
                         onPressed: () {
@@ -148,8 +148,7 @@ class HomeProfileState extends State<HomeProfile> {
             ),
           ),
         ),
-        if (widget.hasUpdate)
-          Text('Доступна новая версия'),
+        if (widget.hasUpdate) Text('Доступна новая версия'),
         if (widget.hasUpdate)
           OutlineButton(
             // TODO: почему не установить цвет для OutlineButton

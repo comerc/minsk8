@@ -53,7 +53,7 @@ Widget buildListIndicator({
         );
       } else {
         result = CustomScrollView(
-          slivers: [
+          slivers: <Widget>[
             SliverFillRemaining(
               child: result,
             )
@@ -98,7 +98,7 @@ Widget buildListIndicator({
         );
       } else {
         result = CustomScrollView(
-          slivers: [
+          slivers: <Widget>[
             SliverFillRemaining(
               child: result,
             )
@@ -122,7 +122,7 @@ Widget buildListIndicator({
         );
       } else {
         result = CustomScrollView(
-          slivers: [
+          slivers: <Widget>[
             SliverFillRemaining(
               child: result,
             )

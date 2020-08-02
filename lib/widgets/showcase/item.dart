@@ -120,9 +120,9 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                     )
                   else if (unit.urgent != UrgentStatus.none)
                     _buildStatus(
-                      urgents
-                          .firstWhere(
-                              (urgentModel) => urgentModel.value == unit.urgent)
+                      kUrgents
+                          .firstWhere((UrgentModel urgentModel) =>
+                              urgentModel.value == unit.urgent)
                           .name,
                       isClosed: false,
                     ),
@@ -171,7 +171,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           gradient: LinearGradient(
             begin: FractionalOffset.topCenter,
             end: FractionalOffset.bottomCenter,
-            colors: [
+            colors: <Color>[
               Colors.grey.withOpacity(0.0),
               Colors.black.withOpacity(0.4),
             ],

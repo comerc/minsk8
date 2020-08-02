@@ -74,7 +74,7 @@ class _MapMyUnitLayerState extends State<_MapMyUnitLayer> {
             MapReadyButton(
               center: widget.mapState.center,
               zoom: widget.mapState.zoom,
-              saveModes: [MapSaveMode.myUnit],
+              saveModes: <MapSaveMode>[MapSaveMode.myUnit],
             ),
           ],
         ),

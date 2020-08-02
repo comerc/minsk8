@@ -32,18 +32,18 @@ Future<UrgentStatus> selectUrgentDialog(
               ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: urgents.length,
+                itemCount: kUrgents.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Material(
-                    color: selected == urgents[index].value
+                    color: selected == kUrgents[index].value
                         ? Colors.grey.withOpacity(0.2)
                         : Colors.white,
                     child: InkWell(
                       child: ListTile(
-                        title: Text(urgents[index].name),
-                        subtitle: Text(urgents[index].text),
+                        title: Text(kUrgents[index].name),
+                        subtitle: Text(kUrgents[index].text),
                         // selected: selected == urgents[index].value,
-                        trailing: selected == urgents[index].value
+                        trailing: selected == kUrgents[index].value
                             ? Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -64,7 +64,7 @@ Future<UrgentStatus> selectUrgentDialog(
                       onLongPress:
                           () {}, // чтобы сократить время для splashColor
                       onTap: () {
-                        Navigator.of(context).pop(urgents[index].value);
+                        Navigator.of(context).pop(kUrgents[index].value);
                       },
                     ),
                   );

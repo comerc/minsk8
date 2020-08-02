@@ -1,20 +1,22 @@
 import 'package:minsk8/import.dart';
 
 class ClaimModel implements EnumModel {
-  ClaimModel(this.value, this.name);
+  ClaimModel(value, name)
+      : _value = value,
+        _name = name;
 
-  final ClaimValue value;
-  final String name;
+  final ClaimValue _value;
+  final String _name;
 
   @override
-  ClaimValue get enumValue => value;
+  ClaimValue get value => _value;
   @override
-  String get enumName => name;
+  String get name => _name;
 }
 
 enum ClaimValue { forbidden, repeat, duplicate, invalid_kind, other }
 
-final claims = [
+final kClaims = <ClaimModel>[
   ClaimModel(ClaimValue.forbidden, 'Запрещённый лот'),
   ClaimModel(ClaimValue.repeat, 'Размещён повторно'),
   ClaimModel(ClaimValue.duplicate, 'Дубликат'),

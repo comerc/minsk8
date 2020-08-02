@@ -64,12 +64,12 @@ class LedgerScreenState extends State<LedgerScreen> {
               rebuildCustomScrollView: true,
               // in case list is not full screen and remove ios Bouncing
               physics: AlwaysScrollableClampingScrollPhysics(),
-              slivers: [
+              slivers: <Widget>[
                 LoadingMoreSliverList(
                   SliverListConfig<LedgerItem>(
                     extendedListDelegate: ExtendedListDelegate(
                       collectGarbage: (List<int> garbages) {
-                        garbages.forEach((index) {
+                        garbages.forEach((int index) {
                           final unit =
                               LedgerScreen.sourceList[index].payment?.unit;
                           if (unit == null) return;
@@ -113,7 +113,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                             'Добро пожаловать! Ловите {{value}} для\u00A0старта\u00A0— пригодятся. Отдайте что-нибудь ненужное, чтобы забирать самые лучшие лоты. Не\u00A0ждите! Добавьте первый лот прямо сейчас!',
                         AccountValue.invite:
                             'Получено {{value}} (всего\u00A0{{balance}}) за\u00A0приглашение участника {{member}}. Приглашайте ещё\u00A0друзей!',
-                        AccountValue.unfreeze: [
+                        AccountValue.unfreeze: <String>[
                           'Разморожено {{value}} (всего\u00A0{{balance}}). Желаем найти что-нибудь интересное!',
                           'Разморожено {{value}} (всего\u00A0{{balance}}). Желаем найти что-нибудь хорошее! 😊',
                           'Разморожено {{value}} (всего\u00A0{{balance}}). Нажмите «Добавить в\u00A0ожидание» на\u00A0лоте, чтобы получать уведомления о\u00A0появлении похожих!',

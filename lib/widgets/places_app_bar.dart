@@ -38,7 +38,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
             title: Places(
                 formFieldKey: _formFieldKey,
                 onSuggestionSelected: _onSuggestionSelected),
-            actions: [
+            actions: <Widget>[
               IconButton(
                 tooltip: 'Отменить',
                 icon: Icon(
@@ -53,7 +53,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
           )
         : AppBar(
             title: Text('Местоположение'),
-            actions: [
+            actions: <Widget>[
               IconButton(
                 tooltip: 'Искать',
                 icon: Icon(Icons.search),

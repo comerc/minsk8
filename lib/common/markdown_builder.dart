@@ -16,6 +16,6 @@ class MarkdownBuilder implements Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        '.md': ['.html']
+        '.md': <String>['.html']
       };
 }

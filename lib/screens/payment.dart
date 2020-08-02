@@ -153,7 +153,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                         Container(
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(
-                                              colors: [
+                                              colors: <Color>[
                                                 Colors.deepOrange,
                                                 Colors.yellow
                                               ],

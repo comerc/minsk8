@@ -59,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
                   child: Text.rich(
                     TextSpan(
-                      children: [
+                      children: <InlineSpan>[
                         TextSpan(
                           text: 'Did notification launch app? ',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
                     child: Text.rich(
                       TextSpan(
-                        children: [
+                        children: <InlineSpan>[
                           TextSpan(
                             text: 'Launch notification payload: ',
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -328,7 +328,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           content: receivedNotification.body != null
               ? Text(receivedNotification.body)
               : null,
-          actions: [
+          actions: <Widget>[
             CupertinoDialogAction(
               isDefaultAction: true,
               child: Text('Ok'),
@@ -867,7 +867,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         return AlertDialog(
           content: Text(
               '${pendingNotificationRequests.length} pending notification requests'),
-          actions: [
+          actions: <Widget>[
             FlatButton(
               child: Text('OK'),
               onPressed: () {
@@ -1123,7 +1123,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           return AlertDialog(
             content: Text(
                 'Channel with name \"${androidNotificationChannel.name}\" created'),
-            actions: [
+            actions: <Widget>[
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
@@ -1147,7 +1147,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Text('Channel with id \"$channelId\" deleted'),
-            actions: [
+            actions: <Widget>[
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {

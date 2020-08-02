@@ -29,10 +29,10 @@ class KindsScreen extends StatelessWidget {
         padding: EdgeInsets.all(8),
         childAspectRatio: kGoldenRatio,
         children: List.generate(
-          kinds.length,
-          (index) => KindButton(
-            kinds[index],
-            isSelected: kinds[index].value == arguments?.value,
+          kKinds.length,
+          (int index) => KindButton(
+            kKinds[index],
+            isSelected: kKinds[index].value == arguments?.value,
           ),
         ),
       ),

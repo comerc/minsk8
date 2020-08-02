@@ -1,21 +1,23 @@
 import 'package:minsk8/import.dart';
 
+class UnderwayModel implements EnumModel {
+  UnderwayModel(value, name)
+      : _value = value,
+        _name = name;
+
+  final UnderwayValue _value;
+  final String _name;
+
+  @override
+  UnderwayValue get value => _value;
+  @override
+  String get name => _name;
+}
+
 enum UnderwayValue {
   wish,
   want,
   // take,
   // past,
   give
-}
-
-class UnderwayModel implements EnumModel {
-  UnderwayModel(this.value, this.name);
-
-  final UnderwayValue value;
-  final String name;
-
-  @override
-  UnderwayValue get enumValue => value;
-  @override
-  String get enumName => name;
 }

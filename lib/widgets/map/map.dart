@@ -266,19 +266,19 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         minZoom: 4,
         onPositionChanged: widget.onPositionChanged,
         onLongPress: _handleLongPress,
-        plugins: [
+        plugins: <MapPlugin>[
           widget.isMyUnit ? MapMyUnitLayer() : MapAreaLayer(),
           MapScaleLayer(),
           if (isInDebugMode) MapZoomLayer(),
         ],
       ),
-      layers: [
+      layers: <LayerOptions>[
         TileLayerOptions(
           urlTemplate: kTilesEndpoint,
           tileProvider: CachedNetworkTileProvider(),
         ),
         if (appState['currentPosition'] != null)
-          CircleLayerOptions(circles: [
+          CircleLayerOptions(circles: <CircleMarker>[
             CircleMarker(
               // useRadiusInMeter: true,
               radius: 4,
@@ -293,7 +293,7 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           ]),
         if (widget.markerPoint != null)
           MarkerLayerOptions(
-            markers: [
+            markers: <Marker>[
               Marker(
                 width: markerIconSize,
                 height: markerIconSize,

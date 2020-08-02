@@ -1,22 +1,24 @@
 import 'package:minsk8/import.dart';
 
 class QuestionModel implements EnumModel {
-  QuestionModel(this.value, this.name);
+  QuestionModel(value, name)
+      : _value = value,
+        _name = name;
 
-  final QuestionValue value;
-  final String name;
+  final QuestionValue _value;
+  final String _name;
 
   @override
-  QuestionValue get enumValue => value;
+  QuestionValue get value => _value;
   @override
-  String get enumName => name;
+  String get name => _name;
 }
 
 enum QuestionValue { condition, model, size, time, original }
 
 // TODO: для категории "Услуги" нужны другие вопросы
 
-final questions = [
+final kQuestions = <QuestionModel>[
   QuestionModel(QuestionValue.condition, 'Состояние и работоспособность'),
   QuestionModel(QuestionValue.model, 'Модель'),
   QuestionModel(QuestionValue.size, 'Размер'),
@@ -24,7 +26,7 @@ final questions = [
   QuestionModel(QuestionValue.original, 'Это оригинал или реплика?'),
 ];
 
-final questionTexts = {
+final kQuestionTexts = <QuestionValue, String>{
   QuestionValue.condition: 'Добавьте описание состояния и работоспособности',
   QuestionValue.model: 'Добавьте описание модели',
   QuestionValue.size: 'Добавьте описание размера',

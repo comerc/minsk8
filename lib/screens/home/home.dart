@@ -46,7 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
         ), // TODO: Stack + Positioned для MainDrawer
         preferredSize: Size.zero, // hack
       ),
-      body: [
+      body: <Widget>[
         HomeShowcase(),
         HomeUnderway(),
         HomeChat(),

@@ -39,7 +39,7 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final children = List.generate(
       _tabs.length,
-      (index) => _buildTabUnit(
+      (int index) => _buildTabUnit(
         context: context,
         index: index,
         isSelected: index == tabIndex,

@@ -1,21 +1,23 @@
 import 'package:minsk8/import.dart';
 
 class AccountModel implements EnumModel {
-  AccountModel(this.value, this.name);
+  AccountModel(value, name)
+      : _value = value,
+        _name = name;
 
-  final AccountValue value;
-  final String name;
+  final AccountValue _value;
+  final String _name;
 
   @override
-  AccountValue get enumValue => value;
+  AccountValue get value => _value;
   @override
-  String get enumName => name;
+  String get name => _name;
 }
 
 // TODO: share link?
 enum AccountValue { start, invite, unfreeze, freeze, limit, profit }
 
-// final accounts = [
+// final kAccounts = <AccountModel>[
 //   AccountModel(AccountValue.start, ''),
 //   AccountModel(AccountValue.invite, ''),
 //   AccountModel(AccountValue.unfreeze, ''),

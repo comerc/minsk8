@@ -39,7 +39,7 @@ class PriceButton extends StatelessWidget {
                 if (unit.isClosed) {
                   return AlertDialog(
                     content: Text('Сколько предложено за лот'),
-                    actions: [
+                    actions: <Widget>[
                       FlatButton(
                         child: Text('ОК'),
                         onPressed: () {

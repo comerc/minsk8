@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Настройки'),
-        actions: [
+        actions: <Widget>[
           IconButton(
             tooltip: 'Подтвердить',
             icon: Icon(Icons.check),

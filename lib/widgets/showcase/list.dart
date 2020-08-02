@@ -47,7 +47,7 @@ class _ShowcaseListState extends State<ShowcaseList>
         showGlowLeading: false,
         rebuildCustomScrollView: true,
         physics: ClampingScrollPhysics(),
-        slivers: [
+        slivers: <Widget>[
           LoadingMoreSliverList(
             SliverListConfig<UnitModel>(
               extendedListDelegate:
@@ -56,7 +56,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 collectGarbage: (List<int> garbages) {
-                  garbages.forEach((index) {
+                  garbages.forEach((int index) {
                     final unit = widget.sourceList[index];
                     final image = unit.images[0];
                     final provider = ExtendedNetworkImageProvider(

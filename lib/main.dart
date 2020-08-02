@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -111,7 +112,7 @@ class App extends StatelessWidget {
     // print('App build');
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: isInDebugMode,
-      navigatorObservers: [observer],
+      navigatorObservers: <NavigatorObserver>[observer],
       title: 'minsk8',
       // theme: ThemeData(
       //   //   primarySwatch: mapBoxBlue,
@@ -120,8 +121,9 @@ class App extends StatelessWidget {
       // ),
       builder: (BuildContext context, Widget child) {
         final client = GraphQLProvider.of(context).value;
-        HomeShowcase.dataPool =
-            allKinds.map((kind) => ShowcaseData(client, kind.value)).toList();
+        HomeShowcase.dataPool = kAllKinds
+            .map((EnumModel kind) => ShowcaseData(client, kind.value))
+            .toList();
         HomeUnderway.dataPool = UnderwayValue.values
             .map((value) => UnderwayData(client, value))
             .toList();
@@ -167,7 +169,7 @@ class App extends StatelessWidget {
                   );
                 }
                 return MultiProvider(
-                  providers: [
+                  providers: <SingleChildWidget>[
                     ChangeNotifierProvider<ProfileModel>(
                         create: (_) =>
                             ProfileModel.fromJson(result.data['profile'])),
