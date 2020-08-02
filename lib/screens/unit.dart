@@ -407,11 +407,9 @@ class _UnitScreenState extends State<UnitScreen> {
                           Container(
                             width: panelSlideLabelWidth,
                             height: 4,
-                            decoration: BoxDecoration(
+                            decoration: ShapeDecoration(
                               color: Colors.grey.withOpacity(0.3),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(2),
-                              ),
+                              shape: StadiumBorder(),
                             ),
                           ),
                           Container(
