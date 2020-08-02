@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: добавить подпись "выгода"
+
 const Duration _kDuration = Duration(milliseconds: 200);
 
 class PaymentScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class _PaymentScreenState extends State<PaymentScreen>
   void initState() {
     super.initState();
     _activeIndex = 1;
+    assert(_activeIndex == 1);
   }
 
   final _steps = {
@@ -29,13 +32,9 @@ class _PaymentScreenState extends State<PaymentScreen>
     '4': 'd4',
   }.entries.toList();
 
-  var _change = false;
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    // final isSmallWidth = width < kSmallWidth;
-    // final isMediumWidth = width < kMediumWidth;
     final isLargeWidth = width < kLargeWidth;
     final listViewPadding = 16.0;
     final separatorWidth = 4.0;
@@ -51,10 +50,13 @@ class _PaymentScreenState extends State<PaymentScreen>
     final shadowInnerHeight = shadowHeight - borderWidth * 2;
     final shadowHeaderHeight =
         shadowInnerHeight * kGoldenRatio - shadowInnerHeight;
+    final shadowFooterHeight = shadowInnerHeight - shadowHeaderHeight;
     final activeHeight = activeWidth / kGoldenRatio;
     final activeInnerHeight = activeHeight - borderWidth * 2;
     final activeHeaderHeight = activeInnerHeight / 2;
-
+    final activeFooterHeight = activeInnerHeight - activeHeaderHeight;
+    final shadowLineHeight = 16.0;
+    final priceBottomPadding = 6.0;
     return Scaffold(
       appBar: AppBar(
         title: Text('Получить Карму'),
@@ -73,21 +75,18 @@ class _PaymentScreenState extends State<PaymentScreen>
                 itemCount: _steps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final isActive = index == _activeIndex;
-                  return AnimatedContainer(
-                    duration: _kDuration,
-                    alignment: Alignment.center,
-                    width: isActive ? activeWidth : shadowWidth,
+                  return Center(
                     child: GestureDetector(
                       onTap: () {
                         setState(
                           () {
                             _activeIndex = index;
-                            _change = !_change;
                           },
                         );
                       },
                       child: AnimatedContainer(
                         duration: _kDuration,
+                        width: isActive ? activeWidth : shadowWidth,
                         height: isActive ? activeHeight : shadowHeight,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -98,62 +97,132 @@ class _PaymentScreenState extends State<PaymentScreen>
                             Radius.circular(8),
                           ),
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            // Flexible(
-                            //   flex: isActive ? 1 : headerFlex,
-                            //   child:
-                            AnimatedContainer(
-                              duration: _kDuration,
-                              height: isActive
-                                  ? activeHeaderHeight
-                                  : shadowHeaderHeight,
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                color: Colors.white,
+                                padding:
+                                    EdgeInsets.only(bottom: priceBottomPadding),
+                                child: Text(
+                                  '4444',
+                                  style: TextStyle(
+                                    fontSize: kFontSize,
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
-                                  Text(
-                                    '${kPaymentSteps[index]}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black.withOpacity(0.8),
+                                  AnimatedContainer(
+                                    duration: _kDuration,
+                                    height: isActive
+                                        ? activeHeaderHeight
+                                        : shadowHeaderHeight,
+                                    alignment: Alignment.center,
+                                    color: Colors.white,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Text(
+                                          '${kPaymentSteps[index]}',
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Кармы',
+                                          style: TextStyle(
+                                            fontSize: kFontSize,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    'Кармы',
-                                    style: TextStyle(
-                                      fontSize: kFontSize,
+                                  if (index != 0)
+                                    Stack(
+                                      fit: StackFit.passthrough,
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.deepOrange,
+                                                Colors.yellow
+                                              ],
+                                              tileMode: TileMode.mirror,
+                                              begin: Alignment.topLeft,
+                                              end: Alignment(0.8, 1.2),
+                                            ),
+                                          ),
+                                          padding: EdgeInsets.only(
+                                              top: shadowLineHeight),
+                                          child: ClipRect(
+                                            child: ExtendedAnimatedAlign(
+                                              duration: _kDuration,
+                                              alignment: Alignment.topCenter,
+                                              heightFactor: isActive ? 1 : 0,
+                                              child: AnimatedContainer(
+                                                duration: _kDuration,
+                                                height: isActive
+                                                    ? activeFooterHeight -
+                                                        shadowLineHeight
+                                                    : shadowFooterHeight -
+                                                        shadowLineHeight,
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                padding: EdgeInsets.only(
+                                                    bottom: priceBottomPadding),
+                                                child: Text(
+                                                  '4444',
+                                                  style: TextStyle(
+                                                    fontSize: kFontSize,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        AnimatedPadding(
+                                          duration: _kDuration,
+                                          padding: EdgeInsets.only(
+                                              top: isActive ? 10 : 0),
+                                          child: AnimatedContainer(
+                                            duration: _kDuration,
+                                            height: isActive
+                                                ? 23
+                                                : shadowLineHeight,
+                                            child: FittedBox(
+                                              child: Text(
+                                                '+ 29%',
+                                                style: TextStyle(
+                                                  fontSize: kFontSize,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
                                 ],
                               ),
-                            ),
-                            // ),
-                            // Flexible(
-                            //   flex: isActive ? 1 : footerFlex,
-                            //   child:
-                            // AnimatedContainer(
-                            //     duration: _kDuration,
-                            //     height: isActive
-                            //         ? activeFooterHeight
-                            //         : shadowFooterHeight,
-                            //     color: Colors.blue),
-                            // ),
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(8),
-                                ),
-                                child: _withShaderMask(
-                                  has: index != 0,
-                                  child: Container(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                              AnimatedOpacity(
+                                duration: _kDuration,
+                                opacity: isActive ? 0 : 0.3,
+                                child: Container(color: Colors.grey),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -165,7 +234,6 @@ class _PaymentScreenState extends State<PaymentScreen>
               ),
             ),
             SizedBox(height: 16),
-
             // Expanded(
             //   child: Column(
             //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -226,23 +294,6 @@ class _PaymentScreenState extends State<PaymentScreen>
         ),
       ),
     );
-  }
-
-  Widget _withShaderMask({Widget child, bool has}) {
-    if (has) {
-      return ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return LinearGradient(
-            colors: [Colors.deepOrange, Colors.yellow],
-            tileMode: TileMode.mirror,
-            begin: Alignment.topLeft,
-            end: Alignment(0.8, 1.2),
-          ).createShader(bounds);
-        },
-        child: child,
-      );
-    }
-    return child;
   }
 }
 
@@ -308,13 +359,14 @@ class _PaymentButtonState extends State<_PaymentButton>
           child: IgnorePointer(
             child: Container(
               alignment: Alignment.center,
-              // color: Colors.red,
-              child: Text(
-                'ПОЛУЧИТЬ',
-                style: TextStyle(
-                  // fontSize: kMyFontSize,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+              child: Container(
+                child: Text(
+                  'ПОЛУЧИТЬ',
+                  style: TextStyle(
+                    fontSize: kFontSize,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
