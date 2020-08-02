@@ -26,7 +26,7 @@ class HowToPayScreen extends StatelessWidget {
             ),
             FlatButton(
               child: Text(
-                'КАК ЭТО РАБОТАЕТ',
+                'КАК ЭТО РАБОТАЕТ?',
                 style: TextStyle(
                   fontSize: kFontSize,
                   color: Colors.black.withOpacity(0.6),
