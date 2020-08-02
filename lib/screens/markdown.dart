@@ -10,6 +10,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 // TODO: добавить переносы (like hyphenator)
 // https://github.com/flutter/flutter/issues/18443
 // TODO: ощутимо тормозит, замирает при парсинге markdown
+// https://github.com/flutter/flutter_markdown/issues/84
 
 class MarkdownScreen extends StatefulWidget {
   MarkdownScreen(this.filename, {this.title});
