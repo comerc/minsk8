@@ -23,6 +23,8 @@ import 'package:minsk8/import.dart';
 // TODO: auto_animated
 // TODO: профилирование анимации debugProfileBuildsEnabled: true,
 // TODO: проверить везде fit: StackFit.expand,
+// TODO: не работает системная кнопка 'BACK'?
+// TODO: бейджики для активных участников
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -214,6 +216,8 @@ class App extends StatelessWidget {
             KindsScreen(ModalRoute.of(context).settings.arguments),
         '/ledger': (_) => LedgerScreen(),
         '/login': (_) => LoginScreen(),
+        '/make_it_together': (_) =>
+            MarkdownScreen('make_it_together.md', title: 'Сделаем это вместе!'),
         '/my_unit_map': (_) => MyUnitMapScreen(),
         '/payment': (_) => PaymentScreen(),
         '/search': (_) => SearchScreen(),
