@@ -26,13 +26,6 @@ class _PaymentScreenState extends State<PaymentScreen>
     assert(_activeIndex == 1);
   }
 
-  final _steps = {
-    '1': 'd1',
-    '2': 'd2',
-    '3': 'd3',
-    '4': 'd4',
-  }.entries.toList();
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -48,16 +41,14 @@ class _PaymentScreenState extends State<PaymentScreen>
         (commonWidth * lengthInScreen - activeWidth) / (lengthInScreen - 1);
     final borderWidth = 1.0;
     final shadowHeight = shadowWidth / kGoldenRatio;
-    final shadowInnerHeight = shadowHeight - borderWidth * 2;
-    final shadowHeaderHeight =
-        shadowInnerHeight * kGoldenRatio - shadowInnerHeight;
-    final shadowFooterHeight = shadowInnerHeight - shadowHeaderHeight;
+    final shadowHeaderHeight = shadowHeight * kGoldenRatio - shadowHeight;
+    final shadowFooterHeight = shadowHeight - shadowHeaderHeight;
     final activeHeight = activeWidth / kGoldenRatio;
-    final activeInnerHeight = activeHeight - borderWidth * 2;
-    final activeHeaderHeight = activeInnerHeight / 2;
-    final activeFooterHeight = activeInnerHeight - activeHeaderHeight;
+    final activeHeaderHeight = activeHeight / 2;
+    final activeFooterHeight = activeHeight - activeHeaderHeight;
     final shadowLineHeight = 16.0;
     final priceBottomPadding = 6.0;
+    final borderOpacity = 0.3;
     return Scaffold(
       appBar: AppBar(
         title: Text('Получить Карму'),
@@ -74,7 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                 padding: EdgeInsets.symmetric(horizontal: listViewPadding),
                 scrollDirection: Axis.horizontal,
                 controller: _controller,
-                itemCount: _steps.length,
+                itemCount: kPaymentSteps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final isActive = index == _activeIndex;
                   final paymentStep = kPaymentSteps[index];
@@ -89,31 +80,28 @@ class _PaymentScreenState extends State<PaymentScreen>
                       duration: _kDuration,
                       width: isActive ? activeWidth : shadowWidth,
                       height: isActive ? activeHeight : shadowHeight,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white, // Colors.grey.withOpacity(0.3),
-                          width: borderWidth,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                           Radius.circular(8),
                         ),
                         child: Stack(
                           children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  width: borderWidth,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                            AnimatedOpacity(
+                              duration: _kDuration,
+                              opacity: isActive ? borderOpacity : 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: borderWidth,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
                               ),
+                            ),
+                            Container(
                               alignment: Alignment.bottomCenter,
                               padding:
                                   EdgeInsets.only(bottom: priceBottomPadding),
@@ -223,7 +211,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                             ),
                             AnimatedOpacity(
                               duration: _kDuration,
-                              opacity: isActive ? 0 : 0.3,
+                              opacity: isActive ? 0 : borderOpacity,
                               child: Container(color: Colors.grey),
                             ),
                             Tooltip(
