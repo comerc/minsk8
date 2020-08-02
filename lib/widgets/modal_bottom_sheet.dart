@@ -33,6 +33,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
+              textColor: Colors.black.withOpacity(0.8),
             ),
             SizedBox(
               width: 16,
