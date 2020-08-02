@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: 10 Кармы за 5 новых в сутки
+
 class InviteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class InviteScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(height: 16),
                   Logo(),
                   SizedBox(height: 48),
                   Text(
@@ -36,6 +39,7 @@ class InviteScreen extends StatelessWidget {
                       color: Colors.black.withOpacity(0.6),
                     ),
                   ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),
@@ -54,6 +58,7 @@ class InviteScreen extends StatelessWidget {
                   ),
                   OutlineButton(
                     child: Text('Пригласить позже'),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -62,19 +67,7 @@ class InviteScreen extends StatelessWidget {
                 ],
               ),
             ),
-            FlatButton(
-              child: Text(
-                'КАК ЭТО РАБОТАЕТ',
-                style: TextStyle(
-                  fontSize: kFontSize,
-                  color: Colors.black.withOpacity(0.6),
-                ),
-              ),
-              onLongPress: () {}, // чтобы сократить время для splashColor
-              onPressed: () {
-                Navigator.of(context).pushNamed('/how_it_works');
-              },
-            ),
+            SizedBox(height: 48),
           ],
         ),
       ),
