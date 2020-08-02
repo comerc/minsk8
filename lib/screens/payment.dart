@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: добавить подпись "выгода"
 
-const Duration _kDuration = Duration(milliseconds: 200);
+const Duration _kDuration = Duration(milliseconds: 400);
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class _PaymentScreenState extends State<PaymentScreen>
 // class PaymentScreen extends StatelessWidget {
 
   int _activeIndex;
+  final _controller = ScrollController();
 
   @override
   void initState() {
@@ -72,6 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen>
               child: ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: listViewPadding),
                 scrollDirection: Axis.horizontal,
+                controller: _controller,
                 itemCount: _steps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final isActive = index == _activeIndex;
@@ -83,153 +85,180 @@ class _PaymentScreenState extends State<PaymentScreen>
                   final discount =
                       (100 - (currentOnePrice / pilotOnePrice) * 100).floor();
                   return Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(
-                          () {
-                            _activeIndex = index;
-                          },
-                        );
-                      },
-                      child: AnimatedContainer(
-                        duration: _kDuration,
-                        width: isActive ? activeWidth : shadowWidth,
-                        height: isActive ? activeHeight : shadowHeight,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey.withOpacity(0.3),
-                            width: borderWidth,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8),
-                          ),
+                    child: AnimatedContainer(
+                      duration: _kDuration,
+                      width: isActive ? activeWidth : shadowWidth,
+                      height: isActive ? activeHeight : shadowHeight,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white, // Colors.grey.withOpacity(0.3),
+                          width: borderWidth,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8),
-                          ),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment.bottomCenter,
-                                color: Colors.white,
-                                padding:
-                                    EdgeInsets.only(bottom: priceBottomPadding),
-                                child: Text(
-                                  '${paymentStep.price} \$',
-                                  style: TextStyle(
-                                    fontSize: kFontSize,
-                                  ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  width: borderWidth,
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8),
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  AnimatedContainer(
-                                    duration: _kDuration,
-                                    height: isActive
-                                        ? activeHeaderHeight
-                                        : shadowHeaderHeight,
-                                    alignment: Alignment.center,
-                                    color: Colors.white,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text(
-                                          '${paymentStep.amount}',
-                                          style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.w600,
-                                            color:
-                                                Colors.black.withOpacity(0.8),
-                                          ),
+                              alignment: Alignment.bottomCenter,
+                              padding:
+                                  EdgeInsets.only(bottom: priceBottomPadding),
+                              child: Text(
+                                '${paymentStep.price} \$',
+                                style: TextStyle(
+                                  fontSize: kFontSize,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                AnimatedContainer(
+                                  duration: _kDuration,
+                                  height: isActive
+                                      ? activeHeaderHeight
+                                      : shadowHeaderHeight,
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(
+                                        '${paymentStep.amount}',
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black.withOpacity(0.8),
                                         ),
-                                        Text(
-                                          'Кармы',
-                                          style: TextStyle(
-                                            fontSize: kFontSize,
-                                          ),
+                                      ),
+                                      Text(
+                                        'Кармы',
+                                        style: TextStyle(
+                                          fontSize: kFontSize,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  if (index != 0)
-                                    Stack(
-                                      fit: StackFit.passthrough,
-                                      children: <Widget>[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: <Color>[
-                                                Colors.deepOrange,
-                                                Colors.yellow
-                                              ],
-                                              tileMode: TileMode.mirror,
-                                              begin: Alignment.topLeft,
-                                              end: Alignment(0.8, 1.2),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.only(
-                                              top: shadowLineHeight),
-                                          child: ClipRect(
-                                            child: ExtendedAnimatedAlign(
-                                              duration: _kDuration,
-                                              alignment: Alignment.topCenter,
-                                              heightFactor: isActive ? 1 : 0,
-                                              child: AnimatedContainer(
-                                                duration: _kDuration,
-                                                height: isActive
-                                                    ? activeFooterHeight -
-                                                        shadowLineHeight
-                                                    : shadowFooterHeight -
-                                                        shadowLineHeight,
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                padding: EdgeInsets.only(
-                                                    bottom: priceBottomPadding),
-                                                child: Text(
-                                                  '${paymentStep.price} \$',
-                                                  style: TextStyle(
-                                                    fontSize: kFontSize,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                ),
+                                if (index != 0)
+                                  Stack(
+                                    fit: StackFit.passthrough,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: <Color>[
+                                              Colors.deepOrange,
+                                              Colors.yellow
+                                            ],
+                                            tileMode: TileMode.mirror,
+                                            begin: Alignment.topLeft,
+                                            end: Alignment(0.8, 1.2),
                                           ),
                                         ),
-                                        AnimatedPadding(
-                                          duration: _kDuration,
-                                          padding: EdgeInsets.only(
-                                              top: isActive ? 10 : 0),
-                                          child: AnimatedContainer(
+                                        padding: EdgeInsets.only(
+                                            top: shadowLineHeight),
+                                        child: ClipRect(
+                                          child: ExtendedAnimatedAlign(
                                             duration: _kDuration,
-                                            height: isActive
-                                                ? 23
-                                                : shadowLineHeight,
-                                            child: FittedBox(
+                                            alignment: Alignment.topCenter,
+                                            heightFactor: isActive ? 1 : 0,
+                                            child: AnimatedContainer(
+                                              duration: _kDuration,
+                                              height: isActive
+                                                  ? activeFooterHeight -
+                                                      shadowLineHeight
+                                                  : shadowFooterHeight -
+                                                      shadowLineHeight,
+                                              alignment: Alignment.bottomCenter,
+                                              padding: EdgeInsets.only(
+                                                  bottom: priceBottomPadding),
                                               child: Text(
-                                                '+ $discount%',
+                                                '${paymentStep.price} \$',
                                                 style: TextStyle(
                                                   fontSize: kFontSize,
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                ],
+                                      ),
+                                      AnimatedPadding(
+                                        duration: _kDuration,
+                                        padding: EdgeInsets.only(
+                                            top: isActive ? 10 : 0),
+                                        child: AnimatedContainer(
+                                          duration: _kDuration,
+                                          height:
+                                              isActive ? 23 : shadowLineHeight,
+                                          child: FittedBox(
+                                            child: Text(
+                                              '+ $discount%',
+                                              style: TextStyle(
+                                                fontSize: kFontSize,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                            AnimatedOpacity(
+                              duration: _kDuration,
+                              opacity: isActive ? 0 : 0.3,
+                              child: Container(color: Colors.grey),
+                            ),
+                            Tooltip(
+                              message: _activeIndex == index
+                                  ? 'Получить'
+                                  : 'Выбрать',
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    if (_activeIndex == index) {
+                                      _handlePayment();
+                                      return;
+                                    }
+                                    setState(
+                                      () {
+                                        _activeIndex = index;
+                                        // иначе надо переделать позиционирование
+                                        assert(kPaymentSteps.length == 4);
+                                        _controller.animateTo(
+                                          _activeIndex <
+                                                  kPaymentSteps.length / 2
+                                              ? 0
+                                              : _controller
+                                                  .position.maxScrollExtent,
+                                          duration: _kDuration,
+                                          curve: Curves.linear,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
-                              AnimatedOpacity(
-                                duration: _kDuration,
-                                opacity: isActive ? 0 : 0.3,
-                                child: Container(color: Colors.grey),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -277,7 +306,7 @@ class _PaymentScreenState extends State<PaymentScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  _PaymentButton(),
+                  _PaymentButton(onTap: _handlePayment),
                 ],
               ),
             ),
@@ -302,12 +331,20 @@ class _PaymentScreenState extends State<PaymentScreen>
       ),
     );
   }
+
+  void _handlePayment() {
+    print(_activeIndex);
+    // TODO: подключить оплату
+    // huawei_iap
+    // in_app_purchase
+    // purchases-flutter
+  }
 }
 
 class _PaymentButton extends StatefulWidget {
-  _PaymentButton({this.child});
+  _PaymentButton({this.onTap});
 
-  final Widget child;
+  final Function onTap;
 
   @override
   _PaymentButtonState createState() => _PaymentButtonState();
@@ -348,12 +385,7 @@ class _PaymentButtonState extends State<_PaymentButton>
           child: FlatButton(
             child: Container(),
             onLongPress: () {}, // чтобы сократить время для splashColor
-            onPressed: () {
-              // TODO: подключить оплату
-              // huawei_iap
-              // in_app_purchase
-              // purchases-flutter
-            },
+            onPressed: widget.onTap,
             color: Colors.green,
             textColor: Colors.white,
           ),
@@ -383,49 +415,3 @@ class _PaymentButtonState extends State<_PaymentButton>
     );
   }
 }
-
-// class _Step extends StatefulWidget {
-//   _Step({this.alignment, this.reverse});
-
-//   final AlignmentGeometry alignment;
-//   final bool reverse;
-
-//   @override
-//   _StepState createState() => _StepState();
-// }
-
-// class _StepState extends State<_Step> with SingleTickerProviderStateMixin {
-//   AnimationController _controller;
-//   Animation<double> _animation;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller = AnimationController(
-//       vsync: this,
-//       duration: Duration(seconds: 2),
-//     );
-//     final curvedAnimation = CurvedAnimation(
-//       parent: _controller,
-//       curve: Curves.easeInCubic,
-//     );
-//     // _animation = Tween<double>(begin: 1, end: 1.2).animate(curvedAnimation);
-//     if (widget.reverse) {
-//       _controller.reverse();
-//     } else {
-//       _controller.forward();
-//     }
-//   }
-
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedContainer();
-
-//   }
-// }
