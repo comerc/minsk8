@@ -27,6 +27,7 @@ export 'models/my_unit_map.dart';
 export 'models/my_wishes.dart';
 export 'models/notification.dart';
 export 'models/payment.dart';
+export 'models/payment_step.dart';
 export 'models/proclamation.dart';
 export 'models/profile.dart';
 export 'models/question.dart';

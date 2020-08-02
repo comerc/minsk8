@@ -75,6 +75,13 @@ class _PaymentScreenState extends State<PaymentScreen>
                 itemCount: _steps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final isActive = index == _activeIndex;
+                  final paymentStep = kPaymentSteps[index];
+                  final pilotOnePrice =
+                      kPaymentSteps[0].price / kPaymentSteps[0].amount;
+                  final currentOnePrice =
+                      kPaymentSteps[index].price / kPaymentSteps[index].amount;
+                  final discount =
+                      (100 - (currentOnePrice / pilotOnePrice) * 100).floor();
                   return Center(
                     child: GestureDetector(
                       onTap: () {
@@ -109,7 +116,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                 padding:
                                     EdgeInsets.only(bottom: priceBottomPadding),
                                 child: Text(
-                                  '4444',
+                                  '${paymentStep.price} \$',
                                   style: TextStyle(
                                     fontSize: kFontSize,
                                   ),
@@ -129,7 +136,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text(
-                                          '${kPaymentSteps[index]}',
+                                          '${paymentStep.amount}',
                                           style: TextStyle(
                                             fontSize: 25,
                                             fontWeight: FontWeight.w600,
@@ -181,7 +188,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                                 padding: EdgeInsets.only(
                                                     bottom: priceBottomPadding),
                                                 child: Text(
-                                                  '4444',
+                                                  '${paymentStep.price} \$',
                                                   style: TextStyle(
                                                     fontSize: kFontSize,
                                                     color: Colors.white,
@@ -202,7 +209,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                                 : shadowLineHeight,
                                             child: FittedBox(
                                               child: Text(
-                                                '+ 29%',
+                                                '+ $discount%',
                                                 style: TextStyle(
                                                   fontSize: kFontSize,
                                                   color: Colors.white,

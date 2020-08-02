@@ -26,6 +26,12 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
 
   int get currentValue => _currentValue;
 
+  final _values = kPaymentSteps
+      .map<int>(
+        (PaymentStepModel element) => element.amount,
+      )
+      .toList();
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +48,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
   @override
   Widget build(BuildContext context) {
     final needValue = max(0, _currentValue - widget.balance);
-    final step = getNearestStep(kPaymentSteps, needValue);
+    final step = getNearestStep(_values, needValue);
     final header = Tooltip(
       message:
           _isExpanded ? 'Выключить автоповышение' : 'Включить автоповышение',
