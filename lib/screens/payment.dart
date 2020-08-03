@@ -29,6 +29,7 @@ class _PaymentScreenState extends State<PaymentScreen>
 
   @override
   Widget build(BuildContext context) {
+    final statusBarHeight = MediaQuery.of(context).padding.top;
     final width = MediaQuery.of(context).size.width;
     final isLargeWidth = width < kLargeWidth;
     final listViewPadding = 16.0;
@@ -51,14 +52,14 @@ class _PaymentScreenState extends State<PaymentScreen>
     final priceBottomPadding = 6.0;
     final borderOpacity = 0.3;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Получить Карму'),
-      ),
+      extendBodyBehindAppBar: true,
+      appBar: ExtendedAppBar(),
       body: Container(
         alignment: Alignment.topCenter,
         color: Colors.white,
         child: Column(
           children: <Widget>[
+            SizedBox(height: statusBarHeight),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

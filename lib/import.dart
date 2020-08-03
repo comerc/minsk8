@@ -2,6 +2,7 @@
 
 export 'common/const.dart';
 export 'common/extended_animated_align.dart';
+export 'common/extended_app_bar.dart';
 export 'common/extended_list_wheel_scroll_view.dart';
 export 'common/fake_data.dart';
 export 'common/helpers.dart';
