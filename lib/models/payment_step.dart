@@ -14,8 +14,8 @@ class PaymentStepModel {
 enum PaymentStepValue { pilot, start, optimum, ultimate }
 
 final kPaymentSteps = <PaymentStepModel>[
-  PaymentStepModel(PaymentStepValue.pilot, 5, 2.95),
-  PaymentStepModel(PaymentStepValue.start, 25, 9.95),
-  PaymentStepModel(PaymentStepValue.optimum, 50, 14.95),
-  PaymentStepModel(PaymentStepValue.ultimate, 100, 19.95),
+  PaymentStepModel(PaymentStepValue.pilot, 5, 5),
+  PaymentStepModel(PaymentStepValue.start, 25, 10),
+  PaymentStepModel(PaymentStepValue.optimum, 50, 15),
+  PaymentStepModel(PaymentStepValue.ultimate, 100, 20),
 ];
