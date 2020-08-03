@@ -13,6 +13,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 // TODO: прикрутить characters для выяснения размера введенного текста
+// TODO: кнопка ГОТОВО прибита книзу на маленьких экранах?
 
 enum ImageUploadStatus { progress, error }
 
@@ -152,21 +153,6 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ),
       ],
     );
-    // Expanding content to fit the viewport
-    final body = LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: child,
-            ),
-          ),
-        );
-      },
-    );
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -181,7 +167,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
             ),
           ],
         ),
-        body: body,
+        body: buildScrollBody(child),
       ),
     );
   }

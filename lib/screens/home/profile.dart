@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_more_list/loading_more_list.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
@@ -44,7 +43,7 @@ class HomeProfileState extends State<HomeProfile> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<ProfileModel>(context);
-    return Column(
+    final child = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         SizedBox(height: 16),
@@ -107,46 +106,42 @@ class HomeProfileState extends State<HomeProfile> {
           textColor: Colors.white,
         ),
         SizedBox(height: 16),
-        Expanded(
-          child: GlowNotificationWidget(
-            ListView.separated(
-              itemCount: _menu.length,
-              itemBuilder: (BuildContext context, int index) {
-                final entry = _menu[index];
-                return Material(
-                  child: InkWell(
-                    child: ListTile(
-                      // title: index == 0
-                      //     ? Text(
-                      //         entry.value,
-                      //         style: TextStyle(
-                      //           color: Colors.green,
-                      //         ),
-                      //       )
-                      //     : Text(entry.value),
-                      title: Text(entry.value),
-                      trailing: Icon(
-                        Icons.navigate_next,
-                        color: Colors.black.withOpacity(0.3),
-                        size: kButtonIconSize,
-                      ),
-                    ),
-                    onLongPress: () {}, // чтобы сократить время для splashColor
-                    onTap: () {
-                      Navigator.of(context).pushNamed(entry.key);
-                    },
+        ListBox(
+          itemCount: _menu.length,
+          itemBuilder: (BuildContext context, int index) {
+            final entry = _menu[index];
+            return Material(
+              child: InkWell(
+                child: ListTile(
+                  // title: index == 0
+                  //     ? Text(
+                  //         entry.value,
+                  //         style: TextStyle(
+                  //           color: Colors.green,
+                  //         ),
+                  //       )
+                  //     : Text(entry.value),
+                  title: Text(entry.value),
+                  trailing: Icon(
+                    Icons.navigate_next,
+                    color: Colors.black.withOpacity(0.3),
+                    size: kButtonIconSize,
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  indent: 16,
-                  endIndent: 16,
-                  height: 1,
-                );
-              },
-            ),
-          ),
+                ),
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onTap: () {
+                  Navigator.of(context).pushNamed(entry.key);
+                },
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(
+              indent: 16,
+              endIndent: 16,
+              height: 1,
+            );
+          },
         ),
         if (widget.hasUpdate) Text('Доступна новая версия'),
         if (widget.hasUpdate)
@@ -167,5 +162,6 @@ class HomeProfileState extends State<HomeProfile> {
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
+    return buildScrollBody(child);
   }
 }

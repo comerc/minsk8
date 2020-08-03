@@ -18,24 +18,25 @@ class KindsScreen extends StatelessWidget {
     final isLargeWidth = width < kLargeWidth;
     final crossAxisCount =
         isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
+    final body = GridView.count(
+      crossAxisCount: crossAxisCount,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      padding: EdgeInsets.all(8),
+      childAspectRatio: kGoldenRatio,
+      children: List.generate(
+        kKinds.length,
+        (int index) => KindButton(
+          kKinds[index],
+          isSelected: kKinds[index].value == arguments?.value,
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Выберите категорию'),
       ),
-      body: GridView.count(
-        crossAxisCount: crossAxisCount,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        padding: EdgeInsets.all(8),
-        childAspectRatio: kGoldenRatio,
-        children: List.generate(
-          kKinds.length,
-          (int index) => KindButton(
-            kKinds[index],
-            isSelected: kKinds[index].value == arguments?.value,
-          ),
-        ),
-      ),
+      body: body,
     );
   }
 }

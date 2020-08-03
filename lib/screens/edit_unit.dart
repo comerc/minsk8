@@ -8,14 +8,15 @@ class EditUnitScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final child = Center(
+      child: Text('xxx'),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Unit'),
       ),
       drawer: MainDrawer('/edit_unit'),
-      body: Center(
-        child: Text('xxx'),
-      ),
+      body: buildScrollBody(child),
     );
   }
 }

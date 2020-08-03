@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: вместо велосипедирования, прикрутить реализацию чата
 // https://uikitty.net/achat-flutter-firebase-chat-template/
@@ -17,6 +17,7 @@ class HomeChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // тут не надо buildScrollBody
     return Center(
       child: Text('chat'),
     );
