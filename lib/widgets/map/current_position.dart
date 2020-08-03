@@ -28,7 +28,10 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
         // TODO: FlatButton
         child: MaterialButton(
           color: Colors.white,
-          child: Icon(Icons.my_location),
+          child: Icon(
+            Icons.my_location,
+            size: kDefaultIconSize,
+          ),
           height: kBigButtonHeight,
           shape: CircleBorder(),
           onPressed: _onCurrentPositionClick,
