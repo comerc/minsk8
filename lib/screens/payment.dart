@@ -306,28 +306,6 @@ class _PaymentScreenState extends State<PaymentScreen>
                 ],
               ),
             ),
-
-            // FlatButton(
-            //   child: Text(
-            //     'КАК ЭТО РАБОТАЕТ',
-            //     style: TextStyle(
-            //       fontSize: kMyFontSize,
-            //       color: Colors.black.withOpacity(0.6),
-            //     ),
-            //   ),
-            //   onLongPress: () {}, // чтобы сократить время для splashColor
-            //   onPressed: () {
-            //     Navigator.of(context).pushNamed('/how_it_works');
-            //   },
-            // ),
-            // OutlineButton(
-            //   child: Text('Не получается оплатить'),
-            //   onLongPress: () {}, // чтобы сократить время для splashColor
-            //   onPressed: () {
-            //     launchFeedback(context, subject: 'Сообщить о проблеме');
-            //   },
-            //   textColor: Colors.green,
-            // ),
             Container(
               width: 200,
               child: Column(
