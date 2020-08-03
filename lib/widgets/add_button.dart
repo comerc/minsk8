@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 typedef GetTabIndexCallback = AddUnitRouteArgumentsTabIndex Function();
 
+// TODO: убрать context, использовать LayoutBuilder для функциональных компонентов
+
 Widget buildAddButton(BuildContext context, {GetTabIndexCallback getTabIndex}) {
   return FloatingActionButton(
     backgroundColor: Colors.white,
