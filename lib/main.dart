@@ -122,6 +122,7 @@ class App extends StatelessWidget {
       //   appBarTheme: AppBarTheme(brightness: Brightness.light),
       // ),
       builder: (BuildContext context, Widget child) {
+        App.analytics.setCurrentScreen(screenName: '/app');
         final client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds
             .map((EnumModel kind) => ShowcaseData(client, kind.value))
