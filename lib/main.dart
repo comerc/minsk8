@@ -25,6 +25,7 @@ import 'package:minsk8/import.dart';
 // TODO: проверить везде fit: StackFit.expand,
 // TODO: не работает системная кнопка 'BACK'?
 // TODO: бейджики для активных участников
+// TODO: выходящий за пределы экрана InkWell для системной кнопки Close - OverflowBox
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
