@@ -43,3 +43,4 @@ const kMaxWantLimit = 10;
 const kMaxWantBalance = 7;
 const kPriceFontSize = 23.0;
 const kButtonFontSize = 14.0;
+const kBigIconSize = 32.0;
