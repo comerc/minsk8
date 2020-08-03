@@ -3,7 +3,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: как добавить отступ для statusBarHeight? пока приходится вставлять в каждый экран
 
-class ExtendedAppBar extends PreferredSize {
+class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
   ExtendedAppBar({this.actions = const []});
 
   final List<Widget> actions;
