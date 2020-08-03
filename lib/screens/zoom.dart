@@ -47,6 +47,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   Widget build(BuildContext context) {
     final unit = widget.arguments.unit;
     final tag = widget.arguments.tag;
+    final buttonPadding = (kToolbarHeight - kBigIconSize) / 2;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Material(
@@ -127,7 +128,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                     message: 'Close',
                     child: ButtonTheme(
                       minWidth: 0,
-                      padding: EdgeInsets.all(12),
+                      padding: EdgeInsets.all(buttonPadding),
                       child: FlatButton(
                         onPressed: () {
                           Navigator.maybePop(context);
@@ -136,7 +137,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                         child: Icon(
                           Icons.close,
                           color: Colors.white,
-                          size: 32,
+                          size: kBigIconSize,
                         ),
                       ),
                     ),
@@ -160,7 +161,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                       message: 'Back',
                       child: ButtonTheme(
                         minWidth: 0,
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(buttonPadding),
                         child: FlatButton(
                           onPressed: () {
                             _jumpToPage(isNext: false);
@@ -169,7 +170,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                           child: Icon(
                             Icons.navigate_before,
                             color: Colors.white,
-                            size: 32,
+                            size: kBigIconSize,
                           ),
                         ),
                       ),
@@ -179,7 +180,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                       message: 'Next',
                       child: ButtonTheme(
                         minWidth: 0,
-                        padding: EdgeInsets.all(12),
+                        padding: EdgeInsets.all(buttonPadding),
                         child: FlatButton(
                           onPressed: () {
                             _jumpToPage(isNext: true);
@@ -188,7 +189,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                           child: Icon(
                             Icons.navigate_next,
                             color: Colors.white,
-                            size: 32,
+                            size: kBigIconSize,
                           ),
                         ),
                       ),
