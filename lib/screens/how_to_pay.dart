@@ -200,12 +200,12 @@ class _Menu extends StatelessWidget {
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 if (entry.key == '/add_unit') {
-                  Navigator.pushReplacementNamed(
+                  Navigator.pushNamed(
                     context,
                     '/kinds',
                   ).then((kind) {
-                    if (kind == null) return;
-                    Navigator.pushNamed(
+                    if (kind == null) return null;
+                    return Navigator.pushNamed(
                       context,
                       '/add_unit',
                       arguments: AddUnitRouteArguments(
@@ -213,10 +213,12 @@ class _Menu extends StatelessWidget {
                         tabIndex: AddUnitRouteArgumentsTabIndex(),
                       ),
                     );
+                  }).whenComplete(() {
+                    Navigator.of(context).pop();
                   });
-                } else {
-                  Navigator.of(context).pushReplacementNamed(entry.key);
+                  return;
                 }
+                Navigator.of(context).pushReplacementNamed(entry.key);
               },
             ),
           );
