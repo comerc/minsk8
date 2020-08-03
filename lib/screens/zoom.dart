@@ -47,7 +47,6 @@ class _ZoomScreenState extends State<ZoomScreen>
   Widget build(BuildContext context) {
     final unit = widget.arguments.unit;
     final tag = widget.arguments.tag;
-    final buttonPadding = (kToolbarHeight - kBigIconSize) / 2;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Material(
@@ -124,23 +123,12 @@ class _ZoomScreenState extends State<ZoomScreen>
               right: 16,
               child: Row(
                 children: <Widget>[
-                  Tooltip(
+                  _buidButton(
                     message: 'Close',
-                    child: ButtonTheme(
-                      minWidth: 0,
-                      padding: EdgeInsets.all(buttonPadding),
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.maybePop(context);
-                        },
-                        shape: CircleBorder(),
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: kBigIconSize,
-                        ),
-                      ),
-                    ),
+                    icon: Icons.close,
+                    onTap: () {
+                      Navigator.maybePop(context);
+                    },
                   ),
                   Spacer(),
                   if (unit.images.length > 1)
@@ -157,42 +145,20 @@ class _ZoomScreenState extends State<ZoomScreen>
               Center(
                 child: Row(
                   children: <Widget>[
-                    Tooltip(
+                    _buidButton(
                       message: 'Back',
-                      child: ButtonTheme(
-                        minWidth: 0,
-                        padding: EdgeInsets.all(buttonPadding),
-                        child: FlatButton(
-                          onPressed: () {
-                            _jumpToPage(isNext: false);
-                          },
-                          shape: CircleBorder(),
-                          child: Icon(
-                            Icons.navigate_before,
-                            color: Colors.white,
-                            size: kBigIconSize,
-                          ),
-                        ),
-                      ),
+                      icon: Icons.navigate_before,
+                      onTap: () {
+                        _jumpToPage(isNext: false);
+                      },
                     ),
                     Spacer(),
-                    Tooltip(
+                    _buidButton(
                       message: 'Next',
-                      child: ButtonTheme(
-                        minWidth: 0,
-                        padding: EdgeInsets.all(buttonPadding),
-                        child: FlatButton(
-                          onPressed: () {
-                            _jumpToPage(isNext: true);
-                          },
-                          shape: CircleBorder(),
-                          child: Icon(
-                            Icons.navigate_next,
-                            color: Colors.white,
-                            size: kBigIconSize,
-                          ),
-                        ),
-                      ),
+                      icon: Icons.navigate_next,
+                      onTap: () {
+                        _jumpToPage(isNext: true);
+                      },
                     ),
                   ],
                 ),
@@ -243,6 +209,25 @@ class _ZoomScreenState extends State<ZoomScreen>
                 ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
                 : _currentIndex == 0 ? lastIndex : _currentIndex - 1,
             onWillPop: onWillPop,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buidButton({String message, IconData icon, Function onTap}) {
+    return Tooltip(
+      message: message,
+      child: ButtonTheme(
+        minWidth: 0,
+        padding: EdgeInsets.all((kToolbarHeight - kBigIconSize) / 2),
+        child: FlatButton(
+          onPressed: onTap,
+          shape: CircleBorder(),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: kBigIconSize,
           ),
         ),
       ),
