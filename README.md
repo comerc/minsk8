@@ -43,6 +43,12 @@ how to download `schema.json` for `localSchemaFile`
 $ apollo schema:download --endpoint https://minsk8.herokuapp.com/v1/graphql --header 'X-Hasura-Admin-Secret: <secret>' --header 'X-Hasura-Role: user'
 ```
 
+Updated files from master branch (for floatHeaderSlivers):
+`~/flutter/packages/flutter/lib/src/widgets/nested_scroll_view.dart`
+`~/flutter/packages/flutter/lib/src/rendering/sliver_persistent_header.dart`
+`~/flutter/packages/flutter/lib/src/rendering/viewport.dart`
+`~/flutter/packages/flutter/lib/src/widgets/viewport.dart`
+
 ## Why?
 
 В редакцию пришло письмо, как говорится.
