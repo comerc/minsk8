@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: добавить подпись "выгода"
-// TODO: что будет на маленьком экране, когда содержимое не влезает по высоте?
 
 const Duration _kDuration = Duration(milliseconds: 400);
 
