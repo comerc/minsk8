@@ -39,6 +39,7 @@ class HowToPayScreen extends StatelessWidget {
     return Scaffold(
       appBar: ExtendedAppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: buildScrollBody(child),
     );

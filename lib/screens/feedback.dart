@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:provider/provider.dart';
+// import 'package:url_launcher/url_launcher.dart';
 // import 'package:launch_review/launch_review.dart';
 import 'package:minsk8/import.dart';
 
 class FeedbackScreen extends StatelessWidget {
   final _market = Platform.isIOS ? 'Apple Store' : 'Google Play';
+
   @override
   Widget build(BuildContext context) {
     final child = Container(
@@ -87,7 +88,9 @@ class FeedbackScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      appBar: ExtendedAppBar(),
+      appBar: ExtendedAppBar(
+        elevation: 0,
+      ),
       body: buildScrollBody(child),
     );
   }
