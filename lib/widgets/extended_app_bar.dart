@@ -8,11 +8,13 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.actions = const [],
     this.backgroundColor = Colors.white,
+    this.elevation = kAppBarElevation, // ThemeData().appBarTheme.elevation,
   });
 
   final List<Widget> actions;
   final Widget title;
   final Color backgroundColor;
+  final double elevation;
 
   @override
   final Size preferredSize = Size.fromHeight(kToolbarHeight);
@@ -25,7 +27,8 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.black.withOpacity(0.8),
       ),
       // TODO: должен появляться с анимацией, когда скролл уходит наверх
-      elevation: 0,
+      // https://medium.com/@cezary.zelisko/flutter-how-to-design-an-appbar-with-variable-elevation-b3ffd38ac1eb
+      elevation: elevation,
       excludeHeaderSemantics: true,
       titleSpacing: 0,
       title: title,

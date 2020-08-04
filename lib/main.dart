@@ -27,6 +27,9 @@ import 'package:minsk8/import.dart';
 // TODO: не работает системная кнопка 'BACK'?
 // TODO: бейджики для активных участников
 // TODO: выходящий за пределы экрана InkWell для системной кнопки Close - OverflowBox
+// TODO: автоматизация локализации https://medium.com/in-the-pocket-insights/localising-flutter-applications-and-automating-the-localisation-process-752a26fe179c
+// TODO: сторонний вариант локализации https://github.com/aissat/easy_localization
+// TODO: пока загружается аватарка - показывать ожидание
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -124,7 +127,6 @@ class App extends StatelessWidget {
       //   appBarTheme: AppBarTheme(brightness: Brightness.light),
       // ),
       builder: (BuildContext context, Widget child) {
-        App.analytics.setCurrentScreen(screenName: '/app');
         final client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds
             .map((EnumModel kind) => ShowcaseData(client, kind.value))
