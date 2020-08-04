@@ -87,9 +87,7 @@ class FeedbackScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Обратная связь'),
-      ),
+      appBar: ExtendedAppBar(),
       body: buildScrollBody(child),
     );
   }

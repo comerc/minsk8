@@ -68,9 +68,6 @@ class InviteScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Пригласить друзей'),
-      ),
       body: buildScrollBody(child),
     );
   }

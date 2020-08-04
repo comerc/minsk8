@@ -143,6 +143,7 @@ class HomeProfileState extends State<HomeProfile> {
             );
           },
         ),
+        Spacer(),
         if (widget.hasUpdate) Text('Доступна новая версия'),
         if (widget.hasUpdate)
           OutlineButton(

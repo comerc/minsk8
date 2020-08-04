@@ -29,7 +29,6 @@ class _PaymentScreenState extends State<PaymentScreen>
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = MediaQuery.of(context).padding.top;
     final width = MediaQuery.of(context).size.width;
     final isLargeWidth = width < kLargeWidth;
     final listViewPadding = 16.0;
@@ -56,7 +55,6 @@ class _PaymentScreenState extends State<PaymentScreen>
       color: Colors.white,
       child: Column(
         children: <Widget>[
-          SizedBox(height: statusBarHeight),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -336,8 +334,6 @@ class _PaymentScreenState extends State<PaymentScreen>
       ),
     );
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: ExtendedAppBar(),
       body: buildScrollBody(child),
     );
   }

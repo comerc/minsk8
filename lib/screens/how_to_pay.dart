@@ -37,8 +37,8 @@ class HowToPayScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Как повысить Карму'),
+      appBar: ExtendedAppBar(
+        backgroundColor: Colors.transparent,
       ),
       body: buildScrollBody(child),
     );

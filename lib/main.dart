@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,10 +209,7 @@ class App extends StatelessWidget {
         '/edit_unit': (BuildContext context) =>
             EditUnitScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => MarkdownScreen('faq.md', title: 'Вопросы и ответы'),
-        '/feedback': (_) => FeedbackScreen(),
         '/forgot_password': (_) => ForgotPasswordScreen(),
-        '/invite': (_) => InviteScreen(),
-        '/how_to_pay': (_) => HowToPayScreen(),
         '/how_it_works': (_) =>
             MarkdownScreen('how_it_works.md', title: 'Как это работает?'),
         '/kinds': (BuildContext context) =>
@@ -221,7 +219,6 @@ class App extends StatelessWidget {
         '/make_it_together': (_) =>
             MarkdownScreen('make_it_together.md', title: 'Сделаем это вместе!'),
         '/my_unit_map': (_) => MyUnitMapScreen(),
-        '/payment': (_) => PaymentScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
         '/showcase_map': (_) => ShowcaseMapScreen(),
@@ -237,19 +234,28 @@ class App extends StatelessWidget {
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
-      // onGenerateRoute: (RouteSettings settings) {
-      //   // if (settings.name == '/unit') {
-      //   //   return Platform.isIOS
-      //   //       ? TransparentCupertinoPageRoute(
-      //   //           settings: settings,
-      //   //           builder: (BuildContext context) => UnitScreen())
-      //   //       : TransparentMaterialPageRoute(
-      //   //           settings: settings,
-      //   //           builder: (BuildContext context) => UnitScreen());
-      //   // }
-      //   print('onGenerateRoute: $settings');
-      //   return null;
-      // },
+      onGenerateRoute: (RouteSettings settings) {
+        final fullScreenDialogRoutes = <String, WidgetBuilder>{
+          '/how_to_pay': (_) => HowToPayScreen(),
+          '/feedback': (_) => FeedbackScreen(),
+          '/invite': (_) => InviteScreen(),
+          '/payment': (_) => PaymentScreen(),
+        };
+        if (fullScreenDialogRoutes.containsKey(settings.name)) {
+          final widgetBuilder = fullScreenDialogRoutes[settings.name];
+          return Platform.isIOS
+              ? CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  settings: settings,
+                  builder: (BuildContext context) => widgetBuilder(context))
+              : MaterialPageRoute(
+                  fullscreenDialog: true,
+                  settings: settings,
+                  builder: (BuildContext context) => widgetBuilder(context));
+        }
+        // print('onGenerateRoute: $settings');
+        return null;
+      },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),
