@@ -33,6 +33,7 @@
 apollo.config.js
 schema.json
 /assets/*.md
+/assets/*.html
 
 # Android related
 **/android/**/gradle-wrapper.jar

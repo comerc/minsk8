@@ -203,21 +203,21 @@ class App extends StatelessWidget {
         '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
         '/_notifiaction': (_) => NotificationScreen(),
         // ****
-        '/about': (_) => MarkdownScreen('about.md', title: 'О проекте'),
+        '/about': (_) => ContentScreen('about.html', title: 'О проекте'),
         '/add_unit': (BuildContext context) =>
             AddUnitScreen(ModalRoute.of(context).settings.arguments),
         '/edit_unit': (BuildContext context) =>
             EditUnitScreen(ModalRoute.of(context).settings.arguments),
-        '/faq': (_) => MarkdownScreen('faq.md', title: 'Вопросы и ответы'),
+        '/faq': (_) => ContentScreen('faq.html', title: 'Вопросы и ответы'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/how_it_works': (_) =>
-            MarkdownScreen('how_it_works.md', title: 'Как это работает?'),
+            ContentScreen('how_it_works.html', title: 'Как это работает?'),
         '/kinds': (BuildContext context) =>
             KindsScreen(ModalRoute.of(context).settings.arguments),
         '/ledger': (_) => LedgerScreen(),
         '/login': (_) => LoginScreen(),
-        '/make_it_together': (_) =>
-            MarkdownScreen('make_it_together.md', title: 'Сделаем это вместе!'),
+        '/make_it_together': (_) => ContentScreen('make_it_together.html',
+            title: 'Сделаем это вместе!'),
         '/my_unit_map': (_) => MyUnitMapScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
@@ -230,7 +230,7 @@ class App extends StatelessWidget {
         '/unit_map': (BuildContext context) =>
             UnitMapScreen(ModalRoute.of(context).settings.arguments),
         '/useful_tips': (_) =>
-            MarkdownScreen('useful_tips.md', title: 'Полезные советы'),
+            ContentScreen('useful_tips.html', title: 'Полезные советы'),
         '/zoom': (BuildContext context) =>
             ZoomScreen(ModalRoute.of(context).settings.arguments),
       },

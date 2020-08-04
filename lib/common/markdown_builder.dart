@@ -10,7 +10,6 @@ class MarkdownBuilder implements Builder {
     var contents = await buildStep.readAsString(inputId);
     var markdownContents = markdownToHtml(contents);
     var outputId = inputId.changeExtension('.html');
-    print(outputId);
     await buildStep.writeAsString(outputId, markdownContents);
   }
 

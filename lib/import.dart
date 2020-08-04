@@ -47,6 +47,7 @@ export 'screens/_nested_scroll_view.dart';
 export 'screens/_notification.dart';
 
 export 'screens/add_unit.dart';
+export 'screens/content.dart';
 export 'screens/edit_unit.dart';
 export 'screens/feedback.dart';
 export 'screens/forgot_password.dart';
@@ -60,7 +61,6 @@ export 'screens/how_to_pay.dart';
 export 'screens/kinds.dart';
 export 'screens/ledger.dart';
 export 'screens/login.dart';
-export 'screens/markdown.dart';
 export 'screens/my_unit_map.dart';
 export 'screens/payment.dart';
 export 'screens/search.dart';
