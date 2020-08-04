@@ -38,6 +38,7 @@ class ShowcaseTabBar extends StatelessWidget {
       child: Center(child: tabBar),
     );
     // TODO: индикатор должен смещаться обратно наполовину, пока идёт загрузка
+    // и это работает правильно у приложения Flutter Gallery
     final offset = info?.dragOffset ?? 0.0;
     return Stack(
       fit: StackFit.expand,
