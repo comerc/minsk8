@@ -35,10 +35,9 @@ class PlacesAppBarState extends State<PlacesAppBar> {
                 });
               },
             ),
-            // TODO: баг - закрывается окно
-            // title: Places(
-            //     formFieldKey: _formFieldKey,
-            //     onSuggestionSelected: _onSuggestionSelected),
+            title: Places(
+                formFieldKey: _formFieldKey,
+                onSuggestionSelected: _onSuggestionSelected),
             actions: <Widget>[
               IconButton(
                 tooltip: 'Отменить',
