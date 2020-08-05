@@ -30,7 +30,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
   @override
   bool get hasMore => _forceRefresh || _hasMore && (isInfinite || length < 40);
 
-  set hasMore(value) {
+  set hasMore(bool value) {
     _hasMore = value;
   }
 
