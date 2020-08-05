@@ -18,7 +18,7 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
 
   @override
-  final Size preferredSize = Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
