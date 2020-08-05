@@ -5,6 +5,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:minsk8/import.dart';
 
+enum HomeTabValue { showcase, underway, chat, profile }
+
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: globalKey);
 
@@ -15,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  int _tabIndex = 0;
+  int _tabIndex = HomeTabValue.showcase.index;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
         HomeShowcase.showcaseKey.currentState?.tabIndex,
@@ -43,7 +45,7 @@ class HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         child: Container(
           color: Colors.white,
-        ), // TODO: Stack + Positioned для MainDrawer
+        ),
         preferredSize: Size.zero, // hack
       ),
       body: <Widget>[
