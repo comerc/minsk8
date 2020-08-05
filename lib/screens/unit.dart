@@ -477,7 +477,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         Container(
                           padding: EdgeInsets.only(top: 16),
                           width: size.width,
-                          height: otherUnitWidth, // * 1,
+                          height: getMagicHeight(otherUnitWidth),
                           child: ListView.separated(
                             padding: EdgeInsets.symmetric(
                               horizontal: separatorWidth,

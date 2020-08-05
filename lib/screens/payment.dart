@@ -41,10 +41,10 @@ class _PaymentScreenState extends State<PaymentScreen>
     final shadowWidth =
         (commonWidth * lengthInScreen - activeWidth) / (lengthInScreen - 1);
     final borderWidth = 1.0;
-    final shadowHeight = (shadowWidth / 2) * kGoldenRatio;
+    final shadowHeight = getMagicHeight(shadowWidth);
     final shadowHeaderHeight = shadowHeight * kGoldenRatio - shadowHeight;
     final shadowFooterHeight = shadowHeight - shadowHeaderHeight;
-    final activeHeight = (activeWidth / 2) * kGoldenRatio;
+    final activeHeight = getMagicHeight(activeWidth);
     final activeHeaderHeight = activeHeight / 2;
     final activeFooterHeight = activeHeight - activeHeaderHeight;
     final shadowDiscontHeight = 16.0;

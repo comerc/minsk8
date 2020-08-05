@@ -167,3 +167,7 @@ void launchFeedback(BuildContext context, {String subject}) async {
     throw 'Could not launch $emailUrl';
   }
 }
+
+double getMagicHeight(double width) {
+  return (width / 2) * kGoldenRatio;
+}

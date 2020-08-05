@@ -76,7 +76,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
         },
         splashColor: Colors.white.withOpacity(0.4),
         child: AspectRatio(
-          aspectRatio: isCover ? 1 : image.width / image.height,
+          aspectRatio:
+              isCover ? 1 / getMagicHeight(1) : image.width / image.height,
           child: Hero(
             tag:
                 '${HomeScreen.globalKey.currentState.tabIndex}-${tabIndex}-${unit.id}',
