@@ -12,7 +12,9 @@ class LoginScreen extends StatelessWidget {
         title: Text('Login'),
       ),
       drawer: MainDrawer('/login'),
-      body: ScrollBody(child: child),
+      body: SafeArea(
+        child: ScrollBody(child: child),
+      ),
     );
   }
 }

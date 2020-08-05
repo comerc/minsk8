@@ -15,10 +15,12 @@ class UnitMapScreen extends StatelessWidget {
       appBar: AppBar(
         title: AddressText(unit),
       ),
-      body: MapWidget(
-        center: unit.location,
-        zoom: 13, // TODO: или сохранять, какой выбрал участник?
-        markerPoint: unit.location,
+      body: SafeArea(
+        child: MapWidget(
+          center: unit.location,
+          zoom: 13, // TODO: или сохранять, какой выбрал участник?
+          markerPoint: unit.location,
+        ),
       ),
     );
   }

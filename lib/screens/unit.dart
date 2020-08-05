@@ -75,6 +75,340 @@ class _UnitScreenState extends State<UnitScreen> {
     final separatorWidth = 16.0;
     final otherUnitWidth = (size.width - 4 * separatorWidth) / 3.25;
     final member = widget.arguments.member;
+    final child = Stack(
+      children: <Widget>[
+        SlidingUpPanel(
+          body: Column(
+            children: <Widget>[
+              SizedBox(
+                height: UnitCarouselSliderSettings.verticalPadding,
+              ),
+              Stack(
+                children: <Widget>[
+                  Container(),
+                  if (_showHero != null)
+                    Center(
+                      child: SizedBox(
+                        height: carouselSliderHeight,
+                        width: size.width *
+                                UnitCarouselSliderSettings.viewportFraction -
+                            UnitCarouselSliderSettings.unitHorizontalMargin * 2,
+                        child: Hero(
+                          tag: tag,
+                          child: ExtendedImage.network(
+                            unit.images[_currentIndex].getDummyUrl(unit.id),
+                            fit: BoxFit.cover,
+                            // TODO: если _openDeepLink, то нужно включать
+                            enableLoadState: false,
+                          ),
+                          flightShuttleBuilder: (
+                            BuildContext flightContext,
+                            Animation<double> animation,
+                            HeroFlightDirection flightDirection,
+                            BuildContext fromHeroContext,
+                            BuildContext toHeroContext,
+                          ) {
+                            animation.addListener(() {
+                              if ([
+                                AnimationStatus.completed,
+                                AnimationStatus.dismissed,
+                              ].contains(animation.status)) {
+                                setState(() {
+                                  _showHero = null;
+                                });
+                              }
+                            });
+                            final Hero hero =
+                                flightDirection == HeroFlightDirection.pop &&
+                                        _showHero != _ShowHero.forCloseZoom
+                                    ? fromHeroContext.widget
+                                    : toHeroContext.widget;
+                            return hero.child;
+                          },
+                        ),
+                      ),
+                    ),
+                  if (_isCarouselSlider)
+                    CarouselSlider(
+                      initialPage: _currentIndex,
+                      height: carouselSliderHeight,
+                      autoPlay: unit.images.length > 1,
+                      enableInfiniteScroll: unit.images.length > 1,
+                      pauseAutoPlayOnTouch: const Duration(seconds: 10),
+                      enlargeCenterPage: true,
+                      viewportFraction:
+                          UnitCarouselSliderSettings.viewportFraction,
+                      onPageChanged: (int index) {
+                        _currentIndex = index;
+                      },
+                      items: List.generate(unit.images.length, (int index) {
+                        return Container(
+                          width: size.width,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: UnitCarouselSliderSettings
+                                  .unitHorizontalMargin),
+                          child: Material(
+                            child: InkWell(
+                              onLongPress:
+                                  () {}, // чтобы сократить время для splashColor
+                              onTap: () async {
+                                setState(() {
+                                  _showHero = _ShowHero.forOpenZoom;
+                                  _isCarouselSlider = false;
+                                });
+                                // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
+                                // await SystemChrome.setPreferredOrientations([
+                                //   DeviceOrientation.landscapeRight,
+                                //   DeviceOrientation.landscapeLeft,
+                                //   DeviceOrientation.portraitUp,
+                                //   DeviceOrientation.portraitDown,
+                                // ]);
+                                // await Future.delayed(Duration(milliseconds: 100));
+                                // ignore: unawaited_futures
+                                Navigator.pushNamed(
+                                  context,
+                                  '/zoom',
+                                  arguments: ZoomRouteArguments(
+                                    unit,
+                                    tag: tag,
+                                    index: index,
+                                    onWillPop: _onWillPopForZoom,
+                                  ),
+                                );
+                              },
+                              splashColor: Colors.white.withOpacity(0.4),
+                              child: Ink.image(
+                                fit: BoxFit.cover,
+                                image: ExtendedImage.network(
+                                  unit.images[index].getDummyUrl(unit.id),
+                                  loadStateChanged: loadStateChanged,
+                                ).image,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                ],
+              ),
+            ],
+          ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          // parallaxEnabled: true,
+          // parallaxOffset: .8,
+          maxHeight: _panelMaxHeight == null
+              ? size.height
+              : max(_panelMaxHeight, panelMinHeight),
+          minHeight: panelMinHeight,
+          panel: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                key: _panelColumnKey,
+                children: <Widget>[
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
+                        child: Row(
+                          children: <Widget>[
+                            unit.price == null
+                                ? GiftButton(unit)
+                                : PriceButton(unit),
+                            Spacer(),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: panelSlideLabelWidth,
+                        height: 4,
+                        decoration: ShapeDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          shape: StadiumBorder(),
+                        ),
+                      ),
+                      Container(
+                        width: (panelChildWidth - panelSlideLabelWidth) / 2,
+                        child: Row(
+                          children: <Widget>[
+                            Spacer(),
+                            DistanceButton(onTap: () {
+                              final savedIndex = _currentIndex;
+                              setState(() {
+                                _isCarouselSlider = false;
+                              });
+                              Navigator.pushNamed(
+                                context,
+                                '/unit_map',
+                                arguments: UnitMapRouteArguments(
+                                  unit,
+                                ),
+                              ).then((_) {
+                                setState(() {
+                                  _currentIndex = savedIndex;
+                                  _isCarouselSlider = true;
+                                });
+                              });
+                            }),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
+                  Container(
+                    padding: EdgeInsets.only(top: 16),
+                    width: panelChildWidth,
+                    child: Text(
+                      unit.text,
+                      maxLines: 8,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  // if (!unit.isBlockedOrLocalDeleted)
+                  //   Container(
+                  //     padding: EdgeInsets.only(top: 16),
+                  //     width: panelChildWidth,
+                  //     child: Text(
+                  //       'Самовывоз',
+                  //       style: TextStyle(
+                  //         color: Colors.black.withOpacity(0.6),
+                  //       ),
+                  //     ),
+                  //   ),
+                  if (_otherUnits.isNotEmpty)
+                    Container(
+                      padding: EdgeInsets.only(top: 24),
+                      width: panelChildWidth,
+                      child: Text(
+                        'Другие лоты участника',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                  if (_otherUnits.isNotEmpty)
+                    Container(
+                      padding: EdgeInsets.only(top: 16),
+                      width: size.width,
+                      height: getMagicHeight(otherUnitWidth),
+                      child: ListView.separated(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: separatorWidth,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _otherUnits.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final otherUnit = _otherUnits[index];
+                          return Container(
+                            width: otherUnitWidth,
+                            child: Material(
+                              child: InkWell(
+                                // TODO: т.к. картинки квадратные, можно переключать на следующую
+                                // onLongPress: () {},
+                                onLongPress:
+                                    () {}, // чтобы сократить время для splashColor
+                                onTap: () {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    '/unit',
+                                    (Route route) {
+                                      return route.settings.name != '/unit';
+                                    },
+                                    arguments: UnitRouteArguments(
+                                      otherUnit,
+                                      member: member,
+                                    ),
+                                  );
+                                },
+                                splashColor: Colors.white.withOpacity(0.4),
+                                // child : Hero(
+                                //   tag: otherUnit.id,
+                                //   child:
+                                child: Ink.image(
+                                  fit: BoxFit.cover,
+                                  image: ExtendedImage.network(
+                                    otherUnit.images[0]
+                                        .getDummyUrl(otherUnit.id),
+                                    loadStateChanged: loadStateChanged,
+                                  ).image,
+                                ),
+                                // ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: separatorWidth,
+                          );
+                        },
+                      ),
+                    ),
+                  SizedBox(
+                    height: 16 + kBigButtonHeight + 16 + 8,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          left: 0,
+          child: IgnorePointer(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: <Color>[
+                    Colors.white.withOpacity(0.0),
+                    Colors.white.withOpacity(0.4),
+                  ],
+                ),
+              ),
+              height: 16 + kBigButtonHeight * 1.5,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 16,
+          right: 16,
+          left: 16,
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: kBigButtonWidth,
+                height: kBigButtonHeight,
+                child: ShareButton(unit, iconSize: kBigButtonIconSize),
+              ),
+              SizedBox(width: 8),
+              SizedBox(
+                width: kBigButtonWidth,
+                height: kBigButtonHeight,
+                child: WishButton(unit, iconSize: kBigButtonIconSize),
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: SizedBox(
+                  height: kBigButtonHeight,
+                  child: WantButton(unit),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -251,344 +585,7 @@ class _UnitScreenState extends State<UnitScreen> {
             ),
           ],
         ),
-        body: Stack(
-          children: <Widget>[
-            SlidingUpPanel(
-              body: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: UnitCarouselSliderSettings.verticalPadding,
-                  ),
-                  Stack(
-                    children: <Widget>[
-                      Container(),
-                      if (_showHero != null)
-                        Center(
-                          child: SizedBox(
-                            height: carouselSliderHeight,
-                            width: size.width *
-                                    UnitCarouselSliderSettings
-                                        .viewportFraction -
-                                UnitCarouselSliderSettings
-                                        .unitHorizontalMargin *
-                                    2,
-                            child: Hero(
-                              tag: tag,
-                              child: ExtendedImage.network(
-                                unit.images[_currentIndex].getDummyUrl(unit.id),
-                                fit: BoxFit.cover,
-                                // TODO: если _openDeepLink, то нужно включать
-                                enableLoadState: false,
-                              ),
-                              flightShuttleBuilder: (
-                                BuildContext flightContext,
-                                Animation<double> animation,
-                                HeroFlightDirection flightDirection,
-                                BuildContext fromHeroContext,
-                                BuildContext toHeroContext,
-                              ) {
-                                animation.addListener(() {
-                                  if ([
-                                    AnimationStatus.completed,
-                                    AnimationStatus.dismissed,
-                                  ].contains(animation.status)) {
-                                    setState(() {
-                                      _showHero = null;
-                                    });
-                                  }
-                                });
-                                final Hero hero = flightDirection ==
-                                            HeroFlightDirection.pop &&
-                                        _showHero != _ShowHero.forCloseZoom
-                                    ? fromHeroContext.widget
-                                    : toHeroContext.widget;
-                                return hero.child;
-                              },
-                            ),
-                          ),
-                        ),
-                      if (_isCarouselSlider)
-                        CarouselSlider(
-                          initialPage: _currentIndex,
-                          height: carouselSliderHeight,
-                          autoPlay: unit.images.length > 1,
-                          enableInfiniteScroll: unit.images.length > 1,
-                          pauseAutoPlayOnTouch: const Duration(seconds: 10),
-                          enlargeCenterPage: true,
-                          viewportFraction:
-                              UnitCarouselSliderSettings.viewportFraction,
-                          onPageChanged: (int index) {
-                            _currentIndex = index;
-                          },
-                          items: List.generate(unit.images.length, (int index) {
-                            return Container(
-                              width: size.width,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: UnitCarouselSliderSettings
-                                      .unitHorizontalMargin),
-                              child: Material(
-                                child: InkWell(
-                                  onLongPress:
-                                      () {}, // чтобы сократить время для splashColor
-                                  onTap: () async {
-                                    setState(() {
-                                      _showHero = _ShowHero.forOpenZoom;
-                                      _isCarouselSlider = false;
-                                    });
-                                    // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
-                                    // await SystemChrome.setPreferredOrientations([
-                                    //   DeviceOrientation.landscapeRight,
-                                    //   DeviceOrientation.landscapeLeft,
-                                    //   DeviceOrientation.portraitUp,
-                                    //   DeviceOrientation.portraitDown,
-                                    // ]);
-                                    // await Future.delayed(Duration(milliseconds: 100));
-                                    // ignore: unawaited_futures
-                                    Navigator.pushNamed(
-                                      context,
-                                      '/zoom',
-                                      arguments: ZoomRouteArguments(
-                                        unit,
-                                        tag: tag,
-                                        index: index,
-                                        onWillPop: _onWillPopForZoom,
-                                      ),
-                                    );
-                                  },
-                                  splashColor: Colors.white.withOpacity(0.4),
-                                  child: Ink.image(
-                                    fit: BoxFit.cover,
-                                    image: ExtendedImage.network(
-                                      unit.images[index].getDummyUrl(unit.id),
-                                      loadStateChanged: loadStateChanged,
-                                    ).image,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              // parallaxEnabled: true,
-              // parallaxOffset: .8,
-              maxHeight: _panelMaxHeight == null
-                  ? size.height
-                  : max(_panelMaxHeight, panelMinHeight),
-              minHeight: panelMinHeight,
-              panel: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    key: _panelColumnKey,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            width: (panelChildWidth - panelSlideLabelWidth) / 2,
-                            child: Row(
-                              children: <Widget>[
-                                unit.price == null
-                                    ? GiftButton(unit)
-                                    : PriceButton(unit),
-                                Spacer(),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: panelSlideLabelWidth,
-                            height: 4,
-                            decoration: ShapeDecoration(
-                              color: Colors.grey.withOpacity(0.3),
-                              shape: StadiumBorder(),
-                            ),
-                          ),
-                          Container(
-                            width: (panelChildWidth - panelSlideLabelWidth) / 2,
-                            child: Row(
-                              children: <Widget>[
-                                Spacer(),
-                                DistanceButton(onTap: () {
-                                  final savedIndex = _currentIndex;
-                                  setState(() {
-                                    _isCarouselSlider = false;
-                                  });
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/unit_map',
-                                    arguments: UnitMapRouteArguments(
-                                      unit,
-                                    ),
-                                  ).then((_) {
-                                    setState(() {
-                                      _currentIndex = savedIndex;
-                                      _isCarouselSlider = true;
-                                    });
-                                  });
-                                }),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      // TODO: как-то показывать текст, если не влезло (для маленьких экранов)
-                      Container(
-                        padding: EdgeInsets.only(top: 16),
-                        width: panelChildWidth,
-                        child: Text(
-                          unit.text,
-                          maxLines: 8,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      // if (!unit.isBlockedOrLocalDeleted)
-                      //   Container(
-                      //     padding: EdgeInsets.only(top: 16),
-                      //     width: panelChildWidth,
-                      //     child: Text(
-                      //       'Самовывоз',
-                      //       style: TextStyle(
-                      //         color: Colors.black.withOpacity(0.6),
-                      //       ),
-                      //     ),
-                      //   ),
-                      if (_otherUnits.isNotEmpty)
-                        Container(
-                          padding: EdgeInsets.only(top: 24),
-                          width: panelChildWidth,
-                          child: Text(
-                            'Другие лоты участника',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(0.8),
-                            ),
-                          ),
-                        ),
-                      if (_otherUnits.isNotEmpty)
-                        Container(
-                          padding: EdgeInsets.only(top: 16),
-                          width: size.width,
-                          height: getMagicHeight(otherUnitWidth),
-                          child: ListView.separated(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: separatorWidth,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _otherUnits.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final otherUnit = _otherUnits[index];
-                              return Container(
-                                width: otherUnitWidth,
-                                child: Material(
-                                  child: InkWell(
-                                    // TODO: т.к. картинки квадратные, можно переключать на следующую
-                                    // onLongPress: () {},
-                                    onLongPress:
-                                        () {}, // чтобы сократить время для splashColor
-                                    onTap: () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        '/unit',
-                                        (Route route) {
-                                          return route.settings.name != '/unit';
-                                        },
-                                        arguments: UnitRouteArguments(
-                                          otherUnit,
-                                          member: member,
-                                        ),
-                                      );
-                                    },
-                                    splashColor: Colors.white.withOpacity(0.4),
-                                    // child : Hero(
-                                    //   tag: otherUnit.id,
-                                    //   child:
-                                    child: Ink.image(
-                                      fit: BoxFit.cover,
-                                      image: ExtendedImage.network(
-                                        otherUnit.images[0]
-                                            .getDummyUrl(otherUnit.id),
-                                        loadStateChanged: loadStateChanged,
-                                      ).image,
-                                    ),
-                                    // ),
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                width: separatorWidth,
-                              );
-                            },
-                          ),
-                        ),
-                      SizedBox(
-                        height: 16 + kBigButtonHeight + 16 + 8,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: IgnorePointer(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: FractionalOffset.topCenter,
-                      end: FractionalOffset.bottomCenter,
-                      colors: <Color>[
-                        Colors.white.withOpacity(0.0),
-                        Colors.white.withOpacity(0.4),
-                      ],
-                    ),
-                  ),
-                  height: 16 + kBigButtonHeight * 1.5,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              left: 16,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: kBigButtonWidth,
-                    height: kBigButtonHeight,
-                    child: ShareButton(unit, iconSize: kBigButtonIconSize),
-                  ),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    width: kBigButtonWidth,
-                    height: kBigButtonHeight,
-                    child: WishButton(unit, iconSize: kBigButtonIconSize),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: SizedBox(
-                      height: kBigButtonHeight,
-                      child: WantButton(unit),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        body: SafeArea(child: child),
       ),
     );
   }

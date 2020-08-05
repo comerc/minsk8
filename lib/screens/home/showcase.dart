@@ -13,7 +13,7 @@ class HomeShowcase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Showcase(
+    final child = Showcase(
       key: showcaseKey,
       tabModels: kAllKinds,
       dataPool: HomeShowcase.dataPool,
@@ -21,5 +21,6 @@ class HomeShowcase extends StatelessWidget {
       poolForReloadTabs: HomeShowcase.poolForReloadTabs,
       hasAppBar: true,
     );
+    return SafeArea(child: child);
   }
 }

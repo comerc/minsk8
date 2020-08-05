@@ -30,7 +30,7 @@ class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget body = MapWidget(
+    Widget child = MapWidget(
       center: LatLng(
         appState['MyUnitMap.center'][0],
         appState['MyUnitMap.center'][1],
@@ -40,10 +40,10 @@ class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
       onPositionChanged: _onPositionChanged,
     );
     if (appState['MyUnitMap.isInfo'] ?? true) {
-      body = MapInfo(
+      child = MapInfo(
         text:
             'Укажите местоположение лота, чтобы участники поблизости его увидели',
-        child: body,
+        child: child,
         onClose: () {
           appState['MyUnitMap.isInfo'] = false;
           setState(() {});
@@ -52,7 +52,7 @@ class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
     }
     return Scaffold(
       appBar: PlacesAppBar(),
-      body: body,
+      body: SafeArea(child: child),
       resizeToAvoidBottomInset: false,
     );
   }

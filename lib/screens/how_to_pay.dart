@@ -40,7 +40,9 @@ class HowToPayScreen extends StatelessWidget {
       appBar: ExtendedAppBar(
         elevation: 0,
       ),
-      body: ScrollBody(child: child),
+      body: SafeArea(
+        child: ScrollBody(child: child),
+      ),
     );
   }
 }

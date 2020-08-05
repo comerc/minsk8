@@ -12,7 +12,9 @@ class ForgotPasswordScreen extends StatelessWidget {
         title: Text('Forgot Password'),
       ),
       drawer: MainDrawer('/forgot_password'),
-      body: ScrollBody(child: child),
+      body: SafeArea(
+        child: ScrollBody(child: child),
+      ),
     );
   }
 }

@@ -38,7 +38,7 @@ class StartMapScreenState extends State<StartMapScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: PlacesAppBar(),
-        body: body,
+        body: SafeArea(child: body),
         resizeToAvoidBottomInset: false,
       ),
     );

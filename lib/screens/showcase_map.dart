@@ -15,7 +15,7 @@ class ShowcaseMapScreen extends StatelessWidget {
     );
     return Scaffold(
       appBar: PlacesAppBar(),
-      body: body,
+      body: SafeArea(child: body),
     );
   }
 }

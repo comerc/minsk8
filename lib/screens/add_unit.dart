@@ -169,7 +169,9 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
             ),
           ],
         ),
-        body: ScrollBody(child: child),
+        body: SafeArea(
+          child: ScrollBody(child: child),
+        ),
       ),
     );
   }

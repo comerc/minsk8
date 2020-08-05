@@ -13,7 +13,7 @@ class HomeUnderway extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Showcase(
+    final child = Showcase(
       key: showcaseKey,
       tabModels: <UnderwayModel>[
         UnderwayModel(UnderwayValue.wish, 'Желаю'),
@@ -26,5 +26,6 @@ class HomeUnderway extends StatelessWidget {
       pullToRefreshNotificationKey: HomeUnderway.pullToRefreshNotificationKey,
       poolForReloadTabs: HomeUnderway.poolForReloadTabs,
     );
+    return SafeArea(child: child);
   }
 }

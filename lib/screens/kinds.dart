@@ -36,7 +36,7 @@ class KindsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Выберите категорию'),
       ),
-      body: body,
+      body: SafeArea(child: body),
     );
   }
 }

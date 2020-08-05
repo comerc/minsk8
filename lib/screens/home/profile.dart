@@ -42,11 +42,12 @@ class HomeProfileState extends State<HomeProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final statusBarHeight = MediaQuery.of(context).padding.top;
     final profile = Provider.of<ProfileModel>(context);
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(height: 16),
+        SizedBox(height: statusBarHeight + 16),
         Tooltip(
           message: 'Поменять аватарку',
           child: Avatar(
@@ -164,6 +165,6 @@ class HomeProfileState extends State<HomeProfile> {
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
-    return ScrollBody(child: child);
+    return child; // ScrollBody(child: child);
   }
 }

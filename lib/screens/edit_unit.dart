@@ -16,7 +16,9 @@ class EditUnitScreen extends StatelessWidget {
         title: Text('Edit Unit'),
       ),
       drawer: MainDrawer('/edit_unit'),
-      body: ScrollBody(child: child),
+      body: SafeArea(
+        child: ScrollBody(child: child),
+      ),
     );
   }
 }

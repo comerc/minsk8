@@ -236,7 +236,7 @@ class LedgerScreenState extends State<LedgerScreen> {
       appBar: AppBar(
         title: Text('Движение Кармы'),
       ),
-      body: body,
+      body: SafeArea(child: body),
     );
   }
 

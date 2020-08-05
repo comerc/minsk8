@@ -42,12 +42,13 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // drawer: isInDebugMode ? MainDrawer(null) : null,
-      appBar: PreferredSize(
-        child: Container(
-          color: Colors.white,
-        ),
-        preferredSize: Size.zero, // hack
-      ),
+      // это не нужно при использвании SafeArea
+      // appBar: PreferredSize(
+      //   child: Container(
+      //     color: Colors.white,
+      //   ),
+      //   preferredSize: Size.zero, // hack
+      // ),
       body: <Widget>[
         HomeShowcase(),
         HomeUnderway(),

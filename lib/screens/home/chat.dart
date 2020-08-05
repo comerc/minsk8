@@ -18,9 +18,10 @@ class HomeChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // тут не надо ScrollBody
-    return Center(
+    final child = Center(
       child: Text('chat'),
     );
+    return SafeArea(child: child);
   }
 }
 
