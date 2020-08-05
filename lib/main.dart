@@ -186,6 +186,8 @@ class App extends StatelessWidget {
                         create: (_) => DistanceModel()),
                     ChangeNotifierProvider<MyUnitMapModel>(
                         create: (_) => MyUnitMapModel()),
+                    ChangeNotifierProvider<AppBarModel>(
+                        create: (_) => AppBarModel()),
                   ],
                   child: MediaQueryWrap(child),
                 );

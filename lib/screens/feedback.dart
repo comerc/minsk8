@@ -90,8 +90,9 @@ class FeedbackScreen extends StatelessWidget {
     return Scaffold(
       appBar: ExtendedAppBar(
         elevation: 0,
+        backgroundColor: Colors.white,
       ),
-      body: buildScrollBody(child),
+      body: ScrollBody(child: child),
     );
   }
 }

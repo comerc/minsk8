@@ -17,7 +17,7 @@ class HomeChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // тут не надо buildScrollBody
+    // тут не надо ScrollBody
     return Center(
       child: Text('chat'),
     );

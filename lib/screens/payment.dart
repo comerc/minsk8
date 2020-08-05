@@ -345,7 +345,7 @@ class _PaymentScreenState extends State<PaymentScreen>
       ),
     );
     return Scaffold(
-      body: buildScrollBody(child),
+      body: ScrollBody(child: child),
     );
   }
 

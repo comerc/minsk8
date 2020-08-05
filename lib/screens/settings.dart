@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      body: buildScrollBody(child),
+      body: ScrollBody(child: child),
     );
   }
 

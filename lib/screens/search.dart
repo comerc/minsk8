@@ -9,7 +9,7 @@ class SearchScreen extends StatelessWidget {
         title: Text('Search'),
       ),
       drawer: MainDrawer('/search'),
-      // тут не надо buildScrollBody
+      // тут не надо ScrollBody
       body: Center(
         child: Text('xxx'),
       ),

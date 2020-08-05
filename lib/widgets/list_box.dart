@@ -36,20 +36,3 @@ class ListBox extends StatelessWidget {
     );
   }
 }
-
-Widget buildScrollBody(Widget child) {
-  return LayoutBuilder(
-    builder: (BuildContext context, BoxConstraints viewportConstraints) {
-      return SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: viewportConstraints.maxHeight,
-          ),
-          child: IntrinsicHeight(
-            child: child,
-          ),
-        ),
-      );
-    },
-  );
-}

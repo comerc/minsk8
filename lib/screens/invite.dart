@@ -68,7 +68,7 @@ class InviteScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      body: buildScrollBody(child),
+      body: ScrollBody(child: child),
     );
   }
 }

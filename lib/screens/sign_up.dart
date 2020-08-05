@@ -12,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
         title: Text('Sign Up'),
       ),
       drawer: MainDrawer('/sign_up'),
-      body: buildScrollBody(child),
+      body: ScrollBody(child: child),
     );
   }
 }

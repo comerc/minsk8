@@ -159,7 +159,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
+        appBar: ExtendedAppBar(
           title: Text('Что отдаёте?'),
           actions: <Widget>[
             IconButton(
@@ -169,7 +169,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
             ),
           ],
         ),
-        body: buildScrollBody(child),
+        body: ScrollBody(child: child),
       ),
     );
   }

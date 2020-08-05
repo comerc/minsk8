@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: променять везде AppBar на ExtendedAppBar
@@ -7,7 +8,7 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
   ExtendedAppBar({
     this.title,
     this.actions = const [],
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.elevation = kAppBarElevation, // ThemeData().appBarTheme.elevation,
   });
 
@@ -21,16 +22,19 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBarModel = Provider.of<AppBarModel>(context);
     return AppBar(
-      backgroundColor: backgroundColor,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       iconTheme: IconThemeData(
         color: Colors.black.withOpacity(0.8),
       ),
-      // TODO: должен появляться с анимацией, когда скролл уходит наверх
-      // https://medium.com/@cezary.zelisko/flutter-how-to-design-an-appbar-with-variable-elevation-b3ffd38ac1eb
-      elevation: elevation,
-      excludeHeaderSemantics: true,
-      titleSpacing: 0,
+      textTheme: Theme.of(context)
+          .primaryTextTheme
+          .apply(bodyColor: Colors.black.withOpacity(0.8)),
+      elevation: appBarModel.isElevation ? kAppBarElevation : 0,
+      // excludeHeaderSemantics: true,
+      // titleSpacing: 0,
       title: title,
       actions: actions,
       // automaticallyImplyLeading: false,
