@@ -12,8 +12,9 @@ class EditUnitScreen extends StatelessWidget {
       child: Text('xxx'),
     );
     return Scaffold(
-      appBar: AppBar(
+      appBar: ExtendedAppBar(
         title: Text('Edit Unit'),
+        withModel: true,
       ),
       drawer: MainDrawer('/edit_unit'),
       body: SafeArea(

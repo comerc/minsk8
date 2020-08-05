@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 // import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: добавить обработку ссылок
 // TODO: добавить переносы (like hyphenator)
@@ -36,7 +36,7 @@ class _ContentScreenState extends State<ContentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: ExtendedAppBar(
         title: Text(widget.title),
       ),
       body: SafeArea(

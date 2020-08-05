@@ -38,7 +38,7 @@ class HowToPayScreen extends StatelessWidget {
     );
     return Scaffold(
       appBar: ExtendedAppBar(
-        elevation: 0,
+        withModel: true,
       ),
       body: SafeArea(
         child: ScrollBody(child: child),

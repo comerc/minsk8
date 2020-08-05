@@ -5,11 +5,11 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = Center(
-      child: Text('xxx'),
+      child: Text('Sign Up'),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign Up'),
+      appBar: ExtendedAppBar(
+        withModel: true,
       ),
       drawer: MainDrawer('/sign_up'),
       body: SafeArea(

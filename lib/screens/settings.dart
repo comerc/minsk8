@@ -51,7 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ],
     );
     return Scaffold(
-      appBar: AppBar(
+      appBar: ExtendedAppBar(
         title: Text('Настройки'),
         actions: <Widget>[
           IconButton(
@@ -60,6 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: _handleOK,
           ),
         ],
+        withModel: true,
       ),
       body: SafeArea(
         child: ScrollBody(child: child),

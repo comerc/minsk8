@@ -168,6 +168,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
               onPressed: _handleAddUnit,
             ),
           ],
+          withModel: true,
         ),
         body: SafeArea(
           child: ScrollBody(child: child),

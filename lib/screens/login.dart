@@ -5,11 +5,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = Center(
-      child: Text('xxx'),
+      child: Text('Login'),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
+      appBar: ExtendedAppBar(
+        withModel: true,
       ),
       drawer: MainDrawer('/login'),
       body: SafeArea(

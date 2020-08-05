@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class ScrollBody extends StatefulWidget {
-  ScrollBody({this.child});
+  ScrollBody({this.child, this.withIntrinsicHeight = true});
 
   final Widget child;
+  final bool withIntrinsicHeight;
 
   @override
   _ScrollBodyState createState() {
@@ -20,6 +21,7 @@ class _ScrollBodyState extends State<ScrollBody> {
   @override
   void initState() {
     super.initState();
+    // TODO: reset _isElevation
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
   }
@@ -41,9 +43,11 @@ class _ScrollBodyState extends State<ScrollBody> {
             constraints: BoxConstraints(
               minHeight: viewportConstraints.maxHeight,
             ),
-            child: IntrinsicHeight(
-              child: widget.child,
-            ),
+            child: widget.withIntrinsicHeight
+                ? IntrinsicHeight(
+                    child: widget.child,
+                  )
+                : widget.child,
           ),
         );
       },

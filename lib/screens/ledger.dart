@@ -233,7 +233,7 @@ class LedgerScreenState extends State<LedgerScreen> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
+      appBar: ExtendedAppBar(
         title: Text('Движение Кармы'),
       ),
       body: SafeArea(child: body),

@@ -413,12 +413,14 @@ class _UnitScreenState extends State<UnitScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
+        appBar: ExtendedAppBar(
           title: _buildStatusText(unit),
           centerTitle: true,
-          backgroundColor: unit.isClosed
-              ? Colors.grey.withOpacity(0.8)
-              : Colors.pink.withOpacity(0.8),
+          withModel: true,
+          // TODO: переделать цветовую легенду статуса
+          // backgroundColor: unit.isClosed
+          //     ? Colors.grey.withOpacity(0.8)
+          //     : Colors.pink.withOpacity(0.8),
           actions: <Widget>[
             PopupMenuButton(
               onSelected: (_PopupMenuValue value) async {

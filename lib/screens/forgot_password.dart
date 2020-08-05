@@ -5,11 +5,11 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = Center(
-      child: Text('xxx'),
+      child: Text('Forgot Password'),
     );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Forgot Password'),
+      appBar: ExtendedAppBar(
+        withModel: true,
       ),
       drawer: MainDrawer('/forgot_password'),
       body: SafeArea(

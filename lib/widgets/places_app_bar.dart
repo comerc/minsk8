@@ -21,7 +21,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
   @override
   Widget build(context) {
     return _isPlaces
-        ? AppBar(
+        ? ExtendedAppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
               tooltip: 'Назад',
@@ -51,7 +51,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
               )
             ],
           )
-        : AppBar(
+        : ExtendedAppBar(
             title: Text('Местоположение'),
             actions: <Widget>[
               IconButton(
