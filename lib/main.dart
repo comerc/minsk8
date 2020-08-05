@@ -222,17 +222,12 @@ class App extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         '/make_it_together': (_) => ContentScreen('make_it_together.html',
             title: 'Сделаем это вместе!'),
-        '/my_unit_map': (_) => MyUnitMapScreen(),
         '/search': (_) => SearchScreen(),
         '/settings': (_) => SettingsScreen(),
-        '/showcase_map': (_) => ShowcaseMapScreen(),
         '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
-        '/start_map': (_) => StartMapScreen(),
         '/unit': (BuildContext context) =>
             UnitScreen(ModalRoute.of(context).settings.arguments),
-        '/unit_map': (BuildContext context) =>
-            UnitMapScreen(ModalRoute.of(context).settings.arguments),
         '/useful_tips': (_) =>
             ContentScreen('useful_tips.html', title: 'Полезные советы'),
         '/zoom': (BuildContext context) =>
@@ -240,10 +235,16 @@ class App extends StatelessWidget {
       },
       onGenerateRoute: (RouteSettings settings) {
         final fullScreenDialogRoutes = <String, WidgetBuilder>{
+          // TODO: перенести сюда другие роуты
           '/how_to_pay': (_) => HowToPayScreen(),
           '/feedback': (_) => FeedbackScreen(),
           '/invite': (_) => InviteScreen(),
+          '/my_unit_map': (_) => MyUnitMapScreen(),
           '/payment': (_) => PaymentScreen(),
+          '/showcase_map': (_) => ShowcaseMapScreen(),
+          '/start_map': (_) => StartMapScreen(),
+          '/unit_map': (BuildContext context) =>
+              UnitMapScreen(ModalRoute.of(context).settings.arguments),
         };
         if (fullScreenDialogRoutes.containsKey(settings.name)) {
           final widgetBuilder = fullScreenDialogRoutes[settings.name];
