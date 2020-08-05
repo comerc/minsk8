@@ -80,11 +80,13 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
                 height: (panelChildWidth - gridSpacing) / 2,
                 width: panelChildWidth,
                 child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
                   crossAxisSpacing: gridSpacing,
                   crossAxisCount: 2,
                   children: <Widget>[
                     _buildAddImageButton(0),
                     GridView.count(
+                      physics: NeverScrollableScrollPhysics(),
                       mainAxisSpacing: gridSpacing,
                       crossAxisSpacing: gridSpacing,
                       crossAxisCount: 2,
