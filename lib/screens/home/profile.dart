@@ -165,6 +165,6 @@ class HomeProfileState extends State<HomeProfile> {
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
-    return child; // ScrollBody(child: child);
+    return ScrollBody(child: child);
   }
 }

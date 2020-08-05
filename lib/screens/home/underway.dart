@@ -26,6 +26,9 @@ class HomeUnderway extends StatelessWidget {
       pullToRefreshNotificationKey: HomeUnderway.pullToRefreshNotificationKey,
       poolForReloadTabs: HomeUnderway.poolForReloadTabs,
     );
-    return SafeArea(child: child);
+    return SafeArea(
+      child: child,
+      bottom: false,
+    );
   }
 }

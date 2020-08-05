@@ -21,7 +21,10 @@ class HomeChat extends StatelessWidget {
     final child = Center(
       child: Text('chat'),
     );
-    return SafeArea(child: child);
+    return SafeArea(
+      child: child,
+      bottom: false,
+    );
   }
 }
 

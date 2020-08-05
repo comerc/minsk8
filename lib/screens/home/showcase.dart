@@ -21,6 +21,9 @@ class HomeShowcase extends StatelessWidget {
       poolForReloadTabs: HomeShowcase.poolForReloadTabs,
       hasAppBar: true,
     );
-    return SafeArea(child: child);
+    return SafeArea(
+      child: child,
+      bottom: false,
+    );
   }
 }
