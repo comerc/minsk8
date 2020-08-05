@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+// import 'package:html2md/html2md.dart' as html2md;
+// import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:http_client_helper/http_client_helper.dart';
-import 'package:minsk8/import.dart';
 import 'package:recursive_regex/recursive_regex.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: добавить копирайт algolia и osm
@@ -160,10 +162,10 @@ class _PlacesState extends State<Places> {
     return null;
   }
 
-  // TODO: показывает <em> в subtitles по значению "парковая ждан"
-  // https://github.com/flutter/flutter_markdown/issues/237
+  // альтернатива https://github.com/flutter/flutter_markdown/issues/237
   // Widget _highlight(String data) {
-  //   return MarkdownBody(data: html2md.convert(data));
+  //   return MarkdownBody(
+  //       data: html2md.convert(data, styleOptions: {'emDelimiter': '*'}));
   // }
 }
 
