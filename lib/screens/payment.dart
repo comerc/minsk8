@@ -3,7 +3,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: добавить подпись "выгода"
 
-const Duration _kDuration = Duration(milliseconds: 400);
+const _kDuration = Duration(milliseconds: 400);
+const _kCurve = Curves.fastOutSlowIn;
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -40,15 +41,17 @@ class _PaymentScreenState extends State<PaymentScreen>
     final shadowWidth =
         (commonWidth * lengthInScreen - activeWidth) / (lengthInScreen - 1);
     final borderWidth = 1.0;
-    final shadowHeight = shadowWidth / kGoldenRatio;
+    final shadowHeight = (shadowWidth / 2) * kGoldenRatio;
     final shadowHeaderHeight = shadowHeight * kGoldenRatio - shadowHeight;
     final shadowFooterHeight = shadowHeight - shadowHeaderHeight;
-    final activeHeight = activeWidth / kGoldenRatio;
+    final activeHeight = (activeWidth / 2) * kGoldenRatio;
     final activeHeaderHeight = activeHeight / 2;
     final activeFooterHeight = activeHeight - activeHeaderHeight;
-    final shadowLineHeight = 16.0;
+    final shadowDiscontHeight = 16.0;
     final priceBottomPadding = 6.0;
     final borderOpacity = 0.3;
+    final activeDiscontHeight = 33.0;
+    final activeDiscountPadding = 10.0;
     final child = Container(
       alignment: Alignment.topCenter,
       color: Colors.white,
@@ -108,6 +111,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                       return Center(
                         child: AnimatedContainer(
                           duration: _kDuration,
+                          curve: _kCurve,
                           width: isActive ? activeWidth : shadowWidth,
                           height: isActive ? activeHeight : shadowHeight,
                           child: ClipRRect(
@@ -118,6 +122,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                               children: <Widget>[
                                 AnimatedOpacity(
                                   duration: _kDuration,
+                                  curve: _kCurve,
                                   opacity: isActive ? borderOpacity : 0,
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -148,6 +153,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                   children: <Widget>[
                                     AnimatedContainer(
                                       duration: _kDuration,
+                                      curve: _kCurve,
                                       height: isActive
                                           ? activeHeaderHeight
                                           : shadowHeaderHeight,
@@ -174,35 +180,61 @@ class _PaymentScreenState extends State<PaymentScreen>
                                       ),
                                     ),
                                     if (index != 0)
-                                      Stack(
-                                        fit: StackFit.passthrough,
-                                        children: <Widget>[
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: <Color>[
-                                                  Colors.deepOrange,
-                                                  Colors.yellow
-                                                ],
-                                                tileMode: TileMode.mirror,
-                                                begin: Alignment.topLeft,
-                                                end: Alignment(0.8, 1.2),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: <Color>[
+                                              Colors.deepOrange,
+                                              Colors.yellow
+                                            ],
+                                            tileMode: TileMode.mirror,
+                                            begin: Alignment.topLeft,
+                                            end: Alignment(0.8, 1.2),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: <Widget>[
+                                            AnimatedPadding(
+                                              duration: _kDuration,
+                                              curve: _kCurve,
+                                              padding: EdgeInsets.only(
+                                                  top: isActive
+                                                      ? activeDiscountPadding
+                                                      : 0),
+                                              child: AnimatedContainer(
+                                                duration: _kDuration,
+                                                curve: _kCurve,
+                                                height: isActive
+                                                    ? activeDiscontHeight -
+                                                        activeDiscountPadding
+                                                    : shadowDiscontHeight,
+                                                child: FittedBox(
+                                                  child: Text(
+                                                    '+ $discount%',
+                                                    style: TextStyle(
+                                                      fontSize: kFontSize,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                            padding: EdgeInsets.only(
-                                                top: shadowLineHeight),
-                                            child: ClipRect(
+                                            ClipRect(
                                               child: ExtendedAnimatedAlign(
                                                 duration: _kDuration,
+                                                curve: _kCurve,
                                                 alignment: Alignment.topCenter,
                                                 heightFactor: isActive ? 1 : 0,
                                                 child: AnimatedContainer(
                                                   duration: _kDuration,
+                                                  curve: _kCurve,
                                                   height: isActive
                                                       ? activeFooterHeight -
-                                                          shadowLineHeight
+                                                          activeDiscontHeight
                                                       : shadowFooterHeight -
-                                                          shadowLineHeight,
+                                                          shadowDiscontHeight,
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   padding: EdgeInsets.only(
@@ -218,34 +250,14 @@ class _PaymentScreenState extends State<PaymentScreen>
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          AnimatedPadding(
-                                            duration: _kDuration,
-                                            padding: EdgeInsets.only(
-                                                top: isActive ? 10 : 0),
-                                            child: AnimatedContainer(
-                                              duration: _kDuration,
-                                              height: isActive
-                                                  ? 23
-                                                  : shadowLineHeight,
-                                              child: FittedBox(
-                                                child: Text(
-                                                  '+ $discount%',
-                                                  style: TextStyle(
-                                                    fontSize: kFontSize,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                   ],
                                 ),
                                 AnimatedOpacity(
                                   duration: _kDuration,
+                                  curve: _kCurve,
                                   opacity: isActive ? 0 : borderOpacity,
                                   child: Container(color: Colors.grey),
                                 ),
