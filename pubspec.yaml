@@ -70,8 +70,8 @@ dependencies:
   auto_orientation: 1.0.6
   font_awesome_flutter: 8.5.0
 
-  # flutter_markdown: 0.3.2
-  webview_flutter: 0.3.22+1
+  flutter_markdown: 0.3.2
+  # webview_flutter: 0.3.22+1
 
   provider: 4.1.3
 

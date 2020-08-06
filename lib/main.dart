@@ -216,18 +216,18 @@ class App extends StatelessWidget {
         '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
         '/_notifiaction': (_) => NotificationScreen(),
         // ****
-        '/about': (_) => ContentScreen('about.html', title: 'О проекте'),
-        '/faq': (_) => ContentScreen('faq.html', title: 'Вопросы и ответы'),
+        '/about': (_) => ContentScreen('about.md', title: 'О проекте'),
+        '/faq': (_) => ContentScreen('faq.md', title: 'Вопросы и ответы'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/how_it_works': (_) =>
-            ContentScreen('how_it_works.html', title: 'Как это работает?'),
+            ContentScreen('how_it_works.md', title: 'Как это работает?'),
         '/ledger': (_) => LedgerScreen(),
-        '/make_it_together': (_) => ContentScreen('make_it_together.html',
-            title: 'Сделаем это вместе!'),
+        '/make_it_together': (_) =>
+            ContentScreen('make_it_together.md', title: 'Сделаем это вместе!'),
         '/search': (_) => SearchScreen(),
         '/start': (_) => StartScreen(),
         '/useful_tips': (_) =>
-            ContentScreen('useful_tips.html', title: 'Полезные советы'),
+            ContentScreen('useful_tips.md', title: 'Полезные советы'),
       },
       onGenerateRoute: (RouteSettings settings) {
         final fullScreenDialogRoutes = <String, WidgetBuilder>{
