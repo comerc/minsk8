@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: добавить подпись "выгода"
 
+// TODO: для производительности (?) вынести все обработчики, типа _handlePress()
+
 const _kDuration = Duration(milliseconds: 400);
 const _kCurve = Curves.fastOutSlowIn;
 
