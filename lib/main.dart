@@ -208,43 +208,42 @@ class App extends StatelessWidget {
         '/_notifiaction': (_) => NotificationScreen(),
         // ****
         '/about': (_) => ContentScreen('about.html', title: 'О проекте'),
-        '/add_unit': (BuildContext context) =>
-            AddUnitScreen(ModalRoute.of(context).settings.arguments),
-        '/edit_unit': (BuildContext context) =>
-            EditUnitScreen(ModalRoute.of(context).settings.arguments),
         '/faq': (_) => ContentScreen('faq.html', title: 'Вопросы и ответы'),
         '/forgot_password': (_) => ForgotPasswordScreen(),
         '/how_it_works': (_) =>
             ContentScreen('how_it_works.html', title: 'Как это работает?'),
-        '/kinds': (BuildContext context) =>
-            KindsScreen(ModalRoute.of(context).settings.arguments),
         '/ledger': (_) => LedgerScreen(),
-        '/login': (_) => LoginScreen(),
         '/make_it_together': (_) => ContentScreen('make_it_together.html',
             title: 'Сделаем это вместе!'),
         '/search': (_) => SearchScreen(),
-        '/settings': (_) => SettingsScreen(),
-        '/sign_up': (_) => SignUpScreen(),
         '/start': (_) => StartScreen(),
-        '/unit': (BuildContext context) =>
-            UnitScreen(ModalRoute.of(context).settings.arguments),
         '/useful_tips': (_) =>
             ContentScreen('useful_tips.html', title: 'Полезные советы'),
-        '/zoom': (BuildContext context) =>
-            ZoomScreen(ModalRoute.of(context).settings.arguments),
       },
       onGenerateRoute: (RouteSettings settings) {
         final fullScreenDialogRoutes = <String, WidgetBuilder>{
-          // TODO: перенести сюда другие роуты
-          '/how_to_pay': (_) => HowToPayScreen(),
+          '/add_unit': (BuildContext context) =>
+              AddUnitScreen(ModalRoute.of(context).settings.arguments),
+          '/edit_unit': (BuildContext context) =>
+              EditUnitScreen(ModalRoute.of(context).settings.arguments),
           '/feedback': (_) => FeedbackScreen(),
+          '/how_to_pay': (_) => HowToPayScreen(),
           '/invite': (_) => InviteScreen(),
+          '/kinds': (BuildContext context) =>
+              KindsScreen(ModalRoute.of(context).settings.arguments),
+          '/login': (_) => LoginScreen(),
           '/my_unit_map': (_) => MyUnitMapScreen(),
           '/payment': (_) => PaymentScreen(),
+          '/settings': (_) => SettingsScreen(),
           '/showcase_map': (_) => ShowcaseMapScreen(),
+          '/sign_up': (_) => SignUpScreen(),
           '/start_map': (_) => StartMapScreen(),
+          '/unit': (BuildContext context) =>
+              UnitScreen(ModalRoute.of(context).settings.arguments),
           '/unit_map': (BuildContext context) =>
               UnitMapScreen(ModalRoute.of(context).settings.arguments),
+          '/zoom': (BuildContext context) =>
+              ZoomScreen(ModalRoute.of(context).settings.arguments),
         };
         if (fullScreenDialogRoutes.containsKey(settings.name)) {
           final widgetBuilder = fullScreenDialogRoutes[settings.name];
