@@ -116,6 +116,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // print('App build');
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: isInDebugMode,
@@ -124,8 +125,16 @@ class App extends StatelessWidget {
       // theme: ThemeData(
       //   //   primarySwatch: mapBoxBlue,
       //   //   visualDensity: VisualDensity.adaptivePlatformDensity
-      //   appBarTheme: AppBarTheme(brightness: Brightness.light),
       // ),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: kAppBarElevation,
+          iconTheme: theme.iconTheme,
+          actionsIconTheme: theme.iconTheme,
+          color: theme.scaffoldBackgroundColor,
+          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
+        ),
+      ),
       builder: (BuildContext context, Widget child) {
         final client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds

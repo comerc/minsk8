@@ -22,7 +22,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
   Widget build(context) {
     return _isPlaces
         ? ExtendedAppBar(
-            backgroundColor: Colors.white,
+            isForeground: true,
             leading: IconButton(
               tooltip: 'Назад',
               icon: Icon(

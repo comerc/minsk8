@@ -89,7 +89,7 @@ class FeedbackScreen extends StatelessWidget {
     );
     return Scaffold(
       appBar: ExtendedAppBar(
-        backgroundColor: Colors.white,
+        isForeground: true,
         withModel: true,
       ),
       body: SafeArea(

@@ -5,6 +5,7 @@ import 'package:minsk8/import.dart';
 class ShowcaseAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // TODO: заменить на стандартный AppBar
     return Container(
       color: Colors.white,
       child: Row(
@@ -18,11 +19,7 @@ class ShowcaseAppBar extends StatelessWidget {
               Container(
                 child: Text(
                   'Без названия',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black.withOpacity(0.8),
-                  ),
+                  style: AppBarTheme.of(context).textTheme.headline6,
                 ),
               ),
               Container(
