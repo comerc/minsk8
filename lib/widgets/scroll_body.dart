@@ -15,13 +15,14 @@ class ScrollBody extends StatefulWidget {
 }
 
 class _ScrollBodyState extends State<ScrollBody> {
+  Future _future;
   ScrollController _controller;
   var _isElevation = false;
 
   @override
   void initState() {
     super.initState();
-    // TODO: reset _isElevation
+    _future = _reset();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
   }
@@ -35,21 +36,31 @@ class _ScrollBodyState extends State<ScrollBody> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          controller: _controller,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: widget.withIntrinsicHeight
-                ? IntrinsicHeight(
-                    child: widget.child,
-                  )
-                : widget.child,
-          ),
-        );
+    return FutureBuilder(
+      // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return LayoutBuilder(
+            builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
+              return SingleChildScrollView(
+                controller: _controller,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                  ),
+                  child: widget.withIntrinsicHeight
+                      ? IntrinsicHeight(
+                          child: widget.child,
+                        )
+                      : widget.child,
+                ),
+              );
+            },
+          );
+        }
+        return Container();
       },
     );
   }
@@ -60,5 +71,10 @@ class _ScrollBodyState extends State<ScrollBody> {
       final appBarModel = Provider.of<AppBarModel>(context, listen: false);
       appBarModel.isElevation = _isElevation;
     }
+  }
+
+  Future<void> _reset() async {
+    final appBarModel = Provider.of<AppBarModel>(context, listen: false);
+    appBarModel.isElevation = false;
   }
 }
