@@ -43,17 +43,20 @@ class _PaymentScreenState extends State<PaymentScreen>
     final shadowWidth =
         (commonWidth * lengthInScreen - activeWidth) / (lengthInScreen - 1);
     final borderWidth = 1.0;
-    final shadowHeight = getMagicHeight(shadowWidth);
+    final shadowHeight =
+        shadowWidth * kGoldenRatio; // getMagicHeight(shadowWidth);
     final shadowHeaderHeight = shadowHeight * kGoldenRatio - shadowHeight;
     final shadowFooterHeight = shadowHeight - shadowHeaderHeight;
-    final activeHeight = getMagicHeight(activeWidth);
+    final activeHeight =
+        activeWidth * kGoldenRatio; // getMagicHeight(activeWidth);
     final activeHeaderHeight = activeHeight / 2;
     final activeFooterHeight = activeHeight - activeHeaderHeight;
-    final shadowDiscontHeight = 16.0;
+    final shadowDiscontHeight = 18.0 * 2;
     final priceBottomPadding = 6.0;
     final borderOpacity = 0.3;
-    final activeDiscontHeight = 33.0;
-    final activeDiscountPadding = 10.0;
+    final activeDiscontHeight = 33.0 * 2;
+    final activeDiscountPadding = 8.0;
+    final shadowDiscountPadding = 4.0;
     final child = Container(
       alignment: Alignment.topCenter,
       color: Colors.white,
@@ -199,20 +202,24 @@ class _PaymentScreenState extends State<PaymentScreen>
                                             AnimatedPadding(
                                               duration: _kDuration,
                                               curve: _kCurve,
-                                              padding: EdgeInsets.only(
-                                                  top: isActive
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: isActive
                                                       ? activeDiscountPadding
-                                                      : 0),
+                                                      : shadowDiscountPadding),
                                               child: AnimatedContainer(
                                                 duration: _kDuration,
                                                 curve: _kCurve,
                                                 height: isActive
                                                     ? activeDiscontHeight -
-                                                        activeDiscountPadding
-                                                    : shadowDiscontHeight,
+                                                        activeDiscountPadding *
+                                                            2
+                                                    : shadowDiscontHeight -
+                                                        shadowDiscountPadding *
+                                                            2,
                                                 child: FittedBox(
                                                   child: Text(
-                                                    '+ $discount%',
+                                                    'ВЫГОДА\n$discount%',
+                                                    textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontSize: kFontSize,
                                                       color: Colors.white,
