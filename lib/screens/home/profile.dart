@@ -9,6 +9,7 @@ import 'package:minsk8/import.dart';
 // TODO: при изменении аватарки или баланса - нужно оповещать другие свои устройства
 
 // TODO: AboutDialog - показывает все лицензии, используемые в приложении (см. "Flutter Widget of the Week")
+// TODO: showLicensePage
 
 class HomeProfile extends StatefulWidget {
   HomeProfile({this.version, this.hasUpdate});
@@ -145,8 +146,7 @@ class HomeProfileState extends State<HomeProfile> {
           },
         ),
         Spacer(),
-        if (widget.hasUpdate)
-          Text('Доступна новая версия'),
+        if (widget.hasUpdate) Text('Доступна новая версия'),
         if (widget.hasUpdate)
           OutlineButton(
             // TODO: почему не установить цвет для OutlineButton

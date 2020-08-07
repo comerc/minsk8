@@ -6,6 +6,7 @@ import 'package:minsk8/import.dart';
 // TODO: внедрить свайпы для переходов между картинками,
 // для этого нужна карусель на одном общем Screen - PageView
 // TODO: Исследовать ExtendedImage.heroBuilderForSlidingPage
+// TODO: InteractiveViewer
 
 class ZoomScreen extends StatefulWidget {
   ZoomScreen(this.arguments);
