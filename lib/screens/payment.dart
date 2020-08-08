@@ -51,12 +51,12 @@ class _PaymentScreenState extends State<PaymentScreen>
         activeWidth * kGoldenRatio; // getMagicHeight(activeWidth);
     final activeHeaderHeight = activeHeight / 2;
     final activeFooterHeight = activeHeight - activeHeaderHeight;
-    final shadowDiscontHeight = 18.0 * 2;
+    final shadowDiscontHeight = 14.0 * 2; // TODO: зависит от shadowHeight
     final priceBottomPadding = 6.0;
     final borderOpacity = 0.3;
-    final activeDiscontHeight = 33.0 * 2;
+    final activeDiscontHeight = 28.0 * 2; // TODO: зависит от activeHeight
     final activeDiscountPadding = 8.0;
-    final shadowDiscountPadding = 4.0;
+    final shadowDiscountPadding = 2.0;
     final child = Container(
       alignment: Alignment.topCenter,
       color: Colors.white,
