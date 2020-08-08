@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:device_preview/device_preview.dart' hide DeviceOrientation;
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +82,14 @@ void main() {
       selectNotificationSubject.add(payload);
     });
     // TODO: locale autodetect
+    // await initializeDateFormatting('en_US', null);
     await initializeDateFormatting('ru_RU', null);
+    // runApp(
+    //   DevicePreview(
+    //     enabled: isInDebugMode,
+    //     builder: (BuildContext context) => App(),
+    //   ),
+    // );
     runApp(App());
   }, (error, stackTrace) {
     print(error);
@@ -123,6 +132,16 @@ class App extends StatelessWidget {
     Widget result = MaterialApp(
       debugShowCheckedModeBanner: isInDebugMode,
       navigatorObservers: <NavigatorObserver>[observer],
+      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
+      // locale: DevicePreview.of(context).locale,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('en', 'US'), // English
+      //   Locale('ru', 'RU'), // Russian
+      // ],
       title: 'minsk8',
       // theme: ThemeData(
       //   //   primarySwatch: mapBoxBlue,
@@ -138,6 +157,9 @@ class App extends StatelessWidget {
         ),
       ),
       builder: (BuildContext context, Widget child) {
+        // if (isInDebugMode) {
+        //   child = DevicePreview.appBuilder(context, child);
+        // }
         App.analytics.setCurrentScreen(screenName: '/app');
         final client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds
