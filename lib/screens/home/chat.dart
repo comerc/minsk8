@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 // https://beltran.work/blog/building-a-messaging-app-in-flutter-part-i-project-structure/
 // https://getstream.io/chat/
 // https://pub.dev/packages/flutter_chat
+// https://github.com/AmitJoki/Enigma
 
 class HomeChat extends StatelessWidget {
   // Chat(this.arguments);

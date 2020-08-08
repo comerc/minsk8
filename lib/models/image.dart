@@ -3,6 +3,9 @@ import 'package:minsk8/import.dart';
 
 part 'image.g.dart';
 
+// TODO: Building Image CDN with Firebase
+// https://dev.to/dbanisimov/building-image-cdn-with-firebase-15ef
+
 @JsonSerializable()
 class ImageModel {
   ImageModel({

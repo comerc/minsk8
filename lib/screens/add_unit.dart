@@ -14,6 +14,7 @@ import 'package:minsk8/import.dart';
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
 // TODO: прикрутить characters для выяснения размера введенного текста
 // TODO: кнопка ГОТОВО прибита книзу на маленьких экранах?
+// TODO: (баг) фокус на поле ввода > скролл до появления elevation > убрать клаву > elevation остаётся
 
 enum ImageUploadStatus { progress, error }
 
