@@ -34,6 +34,7 @@ import 'package:minsk8/import.dart';
 // TODO: пока загружается аватарка - показывать ожидание
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
 // TODO: flutter telegram-auth
+// TODO: Splitting widgets to methods is an antipattern (see Google) - перепроверить для _buildChild() и _handleTap()
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
