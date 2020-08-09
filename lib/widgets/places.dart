@@ -146,9 +146,9 @@ class _PlacesState extends State<Places> {
           body: jsonEncode(data),
           headers: headers,
           cancelToken: cancellationToken,
-          // timeRetry: Duration(milliseconds: 100),
+          // timeRetry: const Duration(milliseconds: 100),
           // retries: 3,
-          timeLimit: Duration(seconds: 5));
+          timeLimit: const Duration(seconds: 5));
       final result = jsonDecode(response.body);
       return result;
     } on TimeoutException catch (_) {

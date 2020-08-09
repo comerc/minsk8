@@ -22,7 +22,7 @@ class WishButton extends StatefulWidget {
 
 class _WishButtonState extends State<WishButton> {
   Timer _timer;
-  final animationDuration = Duration(milliseconds: 1000);
+  final animationDuration = const Duration(milliseconds: 1000);
 
   @override
   void dispose() {
