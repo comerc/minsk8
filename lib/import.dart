@@ -74,7 +74,6 @@ export 'screens/unit_map.dart';
 export 'screens/unit.dart';
 export 'screens/zoom.dart';
 
-export 'widgets/add_button.dart';
 export 'widgets/add_image_button.dart';
 export 'widgets/added_unit_dailog.dart';
 export 'widgets/address_text.dart';

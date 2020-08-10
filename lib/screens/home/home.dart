@@ -33,7 +33,7 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _initVersion();
-    // TODO: реализовать hasUpdate
+    // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
     App.analytics.setCurrentScreen(screenName: '/home');
   }
@@ -56,13 +56,7 @@ class HomeScreenState extends State<HomeScreen> {
         HomeProfile(version: _version, hasUpdate: _hasUpdate),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: buildAddButton(
-        context,
-        getTabIndex: () => AddUnitRouteArgumentsTabIndex(
-          showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
-          underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
-        ),
-      ),
+      floatingActionButton: _buildAddButton(),
       bottomNavigationBar: NavigationBar(
         tabIndex: _tabIndex,
         onChangeTabIndex: _onChangeTabIndex,
@@ -150,5 +144,37 @@ class HomeScreenState extends State<HomeScreen> {
     if (mounted && _tabIndex == 3) {
       setState(() {});
     }
+  }
+
+  Widget _buildAddButton() {
+    return FloatingActionButton(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.pinkAccent,
+      onPressed: () {
+        Navigator.pushNamed(
+          context,
+          '/kinds',
+        ).then((kind) {
+          if (kind == null) return;
+          Navigator.pushNamed(
+            context,
+            '/add_unit',
+            arguments: AddUnitRouteArguments(
+              kind: kind,
+              tabIndex: AddUnitRouteArgumentsTabIndex(
+                showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
+                underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
+              ),
+            ),
+          );
+        });
+      },
+      tooltip: 'Add Unit',
+      child: Icon(
+        Icons.add,
+        size: kBigButtonIconSize * 1.2,
+      ),
+      elevation: kButtonElevation,
+    );
   }
 }
