@@ -163,7 +163,7 @@ class Queries {
         unit_id
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getMyPayments = gql(r'''
     query getMyPayments($next_created_at: timestamptz) {
