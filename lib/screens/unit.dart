@@ -9,7 +9,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
-// TODO: как отказаться от лота до окончания таймера, по которому мной включён таймер?
+// TODO: [MVP] как отказаться от лота до окончания таймера, по которому мной включён таймер?
 
 class UnitScreen extends StatefulWidget {
   UnitScreen(this.arguments);
@@ -311,7 +311,7 @@ class _UnitScreenState extends State<UnitScreen> {
                             width: otherUnitWidth,
                             child: Material(
                               child: InkWell(
-                                // TODO: т.к. картинки квадратные, можно переключать на следующую
+                                // TODO: переключать на следующую картинку
                                 // onLongPress: () {},
                                 onLongPress:
                                     () {}, // чтобы сократить время для splashColor
@@ -417,7 +417,7 @@ class _UnitScreenState extends State<UnitScreen> {
           title: _buildStatusText(unit),
           centerTitle: true,
           withModel: true,
-          // TODO: переделать цветовую легенду статуса
+          // TODO: [MVP] переделать цветовую легенду статуса
           // backgroundColor: unit.isClosed
           //     ? Colors.grey.withOpacity(0.8)
           //     : Colors.pink.withOpacity(0.8),

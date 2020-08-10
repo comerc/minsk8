@@ -47,7 +47,7 @@ class InviteScreen extends StatelessWidget {
                 FlatButton(
                   child: Text('Пригласить друзей'),
                   onPressed: () {
-                    // TODO: go to share link
+                    // TODO: [MVP] go to share link
                   },
                   color: Colors.green,
                   textColor: Colors.white,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: flutter_secure_storage для хранения токена авторизации?
-// TODO: реализовать авторизацию через: FB, Google, Apple Id, VK, Telegram
+// TODO: [MVP] реализовать авторизацию через: FB, Google, Apple Id, VK, Telegram
 
 class LoginScreen extends StatelessWidget {
   @override

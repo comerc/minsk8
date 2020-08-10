@@ -64,7 +64,7 @@ void share(UnitModel unit) async {
   final shortLink = await parameters.buildShortLink();
   final url = shortLink.shortUrl;
   // print('${unit.id} $url');
-  // TODO: изменить тексты
+  // TODO: [MVP] изменить тексты
   // ignore: unawaited_futures
   Share.share(
     'check out my website $url',

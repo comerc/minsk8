@@ -1,7 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-// TODO: разблюдовать Fragments.fragments
-
 class Fragments {
   static final fragments = gql(r'''
     fragment unitFields on unit {

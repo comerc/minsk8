@@ -57,7 +57,7 @@ class FeedbackScreen extends StatelessWidget {
                   child: Text('Оценить приложение'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    // TODO: how to open market?
+                    // TODO: [MVP] how to open market?
                     // launch_review
                     // For iOS 9 and above, your Info.plist file MUST have the following:
                     // <key>LSApplicationQueriesSchemes</key>

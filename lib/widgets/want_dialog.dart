@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:minsk8/import.dart';
 import 'package:provider/provider.dart';
 
-// TODO: кнопка ОК и её функционал
+// TODO: [MVP] кнопка ОК и её функционал
 // https://hasura.io/docs/1.0/graphql/manual/api-reference/schema-metadata-api/scheduled-triggers.html
 // https://hasura.io/docs/1.0/graphql/manual/scheduled-triggers/create-one-off-scheduled-event.html
 

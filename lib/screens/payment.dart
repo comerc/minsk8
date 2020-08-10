@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: добавить подпись "выгода"
-
 // TODO: для производительности (?) вынести все обработчики, типа _handlePress()
 
 const _kDuration = Duration(milliseconds: 400);
@@ -51,10 +49,10 @@ class _PaymentScreenState extends State<PaymentScreen>
         activeWidth * kGoldenRatio; // getMagicHeight(activeWidth);
     final activeHeaderHeight = activeHeight / 2;
     final activeFooterHeight = activeHeight - activeHeaderHeight;
-    final shadowDiscontHeight = 14.0 * 2; // TODO: зависит от shadowHeight
+    final shadowDiscontHeight = 14.0 * 2; // TODO: [MVP] зависит от shadowHeight
     final priceBottomPadding = 6.0;
     final borderOpacity = 0.3;
-    final activeDiscontHeight = 28.0 * 2; // TODO: зависит от activeHeight
+    final activeDiscontHeight = 28.0 * 2; // TODO: [MVP] зависит от activeHeight
     final activeDiscountPadding = 8.0;
     final shadowDiscountPadding = 2.0;
     final child = Container(
@@ -360,7 +358,7 @@ class _PaymentScreenState extends State<PaymentScreen>
 
   void _handlePayment() {
     print(_activeIndex);
-    // TODO: подключить оплату
+    // TODO: [MVP] подключить оплату
     // huawei_iap
     // in_app_purchase
     // purchases-flutter

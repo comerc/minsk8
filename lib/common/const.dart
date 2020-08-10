@@ -13,7 +13,7 @@ const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
 const kGraphQLEndpoint = 'https://minsk8.herokuapp.com/v1/graphql';
 const kGraphQLUnitsLimit = 11; // заложен +1 для вычисления 'hasMore'
 const kGraphQLPaymentsLimit = 21; // заложен +1 для вычисления 'hasMore'
-// TODO: нужно проксировать через свой backend на случай отказа в обсуживании.
+// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
 const kGoldenRatio = 1.61803;
 const kTextMaxLength = 280; // как twitter
 const kButtonHeight = 32.0;

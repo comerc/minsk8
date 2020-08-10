@@ -96,7 +96,7 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             print(step);
-            // TODO: переход к оплате
+            // TODO: [MVP] переход к оплате
             // Navigator.of(context).pop(true);
           },
           color: Colors.green,

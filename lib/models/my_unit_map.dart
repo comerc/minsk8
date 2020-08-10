@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: переделать управление состоянием UI на GlobalKey
-
 class MyUnitMapModel extends ChangeNotifier {
   String _address;
   String get address => _address;

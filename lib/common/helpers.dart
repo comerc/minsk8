@@ -160,7 +160,7 @@ void launchFeedback(BuildContext context, {String subject}) async {
   final emailUrl = emailUri.toString();
   if (await canLaunch(emailUrl)) {
     await launch(emailUrl);
-    // TODO: реализовать webUrl
+    // TODO: реализовать сайт для webUrl
     // } else if (await canLaunch(webUrl)) {
     //   await launch(webUrl);
   } else {

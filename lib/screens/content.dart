@@ -7,8 +7,6 @@ import 'package:minsk8/import.dart';
 // TODO: добавить обработку ссылок
 // TODO: добавить переносы (like hyphenator)
 // https://github.com/flutter/flutter/issues/18443
-// TODO: ощутимо тормозит, замирает при парсинге markdown
-// https://github.com/flutter/flutter_markdown/issues/84
 // TODO: отображать оба формата: .html и .md
 
 class ContentScreen extends StatefulWidget {

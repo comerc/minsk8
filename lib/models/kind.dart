@@ -7,11 +7,11 @@ class KindModel implements EnumModel {
         _name = name;
 
   final _value;
-  // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
   final String _name;
   final String rawSvg;
   final bool isNew;
 
+  // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
   @override
   dynamic get value => _value;
   @override

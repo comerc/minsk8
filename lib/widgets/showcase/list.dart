@@ -6,7 +6,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
-// TODO: (на сервере) при добавлении победителя, включать unit.is_winned - для фильтрации витрины
+// TODO: [MVP] (на сервере) при добавлении победителя, включать unit.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
 
 class ShowcaseList extends StatefulWidget {

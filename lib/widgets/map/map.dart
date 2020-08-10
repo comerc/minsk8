@@ -11,7 +11,7 @@ import 'scale_layer.dart';
 import 'zoom_layer.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: добавить копирайт sputnik и osm
+// TODO: [MVP] добавить копирайт sputnik и osm
 
 // TODO: убрать '(none)' - это для отображения, а для данных нужно вернуть null
 // искать применение надо по appState['MyUnitMap.address'], и не допускать пустой строки

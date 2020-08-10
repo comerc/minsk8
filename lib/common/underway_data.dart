@@ -1,7 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: объединить в один запрос .want .take .past и фильтровать по is_winned на клиенте
+// TODO: [MVP] объединить в один запрос .want .take .past и фильтровать по is_winned на клиенте
 
 class UnderwayData extends SourceList<UnitModel> {
   UnderwayData(

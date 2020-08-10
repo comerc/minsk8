@@ -5,11 +5,11 @@ import 'package:minsk8/import.dart';
 // TODO: https://github.com/faob-dev/folding_cell
 // TODO: https://github.com/Ivaskuu/tinder_cards
 
-// TODO: текстовое поле для описания себя в профиле (усложняет модерацию)
+// TODO: текстовое поле для описания себя в профиле (но усложняет модерацию)
 // TODO: при изменении аватарки или баланса - нужно оповещать другие свои устройства
 
-// TODO: AboutDialog - показывает все лицензии, используемые в приложении (см. "Flutter Widget of the Week")
-// TODO: showLicensePage
+// TODO: [MVP] AboutDialog - показывает все лицензии, используемые в приложении (см. "Flutter Widget of the Week")
+// TODO: [MVP] showLicensePage
 
 class HomeProfile extends StatefulWidget {
   HomeProfile({this.version, this.hasUpdate});
@@ -57,9 +57,9 @@ class HomeProfileState extends State<HomeProfile> {
             elevation: kButtonElevation,
             child: InkWell(
               onTap: () {
-                // TODO: загрузка аватарки
+                // TODO: [MVP] загрузка аватарки (или получать её из внешнего аккаунта?)
                 // TODO: распознование лица и обрезание картинки
-                // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (усложняет модерацию)
+                // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (но усложняет модерацию)
                 showDialog(
                   context: context,
                   child: AlertDialog(
@@ -157,7 +157,7 @@ class HomeProfileState extends State<HomeProfile> {
             child: Text('Обновить приложение'),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
-              // TODO: go to update
+              // TODO: [MVP] go to update
               // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
             },
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: скроллировать к выбранному элементу, если он вне видимости
+// TODO: [MVP] скроллировать к выбранному элементу, если он вне видимости
 // TODO: Вы получите Карму от забирающих и бонус +3 Кармы за первый отданный лот
 
 class KindsScreen extends StatelessWidget {

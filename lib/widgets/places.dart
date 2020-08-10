@@ -9,7 +9,7 @@ import 'package:recursive_regex/recursive_regex.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
-// TODO: добавить копирайт algolia и osm
+// TODO: [MVP] добавить копирайт algolia и osm
 
 class Places extends StatefulWidget {
   Places({this.formFieldKey, this.onSuggestionSelected});

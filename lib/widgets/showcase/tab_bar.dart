@@ -17,6 +17,7 @@ class ShowcaseTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: поддерживать темную системную схему
     // TODO: Wrapper for overlayStyle
     // final AppBarTheme appBarTheme = AppBarTheme.of(context);
     // final Brightness brightness = appBarTheme.brightness;
