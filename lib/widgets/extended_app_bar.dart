@@ -10,6 +10,7 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.withModel = false,
     this.leading,
     this.centerTitle = false,
+    this.elevation,
   });
 
   final List<Widget> actions;
@@ -18,6 +19,7 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget leading;
   final bool withModel;
   final bool centerTitle;
+  final double elevation;
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -28,7 +30,8 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor:
           isForeground ? Theme.of(context).dialogBackgroundColor : null,
-      elevation: withModel ? (appBarModel.isElevation ? null : 0) : null,
+      elevation:
+          withModel ? (appBarModel.isElevation ? elevation : 0) : elevation,
       leading: leading,
       centerTitle: centerTitle,
       title: title,
