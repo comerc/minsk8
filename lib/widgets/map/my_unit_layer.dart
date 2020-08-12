@@ -20,7 +20,7 @@ class MapMyUnitLayer implements MapPlugin {
     if (!(options is MapMyUnitLayerOptions)) {
       throw 'Unknown options type for MapMyUnitLayer: $options';
     }
-    return _MapMyUnitLayer(options: options, mapState: mapState);
+    return _MapMyUnitLayer(options, mapState);
   }
 
   @override
@@ -33,7 +33,7 @@ class _MapMyUnitLayer extends StatefulWidget {
   final MapMyUnitLayerOptions options;
   final MapState mapState;
 
-  _MapMyUnitLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapMyUnitLayer(this.options, this.mapState) : super(key: options.key);
 
   @override
   _MapMyUnitLayerState createState() => _MapMyUnitLayerState();
