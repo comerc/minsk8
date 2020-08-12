@@ -23,7 +23,7 @@ class MapAreaLayer implements MapPlugin {
     if (!(options is MapAreaLayerOptions)) {
       throw 'Unknown options type for MapAreaLayer: $options';
     }
-    return _MapAreaLayer(options: options, mapState: mapState);
+    return _MapAreaLayer(options, mapState, stream);
   }
 
   @override
@@ -35,8 +35,10 @@ class MapAreaLayer implements MapPlugin {
 class _MapAreaLayer extends StatefulWidget {
   final MapAreaLayerOptions options;
   final MapState mapState;
+  final Stream<Null> stream;
 
-  _MapAreaLayer({Key key, this.options, this.mapState}) : super(key: key);
+  _MapAreaLayer(this.options, this.mapState, this.stream)
+      : super(key: options.key);
 
   @override
   _MapAreaLayerState createState() => _MapAreaLayerState();
@@ -45,7 +47,6 @@ class _MapAreaLayer extends StatefulWidget {
 const maxRadius = 100.0;
 
 class _MapAreaLayerState extends State<_MapAreaLayer> {
-  // with SingleTickerProviderStateMixin {
   final _icon = Icons.location_on;
   final _iconSmallSize = 16.0;
   int _radius;
@@ -71,10 +72,15 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
       children: <Widget>[
         if (widget.options.saveModes != null)
           Center(
-            child: CustomPaint(
-              painter: _MapAreaLayerPainter(
-                radius: paintedRadius,
-              ),
+            child: StreamBuilder(
+              stream: widget.stream,
+              builder: (BuildContext context, _) {
+                return CustomPaint(
+                  painter: _MapAreaLayerPainter(
+                    radius: paintedRadius,
+                  ),
+                );
+              },
             ),
           ),
         if (widget.options.saveModes != null)

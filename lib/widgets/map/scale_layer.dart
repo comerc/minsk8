@@ -36,7 +36,7 @@ class MapScaleLayer implements MapPlugin {
 
 class _MapScaleLayer extends StatelessWidget {
   final MapScaleLayerOption options;
-  final MapState map;
+  final MapState mapState;
   final Stream<Null> stream;
   final scale = [
     25000000,
@@ -64,31 +64,36 @@ class _MapScaleLayer extends StatelessWidget {
     5
   ];
 
-  _MapScaleLayer(this.options, this.map, this.stream);
+  _MapScaleLayer(this.options, this.mapState, this.stream)
+      : super(key: options.key);
 
   @override
   Widget build(BuildContext context) {
-    final zoom = map.zoom;
-    final distance = scale[max(0, min(20, zoom.round() + 2))].toDouble();
-    final center = map.center;
-    final start = map.project(center);
-    final targetPoint =
-        MapWidget.calculateEndingGlobalCoordinates(center, 90, distance);
-    final end = map.project(targetPoint);
-    final displayDistance = distance > 999
-        ? '${(distance / 1000).toStringAsFixed(0)} km'
-        : '${distance.toStringAsFixed(0)} m';
-    final width = end.x - start.x;
-
-    return CustomPaint(
-      painter: _MapScalePainter(
-        width,
-        displayDistance,
-        lineColor: options.lineColor,
-        lineWidth: options.lineWidth,
-        padding: options.padding,
-        textStyle: options.textStyle,
-      ),
+    return StreamBuilder(
+      stream: stream,
+      builder: (BuildContext context, _) {
+        final zoom = mapState.zoom;
+        final distance = scale[max(0, min(20, zoom.round() + 2))].toDouble();
+        final center = mapState.center;
+        final start = mapState.project(center);
+        final targetPoint =
+            MapWidget.calculateEndingGlobalCoordinates(center, 90, distance);
+        final end = mapState.project(targetPoint);
+        final displayDistance = distance > 999
+            ? '${(distance / 1000).toStringAsFixed(0)} km'
+            : '${distance.toStringAsFixed(0)} m';
+        final width = end.x - start.x;
+        return CustomPaint(
+          painter: _MapScalePainter(
+            width,
+            displayDistance,
+            lineColor: options.lineColor,
+            lineWidth: options.lineWidth,
+            padding: options.padding,
+            textStyle: options.textStyle,
+          ),
+        );
+      },
     );
   }
 }
