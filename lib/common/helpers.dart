@@ -201,3 +201,11 @@ String _decodeBase64(String str) {
   }
   return utf8.decode(base64Url.decode(output));
 }
+
+// variant from auth0.com
+// Map<String, dynamic> parseIdToken(String idToken) {
+//   final parts = idToken.split(r'.');
+//   assert(parts.length == 3);
+//   return jsonDecode(
+//       utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+// }
