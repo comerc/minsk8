@@ -401,12 +401,10 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "fix/support-flutter-1.10"
-      resolved-ref: f181bdadc5a33b7ad56ec28e93c6b4ef6dcf24a8
-      url: "git://github.com/okaxaki/flutter_map.git"
-    source: git
-    version: "0.7.3"
+      name: flutter_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.1+1"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -620,6 +618,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  lists:
+    dependency: transitive
+    description:
+      name: lists
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.6"
   loading_more_list:
     dependency: "direct main"
     description:
@@ -669,6 +674,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.8"
+  mgrs_dart:
+    dependency: transitive
+    description:
+      name: mgrs_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   mime:
     dependency: transitive
     description:
@@ -825,6 +837,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  proj4dart:
+    dependency: transitive
+    description:
+      name: proj4dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   provider:
     dependency: "direct main"
     description:
@@ -1033,6 +1052,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  unicode:
+    dependency: transitive
+    description:
+      name: unicode
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.4"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1124,6 +1150,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.5"
+  wkt_parser:
+    dependency: transitive
+    description:
+      name: wkt_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   xdg_directories:
     dependency: transitive
     description:
