@@ -68,7 +68,6 @@ class PlacesAppBarState extends State<PlacesAppBar> {
   }
 
   void _onSuggestionSelected(suggestion) {
-    // TODO: неверно рисует радиус при переходе после поиска 'qwer'
     MapWidget.globalKey.currentState.animatedMapMove(
       destCenter: LatLng(
         suggestion['_geoloc']['lat'],
