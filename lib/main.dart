@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:device_preview/device_preview.dart' hide DeviceOrientation;
 import 'package:flutter/services.dart';
@@ -122,40 +123,18 @@ PersistedData appState;
 final localDeletedUnitIds = <String>{}; // ie Set()
 
 class App extends StatelessWidget {
+  App({this.authData});
+
+  final AuthData authData;
+
   static final analytics = FirebaseAnalytics();
   static final observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     // print('App build');
-    Widget result = MaterialApp(
-      debugShowCheckedModeBanner: isInDebugMode,
+    Widget result = CommonMaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
-      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
-      // locale: DevicePreview.of(context).locale,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   Locale('en', 'US'), // English
-      //   Locale('ru', 'RU'), // Russian
-      // ],
-      title: 'minsk8',
-      // theme: ThemeData(
-      //   //   primarySwatch: mapBoxBlue,
-      //   //   visualDensity: VisualDensity.adaptivePlatformDensity
-      // ),
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          elevation: kAppBarElevation,
-          iconTheme: theme.iconTheme,
-          actionsIconTheme: theme.iconTheme,
-          color: theme.scaffoldBackgroundColor,
-          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
-        ),
-      ),
       builder: (BuildContext context, Widget child) {
         // if (isInDebugMode) {
         //   child = DevicePreview.appBuilder(context, child);
@@ -174,8 +153,7 @@ class App extends StatelessWidget {
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
             if (!snapshot.hasData) {
               return Material(
-                child: Container(
-                  alignment: Alignment.center,
+                child: Center(
                   child: Text('Loading state...'),
                 ),
               );
@@ -265,7 +243,7 @@ class App extends StatelessWidget {
           '/invite': (_) => InviteScreen(),
           '/kinds': (BuildContext context) =>
               KindsScreen(ModalRoute.of(context).settings.arguments),
-          '/login': (_) => LoginScreen(),
+          // '/login': (_) => LoginScreen(),
           '/my_unit_map': (_) => MyUnitMapScreen(),
           '/payment': (_) => PaymentScreen(),
           '/settings': (_) => SettingsScreen(),
@@ -311,6 +289,24 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
+    // final httpLink = HttpLink(
+    //   uri: 'https://$kGraphQLEndpoint',
+    // );
+    // final websocketLink = WebSocketLink(
+    //   url: 'wss://$kGraphQLEndpoint',
+    //   config: SocketClientConfig(
+    //     autoReconnect: true,
+    //     inactivityTimeout: const Duration(seconds: 30),
+    //     initPayload: () async {
+    //       return {
+    //         'headers': {'Authorization': 'Bearer ${authData.token}'}
+    //       };
+    //     },
+    //   ),
+    // );
+    // final authLink = AuthLink(
+    //   getToken: () async => 'Bearer ${authData.token}',
+    // );
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
@@ -318,10 +314,14 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
-          link: HttpLink(uri: kGraphQLEndpoint, headers: {
-            'X-Hasura-Role': 'user',
-            'X-Hasura-User-Id': memberId, // TODO: переместить в JWT
-          }),
+          link: HttpLink(
+            uri: 'https://$kGraphQLEndpoint',
+            headers: {
+              'X-Hasura-Role': 'user',
+              'X-Hasura-User-Id': memberId,
+            },
+          ),
+          // link: authLink.concat(httpLink).concat(websocketLink),
         ),
       ),
       child: CacheProvider(
@@ -420,3 +420,114 @@ class MediaQueryWrap extends StatelessWidget {
 //     900: Color(0xFF172EF6),
 //   },
 // );
+
+class AuthData {
+  AuthData({this.user, this.token});
+  final FirebaseUser user;
+  final String token;
+}
+
+class AuthCheck extends StatelessWidget {
+  Future<AuthData> getAuthData() async {
+    try {
+      final currentUser = await FirebaseAuth.instance.currentUser();
+      final idToken = await currentUser.getIdToken();
+      return AuthData(user: currentUser, token: idToken.token);
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<AuthData>(
+      // future: Future.delayed(Duration(milliseconds: 1000))
+      //     .then((_) => false),
+      future: getAuthData(),
+      builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+          case ConnectionState.active:
+            return CommonMaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: Text('Authentication...'),
+                ),
+              ),
+            );
+          case ConnectionState.done:
+            if (snapshot.data == null) {
+              return CommonMaterialApp(
+                home: LoginScreen(),
+              );
+            }
+            return App(authData: snapshot.data);
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class CommonMaterialApp extends StatelessWidget {
+  CommonMaterialApp({
+    this.navigatorObservers = const <NavigatorObserver>[],
+    this.builder,
+    this.home,
+    this.initialRoute,
+    this.routes = const <String, WidgetBuilder>{},
+    this.onGenerateRoute,
+    this.onUnknownRoute,
+  });
+
+  final List<NavigatorObserver> navigatorObservers;
+  final TransitionBuilder builder;
+  final Widget home;
+  final String initialRoute;
+  final Map<String, WidgetBuilder> routes;
+  final RouteFactory onGenerateRoute;
+  final RouteFactory onUnknownRoute;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    // print('App build');
+    return MaterialApp(
+      // debugShowCheckedModeBanner: isInDebugMode,
+      navigatorObservers: navigatorObservers,
+      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
+      // locale: DevicePreview.of(context).locale,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('en', 'US'), // English
+      //   Locale('ru', 'RU'), // Russian
+      // ],
+      title: 'minsk8',
+      // theme: ThemeData(
+      //   //   primarySwatch: mapBoxBlue,
+      //   //   visualDensity: VisualDensity.adaptivePlatformDensity
+      // ),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: kAppBarElevation,
+          iconTheme: theme.iconTheme,
+          actionsIconTheme: theme.iconTheme,
+          color: theme.scaffoldBackgroundColor,
+          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
+        ),
+      ),
+      builder: builder ??
+          (BuildContext context, Widget child) => MediaQueryWrap(child),
+      home: home,
+      initialRoute: initialRoute,
+      routes: routes,
+      onGenerateRoute: onGenerateRoute,
+      onUnknownRoute: onUnknownRoute,
+    );
+  }
+}

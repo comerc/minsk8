@@ -44,6 +44,8 @@ schema.json
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/app/google-services.json
+**/android/app/debug.keystore
+**/android/key.properties
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
