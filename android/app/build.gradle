@@ -1,8 +1,8 @@
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+// def keystoreProperties = new Properties()
+// def keystorePropertiesFile = rootProject.file('key.properties')
+// if (keystorePropertiesFile.exists()) {
+//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// }
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -53,18 +53,19 @@ android {
         // multiDexEnabled true //importantt
     }
 
-    signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-           storePassword keystoreProperties['storePassword']
-       }
-    }
+    // signingConfigs {
+    //    release {
+    //        keyAlias keystoreProperties['keyAlias']
+    //        keyPassword keystoreProperties['keyPassword']
+    //        storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+    //        storePassword keystoreProperties['storePassword']
+    //    }
+    // }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
 
             // * for flutter_local_notifications
             // Enables code shrinking, obfuscation, and optimization for only

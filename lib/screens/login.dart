@@ -3,6 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
+
+// How to add SHA1 https://stackoverflow.com/a/57505927
+
 // TODO: flutter_secure_storage для хранения токена авторизации?
 // TODO: [MVP] реализовать аутентификацию через: FB, Google, Apple Id, VK, Telegram
 // Google Sign In https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed
@@ -24,9 +28,12 @@ import 'package:minsk8/import.dart';
 // Либо можно на клиенте авторизовывать в вк, а в firebase передавать как авторизацию по почте,
 // придумав пароль за пользователя.
 
-// final FirebaseAuth _auth = FirebaseAuth.instance;
-
 class LoginScreen extends StatelessWidget {
+  LoginScreen({this.onClose});
+
+  final Function(AuthData authData) onClose;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     final child = Center(
@@ -35,28 +42,31 @@ class LoginScreen extends StatelessWidget {
         children: [
           Text('Login'),
           RaisedButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                buildInitialRoute(null)(
-                  (_) => AuthCheck(),
-                  // (_) => App(user: snapshot.data), // TODO: заменить AuthCheck()
-                ),
-              );
+            onPressed: () async {
+              final credential = await signInWithGoogle();
+              final authResult =
+                  await FirebaseAuth.instance.signInWithCredential(credential);
+              final user = authResult.user;
+              // if (user.isAnonymous) return null;
+              final idToken = await user.getIdToken();
+              Navigator.of(context).pop();
+              onClose(AuthData(user: user, token: idToken.token));
             },
           ),
         ],
       ),
     );
     return Scaffold(
-      // appBar: ExtendedAppBar(
-      //   withModel: true,
-      // ),
-      // drawer: MainDrawer('/login'),
-      // body: SafeArea(
-      //   child: ScrollBody(child: child),
-      // ),
       body: child,
+    );
+  }
+
+  Future<AuthCredential> signInWithGoogle() async {
+    final googleSignInAccount = await _googleSignIn.signIn();
+    final googleSignInAuthentication = await googleSignInAccount.authentication;
+    return GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
     );
   }
 }

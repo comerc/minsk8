@@ -91,7 +91,7 @@ void main() {
     //     builder: (BuildContext context) => App(),
     //   ),
     // );
-    runApp(App());
+    runApp(AuthCheck());
   }, (error, stackTrace) {
     print(error);
     // Whenever an error occurs, call the `_reportError` function. This sends
@@ -289,24 +289,24 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
-    // final httpLink = HttpLink(
-    //   uri: 'https://$kGraphQLEndpoint',
-    // );
-    // final websocketLink = WebSocketLink(
-    //   url: 'wss://$kGraphQLEndpoint',
-    //   config: SocketClientConfig(
-    //     autoReconnect: true,
-    //     inactivityTimeout: const Duration(seconds: 30),
-    //     initPayload: () async {
-    //       return {
-    //         'headers': {'Authorization': 'Bearer ${authData.token}'}
-    //       };
-    //     },
-    //   ),
-    // );
-    // final authLink = AuthLink(
-    //   getToken: () async => 'Bearer ${authData.token}',
-    // );
+    final httpLink = HttpLink(
+      uri: 'https://$kGraphQLEndpoint',
+    );
+    final websocketLink = WebSocketLink(
+      url: 'wss://$kGraphQLEndpoint',
+      config: SocketClientConfig(
+        autoReconnect: true,
+        inactivityTimeout: const Duration(seconds: 30),
+        initPayload: () async {
+          return {
+            'headers': {'Authorization': 'Bearer ${authData.token}'}
+          };
+        },
+      ),
+    );
+    final authLink = AuthLink(
+      getToken: () async => 'Bearer ${authData.token}',
+    );
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
@@ -314,14 +314,14 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
-          link: HttpLink(
-            uri: 'https://$kGraphQLEndpoint',
-            headers: {
-              'X-Hasura-Role': 'user',
-              'X-Hasura-User-Id': memberId,
-            },
-          ),
-          // link: authLink.concat(httpLink).concat(websocketLink),
+          // link: HttpLink(
+          //   uri: 'https://$kGraphQLEndpoint',
+          //   headers: {
+          //     'X-Hasura-Role': 'user',
+          //     'X-Hasura-User-Id': memberId,
+          //   },
+          // ),
+          link: authLink.concat(httpLink).concat(websocketLink),
         ),
       ),
       child: CacheProvider(
@@ -427,24 +427,18 @@ class AuthData {
   final String token;
 }
 
-class AuthCheck extends StatelessWidget {
-  Future<AuthData> getAuthData() async {
-    try {
-      final currentUser = await FirebaseAuth.instance.currentUser();
-      final idToken = await currentUser.getIdToken();
-      return AuthData(user: currentUser, token: idToken.token);
-    } catch (error) {
-      print(error);
-      return null;
-    }
-  }
+class AuthCheck extends StatefulWidget {
+  @override
+  _AuthCheckState createState() => _AuthCheckState();
+}
+
+class _AuthCheckState extends State<AuthCheck> {
+  AuthData _authData;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<AuthData>(
-      // future: Future.delayed(Duration(milliseconds: 1000))
-      //     .then((_) => false),
-      future: getAuthData(),
+      future: _authData == null ? _getAuthData() : Future.value(_authData),
       builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -460,7 +454,11 @@ class AuthCheck extends StatelessWidget {
           case ConnectionState.done:
             if (snapshot.data == null) {
               return CommonMaterialApp(
-                home: LoginScreen(),
+                home: LoginScreen(onClose: (AuthData authData) {
+                  setState(() {
+                    _authData = authData;
+                  });
+                }),
               );
             }
             return App(authData: snapshot.data);
@@ -468,6 +466,18 @@ class AuthCheck extends StatelessWidget {
         return null;
       },
     );
+  }
+
+  Future<AuthData> _getAuthData() async {
+    try {
+      final user = await FirebaseAuth.instance.currentUser();
+      if (user == null) return null;
+      final idToken = await user.getIdToken();
+      return AuthData(user: user, token: idToken.token);
+    } catch (error) {
+      print(error);
+      return null;
+    }
   }
 }
 
