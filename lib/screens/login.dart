@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
@@ -48,53 +49,80 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Login'),
-          RaisedButton(
-            child: Text('signIn!'),
-            onPressed: () async {
-              try {
-                final credential = await signInWithGoogle();
-                final authResult = await FirebaseAuth.instance
-                    .signInWithCredential(credential);
-                final user = authResult.user;
-                final token = await _getToken(context: context, user: user);
-                Navigator.of(context).pop();
-                onClose(AuthData(user: user, token: token));
-              } on PlatformException catch (error) {
-                final snackBar = SnackBar(
-                  content: Text(error.message),
-                  action: SnackBarAction(
-                    label: 'Сообщить о проблеме',
-                    onPressed: () {
-                      launchFeedback(
-                        context,
-                        subject: 'Сообщить о проблеме',
-                        isAnonymous: true,
-                      );
-                    },
+    final child = ButtonTheme(
+      minWidth: 250,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Logo(),
+            SizedBox(height: 48),
+            OutlineButton(
+              shape: StadiumBorder(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    color: Colors.red,
+                    width: kButtonIconSize,
+                    height: kButtonIconSize,
+                    child: FittedBox(
+                      child: Icon(
+                        FontAwesomeIcons.google,
+                      ),
+                    ),
                   ),
-                );
-                _scaffoldKey.currentState.showSnackBar(snackBar);
-                debugPrint(error.toString());
-              }
-            },
-          ),
-          // RaisedButton(
-          //   child: Text('signOut'),
-          //   onPressed: () {
-          //     signOutWithGoogle();
-          //   },
-          // ),
-        ],
+                  SizedBox(width: 8),
+                  Text('Войти через Google'),
+                ],
+              ),
+              onLongPress: () {}, // чтобы сократить время для splashColor
+              onPressed: () async {
+                try {
+                  final credential = await _signInWithGoogle();
+                  final authResult = await FirebaseAuth.instance
+                      .signInWithCredential(credential);
+                  final user = authResult.user;
+                  final token = await _getToken(context: context, user: user);
+                  Navigator.of(context).pop();
+                  onClose(AuthData(user: user, token: token));
+                } on PlatformException catch (error) {
+                  final snackBar = SnackBar(
+                    content: Text(error.message),
+                    action: SnackBarAction(
+                      label: 'Сообщить о проблеме',
+                      onPressed: () {
+                        launchFeedback(
+                          context,
+                          subject: 'Сообщить о проблеме',
+                          isAnonymous: true,
+                        );
+                      },
+                    ),
+                  );
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  debugPrint(error.toString());
+                }
+              },
+            ),
+            if (isInDebugMode)
+              OutlineButton(
+                shape: StadiumBorder(),
+                child: Text('Sign Out'),
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onPressed: () {
+                  _signOutWithGoogle();
+                },
+              ),
+          ],
+        ),
       ),
     );
     return Scaffold(
       key: _scaffoldKey,
       body: child,
+      backgroundColor: Colors.white,
     );
   }
 
@@ -129,8 +157,8 @@ class LoginScreen extends StatelessWidget {
     return idToken.token;
   }
 
-  Future<AuthCredential> signInWithGoogle() async {
-    // TODO: после регистрации на Web, запускать без дополнительных вопросов
+  Future<AuthCredential> _signInWithGoogle() async {
+    // TODO: после регистрации на Web, запускать без дополнительных вопросов (как WeBull)
     // var googleSignInAccount = _googleSignIn.currentUser;
     // googleSignInAccount ??=
     //     await _googleSignIn.signInSilently(); // exception workaround: CTRL+F5
@@ -143,9 +171,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  // Future<void> signOutWithGoogle() async {
-  //   await FirebaseAuth.instance.signOut();
-  //   await _googleSignIn.disconnect();
-  //   await _googleSignIn.signOut();
-  // }
+  Future<void> _signOutWithGoogle() async {
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
+  }
 }
