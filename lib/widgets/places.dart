@@ -46,7 +46,7 @@ class _PlacesState extends State<Places> {
         if (s == null || s == '' || s.length < 4) return null;
         _isLoading = true;
         try {
-          await Future.delayed(const Duration(seconds: 1));
+          await Future.delayed(Duration(seconds: 1));
           final data = await _request(s);
           return data['hits'] as List;
         } finally {
