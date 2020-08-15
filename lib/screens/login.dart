@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
+
+// IF (SELECT id FROM mytable WHERE other_key = 'SOMETHING' LIMIT 1) < 0 THEN
+//  INSERT INTO mytable (other_key) VALUES ('SOMETHING')
+// END IF
+
+// https://github.com/flutter/flutter/issues/33393#issuecomment-510395178
+
+// A tutorial for using Firebase to add authentication and authorization to a realtime Hasura app https://hasura.io/blog/authentication-and-authorization-using-hasura-and-firebase/
+// Hasura Authentication with Firebase https://medium.com/swlh/hasura-authentication-with-firebase-ee5543d57772
+// Super Simple Authentication Flow with Flutter & Firebase https://medium.com/coding-with-flutter/super-simple-authentication-flow-with-flutter-firebase-737bba04924c
 
 // How to add SHA1 https://stackoverflow.com/a/57505927
 
@@ -33,6 +44,7 @@ class LoginScreen extends StatelessWidget {
 
   final Function(AuthData authData) onClose;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,26 +54,87 @@ class LoginScreen extends StatelessWidget {
         children: [
           Text('Login'),
           RaisedButton(
+            child: Text('signIn!'),
             onPressed: () async {
-              final credential = await signInWithGoogle();
-              final authResult =
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-              final user = authResult.user;
-              // if (user.isAnonymous) return null;
-              final idToken = await user.getIdToken();
-              Navigator.of(context).pop();
-              onClose(AuthData(user: user, token: idToken.token));
+              try {
+                final credential = await signInWithGoogle();
+                final authResult = await FirebaseAuth.instance
+                    .signInWithCredential(credential);
+                final user = authResult.user;
+                final token = await _getToken(context: context, user: user);
+                Navigator.of(context).pop();
+                onClose(AuthData(user: user, token: token));
+              } on PlatformException catch (error) {
+                final snackBar = SnackBar(
+                  content: Text(error.message),
+                  action: SnackBarAction(
+                    label: 'Сообщить о проблеме',
+                    onPressed: () {
+                      launchFeedback(
+                        context,
+                        subject: 'Сообщить о проблеме',
+                        isAnonymous: true,
+                      );
+                    },
+                  ),
+                );
+                _scaffoldKey.currentState.showSnackBar(snackBar);
+                debugPrint(error.toString());
+              }
             },
           ),
+          // RaisedButton(
+          //   child: Text('signOut'),
+          //   onPressed: () {
+          //     signOutWithGoogle();
+          //   },
+          // ),
         ],
       ),
     );
     return Scaffold(
+      key: _scaffoldKey,
       body: child,
     );
   }
 
+  Future<String> _getToken({
+    context,
+    user,
+    retry = 0,
+  }) async {
+    if (retry < 4) {
+      await Future.delayed(Duration(milliseconds: 100));
+    } else {
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Text('Не удалось получить доступ, попробуйте ещё раз.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+    final idToken = await user.getIdToken(refresh: true);
+    final map = parseIdToken(idToken.token);
+    if (map['https://hasura.io/jwt/claims'] == null) {
+      return _getToken(context: context, user: user, retry: retry + 1);
+    }
+    return idToken.token;
+  }
+
   Future<AuthCredential> signInWithGoogle() async {
+    // TODO: после регистрации на Web, запускать без дополнительных вопросов
+    // var googleSignInAccount = _googleSignIn.currentUser;
+    // googleSignInAccount ??=
+    //     await _googleSignIn.signInSilently(); // exception workaround: CTRL+F5
+    // googleSignInAccount ??= await _googleSignIn.signIn();
     final googleSignInAccount = await _googleSignIn.signIn();
     final googleSignInAuthentication = await googleSignInAccount.authentication;
     return GoogleAuthProvider.getCredential(
@@ -69,4 +142,10 @@ class LoginScreen extends StatelessWidget {
       idToken: googleSignInAuthentication.idToken,
     );
   }
+
+  // Future<void> signOutWithGoogle() async {
+  //   await FirebaseAuth.instance.signOut();
+  //   await _googleSignIn.disconnect();
+  //   await _googleSignIn.signOut();
+  // }
 }

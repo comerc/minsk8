@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +36,7 @@ import 'package:minsk8/import.dart';
 // TODO: пока загружается аватарка - показывать ожидание
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
 // TODO: flutter telegram-auth
+// TODO: закруглить кнопки и диалоги, как в https://console.firebase.google.com
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -289,21 +291,23 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
+    print(jsonEncode(parseIdToken(authData.token)));
+    // print(authData.token);
     final httpLink = HttpLink(
       uri: 'https://$kGraphQLEndpoint',
     );
-    final websocketLink = WebSocketLink(
-      url: 'wss://$kGraphQLEndpoint',
-      config: SocketClientConfig(
-        autoReconnect: true,
-        inactivityTimeout: const Duration(seconds: 30),
-        initPayload: () async {
-          return {
-            'headers': {'Authorization': 'Bearer ${authData.token}'}
-          };
-        },
-      ),
-    );
+    // final websocketLink = WebSocketLink(
+    //   url: 'wss://$kGraphQLEndpoint',
+    //   config: SocketClientConfig(
+    //     autoReconnect: true,
+    //     inactivityTimeout: const Duration(seconds: 30),
+    //     initPayload: () async {
+    //       return {
+    //         'headers': {'Authorization': 'Bearer ${authData.token}'}
+    //       };
+    //     },
+    //   ),
+    // );
     final authLink = AuthLink(
       getToken: () async => 'Bearer ${authData.token}',
     );
@@ -318,10 +322,11 @@ class App extends StatelessWidget {
           //   uri: 'https://$kGraphQLEndpoint',
           //   headers: {
           //     'X-Hasura-Role': 'user',
-          //     'X-Hasura-User-Id': memberId,
+          //     // 'X-Hasura-User-Id': memberId,
+          //     'Authorization': 'Bearer ${authData.token}',
           //   },
           // ),
-          link: authLink.concat(httpLink).concat(websocketLink),
+          link: authLink.concat(httpLink), // .concat(websocketLink),
         ),
       ),
       child: CacheProvider(
@@ -438,7 +443,8 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<AuthData>(
-      future: _authData == null ? _getAuthData() : Future.value(_authData),
+      future: /* _authData == null ? _getAuthData() : */ Future
+          .value(_authData),
       builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:

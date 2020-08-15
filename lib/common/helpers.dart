@@ -147,14 +147,22 @@ int getNearestStep(List<int> steps, int value) {
       orElse: () => steps.last);
 }
 
-void launchFeedback(BuildContext context, {String subject}) async {
-  final profile = Provider.of<ProfileModel>(context, listen: false);
+void launchFeedback(
+  BuildContext context, {
+  String subject,
+  bool isAnonymous = false,
+}) async {
+  String _getMemberId() {
+    final profile = Provider.of<ProfileModel>(context, listen: false);
+    return 'member_id=${profile.member.id}';
+  }
+
   final emailUri = Uri(
     scheme: 'mailto',
     path: kSupportEmail,
     queryParameters: {
       'subject': subject,
-      'body': 'member_id=${profile.member.id}'
+      'body': isAnonymous ? '' : _getMemberId(),
     },
   );
   final emailUrl = emailUri.toString();
@@ -172,40 +180,40 @@ double getMagicHeight(double width) {
   return (width / 2) * kGoldenRatio;
 }
 
-Map<String, dynamic> parseJwt(String token) {
-  final parts = token.split('.');
-  if (parts.length != 3) {
-    throw Exception('invalid token');
-  }
-  final payload = _decodeBase64(parts[1]);
-  final payloadMap = json.decode(payload);
-  if (payloadMap is! Map<String, dynamic>) {
-    throw Exception('invalid payload');
-  }
-  return payloadMap;
-}
+// Map<String, dynamic> parseJwt(String token) {
+//   final parts = token.split('.');
+//   if (parts.length != 3) {
+//     throw Exception('invalid token');
+//   }
+//   final payload = _decodeBase64(parts[1]);
+//   final payloadMap = json.decode(payload);
+//   if (payloadMap is! Map<String, dynamic>) {
+//     throw Exception('invalid payload');
+//   }
+//   return payloadMap;
+// }
 
-String _decodeBase64(String str) {
-  var output = str.replaceAll('-', '+').replaceAll('_', '/');
-  switch (output.length % 4) {
-    case 0:
-      break;
-    case 2:
-      output += '==';
-      break;
-    case 3:
-      output += '=';
-      break;
-    default:
-      throw Exception('Illegal base64url string!"');
-  }
-  return utf8.decode(base64Url.decode(output));
-}
+// String _decodeBase64(String str) {
+//   var output = str.replaceAll('-', '+').replaceAll('_', '/');
+//   switch (output.length % 4) {
+//     case 0:
+//       break;
+//     case 2:
+//       output += '==';
+//       break;
+//     case 3:
+//       output += '=';
+//       break;
+//     default:
+//       throw Exception('Illegal base64url string!"');
+//   }
+//   return utf8.decode(base64Url.decode(output));
+// }
 
 // variant from auth0.com
-// Map<String, dynamic> parseIdToken(String idToken) {
-//   final parts = idToken.split(r'.');
-//   assert(parts.length == 3);
-//   return jsonDecode(
-//       utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
-// }
+Map<String, dynamic> parseIdToken(String idToken) {
+  final parts = idToken.split(r'.');
+  assert(parts.length == 3);
+  return jsonDecode(
+      utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+}
