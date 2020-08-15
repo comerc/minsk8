@@ -64,7 +64,6 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    color: Colors.red,
                     width: kButtonIconSize,
                     height: kButtonIconSize,
                     child: FittedBox(
