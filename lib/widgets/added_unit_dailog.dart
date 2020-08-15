@@ -45,7 +45,7 @@ class AddedUnitDialog extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              // TODO: FlatButton
+              // TODO: FlatButton + ButtonTheme(minWidth: double.infinity)
               MaterialButton(
                 minWidth: double.infinity,
                 child: Row(
@@ -69,7 +69,7 @@ class AddedUnitDialog extends StatelessWidget {
                 highlightElevation: 0,
               ),
               if (!needModerate)
-                // TODO: OutlineButton
+                // TODO: OutlineButton + ButtonTheme(minWidth: double.infinity)
                 MaterialButton(
                   minWidth: double.infinity,
                   child: Row(
