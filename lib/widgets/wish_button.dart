@@ -22,7 +22,7 @@ class WishButton extends StatefulWidget {
 
 class _WishButtonState extends State<WishButton> {
   Timer _timer;
-  final animationDuration = const Duration(milliseconds: 1000);
+  final _animationDuration = const Duration(milliseconds: 1000);
 
   @override
   void dispose() {
@@ -39,7 +39,7 @@ class _WishButtonState extends State<WishButton> {
         child: InkWell(
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
-            animationDuration: animationDuration,
+            animationDuration: _animationDuration,
             isLiked: myWishes.getWishIndex(widget.unit.id) != -1,
             likeBuilder: (bool isLiked) {
               if (isLiked) {
@@ -94,7 +94,7 @@ class _WishButtonState extends State<WishButton> {
     if (_timer != null) {
       return isLiked;
     }
-    _timer = Timer(isLiked ? Duration.zero : animationDuration, () {
+    _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
       updateWish(context, isLiked, widget.unit);
     });
