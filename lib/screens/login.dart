@@ -8,7 +8,7 @@ import 'package:minsk8/import.dart';
 //  INSERT INTO mytable (other_key) VALUES ('SOMETHING')
 // END IF
 
-// TODO: [MVP] реализовать аутентификацию через: FB, Google, Apple Id, VK, Telegram
+// TODO: реализовать аутентификацию через: Google, Apple Id, FB, VK, Telegram
 // + Google Sign In https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed
 // Facebook Sign In https://medium.com/@karlwhiteprivate/flutter-facebook-sign-in-with-firebase-in-2020-66556a8c3586
 // Apple SignIn https://medium.com/@karlwhiteprivate/flutter-firebase-sign-in-with-apple-c99967df142f
@@ -172,13 +172,24 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _signOut() async {
-    final user = await FirebaseAuth.instance.currentUser();
-    final idToken = await user.getIdToken();
-    final signInProvider = idToken.signInProvider;
-    await FirebaseAuth.instance.signOut();
-    if (signInProvider == 'google.com' && await _googleSignIn.isSignedIn()) {
-      await _googleSignIn.disconnect();
-      await _googleSignIn.signOut();
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final user = await FirebaseAuth.instance.currentUser();
+      final idToken = await user.getIdToken();
+      final signInProvider = idToken.signInProvider;
+      await FirebaseAuth.instance.signOut();
+      if (signInProvider == 'google.com' && await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }
