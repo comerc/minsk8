@@ -37,6 +37,7 @@ import 'package:minsk8/import.dart';
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
 // TODO: flutter telegram-auth
 // TODO: закруглить кнопки и диалоги, как в https://console.firebase.google.com
+// TODO: [MVP] Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -443,8 +444,7 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<AuthData>(
-      future: /* _authData == null ? _getAuthData() : */ Future
-          .value(_authData),
+      future: _authData == null ? _getAuthData() : Future.value(_authData),
       builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -479,6 +479,8 @@ class _AuthCheckState extends State<AuthCheck> {
       final user = await FirebaseAuth.instance.currentUser();
       if (user == null) return null;
       final idToken = await user.getIdToken();
+      print(user.providerId);
+      return null;
       return AuthData(user: user, token: idToken.token);
     } catch (error) {
       print(error);
