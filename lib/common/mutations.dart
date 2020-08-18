@@ -2,6 +2,18 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
 class Mutations {
+  static final upsertMember = gql(r'''
+    mutation upsertMember($display_name: String $photo_url: String) {
+      insert_member(objects: {display_name: $display_name, photo_url: $photo_url}, 
+      on_conflict: {constraint: member_pkey, update_columns: [display_name, photo_url]}) {
+        affected_rows
+        returning {
+          id
+        }
+      }
+    }
+  ''');
+
   static final insertSuggestion = gql(r'''
     mutation insertSuggestion($unit_id: uuid $question: question_enum) {
       insert_suggestion(objects: {unit_id: $unit_id, question: $question}) {

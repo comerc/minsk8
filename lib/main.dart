@@ -162,52 +162,77 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
-            return Query(
-              options: QueryOptions(
-                documentNode: Queries.getProfile,
-                variables: {'member_id': memberId},
-                fetchPolicy: FetchPolicy.noCache,
-              ),
-              // Just like in apollo refetch() could be used to manually trigger a refetch
-              // while fetchMore() can be used for pagination purpose
-              builder: (QueryResult result,
-                  {VoidCallback refetch, FetchMore fetchMore}) {
-                if (result.hasException) {
-                  debugPrint(getOperationExceptionToString(result.exception));
-                  return Material(
-                    child: InkWell(
-                      onTap: refetch,
+            return FutureBuilder<bool>(
+                future: authData.isLogin
+                    ? _upsertMember(client)
+                    : Future.value(true),
+                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Material(
+                      child: Center(
+                        child: Text('Update member...'),
+                      ),
+                    );
+                  }
+                  if (snapshot.hasError ||
+                      !snapshot.hasData ||
+                      !snapshot.data) {
+                    // TODO: [MVP] чтобы попробовать ещё раз - setState()
+                    return Material(
                       child: Center(
                         child: Text('Кажется, что-то пошло не так?'),
                       ),
+                    );
+                  }
+                  return Query(
+                    options: QueryOptions(
+                      documentNode: Queries.getProfile,
+                      variables: {'member_id': appState['memberId']},
+                      fetchPolicy: FetchPolicy.noCache,
                     ),
+                    // Just like in apollo refetch() could be used to manually trigger a refetch
+                    // while fetchMore() can be used for pagination purpose
+                    builder: (QueryResult result,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      if (result.hasException) {
+                        debugPrint(
+                            getOperationExceptionToString(result.exception));
+                        return Material(
+                          child: InkWell(
+                            onTap: refetch,
+                            child: Center(
+                              child: Text('Кажется, что-то пошло не так?'),
+                            ),
+                          ),
+                        );
+                      }
+                      if (result.loading) {
+                        return Material(
+                          child: Center(
+                            child: Text('Loading profile...'),
+                          ),
+                        );
+                      }
+                      return MultiProvider(
+                        providers: <SingleChildWidget>[
+                          ChangeNotifierProvider<ProfileModel>(
+                              create: (_) => ProfileModel.fromJson(
+                                  result.data['profile'])),
+                          ChangeNotifierProvider<MyWishesModel>(
+                              create: (_) =>
+                                  MyWishesModel.fromJson(result.data)),
+                          ChangeNotifierProvider<DistanceModel>(
+                              create: (_) => DistanceModel()),
+                          ChangeNotifierProvider<MyUnitMapModel>(
+                              create: (_) => MyUnitMapModel()),
+                          ChangeNotifierProvider<AppBarModel>(
+                              create: (_) => AppBarModel()),
+                        ],
+                        child: MediaQueryWrap(child),
+                      );
+                    },
                   );
-                }
-                if (result.loading) {
-                  return Material(
-                    child: Center(
-                      child: Text('Loading profile...'),
-                    ),
-                  );
-                }
-                return MultiProvider(
-                  providers: <SingleChildWidget>[
-                    ChangeNotifierProvider<ProfileModel>(
-                        create: (_) =>
-                            ProfileModel.fromJson(result.data['profile'])),
-                    ChangeNotifierProvider<MyWishesModel>(
-                        create: (_) => MyWishesModel.fromJson(result.data)),
-                    ChangeNotifierProvider<DistanceModel>(
-                        create: (_) => DistanceModel()),
-                    ChangeNotifierProvider<MyUnitMapModel>(
-                        create: (_) => MyUnitMapModel()),
-                    ChangeNotifierProvider<AppBarModel>(
-                        create: (_) => AppBarModel()),
-                  ],
-                  child: MediaQueryWrap(child),
-                );
-              },
-            );
+                });
           },
         );
       },
@@ -319,12 +344,13 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
+          // TODO: [MVP] можно передать X-Hasura-User-Id без JWT - как отключить?
           // link: HttpLink(
           //   uri: 'https://$kGraphQLEndpoint',
           //   headers: {
           //     'X-Hasura-Role': 'user',
-          //     // 'X-Hasura-User-Id': memberId,
-          //     'Authorization': 'Bearer ${authData.token}',
+          //     'X-Hasura-User-Id': kFakeMemberId,
+          //     // 'Authorization': 'Bearer ${authData.token}',
           //   },
           // ),
           link: authLink.concat(httpLink), // .concat(websocketLink),
@@ -353,6 +379,32 @@ class App extends StatelessWidget {
       child: result,
     );
     return result;
+  }
+
+  Future<bool> _upsertMember(GraphQLClient client) async {
+    final options = MutationOptions(
+      documentNode: Mutations.upsertMember,
+      variables: {
+        'display_name': authData.user.displayName,
+        'photo_url': authData.user.photoUrl,
+      },
+      fetchPolicy: FetchPolicy.noCache,
+    );
+    return client
+        .mutate(options)
+        .timeout(kGraphQLMutationTimeoutDuration)
+        .then<bool>((QueryResult result) {
+      if (result.hasException) {
+        throw result.exception;
+      }
+      if (result.data['insert_member']['affected_rows'] != 1) {
+        throw 'Invalid insert_member.affected_rows';
+      }
+      appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
+      return true;
+    }).catchError((error) {
+      print(error);
+    });
   }
 }
 
@@ -428,9 +480,15 @@ class MediaQueryWrap extends StatelessWidget {
 // );
 
 class AuthData {
-  AuthData({this.user, this.token});
+  AuthData({
+    this.user,
+    this.token,
+    this.isLogin = false,
+  });
+
   final FirebaseUser user;
   final String token;
+  final bool isLogin;
 }
 
 class AuthCheck extends StatefulWidget {
@@ -479,8 +537,6 @@ class _AuthCheckState extends State<AuthCheck> {
       final user = await FirebaseAuth.instance.currentUser();
       if (user == null) return null;
       final idToken = await user.getIdToken();
-      print(user.providerId);
-      return null;
       return AuthData(user: user, token: idToken.token);
     } catch (error) {
       print(error);

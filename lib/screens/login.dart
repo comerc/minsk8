@@ -131,7 +131,13 @@ class _LoginScreenState extends State<LoginScreen> {
       final user = authResult.user;
       final token = await _getToken(context: context, user: user);
       Navigator.of(context).pop();
-      widget.onClose(AuthData(user: user, token: token));
+      widget.onClose(
+        AuthData(
+          user: user,
+          token: token,
+          isLogin: true,
+        ),
+      );
     } catch (error) {
       setState(() {
         _isLoading = false;
