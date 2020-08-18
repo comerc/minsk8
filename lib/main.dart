@@ -317,6 +317,7 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
+    // print(jsonEncode(parseIdToken(authData.token)));
     final httpLink = HttpLink(
       uri: 'https://$kGraphQLEndpoint',
     );

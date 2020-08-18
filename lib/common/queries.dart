@@ -153,6 +153,7 @@ class Queries {
         member {
           id
           display_name
+          photo_url
           banned_until
           last_activity_at
         }
@@ -188,6 +189,7 @@ class Queries {
         invited_member {
           id
           display_name
+          photo_url
           banned_until
           last_activity_at
         }

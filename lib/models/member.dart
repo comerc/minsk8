@@ -8,6 +8,7 @@ class MemberModel {
   MemberModel({
     this.id,
     this.displayName,
+    this.photoUrl,
     this.bannedUntil,
     this.lastActivityAt,
     this.units,
@@ -16,6 +17,8 @@ class MemberModel {
   final String id;
   final String displayName;
   @JsonKey(nullable: true)
+  final String photoUrl;
+  @JsonKey(nullable: true)
   final DateTime bannedUntil;
   final DateTime lastActivityAt;
   @JsonKey(
@@ -23,7 +26,8 @@ class MemberModel {
       defaultValue: []) // не хочу показывать для units.win.member, profile.member, payments.inviteMember
   final List<UnitModel> units;
 
-  String get avatarUrl => 'https://robohash.org/$id?set=set4';
+  // TODO: если null, то рисовать цветной кружок с инициалами, как в телеге
+  String get avatarUrl => photoUrl ?? 'https://robohash.org/$id?set=set4';
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);

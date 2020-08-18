@@ -17,6 +17,7 @@ class Fragments {
         member {
           id
           display_name
+          photo_url
           banned_until
           last_activity_at
         }
@@ -30,6 +31,7 @@ class Fragments {
     fragment memberFields on member {
       id
       display_name
+      photo_url
       banned_until
       last_activity_at
       units(

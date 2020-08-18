@@ -49,37 +49,41 @@ class HomeProfileState extends State<HomeProfile> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         SizedBox(height: statusBarHeight + 16),
-        Tooltip(
-          message: 'Поменять аватарку',
-          child: Avatar(
-            profile.member.avatarUrl,
-            radius: kBigAvatarRadius,
-            elevation: kButtonElevation,
-            child: InkWell(
-              onTap: () {
-                // TODO: [MVP] загрузка аватарки (или получать её из внешнего аккаунта?)
-                // TODO: распознование лица и обрезание картинки
-                // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (но усложняет модерацию)
-                showDialog(
-                  context: context,
-                  child: AlertDialog(
-                    content: Text(
-                        'Поменять аватарку можно будет в следующей версии.'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('ОК'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-              splashColor: Colors.white.withOpacity(0.4),
-            ),
-          ),
+        Avatar(
+          profile.member.avatarUrl,
+          radius: kBigAvatarRadius,
         ),
+        // Tooltip(
+        //   message: 'Поменять аватарку',
+        //   child: Avatar(
+        //     profile.member.avatarUrl,
+        //     radius: kBigAvatarRadius,
+        //     elevation: kButtonElevation,
+        //     child: InkWell(
+        //       onTap: () {
+        //         // TODO: загрузка аватарки
+        //         // TODO: распознование лица и обрезание картинки
+        //         // TODO: в телеге можно кликнуть по аватарке, и посмотреть галерею участника (но усложняет модерацию)
+        //         showDialog(
+        //           context: context,
+        //           child: AlertDialog(
+        //             content: Text(
+        //                 'Поменять аватарку можно будет в следующей версии.'),
+        //             actions: <Widget>[
+        //               FlatButton(
+        //                 child: Text('ОК'),
+        //                 onPressed: () {
+        //                   Navigator.of(context).pop();
+        //                 },
+        //               ),
+        //             ],
+        //           ),
+        //         );
+        //       },
+        //       splashColor: Colors.white.withOpacity(0.4),
+        //     ),
+        //   ),
+        // ),
         SizedBox(height: 8),
         Text(
           profile.member.displayName,
