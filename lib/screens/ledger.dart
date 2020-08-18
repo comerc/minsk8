@@ -148,7 +148,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                         avatar = Avatar(payment.invitedMember.avatarUrl);
                         text = interpolate(text, params: {
                           'value': getPluralKarma(payment.value),
-                          'member': payment.invitedMember.nickname,
+                          'member': payment.invitedMember.displayName,
                           'balance': payment.balance,
                         });
                       },

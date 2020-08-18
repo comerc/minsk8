@@ -7,14 +7,14 @@ part 'member.g.dart';
 class MemberModel {
   MemberModel({
     this.id,
-    this.nickname,
+    this.displayName,
     this.bannedUntil,
     this.lastActivityAt,
     this.units,
   });
 
   final String id;
-  final String nickname;
+  final String displayName;
   @JsonKey(nullable: true)
   final DateTime bannedUntil;
   final DateTime lastActivityAt;

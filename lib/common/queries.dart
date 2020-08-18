@@ -152,7 +152,7 @@ class Queries {
       profile(member_id: $member_id) {
         member {
           id
-          nickname
+          display_name
           banned_until
           last_activity_at
         }
@@ -187,7 +187,7 @@ class Queries {
         }
         invited_member {
           id
-          nickname
+          display_name
           banned_until
           last_activity_at
         }

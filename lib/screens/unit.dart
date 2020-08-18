@@ -570,7 +570,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         Avatar(member.avatarUrl),
                         SizedBox(width: 8),
                         Text(
-                          member.nickname,
+                          member.displayName,
                           style: TextStyle(
                             fontSize: kFontSize * kGoldenRatio,
                             fontWeight: FontWeight.w600,
@@ -632,7 +632,7 @@ class _UnitScreenState extends State<UnitScreen> {
     }
     if (unit.win != null) {
       return Text(
-        'Победитель — ${unit.win.member.nickname}',
+        'Победитель — ${unit.win.member.displayName}',
       );
     }
     if (unit.expiresAt != null) {

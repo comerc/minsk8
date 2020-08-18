@@ -82,7 +82,7 @@ class HomeProfileState extends State<HomeProfile> {
         ),
         SizedBox(height: 8),
         Text(
-          profile.member.nickname,
+          profile.member.displayName,
           style: TextStyle(
             fontSize: kFontSize * kGoldenRatio,
             fontWeight: FontWeight.w600,

@@ -53,7 +53,8 @@ class WantButton extends StatelessWidget {
                 if (unit.win != null) {
                   return InfoDialog(
                     icon: FontAwesomeIcons.trophy,
-                    title: 'Лот получил(а) — ${unit.win.member.nickname}. УРА!',
+                    title:
+                        'Лот получил(а) — ${unit.win.member.displayName}. УРА!',
                     description:
                         'Следите за новыми лотами —\nзаберите тоже что-то крутое\n\nИли что-нибудь отдайте!',
                   );

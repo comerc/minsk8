@@ -16,7 +16,7 @@ class Fragments {
         created_at
         member {
           id
-          nickname
+          display_name
           banned_until
           last_activity_at
         }
@@ -29,7 +29,7 @@ class Fragments {
 
     fragment memberFields on member {
       id
-      nickname
+      display_name
       banned_until
       last_activity_at
       units(
