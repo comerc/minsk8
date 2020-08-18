@@ -317,23 +317,19 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
-    print(jsonEncode(parseIdToken(authData.token)));
-    // print(authData.token);
     final httpLink = HttpLink(
       uri: 'https://$kGraphQLEndpoint',
     );
-    // final websocketLink = WebSocketLink(
-    //   url: 'wss://$kGraphQLEndpoint',
-    //   config: SocketClientConfig(
-    //     autoReconnect: true,
-    //     inactivityTimeout: const Duration(seconds: 30),
-    //     initPayload: () async {
-    //       return {
-    //         'headers': {'Authorization': 'Bearer ${authData.token}'}
-    //       };
-    //     },
-    //   ),
-    // );
+    final websocketLink = WebSocketLink(
+      url: 'wss://$kGraphQLEndpoint',
+      config: SocketClientConfig(
+        autoReconnect: true,
+        inactivityTimeout: kGraphQLWebsocketInactivityTimeout,
+        initPayload: () async => {
+          'headers': {'Authorization': 'Bearer ${authData.token}'}
+        },
+      ),
+    );
     final authLink = AuthLink(
       getToken: () async => 'Bearer ${authData.token}',
     );
@@ -344,16 +340,7 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
-          // TODO: [MVP] можно передать X-Hasura-User-Id без JWT - как отключить?
-          // link: HttpLink(
-          //   uri: 'https://$kGraphQLEndpoint',
-          //   headers: {
-          //     'X-Hasura-Role': 'user',
-          //     'X-Hasura-User-Id': kFakeMemberId,
-          //     // 'Authorization': 'Bearer ${authData.token}',
-          //   },
-          // ),
-          link: authLink.concat(httpLink), // .concat(websocketLink),
+          link: authLink.concat(httpLink).concat(websocketLink),
         ),
       ),
       child: CacheProvider(

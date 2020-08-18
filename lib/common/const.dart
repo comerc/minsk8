@@ -25,6 +25,7 @@ const kBigButtonWidth = kBigButtonHeight * kGoldenRatio;
 const kBigButtonIconSize = kButtonIconSize * kGoldenRatio;
 const kAnimationTime = 400;
 const kMinLeadingWidth = 40;
+const kGraphQLWebsocketInactivityTimeout = Duration(seconds: 30);
 const kGraphQLMutationTimeoutDuration = Duration(seconds: 20);
 const kGraphQLQueryTimeoutDuration = Duration(seconds: 20);
 const kImageUploadTimeoutDuration = Duration(seconds: 20);
