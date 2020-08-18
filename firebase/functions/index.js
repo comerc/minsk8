@@ -1,5 +1,6 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
+const { v4: uuidv4 } = require('uuid')
 admin.initializeApp(functions.config().firebase)
 
 // // Create and Deploy Your First Cloud Functions
@@ -14,7 +15,7 @@ exports.processSignUp = functions.auth.user().onCreate((user) => {
     'https://hasura.io/jwt/claims': {
       'x-hasura-default-role': 'user',
       'x-hasura-allowed-roles': ['user'],
-      'x-hasura-user-id': '92dd31ef-991b-4e56-8f12-587e5e82ce2e', // user.uid,
+      'x-hasura-user-id': uuidv4(), // user.uid,
     },
   }
 
