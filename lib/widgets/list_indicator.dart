@@ -136,10 +136,10 @@ Widget buildListIndicator({
 
 Widget _buildBackground(bool full, Widget child) {
   return Container(
-      padding: EdgeInsets.only(bottom: 200),
-      width: double.infinity,
-      height: full ? double.infinity : kNavigationBarHeight * 2,
-      child: child,
-      color: Colors.transparent,
-      alignment: full ? Alignment.center : Alignment.topCenter);
+    width: double.infinity,
+    height: full ? double.infinity : kNavigationBarHeight * 2,
+    child: child,
+    color: Colors.transparent,
+    alignment: full ? Alignment.center : Alignment.topCenter,
+  );
 }

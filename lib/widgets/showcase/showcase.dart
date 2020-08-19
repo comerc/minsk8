@@ -4,6 +4,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+// TODO: RefreshIndicator https://github.com/flutter/flutter/blob/v1.15.22/examples/flutter_gallery/lib/demo/material/overscroll_demo.dart
+
 class Showcase extends StatefulWidget {
   Showcase({
     Key key,
@@ -123,16 +125,6 @@ class ShowcaseState extends State<Showcase>
               ),
             );
           },
-        ),
-        // hack for https://github.com/fluttercandies/loading_more_list/issues/20
-        SliverPersistentHeader(
-          delegate: CommonSliverPersistentHeaderDelegate(
-            builder: (BuildContext context, double shrinkOffset,
-                bool overlapsContent) {
-              return Container();
-            },
-            height: 16,
-          ),
         ),
       ],
       body: TabBarView(

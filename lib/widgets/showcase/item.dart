@@ -31,6 +31,8 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+        SizedBox(height: 16),
         _buildImage(),
         _buildBottom(),
       ],

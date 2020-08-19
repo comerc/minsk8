@@ -54,7 +54,8 @@ class _ShowcaseListState extends State<ShowcaseList>
                   SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+                // mainAxisSpacing: 16,
                 collectGarbage: (List<int> garbages) {
                   garbages.forEach((int index) {
                     final unit = widget.sourceList[index];
@@ -84,7 +85,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                   sourceList: widget.sourceList,
                 );
               },
-              // TODO: https://github.com/fluttercandies/loading_more_list/issues/20
+              // hack for https://github.com/fluttercandies/loading_more_list/issues/20
               padding: EdgeInsets.symmetric(horizontal: 16),
               lastChildLayoutType: LastChildLayoutType.foot,
             ),
