@@ -45,7 +45,7 @@ class StartMapScreenState extends State<StartMapScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    final result = await showModalBottomSheet(
+    final result = await showModalBottomSheet<bool>(
       context: context,
       builder: (context) => buildModalBottomSheet(
         context,

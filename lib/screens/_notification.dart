@@ -602,7 +602,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<void> _showSoundUriNotification() async {
     // this calls a method over a platform channel implemented within the example app to return the Uri for the default
     // alarm sound and uses as the notification sound
-    var alarmUri = await platform.invokeMethod('getAlarmUri');
+    var alarmUri = await platform.invokeMethod<String>('getAlarmUri');
     final x = UriAndroidNotificationSound(alarmUri);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'uri channel id', 'uri channel name', 'uri channel description',
@@ -753,7 +753,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Future<void> _showMessagingNotification() async {
     // use a platform channel to resolve an Android drawable resource to a URI.
     // This is NOT part of the notifications plugin. Calls made over this channel is handled by the app
-    final imageUri = await platform.invokeMethod('drawableToUri', 'food');
+    final imageUri =
+        await platform.invokeMethod<String>('drawableToUri', 'food');
     var messages = <Message>[]; // ie List()
     // First two person objects will use icons that part of the Android app's drawable resources
     var me = Person(

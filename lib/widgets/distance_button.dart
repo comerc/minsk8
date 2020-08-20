@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 class DistanceButton extends StatelessWidget {
   DistanceButton({this.onTap});
 
-  final Function onTap;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {

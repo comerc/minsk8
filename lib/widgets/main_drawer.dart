@@ -71,7 +71,8 @@ final mainRoutes = [
       if (result.hasException) {
         throw result.exception;
       }
-      final unit = UnitModel.fromJson(result.data['unit']);
+      final unit =
+          UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
       return UnitRouteArguments(
         unit,
         member: unit.member,
@@ -162,7 +163,7 @@ class MainDrawer extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final mainRoute = mainRoutes[index];
               return ListTile(
-                title: Text(mainRoute['title']),
+                title: Text(mainRoute['title'] as String),
                 selected: currentRouteName == mainRoute['routeName'],
                 onTap: () async {
                   Navigator.of(context).popUntil(
@@ -173,13 +174,13 @@ class MainDrawer extends StatelessWidget {
                   if (arguments == null) {
                     // ignore: unawaited_futures
                     Navigator.of(context).pushNamed(
-                      mainRoute['routeName'],
+                      mainRoute['routeName'] as String,
                     );
                     return;
                   }
                   // ignore: unawaited_futures
                   Navigator.of(context).pushNamed(
-                    mainRoute['routeName'],
+                    mainRoute['routeName'] as String,
                     arguments: arguments,
                   );
                 },

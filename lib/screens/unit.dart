@@ -53,8 +53,8 @@ class _UnitScreenState extends State<UnitScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) {
-    final RenderBox renderBox =
-        _panelColumnKey.currentContext.findRenderObject();
+    final renderBox =
+        _panelColumnKey.currentContext.findRenderObject() as RenderBox;
     setState(() {
       _panelMaxHeight = renderBox.size.height;
     });
@@ -118,12 +118,12 @@ class _UnitScreenState extends State<UnitScreen> {
                                 });
                               }
                             });
-                            final Hero hero =
+                            final hero =
                                 flightDirection == HeroFlightDirection.pop &&
                                         _showHero != _ShowHero.forCloseZoom
                                     ? fromHeroContext.widget
                                     : toHeroContext.widget;
-                            return hero.child;
+                            return (hero as Hero).child;
                           },
                         ),
                       ),

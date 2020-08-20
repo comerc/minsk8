@@ -181,7 +181,7 @@ class _UploaderState extends State<Uploader> {
                       child: Icon(Icons.pause, size: 50),
                       onPressed: _uploadTask.pause,
                     ),
-                  LinearProgressIndicator(value: progressPercent),
+                  LinearProgressIndicator(value: progressPercent as double),
                   Text(
                     '${(progressPercent * 100).toStringAsFixed(2)} % ',
                     style: TextStyle(fontSize: 50),

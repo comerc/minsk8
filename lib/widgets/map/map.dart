@@ -286,8 +286,8 @@ class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
               borderColor: Colors.black,
               borderStrokeWidth: 1,
               point: LatLng(
-                appState['currentPosition'][0],
-                appState['currentPosition'][1],
+                appState['currentPosition'][0] as double,
+                appState['currentPosition'][1] as double,
               ),
             ),
           ]),

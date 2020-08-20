@@ -22,10 +22,10 @@ class MapScaleLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapScaleLayerOption)) {
-      throw 'Unknown options type for MapScaleLayer: $options';
-    }
-    return _MapScaleLayer(options, mapState, stream);
+    // if (!(options is MapScaleLayerOption)) {
+    //   throw 'Unknown options type for MapScaleLayer: $options';
+    // }
+    return _MapScaleLayer(options as MapScaleLayerOption, mapState, stream);
   }
 
   @override
@@ -82,7 +82,7 @@ class _MapScaleLayer extends StatelessWidget {
         final displayDistance = distance > 999
             ? '${(distance / 1000).toStringAsFixed(0)} km'
             : '${distance.toStringAsFixed(0)} m';
-        final width = end.x - start.x;
+        final width = (end.x - start.x) as double;
         return CustomPaint(
           painter: _MapScalePainter(
             width,
@@ -117,9 +117,8 @@ class _MapScalePainter extends CustomPainter {
 
     final sizeForStartEnd = 4;
     final paddingLeft =
-        padding == null ? 0 : padding.left + sizeForStartEnd / 2;
-    var paddingTop = padding == null ? 0 : padding.top;
-
+        padding == null ? 0.0 : padding.left + sizeForStartEnd / 2;
+    var paddingTop = padding == null ? 0.0 : padding.top;
     final textSpan = TextSpan(style: textStyle, text: text);
     final textPainter =
         TextPainter(text: textSpan, textDirection: TextDirection.ltr)..layout();

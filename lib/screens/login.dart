@@ -90,9 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<String> _getToken({
-    context,
-    user,
-    retry = 0,
+    BuildContext context,
+    FirebaseUser user,
+    int retry = 0,
   }) async {
     if (retry < 4) {
       await Future.delayed(Duration(milliseconds: 100));

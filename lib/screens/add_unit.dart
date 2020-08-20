@@ -140,7 +140,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Местоположение',
-            text: appState['MyUnitMap.address'] ?? 'Местоположение',
+            text: appState['MyUnitMap.address'] as String ?? 'Местоположение',
             onTap: _selectLocation,
           ),
         ),
@@ -270,14 +270,14 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       }
       isLoading = false;
       Navigator.of(context).pop(); // for showDialog "Загрузка..."
-      final unitData = result.data['insert_unit_one'];
+      final unitData = result.data['insert_unit_one'] as Map<String, dynamic>;
       final newUnit = UnitModel.fromJson(unitData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
       profile.member.units.insert(0, newUnit);
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);
       _reloadUnderwayModel();
-      final value = await showDialog(
+      final value = await showDialog<bool>(
         context: context,
         child: AddedUnitDialog(
           newUnit,
@@ -285,7 +285,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ),
       );
       if (value ?? false) {
-        final kind = await Navigator.of(context).pushReplacementNamed('/kinds');
+        final kind = await Navigator.of(context)
+            .pushReplacementNamed<KindValue, void>('/kinds');
         if (kind == null) return;
         // ignore: unawaited_futures
         Navigator.pushNamed(
@@ -432,7 +433,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       if (mounted) setState(() {});
     }
     if (imageData.isCanceled) return;
-    final downloadUrl = await storageReference.getDownloadURL();
+    final downloadUrl = await storageReference.getDownloadURL() as String;
     final image = ExtendedImage.memory(imageData.bytes);
     final size = await _calculateImageDimension(image);
     imageData.model = ImageModel(
@@ -479,7 +480,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectKind() {
-    Navigator.pushNamed(
+    Navigator.pushNamed<KindValue>(
       context,
       '/kinds',
       arguments: KindsRouteArguments(_kind),
@@ -503,7 +504,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   Future<bool> _onWillPop() async {
     if (_images.isEmpty && !_isValidText) return true;
-    final result = await showModalBottomSheet(
+    final result = await showModalBottomSheet<bool>(
       context: context,
       builder: (context) => buildModalBottomSheet(
         context,

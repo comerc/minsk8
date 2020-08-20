@@ -200,7 +200,7 @@ class _Menu extends StatelessWidget {
             onLongPress: () {}, // чтобы сократить время для splashColor
             onTap: () {
               if (entry.key == '/add_unit') {
-                Navigator.pushNamed(
+                Navigator.pushNamed<KindValue>(
                   context,
                   '/kinds',
                 ).then((kind) {

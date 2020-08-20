@@ -7,10 +7,10 @@ class ShowcaseMapScreen extends StatelessWidget {
   Widget build(context) {
     Widget body = MapWidget(
       center: LatLng(
-        appState['ShowcaseMap.center'][0],
-        appState['ShowcaseMap.center'][1],
+        appState['ShowcaseMap.center'][0] as double,
+        appState['ShowcaseMap.center'][1] as double,
       ),
-      zoom: appState['ShowcaseMap.zoom'],
+      zoom: appState['ShowcaseMap.zoom'] as double,
       saveModes: <MapSaveMode>[MapSaveMode.showcase],
     );
     return Scaffold(

@@ -4,7 +4,7 @@ import 'package:minsk8/import.dart';
 class ReadyButton extends StatelessWidget {
   ReadyButton({this.onTap, this.isRaised = false});
 
-  final Function onTap;
+  final void Function() onTap;
   final bool isRaised;
 
   @override

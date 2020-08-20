@@ -146,7 +146,7 @@ class App extends StatelessWidget {
             .map((EnumModel kind) => ShowcaseData(client, kind.value))
             .toList();
         HomeUnderway.dataPool = UnderwayValue.values
-            .map((value) => UnderwayData(client, value))
+            .map((UnderwayValue value) => UnderwayData(client, value))
             .toList();
         LedgerScreen.sourceList = LedgerData(client);
         return PersistedStateBuilder(

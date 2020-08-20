@@ -70,8 +70,8 @@ class PlacesAppBarState extends State<PlacesAppBar> {
   void _onSuggestionSelected(suggestion) {
     MapWidget.globalKey.currentState.animatedMapMove(
       destCenter: LatLng(
-        suggestion['_geoloc']['lat'],
-        suggestion['_geoloc']['lng'],
+        suggestion['_geoloc']['lat'] as double,
+        suggestion['_geoloc']['lng'] as double,
       ),
       destZoom: 13,
     );

@@ -10,10 +10,10 @@ class MapZoomLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapZoomLayerOptions)) {
-      throw 'Unknown options type for MapZoomLayer: $options';
-    }
-    return _MapZoomLayer(options, mapState);
+    // if (!(options is MapZoomLayerOptions)) {
+    //   throw 'Unknown options type for MapZoomLayer: $options';
+    // }
+    return _MapZoomLayer(options as MapZoomLayerOptions, mapState);
   }
 
   @override
@@ -25,7 +25,8 @@ class MapZoomLayer implements MapPlugin {
 class _MapZoomLayer extends StatefulWidget {
   final MapState mapState;
 
-  _MapZoomLayer(LayerOptions options, this.mapState) : super(key: options.key);
+  _MapZoomLayer(MapZoomLayerOptions options, this.mapState)
+      : super(key: options.key);
 
   @override
   _MapZoomLayerState createState() => _MapZoomLayerState();

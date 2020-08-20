@@ -6,7 +6,7 @@ class MapInfo extends StatelessWidget {
 
   final String text;
   final Widget child;
-  final Function onClose;
+  final void Function() onClose;
 
   @override
   Widget build(context) {

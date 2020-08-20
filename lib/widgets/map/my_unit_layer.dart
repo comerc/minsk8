@@ -17,10 +17,10 @@ class MapMyUnitLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapMyUnitLayerOptions)) {
-      throw 'Unknown options type for MapMyUnitLayer: $options';
-    }
-    return _MapMyUnitLayer(options, mapState);
+    // if (!(options is MapMyUnitLayerOptions)) {
+    //   throw 'Unknown options type for MapMyUnitLayer: $options';
+    // }
+    return _MapMyUnitLayer(options as MapMyUnitLayerOptions, mapState);
   }
 
   @override

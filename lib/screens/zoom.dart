@@ -23,7 +23,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
-  Function _animationListener;
+  void Function() _animationListener;
   List<double> doubleTapScales = [1, 1.5, 2];
   int _currentIndex;
 
@@ -216,7 +216,7 @@ class _ZoomScreenState extends State<ZoomScreen>
     );
   }
 
-  Widget _buidButton({String message, IconData icon, Function onTap}) {
+  Widget _buidButton({String message, IconData icon, void Function() onTap}) {
     return Tooltip(
       message: message,
       child: ButtonTheme(

@@ -43,21 +43,20 @@ class LoadDataScreen extends StatelessWidget {
               //   separatorBuilder: (BuildContext context, int index) =>
               //       const Divider(),
               // );
-
+              final units = result.data['units'] as List<Map<String, dynamic>>;
               final minusOne = _hasMore ? 1 : 0;
-              final length = result.data['units'].length;
               return Container(
                 child: ListView(
                   children: <Widget>[
                     ...List.generate(
-                        length > 0 ? length - minusOne : 0,
-                        (int index) => _buildUnit(result.loading,
-                            UnitModel.fromJson(result.data['units'][index]))),
+                        units.isNotEmpty ? units.length - minusOne : 0,
+                        (int index) => _buildUnit(
+                            result.loading, UnitModel.fromJson(units[index]))),
                     // for (var index = 0;
-                    //     index < length - minusOne;
+                    //     index < units.length - minusOne;
                     //     index++)
                     //   _buildUnit(result.loading,
-                    //       UnitModel.fromJson(result.data['units'][index])),
+                    //       UnitModel.fromJson(units[index])),
                     if (result.loading)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,19 +74,15 @@ class LoadDataScreen extends StatelessWidget {
                         ),
                         onPressed: () {
                           // final client = GraphQLProvider.of(context)?.value;
-
                           // return GraphQLConsumer(
                           //     builder: (GraphQLClient client) {
                           //       // do something with the client
-
                           //       return Container(
                           //         child: Text('Hello world'),
                           //       );
                           //     },
-
-                          final index = result.data['units'].length - 1;
                           final nextUnit =
-                              UnitModel.fromJson(result.data['units'][index]);
+                              UnitModel.fromJson(units[units.length - 1]);
                           fetchMore(
                             FetchMoreOptions(
                               variables: {

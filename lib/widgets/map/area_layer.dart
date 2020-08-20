@@ -20,10 +20,10 @@ class MapAreaLayer implements MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    if (!(options is MapAreaLayerOptions)) {
-      throw 'Unknown options type for MapAreaLayer: $options';
-    }
-    return _MapAreaLayer(options, mapState, stream);
+    // if (!(options is MapAreaLayerOptions)) {
+    //   throw 'Unknown options type for MapAreaLayer: $options';
+    // }
+    return _MapAreaLayer(options as MapAreaLayerOptions, mapState, stream);
   }
 
   @override
@@ -54,7 +54,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
   @override
   void initState() {
     super.initState();
-    _radius = appState['ShowcaseMap.radius'] ?? (maxRadius / 2).round();
+    _radius = appState['ShowcaseMap.radius'] as int ?? (maxRadius / 2).round();
   }
 
   double get paintedRadius {
@@ -63,7 +63,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
         center, 90, _radius.toDouble() * 1000);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
-    return end.x - start.x;
+    return (end.x - start.x) as double;
   }
 
   @override

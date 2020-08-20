@@ -6,7 +6,7 @@ import 'package:minsk8/import.dart';
 const Duration _kExpand = Duration(milliseconds: 200);
 
 class AutoIncreaseField extends StatefulWidget {
-  AutoIncreaseField({key, this.price, this.balance}) : super(key: key);
+  AutoIncreaseField({Key key, this.price, this.balance}) : super(key: key);
 
   final int price;
   final int balance;

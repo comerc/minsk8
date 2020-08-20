@@ -5,7 +5,7 @@ import 'package:rainbow_color/rainbow_color.dart';
 // import 'package:minsk8/import.dart';
 
 Widget buildProgressIndicator(BuildContext context,
-    {hasAnimatedColor = false}) {
+    {bool hasAnimatedColor = false}) {
   return Platform.isIOS
       ? CupertinoActivityIndicator(
           animating: true,

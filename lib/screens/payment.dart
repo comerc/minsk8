@@ -368,7 +368,7 @@ class _PaymentScreenState extends State<PaymentScreen>
 class _PaymentButton extends StatefulWidget {
   _PaymentButton({this.onTap});
 
-  final Function onTap;
+  final void Function() onTap;
 
   @override
   _PaymentButtonState createState() => _PaymentButtonState();

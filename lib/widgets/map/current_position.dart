@@ -41,13 +41,13 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
   }
 
   Future<void> _onCurrentPositionClick() async {
-    if (appState['isNeverAskAgain'] ?? false) {
+    if (appState['isNeverAskAgain'] as bool ?? false) {
       final geolocationStatus =
           await Geolocator().checkGeolocationPermissionStatus();
       if (GeolocationStatus.granted == geolocationStatus) {
         appState['isNeverAskAgain'] = false;
       } else {
-        final isOK = await showDialog(
+        final isOK = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             content: Text(

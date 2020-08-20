@@ -2,8 +2,8 @@ include: package:pedantic/analysis_options.yaml
 # include: package:effective_dart/analysis_options.yaml
 
 # TODO: выключить implicit-casts
-# analyzer:
-#   exclude: [build/**]
-#   strong-mode:
-#     # https://github.com/dart-lang/sdk/issues/25368
-#     implicit-casts: false
+analyzer:
+  exclude: [build/**]
+  strong-mode:
+    # https://github.com/dart-lang/sdk/issues/25368
+    implicit-casts: false

@@ -123,7 +123,8 @@ class HomeScreenState extends State<HomeScreen> {
       if (result.hasException) {
         throw result.exception;
       }
-      final unit = UnitModel.fromJson(result.data['unit']);
+      final unit =
+          UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
       return UnitRouteArguments(
         unit,
         member: unit.member,
@@ -151,7 +152,7 @@ class HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       foregroundColor: Colors.pinkAccent,
       onPressed: () {
-        Navigator.pushNamed(
+        Navigator.pushNamed<KindValue>(
           context,
           '/kinds',
         ).then((kind) {

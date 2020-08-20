@@ -32,14 +32,14 @@ class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
   Widget build(BuildContext context) {
     Widget child = MapWidget(
       center: LatLng(
-        appState['MyUnitMap.center'][0],
-        appState['MyUnitMap.center'][1],
+        appState['MyUnitMap.center'][0] as double,
+        appState['MyUnitMap.center'][1] as double,
       ),
-      zoom: appState['MyUnitMap.zoom'],
+      zoom: appState['MyUnitMap.zoom'] as double,
       isMyUnit: true,
       onPositionChanged: _onPositionChanged,
     );
-    if (appState['MyUnitMap.isInfo'] ?? true) {
+    if (appState['MyUnitMap.isInfo'] as bool ?? true) {
       child = MapInfo(
         text:
             'Укажите местоположение лота, чтобы участники поблизости его увидели',

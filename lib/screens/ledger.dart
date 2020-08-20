@@ -129,9 +129,9 @@ class LedgerScreenState extends State<LedgerScreen> {
                       }
                       textData = (textData as List)[textVariant];
                     }
-                    Function action;
+                    void Function() action;
                     Widget avatar;
-                    String text = textData;
+                    var text = textData as String;
                     <AccountValue, Function>{
                       AccountValue.start: () {
                         action = _getBalanceAction;
@@ -245,7 +245,7 @@ class LedgerScreenState extends State<LedgerScreen> {
     return await sourceList.handleRefresh();
   }
 
-  Function _getUnitAction(UnitModel unit) {
+  void Function() _getUnitAction(UnitModel unit) {
     return () {
       Navigator.pushNamed(
         context,

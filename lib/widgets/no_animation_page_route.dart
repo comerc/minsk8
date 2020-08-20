@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:minsk8/import.dart';
 
-Function buildInitialRoute(String name) {
+PageRoute Function(WidgetBuilder builder) buildInitialRoute(String name) {
   return (WidgetBuilder builder) {
     final settings = RouteSettings(
       name: name,

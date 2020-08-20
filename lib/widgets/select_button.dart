@@ -7,7 +7,7 @@ class SelectButton extends StatelessWidget {
   final String tooltip;
   final String text;
   final String rightText;
-  final Function onTap;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {

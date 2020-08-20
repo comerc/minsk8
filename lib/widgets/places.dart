@@ -30,7 +30,7 @@ class _PlacesState extends State<Places> {
 
   @override
   Widget build(BuildContext context) {
-    return TypeAheadFormField(
+    return TypeAheadFormField<Map<String, dynamic>>(
       key: widget.formFieldKey,
       textFieldConfiguration: TextFieldConfiguration(
         autofocus: true,
@@ -48,7 +48,7 @@ class _PlacesState extends State<Places> {
         try {
           await Future.delayed(Duration(seconds: 1));
           final data = await _request(s);
-          return data['hits'] as List;
+          return data['hits'] as List<Map<String, dynamic>>;
         } finally {
           _isLoading = false;
         }
@@ -65,17 +65,19 @@ class _PlacesState extends State<Places> {
           ),
         );
       },
-      itemBuilder: (BuildContext context, suggestion) {
+      itemBuilder: (BuildContext context, Map<String, dynamic> suggestion) {
         var title = '';
         final subtitles = <String>[];
         try {
           final source = suggestion['_highlightResult'];
-          title = source['locale_names'][0]['value'];
-          if (source['city'] != null) subtitles.add(source['city'][0]['value']);
-          if (source['administrative'] != null) {
-            subtitles.add(source['administrative'][0]['value']);
+          title = source['locale_names'][0]['value'] as String;
+          if (source['city'] != null) {
+            subtitles.add(source['city'][0]['value'] as String);
           }
-          subtitles.add(source['country']['value']);
+          if (source['administrative'] != null) {
+            subtitles.add(source['administrative'][0]['value'] as String);
+          }
+          subtitles.add(source['country']['value'] as String);
           // final source = suggestion;
           // title = source['locale_names'][0];
           // if (source['city'] != null) subtitles.add(source['city'][0]);
@@ -121,7 +123,7 @@ class _PlacesState extends State<Places> {
     );
   }
 
-  Future<Map> _request(String pattern) async {
+  Future<Map<String, dynamic>> _request(String pattern) async {
     final cancellationToken = CancellationToken();
     var msg = '';
     final url = 'https://places-dsn.algolia.net/1/places/query';
@@ -149,7 +151,7 @@ class _PlacesState extends State<Places> {
           // timeRetry: const Duration(milliseconds: 100),
           // retries: 3,
           timeLimit: const Duration(seconds: 5));
-      final result = jsonDecode(response.body);
+      final result = jsonDecode(response.body) as Map<String, dynamic>;
       return result;
     } on TimeoutException catch (_) {
       msg = 'TimeoutException';
