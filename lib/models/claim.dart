@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class ClaimModel implements EnumModel {
-  ClaimModel(value, name)
+  ClaimModel(ClaimValue value, String name)
       : _value = value,
         _name = name;
 

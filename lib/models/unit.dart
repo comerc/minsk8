@@ -84,7 +84,7 @@ class UnitModel {
 
   static LatLng _locationFromJson(Map<String, dynamic> json) {
     final array = json['coordinates'];
-    return LatLng(array[0], array[1]);
+    return LatLng(array[0] as double, array[1] as double);
   }
 
   static Map<String, dynamic> _locationToJson(LatLng location) {

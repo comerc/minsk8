@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class KindModel implements EnumModel {
-  KindModel(value, name, this.rawSvg, {this.isNew})
+  KindModel(value, String name, this.rawSvg, {this.isNew})
       : assert([MetaKindValue, KindValue].contains(value.runtimeType)),
         _value = value,
         _name = name;

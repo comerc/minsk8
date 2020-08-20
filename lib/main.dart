@@ -1,22 +1,20 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:device_preview/device_preview.dart' hide DeviceOrientation;
-import 'package:flutter/services.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
-import 'package:state_persistence/state_persistence.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:io';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:rxdart/subjects.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:minsk8/import.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:state_persistence/state_persistence.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
@@ -216,17 +214,23 @@ class App extends StatelessWidget {
                       return MultiProvider(
                         providers: <SingleChildWidget>[
                           ChangeNotifierProvider<ProfileModel>(
-                              create: (_) => ProfileModel.fromJson(
-                                  result.data['profile'])),
+                            create: (_) => ProfileModel.fromJson(
+                              result.data['profile'] as Map<String, dynamic>,
+                            ),
+                          ),
                           ChangeNotifierProvider<MyWishesModel>(
-                              create: (_) =>
-                                  MyWishesModel.fromJson(result.data)),
+                            create: (_) => MyWishesModel.fromJson(
+                              result.data as Map<String, dynamic>,
+                            ),
+                          ),
                           ChangeNotifierProvider<DistanceModel>(
                               create: (_) => DistanceModel()),
                           ChangeNotifierProvider<MyUnitMapModel>(
-                              create: (_) => MyUnitMapModel()),
+                            create: (_) => MyUnitMapModel(),
+                          ),
                           ChangeNotifierProvider<AppBarModel>(
-                              create: (_) => AppBarModel()),
+                            create: (_) => AppBarModel(),
+                          ),
                         ],
                         child: MediaQueryWrap(child),
                       );
@@ -262,15 +266,17 @@ class App extends StatelessWidget {
       },
       onGenerateRoute: (RouteSettings settings) {
         final fullScreenDialogRoutes = <String, WidgetBuilder>{
-          '/add_unit': (BuildContext context) =>
-              AddUnitScreen(ModalRoute.of(context).settings.arguments),
-          '/edit_unit': (BuildContext context) =>
-              EditUnitScreen(ModalRoute.of(context).settings.arguments),
+          '/add_unit': (BuildContext context) => AddUnitScreen(
+              ModalRoute.of(context).settings.arguments
+                  as AddUnitRouteArguments),
+          '/edit_unit': (BuildContext context) => EditUnitScreen(
+              ModalRoute.of(context).settings.arguments
+                  as EditUnitRouteArguments),
           '/feedback': (_) => FeedbackScreen(),
           '/how_to_pay': (_) => HowToPayScreen(),
           '/invite': (_) => InviteScreen(),
-          '/kinds': (BuildContext context) =>
-              KindsScreen(ModalRoute.of(context).settings.arguments),
+          '/kinds': (BuildContext context) => KindsScreen(
+              ModalRoute.of(context).settings.arguments as KindsRouteArguments),
           // '/login': (_) => LoginScreen(),
           '/my_unit_map': (_) => MyUnitMapScreen(),
           '/payment': (_) => PaymentScreen(),
@@ -278,12 +284,13 @@ class App extends StatelessWidget {
           '/showcase_map': (_) => ShowcaseMapScreen(),
           '/sign_up': (_) => SignUpScreen(),
           '/start_map': (_) => StartMapScreen(),
-          '/unit': (BuildContext context) =>
-              UnitScreen(ModalRoute.of(context).settings.arguments),
-          '/unit_map': (BuildContext context) =>
-              UnitMapScreen(ModalRoute.of(context).settings.arguments),
-          '/zoom': (BuildContext context) =>
-              ZoomScreen(ModalRoute.of(context).settings.arguments),
+          '/unit': (BuildContext context) => UnitScreen(
+              ModalRoute.of(context).settings.arguments as UnitRouteArguments),
+          '/unit_map': (BuildContext context) => UnitMapScreen(
+              ModalRoute.of(context).settings.arguments
+                  as UnitMapRouteArguments),
+          '/zoom': (BuildContext context) => ZoomScreen(
+              ModalRoute.of(context).settings.arguments as ZoomRouteArguments),
         };
         if (fullScreenDialogRoutes.containsKey(settings.name)) {
           final widgetBuilder = fullScreenDialogRoutes[settings.name];

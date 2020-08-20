@@ -13,8 +13,8 @@ class DistanceModel extends ChangeNotifier {
       return;
     }
     final distanceInMeters = await Geolocator().distanceBetween(
-        appState['currentPosition'][0],
-        appState['currentPosition'][1],
+        appState['currentPosition'][0] as double,
+        appState['currentPosition'][1] as double,
         location.latitude,
         location.longitude);
     _value = _formatValue(distanceInMeters);

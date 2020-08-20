@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class AccountModel implements EnumModel {
-  AccountModel(value, name)
+  AccountModel(AccountValue value, String name)
       : _value = value,
         _name = name;
 

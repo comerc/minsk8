@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class UrgentModel implements EnumModel {
-  UrgentModel(value, name, this.text)
+  UrgentModel(UrgentStatus value, String name, this.text)
       : _value = value,
         _name = name;
 

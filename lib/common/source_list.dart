@@ -74,7 +74,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       if (result.hasException) {
         throw result.exception;
       }
-      final items = getItems(result.data);
+      final items = getItems(result.data as Map<String, dynamic>);
       if (length > 0 && clearAfterRequest) {
         // TODO: как отменить IndicatorStatus.loadingMoreBusying?
         // indicatorStatus = IndicatorStatus.none;

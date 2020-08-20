@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class UnderwayModel implements EnumModel {
-  UnderwayModel(value, name)
+  UnderwayModel(UnderwayValue value, String name)
       : _value = value,
         _name = name;
 

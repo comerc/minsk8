@@ -36,7 +36,7 @@ class UnderwayData extends SourceList<UnitModel> {
         // UnderwayValue.take: 'wants',
         // UnderwayValue.past: 'wants',
         UnderwayValue.give: 'gives',
-      }[tabValue]] as List
+      }[tabValue]] as List<Map<String, dynamic>>
     ];
     // сначала наполняю буфер items, если есть ошибки в UnitModel.fromJson
     final items = <UnitModel>[];
@@ -56,7 +56,7 @@ class UnderwayData extends SourceList<UnitModel> {
   }
 
   UnitModel normalizeItem(metaModel) {
-    final item = metaModel.unit;
+    final item = metaModel.unit as UnitModel;
     metaModel.unit = null;
     item.meta = metaModel;
     return item;

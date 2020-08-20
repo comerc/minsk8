@@ -1,7 +1,7 @@
 import 'package:minsk8/import.dart';
 
 class QuestionModel implements EnumModel {
-  QuestionModel(value, name)
+  QuestionModel(QuestionValue value, String name)
       : _value = value,
         _name = name;
 

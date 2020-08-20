@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:minsk8/import.dart';
 
+// loading_more_list/example/lib/demo/multiple_sliver_demo.dart
+
 // TODO: [MVP] вместо велосипедирования, прикрутить реализацию чата
 // https://uikitty.net/achat-flutter-firebase-chat-template/
 // https://pub.dev/packages/firebase_in_app_messaging

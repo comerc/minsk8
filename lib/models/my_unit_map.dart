@@ -19,7 +19,7 @@ class MyUnitMapModel extends ChangeNotifier {
   }
 
   void init() {
-    _address = appState['MyUnitMap.address'] ?? '(none)';
+    _address = (appState['MyUnitMap.address'] ?? '(none)') as String;
     _visible = true;
   }
 }
