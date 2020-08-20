@@ -24,7 +24,7 @@ class LedgerData extends SourceList<LedgerItem> {
 
   @override
   List<LedgerItem> getItems(data) {
-    final dataItems = [...data['payments'] as List<Map<String, dynamic>>];
+    final dataItems = <Map<String, dynamic>>[...data['payments']];
     // сначала наполняю буфер items, если есть ошибки в PaymentModel.fromJson
     final items = <LedgerItem>[];
     final hasMore = dataItems.length == kGraphQLPaymentsLimit;

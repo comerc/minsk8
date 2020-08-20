@@ -41,8 +41,8 @@ class ShowcaseData extends SourceList<UnitModel> {
   }
 
   @override
-  List<UnitModel> getItems(data) {
-    final dataItems = [...data['units'] as List<Map<String, dynamic>>];
+  List<UnitModel> getItems(Map<String, dynamic> data) {
+    final dataItems = <Map<String, dynamic>>[...data['units']];
     // сначала наполняю буфер items, если есть ошибки в UnitModel.fromJson
     final items = <UnitModel>[];
     final hasMore = dataItems.length == kGraphQLUnitsLimit;

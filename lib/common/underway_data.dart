@@ -29,14 +29,14 @@ class UnderwayData extends SourceList<UnitModel> {
 
   @override
   List<UnitModel> getItems(data) {
-    final dataItems = [
+    final dataItems = <Map<String, dynamic>>[
       ...data[{
         UnderwayValue.wish: 'wishes',
         UnderwayValue.want: 'wants',
         // UnderwayValue.take: 'wants',
         // UnderwayValue.past: 'wants',
         UnderwayValue.give: 'gives',
-      }[tabValue]] as List<Map<String, dynamic>>
+      }[tabValue]]
     ];
     // сначала наполняю буфер items, если есть ошибки в UnitModel.fromJson
     final items = <UnitModel>[];
