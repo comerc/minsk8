@@ -166,8 +166,8 @@ class Queries {
     }
   ''');
 
-  static final getMyPayments = gql(r'''
-    query getMyPayments($next_created_at: timestamptz) {
+  static final getPayments = gql(r'''
+    query getPayments($next_created_at: timestamptz) {
       payments (
         where: 
           {
@@ -198,9 +198,15 @@ class Queries {
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
-  static final getMyNotifications = gql(r'''
-    query getMyNotifications {
-      notifications {
+  static final getNotices = gql(r'''
+    query getNotices($next_created_at: timestamptz) {
+      notices (
+        where: 
+          {
+            created_at: {_lte: $next_created_at} 
+          }, 
+        order_by: {created_at: desc}
+      ) {
         created_at
         proclamation {
           id

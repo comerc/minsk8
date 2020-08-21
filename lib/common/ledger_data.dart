@@ -16,7 +16,7 @@ class LedgerData extends SourceList<LedgerItem> {
   QueryOptions get options {
     final variables = {'next_created_at': nextCreatedAt};
     return QueryOptions(
-      documentNode: Queries.getMyPayments,
+      documentNode: Queries.getPayments,
       variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );
