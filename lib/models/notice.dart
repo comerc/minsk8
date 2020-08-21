@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
-part 'notification.g.dart';
+part 'notice.g.dart';
 
 @JsonSerializable()
-class NotificationModel {
-  NotificationModel({
+class NoticeModel {
+  NoticeModel({
     this.createdAt,
     this.proclamation,
     this.suggestion,
@@ -17,8 +17,8 @@ class NotificationModel {
   @JsonKey(nullable: true)
   final SuggestionModel suggestion;
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
-      _$NotificationModelFromJson(json);
+  factory NoticeModel.fromJson(Map<String, dynamic> json) =>
+      _$NoticeModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+  Map<String, dynamic> toJson() => _$NoticeModelToJson(this);
 }
