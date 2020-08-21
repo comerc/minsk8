@@ -2,7 +2,7 @@
 
 Flutter в режиме [live-code](https://www.youtube.com/playlist?list=PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc). Потому что прёт! Маркетплейс на Hasura и Firebase.
 
-![demo](https://itsallwidgets.com/screenshots/app-2041.png?updated_at=2020-08-21%2012:08:40)
+![demo](https://itsallwidgets.com/screenshots/app-2041.png)
 
 ## How to Start
 
