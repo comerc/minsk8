@@ -86,8 +86,36 @@ class HomeChat extends StatelessWidget {
                     }
                     final notice = item.notice;
                     void Function() action;
-                    Widget avatar;
-                    var text = '';
+                    Widget avatar = CircleAvatar(
+                      child: Logo(size: kDefaultIconSize),
+                      backgroundColor: Colors.white,
+                    );
+                    var text = 'no data';
+                    final proclamation = item.notice.proclamation;
+                    if (proclamation != null) {
+                      text = proclamation.text;
+                      final unit = proclamation.unit;
+                      if (unit != null) {
+                        avatar = Avatar(unit.avatarUrl);
+                      }
+                    }
+                    final suggestion = item.notice.suggestion;
+                    if (suggestion != null) {
+                      text = {
+                        QuestionValue.condition:
+                            'Укажите состояние и\u00A0работоспособность. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
+                        QuestionValue.model:
+                            'Укажите модель. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
+                        QuestionValue.original:
+                            'Укажите, это\u00A0оригинал или\u00A0реплика. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
+                        QuestionValue.size:
+                            'Укажите размеры. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
+                        QuestionValue.time:
+                            'Укажите, в\u00A0какое время нужно забирать лот. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
+                      }[suggestion.question];
+                      final unit = suggestion.unit;
+                      avatar = Avatar(unit.avatarUrl);
+                    }
                     return Material(
                       child: InkWell(
                         onLongPress:
