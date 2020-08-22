@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: bug если одна дата, то пропадает NoticeItem.displayDate после refresh
+// TODO: реализовать абстракцию StickyData для NoticeData и LedgerData
 
 class NoticeData extends SourceList<NoticeItem> {
   NoticeData(
@@ -29,7 +29,7 @@ class NoticeData extends SourceList<NoticeItem> {
     final dataItems = <Map<String, dynamic>>[...data['notices']];
     // сначала наполняю буфер items, если есть ошибки в NoticeModel.fromJson
     final items = <NoticeItem>[];
-    final hasMore = dataItems.length == kGraphQLPaymentsLimit;
+    final hasMore = dataItems.length == kGraphQLStickyLimit;
     this.hasMore = hasMore;
     if (hasMore) {
       final notice = NoticeModel.fromJson(dataItems.removeLast());
@@ -53,6 +53,12 @@ class NoticeData extends SourceList<NoticeItem> {
       items.add(NoticeItem(notice: notice));
     }
     return items;
+  }
+
+  @override
+  Future<bool> refresh([bool clearBeforeRequest = false]) async {
+    _nextDate = null;
+    return super.refresh(clearBeforeRequest);
   }
 }
 

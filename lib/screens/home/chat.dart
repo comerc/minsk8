@@ -6,6 +6,8 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_list/extended_list.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: Реализовать sticky displayDate как sticky_grouped_list
+
 class HomeChat extends StatelessWidget {
   HomeChat();
 

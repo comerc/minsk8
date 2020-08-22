@@ -27,7 +27,7 @@ class LedgerData extends SourceList<LedgerItem> {
     final dataItems = <Map<String, dynamic>>[...data['payments']];
     // сначала наполняю буфер items, если есть ошибки в PaymentModel.fromJson
     final items = <LedgerItem>[];
-    final hasMore = dataItems.length == kGraphQLPaymentsLimit;
+    final hasMore = dataItems.length == kGraphQLStickyLimit;
     this.hasMore = hasMore;
     if (hasMore) {
       final payment = PaymentModel.fromJson(dataItems.removeLast());
@@ -51,6 +51,12 @@ class LedgerData extends SourceList<LedgerItem> {
       items.add(LedgerItem(payment: payment));
     }
     return items;
+  }
+
+  @override
+  Future<bool> refresh([bool clearBeforeRequest = false]) async {
+    _nextDate = null;
+    return super.refresh(clearBeforeRequest);
   }
 }
 
