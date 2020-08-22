@@ -149,6 +149,13 @@ class ShowcaseState extends State<Showcase>
   Future<bool> _onRefresh() async {
     // print('onRefresh');
     final sourceList = widget.dataPool[_tabController.index];
-    return await sourceList.handleRefresh();
+    final result = await sourceList.handleRefresh();
+    if (!result) {
+      final snackBar = SnackBar(
+          content:
+              Text('Не удалось выполнить обновление. Попробуйте ещё раз.'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    return result;
   }
 }

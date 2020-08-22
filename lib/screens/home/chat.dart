@@ -8,16 +8,18 @@ import 'package:minsk8/import.dart';
 
 // TODO: Реализовать sticky displayDate как sticky_grouped_list
 
-class HomeChat extends StatelessWidget {
+class HomeChat extends StatefulWidget {
   HomeChat();
 
   // static final showcaseKey = GlobalKey<ShowcaseState>();
   // static List<ChatData> dataPool;
   static NoticeData sourceList;
-  // static final pullToRefreshNotificationKey =
-  //     GlobalKey<PullToRefreshNotificationState>();
-  // static final poolForReloadTabs = <int>{}; // ie Set()
 
+  @override
+  _HomeChatState createState() => _HomeChatState();
+}
+
+class _HomeChatState extends State<HomeChat> {
   @override
   Widget build(BuildContext context) {
     // final child = Showcase(
@@ -171,7 +173,14 @@ class HomeChat extends StatelessWidget {
 
   Future<bool> _onRefresh() async {
     final sourceList = HomeChat.sourceList;
-    return await sourceList.handleRefresh();
+    final result = await sourceList.handleRefresh();
+    if (!result) {
+      final snackBar = SnackBar(
+          content:
+              Text('Не удалось выполнить обновление. Попробуйте ещё раз.'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    return result;
   }
 }
 

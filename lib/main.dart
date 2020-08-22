@@ -36,6 +36,8 @@ import 'package:state_persistence/state_persistence.dart';
 // TODO: flutter telegram-auth
 // TODO: закруглить кнопки и диалоги, как в https://console.firebase.google.com
 // TODO: [MVP] Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
+// TODO: если не было активности в приложение какое-то время, а потом запросить refresh для NoticeData, то "Could not verify JWT"
+// TODO: выдавать поощрения тем, кто первый сообщил об ошибке (но можно получить недовольных - нужно вести публичный журнал зарегистрированных ошибок)
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function

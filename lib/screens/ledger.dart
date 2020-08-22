@@ -20,6 +20,7 @@ class LedgerScreenState extends State<LedgerScreen> {
   static bool _isFirst = true;
   static bool _isOpen1 = false;
   static bool _isOpen2 = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -233,6 +234,7 @@ class LedgerScreenState extends State<LedgerScreen> {
       ),
     );
     return Scaffold(
+      key: _scaffoldKey,
       appBar: ExtendedAppBar(
         title: Text('Движение Кармы'),
       ),
@@ -242,7 +244,14 @@ class LedgerScreenState extends State<LedgerScreen> {
 
   Future<bool> _onRefresh() async {
     final sourceList = LedgerScreen.sourceList;
-    return await sourceList.handleRefresh();
+    final result = await sourceList.handleRefresh();
+    if (!result) {
+      final snackBar = SnackBar(
+          content:
+              Text('Не удалось выполнить обновление. Попробуйте ещё раз.'));
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+    return result;
   }
 
   void Function() _getUnitAction(UnitModel unit) {
