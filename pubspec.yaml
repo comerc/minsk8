@@ -55,10 +55,12 @@ dependencies:
     # 1.0.1
     # path: ../extended_nested_scroll_view/
     git: git://github.com/comerc/extended_nested_scroll_view.git
+    # TODO: https://github.com/fluttercandies/extended_nested_scroll_view/pull/19
   pull_to_refresh_notification:
     # 0.3.5
     # path: ../pull_to_refresh_notification/
     git: git://github.com/comerc/pull_to_refresh_notification.git
+    # TODO: https://github.com/fluttercandies/pull_to_refresh_notification/pull/14
   share: 0.6.4+3
 
   json_annotation: 3.0.1
