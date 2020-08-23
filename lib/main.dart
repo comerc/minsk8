@@ -150,7 +150,11 @@ class App extends StatelessWidget {
         HomeUnderway.dataPool = UnderwayValue.values
             .map((UnderwayValue value) => UnderwayData(client, value))
             .toList();
-        HomeChat.sourceList = NoticeData(client);
+        HomeChat.dataPool = [
+          ShowcaseData(client, kAllKinds.first.value),
+          // ShowcaseData(client, kAllKinds.last.value),
+          NoticeData(client),
+        ];
         LedgerScreen.sourceList = LedgerData(client);
         return PersistedStateBuilder(
           builder:
