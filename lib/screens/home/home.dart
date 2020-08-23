@@ -5,7 +5,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:minsk8/import.dart';
 
-enum HomeTabValue { showcase, underway, chat, profile }
+// TODO: не сбрасывать позицию скрола при переходах по табам bottomNavigationBar
+
+enum HomeTabValue { showcase, underway, interplay, profile }
 
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: globalKey);
@@ -18,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   int _tabIndex = HomeTabValue.showcase.index;
+  // int _tabIndex = HomeTabValue.interplay.index;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
         HomeShowcase.showcaseKey.currentState?.tabIndex,
@@ -52,7 +55,7 @@ class HomeScreenState extends State<HomeScreen> {
       body: <Widget>[
         HomeShowcase(),
         HomeUnderway(),
-        HomeChat(),
+        HomeInterplay(),
         HomeProfile(version: _version, hasUpdate: _hasUpdate),
       ][_tabIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
