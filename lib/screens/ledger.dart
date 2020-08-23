@@ -212,11 +212,13 @@ class LedgerScreenState extends State<LedgerScreen> {
                   ) {
                     return buildListIndicator(
                       context: context,
-                      status: status,
+                      status: IndicatorStatus.loadingMoreBusying == status
+                          ? IndicatorStatus.none
+                          : status,
                       sourceList: LedgerScreen.sourceList,
                     );
                   },
-                  lastChildLayoutType: LastChildLayoutType.foot,
+                  // lastChildLayoutType: LastChildLayoutType.foot,
                 ),
               ),
             ],
