@@ -114,7 +114,7 @@ class ShowcaseState extends State<Showcase>
               delegate: CommonSliverPersistentHeaderDelegate(
                 builder: (BuildContext context, double shrinkOffset,
                     bool overlapsContent) {
-                  return ShowcaseTabBar(
+                  return ListTabBar(
                     info: info,
                     shrinkOffset: shrinkOffset,
                     // overlapsContent: overlapsContent,

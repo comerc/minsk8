@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
-class ShowcaseTabBar extends StatelessWidget {
-  ShowcaseTabBar({
+class ListTabBar extends StatelessWidget {
+  ListTabBar({
     this.info,
     this.shrinkOffset,
     // this.overlapsContent,
