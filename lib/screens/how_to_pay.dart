@@ -198,14 +198,15 @@ class _Menu extends StatelessWidget {
               ),
             ),
             onLongPress: () {}, // чтобы сократить время для splashColor
-            onTap: () {
+            onTap: () async {
               if (entry.key == '/add_unit') {
-                Navigator.pushNamed<KindValue>(
-                  context,
-                  '/kinds',
-                ).then((kind) {
-                  if (kind == null) return null;
-                  return Navigator.pushNamed(
+                try {
+                  final kind = await Navigator.pushNamed(
+                    context,
+                    '/kinds',
+                  ) as KindValue; // workaround for typecast
+                  if (kind == null) return;
+                  await Navigator.pushNamed(
                     context,
                     '/add_unit',
                     arguments: AddUnitRouteArguments(
@@ -213,11 +214,12 @@ class _Menu extends StatelessWidget {
                       tabIndex: AddUnitRouteArgumentsTabIndex(),
                     ),
                   );
-                }).whenComplete(() {
+                } finally {
                   Navigator.of(context).pop();
-                });
+                }
                 return;
               }
+              // ignore: unawaited_futures
               Navigator.of(context).pushReplacementNamed(entry.key);
             },
           ),

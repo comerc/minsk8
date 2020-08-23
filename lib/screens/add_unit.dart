@@ -286,8 +286,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ),
       );
       if (value ?? false) {
-        final kind = await Navigator.of(context)
-            .pushReplacementNamed<KindValue, void>('/kinds');
+        final kind = await Navigator.of(context).pushReplacementNamed('/kinds')
+            as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
         Navigator.pushNamed(
@@ -480,16 +480,15 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     });
   }
 
-  void _selectKind() {
-    Navigator.pushNamed<KindValue>(
+  void _selectKind() async {
+    final kind = await Navigator.pushNamed(
       context,
       '/kinds',
       arguments: KindsRouteArguments(_kind),
-    ).then((kind) {
-      if (kind == null) return;
-      setState(() {
-        _kind = kind;
-      });
+    ) as KindValue; // workaround for typecast
+    if (kind == null) return;
+    setState(() {
+      _kind = kind;
     });
   }
 

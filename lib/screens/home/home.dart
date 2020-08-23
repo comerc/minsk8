@@ -151,24 +151,24 @@ class HomeScreenState extends State<HomeScreen> {
     return FloatingActionButton(
       backgroundColor: Colors.white,
       foregroundColor: Colors.pinkAccent,
-      onPressed: () {
-        Navigator.pushNamed<KindValue>(
+      onPressed: () async {
+        final kind = await Navigator.pushNamed(
           context,
           '/kinds',
-        ).then((kind) {
-          if (kind == null) return;
-          Navigator.pushNamed(
-            context,
-            '/add_unit',
-            arguments: AddUnitRouteArguments(
-              kind: kind,
-              tabIndex: AddUnitRouteArgumentsTabIndex(
-                showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
-                underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
-              ),
+        ) as KindValue; // workaround for typecast
+        if (kind == null) return;
+        // ignore: unawaited_futures
+        Navigator.pushNamed(
+          context,
+          '/add_unit',
+          arguments: AddUnitRouteArguments(
+            kind: kind,
+            tabIndex: AddUnitRouteArgumentsTabIndex(
+              showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
+              underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
             ),
-          );
-        });
+          ),
+        );
       },
       tooltip: 'Add Unit',
       child: Icon(
