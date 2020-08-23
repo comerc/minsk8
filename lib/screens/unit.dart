@@ -544,12 +544,13 @@ class _UnitScreenState extends State<UnitScreen> {
                     Provider.of<ProfileModel>(context, listen: false);
                 final isMy = profile.member.id == member.id;
                 final submenuUnits = <PopupMenuEntry<_PopupMenuValue>>[];
-                if (!isMy && !unit.isClosed) {
-                  submenuUnits.add(PopupMenuItem(
-                    value: _PopupMenuValue.askQuestion,
-                    child: Text('Задать вопрос по лоту'),
-                  ));
-                }
+                // TODO: отключил, т.к. требуется реализовать редактирование лота, что будет после MVP
+                // if (!isMy && !unit.isClosed) {
+                //   submenuUnits.add(PopupMenuItem(
+                //     value: _PopupMenuValue.askQuestion,
+                //     child: Text('Задать вопрос по лоту'),
+                //   ));
+                // }
                 if (!isMy) {
                   submenuUnits.add(PopupMenuItem(
                     value: _PopupMenuValue.toModerate,
