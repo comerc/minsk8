@@ -3,8 +3,6 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class HomeShowcase extends StatelessWidget {
-  HomeShowcase();
-
   static final showcaseKey = GlobalKey<ShowcaseState>();
   static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
@@ -16,9 +14,15 @@ class HomeShowcase extends StatelessWidget {
     final child = Showcase(
       key: showcaseKey,
       tabModels: kAllKinds,
-      dataPool: HomeShowcase.dataPool,
-      pullToRefreshNotificationKey: HomeShowcase.pullToRefreshNotificationKey,
-      poolForReloadTabs: HomeShowcase.poolForReloadTabs,
+      dataPool: dataPool,
+      buildList: (int tabIndex, SourceList sourceList) {
+        return ShowcaseList(
+          tabIndex: tabIndex,
+          sourceList: sourceList as SourceList<UnitModel>,
+        );
+      },
+      pullToRefreshNotificationKey: pullToRefreshNotificationKey,
+      poolForReloadTabs: poolForReloadTabs,
       hasAppBar: true,
     );
     return SafeArea(

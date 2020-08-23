@@ -11,13 +11,15 @@ class Showcase extends StatefulWidget {
     Key key,
     this.tabModels,
     this.dataPool,
+    this.buildList,
     this.pullToRefreshNotificationKey,
     this.poolForReloadTabs,
     this.hasAppBar = false,
   }) : super(key: key);
 
   final List<EnumModel> tabModels;
-  final List<SourceList<UnitModel>> dataPool;
+  final List<SourceList> dataPool;
+  final Widget Function(int tabIndex, SourceList sourceList) buildList;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
   final Set<int> poolForReloadTabs;
   final bool hasAppBar;
@@ -131,10 +133,7 @@ class ShowcaseState extends State<Showcase>
         controller: _tabController,
         children: List.generate(
           widget.tabModels.length,
-          (int index) => ShowcaseList(
-            tabIndex: index,
-            sourceList: widget.dataPool[index],
-          ),
+          (int index) => widget.buildList(index, widget.dataPool[index]),
         ),
       ),
     );
