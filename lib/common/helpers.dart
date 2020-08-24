@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:minsk8/import.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:minsk8/import.dart';
 
 bool get isInDebugMode {
   // Assume you're in production mode.
@@ -250,3 +251,25 @@ Map<String, dynamic> parseIdToken(String idToken) {
 //   }
 //   return null;
 // }
+
+String getDisplayDate(DateTime now, DateTime dateTime) {
+  final formattedString = dateTime.toIso8601String().substring(0, 10);
+  final date = DateTime.parse(formattedString);
+  final difference = DateTime(date.year, date.month, date.day)
+      .difference(DateTime(now.year, now.month, now.day))
+      .inDays
+      .abs();
+  final humanDays = [
+    'Сегодня',
+    'Вчера',
+    'Позавчера',
+    '3 дня назад',
+    '4 дня назад',
+    '5 дней назад',
+    '6 дней назад',
+    'Неделю назад',
+  ];
+  return (humanDays.length > difference)
+      ? humanDays[difference]
+      : DateFormat.yMMMMd('ru_RU').format(date);
+}

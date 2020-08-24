@@ -35,6 +35,7 @@ class NoticeData extends SourceList<NoticeItem> {
       final notice = NoticeModel.fromJson(dataItems.removeLast());
       nextCreatedAt = notice.createdAt.toUtc().toIso8601String();
     }
+    final nowLocal = DateTime.now().toLocal();
     for (final dataItem in dataItems) {
       final notice = NoticeModel.fromJson(dataItem);
       final date =
@@ -44,8 +45,9 @@ class NoticeData extends SourceList<NoticeItem> {
         items.add(
           NoticeItem(
             // TODO: locale autodetect
-            displayDate: DateFormat.yMMMMd('ru_RU').format(
-              DateTime.parse(date),
+            displayDate: getDisplayDate(
+              nowLocal,
+              DateTime.parse(date).toLocal(),
             ),
           ),
         );
