@@ -3,7 +3,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class HomeShowcase extends StatelessWidget {
-  static final homeKey = GlobalKey<HomeState>();
+  static final wrapperKey = GlobalKey<WrapperState>();
   static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
@@ -11,8 +11,8 @@ class HomeShowcase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Home(
-      key: homeKey,
+    final child = Wrapper(
+      key: wrapperKey,
       tabModels: kAllKinds,
       dataPool: dataPool,
       buildList: (int tabIndex, SourceList sourceList) {

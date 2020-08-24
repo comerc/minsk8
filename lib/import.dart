@@ -91,9 +91,6 @@ export 'widgets/extended_animated_align.dart';
 export 'widgets/extended_app_bar.dart';
 export 'widgets/extended_list_wheel_scroll_view.dart';
 export 'widgets/gift_button.dart';
-export 'widgets/home/app_bar.dart';
-export 'widgets/home/home.dart';
-export 'widgets/home/tab_bar.dart';
 export 'widgets/image_source_dialog.dart';
 export 'widgets/info_dialog.dart';
 export 'widgets/kind_button.dart';
@@ -124,5 +121,8 @@ export 'widgets/showcase/list.dart';
 export 'widgets/want_button.dart';
 export 'widgets/want_dialog.dart';
 export 'widgets/wish_button.dart';
+export 'widgets/wrapper/app_bar.dart';
+export 'widgets/wrapper/tab_bar.dart';
+export 'widgets/wrapper/wrapper.dart';
 
 export 'main.dart';
