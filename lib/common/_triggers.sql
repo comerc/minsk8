@@ -85,6 +85,7 @@ $BODY$ LANGUAGE plpgsql;
 
 CREATE TRIGGER after_insert_member AFTER INSERT ON member FOR EACH ROW EXECUTE PROCEDURE after_insert_member();
 
+-- TODO: [MVP] NEW.value получаю с клиента - неправильно
 --
 DROP TRIGGER IF EXISTS before_insert_payment ON payment;
 DROP FUNCTION IF EXISTS before_insert_payment();
@@ -133,8 +134,8 @@ RETURNS trigger AS $BODY$
       _balance := _balance + NEW.value;
       UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
     ELSIF NEW.account = 'invite' THEN
-      IF NEW.invite_member_id IS NULL THEN
-        RAISE EXCEPTION 'Argument "invite_member_id" must be not null';
+      IF NEW.invited_member_id IS NULL THEN
+        RAISE EXCEPTION 'Argument "invited_member_id" must be not null';
       END IF;
       _balance := _balance + NEW.value;
       UPDATE profile SET balance = _balance WHERE member_id = NEW.member_id;
