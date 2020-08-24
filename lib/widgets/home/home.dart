@@ -6,8 +6,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: RefreshIndicator https://github.com/flutter/flutter/blob/v1.15.22/examples/flutter_gallery/lib/demo/material/overscroll_demo.dart
 
-class Showcase extends StatefulWidget {
-  Showcase({
+class Home extends StatefulWidget {
+  Home({
     Key key,
     this.tabModels,
     this.dataPool,
@@ -25,11 +25,10 @@ class Showcase extends StatefulWidget {
   final bool hasAppBar;
 
   @override
-  ShowcaseState createState() => ShowcaseState();
+  HomeState createState() => HomeState();
 }
 
-class ShowcaseState extends State<Showcase>
-    with SingleTickerProviderStateMixin {
+class HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
   int get tabIndex => _tabController.index;
 
@@ -104,7 +103,7 @@ class ShowcaseState extends State<Showcase>
             delegate: CommonSliverPersistentHeaderDelegate(
               builder: (BuildContext context, double shrinkOffset,
                   bool overlapsContent) {
-                return ShowcaseAppBar();
+                return HomeAppBar();
               },
               height: kToolbarHeight,
             ),
@@ -116,7 +115,7 @@ class ShowcaseState extends State<Showcase>
               delegate: CommonSliverPersistentHeaderDelegate(
                 builder: (BuildContext context, double shrinkOffset,
                     bool overlapsContent) {
-                  return ListTabBar(
+                  return HomeTabBar(
                     info: info,
                     shrinkOffset: shrinkOffset,
                     // overlapsContent: overlapsContent,

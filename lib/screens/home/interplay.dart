@@ -13,7 +13,7 @@ import 'package:minsk8/import.dart';
 // https://github.com/AmitJoki/Enigma
 
 class HomeInterplay extends StatelessWidget {
-  static final showcaseKey = GlobalKey<ShowcaseState>();
+  static final homeKey = GlobalKey<HomeState>();
   static List<SourceList> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
@@ -21,8 +21,8 @@ class HomeInterplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Showcase(
-      key: showcaseKey,
+    final child = Home(
+      key: homeKey,
       tabModels: <InterplayModel>[
         InterplayModel(InterplayValue.chat, 'Сообщения'),
         InterplayModel(InterplayValue.notice, 'Уведомления'),

@@ -3,7 +3,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class HomeUnderway extends StatelessWidget {
-  static final showcaseKey = GlobalKey<ShowcaseState>();
+  static final homeKey = GlobalKey<HomeState>();
   static List<UnderwayData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
@@ -11,8 +11,8 @@ class HomeUnderway extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Showcase(
-      key: showcaseKey,
+    final child = Home(
+      key: homeKey,
       tabModels: <UnderwayModel>[
         UnderwayModel(UnderwayValue.wish, 'Желаю'),
         UnderwayModel(UnderwayValue.want, 'Забираю'),

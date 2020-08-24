@@ -23,8 +23,8 @@ class HomeScreenState extends State<HomeScreen> {
   // int _tabIndex = HomeTabValue.interplay.index;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
-        HomeShowcase.showcaseKey.currentState?.tabIndex,
-        HomeUnderway.showcaseKey.currentState?.tabIndex,
+        HomeShowcase.homeKey.currentState?.tabIndex,
+        HomeUnderway.homeKey.currentState?.tabIndex,
         null,
         null,
       ][_tabIndex];
@@ -167,8 +167,8 @@ class HomeScreenState extends State<HomeScreen> {
           arguments: AddUnitRouteArguments(
             kind: kind,
             tabIndex: AddUnitRouteArgumentsTabIndex(
-              showcase: HomeShowcase.showcaseKey.currentState?.tabIndex,
-              underway: HomeUnderway.showcaseKey.currentState?.tabIndex,
+              showcase: HomeShowcase.homeKey.currentState?.tabIndex,
+              underway: HomeUnderway.homeKey.currentState?.tabIndex,
             ),
           ),
         );
