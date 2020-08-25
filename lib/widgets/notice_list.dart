@@ -78,11 +78,9 @@ class _NoticeListState extends State<NoticeList>
                         ),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(kFontSize),
-                        ),
+                      decoration: ShapeDecoration(
+                        color: Colors.grey.withOpacity(0.3),
+                        shape: StadiumBorder(),
                       ),
                     ),
                   );
