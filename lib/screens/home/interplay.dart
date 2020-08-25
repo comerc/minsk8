@@ -30,9 +30,13 @@ class HomeInterplay extends StatelessWidget {
       dataPool: dataPool,
       buildList: (int tabIndex, SourceList sourceList) {
         return [
-          ShowcaseList(
+          // ShowcaseList(
+          //   tabIndex: 0,
+          //   sourceList: dataPool[0] as ShowcaseData,
+          // ),
+          ChatList(
             tabIndex: 0,
-            sourceList: dataPool[0] as ShowcaseData,
+            // sourceList: dataPool[1] as NoticeData,
           ),
           NoticeList(
             tabIndex: 1,
