@@ -48,9 +48,11 @@ class _NoticeListState extends State<NoticeList>
               extendedListDelegate: ExtendedListDelegate(
                 collectGarbage: (List<int> garbages) {
                   garbages.forEach((int index) {
-                    final notice = widget.sourceList[index].notice;
+                    final noticeItem = widget.sourceList[index];
+                    final notice = noticeItem.notice;
+                    if (notice == null) return;
                     final unit = notice.proclamation == null
-                        ? notice.suggestion.unit // always
+                        ? notice.suggestion.unit // always exists
                         : notice.proclamation.unit;
                     if (unit == null) return;
                     final image = unit.images[0];
