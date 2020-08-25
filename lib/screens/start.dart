@@ -25,7 +25,7 @@ class StartScreenState extends State<StartScreen> {
       return;
     }
     // TODO: WelcomeScreen
-    final value = await Navigator.of(context).pushNamed<bool>('/start_map');
+    final value = await Navigator.of(context).pushNamed('/start_map') as bool;
     if (value ?? false) {
       appState['StartMap.isInitialized'] = true;
     }
