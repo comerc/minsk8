@@ -85,11 +85,11 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       }
       addAll(items);
       isSuccess = true;
-    } catch (exception) {
+    } catch (error) {
       hasMore = false;
       // TODO: показывать сообщение пользователю;
       // беда в том, что тут IndicatorStatus.none
-      print(exception);
+      print(error);
     }
     return isSuccess;
   }

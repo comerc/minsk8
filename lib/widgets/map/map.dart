@@ -193,8 +193,8 @@ class MapWidget extends StatefulWidget {
       } else if (placemark.name != '' && placemark.name != result.simple) {
         result.detail = result.simple + ', ' + placemark.name;
       }
-    } catch (e) {
-      debugPrint('$e');
+    } catch (error) {
+      debugPrint('$error');
     }
     return result;
   }

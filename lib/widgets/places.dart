@@ -84,8 +84,8 @@ class _PlacesState extends State<Places> {
           // if (source['administrative'] != null)
           //   subtitles.add(source['administrative'][0]);
           // subtitles.add(source['country']['value']);
-        } catch (e) {
-          debugPrint('$e');
+        } catch (error) {
+          debugPrint('$error');
         }
         return GestureDetector(
           onLongPress: () {}, // чтобы сократить время для splashColor
@@ -157,8 +157,8 @@ class _PlacesState extends State<Places> {
       msg = 'TimeoutException';
     } on OperationCanceledError catch (_) {
       msg = 'cancel';
-    } catch (e) {
-      msg = '$e';
+    } catch (error) {
+      msg = '$error';
     }
     debugPrint(msg);
     return null;

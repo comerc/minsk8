@@ -132,8 +132,8 @@ class HomeScreenState extends State<HomeScreen> {
         unit,
         member: unit.member,
       );
-    } catch (exception, stack) {
-      print(exception);
+    } catch (error, stack) {
+      print(error);
       print(stack);
     }
     return null;
