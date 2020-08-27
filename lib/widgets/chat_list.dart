@@ -233,12 +233,16 @@ class _ChatListGroup extends StatefulWidget {
 class _ChatListGroupState extends State<_ChatListGroup>
     with TickerProviderStateMixin {
   AnimationController _controller;
+  bool _isInitialExpanded;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 400), vsync: this);
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+    _isInitialExpanded = appState['${widget.value}'] == true;
   }
 
   @override
@@ -247,59 +251,14 @@ class _ChatListGroupState extends State<_ChatListGroup>
     super.dispose();
   }
 
-  // Future<void> _playAnimation() async {
-  //   try {
-  //     await _controller.forward().orCancel;
-  //     await _controller.reverse().orCancel;
-  //   } on TickerCanceled {
-  //     // the animation got canceled, probably because we were disposed
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     // timeDilation = 10.0; // 1.0 is normal animation speed.
-    final isExpanded = appState['${widget.value}'] == true;
     return SliverToBoxAdapter(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Container(
-          //   child: SliverList(
-          //     // itemExtent: 50.0,
-          //     delegate: SliverChildBuilderDelegate(
-          //       (BuildContext context, int index) {
-          //         return Container(
-          //           height: 100,
-          //           alignment: Alignment.center,
-          //           color: Colors.lightBlue[100 * (index % 9)],
-          //           child: Text('list item $index'),
-          //         );
-          //       },
-          //       childCount: 20,
-          //     ),
-          //   ),
-          // ),
-          // GestureDetector(
-          //   behavior: HitTestBehavior.opaque,
-          //   onTap: () {
-          //     _playAnimation();
-          //   },
-          //   child: Center(
-          //     child: Container(
-          //       width: 300.0,
-          //       height: 300.0,
-          //       decoration: BoxDecoration(
-          //         color: Colors.black.withOpacity(0.1),
-          //         border: Border.all(
-          //           color: Colors.black.withOpacity(0.5),
-          //         ),
-          //       ),
-          //       child: StaggerAnimation(controller: _controller.view),
-          //     ),
-          //   ),
-          // ),
           Material(
             color: Colors.white,
             child: InkWell(
@@ -326,16 +285,14 @@ class _ChatListGroupState extends State<_ChatListGroup>
                           SizedBox(width: 4),
                           Text('12'),
                           _AnimatedIcon(
-                            controller: _controller.view,
+                            controller: _isInitialExpanded
+                                ? ReverseAnimation(_controller.view)
+                                : _controller.view,
                             child: Icon(
                               Icons.expand_more,
                               size: 20,
                             ),
                           ),
-                          // Icon(
-                          //   isExpanded ? Icons.expand_less : Icons.expand_more,
-                          //   size: 20,
-                          // )
                         ],
                       ),
                       decoration: ShapeDecoration(
@@ -348,18 +305,24 @@ class _ChatListGroupState extends State<_ChatListGroup>
               ),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
+                final isExpanded = appState['${widget.value}'] == true;
                 appState['${widget.value}'] = !isExpanded;
                 if (isExpanded) {
-                  _controller.reverse();
+                  _isInitialExpanded
+                      ? _controller.forward()
+                      : _controller.reverse();
                 } else {
-                  _controller.forward();
+                  _isInitialExpanded
+                      ? _controller.reverse()
+                      : _controller.forward();
                 }
-                setState(() {});
               },
             ),
           ),
           _AnimatedBox(
-            controller: _controller.view,
+            controller: _isInitialExpanded
+                ? ReverseAnimation(_controller.view)
+                : _controller.view,
             child: ListBox(
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
@@ -435,9 +398,8 @@ class _AnimatedBox extends StatelessWidget {
           CurvedAnimation(
             parent: controller,
             curve: Interval(
-              0.0,
               0.5,
-              curve: Curves.ease,
+              0.5,
             ),
           ),
         ),
@@ -479,7 +441,7 @@ class _AnimatedBox extends StatelessWidget {
       child: ClipRect(
         child: Align(
           alignment: Alignment.topCenter,
-          heightFactor: heightFactor.value < 1 ? 0 : 1, // hack for visible
+          heightFactor: heightFactor.value,
           child: child,
         ),
       ),
