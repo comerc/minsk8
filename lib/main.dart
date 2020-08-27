@@ -347,6 +347,20 @@ class App extends StatelessWidget {
     final authLink = AuthLink(
       getToken: () async => 'Bearer ${authData.token}',
     );
+    final retryLink = Link(request: (
+      Operation operation, [
+      NextLink forward,
+    ]) {
+      StreamController<FetchResult> controller;
+      Future<void> onListen() async {
+        await controller
+            .addStream(refreshToken(controller, forward, operation).asStream());
+        await controller.close();
+      }
+
+      controller = StreamController<FetchResult>.broadcast(onListen: onListen);
+      return controller.stream;
+    });
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
@@ -354,7 +368,8 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
-          link: authLink.concat(httpLink).concat(websocketLink),
+          link:
+              retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
         ),
       ),
       child: CacheProvider(
@@ -604,5 +619,49 @@ class CommonMaterialApp extends StatelessWidget {
       onGenerateRoute: onGenerateRoute,
       onUnknownRoute: onUnknownRoute,
     );
+  }
+}
+
+// workaround for JWTExpired https://github.com/zino-app/graphql-flutter/issues/220#issuecomment-523108156
+// see also https://hasura.io/blog/handling-graphql-hasura-errors-with-react/
+
+Future<T> whenFirst<T>(Stream<T> source) async {
+  try {
+    await for (T value in source) {
+      if (value != null) {
+        return value;
+      }
+    }
+    return null;
+  } catch (error) {
+    return Future.error(error);
+  }
+}
+
+Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
+    NextLink forward, Operation operation) async {
+  try {
+    final mainStream = forward(operation);
+    final firstEvent = await whenFirst(mainStream);
+    return firstEvent;
+  } catch (error, stackTrace) {
+    print(error);
+    print(stackTrace);
+    return Future.error(error);
+    // Logger.root.severe(error.toString());
+    // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
+    //   // Logger.root.info('User logged out. But token persents. Refreshing token');
+    //   final Token token = await tokenAPI.refreshToken();
+    //   if (token.isValid()) {
+    //     await tokenManager.setAccessToken(token.accessToken);
+    //     await tokenManager.setRefreshToken(token.refreshToken);
+    //     return whenFirst(forward(operation));
+    //   } else {
+    //     await tokenManager.removeCredentials();
+    //     return whenFirst(forward(operation));
+    //   }
+    // } else {
+    //   return Future.error(error);
+    // }
   }
 }
