@@ -323,6 +323,10 @@ class _ChatListGroupState extends State<_ChatListGroup>
             controller: _isInitialExpanded
                 ? ReverseAnimation(_controller.view)
                 : _controller.view,
+            // TODO: нужен отдельный скролируемый список - архив неактуальных элементов,
+            // иначе будет тормозить,
+            // т.к. ListBox.itemBuilder создаёт все элементы сразу, в отличии от ListView
+            // TODO: реализовать пейджинг для ChatModel
             child: ListBox(
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
@@ -339,7 +343,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox.shrink();
+                return Container();
               },
             ),
           ),
