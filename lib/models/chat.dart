@@ -13,6 +13,7 @@ class ChatModel {
     this.isCompanionWritesNow,
     this.isUnitOwnerReadAll,
     this.isCompanionReadAll,
+    this.updatedAt,
   });
 
   final UnitModel unit;
@@ -22,6 +23,7 @@ class ChatModel {
   final bool isCompanionWritesNow;
   final bool isUnitOwnerReadAll;
   final bool isCompanionReadAll;
+  final DateTime updatedAt;
 
   String get id => '${unit.id} ${companion.id}';
 
