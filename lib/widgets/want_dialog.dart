@@ -176,6 +176,7 @@ class WantDialog extends StatelessWidget {
               onPressed: () {
                 final end = autoIncreaseFieldKey.currentState.currentValue;
                 print(end);
+                // TODO: если покупатель хочет редактировать end, то нужно добавить поле внутри WantModel
                 Navigator.of(context).pop(true);
               },
               color: Colors.green,
