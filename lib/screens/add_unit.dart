@@ -16,6 +16,22 @@ import 'package:minsk8/import.dart';
 // TODO: (баг) фокус на поле ввода > скролл до появления elevation > убрать клаву > elevation остаётся
 // TODO: блок "задать минимальную ставку"
 
+// TODO: идея, как можно реализовать showSnackBar
+// extension Context on BuildContext {
+//   void showCustomDialog(String text) {
+//     showDialog(
+//       context: this,
+//       child: AlertDialog(title: Text(text)),
+//     );
+//   }
+//   void push(Widget screen) {
+//     Navigator.of(this).push(MaterialPageRoute(builder: (_) => screen));
+//   }
+//   void pop() {
+//     Navigator.of(this).pop();
+//   }
+// }
+
 enum ImageUploadStatus { progress, error }
 
 class AddUnitScreen extends StatefulWidget {
