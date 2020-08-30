@@ -353,6 +353,7 @@ class App extends StatelessWidget {
     ]) {
       StreamController<FetchResult> controller;
       Future<void> onListen() async {
+        // print('onListen');
         await controller
             .addStream(refreshToken(controller, forward, operation).asStream());
         await controller.close();
@@ -641,8 +642,14 @@ Future<T> whenFirst<T>(Stream<T> source) async {
 Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
     NextLink forward, Operation operation) async {
   try {
+    // print('refreshToken');
     final mainStream = forward(operation);
     final firstEvent = await whenFirst(mainStream);
+    if (firstEvent.errors != null && firstEvent.errors[0] != null) {
+      print('firstEvent.errors[0] ${firstEvent.errors[0]}');
+      print('firstEvent.statusCode ${firstEvent.statusCode}');
+    }
+    // print('firstEvent.data ${firstEvent.data}');
     return firstEvent;
   } catch (error, stackTrace) {
     print(error);
