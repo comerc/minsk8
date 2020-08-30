@@ -5,6 +5,8 @@ import 'package:minsk8/import.dart';
 
 part 'unit.g.dart';
 
+// TODO: зачем было нужно поле want_start_at? (вероятно Flutter #270)
+
 @JsonSerializable()
 class UnitModel {
   UnitModel({
