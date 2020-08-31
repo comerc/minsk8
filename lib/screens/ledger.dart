@@ -214,6 +214,7 @@ class LedgerScreenState extends State<LedgerScreen> {
                           ? IndicatorStatus.none
                           : status,
                       sourceList: LedgerScreen.sourceList,
+                      isSliver: true,
                     );
                   },
                   // lastChildLayoutType: LastChildLayoutType.foot,

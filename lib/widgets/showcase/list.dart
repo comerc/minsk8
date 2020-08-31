@@ -83,6 +83,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                   context: context,
                   status: status,
                   sourceList: widget.sourceList,
+                  isSliver: true,
                 );
               },
               // hack for https://github.com/fluttercandies/loading_more_list/issues/20

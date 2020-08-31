@@ -118,14 +118,5 @@ class _MarkdownWrapperState extends State<MarkdownWrapper> {
       styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
       data: widget.content,
     );
-    // return FutureBuilder(
-    //   // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
-    //   future: _future,
-    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.done) {
-    //     }
-    //     return Container();
-    //   },
-    // );
   }
 }

@@ -7,6 +7,10 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
 import 'package:minsk8/import.dart';
 
+// TODO: когда нет элементов для _ChatListGroup, его нужно прятать
+
+// IndexedStack,
+
 class ChatList extends StatefulWidget {
   ChatList({
     Key key,
@@ -20,203 +24,93 @@ class ChatList extends StatefulWidget {
   final int tabIndex;
 
   @override
-  ChatState createState() => ChatState();
+  _ChatListState createState() => _ChatListState();
 }
 
-class ChatState extends State<ChatList> with AutomaticKeepAliveClientMixin {
+class _ChatListState extends State<ChatList>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  Future<bool> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    print('_ChatListState initState');
+    // debugPrint(c.toString());
+    _future = _loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // print('ChatList.build');
     super.build(context);
-    // final headerHeight = 32.0;
-    return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-      widget.scrollPositionKey,
-      LoadingMoreCustomScrollView(
-        // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
-        showGlowLeading: false,
-        rebuildCustomScrollView: true,
-        // in case list is not full screen and remove ios Bouncing
-        physics: AlwaysScrollableClampingScrollPhysics(),
-        slivers: <Widget>[
-          _ChatListGroup(value: _ChatListGroupValue.ready),
-          _ChatListGroup(value: _ChatListGroupValue.cancel),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 100),
+    return FutureBuilder<bool>(
+      // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return buildListIndicator(
+            context: context,
+            status: IndicatorStatus.fullScreenBusying,
+            // sourceList: widget.sourceList,
+          );
+        }
+        if (snapshot.hasError || !snapshot.hasData || !snapshot.data) {
+          return buildListIndicator(
+            context: context,
+            status: IndicatorStatus.fullScreenError,
+            // sourceList: widget.sourceList,
+          );
+        }
+        return extended.NestedScrollViewInnerScrollPositionKeyWidget(
+          widget.scrollPositionKey,
+          LoadingMoreCustomScrollView(
+            // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
+            showGlowLeading: false,
+            rebuildCustomScrollView: true,
+            // in case list is not full screen and remove ios Bouncing
+            physics: AlwaysScrollableClampingScrollPhysics(),
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: MySuperButton(),
+              ),
+              _ChatListGroup(value: _ChatListGroupValue.ready),
+              _ChatListGroup(value: _ChatListGroupValue.cancel),
+              _ChatListGroup(value: _ChatListGroupValue.success),
+              SliverToBoxAdapter(
+                child: SizedBox(height: 100),
+              ),
+              // if (_isExpand)
+              //   SliverList(
+              //     // TODO: могу анимировать SliverList, если я знаю высоту ряда?
+              //     // itemExtent: 50.0,
+              //     delegate: SliverChildBuilderDelegate(
+              //       (BuildContext context, int index) {
+              //         return Container(
+              //           height: 100,
+              //           alignment: Alignment.center,
+              //           color: Colors.lightBlue[100 * (index % 9)],
+              //           child: Text('list item $index'),
+              //         );
+              //       },
+              //       childCount: 20,
+              //     ),
+              //   ),
+            ],
           ),
-          // SliverToBoxAdapter(
-          //   child: Material(
-          //     color: Colors.white,
-          //     child: InkWell(
-          //       child: Container(
-          //         decoration: BoxDecoration(
-          //           border: Border(
-          //             bottom: BorderSide(color: Theme.of(context).dividerColor),
-          //           ),
-          //         ),
-          //         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          //         child: Row(
-          //           children: [
-          //             Container(
-          //               child: Text('Отменённые'),
-          //             ),
-          //             Spacer(),
-          //             Container(
-          //               padding: EdgeInsets.symmetric(horizontal: 2),
-          //               child: Row(
-          //                 children: [
-          //                   SizedBox(width: 4),
-          //                   Text('12'),
-          //                   Icon(
-          //                     _isExpand ? Icons.expand_less : Icons.expand_more,
-          //                     size: 20,
-          //                   )
-          //                 ],
-          //               ),
-          //               decoration: ShapeDecoration(
-          //                 color: Colors.grey.withOpacity(0.3),
-          //                 shape: StadiumBorder(),
-          //               ),
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //       onLongPress: () {}, // чтобы сократить время для splashColor
-          //       onTap: () {
-          //         setState(() {
-          //           _isExpand = !_isExpand;
-          //         });
-          //       },
-          //     ),
-          //   ),
-          // ),
-          // if (_isExpand)
-          //   SliverList(
-          //     // itemExtent: 50.0,
-          //     delegate: SliverChildBuilderDelegate(
-          //       (BuildContext context, int index) {
-          //         return Container(
-          //           height: 100,
-          //           alignment: Alignment.center,
-          //           color: Colors.lightBlue[100 * (index % 9)],
-          //           child: Text('list item $index'),
-          //         );
-          //       },
-          //       childCount: 20,
-          //     ),
-          //   ),
-          // SliverList(delegate: ,)
-          // LoadingMoreSliverList(
-          //   SliverListConfig<NoticeItem>(
-          //     sourceList: widget.sourceList,
-          //     extendedListDelegate: ExtendedListDelegate(
-          //       collectGarbage: (List<int> garbages) {
-          //         garbages.forEach((int index) {
-          //           final noticeItem = widget.sourceList[index];
-          //           final notice = noticeItem.notice;
-          //           if (notice == null) return;
-          //           final unit = notice.proclamation == null
-          //               ? notice.suggestion.unit // always exists
-          //               : notice.proclamation.unit;
-          //           if (unit == null) return;
-          //           final image = unit.images[0];
-          //           final provider = ExtendedNetworkImageProvider(
-          //             image.getDummyUrl(unit.id),
-          //           );
-          //           provider.evict();
-          //         });
-          //       },
-          //     ),
-          //     itemBuilder: (BuildContext context, NoticeItem item, int index) {
-          //       if (item.displayDate != null) {
-          //         return Container(
-          //           alignment: Alignment.center,
-          //           padding: EdgeInsets.all(8),
-          //           child: Container(
-          //             child: Text(
-          //               item.displayDate,
-          //               style: TextStyle(
-          //                 fontSize: kFontSize,
-          //                 fontWeight: FontWeight.w600,
-          //                 color: Colors.black.withOpacity(0.8),
-          //               ),
-          //             ),
-          //             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          //           ),
-          //         );
-          //       }
-          //       final notice = item.notice;
-          //       void Function() action; // TODO: [MVP] реализовать
-          //       Widget avatar = CircleAvatar(
-          //         child: Logo(size: kDefaultIconSize),
-          //         backgroundColor: Colors.white,
-          //       );
-          //       var text = 'no data';
-          //       final proclamation = item.notice.proclamation;
-          //       if (proclamation != null) {
-          //         text = proclamation.text;
-          //         final unit = proclamation.unit;
-          //         if (unit != null) {
-          //           avatar = Avatar(unit.avatarUrl);
-          //         }
-          //       }
-          //       final suggestion = item.notice.suggestion;
-          //       if (suggestion != null) {
-          //         text = {
-          //           QuestionValue.condition:
-          //               'Укажите состояние и\u00A0работоспособность. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
-          //           QuestionValue.model:
-          //               'Укажите модель. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
-          //           QuestionValue.original:
-          //               'Укажите, это\u00A0оригинал или\u00A0реплика. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
-          //           QuestionValue.size:
-          //               'Укажите размеры. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
-          //           QuestionValue.time:
-          //               'Укажите, в\u00A0какое время нужно забирать лот. Желающие хотят узнать, подходит\u00A0ли им\u00A0лот.',
-          //         }[suggestion.question];
-          //         final unit = suggestion.unit;
-          //         avatar = Avatar(unit.avatarUrl);
-          //       }
-          //       return Material(
-          //         child: InkWell(
-          //           onLongPress: () {}, // чтобы сократить время для splashColor
-          //           onTap: action,
-          //           child: ListTile(
-          //             leading: avatar,
-          //             title: Text(text),
-          //             subtitle: Text(
-          //               DateFormat.jm('ru_RU').format(
-          //                 notice.createdAt.toLocal(),
-          //               ),
-          //             ),
-          //             dense: true,
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //     indicatorBuilder: (
-          //       BuildContext context,
-          //       IndicatorStatus status,
-          //     ) {
-          //       return buildListIndicator(
-          //         context: context,
-          //         status: IndicatorStatus.loadingMoreBusying == status
-          //             ? IndicatorStatus.none
-          //             : status,
-          //         sourceList: widget.sourceList,
-          //       );
-          //     },
-          //     // lastChildLayoutType: LastChildLayoutType.foot,
-          //   ),
-          // ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  Future<bool> _loadData() async {
+    await Future.delayed(Duration(milliseconds: 4000));
+    return true;
   }
 }
 
-enum _ChatListGroupValue { ready, cancel }
+enum _ChatListGroupValue { ready, cancel, success }
 
 class _ChatListGroup extends StatefulWidget {
   const _ChatListGroup({
@@ -275,6 +169,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                       child: Text({
                         _ChatListGroupValue.ready: 'Договоритесь о встрече',
                         _ChatListGroupValue.cancel: 'Отменённые',
+                        _ChatListGroupValue.success: 'Завершённые',
                       }[widget.value]),
                     ),
                     Spacer(),
@@ -326,7 +221,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
             // TODO: нужен отдельный скролируемый список - архив неактуальных элементов,
             // иначе будет тормозить,
             // т.к. ListBox.itemBuilder создаёт все элементы сразу, в отличии от ListView
-            // TODO: реализовать пейджинг для ChatModel
+            // TODO: реализовать пейджинг для ChatModel, сейчас запрос отдаёт данные безлимитно
             child: ListBox(
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) {
@@ -449,6 +344,32 @@ class _AnimatedBox extends StatelessWidget {
           child: child,
         ),
       ),
+    );
+  }
+}
+
+class MySuperButton extends StatefulWidget {
+  @override
+  _MySuperButtonState createState() => _MySuperButtonState();
+}
+
+class _MySuperButtonState extends State<MySuperButton>
+    with AutomaticKeepAliveClientMixin {
+  int _value = 0;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return RaisedButton(
+      child: Text('$_value'),
+      onPressed: () {
+        setState(() {
+          _value = _value + 1;
+        });
+      },
     );
   }
 }

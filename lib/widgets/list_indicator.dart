@@ -9,10 +9,8 @@ Widget buildListIndicator({
   BuildContext context,
   IndicatorStatus status,
   LoadingMoreBase sourceList,
+  bool isSliver = false,
 }) {
-  //if your list is sliver list ,you should build sliver indicator for it
-  //isSliver=true, when use it in sliver list
-  var isSliver = true;
   Widget result;
   switch (status) {
     case IndicatorStatus.none:

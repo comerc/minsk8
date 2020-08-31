@@ -144,6 +144,7 @@ class _NoticeListState extends State<NoticeList>
                       ? IndicatorStatus.none
                       : status,
                   sourceList: widget.sourceList,
+                  isSliver: true,
                 );
               },
               // lastChildLayoutType: LastChildLayoutType.foot,
