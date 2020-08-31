@@ -78,6 +78,7 @@ class HomeScreenState extends State<HomeScreen> {
           HomeInterplay(),
           HomeProfile(version: _version, hasUpdate: _hasUpdate),
         ],
+        physics: NeverScrollableScrollPhysics(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
