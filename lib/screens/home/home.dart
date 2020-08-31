@@ -19,8 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  // int _tabIndex = HomeTabValue.showcase.index;
-  int _tabIndex = HomeTabValue.interplay.index;
+  final _pageController = PageController();
+  int _tabIndex = HomeTabValue.showcase.index;
+  // int _tabIndex = HomeTabValue.interplay.index;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
         HomeShowcase.wrapperKey.currentState?.tabIndex,
@@ -52,12 +53,32 @@ class HomeScreenState extends State<HomeScreen> {
       //   ),
       //   preferredSize: Size.zero, // hack
       // ),
-      body: <Widget>[
-        HomeShowcase(),
-        HomeUnderway(),
-        HomeInterplay(),
-        HomeProfile(version: _version, hasUpdate: _hasUpdate),
-      ][_tabIndex],
+      // body: IndexedStack(
+      //   children: <Widget>[
+      //     HomeShowcase(),
+      //     HomeUnderway(),
+      //     HomeInterplay(),
+      //     HomeProfile(version: _version, hasUpdate: _hasUpdate),
+      //   ],
+      //   index: _tabIndex,
+      // ),
+      // body: <Widget>[
+      //   HomeShowcase(),
+      //   HomeUnderway(),
+      //   HomeInterplay(),
+      //   HomeProfile(version: _version, hasUpdate: _hasUpdate),
+      // ][_tabIndex],
+      // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: <Widget>[
+          HomeShowcase(),
+          HomeUnderway(),
+          HomeInterplay(),
+          HomeProfile(version: _version, hasUpdate: _hasUpdate),
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
       bottomNavigationBar: NavigationBar(
@@ -68,10 +89,14 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onChangeTabIndex(int tabIndex) {
+  void _onPageChanged(int value) {
     setState(() {
-      _tabIndex = tabIndex;
+      _tabIndex = value;
     });
+  }
+
+  void _onChangeTabIndex(int tabIndex) {
+    _pageController.jumpToPage(tabIndex);
   }
 
   Future<void> initDynamicLinks() async {
