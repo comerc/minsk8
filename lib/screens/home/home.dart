@@ -19,9 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  final _pageController = PageController();
-  int _tabIndex = HomeTabValue.showcase.index;
-  // int _tabIndex = HomeTabValue.interplay.index;
+  int _tabIndex = HomeTabValue.interplay.index;
+  PageController _pageController;
+  // int _tabIndex = HomeTabValue.showcase.index;
   int get tabIndex => _tabIndex;
   int get _subTabIndex => [
         HomeShowcase.wrapperKey.currentState?.tabIndex,
@@ -36,10 +36,17 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: _tabIndex);
     _initVersion();
     // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
     App.analytics.setCurrentScreen(screenName: '/home');
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
