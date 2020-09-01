@@ -24,7 +24,7 @@ class CommonSliverPersistentHeaderDelegate
 
   @override
   bool shouldRebuild(CommonSliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: оптимизировать
+    // TODO: оптимизировать https://codewithandrea.com/tips/2020-08-13-dart-flutter-easy-wins-8-14/#14-want-to-auto-generate-hashcode-==-and-tostring-implementations-for-your-classes?-use-the-equatable-package
     return oldDelegate != this;
   }
 }
