@@ -10,7 +10,7 @@ class MapInfo extends StatelessWidget {
 
   @override
   Widget build(context) {
-    const closeIconSize = 20.0;
+    const kCloseIconSize = 20.0;
     return Stack(
       children: <Widget>[
         child,
@@ -34,7 +34,7 @@ class MapInfo extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(
                         left: kButtonIconSize + 8,
-                        right: closeIconSize,
+                        right: kCloseIconSize,
                       ),
                       child: Text(text),
                     ),
@@ -54,7 +54,7 @@ class MapInfo extends StatelessWidget {
                 child: Icon(
                   Icons.close,
                   color: Colors.black.withOpacity(0.8),
-                  size: closeIconSize,
+                  size: kCloseIconSize,
                 ),
                 onTap: onClose,
               ),
