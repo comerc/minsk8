@@ -38,6 +38,7 @@ import 'package:state_persistence/state_persistence.dart';
 // TODO: [MVP] Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
 // TODO: если не было активности в приложение какое-то время, а потом запросить refresh для NoticeData, то "Could not verify JWT"
 // TODO: выдавать поощрения тем, кто первый сообщил об ошибке (но можно получить недовольных - нужно вести публичный журнал зарегистрированных ошибок)
+// TODO: применить const для EdgeInsets и подобных случаев: https://habr.com/ru/post/501804/
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -151,8 +152,9 @@ class App extends StatelessWidget {
             .map((UnderwayValue value) => UnderwayData(client, value))
             .toList();
         HomeInterplay.dataPool = [
-          ShowcaseData(client, kAllKinds.first.value),
-          NoticeData(client),
+          ShowcaseData(client, kAllKinds[0].value),
+          ShowcaseData(client, kAllKinds[1].value),
+          // NoticeData(client),
         ];
         LedgerScreen.sourceList = LedgerData(client);
         return PersistedStateBuilder(
@@ -638,6 +640,8 @@ Future<T> whenFirst<T>(Stream<T> source) async {
     return Future.error(error);
   }
 }
+
+// TODO: extension FetchResultDump on FetchResult { dump() => this.fiels; }
 
 Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
     NextLink forward, Operation operation) async {
