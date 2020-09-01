@@ -44,7 +44,7 @@ class _MapAreaLayer extends StatefulWidget {
   _MapAreaLayerState createState() => _MapAreaLayerState();
 }
 
-const maxRadius = 100.0;
+const kMaxRadius = 100.0;
 
 class _MapAreaLayerState extends State<_MapAreaLayer> {
   final _icon = Icons.location_on;
@@ -54,7 +54,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
   @override
   void initState() {
     super.initState();
-    _radius = appState['ShowcaseMap.radius'] as int ?? (maxRadius / 2).round();
+    _radius = appState['ShowcaseMap.radius'] as int ?? (kMaxRadius / 2).round();
   }
 
   double get paintedRadius {
@@ -176,7 +176,7 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                                   });
                                 },
                                 min: 1,
-                                max: maxRadius,
+                                max: kMaxRadius,
                               ),
                             ),
                           ),
