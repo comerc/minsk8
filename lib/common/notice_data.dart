@@ -16,7 +16,7 @@ class NoticeData extends SourceList<NoticeItem> {
 
   @override
   QueryOptions get options {
-    final variables = {'next_created_at': nextCreatedAt};
+    final variables = {'next_date': nextDate};
     return QueryOptions(
       documentNode: Queries.getNotices,
       variables: variables,
@@ -33,7 +33,7 @@ class NoticeData extends SourceList<NoticeItem> {
     this.hasMore = hasMore;
     if (hasMore) {
       final notice = NoticeModel.fromJson(dataItems.removeLast());
-      nextCreatedAt = notice.createdAt.toUtc().toIso8601String();
+      nextDate = notice.createdAt.toUtc().toIso8601String();
     }
     final nowLocal = DateTime.now().toLocal();
     for (final dataItem in dataItems) {
