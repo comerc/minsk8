@@ -12,9 +12,9 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
   bool get isInfinite => true;
 
   // TODO: а запись времени в базу выполняется в utc?
-  String get startCreatedAt => DateTime.now().toUtc().toIso8601String();
+  String get startDate => DateTime.now().toUtc().toIso8601String();
 
-  String nextCreatedAt;
+  String nextDate;
   bool _hasMore;
   bool _forceRefresh;
 
@@ -38,7 +38,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
-    nextCreatedAt = startCreatedAt;
+    nextDate = startDate;
     _hasMore = true;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 units.
@@ -61,7 +61,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       // это флаг включается при смене таба
       _isLoadDataByTabChange = true;
     }
-    assert(nextCreatedAt != null);
+    assert(nextDate != null);
     var isSuccess = false;
     try {
       // TODO: may be WatchQueryOptions?

@@ -6,11 +6,11 @@ import './fragments.dart';
 
 class Queries {
   static final getChats = gql(r'''
-    query getChats($next_created_at: timestamptz) {
+    query getChats($next_date: timestamptz) {
       chats(
         where:
           {
-            updated_at: {_lte: $next_created_at},
+            updated_at: {_lte: $next_date},
           },
         order_by: {updated_at: desc}
       ) {
@@ -45,11 +45,11 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnits = gql(r'''
-    query getUnits($next_created_at: timestamptz) {
+    query getUnits($next_date: timestamptz) {
       units(
         where: 
           {
-            created_at: {_lte: $next_created_at},
+            created_at: {_lte: $next_date},
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -66,12 +66,12 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForFan = gql(r'''
-    query getUnitsForFan($next_created_at: timestamptz) {
+    query getUnitsForFan($next_date: timestamptz) {
       units(
         where: 
           {
             total_wishes: {_is_null: false},
-            created_at: {_lte: $next_created_at}, 
+            created_at: {_lte: $next_date}, 
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -88,12 +88,12 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForBest = gql(r'''
-    query getUnitsForBest($next_created_at: timestamptz) {
+    query getUnitsForBest($next_date: timestamptz) {
       units(
         where: 
           {
             price: {_is_null: false},
-            created_at: {_lte: $next_created_at}, 
+            created_at: {_lte: $next_date}, 
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -110,12 +110,12 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForPromo = gql(r'''
-    query getUnitsForPromo($next_created_at: timestamptz) {
+    query getUnitsForPromo($next_date: timestamptz) {
       units(
         where: 
           {
             is_promo: {_is_null: false},
-            created_at: {_lte: $next_created_at}, 
+            created_at: {_lte: $next_date}, 
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -132,12 +132,12 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForUrgent = gql(r'''
-    query getUnitsForUrgent($next_created_at: timestamptz) {
+    query getUnitsForUrgent($next_date: timestamptz) {
       units(
         where: 
           {
             urgent: {_eq: very_urgent},
-            created_at: {_lte: $next_created_at}, 
+            created_at: {_lte: $next_date}, 
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -154,12 +154,12 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsByKind = gql(r'''
-    query getUnitsByKind($next_created_at: timestamptz, $kind: kind_enum) {
+    query getUnitsByKind($next_date: timestamptz, $kind: kind_enum) {
       units(
         where: 
           {
             kind: {_eq: $kind},
-            created_at: {_lte: $next_created_at} 
+            created_at: {_lte: $next_date} 
             is_winned: {_is_null: true},  
             is_blocked: {_is_null: true}, 
             transferred_at: {_is_null: true}, 
@@ -195,11 +195,11 @@ class Queries {
   ''');
 
   static final getPayments = gql(r'''
-    query getPayments($next_created_at: timestamptz) {
+    query getPayments($next_date: timestamptz) {
       payments (
         where: 
           {
-            created_at: {_lte: $next_created_at} 
+            created_at: {_lte: $next_date} 
           }, 
         order_by: {created_at: desc}
       ) {
@@ -227,11 +227,11 @@ class Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getNotices = gql(r'''
-    query getNotices($next_created_at: timestamptz) {
+    query getNotices($next_date: timestamptz) {
       notices (
         where: 
           {
-            created_at: {_lte: $next_created_at} 
+            created_at: {_lte: $next_date} 
           }, 
         order_by: {created_at: desc}
       ) {

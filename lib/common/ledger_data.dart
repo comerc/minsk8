@@ -14,7 +14,7 @@ class LedgerData extends SourceList<LedgerItem> {
 
   @override
   QueryOptions get options {
-    final variables = {'next_created_at': nextCreatedAt};
+    final variables = {'next_date': nextDate};
     return QueryOptions(
       documentNode: Queries.getPayments,
       variables: variables,
@@ -31,7 +31,7 @@ class LedgerData extends SourceList<LedgerItem> {
     this.hasMore = hasMore;
     if (hasMore) {
       final payment = PaymentModel.fromJson(dataItems.removeLast());
-      nextCreatedAt = payment.createdAt.toUtc().toIso8601String();
+      nextDate = payment.createdAt.toUtc().toIso8601String();
     }
     final nowLocal = DateTime.now().toLocal();
     for (final dataItem in dataItems) {

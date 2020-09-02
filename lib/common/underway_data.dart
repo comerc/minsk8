@@ -13,7 +13,7 @@ class UnderwayData extends SourceList<UnitModel> {
 
   @override
   QueryOptions get options {
-    // final variables = {'next_created_at': nextCreatedAt};
+    // final variables = {'next_date': nextDate};
     return QueryOptions(
       documentNode: {
         UnderwayValue.wish: Queries.getWishUnits,

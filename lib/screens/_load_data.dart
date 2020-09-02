@@ -17,7 +17,7 @@ class LoadDataScreen extends StatelessWidget {
           options: QueryOptions(
             documentNode: Queries.getUnits,
             variables: {
-              'next_created_at': '2100-01-01',
+              'next_date': '2100-01-01',
             },
           ),
           builder: withGenericHandling(
@@ -86,7 +86,7 @@ class LoadDataScreen extends StatelessWidget {
                           fetchMore(
                             FetchMoreOptions(
                               variables: {
-                                'next_created_at':
+                                'next_date':
                                     nextUnit.createdAt.toUtc().toIso8601String()
                               },
                               updateQuery: (

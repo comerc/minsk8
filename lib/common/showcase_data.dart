@@ -18,7 +18,7 @@ class ShowcaseData extends SourceList<UnitModel> {
 
   @override
   QueryOptions get options {
-    final variables = {'next_created_at': nextCreatedAt};
+    final variables = {'next_date': nextDate};
     if (isMetaKind) {
       return QueryOptions(
         documentNode: {
@@ -49,7 +49,7 @@ class ShowcaseData extends SourceList<UnitModel> {
     this.hasMore = hasMore;
     if (hasMore) {
       final item = UnitModel.fromJson(dataItems.removeLast());
-      nextCreatedAt = item.createdAt.toUtc().toIso8601String();
+      nextDate = item.createdAt.toUtc().toIso8601String();
     }
     for (final dataItem in dataItems) {
       items.add(UnitModel.fromJson(dataItem));
