@@ -5,6 +5,34 @@ import './fragments.dart';
 // TODO: а может убрать time zone (timestamptz vs timestamp)?
 
 class Queries {
+  static final getChats = gql(r'''
+    query getChats($next_created_at: timestamptz) {
+      chats(
+        where:
+          {
+            updated_at: {_lte: $next_created_at},
+          },
+        order_by: {updated_at: desc}
+      ) {
+        unit {
+          ...unitFields
+          member {
+            ...memberFields
+          }
+        }
+        companion {
+          ...memberFields
+        }
+        messages
+        is_unit_owner_writes_now
+        is_companion_writes_now
+        is_unit_owner_read_all
+        is_companion_read_all
+        updated_at
+      }
+    }
+  ''')..definitions.addAll(Fragments.fragments.definitions);
+
   static final getUnit = gql(r'''
     query getUnit($id: uuid!) {
       unit(id: $id) {
