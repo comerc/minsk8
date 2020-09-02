@@ -8,6 +8,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: [MVP] (на сервере) при добавлении победителя, включать unit.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?
+// TODO: применить cacheExtent
 
 class ShowcaseList extends StatefulWidget {
   ShowcaseList({
