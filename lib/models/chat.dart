@@ -23,6 +23,7 @@ class ChatModel {
   final bool isCompanionWritesNow;
   final bool isUnitOwnerReadAll;
   final bool isCompanionReadAll;
+  // TODO: updatedAt - как в gmail, обновленные элементы в ChatList нужно переставлять на клиенте
   final DateTime updatedAt;
 
   String get id => '${unit.id} ${companion.id}';
