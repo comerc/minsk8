@@ -21,10 +21,10 @@ class HomeUnderway extends StatelessWidget {
         UnderwayModel(UnderwayValue.give, 'Отдаю'),
       ],
       dataPool: dataPool,
-      buildList: (int tabIndex, SourceList sourceList) {
+      buildList: (int tabIndex) {
         return ShowcaseList(
           tabIndex: tabIndex,
-          sourceList: sourceList as SourceList<UnitModel>,
+          sourceList: dataPool[tabIndex],
         );
       },
       pullToRefreshNotificationKey: pullToRefreshNotificationKey,

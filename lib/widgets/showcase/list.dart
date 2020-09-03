@@ -68,9 +68,9 @@ class _ShowcaseListState extends State<ShowcaseList>
                   });
                 },
               ),
-              itemBuilder: (BuildContext context, UnitModel unit, int index) {
+              itemBuilder: (BuildContext context, UnitModel item, int index) {
                 return ShowcaseItem(
-                  unit: unit,
+                  unit: item,
                   tabIndex: widget.tabIndex,
                   isCover: isSmallWidth,
                 );

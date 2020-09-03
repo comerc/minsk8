@@ -15,10 +15,10 @@ class HomeShowcase extends StatelessWidget {
       key: wrapperKey,
       tabModels: kAllKinds,
       dataPool: dataPool,
-      buildList: (int tabIndex, SourceList sourceList) {
+      buildList: (int tabIndex) {
         return ShowcaseList(
           tabIndex: tabIndex,
-          sourceList: sourceList as SourceList<UnitModel>,
+          sourceList: dataPool[tabIndex],
         );
       },
       pullToRefreshNotificationKey: pullToRefreshNotificationKey,
