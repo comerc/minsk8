@@ -7,11 +7,11 @@ class ChatData extends SourceList<ChatModel> {
   @override
   QueryOptions get options {
     final variables = {'next_date': nextDate};
-    // return QueryOptions(
-    //   documentNode: Queries.getChats,
-    //   variables: variables,
-    //   fetchPolicy: FetchPolicy.noCache,
-    // );
+    return QueryOptions(
+      documentNode: Queries.getChats,
+      variables: variables,
+      fetchPolicy: FetchPolicy.noCache,
+    );
   }
 
   @override

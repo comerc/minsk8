@@ -1,5 +1,6 @@
 // library import;
 
+export 'common/chat_data.dart';
 export 'common/const.dart';
 export 'common/fake_data.dart';
 export 'common/helpers.dart';

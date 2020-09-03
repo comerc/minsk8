@@ -9,18 +9,18 @@ import 'package:minsk8/import.dart';
 
 // TODO: когда нет элементов для _ChatListGroup, его нужно прятать
 
-// IndexedStack,
-
 class ChatList extends StatefulWidget {
   ChatList({
     Key key,
     this.tabIndex,
-    this.sourceList,
+    // this.sourceList,
+    this.dataPool,
   })  : scrollPositionKey = Key('$tabIndex'),
         super(key: key);
 
   final Key scrollPositionKey;
-  final NoticeData sourceList;
+  // final ShowcaseData sourceList;
+  final List<ChatData> dataPool;
   final int tabIndex;
 
   @override
@@ -31,82 +31,161 @@ class _ChatListState extends State<ChatList>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  Future<bool> _future;
+  // Future<bool> _future;
 
   @override
   void initState() {
     super.initState();
-    print('_ChatListState initState');
+    // print('_ChatListState initState');
     // debugPrint(c.toString());
-    _future = _loadData();
+    // _future = _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     // print('ChatList.build');
     super.build(context);
-    return FutureBuilder<bool>(
-      // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
-      future: _future,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return buildListIndicator(
-            context: context,
-            status: IndicatorStatus.fullScreenBusying,
-            // sourceList: widget.sourceList,
-          );
-        }
-        if (snapshot.hasError || !snapshot.hasData || !snapshot.data) {
-          return buildListIndicator(
-            context: context,
-            status: IndicatorStatus.fullScreenError,
-            // sourceList: widget.sourceList,
-          );
-        }
-        return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-          widget.scrollPositionKey,
-          LoadingMoreCustomScrollView(
-            // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
-            showGlowLeading: false,
-            rebuildCustomScrollView: true,
-            // in case list is not full screen and remove ios Bouncing
-            physics: AlwaysScrollableClampingScrollPhysics(),
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: MySuperButton(),
+    // return FutureBuilder<bool>(
+    //   // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
+    //   future: _future,
+    //   builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+    //     if (snapshot.connectionState != ConnectionState.done) {
+    //       return buildListIndicator(
+    //         context: context,
+    //         status: IndicatorStatus.fullScreenBusying,
+    //         // sourceList: widget.sourceList,
+    //       );
+    //     }
+    //     if (snapshot.hasError || !snapshot.hasData || !snapshot.data) {
+    //       return buildListIndicator(
+    //         context: context,
+    //         status: IndicatorStatus.fullScreenError,
+    //         // sourceList: widget.sourceList,
+    //       );
+    //     }
+    return extended.NestedScrollViewInnerScrollPositionKeyWidget(
+      widget.scrollPositionKey,
+      LoadingMoreCustomScrollView(
+        // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
+        showGlowLeading: false,
+        rebuildCustomScrollView: true,
+        // in case list is not full screen and remove ios Bouncing
+        physics: AlwaysScrollableClampingScrollPhysics(),
+        slivers: <Widget>[
+          // SliverToBoxAdapter(
+          //   child: Container(
+          //     // height: 1500,
+          //     child:
+          _ChatListGroupHeader(
+              value: _ChatListGroupValue.ready, onChanged: _onChanged),
+          if (appState['${_ChatListGroupValue.ready}'] == true)
+            LoadingMoreSliverList(
+              SliverListConfig<ChatModel>(
+                // shrinkWrap: true,
+                sourceList: widget.dataPool[0],
+                itemBuilder: (BuildContext context, ChatModel item, int index) {
+                  print(index);
+                  return Container(height: 150, child: Text('$index'));
+                },
+                // itemExtent: 150,
               ),
-              _ChatListGroup(value: _ChatListGroupValue.ready),
-              _ChatListGroup(value: _ChatListGroupValue.cancel),
-              _ChatListGroup(value: _ChatListGroupValue.success),
-              SliverToBoxAdapter(
-                child: SizedBox(height: 100),
+            ),
+          _ChatListGroupHeader(
+              value: _ChatListGroupValue.success, onChanged: _onChanged),
+          if (appState['${_ChatListGroupValue.success}'] == true)
+            LoadingMoreSliverList(
+              SliverListConfig<ChatModel>(
+                // shrinkWrap: true,
+                sourceList: widget.dataPool[1],
+                itemBuilder: (BuildContext context, ChatModel item, int index) {
+                  print(index);
+                  return Container(height: 150, child: Text(item.id));
+                },
+                // itemExtent: 150,
               ),
-              // if (_isExpand)
-              //   SliverList(
-              //     // TODO: могу анимировать SliverList, если я знаю высоту ряда?
-              //     // itemExtent: 50.0,
-              //     delegate: SliverChildBuilderDelegate(
-              //       (BuildContext context, int index) {
-              //         return Container(
-              //           height: 100,
-              //           alignment: Alignment.center,
-              //           color: Colors.lightBlue[100 * (index % 9)],
-              //           child: Text('list item $index'),
-              //         );
-              //       },
-              //       childCount: 20,
-              //     ),
-              //   ),
-            ],
+            ),
+          //   ),
+          // ),
+          SliverToBoxAdapter(
+            child: MySuperButton(),
           ),
-        );
-      },
+          // _ChatListGroup(value: _ChatListGroupValue.ready),
+          // _ChatListGroup(value: _ChatListGroupValue.cancel),
+          // _ChatListGroup(value: _ChatListGroupValue.success),
+          // if (appState['${_ChatListGroupValue.ready}'] == true)
+          //   SliverToBoxAdapter(
+          //     child: Container(
+          //       // margin: EdgeInsets.all(32),
+          //       decoration:
+          //           BoxDecoration(border: Border.all(color: Colors.red)),
+          //       child: ListView(
+          //         shrinkWrap: true,
+          //         children: <Widget>[
+          //           ListTile(title: Text('Item 1')),
+          //           ListTile(title: Text('Item 2')),
+          //           ListTile(title: Text('Item 3')),
+          //         ],
+          //       ),
+          //     ),
+          //     // child: ListView.separated(
+          //     //   shrinkWrap: true,
+          //     //   cacheExtent: 100,
+          //     //   itemCount: 8,
+          //     //   itemBuilder: (BuildContext context, int index) {
+          //     //     return Container(
+          //     //       height: 100,
+          //     //       alignment: Alignment.center,
+          //     //       child: Text('list item $index'),
+          //     //       decoration: BoxDecoration(
+          //     //         color: Colors.lightBlue[100 * (index % 9)],
+          //     //         border: Border(
+          //     //           bottom:
+          //     //               BorderSide(color: Theme.of(context).dividerColor),
+          //     //         ),
+          //     //       ),
+          //     //     );
+          //     //   },
+          //     //   separatorBuilder: (BuildContext context, int index) {
+          //     //     return Container();
+          //     //   },
+          //     // ),
+
+          //     // Container(color: Colors.red, height: 100),
+          //   ),
+
+          // SliverToBoxAdapter(
+          //   child: SizedBox(height: 100),
+          // ),
+          // if (_isExpand)
+          //   SliverList(
+          //     // TODO: могу анимировать SliverList, если я знаю высоту ряда?
+          //     // itemExtent: 50.0,
+          //     delegate: SliverChildBuilderDelegate(
+          //       (BuildContext context, int index) {
+          //         return Container(
+          //           height: 100,
+          //           alignment: Alignment.center,
+          //           color: Colors.lightBlue[100 * (index % 9)],
+          //           child: Text('list item $index'),
+          //         );
+          //       },
+          //       childCount: 20,
+          //     ),
+          //   ),
+        ],
+      ),
     );
+    //   },
+    // );
   }
 
-  Future<bool> _loadData() async {
-    await Future.delayed(Duration(milliseconds: 4000));
-    return true;
+  // Future<bool> _loadData() async {
+  //   await Future.delayed(Duration(milliseconds: 4000));
+  //   return true;
+  // }
+
+  void _onChanged() {
+    setState(() {});
   }
 }
 
@@ -370,6 +449,111 @@ class _MySuperButtonState extends State<MySuperButton>
           _value = _value + 1;
         });
       },
+    );
+  }
+}
+
+class _ChatListGroupHeader extends StatefulWidget {
+  _ChatListGroupHeader({
+    Key key,
+    this.value,
+    this.onChanged,
+  }) : super(key: key);
+
+  final _ChatListGroupValue value;
+  final Function onChanged;
+
+  @override
+  _ChatListGroupHeaderState createState() => _ChatListGroupHeaderState();
+}
+
+class _ChatListGroupHeaderState extends State<_ChatListGroupHeader>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  bool _isInitialExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+    _isInitialExpanded = appState['${widget.value}'] == true;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // timeDilation = 10.0; // 1.0 is normal animation speed.
+    return SliverToBoxAdapter(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Theme.of(context).dividerColor),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Container(
+                  child: Text({
+                    _ChatListGroupValue.ready: 'Договоритесь о встрече',
+                    _ChatListGroupValue.cancel: 'Отменённые',
+                    _ChatListGroupValue.success: 'Завершённые',
+                  }[widget.value]),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 2),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 4),
+                      Text('12'),
+                      _AnimatedIcon(
+                        controller: _isInitialExpanded
+                            ? ReverseAnimation(_controller.view)
+                            : _controller.view,
+                        child: Icon(
+                          Icons.expand_more,
+                          size: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: ShapeDecoration(
+                    color: Colors.grey.withOpacity(0.3),
+                    shape: StadiumBorder(),
+                  ),
+                )
+              ],
+            ),
+          ),
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onTap: () {
+            final isExpanded = appState['${widget.value}'] == true;
+            appState['${widget.value}'] = !isExpanded;
+            widget.onChanged();
+            if (isExpanded) {
+              _isInitialExpanded
+                  ? _controller.forward()
+                  : _controller.reverse();
+            } else {
+              _isInitialExpanded
+                  ? _controller.reverse()
+                  : _controller.forward();
+            }
+          },
+        ),
+      ),
     );
   }
 }
