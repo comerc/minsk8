@@ -15,11 +15,13 @@ class Wrapper extends StatefulWidget {
     this.pullToRefreshNotificationKey,
     this.poolForReloadTabs,
     this.hasAppBar = false,
-  }) : super(key: key);
+  })  : assert(dataPool.any((element) =>
+            !(element is SourceList || element is List<SourceList>))),
+        super(key: key);
 
   final List<EnumModel> tabModels;
-  final List<SourceList> dataPool;
-  final Widget Function(int tabIndex, SourceList sourceList) buildList;
+  final List<dynamic> dataPool;
+  final Widget Function(int tabIndex) buildList;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
   final Set<int> poolForReloadTabs;
   final bool hasAppBar;
@@ -39,8 +41,16 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       length: widget.tabModels.length,
       vsync: this,
     );
+    if (widget.poolForReloadTabs != null &&
+        widget.dataPool is List<SourceList>) {
+      _addListener();
+    }
+  }
+
+  void _addListener() {
+    final dataPool = widget.dataPool as List<SourceList>;
     _tabController.addListener(() {
-      final sourceList = widget.dataPool[_tabController.index];
+      final sourceList = dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
@@ -51,7 +61,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
             widget.poolForReloadTabs.remove(_tabController.index);
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
-            final sourceListBefore = widget.dataPool[_tabController.index - 1];
+            final sourceListBefore = dataPool[_tabController.index - 1];
             sourceListBefore.resetIsLoadDataByTabChange();
           }
           sourceList.resetIsLoadDataByTabChange();
@@ -132,7 +142,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           widget.tabModels.length,
-          (int index) => widget.buildList(index, widget.dataPool[index]),
+          (int index) => widget.buildList(index),
         ),
       ),
     );
@@ -146,8 +156,16 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
 
   Future<bool> _onRefresh() async {
     // print('onRefresh');
-    final sourceList = widget.dataPool[_tabController.index];
-    final result = await sourceList.handleRefresh();
+    final element = widget.dataPool[_tabController.index];
+    var result = false;
+    if (element is SourceList) {
+      result = await element.handleRefresh();
+    }
+    if (element is List<SourceList>) {
+      final resultList =
+          await Future.wait(element.map((element) => element.handleRefresh()));
+      result = !resultList.contains(false);
+    }
     if (!result) {
       final snackBar = SnackBar(
           content:
