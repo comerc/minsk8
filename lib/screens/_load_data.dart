@@ -81,8 +81,7 @@ class LoadDataScreen extends StatelessWidget {
                           //         child: Text('Hello world'),
                           //       );
                           //     },
-                          final nextUnit =
-                              UnitModel.fromJson(units[units.length - 1]);
+                          final nextUnit = UnitModel.fromJson(units.last);
                           fetchMore(
                             FetchMoreOptions(
                               variables: {
