@@ -38,7 +38,7 @@ class UnitModel {
   @JsonKey(nullable: true)
   final int price;
   // @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
-  final UrgentStatus urgent;
+  final UrgentValue urgent;
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
   @JsonKey(nullable: true)
@@ -78,10 +78,10 @@ class UnitModel {
 
   dynamic meta;
 
-  // static UrgentStatus _urgentFromString(String value) =>
-  //     EnumToString.fromString(UrgentStatus.values, value);
+  // static UrgentValue _urgentFromString(String value) =>
+  //     EnumToString.fromString(UrgentValue.values, value);
 
-  // static String _urgentToString(UrgentStatus urgent) =>
+  // static String _urgentToString(UrgentValue urgent) =>
   //     EnumToString.parse(urgent);
 
   static LatLng _locationFromJson(Map<String, dynamic> json) {

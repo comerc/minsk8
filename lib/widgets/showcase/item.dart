@@ -121,7 +121,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                         );
                       },
                     )
-                  else if (unit.urgent != UrgentStatus.none)
+                  else if (unit.urgent != UrgentValue.none)
                     _buildStatus(
                       kUrgents
                           .firstWhere((UrgentModel urgentModel) =>

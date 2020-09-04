@@ -3,8 +3,8 @@ import 'package:minsk8/import.dart';
 
 // TODO: CheckboxListTile
 
-Future<UrgentStatus> selectUrgentDialog(
-    BuildContext context, UrgentStatus selected) {
+Future<UrgentValue> selectUrgentDialog(
+    BuildContext context, UrgentValue selected) {
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,

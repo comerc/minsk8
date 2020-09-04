@@ -49,7 +49,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   TextEditingController _textController;
   ImageSource _imageSource;
   final _images = <_ImageData>[];
-  UrgentStatus _urgent = UrgentStatus.not_urgent;
+  UrgentValue _urgent = UrgentValue.not_urgent;
   KindValue _kind;
   FocusNode _textFocusNode;
   Future<void> _uploadQueue = Future.value();
@@ -488,7 +488,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectUrgent() {
-    selectUrgentDialog(context, _urgent).then((UrgentStatus value) {
+    selectUrgentDialog(context, _urgent).then((UrgentValue value) {
       if (value == null) return;
       setState(() {
         _urgent = value;
