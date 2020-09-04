@@ -63,6 +63,9 @@ class _ChatListState extends State<ChatList>
     //         // sourceList: widget.sourceList,
     //       );
     //     }
+    final a = Stage.values.map((value) => _buildChat(value));
+    final slivers = a.expand((i) => i).toList();
+
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       widget.scrollPositionKey,
       LoadingMoreCustomScrollView(
@@ -72,47 +75,20 @@ class _ChatListState extends State<ChatList>
         // in case list is not full screen and remove ios Bouncing
         physics: AlwaysScrollableClampingScrollPhysics(),
         slivers: <Widget>[
+          ...slivers,
           // SliverToBoxAdapter(
           //   child: Container(
           //     // height: 1500,
           //     child:
-          _ChatListGroupHeader(
-              value: _ChatListGroupValue.ready, onChanged: _onChanged),
-          if (appState['${_ChatListGroupValue.ready}'] == true)
-            LoadingMoreSliverList(
-              SliverListConfig<ChatModel>(
-                // shrinkWrap: true,
-                sourceList: widget.dataPool[0],
-                itemBuilder: (BuildContext context, ChatModel item, int index) {
-                  print(index);
-                  return Container(height: 150, child: Text('$index'));
-                },
-                // itemExtent: 150,
-              ),
-            ),
-          _ChatListGroupHeader(
-              value: _ChatListGroupValue.success, onChanged: _onChanged),
-          if (appState['${_ChatListGroupValue.success}'] == true)
-            LoadingMoreSliverList(
-              SliverListConfig<ChatModel>(
-                // shrinkWrap: true,
-                sourceList: widget.dataPool[1],
-                itemBuilder: (BuildContext context, ChatModel item, int index) {
-                  print(index);
-                  return Container(height: 150, child: Text(item.id));
-                },
-                // itemExtent: 150,
-              ),
-            ),
           //   ),
           // ),
           SliverToBoxAdapter(
             child: MySuperButton(),
           ),
-          // _ChatListGroup(value: _ChatListGroupValue.ready),
-          // _ChatListGroup(value: _ChatListGroupValue.cancel),
-          // _ChatListGroup(value: _ChatListGroupValue.success),
-          // if (appState['${_ChatListGroupValue.ready}'] == true)
+          // _ChatListGroup(stage: Stage.ready),
+          // _ChatListGroup(stage: Stage.cancel),
+          // _ChatListGroup(stage: Stage.success),
+          // if (appState['${Stage.ready}'] == true)
           //   SliverToBoxAdapter(
           //     child: Container(
           //       // margin: EdgeInsets.all(32),
@@ -187,145 +163,215 @@ class _ChatListState extends State<ChatList>
   void _onChanged() {
     setState(() {});
   }
-}
 
-enum _ChatListGroupValue { ready, cancel, success }
-
-class _ChatListGroup extends StatefulWidget {
-  const _ChatListGroup({
-    Key key,
-    this.value,
-  }) : super(key: key);
-
-  final _ChatListGroupValue value;
-
-  @override
-  _ChatListGroupState createState() => _ChatListGroupState();
-}
-
-class _ChatListGroupState extends State<_ChatListGroup>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
-  bool _isInitialExpanded;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-    _isInitialExpanded = appState['${widget.value}'] == true;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // timeDilation = 10.0; // 1.0 is normal animation speed.
-    return SliverToBoxAdapter(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Material(
-            color: Colors.white,
-            child: InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Theme.of(context).dividerColor),
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  children: [
-                    Container(
-                      child: Text({
-                        _ChatListGroupValue.ready: 'Договоритесь о встрече',
-                        _ChatListGroupValue.cancel: 'Отменённые',
-                        _ChatListGroupValue.success: 'Завершённые',
-                      }[widget.value]),
-                    ),
-                    Spacer(),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 2),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 4),
-                          Text('12'),
-                          _AnimatedIcon(
-                            controller: _isInitialExpanded
-                                ? ReverseAnimation(_controller.view)
-                                : _controller.view,
-                            child: Icon(
-                              Icons.expand_more,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      decoration: ShapeDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        shape: StadiumBorder(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              onLongPress: () {}, // чтобы сократить время для splashColor
-              onTap: () {
-                final isExpanded = appState['${widget.value}'] == true;
-                appState['${widget.value}'] = !isExpanded;
-                if (isExpanded) {
-                  _isInitialExpanded
-                      ? _controller.forward()
-                      : _controller.reverse();
-                } else {
-                  _isInitialExpanded
-                      ? _controller.reverse()
-                      : _controller.forward();
-                }
+  List<Widget> _buildChat(Stage stage) {
+    final sourceList = widget.dataPool[stage.index];
+    return [
+      _ChatHeader(stage: stage, onChanged: _onChanged),
+      if (appState['$stage'] == true)
+        LoadingMoreSliverList(
+          SliverListConfig<ChatModel>(
+            sourceList: sourceList,
+            extendedListDelegate: ExtendedListDelegate(
+              collectGarbage: (List<int> garbages) {
+                garbages.forEach((int index) {
+                  final chat = sourceList[index];
+                  final unit = chat.unit;
+                  final image = unit.images[0];
+                  final provider = ExtendedNetworkImageProvider(
+                    image.getDummyUrl(unit.id),
+                  );
+                  provider.evict();
+                });
               },
             ),
-          ),
-          _AnimatedBox(
-            controller: _isInitialExpanded
-                ? ReverseAnimation(_controller.view)
-                : _controller.view,
-            // TODO: нужен отдельный скролируемый список - архив неактуальных элементов,
-            // иначе будет тормозить,
-            // т.к. ListBox.itemBuilder создаёт все элементы сразу, в отличии от ListView
-            // TODO: реализовать пейджинг для ChatModel, сейчас запрос отдаёт данные безлимитно
-            child: ListBox(
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Text('list item $index'),
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue[100 * (index % 9)],
-                    border: Border(
-                      bottom: BorderSide(color: Theme.of(context).dividerColor),
-                    ),
+            itemBuilder: (BuildContext context, ChatModel item, int index) {
+              var action = () {};
+              Widget avatar = CircleAvatar(
+                child: Logo(size: kDefaultIconSize),
+                backgroundColor: Colors.white,
+              );
+              var text = '1234';
+              return Material(
+                child: InkWell(
+                  onLongPress: () {}, // чтобы сократить время для splashColor
+                  onTap: action,
+                  child: ListTile(
+                    leading: avatar,
+                    title: Text(text),
+                    subtitle: Text('2222'),
+                    // subtitle: Text(
+                    //   DateFormat.jm('ru_RU').format(
+                    //     notice.createdAt.toLocal(),
+                    //   ),
+                    // ),
+                    trailing: Text('4444'),
+                    dense: true,
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Container();
-              },
-            ),
+                ),
+              );
+            },
+            indicatorBuilder: (
+              BuildContext context,
+              IndicatorStatus status,
+            ) {
+              return buildListIndicator(
+                context: context,
+                status: IndicatorStatus.loadingMoreBusying == status
+                    ? IndicatorStatus.none
+                    : status,
+                sourceList: sourceList,
+                isSliver: true,
+              );
+            },
+            lastChildLayoutType: LastChildLayoutType.foot,
           ),
-        ],
-      ),
-    );
+        ),
+    ];
   }
 }
+
+enum Stage {
+  ready,
+  cancel
+// , success
+}
+
+// class _ChatListGroup extends StatefulWidget {
+//   const _ChatListGroup({
+//     Key key,
+//     this.stage,
+//   }) : super(key: key);
+
+//   final Stage stage;
+
+//   @override
+//   _ChatListGroupState createState() => _ChatListGroupState();
+// }
+
+// class _ChatListGroupState extends State<_ChatListGroup>
+//     with TickerProviderStateMixin {
+//   AnimationController _controller;
+//   bool _isInitialExpanded;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = AnimationController(
+//       duration: const Duration(milliseconds: 400),
+//       vsync: this,
+//     );
+//     _isInitialExpanded = appState['${widget.stage}'] == true;
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // timeDilation = 10.0; // 1.0 is normal animation speed.
+//     return SliverToBoxAdapter(
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           Material(
+//             color: Colors.white,
+//             child: InkWell(
+//               child: Container(
+//                 decoration: BoxDecoration(
+//                   border: Border(
+//                     bottom: BorderSide(color: Theme.of(context).dividerColor),
+//                   ),
+//                 ),
+//                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//                 child: Row(
+//                   children: [
+//                     Container(
+//                       child: Text({
+//                         Stage.ready: 'Договоритесь о встрече',
+//                         Stage.cancel: 'Отменённые',
+//                         Stage.success: 'Завершённые',
+//                       }[widget.stage]),
+//                     ),
+//                     Spacer(),
+//                     Container(
+//                       padding: EdgeInsets.symmetric(horizontal: 2),
+//                       child: Row(
+//                         children: [
+//                           SizedBox(width: 4),
+//                           Text('12'),
+//                           _AnimatedIcon(
+//                             controller: _isInitialExpanded
+//                                 ? ReverseAnimation(_controller.view)
+//                                 : _controller.view,
+//                             child: Icon(
+//                               Icons.expand_more,
+//                               size: 20,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       decoration: ShapeDecoration(
+//                         color: Colors.grey.withOpacity(0.3),
+//                         shape: StadiumBorder(),
+//                       ),
+//                     )
+//                   ],
+//                 ),
+//               ),
+//               onLongPress: () {}, // чтобы сократить время для splashColor
+//               onTap: () {
+//                 final isExpanded = appState['${widget.stage}'] == true;
+//                 appState['${widget.stage}'] = !isExpanded;
+//                 if (isExpanded) {
+//                   _isInitialExpanded
+//                       ? _controller.forward()
+//                       : _controller.reverse();
+//                 } else {
+//                   _isInitialExpanded
+//                       ? _controller.reverse()
+//                       : _controller.forward();
+//                 }
+//               },
+//             ),
+//           ),
+//           _AnimatedBox(
+//             controller: _isInitialExpanded
+//                 ? ReverseAnimation(_controller.view)
+//                 : _controller.view,
+//             // TODO: нужен отдельный скролируемый список - архив неактуальных элементов,
+//             // иначе будет тормозить,
+//             // т.к. ListBox.itemBuilder создаёт все элементы сразу, в отличии от ListView
+//             // TODO: реализовать пейджинг для ChatModel, сейчас запрос отдаёт данные безлимитно
+//             child: ListBox(
+//               itemCount: 10,
+//               itemBuilder: (BuildContext context, int index) {
+//                 return Container(
+//                   height: 100,
+//                   alignment: Alignment.center,
+//                   child: Text('list item $index'),
+//                   decoration: BoxDecoration(
+//                     color: Colors.lightBlue[100 * (index % 9)],
+//                     border: Border(
+//                       bottom: BorderSide(color: Theme.of(context).dividerColor),
+//                     ),
+//                   ),
+//                 );
+//               },
+//               separatorBuilder: (BuildContext context, int index) {
+//                 return Container();
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class _AnimatedIcon extends StatelessWidget {
   _AnimatedIcon({
@@ -359,73 +405,73 @@ class _AnimatedIcon extends StatelessWidget {
   }
 }
 
-class _AnimatedBox extends StatelessWidget {
-  _AnimatedBox({
-    Key key,
-    this.controller,
-    this.child,
-  })  :
-        // Each animation defined here transforms its value during the subset
-        // of the controller's duration defined by the animation's interval.
-        // For example the opacity animation transforms its value during
-        // the first 10% of the controller's duration.
-        heightFactor = Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: Interval(
-              0.5,
-              0.5,
-            ),
-          ),
-        ),
-        opacity = Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: Interval(
-              0.5,
-              1.0,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
-        super(key: key);
+// class _AnimatedBox extends StatelessWidget {
+//   _AnimatedBox({
+//     Key key,
+//     this.controller,
+//     this.child,
+//   })  :
+//         // Each animation defined here transforms its value during the subset
+//         // of the controller's duration defined by the animation's interval.
+//         // For example the opacity animation transforms its value during
+//         // the first 10% of the controller's duration.
+//         heightFactor = Tween<double>(
+//           begin: 0.0,
+//           end: 1.0,
+//         ).animate(
+//           CurvedAnimation(
+//             parent: controller,
+//             curve: Interval(
+//               0.5,
+//               0.5,
+//             ),
+//           ),
+//         ),
+//         opacity = Tween<double>(
+//           begin: 0.0,
+//           end: 1.0,
+//         ).animate(
+//           CurvedAnimation(
+//             parent: controller,
+//             curve: Interval(
+//               0.5,
+//               1.0,
+//               curve: Curves.ease,
+//             ),
+//           ),
+//         ),
+//         super(key: key);
 
-  final Animation<double> controller;
-  final Animation<double> opacity;
-  final Animation<double> heightFactor;
-  final Widget child;
+//   final Animation<double> controller;
+//   final Animation<double> opacity;
+//   final Animation<double> heightFactor;
+//   final Widget child;
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      builder: _buildAnimation,
-      animation: controller,
-      child: child,
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedBuilder(
+//       builder: _buildAnimation,
+//       animation: controller,
+//       child: child,
+//     );
+//   }
 
-  // This function is called each time the controller "ticks" a new frame.
-  // When it runs, all of the animation's values will have been
-  // updated to reflect the controller's current value.
-  Widget _buildAnimation(BuildContext context, Widget child) {
-    return Opacity(
-      opacity: opacity.value,
-      child: ClipRect(
-        child: Align(
-          alignment: Alignment.topCenter,
-          heightFactor: heightFactor.value,
-          child: child,
-        ),
-      ),
-    );
-  }
-}
+//   // This function is called each time the controller "ticks" a new frame.
+//   // When it runs, all of the animation's values will have been
+//   // updated to reflect the controller's current value.
+//   Widget _buildAnimation(BuildContext context, Widget child) {
+//     return Opacity(
+//       opacity: opacity.value,
+//       child: ClipRect(
+//         child: Align(
+//           alignment: Alignment.topCenter,
+//           heightFactor: heightFactor.value,
+//           child: child,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class MySuperButton extends StatefulWidget {
   @override
@@ -453,21 +499,21 @@ class _MySuperButtonState extends State<MySuperButton>
   }
 }
 
-class _ChatListGroupHeader extends StatefulWidget {
-  _ChatListGroupHeader({
+class _ChatHeader extends StatefulWidget {
+  _ChatHeader({
     Key key,
-    this.value,
+    this.stage,
     this.onChanged,
   }) : super(key: key);
 
-  final _ChatListGroupValue value;
+  final Stage stage;
   final Function onChanged;
 
   @override
-  _ChatListGroupHeaderState createState() => _ChatListGroupHeaderState();
+  _ChatHeaderState createState() => _ChatHeaderState();
 }
 
-class _ChatListGroupHeaderState extends State<_ChatListGroupHeader>
+class _ChatHeaderState extends State<_ChatHeader>
     with TickerProviderStateMixin {
   AnimationController _controller;
   bool _isInitialExpanded;
@@ -479,7 +525,7 @@ class _ChatListGroupHeaderState extends State<_ChatListGroupHeader>
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    _isInitialExpanded = appState['${widget.value}'] == true;
+    _isInitialExpanded = appState['${widget.stage}'] == true;
   }
 
   @override
@@ -506,10 +552,10 @@ class _ChatListGroupHeaderState extends State<_ChatListGroupHeader>
               children: [
                 Container(
                   child: Text({
-                    _ChatListGroupValue.ready: 'Договоритесь о встрече',
-                    _ChatListGroupValue.cancel: 'Отменённые',
-                    _ChatListGroupValue.success: 'Завершённые',
-                  }[widget.value]),
+                    Stage.ready: 'Договоритесь о встрече',
+                    Stage.cancel: 'Отменённые',
+                    // Stage.success: 'Завершённые',
+                  }[widget.stage]),
                 ),
                 Spacer(),
                 Container(
@@ -539,8 +585,8 @@ class _ChatListGroupHeaderState extends State<_ChatListGroupHeader>
           ),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onTap: () {
-            final isExpanded = appState['${widget.value}'] == true;
-            appState['${widget.value}'] = !isExpanded;
+            final isExpanded = appState['${widget.stage}'] == true;
+            appState['${widget.stage}'] = !isExpanded;
             widget.onChanged();
             if (isExpanded) {
               _isInitialExpanded
