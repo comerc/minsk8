@@ -89,7 +89,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               },
               // hack for https://github.com/fluttercandies/loading_more_list/issues/20
               padding: EdgeInsets.symmetric(horizontal: 16),
-              lastChildLayoutType: LastChildLayoutType.foot,
+              // lastChildLayoutType: LastChildLayoutType.foot,
             ),
           ),
         ],
