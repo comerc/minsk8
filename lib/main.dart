@@ -155,6 +155,7 @@ class App extends StatelessWidget {
           [
             ChatData(client),
             ChatData(client),
+            ChatData(client),
           ],
           NoticeData(client),
         ];

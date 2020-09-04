@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:extended_image/extended_image.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
@@ -8,6 +9,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
 import 'package:minsk8/import.dart';
 
 // TODO: когда нет элементов для _ChatListGroup, его нужно прятать
+// TODO: [MVP] убрать "no more items"
 
 class ChatList extends StatefulWidget {
   ChatList({
@@ -63,7 +65,7 @@ class _ChatListState extends State<ChatList>
     //         // sourceList: widget.sourceList,
     //       );
     //     }
-    final a = Stage.values.map((value) => _buildChat(value));
+    final a = StageValue.values.map((value) => _buildChat(value));
     final slivers = a.expand((i) => i).toList();
 
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
@@ -76,19 +78,16 @@ class _ChatListState extends State<ChatList>
         physics: AlwaysScrollableClampingScrollPhysics(),
         slivers: <Widget>[
           ...slivers,
-          // SliverToBoxAdapter(
-          //   child: Container(
-          //     // height: 1500,
-          //     child:
-          //   ),
-          // ),
           SliverToBoxAdapter(
-            child: MySuperButton(),
+            child: SizedBox(height: 100),
           ),
-          // _ChatListGroup(stage: Stage.ready),
-          // _ChatListGroup(stage: Stage.cancel),
-          // _ChatListGroup(stage: Stage.success),
-          // if (appState['${Stage.ready}'] == true)
+          // SliverToBoxAdapter(
+          //   child: MySuperButton(),
+          // ),
+          // _ChatListGroup(stage: StageValue.ready),
+          // _ChatListGroup(stage: StageValue.cancel),
+          // _ChatListGroup(stage: StageValue.success),
+          // if (appState['${StageValue.ready}'] == true)
           //   SliverToBoxAdapter(
           //     child: Container(
           //       // margin: EdgeInsets.all(32),
@@ -129,9 +128,6 @@ class _ChatListState extends State<ChatList>
           //     // Container(color: Colors.red, height: 100),
           //   ),
 
-          // SliverToBoxAdapter(
-          //   child: SizedBox(height: 100),
-          // ),
           // if (_isExpand)
           //   SliverList(
           //     // TODO: могу анимировать SliverList, если я знаю высоту ряда?
@@ -164,7 +160,7 @@ class _ChatListState extends State<ChatList>
     setState(() {});
   }
 
-  List<Widget> _buildChat(Stage stage) {
+  List<Widget> _buildChat(StageValue stage) {
     final sourceList = widget.dataPool[stage.index];
     return [
       _ChatHeader(stage: stage, onChanged: _onChanged),
@@ -186,55 +182,53 @@ class _ChatListState extends State<ChatList>
               },
             ),
             itemBuilder: (BuildContext context, ChatModel item, int index) {
-              var action = () {};
-              Widget avatar = CircleAvatar(
-                child: Logo(size: kDefaultIconSize),
-                backgroundColor: Colors.white,
-              );
-              var text = '1234';
+              // var text = '1234';
+              final messageText = item.messages.isEmpty
+                  ? kStages[item.stage.index].text
+                  : item.messages.last.text;
               return Material(
                 child: InkWell(
                   onLongPress: () {}, // чтобы сократить время для splashColor
-                  onTap: action,
-                  child: ListTile(
-                    leading: avatar,
-                    title: Text(text),
-                    subtitle: Text('2222'),
-                    // subtitle: Text(
-                    //   DateFormat.jm('ru_RU').format(
-                    //     notice.createdAt.toLocal(),
-                    //   ),
-                    // ),
-                    trailing: Text('4444'),
-                    dense: true,
-                  ),
+                  onTap: _onTap,
+                  child: Column(children: <Widget>[
+                    ListTile(
+                      leading: Avatar(item.unit.avatarUrl),
+                      title: Text(item.unit.text),
+                      subtitle: Text(messageText),
+                      trailing: Text(
+                        // TODO: сокращает "июл.", что выглядит странно
+                        DateFormat.MMMd('ru_RU').format(
+                          item.updatedAt.toLocal(),
+                        ),
+                      ),
+                      dense: true,
+                    ),
+                    Divider(height: 1),
+                  ]),
                 ),
               );
             },
-            indicatorBuilder: (
-              BuildContext context,
-              IndicatorStatus status,
-            ) {
-              return buildListIndicator(
-                context: context,
-                status: IndicatorStatus.loadingMoreBusying == status
-                    ? IndicatorStatus.none
-                    : status,
-                sourceList: sourceList,
-                isSliver: true,
-              );
-            },
-            lastChildLayoutType: LastChildLayoutType.foot,
+            // indicatorBuilder: (
+            //   BuildContext context,
+            //   IndicatorStatus status,
+            // ) {
+            //   return buildListIndicator(
+            //     context: context,
+            //     status: IndicatorStatus.loadingMoreBusying == status
+            //         ? IndicatorStatus.none
+            //         : status,
+            //     sourceList: sourceList,
+            //     isSliver: true,
+            //   );
+            // },
+            lastChildLayoutType: LastChildLayoutType.none,
+            // itemExtent: 150.0,
           ),
         ),
     ];
   }
-}
 
-enum Stage {
-  ready,
-  cancel
-// , success
+  void _onTap() {}
 }
 
 // class _ChatListGroup extends StatefulWidget {
@@ -243,7 +237,7 @@ enum Stage {
 //     this.stage,
 //   }) : super(key: key);
 
-//   final Stage stage;
+//   final StageValue stage;
 
 //   @override
 //   _ChatListGroupState createState() => _ChatListGroupState();
@@ -292,9 +286,9 @@ enum Stage {
 //                   children: [
 //                     Container(
 //                       child: Text({
-//                         Stage.ready: 'Договоритесь о встрече',
-//                         Stage.cancel: 'Отменённые',
-//                         Stage.success: 'Завершённые',
+//                         StageValue.ready: 'Договоритесь о встрече',
+//                         StageValue.cancel: 'Отменённые',
+//                         StageValue.success: 'Завершённые',
 //                       }[widget.stage]),
 //                     ),
 //                     Spacer(),
@@ -473,31 +467,31 @@ class _AnimatedIcon extends StatelessWidget {
 //   }
 // }
 
-class MySuperButton extends StatefulWidget {
-  @override
-  _MySuperButtonState createState() => _MySuperButtonState();
-}
+// class MySuperButton extends StatefulWidget {
+//   @override
+//   _MySuperButtonState createState() => _MySuperButtonState();
+// }
 
-class _MySuperButtonState extends State<MySuperButton>
-    with AutomaticKeepAliveClientMixin {
-  int _value = 0;
+// class _MySuperButtonState extends State<MySuperButton>
+//     with AutomaticKeepAliveClientMixin {
+//   int _value = 0;
 
-  @override
-  bool get wantKeepAlive => true;
+//   @override
+//   bool get wantKeepAlive => true;
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return RaisedButton(
-      child: Text('$_value'),
-      onPressed: () {
-        setState(() {
-          _value = _value + 1;
-        });
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     super.build(context);
+//     return RaisedButton(
+//       child: Text('$_value'),
+//       onPressed: () {
+//         setState(() {
+//           _value = _value + 1;
+//         });
+//       },
+//     );
+//   }
+// }
 
 class _ChatHeader extends StatefulWidget {
   _ChatHeader({
@@ -506,7 +500,7 @@ class _ChatHeader extends StatefulWidget {
     this.onChanged,
   }) : super(key: key);
 
-  final Stage stage;
+  final StageValue stage;
   final Function onChanged;
 
   @override
@@ -551,11 +545,7 @@ class _ChatHeaderState extends State<_ChatHeader>
             child: Row(
               children: [
                 Container(
-                  child: Text({
-                    Stage.ready: 'Договоритесь о встрече',
-                    Stage.cancel: 'Отменённые',
-                    // Stage.success: 'Завершённые',
-                  }[widget.stage]),
+                  child: Text(kStages[widget.stage.index].name),
                 ),
                 Spacer(),
                 Container(

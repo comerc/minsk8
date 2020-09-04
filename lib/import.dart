@@ -34,6 +34,7 @@ export 'models/proclamation.dart';
 export 'models/profile.dart';
 export 'models/question.dart';
 export 'models/received_notification.dart';
+export 'models/stage.dart';
 export 'models/suggestion.dart';
 export 'models/underway.dart';
 export 'models/unit.dart';

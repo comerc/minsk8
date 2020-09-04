@@ -29,6 +29,7 @@ class Queries {
         is_unit_owner_read_all
         is_companion_read_all
         updated_at
+        stage
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
