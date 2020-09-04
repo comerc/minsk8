@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+// TODO: выкинуть, когда Google реализует свой (уже есть pullrequest)
+
 class ExtendedAnimatedAlign extends ImplicitlyAnimatedWidget {
   /// Creates a widget that positions its child by an alignment that animates
   /// implicitly.
