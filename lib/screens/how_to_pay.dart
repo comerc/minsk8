@@ -168,12 +168,13 @@ class _Menu extends StatelessWidget {
       itemCount: _menu.length,
       itemBuilder: (BuildContext context, int index) {
         final entry = _menu[index];
+        final isLast = index == _menu.length - 1;
         return Material(
-          color: index == _menu.length - 1 ? Colors.green : Colors.white,
+          color: isLast ? Colors.green : Colors.white,
           child: InkWell(
             child: ListTile(
               dense: true,
-              title: index == _menu.length - 1
+              title: isLast
                   ? Text(
                       entry.value[0],
                       style: TextStyle(
@@ -181,7 +182,7 @@ class _Menu extends StatelessWidget {
                       ),
                     )
                   : Text(entry.value[0]),
-              subtitle: index == _menu.length - 1
+              subtitle: isLast
                   ? Text(
                       entry.value[1],
                       style: TextStyle(
@@ -191,9 +192,7 @@ class _Menu extends StatelessWidget {
                   : Text(entry.value[1]),
               trailing: Icon(
                 Icons.navigate_next,
-                color: index == _menu.length - 1
-                    ? Colors.white
-                    : Colors.black.withOpacity(0.3),
+                color: isLast ? Colors.white : Colors.black.withOpacity(0.3),
                 size: kButtonIconSize,
               ),
             ),
