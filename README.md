@@ -69,17 +69,17 @@ firebase deploy
 
 Я убежден, что если "Just For Fan", то может родиться что-то стоящее. Когда выращиваешь с любовью и не обременяя обязательствами. Какой может быть тираж и мультипликатор успешного IT-продукта - это не надо долго объяснять, есть куда тыкать пальцем для примера. Сейчас задача минимум - запустить. А дальше уже что вырастет, то вырастет. Как минимум - ещё одна галочка в портфолио. Пускай напишут на моей могильной плите: "он пытался". :)
 
-# How to get Youtube-playlist
+# How to get YouTube-playlist
 
-[go](https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc%22%7D#go)
+[get source data](https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc%22%7D#go)
 
 ```dart
 import 'dart:convert';
 
-final source = {}; // copy-paste here
+final sourceData = {}; // copy-paste here
 
 main() async {
-  final items = source['items'] as List;
+  final items = sourceData['items'] as List;
   final result = items.map(
     (item) {
       final snippet = item['snippet'];
