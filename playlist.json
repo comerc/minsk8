@@ -1,0 +1,302 @@
+[
+  {
+    "publishedAt": "2020-09-04T21:48:25Z",
+    "title": "Flutter #451 - Реализовал itemBuilder для _buildChat()",
+    "description": "",
+    "videoId": "EGlAaND3PNM"
+  },
+  {
+    "publishedAt": "2020-09-04T18:22:23Z",
+    "title": "Flutter #450 - Реализовал _buildChat()",
+    "description": "",
+    "videoId": "pzC6B_NDoHQ"
+  },
+  {
+    "publishedAt": "2020-09-03T15:40:58Z",
+    "title": "Flutter #449 - Поженил ChatList и ChatData",
+    "description": "+ рассказал про собственные курсы, сегодня начинаем!",
+    "videoId": "e_tt4npifjM"
+  },
+  {
+    "publishedAt": "2020-09-03T12:50:46Z",
+    "title": "Flutter #448 - Усовершенствовал Wrapper.dataPool",
+    "description": "",
+    "videoId": "vT4Edg1hjgs"
+  },
+  {
+    "publishedAt": "2020-09-02T18:51:43Z",
+    "title": "Flutter #447 - Реализовал ChatData",
+    "description": "",
+    "videoId": "pp4IC9cBVik"
+  },
+  {
+    "publishedAt": "2020-09-01T13:13:29Z",
+    "title": "Flutter #446 - Прочитал \"Dart & Flutter Easy Wins\"",
+    "description": "Набор на онлайн-курсы обучения https://t.me/joinchat/FN6rLBrNNtP9DcLFvy06ZA",
+    "videoId": "QNXWm6XCj_o"
+  },
+  {
+    "publishedAt": "2020-08-31T22:43:51Z",
+    "title": "Flutter #445 - Исследовал реализацию slivers для ChatList",
+    "description": "+ рассказал про NextJS, GatsbyJS, React, React Native, TypeScript, Flow, AntDesign, мобильное приложение Meduza",
+    "videoId": "Ft6Br8p28O8"
+  },
+  {
+    "publishedAt": "2020-08-31T15:38:15Z",
+    "title": "Flutter #444 - Добавил FutureBuilder для ChatList",
+    "description": "",
+    "videoId": "nzoB2jtD9Vg"
+  },
+  {
+    "publishedAt": "2020-08-31T10:42:04Z",
+    "title": "Flutter #443 - Применил PageView",
+    "description": "",
+    "videoId": "NKfDWvNTfII"
+  },
+  {
+    "publishedAt": "2020-08-30T21:12:46Z",
+    "title": "Flutter #442 - Исследовал реализацию источника данных для ChatList",
+    "description": "+ исследовал AutomaticKeepAliveClientMixin",
+    "videoId": "-fiwNaOqZ4I"
+  },
+  {
+    "publishedAt": "2020-08-30T13:05:09Z",
+    "title": "Flutter #441 - Исследовал модель данных для чата (2 серия)",
+    "description": "",
+    "videoId": "hMBuo8O5E8o"
+  },
+  {
+    "publishedAt": "2020-08-29T22:00:08Z",
+    "title": "Flutter #440 - Исследовал модель данных для чата (1 серия)",
+    "description": "+ рассказал о выборе технологий:  Flutter vs Native-разработка, GoLang vs RubyOnRails",
+    "videoId": "M1OmcfLZ-Ro"
+  },
+  {
+    "publishedAt": "2020-08-27T22:20:50Z",
+    "title": "Flutter #439 - Добавил _isInitialExpanded для _ChatListGroupState",
+    "description": "",
+    "videoId": "qbNKj4ZfRvM"
+  },
+  {
+    "publishedAt": "2020-08-27T19:20:45Z",
+    "title": "Flutter #438 - Исследовал ошибку JWTExpired от hasura",
+    "description": "",
+    "videoId": "9FgyNtxn2aQ"
+  },
+  {
+    "publishedAt": "2020-08-27T11:32:28Z",
+    "title": "Flutter #437 - Реализовал анимацию для ChatListGroup",
+    "description": "+ рассказал, какие приёмы использую для управления состоянием и почему пока не использую BLoC",
+    "videoId": "rbzCOe970yk"
+  },
+  {
+    "publishedAt": "2020-08-26T21:44:10Z",
+    "title": "Flutter #436 - Исследовал анимацию для ChatListGroup",
+    "description": "+ рассказал, почему Flutter+Dart и Hasura+GoLang",
+    "videoId": "WflFGC0OD38"
+  },
+  {
+    "publishedAt": "2020-08-26T18:41:29Z",
+    "title": "Flutter #435 - Определился с анимацией для ChatListGroup",
+    "description": "",
+    "videoId": "EU3TzCLeDYo"
+  },
+  {
+    "publishedAt": "2020-08-25T21:44:18Z",
+    "title": "Flutter #434 - Реализовал заголовок для SliverList",
+    "description": "",
+    "videoId": "D6MiE6duW7c"
+  },
+  {
+    "publishedAt": "2020-08-25T08:15:30Z",
+    "title": "Flutter #433 - Добавил ChatList (WIP)",
+    "description": "",
+    "videoId": "bCxJKoZn7ow"
+  },
+  {
+    "publishedAt": "2020-08-24T18:57:47Z",
+    "title": "Flutter #432 - Реализовал getDisplayDate()",
+    "description": "",
+    "videoId": "pXweCIWCV0g"
+  },
+  {
+    "publishedAt": "2020-08-24T10:09:01Z",
+    "title": "Flutter #431 - Переименовал Showcase на Wrapper",
+    "description": "",
+    "videoId": "AzKtA32OFvE"
+  },
+  {
+    "publishedAt": "2020-08-23T18:21:27Z",
+    "title": "Flutter #426 - Отобразил данные для NoticeData",
+    "description": "",
+    "videoId": "zXuj_DdYn0M"
+  },
+  {
+    "publishedAt": "2020-08-23T18:21:01Z",
+    "title": "Flutter #430 - Реализовал NoticeList",
+    "description": "",
+    "videoId": "M46PFX2D4MY"
+  },
+  {
+    "publishedAt": "2020-08-23T11:25:52Z",
+    "title": "Flutter #429 - Добавил NoticeList",
+    "description": "+ рассказал, почему говнокод и про свой комп",
+    "videoId": "7O5WLVYkSBQ"
+  },
+  {
+    "publishedAt": "2020-08-22T21:00:26Z",
+    "title": "Flutter #428 - Реализовал табы для InteractionScreen",
+    "description": "",
+    "videoId": "T48vgtmwY60"
+  },
+  {
+    "publishedAt": "2020-08-22T17:39:01Z",
+    "title": "Flutter #427 - Обработал ошибку в SourceList.handleRefresh()",
+    "description": "",
+    "videoId": "Yu1RtaF6E2A"
+  },
+  {
+    "publishedAt": "2020-08-22T07:43:36Z",
+    "title": "Flutter #425 - Исправил StickyData.refresh()",
+    "description": "",
+    "videoId": "R7UJLjLlJdg"
+  },
+  {
+    "publishedAt": "2020-08-21T20:24:22Z",
+    "title": "Flutter #424 - Реализовал NoticeData",
+    "description": "",
+    "videoId": "09F3ss7jtP0"
+  },
+  {
+    "publishedAt": "2020-08-20T23:02:04Z",
+    "title": "Flutter #423 - Отключил неявное приведение типов",
+    "description": "+ рассказал немного о своём профессиональном пути",
+    "videoId": "CJLaxJOwZ_I"
+  },
+  {
+    "publishedAt": "2020-08-20T17:24:41Z",
+    "title": "Flutter #422 - Прочитал \"Как мы похерили 30 килобаксов на Firebase за 72 часа\"",
+    "description": "Оригинал: https://hackernoon.com/how-we-spent-30k-usd-in-firebase-in-less-than-72-hours-307490bd24d",
+    "videoId": "gdsKr521dro"
+  },
+  {
+    "publishedAt": "2020-08-19T16:39:10Z",
+    "title": "Flutter #421 - Исследовал loading_more_list ... multiple_sliver_demo",
+    "description": "",
+    "videoId": "pZE6iNzY5Q0"
+  },
+  {
+    "publishedAt": "2020-08-18T19:36:51Z",
+    "title": "Flutter #420 - Реализовал member.photoUrl",
+    "description": "+ рассказал, почему Hasura и Firebase",
+    "videoId": "Nizfgvq6GZ8"
+  },
+  {
+    "publishedAt": "2020-08-18T07:29:57Z",
+    "title": "Flutter #419 - Реализовал Mutations.upsertMember",
+    "description": "",
+    "videoId": "72It0zeKlF0"
+  },
+  {
+    "publishedAt": "2020-08-17T19:28:31Z",
+    "title": "Flutter #418 - Исследовал реализацию добавления нового участника (2 серия)",
+    "description": "",
+    "videoId": "mRwk8em8-fY"
+  },
+  {
+    "publishedAt": "2020-08-17T15:32:11Z",
+    "title": "Flutter #417 - Исследовал реализацию добавления нового участника (1 серия)",
+    "description": "",
+    "videoId": "kakGJ05rnvg"
+  },
+  {
+    "publishedAt": "2020-08-17T05:46:13Z",
+    "title": "Flutter #416 - Улучшил LoginScreen",
+    "description": "",
+    "videoId": "vDbZrTo7q3Q"
+  },
+  {
+    "publishedAt": "2020-08-15T05:51:34Z",
+    "title": "Flutter #415 - Реализовал LoginScreen",
+    "description": "",
+    "videoId": "OWzdwmzN-ss"
+  },
+  {
+    "publishedAt": "2020-08-15T03:10:47Z",
+    "title": "Flutter #414 - Реализовал FirebaseAuth + signInWithGoogle() с требованиями в JWT для hasura",
+    "description": "",
+    "videoId": "miIGBSklo5Q"
+  },
+  {
+    "publishedAt": "2020-08-14T14:27:01Z",
+    "title": "Flutter #413 - Исправил подключение к JWT (\"x-hasura-user-id\" header is expected but not found)",
+    "description": "",
+    "videoId": "tocF0IiLVJ4"
+  },
+  {
+    "publishedAt": "2020-08-14T04:32:54Z",
+    "title": "Flutter #412 - Развернул Firebase Cloud Functions",
+    "description": "",
+    "videoId": "x63eZ4A43Zs"
+  },
+  {
+    "publishedAt": "2020-08-14T02:07:59Z",
+    "title": "Flutter #411 - Исправил AuthCheck",
+    "description": "",
+    "videoId": "WQUoX3gBBxc"
+  },
+  {
+    "publishedAt": "2020-08-13T13:29:14Z",
+    "title": "Flutter #410 - Реализовал Google Sign-In аутентификацию через Firebase",
+    "description": "",
+    "videoId": "afbxeWPYb8Q"
+  },
+  {
+    "publishedAt": "2020-08-13T07:43:53Z",
+    "title": "Flutter #409 - Реализовал AuthCheck",
+    "description": "",
+    "videoId": "1q2T_QHROic"
+  },
+  {
+    "publishedAt": "2020-08-13T01:35:23Z",
+    "title": "Flutter #408 - Исследовал реализацию аутентификации через Firebase для Google Sign In",
+    "description": "",
+    "videoId": "Fp2F4opkNy8"
+  },
+  {
+    "publishedAt": "2020-08-12T11:24:22Z",
+    "title": "Flutter #407 - Исследовал реализацию аутентификации",
+    "description": "",
+    "videoId": "V3_ZgFVXGlk"
+  },
+  {
+    "publishedAt": "2020-08-12T08:13:51Z",
+    "title": "Flutter #406 - Исправил обновления в слоях карты при перемещении",
+    "description": "",
+    "videoId": "MwNP8Hzx7us"
+  },
+  {
+    "publishedAt": "2020-08-09T02:44:33Z",
+    "title": "Flutter #405 - Исследовал антипаттерн разделения build() на вложенные build*()",
+    "description": "",
+    "videoId": "aDrHY9X7hTI"
+  },
+  {
+    "publishedAt": "2020-08-08T21:30:37Z",
+    "title": "Flutter #404 - Изучил горячие клавиши VSCode",
+    "description": "",
+    "videoId": "wEI4H522dhY"
+  },
+  {
+    "publishedAt": "2020-08-08T18:59:47Z",
+    "title": "Flutter #403 - Попробовал DevicePreview",
+    "description": "",
+    "videoId": "yw844wy1fFs"
+  },
+  {
+    "publishedAt": "2020-08-07T04:34:23Z",
+    "title": "Flutter #402 - Восстановил авторизацию в hasura_trivia",
+    "description": "",
+    "videoId": "xu0q9IyYgAY"
+  }
+]
