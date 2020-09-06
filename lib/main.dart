@@ -258,6 +258,7 @@ class App extends StatelessWidget {
         '/_custom_dialog': (_) => CustomDialogScreen(),
         '/_image_capture': (_) => ImageCaptureScreen(),
         '/_image_pinch': (_) => ImagePinchScreen(),
+        '/_listview': (_) => ListViewScreen(),
         '/_load_data': (_) => LoadDataScreen(),
         '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
         '/_notifiaction': (_) => NotificationScreen(),
