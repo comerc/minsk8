@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// ListView.separated() signature (workaround for "RenderBox was not laid out: RenderRepaintBoundary")
+// ListView.separated() signature
 
 class ListBox extends StatelessWidget {
   ListBox({
