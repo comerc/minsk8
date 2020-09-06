@@ -53,6 +53,9 @@ class _Title extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        SizedBox(
+          height: 16,
+        ),
         Text(
           'Повысить Карму',
           textAlign: TextAlign.center,
@@ -68,6 +71,9 @@ class _Title extends StatelessWidget {
         Text(
           'чтобы забирать нужные вещи',
           textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          height: 16,
         ),
       ],
     );
