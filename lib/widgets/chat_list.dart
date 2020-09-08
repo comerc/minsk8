@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
+// import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -208,6 +208,15 @@ class _ChatListState extends State<ChatList>
                 ),
               );
             },
+            indicatorBuilder: null,
+            // indicatorBuilder: (
+            //   BuildContext context,
+            //   IndicatorStatus status,
+            // ) {
+            //   return SliverFillRemaining(
+            //     child: Container(),
+            //   );
+            // },
             // indicatorBuilder: (
             //   BuildContext context,
             //   IndicatorStatus status,

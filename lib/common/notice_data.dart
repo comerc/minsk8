@@ -1,5 +1,4 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: реализовать абстракцию StickyData для NoticeData и LedgerData
