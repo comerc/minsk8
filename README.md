@@ -55,6 +55,42 @@ firebase deploy
 
 Чтобы выполнить импорт настроек редактора, нужно установить [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync), потом [Shift]+[Alt]+[D] и ввести ключ: 5166716632eec0d75a90942631a1360e
 
+## Визуализация изменений в git
+
+```bash
+gource \
+--path ./ \
+--seconds-per-day 0.15 \
+--title "Minsk8" \
+-1920x1080 \
+--file-idle-time 0 \
+--auto-skip-seconds 0.75 \
+--multi-sampling \
+--stop-at-end \
+--highlight-users \
+--hide filenames,mouse,progress \
+--max-files 0 \
+--background-colour 000000 \
+--disable-bloom \
+--font-size 24 \
+--output-ppm-stream - \
+--output-framerate 30 \
+-o - \
+| ffmpeg \
+-y \
+-r 60 \
+-f image2pipe \
+-vcodec ppm \
+-i - \
+-vcodec libx264 \
+-preset ultrafast \
+-pix_fmt yuv420p \
+-crf 1 \
+-threads 0 \
+-bf 0 \
+./output.mp4
+```
+
 ## Why?
 
 В редакцию пришло письмо, как говорится.

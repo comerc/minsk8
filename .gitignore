@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+output.mp4
 
 # IntelliJ related
 *.iml
