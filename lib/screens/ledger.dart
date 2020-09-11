@@ -210,9 +210,12 @@ class LedgerScreenState extends State<LedgerScreen> {
                   ) {
                     return buildListIndicator(
                       context: context,
-                      status: IndicatorStatus.loadingMoreBusying == status
-                          ? IndicatorStatus.none
-                          : status,
+                      status: status,
+                      // TODO: слишком большой размер поля индикатора из-за kNavigationBarHeight
+                      // TODO: при выполнении handleRefresh не показывать IndicatorStatus.loadingMoreBusying
+                      // status: IndicatorStatus.loadingMoreBusying == status
+                      //     ? IndicatorStatus.none
+                      //     : status,
                       sourceList: LedgerScreen.sourceList,
                       isSliver: true,
                     );
