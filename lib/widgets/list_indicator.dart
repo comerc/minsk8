@@ -22,6 +22,7 @@ Widget buildListIndicator({
         children: <Widget>[
           Container(
             // margin: EdgeInsets.only(right: 5),
+            margin: const EdgeInsets.symmetric(vertical: 5),
             height: 15,
             width: 15,
             child: buildProgressIndicator(context),
@@ -132,12 +133,12 @@ Widget buildListIndicator({
   return result;
 }
 
-Widget _buildBackground(bool full, Widget child) {
+Widget _buildBackground(bool isFull, Widget child) {
   return Container(
     width: double.infinity,
-    height: full ? double.infinity : kNavigationBarHeight * 2,
+    height: isFull ? double.infinity : kNavigationBarHeight * 2,
     child: child,
     color: Colors.transparent,
-    alignment: full ? Alignment.center : Alignment.topCenter,
+    alignment: isFull ? Alignment.center : Alignment.topCenter,
   );
 }
