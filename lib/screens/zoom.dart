@@ -34,8 +34,7 @@ class _ZoomScreenState extends State<ZoomScreen>
         duration: const Duration(milliseconds: 150), vsync: this);
     _currentIndex = widget.arguments.index;
     final unit = widget.arguments.unit;
-    App.analytics
-        .setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
+    analytics.setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
   }
 
   @override

@@ -40,7 +40,7 @@ class HomeScreenState extends State<HomeScreen> {
     _initVersion();
     // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
-    App.analytics.setCurrentScreen(screenName: '/home');
+    analytics.setCurrentScreen(screenName: '/home');
   }
 
   @override

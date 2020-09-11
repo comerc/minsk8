@@ -125,14 +125,13 @@ void main() {
 // TODO: переименовать в appData
 PersistedData appState;
 final localDeletedUnitIds = <String>{}; // ie Set()
+final analytics = FirebaseAnalytics();
+final observer = FirebaseAnalyticsObserver(analytics: analytics);
 
 class App extends StatelessWidget {
   App({this.authData});
 
   final AuthData authData;
-
-  static final analytics = FirebaseAnalytics();
-  static final observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +142,7 @@ class App extends StatelessWidget {
         // if (isInDebugMode) {
         //   child = DevicePreview.appBuilder(context, child);
         // }
-        App.analytics.setCurrentScreen(screenName: '/app');
+        analytics.setCurrentScreen(screenName: '/app');
         final client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds
             .map((EnumModel kind) => ShowcaseData(client, kind.value))

@@ -14,7 +14,7 @@ class _BalanceDialogState extends State<BalanceDialog> {
   @override
   void initState() {
     super.initState();
-    App.analytics.setCurrentScreen(screenName: '/balance_dalog');
+    analytics.setCurrentScreen(screenName: '/balance_dalog');
   }
 
   @override

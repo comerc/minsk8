@@ -38,7 +38,7 @@ class HomeProfileState extends State<HomeProfile> {
   @override
   void initState() {
     super.initState();
-    App.analytics.setCurrentScreen(screenName: '/home/profile');
+    analytics.setCurrentScreen(screenName: '/home/profile');
   }
 
   @override

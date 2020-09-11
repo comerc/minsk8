@@ -49,7 +49,7 @@ class _UnitScreenState extends State<UnitScreen> {
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(unit.location);
     distance.updateCurrentPosition(unit.location);
-    App.analytics.setCurrentScreen(screenName: '/unit ${unit.id}');
+    analytics.setCurrentScreen(screenName: '/unit ${unit.id}');
   }
 
   void _onAfterBuild(Duration timeStamp) {
