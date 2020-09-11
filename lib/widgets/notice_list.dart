@@ -140,9 +140,10 @@ class _NoticeListState extends State<NoticeList>
               ) {
                 return buildListIndicator(
                   context: context,
-                  status: IndicatorStatus.loadingMoreBusying == status
-                      ? IndicatorStatus.none
-                      : status,
+                  // TODO: при выполнении handleRefresh не показывать IndicatorStatus.loadingMoreBusying
+                  // status: IndicatorStatus.loadingMoreBusying == status
+                  //     ? IndicatorStatus.none
+                  //     : status,
                   sourceList: widget.sourceList,
                   isSliver: true,
                 );
