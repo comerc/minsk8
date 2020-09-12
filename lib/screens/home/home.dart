@@ -32,6 +32,7 @@ class HomeScreenState extends State<HomeScreen> {
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
   String _version;
   bool _hasUpdate;
+  List<Widget> _children;
 
   @override
   void initState() {
@@ -79,12 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: <Widget>[
-          HomeShowcase(),
-          HomeUnderway(),
-          HomeInterplay(),
-          HomeProfile(version: _version, hasUpdate: _hasUpdate),
-        ],
+        children: _getChildren(),
         physics: NeverScrollableScrollPhysics(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -95,6 +91,16 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       extendBody: true,
     );
+  }
+
+  List<Widget> _getChildren() {
+    _children ??= <Widget>[
+      HomeShowcase(),
+      HomeUnderway(),
+      HomeInterplay(),
+      HomeProfile(version: _version, hasUpdate: _hasUpdate),
+    ];
+    return _children;
   }
 
   void _onPageChanged(int value) {
