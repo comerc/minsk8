@@ -24,7 +24,7 @@ class Wrapper extends StatefulWidget {
         super(key: key);
 
   final List<EnumModel> tabModels;
-  final List<dynamic> dataPool;
+  final List<SourceList> dataPool;
   final Widget Function(int tabIndex) buildList;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
   final Set<int> poolForReloadTabs;
@@ -161,15 +161,15 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
   Future<bool> _onRefresh() async {
     // print('onRefresh');
     final element = widget.dataPool[_tabController.index];
-    var result = false;
-    if (element is SourceList) {
-      result = await element.handleRefresh();
-    }
-    if (element is List<SourceList>) {
-      final resultList =
-          await Future.wait(element.map((element) => element.handleRefresh()));
-      result = !resultList.contains(false);
-    }
+    // var result = false;
+    // if (element is SourceList) {
+    final result = await element.handleRefresh();
+    // }
+    // if (element is List<SourceList>) {
+    //   final resultList =
+    //       await Future.wait(element.map((element) => element.handleRefresh()));
+    //   result = !resultList.contains(false);
+    // }
     if (!result) {
       final snackBar = SnackBar(
           content:

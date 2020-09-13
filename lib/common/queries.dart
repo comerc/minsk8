@@ -6,12 +6,14 @@ import './fragments.dart';
 
 class Queries {
   static final getChats = gql(r'''
-    query getChats($next_date: timestamptz) {
+    query getChats(
+      # $next_date: timestamptz
+      ) {
       chats(
-        where:
-          {
-            updated_at: {_lte: $next_date},
-          },
+        # where:
+        #   {
+        #     updated_at: {_lte: $next_date},
+        #   },
         order_by: {updated_at: desc}
       ) {
         unit {

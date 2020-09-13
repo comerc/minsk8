@@ -14,7 +14,7 @@ import 'package:minsk8/import.dart';
 
 class HomeInterplay extends StatelessWidget {
   static final wrapperKey = GlobalKey<WrapperState>();
-  static List<dynamic> dataPool;
+  static List<SourceList> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>{}; // ie Set()
@@ -32,7 +32,8 @@ class HomeInterplay extends StatelessWidget {
         return [
           ChatList(
             tabIndex: tabIndex,
-            dataPool: dataPool[0] as List<ChatData>,
+            sourceList: dataPool[0] as ChatData,
+            // dataPool: dataPool[0] as List<ChatData>,
           ),
           NoticeList(
             tabIndex: tabIndex,

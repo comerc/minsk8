@@ -151,11 +151,12 @@ class App extends StatelessWidget {
             .map((UnderwayValue value) => UnderwayData(client, value))
             .toList();
         HomeInterplay.dataPool = [
-          [
-            ChatData(client),
-            ChatData(client),
-            ChatData(client),
-          ],
+          ChatData(client),
+          // [
+          //   ChatData(client, StageValue.ready),
+          //   ChatData(client, StageValue.cancel),
+          //   ChatData(client, StageValue.success),
+          // ],
           NoticeData(client),
         ];
         LedgerScreen.sourceList = LedgerData(client);
