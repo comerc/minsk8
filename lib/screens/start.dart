@@ -33,6 +33,7 @@ class StartScreenState extends State<StartScreen> {
 
   void _onAfterBuild(Duration timeStamp) async {
     await initStartMap();
+    // TODO: почему бы это не делать внутри HomeScreen.initState ?
     // ignore: unawaited_futures
     HomeScreen.globalKey.currentState.initDynamicLinks();
   }
