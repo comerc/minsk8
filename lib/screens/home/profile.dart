@@ -42,9 +42,9 @@ class HomeProfileState extends State<HomeProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final version = Provider.of<VersionModel>(context);
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final profile = Provider.of<ProfileModel>(context);
+    final version = Provider.of<VersionModel>(context);
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
