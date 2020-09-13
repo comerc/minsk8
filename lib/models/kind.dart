@@ -12,6 +12,7 @@ class KindModel implements EnumModel {
   final bool isNew;
 
   // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
+  // применить https://pub.dev/packages/union
   @override
   dynamic get value => _value;
   @override
