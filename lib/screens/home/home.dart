@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: не сбрасывать позицию скрола при переходах по табам bottomNavigationBar
@@ -30,15 +30,16 @@ class HomeScreenState extends State<HomeScreen> {
         null,
       ][_tabIndex];
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
-  String _version;
   bool _hasUpdate;
   List<Widget> _children;
 
   @override
   void initState() {
+    print('HomeScreenState.initState');
     super.initState();
     _pageController = PageController(initialPage: _tabIndex);
-    _initVersion();
+    final version = Provider.of<VersionModel>(context, listen: false);
+    version.init();
     // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
     analytics.setCurrentScreen(screenName: '/home');
@@ -98,7 +99,8 @@ class HomeScreenState extends State<HomeScreen> {
       HomeShowcase(),
       HomeUnderway(),
       HomeInterplay(),
-      HomeProfile(version: _version, hasUpdate: _hasUpdate),
+      // TODO: [MVP] не передается версия
+      HomeProfile(hasUpdate: _hasUpdate),
     ];
     return _children;
   }
@@ -176,17 +178,6 @@ class HomeScreenState extends State<HomeScreen> {
       print(stack);
     }
     return null;
-  }
-
-  Future<void> _initVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    final version = packageInfo.version;
-    final buildNumber = packageInfo.buildNumber;
-    _version = '$version+$buildNumber';
-    // если активная страница - HomeProfile
-    if (mounted && _tabIndex == 3) {
-      setState(() {});
-    }
   }
 
   Widget _buildAddButton() {

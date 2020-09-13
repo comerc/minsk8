@@ -12,9 +12,8 @@ import 'package:minsk8/import.dart';
 // TODO: [MVP] showLicensePage
 
 class HomeProfile extends StatefulWidget {
-  HomeProfile({this.version, this.hasUpdate});
+  HomeProfile({this.hasUpdate});
 
-  final String version;
   final bool hasUpdate;
 
   @override
@@ -43,6 +42,7 @@ class HomeProfileState extends State<HomeProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final version = Provider.of<VersionModel>(context);
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final profile = Provider.of<ProfileModel>(context);
     final child = Column(
@@ -165,7 +165,7 @@ class HomeProfileState extends State<HomeProfile> {
               // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
             },
           ),
-        Text('Версия: ${widget.version}'),
+        Text('Версия: ${version.value}'),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );

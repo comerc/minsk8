@@ -39,6 +39,7 @@ export 'models/suggestion.dart';
 export 'models/underway.dart';
 export 'models/unit.dart';
 export 'models/urgent.dart';
+export 'models/version.dart';
 export 'models/want.dart';
 export 'models/win.dart';
 export 'models/wish.dart';

@@ -242,6 +242,9 @@ class App extends StatelessWidget {
                           ChangeNotifierProvider<AppBarModel>(
                             create: (_) => AppBarModel(),
                           ),
+                          ChangeNotifierProvider<VersionModel>(
+                            create: (_) => VersionModel(),
+                          ),
                         ],
                         child: MediaQueryWrap(child),
                       );
