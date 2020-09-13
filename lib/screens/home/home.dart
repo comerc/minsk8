@@ -35,7 +35,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    print('HomeScreenState.initState');
     super.initState();
     _pageController = PageController(initialPage: _tabIndex);
     final version = Provider.of<VersionModel>(context, listen: false);

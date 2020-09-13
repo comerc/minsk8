@@ -16,7 +16,6 @@ class ChatData extends SourceList<ChatModel> {
 
   @override
   List<ChatModel> getItems(Map<String, dynamic> data) {
-    print('ChatData.getItems');
     final dataItems = <Map<String, dynamic>>[...data['chats']];
     // сначала наполняю буфер items, если есть ошибки в ChatModel.fromJson
     final items = <ChatModel>[];
