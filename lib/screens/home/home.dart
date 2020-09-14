@@ -98,7 +98,6 @@ class HomeScreenState extends State<HomeScreen> {
       HomeShowcase(),
       HomeUnderway(),
       HomeInterplay(),
-      // TODO: [MVP] не передается версия
       HomeProfile(hasUpdate: _hasUpdate),
     ];
     return _children;

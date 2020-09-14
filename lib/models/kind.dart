@@ -12,7 +12,8 @@ class KindModel implements EnumModel {
   final bool isNew;
 
   // TODO: как задекларировать "union type"? (MetaKindValue | KindValue)
-  // применить https://pub.dev/packages/union
+  // смотрел https://pub.dev/packages/union - не нравится
+  // ожидаю https://github.com/dart-lang/language/issues/83
   @override
   dynamic get value => _value;
   @override
