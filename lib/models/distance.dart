@@ -7,19 +7,24 @@ class DistanceModel extends ChangeNotifier {
   String get value => _value;
   String _value;
 
+  LatLng _getCurrentPosition(List entry) {
+    return LatLng(
+      entry[0] as double,
+      entry[1] as double,
+    );
+  }
+
   void updateValue(LatLng location) async {
-    _value = null;
-    if (appState['currentPosition'] == null) {
-      // notifyListeners();
-      return;
-    }
+    final currentPosition = _getCurrentPosition(
+        appState['currentPosition'] as List ??
+            appState['ShowcaseMap.center'] as List);
     final distanceInMeters = await Geolocator().distanceBetween(
-        appState['currentPosition'][0] as double,
-        appState['currentPosition'][1] as double,
+        currentPosition.latitude,
+        currentPosition.longitude,
         location.latitude,
         location.longitude);
     _value = _formatValue(distanceInMeters);
-    // notifyListeners();
+    notifyListeners();
   }
 
   String _formatValue(double distanceInMeters) {
