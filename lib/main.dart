@@ -49,7 +49,7 @@ NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
-    print(details);
+    print('FlutterError.onError $details');
     // if (isInDebugMode) {
     //   // In development mode, simply print to console.
     //   FlutterError.dumpErrorToConsole(details);
@@ -97,7 +97,7 @@ void main() {
     // );
     runApp(AuthCheck());
   }, (error, stackTrace) {
-    print(error);
+    print('runZonedGuarded $error');
     // Whenever an error occurs, call the `_reportError` function. This sends
     // Dart errors to the dev console or Sentry depending on the environment.
     // _reportError(error, stackTrace);
@@ -432,7 +432,7 @@ class App extends StatelessWidget {
       appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
       return true;
     }).catchError((error) {
-      print(error);
+      print('_upsertMember $error');
     });
   }
 }
@@ -568,7 +568,7 @@ class _AuthCheckState extends State<AuthCheck> {
       final idToken = await user.getIdToken();
       return AuthData(user: user, token: idToken.token);
     } catch (error) {
-      print(error);
+      print('_getAuthData $error');
       return null;
     }
   }
@@ -662,12 +662,17 @@ Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
     if (firstEvent.errors != null && firstEvent.errors[0] != null) {
       print('firstEvent.errors[0] ${firstEvent.errors[0]}');
       print('firstEvent.statusCode ${firstEvent.statusCode}');
+      // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
+      // I/flutter ( 3382): firstEvent.errors[0] {extensions: {path: $, code: invalid-jwt}, message: Could not verify JWT: JWTExpired}
+      // I/flutter ( 3382): firstEvent.statusCode null
+      // I/flutter ( 3382): GraphQL Errors:
+      // I/flutter ( 3382): Could not verify JWT: JWTExpired: Undefined location
     }
     // print('firstEvent.data ${firstEvent.data}');
     return firstEvent;
   } catch (error, stackTrace) {
-    print(error);
-    print(stackTrace);
+    print('refreshToken error $error');
+    print('refreshToken stackTrace $stackTrace');
     return Future.error(error);
     // Logger.root.severe(error.toString());
     // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
