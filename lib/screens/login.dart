@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: [MVP] неправильная иконка приложения при входе через Google
+
 // IF (SELECT id FROM mytable WHERE other_key = 'SOMETHING' LIMIT 1) < 0 THEN
 //  INSERT INTO mytable (other_key) VALUES ('SOMETHING')
 // END IF
