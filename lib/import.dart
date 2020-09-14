@@ -68,6 +68,7 @@ export 'screens/invite.dart';
 export 'screens/kinds.dart';
 export 'screens/ledger.dart';
 export 'screens/login.dart';
+export 'screens/messages.dart';
 export 'screens/my_unit_map.dart';
 export 'screens/payment.dart';
 export 'screens/search.dart';

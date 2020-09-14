@@ -312,7 +312,15 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 return Material(
                   child: InkWell(
                     onLongPress: () {}, // чтобы сократить время для splashColor
-                    onTap: _onTap,
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/messages',
+                        arguments: MessagesRouteArguments(
+                          unit: item.unit,
+                        ),
+                      );
+                    },
                     child: Column(children: <Widget>[
                       ListTile(
                         leading: Avatar(item.unit.avatarUrl),
@@ -354,8 +362,6 @@ class _ChatListGroupState extends State<_ChatListGroup>
       ),
     );
   }
-
-  void _onTap() {}
 }
 
 class _AnimatedIcon extends StatelessWidget {
