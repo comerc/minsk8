@@ -52,9 +52,9 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
   }
 
   void _addListener() {
-    final dataPool = widget.dataPool as List<SourceList>;
+    // final dataPool = widget.dataPool as List<SourceList>;
     _tabController.addListener(() {
-      final sourceList = dataPool[_tabController.index];
+      final sourceList = widget.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
         // print(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
@@ -65,7 +65,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
             widget.poolForReloadTabs.remove(_tabController.index);
         if (sourceList.isLoadDataByTabChange) {
           if (_tabController.index > 0) {
-            final sourceListBefore = dataPool[_tabController.index - 1];
+            final sourceListBefore = widget.dataPool[_tabController.index - 1];
             sourceListBefore.resetIsLoadDataByTabChange();
           }
           sourceList.resetIsLoadDataByTabChange();
