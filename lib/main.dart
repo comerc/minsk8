@@ -38,6 +38,7 @@ import 'package:state_persistence/state_persistence.dart';
 // TODO: если не было активности в приложение какое-то время, а потом запросить refresh для NoticeData, то "Could not verify JWT"
 // TODO: выдавать поощрения тем, кто первый сообщил об ошибке (но можно получить недовольных - нужно вести публичный журнал зарегистрированных ошибок)
 // TODO: применить const для EdgeInsets и подобных случаев: https://habr.com/ru/post/501804/
+// TODO: вынести в виджеты ./widgets "условный body" из виджетов ./screen
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -273,6 +274,9 @@ class App extends StatelessWidget {
         '/ledger': (_) => LedgerScreen(),
         '/make_it_together': (_) =>
             ContentScreen('make_it_together.md', title: 'Сделаем это вместе!'),
+        '/messages': (BuildContext context) => MessagesScreen(
+            ModalRoute.of(context).settings.arguments
+                as MessagesRouteArguments),
         '/search': (_) => SearchScreen(),
         '/start': (_) => StartScreen(),
         '/useful_tips': (_) =>

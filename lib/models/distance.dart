@@ -10,7 +10,7 @@ class DistanceModel extends ChangeNotifier {
   void updateValue(LatLng location) async {
     _value = null;
     if (appState['currentPosition'] == null) {
-      notifyListeners();
+      // notifyListeners();
       return;
     }
     final distanceInMeters = await Geolocator().distanceBetween(
@@ -19,7 +19,7 @@ class DistanceModel extends ChangeNotifier {
         location.latitude,
         location.longitude);
     _value = _formatValue(distanceInMeters);
-    notifyListeners();
+    // notifyListeners();
   }
 
   String _formatValue(double distanceInMeters) {

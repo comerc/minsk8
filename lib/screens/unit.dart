@@ -10,6 +10,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
 // TODO: [MVP] как отказаться от лота до окончания таймера, по которому мной включён таймер?
+// TODO: [MVP] не отображается DistanceButton
 
 class UnitScreen extends StatefulWidget {
   UnitScreen(this.arguments);
@@ -41,7 +42,7 @@ class _UnitScreenState extends State<UnitScreen> {
   void initState() {
     super.initState();
     final unit = widget.arguments.unit;
-    if (widget.arguments.isShowcase ?? false) {
+    if (widget.arguments.isShowcase) {
       _showHero = _ShowHero.forShowcase;
     }
     _initOtherUnits();
@@ -662,7 +663,7 @@ class UnitRouteArguments {
   UnitRouteArguments(
     this.unit, {
     this.member,
-    this.isShowcase,
+    this.isShowcase = false,
   });
 
   final UnitModel unit;
