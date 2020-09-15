@@ -663,6 +663,8 @@ Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
       print('firstEvent.errors[0] ${firstEvent.errors[0]}');
       print('firstEvent.statusCode ${firstEvent.statusCode}');
       // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
+      // https://github.com/zino-app/graphql-flutter/issues/220
+      // ожидаю graphql-flutter V4, issue висит в roadmap
       // I/flutter ( 3382): firstEvent.errors[0] {extensions: {path: $, code: invalid-jwt}, message: Could not verify JWT: JWTExpired}
       // I/flutter ( 3382): firstEvent.statusCode null
       // I/flutter ( 3382): GraphQL Errors:
