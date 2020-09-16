@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class BalanceDialog extends StatefulWidget {
-  @override
-  _BalanceDialogState createState() {
-    return _BalanceDialogState();
-  }
-}
+// class BalanceDialog extends StatefulWidget {
+//   @override
+//   _BalanceDialogState createState() {
+//     return _BalanceDialogState();
+//   }
+// }
 
-class _BalanceDialogState extends State<BalanceDialog> {
-// class BalanceDialog extends StatelessWidget {
-  @override
-  void initState() {
-    super.initState();
-    analytics.setCurrentScreen(screenName: '/balance_dalog');
-  }
-
+// class _BalanceDialogState extends State<BalanceDialog> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     analytics.setCurrentScreen(screenName: '/balance_dalog');
+//   }
+class BalanceDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<ProfileModel>(context, listen: false);
