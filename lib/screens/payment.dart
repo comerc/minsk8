@@ -15,8 +15,6 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen>
     with TickerProviderStateMixin {
-// class PaymentScreen extends StatelessWidget {
-
   int _activeIndex;
   final _controller = ScrollController();
 
@@ -346,7 +344,7 @@ class _PaymentScreenState extends State<PaymentScreen>
             onPressed: () {
               launchFeedback(
                 subject: 'Не получается оплатить',
-                body: 'member_id=${getMemberId(context)}',
+                body: 'member_id=${getMemberId(context)}\n',
               );
             },
             textColor: Colors.red,

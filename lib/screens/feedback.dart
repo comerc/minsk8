@@ -79,7 +79,7 @@ class FeedbackScreen extends StatelessWidget {
                   onPressed: () {
                     launchFeedback(
                       subject: 'Сообщить о проблеме',
-                      body: 'member_id=${getMemberId(context)}',
+                      body: 'member_id=${getMemberId(context)}\n',
                     );
                   },
                   textColor: Colors.green,
