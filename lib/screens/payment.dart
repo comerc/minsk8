@@ -344,7 +344,10 @@ class _PaymentScreenState extends State<PaymentScreen>
             ),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
-              launchFeedback(context, subject: 'Не получается оплатить');
+              launchFeedback(
+                subject: 'Не получается оплатить',
+                body: 'member_id=${getMemberId(context)}',
+              );
             },
             textColor: Colors.red,
           ),

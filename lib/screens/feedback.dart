@@ -77,7 +77,10 @@ class FeedbackScreen extends StatelessWidget {
                   child: Text('Сообщить о проблеме'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    launchFeedback(context, subject: 'Сообщить о проблеме');
+                    launchFeedback(
+                      subject: 'Сообщить о проблеме',
+                      body: 'member_id=${getMemberId(context)}',
+                    );
                   },
                   textColor: Colors.green,
                 ),

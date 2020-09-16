@@ -150,9 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
           label: 'Сообщить о проблеме',
           onPressed: () {
             launchFeedback(
-              context,
               subject: 'Сообщить о проблеме',
-              isAnonymous: true,
             );
           },
         ),

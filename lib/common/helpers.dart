@@ -148,22 +148,22 @@ int getNearestStep(List<int> steps, int value) {
       orElse: () => steps.last);
 }
 
-void launchFeedback(
-  BuildContext context, {
-  String subject,
-  bool isAnonymous = false,
-}) async {
-  String _getMemberId() {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
-    return 'member_id=${profile.member.id}';
-  }
+String getMemberId(BuildContext context) {
+  // TODO: singleton
+  final profile = Provider.of<ProfileModel>(context, listen: false);
+  return profile.member.id;
+}
 
+void launchFeedback({
+  String subject,
+  String body = '',
+}) async {
   final emailUri = Uri(
     scheme: 'mailto',
     path: kSupportEmail,
     queryParameters: {
       'subject': subject,
-      'body': isAnonymous ? '' : _getMemberId(),
+      'body': body,
     },
   );
   final emailUrl = emailUri.toString();
