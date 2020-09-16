@@ -87,6 +87,7 @@ export 'widgets/address_text.dart';
 export 'widgets/auto_increase_field.dart';
 export 'widgets/avatar.dart';
 export 'widgets/balance_dialog.dart';
+export 'widgets/block_dialog.dart';
 export 'widgets/chat_list.dart';
 export 'widgets/confirm_dialog.dart';
 export 'widgets/countdown_timer.dart';

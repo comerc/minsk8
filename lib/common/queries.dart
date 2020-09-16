@@ -6,9 +6,7 @@ import './fragments.dart';
 
 class Queries {
   static final getChats = gql(r'''
-    query getChats(
-      # $next_date: timestamptz
-      ) {
+    query getChats {
       chats(
         # where:
         #   {
@@ -32,6 +30,7 @@ class Queries {
         is_companion_read_all
         updated_at
         stage
+        transaction_id
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);

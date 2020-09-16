@@ -317,7 +317,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                         context,
                         '/messages',
                         arguments: MessagesRouteArguments(
-                          unit: item.unit,
+                          chat: item,
                         ),
                       );
                     },

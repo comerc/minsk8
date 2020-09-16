@@ -15,6 +15,7 @@ class ChatModel {
     this.isCompanionReadAll,
     this.updatedAt,
     this.stage,
+    this.transactionId,
   });
 
   final UnitModel unit;
@@ -27,6 +28,7 @@ class ChatModel {
   // TODO: updatedAt - как в gmail, обновленные элементы в ChatList нужно переставлять на клиенте
   final DateTime updatedAt;
   final StageValue stage;
+  final String transactionId;
 
   String get id => '${unit.id} ${companion.id}';
 
