@@ -17,13 +17,12 @@ import 'package:minsk8/import.dart';
 //   }
 
 class BlockDialog extends StatelessWidget {
-  BlockDialog({this.isBlocked});
+  BlockDialog(this.isBlocked);
 
   final bool isBlocked;
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       children: <Widget>[

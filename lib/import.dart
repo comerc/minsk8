@@ -15,6 +15,7 @@ export 'common/underway_data.dart';
 
 export 'models/account.dart';
 export 'models/app_bar.dart';
+export 'models/block.dart';
 export 'models/chat.dart';
 export 'models/claim.dart';
 export 'models/distance.dart';
@@ -26,6 +27,7 @@ export 'models/kind.dart';
 export 'models/member.dart';
 export 'models/message.dart';
 export 'models/my_unit_map.dart';
+export 'models/my_blocks.dart';
 export 'models/my_wishes.dart';
 export 'models/notice.dart';
 export 'models/payment_step.dart';

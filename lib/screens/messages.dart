@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -80,23 +82,38 @@ class MessagesScreenState extends State<MessagesScreen> {
                     body: 'Здравствуйте! Столкнулся с проблемой ',
                   );
                 }
-                final isBlocked = false;
+                final myBlocks =
+                    Provider.of<MyBlocksModel>(context, listen: false);
+                final isBlocked =
+                    myBlocks.getBlockIndex(unit.win.member.id) != -1;
                 // ignore: unawaited_futures
                 showDialog<String>(
                   context: context,
-                  child: BlockDialog(
-                    isBlocked: isBlocked,
-                  ),
+                  child: BlockDialog(isBlocked),
                 ).then((String value) {
-                  if (value == 'block') {}
-                  if (value == 'unblock') {}
-                  if (value == 'feedback') {
-                    launchFeedback(
-                      subject:
-                          'Жалоба на победителя transactionId=${chat.transactionId}',
-                      body: 'Здравствуйте! Столкнулся с проблемой ',
-                    );
-                  }
+                  if (value == null) return;
+                  final cases = {
+                    'block': () {
+                      _updateBlock(
+                        isBlocked: false,
+                        memberId: unit.win.member.id,
+                      );
+                    },
+                    'unblock': () {
+                      _updateBlock(
+                        isBlocked: true,
+                        memberId: unit.win.member.id,
+                      );
+                    },
+                    'feedback': () {
+                      launchFeedback(
+                        subject:
+                            'Жалоба на победителя transactionId=${chat.transactionId}',
+                        body: 'Здравствуйте! Столкнулся с проблемой ',
+                      );
+                    },
+                  };
+                  cases[value]();
                 });
               }
             },
@@ -123,6 +140,42 @@ class MessagesScreenState extends State<MessagesScreen> {
       ),
       body: SafeArea(child: body),
     );
+  }
+
+  void _updateBlock({bool isBlocked, String memberId}) {
+    final myBlocks = Provider.of<MyBlocksModel>(context, listen: false);
+    final index = myBlocks.getBlockIndex(memberId);
+    final currentIsBlocked = index != -1;
+    // TODO: [MVP] из-за этой проверки может быть рассинхрон с бэком?
+    if (isBlocked != currentIsBlocked) {
+      return;
+    }
+    final block = isBlocked
+        ? myBlocks.blocks[index] // index check with currentIsBlocked
+        : BlockModel(
+            createdAt: DateTime.now(),
+            memberId: memberId,
+          );
+    myBlocks.updateBlock(index, block, !isBlocked);
+    final client = GraphQLProvider.of(context).value;
+    final options = MutationOptions(
+      documentNode: isBlocked ? Mutations.deleteBlock : Mutations.insertBlock,
+      variables: {'member_id': memberId},
+      fetchPolicy: FetchPolicy.noCache,
+    );
+    client
+        .mutate(options)
+        .timeout(kGraphQLMutationTimeoutDuration)
+        .then((QueryResult result) {
+      // TODO: перезаписать createdAt
+      if (result.hasException) {
+        throw result.exception;
+      }
+    }).catchError((error) {
+      final index = myBlocks.getBlockIndex(memberId);
+      myBlocks.updateBlock(index, block, isBlocked);
+      print(error);
+    });
   }
 }
 

@@ -61,6 +61,22 @@ class Mutations {
     }
   ''');
 
+  static final insertBlock = gql(r'''
+    mutation insertBlock($member_id: uuid) {
+      insert_block_one(object: {member_id: $member_id}) {
+        created_at
+      }
+    }
+  ''');
+
+  static final deleteBlock = gql(r'''
+    mutation deleteBlock($member_id: uuid) {
+      delete_block(where: {member_id: {_eq: $member_id}}) {
+        affected_rows
+      }
+    }
+  ''');
+
   static final insertWish = gql(r'''
     mutation insertWish($unit_id: uuid) {
       insert_wish_one(object: {unit_id: $unit_id}) {

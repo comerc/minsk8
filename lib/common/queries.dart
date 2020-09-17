@@ -189,9 +189,17 @@ class Queries {
         }
         balance
       }
-      wishes {
+      wishes(
+        order_by: {created_at: desc}
+      ) {
         created_at
         unit_id
+      }
+      blocks(
+        order_by: {created_at: desc}
+      ) {
+        created_at
+        member_id 
       }
     }
   ''');
