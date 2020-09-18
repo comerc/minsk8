@@ -106,6 +106,8 @@ dependencies:
   firebase_auth: ^0.16.1
   google_sign_in: ^4.5.1
 
+  bot_toast: 3.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
