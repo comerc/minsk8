@@ -95,14 +95,14 @@ class MessagesScreenState extends State<MessagesScreen> {
                   final cases = {
                     'block': () {
                       _updateBlock(
-                        isBlocked: false,
                         memberId: unit.win.member.id,
+                        value: true,
                       );
                     },
                     'unblock': () {
                       _updateBlock(
-                        isBlocked: true,
                         memberId: unit.win.member.id,
+                        value: false,
                       );
                     },
                     'feedback': () {
@@ -142,39 +142,47 @@ class MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
-  void _updateBlock({bool isBlocked, String memberId}) {
+  void _updateBlock({String memberId, bool value}) {
     final myBlocks = Provider.of<MyBlocksModel>(context, listen: false);
-    final index = myBlocks.getBlockIndex(memberId);
-    final currentIsBlocked = index != -1;
-    // TODO: [MVP] из-за этой проверки может быть рассинхрон с бэком?
-    if (isBlocked != currentIsBlocked) {
-      return;
-    }
-    final block = isBlocked
-        ? myBlocks.blocks[index] // index check with currentIsBlocked
-        : BlockModel(
-            createdAt: DateTime.now(),
-            memberId: memberId,
-          );
-    myBlocks.updateBlock(index, block, !isBlocked);
+    final oldUpdatedAt = myBlocks.updateBlock(
+      memberId: memberId,
+      value: value,
+    );
     final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
-      documentNode: isBlocked ? Mutations.deleteBlock : Mutations.insertBlock,
-      variables: {'member_id': memberId},
+      documentNode: Mutations.upsertBlock,
+      variables: {
+        'member_id': memberId,
+        'value': value,
+      },
       fetchPolicy: FetchPolicy.noCache,
     );
     client
         .mutate(options)
         .timeout(kGraphQLMutationTimeoutDuration)
         .then((QueryResult result) {
-      // TODO: перезаписать createdAt
       if (result.hasException) {
         throw result.exception;
       }
+      final json = result.data['insert_block_one'];
+      myBlocks.updateBlock(
+        memberId: memberId,
+        value: value,
+        updatedAt: DateTime.parse(json['updated_at'] as String),
+      );
     }).catchError((error) {
-      final index = myBlocks.getBlockIndex(memberId);
-      myBlocks.updateBlock(index, block, isBlocked);
+      myBlocks.updateBlock(
+        memberId: memberId,
+        value: oldUpdatedAt != null,
+        updatedAt: oldUpdatedAt,
+      );
+      // final snackBar = SnackBar(
+      //     content:
+      //         Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
+      // _scaffoldKey.currentState.showSnackBar(snackBar);
+
       print(error);
+      // TODO: предлагать выполнить операцию повторно
     });
   }
 }

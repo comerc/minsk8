@@ -15,18 +15,27 @@ class MyBlocksModel extends ChangeNotifier {
   int getBlockIndex(String memberId) =>
       blocks.indexWhere((block) => block.memberId == memberId);
 
-  void updateBlock(int index, BlockModel block, bool isBlocked) {
-    if (isBlocked) {
+  DateTime updateBlock({String memberId, bool value, DateTime updatedAt}) {
+    final index = getBlockIndex(memberId);
+    final oldUpdatedAt = index == -1 ? null : blocks[index].updatedAt;
+    final block = BlockModel(
+      updatedAt: updatedAt ?? DateTime.now(),
+      memberId: memberId,
+    );
+    if (value) {
       if (index == -1) {
         blocks.add(block);
-        notifyListeners();
+      } else {
+        blocks[index] = block;
       }
+      notifyListeners();
     } else {
       if (index != -1) {
         blocks.removeAt(index);
         notifyListeners();
       }
     }
+    return oldUpdatedAt;
   }
 
   factory MyBlocksModel.fromJson(Map<String, dynamic> json) =>

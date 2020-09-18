@@ -6,12 +6,12 @@ part 'block.g.dart';
 @JsonSerializable()
 class BlockModel {
   BlockModel({
-    this.createdAt,
     this.memberId,
+    this.updatedAt,
   });
 
-  final DateTime createdAt;
   final String memberId;
+  final DateTime updatedAt;
 
   factory BlockModel.fromJson(Map<String, dynamic> json) =>
       _$BlockModelFromJson(json);

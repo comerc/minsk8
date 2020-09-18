@@ -61,21 +61,30 @@ class Mutations {
     }
   ''');
 
-  static final insertBlock = gql(r'''
-    mutation insertBlock($member_id: uuid) {
-      insert_block_one(object: {member_id: $member_id}) {
-        created_at
+  static final upsertBlock = gql(r'''
+    mutation upsertBlock($member_id: uuid, $value: Boolean) {
+      insert_block_one(object: {member_id: $member_id, value: $value},
+      on_conflict: {constraint: block_pkey, update_columns: [value]}) {
+        updated_at
       }
     }
   ''');
 
-  static final deleteBlock = gql(r'''
-    mutation deleteBlock($member_id: uuid) {
-      delete_block(where: {member_id: {_eq: $member_id}}) {
-        affected_rows
-      }
-    }
-  ''');
+  // static final insertBlock = gql(r'''
+  //   mutation insertBlock($member_id: uuid) {
+  //     insert_block_one(object: {member_id: $member_id}) {
+  //       created_at
+  //     }
+  //   }
+  // ''');
+
+  // static final deleteBlock = gql(r'''
+  //   mutation deleteBlock($member_id: uuid) {
+  //     delete_block(where: {member_id: {_eq: $member_id}}) {
+  //       affected_rows
+  //     }
+  //   }
+  // ''');
 
   static final insertWish = gql(r'''
     mutation insertWish($unit_id: uuid) {

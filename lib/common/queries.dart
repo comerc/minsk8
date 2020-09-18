@@ -196,9 +196,9 @@ class Queries {
         unit_id
       }
       blocks(
-        order_by: {created_at: desc}
+        order_by: {updated_at: desc}
       ) {
-        created_at
+        updated_at
         member_id 
       }
     }
