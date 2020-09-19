@@ -12,11 +12,13 @@ class MyBlocksModel extends ChangeNotifier {
 
   final List<BlockModel> blocks;
 
-  int getBlockIndex(String memberId) =>
+  int _getBlockIndex(String memberId) =>
       blocks.indexWhere((block) => block.memberId == memberId);
 
+  bool has(String memberId) => _getBlockIndex(memberId) != -1;
+
   DateTime updateBlock({String memberId, bool value, DateTime updatedAt}) {
-    final index = getBlockIndex(memberId);
+    final index = _getBlockIndex(memberId);
     final oldUpdatedAt = index == -1 ? null : blocks[index].updatedAt;
     final block = BlockModel(
       updatedAt: updatedAt ?? DateTime.now(),

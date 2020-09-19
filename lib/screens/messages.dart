@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
-// import 'package:bot_toast/bot_toast.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -82,11 +82,11 @@ class MessagesScreenState extends State<MessagesScreen> {
                         'Жалоба на отдающего transactionId=${chat.transactionId}',
                     body: 'Здравствуйте! Столкнулся с проблемой ',
                   );
+                  return;
                 }
                 final myBlocks =
                     Provider.of<MyBlocksModel>(context, listen: false);
-                final isBlocked =
-                    myBlocks.getBlockIndex(unit.win.member.id) != -1;
+                final isBlocked = myBlocks.has(unit.win.member.id);
                 // ignore: unawaited_futures
                 showDialog<String>(
                   context: context,
@@ -96,13 +96,15 @@ class MessagesScreenState extends State<MessagesScreen> {
                   final cases = {
                     'block': () {
                       _updateBlock(
-                        memberId: unit.win.member.id,
+                        myBlocks,
+                        member: unit.win.member,
                         value: true,
                       );
                     },
                     'unblock': () {
                       _updateBlock(
-                        memberId: unit.win.member.id,
+                        myBlocks,
+                        member: unit.win.member,
                         value: false,
                       );
                     },
@@ -142,24 +144,32 @@ class MessagesScreenState extends State<MessagesScreen> {
       body: SafeArea(child: body),
     );
   }
+}
 
-  void _updateBlock({String memberId, bool value}) {
-    final myBlocks = Provider.of<MyBlocksModel>(context, listen: false);
-    final oldUpdatedAt = myBlocks.updateBlock(
-      memberId: memberId,
-      value: value,
-    );
-    final client = GraphQLProvider.of(context).value;
-    final options = MutationOptions(
-      documentNode: Mutations.upsertBlock,
-      variables: {
-        'member_id': memberId,
-        'value': value,
-      },
-      fetchPolicy: FetchPolicy.noCache,
-    );
-    // Future.delayed(Duration(seconds: 1)).then((_) {});
-    client
+class MessagesRouteArguments {
+  MessagesRouteArguments({this.chat});
+
+  final ChatModel chat;
+}
+
+Future<void> _queue = Future.value();
+
+void _updateBlock(MyBlocksModel myBlocks, {MemberModel member, bool value}) {
+  final oldUpdatedAt = myBlocks.updateBlock(
+    memberId: member.id,
+    value: value,
+  );
+  // final client = GraphQLProvider.of(context).value;
+  final options = MutationOptions(
+    documentNode: Mutations.upsertBlock,
+    variables: {
+      'member_id': member.id,
+      'value': value,
+    },
+    fetchPolicy: FetchPolicy.noCache,
+  );
+  _queue = _queue.then((_) {
+    return client
         .mutate(options)
         .timeout(kGraphQLMutationTimeoutDuration)
         .then((QueryResult result) {
@@ -168,32 +178,36 @@ class MessagesScreenState extends State<MessagesScreen> {
       }
       final json = result.data['insert_block_one'];
       myBlocks.updateBlock(
-        memberId: memberId,
+        memberId: member.id,
         value: value,
         updatedAt: DateTime.parse(json['updated_at'] as String),
       );
-    }).catchError((error) {
-      myBlocks.updateBlock(
-        memberId: memberId,
-        value: oldUpdatedAt != null,
-        updatedAt: oldUpdatedAt,
-      );
-      print(error);
-      // TODO: предлагать выполнить операцию повторно
-      // BotToast.showNotification(
-      //   title: (_) => Text('xxxx'),
-      //   trailing: (close) => RaisedButton(
-      //     onPressed: close,
-      //   ),
-      //   backgroundColor: Colors.red.withOpacity(0.5),
-      //   duration: const Duration(seconds: 10),
-      // );
     });
-  }
-}
-
-class MessagesRouteArguments {
-  MessagesRouteArguments({this.chat});
-
-  final ChatModel chat;
+  }).catchError((error) {
+    debugPrint(error.toString());
+    myBlocks.updateBlock(
+      memberId: member.id,
+      value: oldUpdatedAt != null,
+      updatedAt: oldUpdatedAt,
+    );
+    BotToast.showNotification(
+      title: (_) => Text(value
+          ? 'Не удалось заблокировать "${member.displayName}"'
+          : 'Не удалось разблокировать "${member.displayName}"'),
+      trailing: (Function close) => FlatButton(
+        child: Text(
+          'ПОВТОРИТЬ',
+          style: TextStyle(
+            fontSize: kFontSize,
+            color: Colors.black.withOpacity(0.6),
+          ),
+        ),
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          _updateBlock(myBlocks, member: member, value: value);
+        },
+      ),
+    );
+  });
 }
