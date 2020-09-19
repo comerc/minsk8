@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class ChatData extends SourceList<ChatModel> {
-  ChatData(GraphQLClient client) : super(client);
+  // ChatData(GraphQLClient client) : super(client);
 
   @override
   QueryOptions get options {

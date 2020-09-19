@@ -4,9 +4,7 @@ import 'package:minsk8/import.dart';
 // TODO: реализовать абстракцию StickyData для NoticeData и LedgerData
 
 class NoticeData extends SourceList<NoticeItem> {
-  NoticeData(
-    GraphQLClient client,
-  ) : super(client);
+  // NoticeData(GraphQLClient client) : super(client);
 
   String _nextDate;
 

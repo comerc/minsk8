@@ -2,9 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class LedgerData extends SourceList<LedgerItem> {
-  LedgerData(
-    GraphQLClient client,
-  ) : super(client);
+  // LedgerData(GraphQLClient client) : super(client);
 
   String _nextDate;
 

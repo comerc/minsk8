@@ -259,7 +259,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       );
       return;
     }
-    final client = GraphQLProvider.of(context).value;
+    // final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
       documentNode: Mutations.insertUnit,
       variables: {

@@ -435,7 +435,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         ok: 'Удалить'),
                   );
                   if (result != true) return;
-                  final client = GraphQLProvider.of(context).value;
+                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.deleteUnit,
                     variables: {'id': unit.id},
@@ -475,7 +475,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
                   _scaffoldKey.currentState.showSnackBar(snackBar);
-                  final client = GraphQLProvider.of(context).value;
+                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.upsertModeration,
                     variables: {
@@ -514,7 +514,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       content: Text(
                           'Вопрос принят и будет передан автору, чтобы дополнил описание'));
                   _scaffoldKey.currentState.showSnackBar(snackBar);
-                  final client = GraphQLProvider.of(context).value;
+                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     documentNode: Mutations.insertSuggestion,
                     variables: {

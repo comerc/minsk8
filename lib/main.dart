@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:state_persistence/state_persistence.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
@@ -40,6 +41,7 @@ import 'package:state_persistence/state_persistence.dart';
 // TODO: применить const для EdgeInsets и подобных случаев: https://habr.com/ru/post/501804/
 // TODO: вынести в виджеты ./widgets "условный body" из виджетов ./screen
 // TODO: синхронизировать между несколькими приложениями одного участника перманентные данные о Profile, MyWishes, MyBlocks
+// TODO: заменить Snackbar на BotToast для асинхронных операций
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -125,9 +127,12 @@ void main() {
 
 // TODO: переименовать в appData
 PersistedData appState;
+GraphQLClient client;
 final localDeletedUnitIds = <String>{}; // ie Set()
 final analytics = FirebaseAnalytics();
-final observer = FirebaseAnalyticsObserver(analytics: analytics);
+final analyticsObserver = FirebaseAnalyticsObserver(analytics: analytics);
+final toastBuilder = BotToastInit();
+final toastNavigatorObserver = BotToastNavigatorObserver();
 
 class App extends StatelessWidget {
   App({this.authData});
@@ -138,29 +143,32 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('App build');
     Widget result = CommonMaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
+      navigatorObservers: <NavigatorObserver>[
+        analyticsObserver,
+        toastNavigatorObserver,
+      ],
       builder: (BuildContext context, Widget child) {
         // if (isInDebugMode) {
         //   child = DevicePreview.appBuilder(context, child);
         // }
         analytics.setCurrentScreen(screenName: '/app');
-        final client = GraphQLProvider.of(context).value;
+        client = GraphQLProvider.of(context).value;
         HomeShowcase.dataPool = kAllKinds
-            .map((EnumModel kind) => ShowcaseData(client, kind.value))
+            .map((EnumModel kind) => ShowcaseData(kind.value))
             .toList();
         HomeUnderway.dataPool = UnderwayValue.values
-            .map((UnderwayValue value) => UnderwayData(client, value))
+            .map((UnderwayValue value) => UnderwayData(value))
             .toList();
         HomeInterplay.dataPool = [
-          ChatData(client),
+          ChatData(),
           // [
           //   ChatData(client, StageValue.ready),
           //   ChatData(client, StageValue.cancel),
           //   ChatData(client, StageValue.success),
           // ],
-          NoticeData(client),
+          NoticeData(),
         ];
-        LedgerScreen.sourceList = LedgerData(client);
+        LedgerScreen.sourceList = LedgerData();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -252,7 +260,7 @@ class App extends StatelessWidget {
                             create: (_) => VersionModel(),
                           ),
                         ],
-                        child: MediaQueryWrap(child),
+                        child: MediaQueryWrap(toastBuilder(context, child)),
                       );
                     },
                   );

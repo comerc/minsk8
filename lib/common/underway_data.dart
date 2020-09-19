@@ -5,9 +5,9 @@ import 'package:minsk8/import.dart';
 
 class UnderwayData extends SourceList<UnitModel> {
   UnderwayData(
-    GraphQLClient client,
+    // GraphQLClient client,
     this.tabValue,
-  ) : super(client);
+  ); // : super(client);
 
   final UnderwayValue tabValue;
 

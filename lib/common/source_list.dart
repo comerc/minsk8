@@ -3,9 +3,9 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
 abstract class SourceList<T> extends LoadingMoreBase<T> {
-  SourceList(this.client);
+  // SourceList(this.client);
 
-  final GraphQLClient client;
+  // final GraphQLClient client;
 
   static bool _isStart = true;
 

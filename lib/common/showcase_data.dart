@@ -4,10 +4,10 @@ import 'package:minsk8/import.dart';
 
 class ShowcaseData extends SourceList<UnitModel> {
   ShowcaseData(
-    GraphQLClient client,
+    // GraphQLClient client,
     this.kind,
-  )   : assert([MetaKindValue, KindValue].contains(kind.runtimeType)),
-        super(client);
+  ) : assert([MetaKindValue, KindValue].contains(kind.runtimeType));
+  // super(client);
 
   final kind;
 
