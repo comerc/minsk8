@@ -42,6 +42,7 @@ import 'package:bot_toast/bot_toast.dart';
 // TODO: вынести в виджеты ./widgets "условный body" из виджетов ./screen
 // TODO: синхронизировать между несколькими приложениями одного участника перманентные данные о Profile, MyWishes, MyBlocks
 // TODO: заменить Snackbar на BotToast для асинхронных операций
+// TODO: [MVP] Text('', overflow: TextOverflow.fade, softWrap: false)
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
