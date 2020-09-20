@@ -143,7 +143,8 @@ main() async {
 
 # Contacts
 
-andrew.kachanov@gmail.com
+E-Mail: andrew.kachanov@gmail.com
+Telegram: @AndrewKachanov
 
 # Support Me
 
