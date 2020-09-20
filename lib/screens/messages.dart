@@ -95,14 +95,14 @@ class MessagesScreenState extends State<MessagesScreen> {
                   if (value == null) return;
                   final cases = {
                     'block': () {
-                      _updateBlock(
+                      _optimisticUpdateBlock(
                         myBlocks,
                         member: unit.win.member,
                         value: true,
                       );
                     },
                     'unblock': () {
-                      _updateBlock(
+                      _optimisticUpdateBlock(
                         myBlocks,
                         member: unit.win.member,
                         value: false,
@@ -154,7 +154,8 @@ class MessagesRouteArguments {
 
 Future<void> _queue = Future.value();
 
-void _updateBlock(MyBlocksModel myBlocks, {MemberModel member, bool value}) {
+void _optimisticUpdateBlock(MyBlocksModel myBlocks,
+    {MemberModel member, bool value}) {
   final oldUpdatedAt = myBlocks.updateBlock(
     memberId: member.id,
     value: value,
@@ -191,9 +192,13 @@ void _updateBlock(MyBlocksModel myBlocks, {MemberModel member, bool value}) {
       updatedAt: oldUpdatedAt,
     );
     BotToast.showNotification(
-      title: (_) => Text(value
-          ? 'Не удалось заблокировать "${member.displayName}"'
-          : 'Не удалось разблокировать "${member.displayName}"'),
+      title: (_) => Text(
+        value
+            ? 'Не удалось заблокировать "${member.displayName}"'
+            : 'Не удалось разблокировать "${member.displayName}"',
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      ),
       trailing: (Function close) => FlatButton(
         child: Text(
           'ПОВТОРИТЬ',
@@ -205,7 +210,7 @@ void _updateBlock(MyBlocksModel myBlocks, {MemberModel member, bool value}) {
         onLongPress: () {}, // чтобы сократить время для splashColor
         onPressed: () {
           close();
-          _updateBlock(myBlocks, member: member, value: value);
+          _optimisticUpdateBlock(myBlocks, member: member, value: value);
         },
       ),
     );
