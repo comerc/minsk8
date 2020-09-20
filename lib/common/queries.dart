@@ -190,9 +190,9 @@ class Queries {
         balance
       }
       wishes(
-        order_by: {created_at: desc}
+        order_by: {updated_at: desc}
       ) {
-        created_at
+        updated_at
         unit_id
       }
       blocks(
@@ -273,9 +273,9 @@ class Queries {
   static final getWishUnits = gql(r'''
     query getWishUnits {
       wishes(
-        order_by: {created_at: desc}
+        order_by: {updated_at: desc}
       ) {
-        created_at
+        updated_at
         unit {
           ...unitFields
           member {

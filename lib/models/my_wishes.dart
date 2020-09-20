@@ -12,21 +12,32 @@ class MyWishesModel extends ChangeNotifier {
 
   final List<WishModel> wishes;
 
-  int getWishIndex(String unitId) =>
+  int _getWishIndex(String unitId) =>
       wishes.indexWhere((wish) => wish.unitId == unitId);
 
-  void updateWish(int index, WishModel wish, bool isLiked) {
-    if (isLiked) {
+  bool has(String unitId) => _getWishIndex(unitId) != -1;
+
+  DateTime updateWish({String unitId, bool value, DateTime updatedAt}) {
+    final index = _getWishIndex(unitId);
+    final oldUpdatedAt = index == -1 ? null : wishes[index].updatedAt;
+    final wish = WishModel(
+      updatedAt: updatedAt ?? DateTime.now(),
+      unitId: unitId,
+    );
+    if (value) {
       if (index == -1) {
         wishes.add(wish);
-        notifyListeners();
+      } else {
+        wishes[index] = wish;
       }
+      notifyListeners();
     } else {
       if (index != -1) {
         wishes.removeAt(index);
         notifyListeners();
       }
     }
+    return oldUpdatedAt;
   }
 
   factory MyWishesModel.fromJson(Map<String, dynamic> json) =>

@@ -23,7 +23,7 @@ class Fragments {
         }
       }
       wishes {
-        created_at
+        updated_at
       }
       is_promo
     }

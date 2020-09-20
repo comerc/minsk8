@@ -6,12 +6,12 @@ part 'wish.g.dart';
 @JsonSerializable()
 class WishModel {
   WishModel({
-    this.createdAt,
+    this.updatedAt,
     this.unit,
     this.unitId,
   });
 
-  final DateTime createdAt;
+  final DateTime updatedAt;
   @JsonKey(nullable: true) // надо для MyWishesModel
   UnitModel unit;
   @JsonKey(nullable: true) // надо для getWishUnits

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:like_button/like_button.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:minsk8/import.dart';
 
 class WishButton extends StatefulWidget {
@@ -40,7 +41,7 @@ class _WishButtonState extends State<WishButton> {
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
             animationDuration: _animationDuration,
-            isLiked: myWishes.getWishIndex(widget.unit.id) != -1,
+            isLiked: myWishes.has(widget.unit.id),
             likeBuilder: (bool isLiked) {
               if (isLiked) {
                 return Icon(
@@ -96,42 +97,78 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
-      updateWish(context, isLiked, widget.unit);
+      final myWishes = Provider.of<MyWishesModel>(context, listen: false);
+      _optimisticUpdateWish(
+        myWishes,
+        unit: widget.unit,
+        value: !isLiked,
+      );
     });
     return !isLiked;
   }
 }
 
-void updateWish(BuildContext context, bool isLiked, UnitModel unit) {
-  final myWishes = Provider.of<MyWishesModel>(context, listen: false);
-  final index = myWishes.getWishIndex(unit.id);
-  final currentIsLiked = index != -1;
-  if (isLiked != currentIsLiked) {
-    return;
-  }
-  final wish = isLiked
-      ? myWishes.wishes[index] // index check with currentIsLiked
-      : WishModel(
-          createdAt: DateTime.now(),
-          unitId: unit.id,
-        );
-  myWishes.updateWish(index, wish, !isLiked);
-  final client = GraphQLProvider.of(context).value;
+Future<void> _queue = Future.value();
+
+void _optimisticUpdateWish(MyWishesModel myWishes,
+    {UnitModel unit, bool value}) {
+  final oldUpdatedAt = myWishes.updateWish(
+    unitId: unit.id,
+    value: value,
+  );
+  // final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
-    documentNode: isLiked ? Mutations.deleteWish : Mutations.insertWish,
-    variables: {'unit_id': unit.id},
+    documentNode: Mutations.upsertWish,
+    variables: {
+      'unit_id': unit.id,
+      'value': value,
+    },
     fetchPolicy: FetchPolicy.noCache,
   );
-  client
-      .mutate(options)
-      .timeout(kGraphQLMutationTimeoutDuration)
-      .then((QueryResult result) {
-    if (result.hasException) {
-      throw result.exception;
-    }
+  _queue = _queue.then((_) {
+    return client
+        .mutate(options)
+        .timeout(kGraphQLMutationTimeoutDuration)
+        .then((QueryResult result) {
+      if (result.hasException) {
+        throw result.exception;
+      }
+      final json = result.data['insert_wish_one'];
+      myWishes.updateWish(
+        unitId: unit.id,
+        value: value,
+        updatedAt: DateTime.parse(json['updated_at'] as String),
+      );
+    });
   }).catchError((error) {
-    final index = myWishes.getWishIndex(unit.id);
-    myWishes.updateWish(index, wish, isLiked);
-    print(error);
+    debugPrint(error.toString());
+    myWishes.updateWish(
+      unitId: unit.id,
+      value: oldUpdatedAt != null,
+      updatedAt: oldUpdatedAt,
+    );
+    BotToast.showNotification(
+      title: (_) => Text(
+        value
+            ? 'Не удалось сохранить желание для "${unit.text}"'
+            : 'Не удалось удалить желание для "${unit.text}"',
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      ),
+      trailing: (Function close) => FlatButton(
+        child: Text(
+          'ПОВТОРИТЬ',
+          style: TextStyle(
+            fontSize: kFontSize,
+            color: Colors.black.withOpacity(0.6),
+          ),
+        ),
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          _optimisticUpdateWish(myWishes, unit: unit, value: value);
+        },
+      ),
+    );
   });
 }
