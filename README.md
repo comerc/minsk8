@@ -1,4 +1,4 @@
-# minsk8
+# minsk8!
 
 Flutter в режиме [live-code](https://www.youtube.com/playlist?list=PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc). Потому что прёт! Маркетплейс на Hasura и Firebase.
 
