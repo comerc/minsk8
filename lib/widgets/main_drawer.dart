@@ -65,7 +65,7 @@ final mainRoutes = [
         variables: {'id': profile.member.units[0].id},
         fetchPolicy: FetchPolicy.noCache,
       );
-      final client = GraphQLProvider.of(context).value;
+      // final client = GraphQLProvider.of(context).value;
       final result =
           await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
       if (result.hasException) {
@@ -87,6 +87,28 @@ final mainRoutes = [
   {
     'title': 'Ledger',
     'routeName': '/ledger',
+  },
+  {
+    'title': 'Messages',
+    'routeName': '/messages',
+    // ignore: top_level_function_literal_block
+    'arguments': (BuildContext context) async {
+      final options = QueryOptions(
+        documentNode: Queries.getChats,
+        fetchPolicy: FetchPolicy.noCache,
+      );
+      // final client = GraphQLProvider.of(context).value;
+      final result =
+          await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+      if (result.hasException) {
+        throw result.exception;
+      }
+      final item =
+          ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
+      return MessagesRouteArguments(
+        chat: item,
+      );
+    },
   },
   {
     'title': 'Login',

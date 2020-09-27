@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:minsk8/import.dart';
+// import 'package:minsk8/import.dart';
 
 part 'block.g.dart';
 

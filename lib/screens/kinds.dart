@@ -34,7 +34,6 @@ class KindsScreen extends StatelessWidget {
         ),
       ),
     );
-
     return Scaffold(
       appBar: ExtendedAppBar(
         title: Text('Выберите категорию'),
