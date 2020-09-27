@@ -12,6 +12,8 @@ import 'package:minsk8/import.dart';
 // https://pub.dev/packages/flutter_chat
 // https://github.com/AmitJoki/Enigma
 
+// TODO: отображать красный кружочек в трёх местах: нижняя иконка, таб "сообщения", иконка лота.
+
 class HomeInterplay extends StatelessWidget {
   static final wrapperKey = GlobalKey<WrapperState>();
   static List<SourceList> dataPool;
