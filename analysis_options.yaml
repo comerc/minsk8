@@ -3,9 +3,39 @@ include: package:pedantic/analysis_options.yaml
 
 # TODO: выключить implicit-casts
 analyzer:
-  exclude: [build/**]
+  # exclude: [build/**]
   strong-mode:
     # https://github.com/dart-lang/sdk/issues/25368
     implicit-casts: false
+    # implicit-dynamic: false
   errors:
     todo: ignore
+  # TODO: проработать папки
+  exclude:
+    - .dart_tool/**
+    - .editorconfig
+    - .flutter-plugins
+    - .flutter-plugins-dependencies
+    - .gitignore
+    - .idea/**
+    - .pre-commit-config.yaml
+    - .vscode/**
+    - README.md
+    - android
+    - apps/**
+    - assets/**
+    - scripts/**
+    - build.yaml
+    - build/**
+    - go/**
+    - ios/**
+    - lib/**.g.dart
+    - application_bundle/**
+    - linux/**
+    - macos/**
+    - plugins/**
+    - pubspec.lock
+    - pubspec.yaml
+    - test/**
+    - test_driver/**
+    - web/**
