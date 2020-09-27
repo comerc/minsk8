@@ -26,11 +26,11 @@ class Queries {
         messages
         is_unit_owner_writes_now
         is_companion_writes_now
-        is_unit_owner_read_all
-        is_companion_read_all
         updated_at
         stage
         transaction_id
+        unit_owner_read_count
+        companion_read_count
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);

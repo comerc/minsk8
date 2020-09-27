@@ -11,11 +11,11 @@ class ChatModel {
     this.messages,
     this.isUnitOwnerWritesNow,
     this.isCompanionWritesNow,
-    this.isUnitOwnerReadAll,
-    this.isCompanionReadAll,
     this.updatedAt,
     this.stage,
     this.transactionId,
+    this.unitOwnerReadCount,
+    this.companionReadCount,
   });
 
   final UnitModel unit;
@@ -23,12 +23,12 @@ class ChatModel {
   final List<MessageModel> messages;
   final bool isUnitOwnerWritesNow;
   final bool isCompanionWritesNow;
-  final bool isUnitOwnerReadAll;
-  final bool isCompanionReadAll;
   // TODO: updatedAt - как в gmail, обновленные элементы в ChatList нужно переставлять на клиенте
   final DateTime updatedAt;
   final StageValue stage;
   final String transactionId;
+  final int unitOwnerReadCount;
+  final int companionReadCount;
 
   String get id => '${unit.id} ${companion.id}';
 

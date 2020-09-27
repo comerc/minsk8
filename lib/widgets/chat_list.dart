@@ -228,6 +228,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
   @override
   Widget build(BuildContext context) {
     // timeDilation = 10.0; // 1.0 is normal animation speed.
+    final memberId = getMemberId(context);
     return SliverToBoxAdapter(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -246,11 +247,18 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 child: Row(
                   children: [
                     Container(
-                      child: Text({
-                        StageValue.ready: 'Договоритесь о встрече',
-                        StageValue.cancel: 'Отменённые',
-                        StageValue.success: 'Завершённые',
-                      }[widget.stage]),
+                      child: Text(
+                        {
+                          StageValue.ready: 'Договоритесь о встрече',
+                          StageValue.cancel: 'Отменённые',
+                          StageValue.success: 'Завершённые',
+                        }[widget.stage],
+                        style: TextStyle(
+                          fontSize: 11,
+                          // fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ),
                     ),
                     Spacer(),
                     Container(
@@ -258,14 +266,21 @@ class _ChatListGroupState extends State<_ChatListGroup>
                       child: Row(
                         children: [
                           SizedBox(width: 4),
-                          Text('${widget.items.length}'),
+                          Text(
+                            '${widget.items.length}',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                          ),
                           _AnimatedIcon(
                             controller: _isInitialExpanded
                                 ? ReverseAnimation(_controller.view)
                                 : _controller.view,
                             child: Icon(
                               Icons.expand_more,
-                              size: 20,
+                              size: 16,
                             ),
                           ),
                         ],
@@ -309,6 +324,12 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 final messageText = item.messages.isEmpty
                     ? kStages[item.stage.index].text
                     : item.messages.last.text;
+                final unreadCount = item.messages.isEmpty
+                    ? 0
+                    : item.messages.length -
+                        (item.unit.member.id == memberId
+                            ? item.unitOwnerReadCount
+                            : item.companionReadCount);
                 return Material(
                   child: InkWell(
                     onLongPress: () {}, // чтобы сократить время для splashColor
@@ -324,13 +345,62 @@ class _ChatListGroupState extends State<_ChatListGroup>
                     child: Column(children: <Widget>[
                       ListTile(
                         leading: Avatar(item.unit.avatarUrl),
-                        title: Text(item.unit.text),
-                        subtitle: Text(messageText),
-                        trailing: Text(
-                          // TODO: сокращает "июл.", что выглядит странно
-                          DateFormat.MMMd('ru_RU').format(
-                            item.updatedAt.toLocal(),
-                          ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item.unit.text,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              // TODO: сокращает "июл.", что выглядит странно
+                              DateFormat.MMMd('ru_RU').format(
+                                item.updatedAt.toLocal(),
+                              ),
+                              style: TextStyle(
+                                fontSize: kFontSize,
+                                // fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                messageText,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (unreadCount > 0)
+                              Container(
+                                height: 16,
+                                width: 16,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '$unreadCount',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                decoration: ShapeDecoration(
+                                  color: Colors.blue,
+                                  shape: CircleBorder(),
+                                ),
+                              ),
+                          ],
                         ),
                         dense: true,
                       ),
