@@ -626,10 +626,6 @@ class CommonMaterialApp extends StatelessWidget {
       //   Locale('ru', 'RU'), // Russian
       // ],
       title: 'minsk8',
-      // theme: ThemeData(
-      //   //   primarySwatch: mapBoxBlue,
-      //   //   visualDensity: VisualDensity.adaptivePlatformDensity
-      // ),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           elevation: kAppBarElevation,
@@ -638,6 +634,9 @@ class CommonMaterialApp extends StatelessWidget {
           color: theme.scaffoldBackgroundColor,
           textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
         ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // primarySwatch: Colors.blue,
+        // textTheme: GoogleFonts.montserratTextTheme(),
       ),
       builder: builder ??
           (BuildContext context, Widget child) => MediaQueryWrap(child),
