@@ -5,6 +5,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
 import 'package:minsk8/import.dart';
 
 // TODO: RefreshIndicator https://github.com/flutter/flutter/blob/v1.15.22/examples/flutter_gallery/lib/demo/material/overscroll_demo.dart
+// TODO: rename to PageWrapper
 
 class Wrapper extends StatefulWidget {
   Wrapper({
