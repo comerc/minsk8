@@ -10,7 +10,6 @@ import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: [MVP] добавить копирайт algolia и osm
-// TODO: [MVP] type
 
 class Places extends StatefulWidget {
   Places({this.formFieldKey, this.onSuggestionSelected});
