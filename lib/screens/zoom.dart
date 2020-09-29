@@ -216,6 +216,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 
   Widget _buidButton({String message, IconData icon, void Function() onTap}) {
+    // TODO: увеличить лужу через Stack + alignment: const Alignment(1.0, 1.0), или FittedBox, или BoxConstraints
     return Tooltip(
       message: message,
       child: ButtonTheme(
