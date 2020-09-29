@@ -10,6 +10,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: типизировать suggestion через json_serializable
 // TODO: [MVP] добавить копирайт algolia и osm
+// TODO: [MVP] type
 
 class Places extends StatefulWidget {
   Places({this.formFieldKey, this.onSuggestionSelected});
@@ -48,7 +49,8 @@ class _PlacesState extends State<Places> {
         try {
           await Future.delayed(Duration(seconds: 1));
           final data = await _request(s);
-          return data['hits'] as List<Map<String, dynamic>>;
+          final result = data['hits'] as List;
+          return result.cast<Map<String, dynamic>>();
         } finally {
           _isLoading = false;
         }
