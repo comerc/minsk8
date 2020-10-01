@@ -425,7 +425,7 @@ class App extends StatelessWidget {
     return result;
   }
 
-  Future<bool> _upsertMember(GraphQLClient client) async {
+  Future<bool> _upsertMember(GraphQLClient client) {
     final options = MutationOptions(
       documentNode: Mutations.upsertMember,
       variables: {
