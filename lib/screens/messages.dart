@@ -32,9 +32,6 @@ class MessagesScreenState extends State<MessagesScreen> {
     final chat = widget.arguments.chat;
     final unit = chat.unit;
     final avatar = Avatar(unit.avatarUrl);
-    final body = Container(
-      child: Text(unit.id),
-    );
     return Scaffold(
       appBar: ExtendedAppBar(
         title: Tooltip(
@@ -141,7 +138,11 @@ class MessagesScreenState extends State<MessagesScreen> {
           ),
         ],
       ),
-      body: SafeArea(child: body),
+      body: SafeArea(
+        child: Messages(
+          chat: chat,
+        ),
+      ),
     );
   }
 }
