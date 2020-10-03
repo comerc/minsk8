@@ -11,15 +11,12 @@ import 'package:minsk8/import.dart';
 
 class NoticeList extends StatefulWidget {
   NoticeList({
-    Key key,
-    this.tabIndex,
+    this.tagPrefix,
     this.sourceList,
-  })  : scrollPositionKey = Key('$tabIndex'),
-        super(key: key);
+  });
 
-  final Key scrollPositionKey;
+  final String tagPrefix;
   final NoticeData sourceList;
-  final int tabIndex;
 
   @override
   _NoticeListState createState() => _NoticeListState();
@@ -34,7 +31,7 @@ class _NoticeListState extends State<NoticeList>
   Widget build(BuildContext context) {
     super.build(context);
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-      widget.scrollPositionKey,
+      Key('${widget.tagPrefix}'),
       LoadingMoreCustomScrollView(
         // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
         showGlowLeading: false,

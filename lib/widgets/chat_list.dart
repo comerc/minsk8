@@ -9,15 +9,12 @@ import 'package:minsk8/import.dart';
 
 class ChatList extends StatefulWidget {
   ChatList({
-    Key key,
-    this.tabIndex,
+    this.tagPrefix,
     this.sourceList,
-  })  : scrollPositionKey = Key('$tabIndex'),
-        super(key: key);
+  });
 
-  final Key scrollPositionKey;
+  final String tagPrefix;
   final ChatData sourceList;
-  final int tabIndex;
 
   @override
   _ChatListState createState() => _ChatListState();
@@ -64,7 +61,7 @@ class _ChatListState extends State<ChatList>
         }
         final items = _normalizeItems();
         return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-          widget.scrollPositionKey,
+          Key('${widget.tagPrefix}'),
           LoadingMoreCustomScrollView(
             // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
             showGlowLeading: false,

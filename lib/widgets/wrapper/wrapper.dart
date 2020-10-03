@@ -10,6 +10,7 @@ import 'package:minsk8/import.dart';
 class Wrapper extends StatefulWidget {
   Wrapper({
     Key key,
+    this.tabIndex,
     this.tabModels,
     this.dataPool,
     this.buildList,
@@ -24,6 +25,7 @@ class Wrapper extends StatefulWidget {
         ),
         super(key: key);
 
+  final int tabIndex;
   final List<EnumModel> tabModels;
   final List<SourceList> dataPool;
   final Widget Function(int tabIndex) buildList;
@@ -111,7 +113,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       floatHeaderSlivers: widget.hasAppBar,
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
-      innerScrollPositionKeyBuilder: () => Key('${_tabController.index}'),
+      innerScrollPositionKeyBuilder: () => Key('${widget.tabIndex}-$tabIndex'),
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
         if (widget.hasAppBar)
           SliverPersistentHeader(
@@ -147,7 +149,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
         controller: _tabController,
         children: List.generate(
           widget.tabModels.length,
-          (int index) => widget.buildList(index),
+          (int tabIndex) => widget.buildList(tabIndex),
         ),
       ),
     );

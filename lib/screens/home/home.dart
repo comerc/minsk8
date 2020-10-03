@@ -5,8 +5,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: не сбрасывать позицию скрола при переходах по табам bottomNavigationBar
-
 enum HomeTabValue { showcase, underway, interplay, profile }
 
 class HomeScreen extends StatefulWidget {
@@ -63,54 +61,45 @@ class HomeScreenState extends State<HomeScreen> {
       // ),
       // body: IndexedStack(
       //   children: <Widget>[
-      //     HomeShowcase(),
-      //     HomeUnderway(),
-      //     HomeInterplay(),
-      //     HomeProfile(version: _version, hasUpdate: _hasUpdate),
+      //     HomeShowcase(tabIndex: 0),
+      //     HomeUnderway(tabIndex: 1),
+      //     HomeInterplay(tabIndex: 2),
+      //     HomeProfile(hasUpdate: _hasUpdate),
       //   ],
       //   index: _tabIndex,
       // ),
       // body: <Widget>[
-      //   HomeShowcase(),
-      //   HomeUnderway(),
-      //   HomeInterplay(),
-      //   HomeProfile(version: _version, hasUpdate: _hasUpdate),
+      //   HomeShowcase(tabIndex: 0),
+      //   HomeUnderway(tabIndex: 1),
+      //   HomeInterplay(tabIndex: 2),
+      //   HomeProfile(hasUpdate: _hasUpdate),
       // ][_tabIndex],
       // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: _getChildren(),
+        children: <Widget>[
+          HomeShowcase(tabIndex: 0),
+          HomeUnderway(tabIndex: 1),
+          HomeInterplay(tabIndex: 2),
+          HomeProfile(hasUpdate: _hasUpdate),
+        ],
         physics: NeverScrollableScrollPhysics(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
       bottomNavigationBar: NavigationBar(
         tabIndex: _tabIndex,
-        onChangeTabIndex: _onChangeTabIndex,
+        onChangeTabIndex: _pageController.jumpToPage,
       ),
       extendBody: true,
     );
-  }
-
-  List<Widget> _getChildren() {
-    _children ??= <Widget>[
-      HomeShowcase(),
-      HomeUnderway(),
-      HomeInterplay(),
-      HomeProfile(hasUpdate: _hasUpdate),
-    ];
-    return _children;
   }
 
   void _onPageChanged(int value) {
     setState(() {
       _tabIndex = value;
     });
-  }
-
-  void _onChangeTabIndex(int tabIndex) {
-    _pageController.jumpToPage(tabIndex);
   }
 
   Future<void> initDynamicLinks() async {
@@ -170,6 +159,7 @@ class HomeScreenState extends State<HomeScreen> {
       return UnitRouteArguments(
         unit,
         member: unit.member,
+        isShowcase: true,
       );
     } catch (error, stack) {
       print(error);

@@ -9,12 +9,12 @@ class ShowcaseItem extends StatefulWidget {
   ShowcaseItem({
     Key key,
     this.unit,
-    this.tabIndex,
+    this.tagPrefix,
     this.isCover,
   }) : super(key: key);
 
   final UnitModel unit;
-  final int tabIndex;
+  final String tagPrefix;
   final bool isCover;
 
   @override
@@ -42,7 +42,6 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   Widget _buildImage() {
     final unit = widget.unit;
     final isCover = widget.isCover;
-    final tabIndex = widget.tabIndex;
     final image = unit.images[0];
     return Material(
       child: InkWell(
@@ -81,8 +80,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           aspectRatio:
               isCover ? 1 / getMagicHeight(1) : image.width / image.height,
           child: Hero(
-            tag:
-                '${HomeScreen.globalKey.currentState.tabIndex}-${tabIndex}-${unit.id}',
+            tag: '${widget.tagPrefix}-${unit.id}',
             child: Ink.image(
               fit: isCover ? BoxFit.cover : BoxFit.contain,
               image: ExtendedImage.network(

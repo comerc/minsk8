@@ -12,15 +12,12 @@ import 'package:minsk8/import.dart';
 
 class ShowcaseList extends StatefulWidget {
   ShowcaseList({
-    Key key,
-    this.tabIndex,
+    this.tagPrefix,
     this.sourceList,
-  })  : scrollPositionKey = Key('$tabIndex'),
-        super(key: key);
+  });
 
-  final Key scrollPositionKey;
+  final String tagPrefix;
   final SourceList<UnitModel> sourceList;
-  final int tabIndex;
 
   @override
   _ShowcaseListState createState() => _ShowcaseListState();
@@ -42,7 +39,7 @@ class _ShowcaseListState extends State<ShowcaseList>
     final crossAxisCount =
         isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-      widget.scrollPositionKey,
+      Key('${widget.tagPrefix}'),
       LoadingMoreCustomScrollView(
         // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
         showGlowLeading: false,
@@ -71,7 +68,7 @@ class _ShowcaseListState extends State<ShowcaseList>
               itemBuilder: (BuildContext context, UnitModel item, int index) {
                 return ShowcaseItem(
                   unit: item,
-                  tabIndex: widget.tabIndex,
+                  tagPrefix: widget.tagPrefix,
                   isCover: isSmallWidth,
                 );
               },
