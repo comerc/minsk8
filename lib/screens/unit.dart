@@ -326,6 +326,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                     arguments: UnitRouteArguments(
                                       otherUnit,
                                       member: member,
+                                      isShowcase: true,
                                     ),
                                   );
                                 },
