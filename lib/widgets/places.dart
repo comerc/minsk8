@@ -61,7 +61,7 @@ class _PlacesState extends State<Places> {
         return Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: buildProgressIndicator(context),
           ),
         );
