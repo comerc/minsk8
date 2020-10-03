@@ -29,7 +29,6 @@ class HomeScreenState extends State<HomeScreen> {
       ][_tabIndex];
   String get tagPrefix => '$_tabIndex-$_subTabIndex';
   bool _hasUpdate;
-  List<Widget> _children;
 
   @override
   void initState() {
