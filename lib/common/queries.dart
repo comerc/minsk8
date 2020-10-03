@@ -181,11 +181,8 @@ class Queries {
     query getProfile($member_id: uuid!) {
       profile(member_id: $member_id) {
         member {
-          id
-          display_name
-          photo_url
-          banned_until
-          last_activity_at
+          # memberFields вместе с units, чтобы показывать "Другие лоты участника" после добавления лота 
+          ...memberFields
         }
         balance
       }
@@ -202,7 +199,7 @@ class Queries {
         member_id 
       }
     }
-  ''');
+  ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getPayments = gql(r'''
     query getPayments($next_date: timestamptz) {

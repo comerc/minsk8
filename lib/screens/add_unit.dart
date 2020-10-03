@@ -121,7 +121,6 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           padding: EdgeInsets.all(16),
           color: Colors.white,
           child: TextField(
-            autofocus: false,
             enableSuggestions: false,
             keyboardType: TextInputType.multiline,
             maxLines: null,
@@ -289,6 +288,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       final unitData = result.data['insert_unit_one'] as Map<String, dynamic>;
       final newUnit = UnitModel.fromJson(unitData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
+      // TODO: когда будет loadMore для "Другие лоты участника", тут будет дублирование
       profile.member.units.insert(0, newUnit);
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);

@@ -23,7 +23,7 @@ class MemberModel {
   final DateTime lastActivityAt;
   @JsonKey(
       nullable: true,
-      defaultValue: []) // не хочу показывать для units.win.member, profile.member, payments.inviteMember
+      defaultValue: []) // не хочу показывать для units.win.member, payments.inviteMember
   final List<UnitModel> units;
 
   // TODO: если null, то рисовать цветной кружок с инициалами, как в телеге
