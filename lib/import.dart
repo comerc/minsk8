@@ -92,6 +92,7 @@ export 'widgets/balance_dialog.dart';
 export 'widgets/block_dialog.dart';
 export 'widgets/chat_list.dart';
 export 'widgets/confirm_dialog.dart';
+export 'widgets/content.dart';
 export 'widgets/countdown_timer.dart';
 export 'widgets/delivery_label.dart';
 export 'widgets/distance_button.dart';

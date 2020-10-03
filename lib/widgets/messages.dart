@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:minsk8/import.dart';
 
 class Messages extends StatefulWidget {
@@ -27,6 +28,13 @@ class _MessagesState extends State<Messages> {
 
   @override
   Widget build(BuildContext context) {
+    // final memberId = getMemberId(context);
+    // final chat = widget.chat;
+    // final                     (chat.unit.member.id == memberId
+    //                         ? item.unitOwnerReadCount
+    //                         : item.companionReadCount);
+
+    final companion = widget.chat.companion;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -48,8 +56,47 @@ class _MessagesState extends State<Messages> {
                   ),
                 ),
               ),
+              // TODO: прикреплять блок сверху
               SliverToBoxAdapter(
-                child: Container(color: Colors.red, height: 200),
+                child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Договоритесь о встрече',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Divider(),
+                      // TODO: [MVP] переход на страницу участника
+                      ListTile(
+                        leading: Avatar(companion.avatarUrl),
+                        title: Text(companion.displayName),
+                        subtitle: Text(
+                          DateFormat.yMMMMd('ru_RU').format(
+                            companion.lastActivityAt,
+                          ),
+                        ), // TODO: [MVP] 'Был 8 часов назад'
+                        // dense: true,
+                      ),
+                      Divider(),
+                      SizedBox(height: 8),
+                      Content(filename: 'make_an_appointment.md'),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
