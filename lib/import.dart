@@ -1,4 +1,4 @@
-// library import;
+// library export;
 
 export 'common/chat_data.dart';
 export 'common/const.dart';
@@ -94,9 +94,9 @@ export 'widgets/chat_list.dart';
 export 'widgets/confirm_dialog.dart';
 export 'widgets/content.dart';
 export 'widgets/countdown_timer.dart';
-export 'widgets/delivery_label.dart';
+export 'widgets/_delivery_label.dart';
 export 'widgets/distance_button.dart';
-export 'widgets/enum_model_dialog.dart';
+export 'widgets/_enum_model_dialog.dart';
 export 'widgets/extended_animated_align.dart';
 export 'widgets/extended_app_bar.dart';
 export 'widgets/extended_list_wheel_scroll_view.dart';

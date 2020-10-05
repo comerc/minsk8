@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {
@@ -32,6 +33,27 @@ class StartScreenState extends State<StartScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) async {
+    // final options = QueryOptions(
+    //   documentNode: Queries.getChats,
+    //   fetchPolicy: FetchPolicy.noCache,
+    // );
+    // final client = GraphQLProvider.of(context).value;
+    // final result =
+    //     await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    // if (result.hasException) {
+    //   throw result.exception;
+    // }
+    // final item =
+    //     ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
+    // // ignore: unawaited_futures
+    // Navigator.pushNamed(
+    //   context,
+    //   '/messages',
+    //   arguments: MessagesRouteArguments(
+    //     chat: item,
+    //   ),
+    // );
+
     await initStartMap();
     // TODO: почему бы это не делать внутри HomeScreen.initState ?
     // ignore: unawaited_futures

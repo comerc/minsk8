@@ -8,6 +8,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
@@ -30,8 +31,6 @@ import 'package:minsk8/import.dart';
 //     Navigator.of(this).pop();
 //   }
 // }
-
-enum ImageUploadStatus { progress, error }
 
 class AddUnitScreen extends StatefulWidget {
   AddUnitScreen(this.arguments);
@@ -565,6 +564,8 @@ class AddUnitRouteArgumentsTabIndex {
   final int underway;
 }
 
+enum ImageUploadStatus { progress, error }
+
 class _ImageData {
   _ImageData(this.bytes);
 
@@ -573,4 +574,320 @@ class _ImageData {
   ImageUploadStatus uploadStatus = ImageUploadStatus.progress;
   ImageModel model;
   bool isCanceled = false;
+}
+
+typedef AddImageButtonOnTap = void Function(int index);
+
+class AddImageButton extends StatelessWidget {
+  AddImageButton({
+    Key key,
+    this.index,
+    this.hasIcon,
+    this.onTap,
+    this.bytes,
+    this.uploadStatus,
+  }) : super(key: key);
+
+  final int index;
+  final bool hasIcon;
+  final AddImageButtonOnTap onTap;
+  final Uint8List bytes;
+  final ImageUploadStatus uploadStatus;
+
+  // TODO: по длинному тапу - редактирование фотографии (кроп, поворот, и т.д.)
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Добавить/удалить фотографию',
+      child: Material(
+        child: bytes == null
+            // продублировал InkWell, чтобы не переопределять splashColor
+            ? InkWell(
+                child: hasIcon
+                    ? Icon(
+                        FontAwesomeIcons.camera,
+                        color: Colors.black.withOpacity(0.8),
+                        size: kBigButtonIconSize,
+                      )
+                    : Container(),
+                onTap: _onTap,
+              )
+            : InkWell(
+                splashColor: Colors.white.withOpacity(0.4),
+                child: Ink.image(
+                  fit: BoxFit.cover,
+                  image: ExtendedImage.memory(bytes).image,
+                  child: uploadStatus == null
+                      ? null
+                      : Stack(
+                          fit: StackFit.expand,
+                          children: <Widget>[
+                            Container(color: Colors.white.withOpacity(0.4)),
+                            if (uploadStatus == ImageUploadStatus.progress)
+                              Center(
+                                child: buildProgressIndicator(
+                                  context,
+                                  hasAnimatedColor: true,
+                                ),
+                              ),
+                            if (uploadStatus == ImageUploadStatus.error)
+                              Center(
+                                child: Icon(
+                                  FontAwesomeIcons.solidTimesCircle,
+                                  color: Colors.red,
+                                  size: kBigButtonIconSize,
+                                ),
+                              ),
+                          ],
+                        ),
+                ),
+                onTap: _onTap,
+              ),
+      ),
+    );
+  }
+
+  void _onTap() {
+    onTap(index);
+  }
+}
+
+// TODO: применить ButtonBar для выравнивания кнопок?
+
+class AddedUnitDialog extends StatelessWidget {
+  AddedUnitDialog(this.unit, {this.needModerate = false});
+
+  final UnitModel unit;
+  final bool needModerate;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      children: <Widget>[
+        Logo(size: kButtonIconSize),
+        Padding(
+          padding: EdgeInsets.only(top: 16),
+          child: Text(
+            needModerate ? 'Лот успешно добавлен' : 'Ура! Ваш лот добавлен',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              // fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.black.withOpacity(0.8),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 16),
+          child: Text(
+            needModerate
+                ? 'Мы Вам сообщим, когда лот пройдёт модерацию'
+                : 'Победитель Вам напишет.\nСпасибо за доброе дело!',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: 16,
+            left: needModerate ? 72 : 32,
+            right: needModerate ? 72 : 32,
+          ),
+          child: Column(
+            children: <Widget>[
+              // TODO: FlatButton + ButtonTheme(minWidth: double.infinity)
+              MaterialButton(
+                minWidth: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.plus,
+                      size: kButtonIconSize,
+                    ),
+                    SizedBox(width: 8),
+                    Text('Добавьте ещё один лот'),
+                  ],
+                ),
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                color: Colors.green,
+                textColor: Colors.white,
+                elevation: 0,
+                highlightElevation: 0,
+              ),
+              if (!needModerate)
+                // TODO: OutlineButton + ButtonTheme(minWidth: double.infinity)
+                MaterialButton(
+                  minWidth: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.share,
+                        size: kButtonIconSize,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Поделитесь и получите бонус'),
+                    ],
+                  ),
+                  onLongPress: () {}, // чтобы сократить время для splashColor
+                  onPressed: () {
+                    share(unit);
+                  },
+                  color: Colors.white,
+                  textColor: Colors.green,
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.green)),
+                  elevation: 0,
+                  highlightElevation: 0,
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Future<ImageSource> showImageSourceDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text('Что использовать?'),
+      children: <Widget>[
+        _ImageSourceUnit(
+          icon: FontAwesomeIcons.camera,
+          text: 'Камера',
+          result: ImageSource.camera,
+        ),
+        _ImageSourceUnit(
+          icon: FontAwesomeIcons.solidImages,
+          text: 'Галерея',
+          result: ImageSource.gallery,
+        ),
+      ],
+    ),
+  );
+}
+
+class _ImageSourceUnit extends StatelessWidget {
+  _ImageSourceUnit({
+    Key key,
+    this.icon,
+    this.text,
+    this.result,
+  }) : super(key: key);
+
+  final IconData icon;
+  final String text;
+  final ImageSource result;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {}, // чтобы сократить время для splashColor
+      child: SimpleDialogOption(
+        onPressed: () {
+          Navigator.of(context).pop(result);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              icon,
+              color: Colors.black.withOpacity(0.8),
+              size: kBigButtonIconSize,
+            ),
+            Flexible(
+              child: Padding(
+                padding: EdgeInsetsDirectional.only(start: 16),
+                child: Text(text),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// TODO: CheckboxListTile
+
+Future<UrgentValue> selectUrgentDialog(
+    BuildContext context, UrgentValue selected) {
+  return showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            SizedBox(height: 32),
+            Text(
+              'Как срочно надо отдать?',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
+            SizedBox(height: 16),
+            ListBox(
+              itemCount: kUrgents.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Material(
+                  color: selected == kUrgents[index].value
+                      ? Colors.grey.withOpacity(0.2)
+                      : Colors.white,
+                  child: InkWell(
+                    child: ListTile(
+                      title: Text(kUrgents[index].name),
+                      subtitle: Text(kUrgents[index].text),
+                      // selected: selected == urgents[index].value,
+                      trailing: selected == kUrgents[index].value
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
+                                ),
+                              ),
+                              padding: EdgeInsets.all(4),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.red,
+                                size: kButtonIconSize,
+                              ),
+                            )
+                          : null,
+                      dense: true,
+                    ),
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onTap: () {
+                      Navigator.of(context).pop(kUrgents[index].value);
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(height: 8);
+              },
+            ),
+            SizedBox(height: 32),
+          ],
+        ),
+      );
+    },
+  );
 }

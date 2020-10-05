@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:minsk8/import.dart';
@@ -17,13 +18,17 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class MessagesScreenState extends State<MessagesScreen> {
+  TextEditingController _textController;
+
   @override
   void initState() {
     super.initState();
+    _textController = TextEditingController(text: '');
   }
 
   @override
   void dispose() {
+    _textController.dispose();
     super.dispose();
   }
 
@@ -32,6 +37,115 @@ class MessagesScreenState extends State<MessagesScreen> {
     final chat = widget.arguments.chat;
     final unit = chat.unit;
     final avatar = Avatar(unit.avatarUrl);
+
+    // final memberId = getMemberId(context);
+    // final chat = widget.chat;
+    // final                     (chat.unit.member.id == memberId
+    //                         ? item.unitOwnerReadCount
+    //                         : item.companionReadCount);
+
+    final companion = chat.companion;
+    final child = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Expanded(
+          child: CustomScrollView(
+            // anchor: 0.5,
+            reverse: true,
+            // floatHeaderSlivers: true,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    3,
+                    (index) => Container(
+                      height: 100,
+                      child: Text('$index'),
+                      color: Colors.lightBlue[100 * (index % 9)],
+                    ),
+                  ),
+                ),
+              ),
+              // TODO: прикреплять блок сверху
+              SliverToBoxAdapter(
+                child: Container(
+                  margin: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Договоритесь о встрече',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Divider(),
+                      // TODO: [MVP] переход на страницу участника
+                      ListTile(
+                        leading: Avatar(companion.avatarUrl),
+                        title: Text(companion.displayName),
+                        subtitle: Text(
+                          DateFormat.yMMMMd('ru_RU').format(
+                            companion.lastActivityAt,
+                          ),
+                        ), // TODO: [MVP] 'Был 8 часов назад'
+                        // dense: true,
+                      ),
+                      Divider(),
+                      SizedBox(height: 8),
+                      Content(filename: 'make_an_appointment.md'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(height: 1),
+        Container(
+          color: Colors.white,
+          // child: Text(widget.chat.unit.id),
+          child: TextField(
+            enableSuggestions: false,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            controller: _textController,
+            // focusNode: _textFocusNode,
+            decoration: InputDecoration(
+              hintText: 'Напишите сообщение...',
+              contentPadding: EdgeInsets.all(16),
+              // TODO: Vertical Alignment https://github.com/flutter/flutter/issues/42651
+              suffixIcon: ClipRRect(
+                borderRadius: BorderRadius.circular(kDefaultIconSize),
+                child: Material(
+                  color: Colors.white,
+                  child: InkWell(
+                    // TODO: в телеге onLongPress > menu > "отправить позже", "отправить без звука"
+                    onLongPress:
+                        () {}, // без этой заглушки показывает системное меню "paste"
+                    onTap: () {},
+                    child: Icon(
+                      Icons.send,
+                      size: kDefaultIconSize,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
     return Scaffold(
       appBar: ExtendedAppBar(
         title: Tooltip(
@@ -139,9 +253,7 @@ class MessagesScreenState extends State<MessagesScreen> {
         ],
       ),
       body: SafeArea(
-        child: Messages(
-          chat: chat,
-        ),
+        child: child,
       ),
     );
   }
@@ -216,4 +328,63 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
       ),
     );
   });
+}
+
+// class BlockDialog extends StatefulWidget {
+//   @override
+//   BlockDialogState createState() {
+//     return BlockDialogState();
+//   }
+// }
+
+// class BlockDialogState extends State<BlockDialog> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     analytics.setCurrentScreen(screenName: '/block_dialog');
+//   }
+class BlockDialog extends StatelessWidget {
+  BlockDialog(this.isBlocked);
+
+  final bool isBlocked;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      children: <Widget>[
+        Container(
+          constraints: BoxConstraints(
+            maxWidth: 200,
+          ),
+          child: Text(
+            'Если победитель повёл себя некорректно\u00A0— заблокируйте его, чтобы он больше не\u00A0мог делать ставки на\u00A0Ваши\u00A0лоты. В\u00A0случае крайней необходимости\u00A0— напишите в\u00A0службу\u00A0поддержки.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        FlatButton(
+          child: Text(isBlocked
+              ? 'Разблокировать участника'
+              : 'Заблокировать участника'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            Navigator.of(context).pop(isBlocked ? 'unblock' : 'block');
+          },
+          color: Colors.green,
+          textColor: Colors.white,
+        ),
+        OutlineButton(
+          child: Text('Написать в поддержку'),
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            Navigator.of(context).pop('feedback');
+          },
+          textColor: Colors.green,
+        ),
+      ],
+    );
+  }
 }
