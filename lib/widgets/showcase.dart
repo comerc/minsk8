@@ -332,7 +332,7 @@ class CountdownTimer extends StatefulWidget {
   final Function onClose;
 
   @override
-  _CountDownState createState() => _CountDownState();
+  _CountdownTimerState createState() => _CountdownTimerState();
 
   static int getSeconds(int endTime) {
     return Duration(
@@ -341,7 +341,7 @@ class CountdownTimer extends StatefulWidget {
   }
 }
 
-class _CountDownState extends State<CountdownTimer> {
+class _CountdownTimerState extends State<CountdownTimer> {
   int _seconds;
   Timer _timer;
 
