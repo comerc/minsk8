@@ -6,12 +6,12 @@ class MessagesScreen extends StatefulWidget {
   final MessagesRouteArguments arguments;
 
   @override
-  MessagesScreenState createState() {
-    return MessagesScreenState();
+  _MessagesScreenState createState() {
+    return _MessagesScreenState();
   }
 }
 
-class MessagesScreenState extends State<MessagesScreen> {
+class _MessagesScreenState extends State<MessagesScreen> {
   TextEditingController _textController;
 
   @override
@@ -195,7 +195,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                 // ignore: unawaited_futures
                 showDialog<String>(
                   context: context,
-                  child: BlockDialog(isBlocked),
+                  child: _BlockDialog(isBlocked),
                 ).then((String value) {
                   if (value == null) return;
                   final cases = {
@@ -337,8 +337,8 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
 //     super.initState();
 //     analytics.setCurrentScreen(screenName: '/block_dialog');
 //   }
-class BlockDialog extends StatelessWidget {
-  BlockDialog(this.isBlocked);
+class _BlockDialog extends StatelessWidget {
+  _BlockDialog(this.isBlocked);
 
   final bool isBlocked;
 

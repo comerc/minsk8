@@ -2,12 +2,12 @@ import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {
   @override
-  StartScreenState createState() {
-    return StartScreenState();
+  _StartScreenState createState() {
+    return _StartScreenState();
   }
 }
 
-class StartScreenState extends State<StartScreen> {
+class _StartScreenState extends State<StartScreen> {
   @override
   void initState() {
     super.initState();

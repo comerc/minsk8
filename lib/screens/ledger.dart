@@ -6,12 +6,12 @@ class LedgerScreen extends StatefulWidget {
   static LedgerData sourceList;
 
   @override
-  LedgerScreenState createState() {
-    return LedgerScreenState();
+  _LedgerScreenState createState() {
+    return _LedgerScreenState();
   }
 }
 
-class LedgerScreenState extends State<LedgerScreen> {
+class _LedgerScreenState extends State<LedgerScreen> {
   static bool _isFirst = true;
   static bool _isOpen1 = false;
   static bool _isOpen2 = false;
@@ -269,7 +269,7 @@ class LedgerScreenState extends State<LedgerScreen> {
   void _getBalanceAction() {
     showDialog(
       context: context,
-      child: BalanceDialog(),
+      child: _BalanceDialog(),
     ).then((value) {
       if (value == null) return;
       Navigator.pushReplacement(
@@ -295,7 +295,7 @@ class LedgerScreenState extends State<LedgerScreen> {
 //     super.initState();
 //     analytics.setCurrentScreen(screenName: '/balance_dalog');
 //   }
-class BalanceDialog extends StatelessWidget {
+class _BalanceDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<ProfileModel>(context, listen: false);

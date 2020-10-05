@@ -182,7 +182,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _onAfterBuild(Duration timeStamp) {
-    showImageSourceDialog(context).then((ImageSource imageSource) {
+    _showImageSourceDialog(context).then((ImageSource imageSource) {
       if (imageSource == null) return;
       _pickImage(0, imageSource).then((bool result) {
         if (!result) return;
@@ -283,7 +283,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       _reloadUnderwayModel();
       final value = await showDialog<bool>(
         context: context,
-        child: AddedUnitDialog(
+        child: _AddedUnitDialog(
           newUnit,
           needModerate: _kind == KindValue.service,
         ),
@@ -324,7 +324,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   Widget _buildAddImageButton(int index) {
     final isExistIndex = _images.length > index;
-    return AddImageButton(
+    return _AddImageButton(
       index: index,
       hasIcon: _images.length == index,
       onTap: isExistIndex ? _handleDeleteImage : _handleAddImage,
@@ -335,7 +335,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   void _handleAddImage(int index) {
     if (_imageSource == null) {
-      showImageSourceDialog(context).then((ImageSource imageSource) {
+      _showImageSourceDialog(context).then((ImageSource imageSource) {
         if (imageSource == null) return;
         _pickImage(index, imageSource).then((bool result) {
           if (!result) return;
@@ -377,9 +377,9 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);
         // если не получилось выполнить отмену, то ничего страшного
-        // выставлен флал imageData.uploadStatus = ImageUploadStatus.error
+        // выставлен флал imageData.uploadStatus = _ImageUploadStatus.error
         // и по нему строится список images для загрузки в GraphQL
-        imageData.uploadStatus = ImageUploadStatus.error;
+        imageData.uploadStatus = _ImageUploadStatus.error;
         if (mounted) setState(() {});
         final snackBar = SnackBar(
             content:
@@ -432,7 +432,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     await imageData.uploadTask.onComplete;
     await streamSubscription.cancel();
     imageData.uploadTask = null;
-    if (imageData.uploadStatus == ImageUploadStatus.progress) {
+    if (imageData.uploadStatus == _ImageUploadStatus.progress) {
       imageData.uploadStatus = null;
       if (mounted) setState(() {});
     }
@@ -475,7 +475,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectUrgent() {
-    selectUrgentDialog(context, _urgent).then((UrgentValue value) {
+    _selectUrgentDialog(context, _urgent).then((UrgentValue value) {
       if (value == null) return;
       setState(() {
         _urgent = value;
@@ -553,22 +553,22 @@ class AddUnitRouteArgumentsTabIndex {
   final int underway;
 }
 
-enum ImageUploadStatus { progress, error }
+enum _ImageUploadStatus { progress, error }
 
 class _ImageData {
   _ImageData(this.bytes);
 
   final Uint8List bytes;
   StorageUploadTask uploadTask;
-  ImageUploadStatus uploadStatus = ImageUploadStatus.progress;
+  _ImageUploadStatus uploadStatus = _ImageUploadStatus.progress;
   ImageModel model;
   bool isCanceled = false;
 }
 
 typedef AddImageButtonOnTap = void Function(int index);
 
-class AddImageButton extends StatelessWidget {
-  AddImageButton({
+class _AddImageButton extends StatelessWidget {
+  _AddImageButton({
     Key key,
     this.index,
     this.hasIcon,
@@ -581,7 +581,7 @@ class AddImageButton extends StatelessWidget {
   final bool hasIcon;
   final AddImageButtonOnTap onTap;
   final Uint8List bytes;
-  final ImageUploadStatus uploadStatus;
+  final _ImageUploadStatus uploadStatus;
 
   // TODO: по длинному тапу - редактирование фотографии (кроп, поворот, и т.д.)
 
@@ -613,14 +613,14 @@ class AddImageButton extends StatelessWidget {
                           fit: StackFit.expand,
                           children: <Widget>[
                             Container(color: Colors.white.withOpacity(0.4)),
-                            if (uploadStatus == ImageUploadStatus.progress)
+                            if (uploadStatus == _ImageUploadStatus.progress)
                               Center(
                                 child: buildProgressIndicator(
                                   context,
                                   hasAnimatedColor: true,
                                 ),
                               ),
-                            if (uploadStatus == ImageUploadStatus.error)
+                            if (uploadStatus == _ImageUploadStatus.error)
                               Center(
                                 child: Icon(
                                   FontAwesomeIcons.solidTimesCircle,
@@ -644,8 +644,8 @@ class AddImageButton extends StatelessWidget {
 
 // TODO: применить ButtonBar для выравнивания кнопок?
 
-class AddedUnitDialog extends StatelessWidget {
-  AddedUnitDialog(this.unit, {this.needModerate = false});
+class _AddedUnitDialog extends StatelessWidget {
+  _AddedUnitDialog(this.unit, {this.needModerate = false});
 
   final UnitModel unit;
   final bool needModerate;
@@ -743,7 +743,7 @@ class AddedUnitDialog extends StatelessWidget {
   }
 }
 
-Future<ImageSource> showImageSourceDialog(BuildContext context) {
+Future<ImageSource> _showImageSourceDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => SimpleDialog(
@@ -808,7 +808,7 @@ class _ImageSourceUnit extends StatelessWidget {
 
 // TODO: CheckboxListTile
 
-Future<UrgentValue> selectUrgentDialog(
+Future<UrgentValue> _selectUrgentDialog(
     BuildContext context, UrgentValue selected) {
   return showModalBottomSheet(
     context: context,

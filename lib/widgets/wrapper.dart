@@ -119,7 +119,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
             delegate: CommonSliverPersistentHeaderDelegate(
               builder: (BuildContext context, double shrinkOffset,
                   bool overlapsContent) {
-                return WrapperAppBar();
+                return _AppBar();
               },
               height: kToolbarHeight,
             ),
@@ -131,7 +131,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
               delegate: CommonSliverPersistentHeaderDelegate(
                 builder: (BuildContext context, double shrinkOffset,
                     bool overlapsContent) {
-                  return WrapperTabBar(
+                  return _TabBar(
                     info: info,
                     shrinkOffset: shrinkOffset,
                     // overlapsContent: overlapsContent,
@@ -182,7 +182,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
   }
 }
 
-class WrapperAppBar extends StatelessWidget {
+class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExtendedAppBar(
@@ -225,8 +225,8 @@ class WrapperAppBar extends StatelessWidget {
   }
 }
 
-class WrapperTabBar extends StatelessWidget {
-  WrapperTabBar({
+class _TabBar extends StatelessWidget {
+  _TabBar({
     this.info,
     this.shrinkOffset,
     // this.overlapsContent,

@@ -7,12 +7,12 @@ class PlacesAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Size preferredSize;
 
   @override
-  PlacesAppBarState createState() {
-    return PlacesAppBarState();
+  _PlacesAppBarState createState() {
+    return _PlacesAppBarState();
   }
 }
 
-class PlacesAppBarState extends State<PlacesAppBar> {
+class _PlacesAppBarState extends State<PlacesAppBar> {
   bool _isPlaces = false;
   final _formFieldKey = GlobalKey<FormFieldState>();
 
@@ -33,7 +33,7 @@ class PlacesAppBarState extends State<PlacesAppBar> {
                 });
               },
             ),
-            title: Places(
+            title: _Places(
                 formFieldKey: _formFieldKey,
                 onSuggestionSelected: _onSuggestionSelected),
             actions: <Widget>[
@@ -82,8 +82,8 @@ class PlacesAppBarState extends State<PlacesAppBar> {
 // TODO: типизировать suggestion через json_serializable
 // TODO: [MVP] добавить копирайт algolia и osm
 
-class Places extends StatefulWidget {
-  Places({this.formFieldKey, this.onSuggestionSelected});
+class _Places extends StatefulWidget {
+  _Places({this.formFieldKey, this.onSuggestionSelected});
 
   final Key formFieldKey;
   // TODO: SuggestionSelectionCallback<suggestionModel>
@@ -95,7 +95,7 @@ class Places extends StatefulWidget {
   }
 }
 
-class _PlacesState extends State<Places> {
+class _PlacesState extends State<_Places> {
   bool _isLoading = false;
   final TextEditingController _typeAheadController = TextEditingController();
 

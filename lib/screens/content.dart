@@ -56,7 +56,7 @@ class _ContentScreenState extends State<ContentScreen> {
         // ),
         child: Offstage(
           offstage: _offstage,
-          child: MarkdownWrapper(
+          child: _MarkdownWrapper(
             content: _content,
             onAfterBuild: _handleAfterBuild,
           ),
@@ -84,8 +84,8 @@ class _ContentScreenState extends State<ContentScreen> {
   }
 }
 
-class MarkdownWrapper extends StatefulWidget {
-  MarkdownWrapper({this.content, this.onAfterBuild});
+class _MarkdownWrapper extends StatefulWidget {
+  _MarkdownWrapper({this.content, this.onAfterBuild});
 
   final String content;
   final Function onAfterBuild;
@@ -96,7 +96,7 @@ class MarkdownWrapper extends StatefulWidget {
   }
 }
 
-class _MarkdownWrapperState extends State<MarkdownWrapper> {
+class _MarkdownWrapperState extends State<_MarkdownWrapper> {
   @override
   void initState() {
     super.initState();

@@ -15,12 +15,12 @@ class HomeProfile extends StatefulWidget {
   final bool hasUpdate;
 
   @override
-  HomeProfileState createState() {
-    return HomeProfileState();
+  _HomeProfileState createState() {
+    return _HomeProfileState();
   }
 }
 
-class HomeProfileState extends State<HomeProfile> {
+class _HomeProfileState extends State<HomeProfile> {
 // class HomeProfile extends StatelessWidget {
 //   HomeProfile({this.version, this.hasUpdate});
 

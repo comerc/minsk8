@@ -27,7 +27,7 @@ class KindsScreen extends StatelessWidget {
       childAspectRatio: kGoldenRatio,
       children: List.generate(
         kKinds.length,
-        (int index) => KindButton(
+        (int index) => _KindButton(
           kKinds[index],
           isSelected: kKinds[index].value == arguments?.value,
         ),
@@ -54,8 +54,8 @@ class KindsRouteArguments {
   final KindValue value;
 }
 
-class KindButton extends StatelessWidget {
-  KindButton(this.model, {this.isSelected});
+class _KindButton extends StatelessWidget {
+  _KindButton(this.model, {this.isSelected});
 
   final KindModel model;
   final bool isSelected;

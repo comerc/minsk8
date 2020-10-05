@@ -39,12 +39,12 @@ class HomeInterplay extends StatelessWidget {
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return [
-          ChatList(
+          _ChatList(
             tagPrefix: '${this.tabIndex}-$tabIndex',
             sourceList: dataPool[0] as ChatData,
             // dataPool: dataPool[0] as List<ChatData>,
           ),
-          NoticeList(
+          _NoticeList(
             tagPrefix: '${this.tabIndex}-$tabIndex',
             sourceList: dataPool[1] as NoticeData,
           ),
@@ -60,8 +60,8 @@ class HomeInterplay extends StatelessWidget {
   }
 }
 
-class ChatList extends StatefulWidget {
-  ChatList({
+class _ChatList extends StatefulWidget {
+  _ChatList({
     this.tagPrefix,
     this.sourceList,
   });
@@ -73,7 +73,7 @@ class ChatList extends StatefulWidget {
   _ChatListState createState() => _ChatListState();
 }
 
-class _ChatListState extends State<ChatList>
+class _ChatListState extends State<_ChatList>
     with AutomaticKeepAliveClientMixin {
   Future<bool> _future;
 
@@ -714,8 +714,8 @@ class _AnimatedBox extends StatelessWidget {
 
 // TODO: Реализовать displayDate как sticky_grouped_list
 
-class NoticeList extends StatefulWidget {
-  NoticeList({
+class _NoticeList extends StatefulWidget {
+  _NoticeList({
     this.tagPrefix,
     this.sourceList,
   });
@@ -727,7 +727,7 @@ class NoticeList extends StatefulWidget {
   _NoticeListState createState() => _NoticeListState();
 }
 
-class _NoticeListState extends State<NoticeList>
+class _NoticeListState extends State<_NoticeList>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

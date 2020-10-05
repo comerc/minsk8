@@ -2,12 +2,12 @@ import 'package:minsk8/import.dart';
 
 class StartMapScreen extends StatefulWidget {
   @override
-  StartMapScreenState createState() {
-    return StartMapScreenState();
+  _StartMapScreenState createState() {
+    return _StartMapScreenState();
   }
 }
 
-class StartMapScreenState extends State<StartMapScreen> {
+class _StartMapScreenState extends State<StartMapScreen> {
   bool _isInfo = true;
 
   @override

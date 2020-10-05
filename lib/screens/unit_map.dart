@@ -12,7 +12,7 @@ class UnitMapScreen extends StatelessWidget {
       // TODO: добавить аватарку и описание лота
       // TODO: отображать адрес в инфо-боксе
       appBar: ExtendedAppBar(
-        title: AddressText(unit),
+        title: _AddressText(unit),
       ),
       body: SafeArea(
         child: MapWidget(
@@ -33,8 +33,8 @@ class UnitMapRouteArguments {
 
 // TODO: выбросить после отказа использования в UnitMapScreen
 
-class AddressText extends StatelessWidget {
-  AddressText(this.unit);
+class _AddressText extends StatelessWidget {
+  _AddressText(this.unit);
 
   final UnitModel unit;
 

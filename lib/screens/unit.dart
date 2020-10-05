@@ -3,7 +3,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
 // TODO: [MVP] как отказаться от лота до окончания таймера, по которому мной включён таймер?
-// TODO: [MVP] не отображается DistanceButton
+// TODO: [MVP] не отображается _DistanceButton
 
 class UnitScreen extends StatefulWidget {
   UnitScreen(this.arguments);
@@ -62,7 +62,7 @@ class _UnitScreenState extends State<UnitScreen> {
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final bodyHeight = size.height - statusBarHeight - kToolbarHeight;
     final carouselSliderHeight = bodyHeight / kGoldenRatio -
-        UnitCarouselSliderSettings.verticalPadding * 2;
+        _UnitCarouselSliderSettings.verticalPadding * 2;
     final panelMinHeight = bodyHeight - bodyHeight / kGoldenRatio;
     final panelChildWidth = size.width - 32.0; // for padding
     final panelSlideLabelWidth = 32.0;
@@ -75,7 +75,7 @@ class _UnitScreenState extends State<UnitScreen> {
           body: Column(
             children: <Widget>[
               SizedBox(
-                height: UnitCarouselSliderSettings.verticalPadding,
+                height: _UnitCarouselSliderSettings.verticalPadding,
               ),
               Stack(
                 children: <Widget>[
@@ -85,8 +85,9 @@ class _UnitScreenState extends State<UnitScreen> {
                       child: SizedBox(
                         height: carouselSliderHeight,
                         width: size.width *
-                                UnitCarouselSliderSettings.viewportFraction -
-                            UnitCarouselSliderSettings.unitHorizontalMargin * 2,
+                                _UnitCarouselSliderSettings.viewportFraction -
+                            _UnitCarouselSliderSettings.unitHorizontalMargin *
+                                2,
                         child: Hero(
                           tag: tag,
                           child: ExtendedImage.network(
@@ -131,7 +132,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       pauseAutoPlayOnTouch: const Duration(seconds: 10),
                       enlargeCenterPage: true,
                       viewportFraction:
-                          UnitCarouselSliderSettings.viewportFraction,
+                          _UnitCarouselSliderSettings.viewportFraction,
                       onPageChanged: (int index) {
                         _currentIndex = index;
                       },
@@ -139,7 +140,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         return Container(
                           width: size.width,
                           margin: EdgeInsets.symmetric(
-                              horizontal: UnitCarouselSliderSettings
+                              horizontal: _UnitCarouselSliderSettings
                                   .unitHorizontalMargin),
                           child: Material(
                             child: InkWell(
@@ -232,7 +233,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         child: Row(
                           children: <Widget>[
                             Spacer(),
-                            DistanceButton(onTap: () {
+                            _DistanceButton(onTap: () {
                               final savedIndex = _currentIndex;
                               setState(() {
                                 _isCarouselSlider = false;
@@ -396,7 +397,7 @@ class _UnitScreenState extends State<UnitScreen> {
               Expanded(
                 child: SizedBox(
                   height: kBigButtonHeight,
-                  child: WantButton(unit),
+                  child: _WantButton(unit),
                 ),
               ),
             ],
@@ -422,7 +423,7 @@ class _UnitScreenState extends State<UnitScreen> {
                 if (value == _PopupMenuValue.delete) {
                   final result = await showDialog(
                     context: context,
-                    child: ConfirmDialog(
+                    child: _ConfirmDialog(
                         title: 'Вы уверены, что хотите удалить лот?',
                         content:
                             'Размещать его повторно\nзапрещено — возможен бан.',
@@ -462,7 +463,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   final result = await showDialog<ClaimValue>(
                     context: context,
                     builder: (BuildContext context) {
-                      return EnumModelDialog<ClaimModel>(
+                      return _EnumModelDialog<ClaimModel>(
                           title: 'Укажите причину жалобы', elements: kClaims);
                     },
                   );
@@ -498,7 +499,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   final result = await showDialog<QuestionValue>(
                     context: context,
                     builder: (BuildContext context) {
-                      return EnumModelDialog<QuestionModel>(
+                      return _EnumModelDialog<QuestionModel>(
                           title: 'Что Вы хотите узнать о лоте?',
                           elements: kQuestions);
                     },
@@ -665,14 +666,14 @@ class UnitRouteArguments {
   final bool isShowcase;
 }
 
-class UnitCarouselSliderSettings {
+class _UnitCarouselSliderSettings {
   static const unitHorizontalMargin = 8.0;
   static const viewportFraction = 0.8;
   static const verticalPadding = 16.0;
 }
 
-class WantButton extends StatelessWidget {
-  WantButton(this.unit);
+class _WantButton extends StatelessWidget {
+  _WantButton(this.unit);
 
   final UnitModel unit;
 
@@ -736,7 +737,7 @@ class WantButton extends StatelessWidget {
                         'Дождитесь объявления победителя,\nвозможно именно Вам повезёт!',
                   );
                 }
-                return WantDialog(unit);
+                return _WantDialog(unit);
               },
             );
           },
@@ -774,12 +775,12 @@ class WantButton extends StatelessWidget {
 // }
 
 // class _WantDialogState extends State<WantDialog> {
-class WantDialog extends StatelessWidget {
-  WantDialog(this.unit);
+class _WantDialog extends StatelessWidget {
+  _WantDialog(this.unit);
 
   final UnitModel unit;
 
-  static final autoIncreaseFieldKey = GlobalKey<AutoIncreaseFieldState>();
+  static final autoIncreaseFieldKey = GlobalKey<_AutoIncreaseFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -891,7 +892,7 @@ class WantDialog extends StatelessWidget {
         Divider(height: 1),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: AutoIncreaseField(
+          child: _AutoIncreaseField(
             key: autoIncreaseFieldKey,
             price: unit.price,
             balance: 20, // profile.balance,
@@ -945,19 +946,19 @@ class WantDialog extends StatelessWidget {
 
 const Duration _kExpand = Duration(milliseconds: 200);
 
-class AutoIncreaseField extends StatefulWidget {
-  AutoIncreaseField({Key key, this.price, this.balance}) : super(key: key);
+class _AutoIncreaseField extends StatefulWidget {
+  _AutoIncreaseField({Key key, this.price, this.balance}) : super(key: key);
 
   final int price;
   final int balance;
 
   @override
-  AutoIncreaseFieldState createState() {
-    return AutoIncreaseFieldState();
+  _AutoIncreaseFieldState createState() {
+    return _AutoIncreaseFieldState();
   }
 }
 
-class AutoIncreaseFieldState extends State<AutoIncreaseField>
+class _AutoIncreaseFieldState extends State<_AutoIncreaseField>
     with TickerProviderStateMixin {
   FixedExtentScrollController _controller;
   bool _isExpanded = false;
@@ -1127,8 +1128,8 @@ class AutoIncreaseFieldState extends State<AutoIncreaseField>
   }
 }
 
-class DistanceButton extends StatelessWidget {
-  DistanceButton({this.onTap});
+class _DistanceButton extends StatelessWidget {
+  _DistanceButton({this.onTap});
 
   final void Function() onTap;
 
@@ -1189,8 +1190,8 @@ class DistanceButton extends StatelessWidget {
   }
 }
 
-class ConfirmDialog extends StatelessWidget {
-  ConfirmDialog({this.title, this.content, this.cancel, this.ok});
+class _ConfirmDialog extends StatelessWidget {
+  _ConfirmDialog({this.title, this.content, this.cancel, this.ok});
 
   final String title;
   final String content;
@@ -1255,8 +1256,8 @@ class ConfirmDialog extends StatelessWidget {
   }
 }
 
-class EnumModelDialog<T extends EnumModel> extends StatelessWidget {
-  EnumModelDialog({this.title, this.elements});
+class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
+  _EnumModelDialog({this.title, this.elements});
 
   final String title;
   final List<T> elements;

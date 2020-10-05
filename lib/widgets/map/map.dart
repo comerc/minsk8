@@ -25,7 +25,7 @@ class MapWidget extends StatefulWidget {
     this.saveModes,
   }) : super(key: globalKey);
 
-  static final globalKey = GlobalKey<MapWidgetState>();
+  static final globalKey = GlobalKey<_MapWidgetState>();
 
   final LatLng center;
   final double zoom;
@@ -35,8 +35,8 @@ class MapWidget extends StatefulWidget {
   final List<MapSaveMode> saveModes;
 
   @override
-  MapWidgetState createState() {
-    return MapWidgetState();
+  _MapWidgetState createState() {
+    return _MapWidgetState();
   }
 
   static LatLng calculateEndingGlobalCoordinates(
@@ -193,7 +193,7 @@ class MapWidget extends StatefulWidget {
   }
 }
 
-class MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
+class _MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
   // Note the addition of the TickerProviderStateMixin here. If you are getting an error like
   // 'The class 'TickerProviderStateMixin' can't be used as a mixin because it extends a class other than Object.'
   // in your IDE, you can probably fix it by adding an analysis_options.yaml file to your project

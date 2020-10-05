@@ -5,13 +5,13 @@ enum HomeTabValue { showcase, underway, interplay, profile }
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: globalKey);
 
-  static final globalKey = GlobalKey<HomeScreenState>();
+  static final globalKey = GlobalKey<_HomeScreenState>();
 
   @override
-  HomeScreenState createState() => HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   int _tabIndex = HomeTabValue.showcase.index;
   // int _tabIndex = HomeTabValue.interplay.index;
@@ -82,7 +82,7 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: _NavigationBar(
         tabIndex: _tabIndex,
         onChangeTabIndex: _pageController.jumpToPage,
       ),
@@ -195,13 +195,13 @@ class HomeScreenState extends State<HomeScreen> {
   }
 }
 
-typedef NavigationBarOnChangeTabIndex = void Function(int tabIndex);
+typedef _NavigationBarOnChangeTabIndex = void Function(int tabIndex);
 
-class NavigationBar extends StatelessWidget {
-  NavigationBar({this.tabIndex, this.onChangeTabIndex});
+class _NavigationBar extends StatelessWidget {
+  _NavigationBar({this.tabIndex, this.onChangeTabIndex});
 
   final int tabIndex;
-  final NavigationBarOnChangeTabIndex onChangeTabIndex;
+  final _NavigationBarOnChangeTabIndex onChangeTabIndex;
   final double _height = kNavigationBarHeight;
   final Color _backgroundColor = Colors.white;
   final Color _color = Colors.grey;

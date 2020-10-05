@@ -1,6 +1,6 @@
 import 'package:minsk8/import.dart';
 
-typedef ChangeRadiusCallback = void Function(double value);
+// typedef ChangeRadiusCallback = void Function(double value);
 
 class MapAreaLayerOptions extends LayerOptions {
   final double markerIconSize;
