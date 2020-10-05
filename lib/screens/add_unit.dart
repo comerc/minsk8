@@ -1,14 +1,3 @@
-import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:enum_to_string/enum_to_string.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога

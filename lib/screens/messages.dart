@@ -1,9 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {

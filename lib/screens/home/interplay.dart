@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
-// import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:intl/intl.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:minsk8/import.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
-import 'package:minsk8/import.dart';
 
 // TODO: [MVP] вместо велосипедирования, прикрутить реализацию чата
 // https://uikitty.net/achat-flutter-firebase-chat-template/

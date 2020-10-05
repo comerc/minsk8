@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {

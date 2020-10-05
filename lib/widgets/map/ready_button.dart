@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 class MapReadyButton extends StatefulWidget {

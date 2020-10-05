@@ -1,7 +1,5 @@
-import 'dart:io';
+import 'package:minsk8/import.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-// import 'package:minsk8/import.dart';
 
 PageRoute Function(WidgetBuilder builder) buildInitialRoute(String name) {
   return (WidgetBuilder builder) {

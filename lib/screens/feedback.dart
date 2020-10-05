@@ -1,8 +1,3 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:launch_review/launch_review.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: [MVP] подключить rate_my_app

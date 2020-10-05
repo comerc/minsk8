@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
+import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 class HomeUnderway extends StatelessWidget {
   HomeUnderway({this.tabIndex});

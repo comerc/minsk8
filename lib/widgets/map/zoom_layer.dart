@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:minsk8/import.dart';
 
 class MapZoomLayerOptions extends LayerOptions {
   final bool debugEnableOnly;

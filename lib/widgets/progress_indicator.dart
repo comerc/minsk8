@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbow_color/rainbow_color.dart';
-// import 'package:minsk8/import.dart';
 
 Widget buildProgressIndicator(BuildContext context,
     {bool hasAnimatedColor = false}) {
