@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 // import 'package:launch_review/launch_review.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: [MVP] подключить rate_my_app
+
 class FeedbackScreen extends StatelessWidget {
   final _market = Platform.isIOS ? 'Apple Store' : 'Google Play';
 

@@ -108,6 +108,15 @@ dependencies:
 
   bot_toast: 3.0.4
 
+  # animations: 1.1.2
+  # flutter_neumorphic: 3.0.2
+  # states_rebuilder 3.1.0
+  # flare_splash_screen 3.0.1
+  # catcher 0.3.20
+  # map_launcher 0.12.2
+  # device_simulator 0.9.6
+  # image_editor_pro 1.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
