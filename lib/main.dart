@@ -1,21 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:minsk8/import.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
-import 'package:rxdart/subjects.dart';
-import 'package:state_persistence/state_persistence.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
