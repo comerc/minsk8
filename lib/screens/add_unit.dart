@@ -21,10 +21,19 @@ import 'package:minsk8/import.dart';
 //   }
 // }
 
-class AddUnitScreen extends StatefulWidget {
-  AddUnitScreen(this.arguments);
+// TODO: упразднить AddUnitTabIndex
+class AddUnitTabIndex {
+  AddUnitTabIndex({this.showcase = 0, this.underway = 0});
 
-  final AddUnitRouteArguments arguments;
+  final int showcase;
+  final int underway;
+}
+
+class AddUnitScreen extends StatefulWidget {
+  AddUnitScreen({this.kind, this.tabIndex});
+
+  final KindValue kind;
+  final AddUnitTabIndex tabIndex;
 
   @override
   _AddUnitScreenState createState() {
@@ -56,7 +65,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
     _textController = TextEditingController(text: '');
-    _kind = widget.arguments.kind;
+    _kind = widget.kind;
     _textFocusNode = FocusNode();
   }
 
@@ -289,26 +298,38 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ),
       );
       if (value ?? false) {
-        final kind = await Navigator.of(context).pushReplacementNamed('/kinds')
-            as KindValue; // workaround for typecast
+        final kind = await Navigator.pushReplacement<KindValue, void>(
+          context,
+          buildRoute(
+            '/kinds',
+            builder: (_) => KindsScreen(),
+            fullscreenDialog: true,
+          ),
+        ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
-        Navigator.pushNamed(
+        Navigator.push(
           HomeScreen.globalKey.currentContext, // hack
-          '/add_unit',
-          arguments: AddUnitRouteArguments(
-            kind: kind,
-            tabIndex: widget.arguments.tabIndex,
+          buildRoute(
+            '/add_unit',
+            builder: (_) => AddUnitScreen(
+              kind: kind,
+              tabIndex: widget.tabIndex,
+            ),
+            fullscreenDialog: true,
           ),
         );
         return;
       }
       // ignore: unawaited_futures
-      Navigator.of(context).pushReplacementNamed(
-        '/unit',
-        arguments: UnitRouteArguments(
-          newUnit,
-          member: profile.member,
+      Navigator.of(context).pushReplacement(
+        buildRoute(
+          '/unit',
+          builder: (_) => UnitScreen(
+            newUnit,
+            member: profile.member,
+          ),
+          fullscreenDialog: true,
         ),
       );
     }).catchError((error) {
@@ -484,11 +505,14 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectKind() async {
-    final kind = await Navigator.pushNamed(
+    final kind = await Navigator.push<KindValue>(
       context,
-      '/kinds',
-      arguments: KindsRouteArguments(_kind),
-    ) as KindValue; // workaround for typecast
+      buildRoute(
+        '/kinds',
+        builder: (_) => KindsScreen(_kind),
+        fullscreenDialog: true,
+      ),
+    ); // as KindValue; // workaround for typecast
     if (kind == null) return;
     setState(() {
       _kind = kind;
@@ -521,7 +545,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   void _reloadShowcaseTab(kind) {
     final index =
         kAllKinds.indexWhere((EnumModel element) => element.value == kind);
-    if (index == widget.arguments.tabIndex?.showcase) {
+    if (index == widget.tabIndex?.showcase) {
       HomeShowcase.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeShowcase.poolForReloadTabs.contains(index)) {
       HomeShowcase.poolForReloadTabs.add(index);
@@ -531,26 +555,12 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   void _reloadUnderwayModel() {
     final index = UnderwayValue.values
         .indexWhere((UnderwayValue element) => element == UnderwayValue.give);
-    if (index == widget.arguments.tabIndex?.underway) {
+    if (index == widget.tabIndex?.underway) {
       HomeUnderway.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeUnderway.poolForReloadTabs.contains(index)) {
       HomeUnderway.poolForReloadTabs.add(index);
     }
   }
-}
-
-class AddUnitRouteArguments {
-  AddUnitRouteArguments({this.kind, this.tabIndex});
-
-  final KindValue kind;
-  final AddUnitRouteArgumentsTabIndex tabIndex;
-}
-
-class AddUnitRouteArgumentsTabIndex {
-  AddUnitRouteArgumentsTabIndex({this.showcase = 0, this.underway = 0});
-
-  final int showcase;
-  final int underway;
 }
 
 enum _ImageUploadStatus { progress, error }

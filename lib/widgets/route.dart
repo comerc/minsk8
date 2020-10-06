@@ -1,24 +1,46 @@
-import 'package:minsk8/import.dart';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-PageRoute Function(WidgetBuilder builder) buildInitialRoute(String name) {
-  return (WidgetBuilder builder) {
-    final settings = RouteSettings(
-      name: name,
-      // isInitialRoute: true, // deprecated
-    );
+PageRoute<T> buildRoute<T>(
+  String name, {
+  @required WidgetBuilder builder,
+  bool fullscreenDialog = false,
+  bool maintainState = true,
+  bool isInitialRoute = false,
+}) {
+  final settings = RouteSettings(
+    name: name,
+    // isInitialRoute: isInitialRoute, // deprecated
+  );
+  if (isInitialRoute) {
     return Platform.isIOS
-        // ? CupertinoPageRoute(
-        ? NoAnimationCupertinoPageRoute(
+        ? NoAnimationCupertinoPageRoute<T>(
             builder: builder,
             settings: settings,
+            maintainState: maintainState,
+            fullscreenDialog: fullscreenDialog,
           )
-        // : MaterialPageRoute(
-        : NoAnimationMaterialPageRoute(
+        : NoAnimationMaterialPageRoute<T>(
             builder: builder,
             settings: settings,
+            maintainState: maintainState,
+            fullscreenDialog: fullscreenDialog,
           );
-  };
+  }
+  return Platform.isIOS
+      ? CupertinoPageRoute<T>(
+          builder: builder,
+          settings: settings,
+          maintainState: maintainState,
+          fullscreenDialog: fullscreenDialog,
+        )
+      : MaterialPageRoute<T>(
+          builder: builder,
+          settings: settings,
+          maintainState: maintainState,
+          fullscreenDialog: fullscreenDialog,
+        );
 }
 
 bool _isFirstTransitionDuration = false;

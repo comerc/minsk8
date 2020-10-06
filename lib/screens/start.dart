@@ -44,11 +44,13 @@ class _StartScreenState extends State<StartScreen> {
     // final item =
     //     ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
     // // ignore: unawaited_futures
-    // Navigator.pushNamed(
+    // Navigator.push(
     //   context,
-    //   '/messages',
-    //   arguments: MessagesRouteArguments(
-    //     chat: item,
+    //   buildRoute(
+    //     '/messages',
+    //     builder: (_) => MessagesScreen(
+    //       chat: item,
+    //     ),
     //   ),
     // );
 

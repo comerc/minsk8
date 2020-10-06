@@ -1,13 +1,12 @@
 import 'package:minsk8/import.dart';
 
 class UnitMapScreen extends StatelessWidget {
-  UnitMapScreen(this.arguments);
+  UnitMapScreen(this.unit);
 
-  final UnitMapRouteArguments arguments;
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {
-    final unit = arguments.unit;
     return Scaffold(
       // TODO: добавить аватарку и описание лота
       // TODO: отображать адрес в инфо-боксе
@@ -23,12 +22,6 @@ class UnitMapScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class UnitMapRouteArguments {
-  UnitMapRouteArguments(this.unit);
-
-  final UnitModel unit;
 }
 
 // TODO: выбросить после отказа использования в UnitMapScreen

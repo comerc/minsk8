@@ -5,10 +5,15 @@ import 'package:minsk8/import.dart';
 // TODO: Исследовать ExtendedImage.heroBuilderForSlidingPage
 // TODO: InteractiveViewer
 
-class ZoomScreen extends StatefulWidget {
-  ZoomScreen(this.arguments);
+typedef ZoomWillPopCallback = Future<bool> Function(int index);
 
-  final ZoomRouteArguments arguments;
+class ZoomScreen extends StatefulWidget {
+  ZoomScreen(this.unit, {this.tag, this.index, this.onWillPop});
+
+  final UnitModel unit;
+  final String tag;
+  final int index;
+  final ZoomWillPopCallback onWillPop;
 
   @override
   _ZoomScreenState createState() {
@@ -29,9 +34,9 @@ class _ZoomScreenState extends State<ZoomScreen>
     super.initState();
     _controller = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: this);
-    _currentIndex = widget.arguments.index;
-    final unit = widget.arguments.unit;
-    analytics.setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
+    _currentIndex = widget.index;
+    // final unit = widget.unit;
+    // analytics.setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
   }
 
   @override
@@ -42,8 +47,8 @@ class _ZoomScreenState extends State<ZoomScreen>
 
   @override
   Widget build(BuildContext context) {
-    final unit = widget.arguments.unit;
-    final tag = widget.arguments.tag;
+    final unit = widget.unit;
+    final tag = widget.tag;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Material(
@@ -167,7 +172,7 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 
   Future<bool> _onWillPop() async {
-    return widget.arguments.onWillPop(_currentIndex);
+    return widget.onWillPop(_currentIndex);
   }
 
   // double _initScale({Size imageSize, Size size, double initialScale}) {
@@ -190,24 +195,26 @@ class _ZoomScreenState extends State<ZoomScreen>
   // }
 
   void _jumpToPage({bool isNext}) {
-    final unit = widget.arguments.unit;
-    final tag = widget.arguments.tag;
-    final onWillPop = widget.arguments.onWillPop;
+    final unit = widget.unit;
+    final tag = widget.tag;
+    final onWillPop = widget.onWillPop;
     final lastIndex = unit.images.length - 1;
+    final index = isNext
+        ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
+        : _currentIndex == 0 ? lastIndex : _currentIndex - 1;
     // Navigator.pushAndRemoveUntil(
     Navigator.pushReplacement(
       context,
-      buildInitialRoute('/zoom')(
-        (BuildContext context) => ZoomScreen(
-          ZoomRouteArguments(
-            unit,
-            tag: tag,
-            index: isNext
-                ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
-                : _currentIndex == 0 ? lastIndex : _currentIndex - 1,
-            onWillPop: onWillPop,
-          ),
+      buildRoute(
+        '/zoom?unit_id=${unit.id}&index=[$index]',
+        builder: (_) => ZoomScreen(
+          unit,
+          tag: tag,
+          index: index,
+          onWillPop: onWillPop,
         ),
+        isInitialRoute: true,
+        fullscreenDialog: true,
       ),
     );
   }
@@ -233,13 +240,11 @@ class _ZoomScreenState extends State<ZoomScreen>
   }
 }
 
-typedef WillPopZoomCallback = Future<bool> Function(int index);
+// class ZoomRouteArguments {
+//   ZoomRouteArguments(this.unit, {this.tag, this.index, this.onWillPop});
 
-class ZoomRouteArguments {
-  ZoomRouteArguments(this.unit, {this.tag, this.index, this.onWillPop});
-
-  final UnitModel unit;
-  final String tag;
-  final int index;
-  final WillPopZoomCallback onWillPop;
-}
+//   final UnitModel unit;
+//   final String tag;
+//   final int index;
+//   final WillPopZoomCallback onWillPop;
+// }

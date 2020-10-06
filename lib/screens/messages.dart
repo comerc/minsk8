@@ -1,9 +1,9 @@
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
-  MessagesScreen(this.arguments);
+  MessagesScreen({this.chat});
 
-  final MessagesRouteArguments arguments;
+  final ChatModel chat;
 
   @override
   _MessagesScreenState createState() {
@@ -28,7 +28,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final chat = widget.arguments.chat;
+    final chat = widget.chat;
     final unit = chat.unit;
     final avatar = Avatar(unit.avatarUrl);
 
@@ -147,12 +147,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
           // TODO: отсутствует InkWell - что с этим делать?
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/unit',
-                arguments: UnitRouteArguments(
-                  unit,
-                  member: unit.member,
+                buildRoute(
+                  '/unit',
+                  builder: (_) => UnitScreen(
+                    unit,
+                    member: unit.member,
+                  ),
+                  fullscreenDialog: true,
                 ),
               );
             },
@@ -251,12 +254,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
       ),
     );
   }
-}
-
-class MessagesRouteArguments {
-  MessagesRouteArguments({this.chat});
-
-  final ChatModel chat;
 }
 
 Future<void> _queue = Future.value();

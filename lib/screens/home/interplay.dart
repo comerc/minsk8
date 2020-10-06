@@ -384,11 +384,13 @@ class _ChatListGroupState extends State<_ChatListGroup>
                   child: InkWell(
                     onLongPress: () {}, // чтобы сократить время для splashColor
                     onTap: () {
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        '/messages',
-                        arguments: MessagesRouteArguments(
-                          chat: item,
+                        buildRoute(
+                          '/messages',
+                          builder: (_) => MessagesScreen(
+                            chat: item,
+                          ),
                         ),
                       );
                     },

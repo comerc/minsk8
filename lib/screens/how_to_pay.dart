@@ -204,17 +204,24 @@ class _Menu extends StatelessWidget {
             onTap: () async {
               if (entry.key == '/add_unit') {
                 try {
-                  final kind = await Navigator.pushNamed(
+                  final kind = await Navigator.push<KindValue>(
                     context,
-                    '/kinds',
-                  ) as KindValue; // workaround for typecast
+                    buildRoute(
+                      '/kinds',
+                      builder: (_) => KindsScreen(),
+                      fullscreenDialog: true,
+                    ),
+                  ); // as KindValue; // workaround for typecast
                   if (kind == null) return;
-                  await Navigator.pushNamed(
+                  await Navigator.push(
                     context,
-                    '/add_unit',
-                    arguments: AddUnitRouteArguments(
-                      kind: kind,
-                      tabIndex: AddUnitRouteArgumentsTabIndex(),
+                    buildRoute(
+                      '/add_unit',
+                      builder: (_) => AddUnitScreen(
+                        kind: kind,
+                        tabIndex: AddUnitTabIndex(),
+                      ),
+                      fullscreenDialog: true,
                     ),
                   );
                 } finally {

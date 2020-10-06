@@ -151,13 +151,16 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           setState(() {
             _isBottom = false;
           });
-          Navigator.pushNamed(
+          Navigator.push(
             context,
-            '/unit',
-            arguments: UnitRouteArguments(
-              unit,
-              member: unit.member,
-              isShowcase: true,
+            buildRoute(
+              '/unit',
+              builder: (_) => UnitScreen(
+                unit,
+                member: unit.member,
+                isShowcase: true,
+              ),
+              fullscreenDialog: true,
             ),
           ).then((_) {
             setState(() {

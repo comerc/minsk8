@@ -6,9 +6,15 @@ import 'package:loading_more_list/loading_more_list.dart';
 // TODO: [MVP] не отображается _DistanceButton
 
 class UnitScreen extends StatefulWidget {
-  UnitScreen(this.arguments);
+  UnitScreen(
+    this.unit, {
+    this.member,
+    this.isShowcase = false,
+  });
 
-  final UnitRouteArguments arguments;
+  final UnitModel unit;
+  final MemberModel member;
+  final bool isShowcase;
 
   @override
   _UnitScreenState createState() {
@@ -34,8 +40,8 @@ class _UnitScreenState extends State<UnitScreen> {
   @override
   void initState() {
     super.initState();
-    final unit = widget.arguments.unit;
-    if (widget.arguments.isShowcase) {
+    final unit = widget.unit;
+    if (widget.isShowcase) {
       _showHero = _ShowHero.forShowcase;
     }
     _initOtherUnits();
@@ -43,7 +49,7 @@ class _UnitScreenState extends State<UnitScreen> {
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(unit.location);
     distance.updateCurrentPosition(unit.location);
-    analytics.setCurrentScreen(screenName: '/unit ${unit.id}');
+    analytics.setCurrentScreen(screenName: '/unit?id=${unit.id}');
   }
 
   void _onAfterBuild(Duration timeStamp) {
@@ -56,7 +62,7 @@ class _UnitScreenState extends State<UnitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final unit = widget.arguments.unit;
+    final unit = widget.unit;
     final tag = '${HomeScreen.globalKey.currentState.tagPrefix}-${unit.id}';
     final size = MediaQuery.of(context).size;
     final statusBarHeight = MediaQuery.of(context).padding.top;
@@ -68,7 +74,7 @@ class _UnitScreenState extends State<UnitScreen> {
     final panelSlideLabelWidth = 32.0;
     final separatorWidth = 16.0;
     final otherUnitWidth = (size.width - 4 * separatorWidth) / 3.25;
-    final member = widget.arguments.member;
+    final member = widget.member;
     final child = Stack(
       children: <Widget>[
         SlidingUpPanel(
@@ -160,14 +166,17 @@ class _UnitScreenState extends State<UnitScreen> {
                                 // ]);
                                 // await Future.delayed(Duration(milliseconds: 100));
                                 // ignore: unawaited_futures
-                                Navigator.pushNamed(
+                                Navigator.push(
                                   context,
-                                  '/zoom',
-                                  arguments: ZoomRouteArguments(
-                                    unit,
-                                    tag: tag,
-                                    index: index,
-                                    onWillPop: _onWillPopForZoom,
+                                  buildRoute(
+                                    '/zoom?unit_id=${unit.id}&index=[$index]',
+                                    builder: (_) => ZoomScreen(
+                                      unit,
+                                      tag: tag,
+                                      index: index,
+                                      onWillPop: _onWillPopForZoom,
+                                    ),
+                                    fullscreenDialog: true,
                                   ),
                                 );
                               },
@@ -238,11 +247,12 @@ class _UnitScreenState extends State<UnitScreen> {
                               setState(() {
                                 _isCarouselSlider = false;
                               });
-                              Navigator.pushNamed(
+                              Navigator.push(
                                 context,
-                                '/unit_map',
-                                arguments: UnitMapRouteArguments(
-                                  unit,
+                                buildRoute(
+                                  '/unit_map',
+                                  builder: (_) => UnitMapScreen(unit),
+                                  fullscreenDialog: true,
                                 ),
                               ).then((_) {
                                 setState(() {
@@ -311,17 +321,20 @@ class _UnitScreenState extends State<UnitScreen> {
                                 onLongPress:
                                     () {}, // чтобы сократить время для splashColor
                                 onTap: () {
-                                  Navigator.pushNamedAndRemoveUntil(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
-                                    '/unit',
+                                    buildRoute(
+                                      '/unit',
+                                      builder: (_) => UnitScreen(
+                                        otherUnit,
+                                        member: member,
+                                        isShowcase: true,
+                                      ),
+                                      fullscreenDialog: true,
+                                    ),
                                     (Route route) {
                                       return route.settings.name != '/unit';
                                     },
-                                    arguments: UnitRouteArguments(
-                                      otherUnit,
-                                      member: member,
-                                      isShowcase: true,
-                                    ),
                                   );
                                 },
                                 splashColor: Colors.white.withOpacity(0.4),
@@ -614,8 +627,8 @@ class _UnitScreenState extends State<UnitScreen> {
   }
 
   void _initOtherUnits() {
-    final memberUnits = widget.arguments.member.units;
-    final unit = widget.arguments.unit;
+    final memberUnits = widget.member.units;
+    final unit = widget.unit;
     final result = [...memberUnits];
     result.removeWhere((removeUnit) => removeUnit.id == unit.id);
     _otherUnits = result;
@@ -881,10 +894,13 @@ class _WantDialog extends StatelessWidget {
               size: kButtonIconSize,
             ),
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/unit_map',
-                arguments: UnitMapRouteArguments(unit),
+                buildRoute(
+                  '/unit_map',
+                  builder: (_) => UnitMapScreen(unit),
+                  fullscreenDialog: true,
+                ),
               );
             },
           ),

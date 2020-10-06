@@ -289,9 +289,6 @@ class App extends StatelessWidget {
         '/ledger': (_) => LedgerScreen(),
         '/make_it_together': (_) =>
             ContentScreen('make_it_together.md', title: 'Сделаем это вместе!'),
-        '/messages': (BuildContext context) => MessagesScreen(
-            ModalRoute.of(context).settings.arguments
-                as MessagesRouteArguments),
         '/search': (_) => SearchScreen(),
         '/start': (_) => StartScreen(),
         '/useful_tips': (_) =>
@@ -299,31 +296,15 @@ class App extends StatelessWidget {
       },
       onGenerateRoute: (RouteSettings settings) {
         final fullScreenDialogRoutes = <String, WidgetBuilder>{
-          '/add_unit': (BuildContext context) => AddUnitScreen(
-              ModalRoute.of(context).settings.arguments
-                  as AddUnitRouteArguments),
-          '/edit_unit': (BuildContext context) => EditUnitScreen(
-              ModalRoute.of(context).settings.arguments
-                  as EditUnitRouteArguments),
           '/feedback': (_) => FeedbackScreen(),
           '/how_to_pay': (_) => HowToPayScreen(),
           '/invite': (_) => InviteScreen(),
-          '/kinds': (BuildContext context) => KindsScreen(
-              ModalRoute.of(context).settings.arguments as KindsRouteArguments),
-          // '/login': (_) => LoginScreen(),
           '/my_unit_map': (_) => MyUnitMapScreen(),
           '/payment': (_) => PaymentScreen(),
           '/settings': (_) => SettingsScreen(),
           '/showcase_map': (_) => ShowcaseMapScreen(),
           '/sign_up': (_) => SignUpScreen(),
           '/start_map': (_) => StartMapScreen(),
-          '/unit': (BuildContext context) => UnitScreen(
-              ModalRoute.of(context).settings.arguments as UnitRouteArguments),
-          '/unit_map': (BuildContext context) => UnitMapScreen(
-              ModalRoute.of(context).settings.arguments
-                  as UnitMapRouteArguments),
-          '/zoom': (BuildContext context) => ZoomScreen(
-              ModalRoute.of(context).settings.arguments as ZoomRouteArguments),
         };
         if (fullScreenDialogRoutes.containsKey(settings.name)) {
           final widgetBuilder = fullScreenDialogRoutes[settings.name];
@@ -796,7 +777,6 @@ class MainDrawer extends StatelessWidget {
     {
       'title': 'Custom Dialog',
       'routeName': '/_custom_dialog',
-      'arguments': CustomDialogScreen(),
     },
     {
       'title': 'Image Capture',
@@ -821,16 +801,16 @@ class MainDrawer extends StatelessWidget {
       'title': 'About',
       'routeName': '/about',
     },
-    {
-      'title': 'Add Unit',
-      'routeName': '/add_unit',
-      'arguments': AddUnitRouteArguments(kind: KindValue.technics),
-    },
-    {
-      'title': 'Edit Unit',
-      'routeName': '/edit_unit',
-      'arguments': EditUnitRouteArguments(0),
-    },
+    // {
+    //   'title': 'Add Unit',
+    //   'routeName': '/add_unit',
+    //   'arguments': AddUnitRouteArguments(kind: KindValue.technics),
+    // },
+    // {
+    //   'title': 'Edit Unit',
+    //   'routeName': '/edit_unit',
+    //   'arguments': EditUnitRouteArguments(0),
+    // },
     {
       'title': 'FAQ',
       'routeName': '/faq',
@@ -839,62 +819,62 @@ class MainDrawer extends StatelessWidget {
       'title': 'Forgot Password',
       'routeName': '/forgot_password',
     },
-    {
-      'title': 'Unit',
-      'routeName': '/unit',
-      // ignore: top_level_function_literal_block
-      'arguments': (BuildContext context) async {
-        final profile = Provider.of<ProfileModel>(context, listen: false);
-        final options = QueryOptions(
-          documentNode: Queries.getUnit,
-          variables: {'id': profile.member.units[0].id},
-          fetchPolicy: FetchPolicy.noCache,
-        );
-        // final client = GraphQLProvider.of(context).value;
-        final result =
-            await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
-        if (result.hasException) {
-          throw result.exception;
-        }
-        final unit =
-            UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
-        return UnitRouteArguments(
-          unit,
-          member: unit.member,
-        );
-      },
-    },
-    {
-      'title': 'Select Kind(s)',
-      'routeName': '/kinds',
-      'arguments': KindsRouteArguments(KindValue.pets),
-    },
+    // {
+    //   'title': 'Unit',
+    //   'routeName': '/unit',
+    //   // ignore: top_level_function_literal_block
+    //   'arguments': (BuildContext context) async {
+    //     final profile = Provider.of<ProfileModel>(context, listen: false);
+    //     final options = QueryOptions(
+    //       documentNode: Queries.getUnit,
+    //       variables: {'id': profile.member.units[0].id},
+    //       fetchPolicy: FetchPolicy.noCache,
+    //     );
+    //     // final client = GraphQLProvider.of(context).value;
+    //     final result =
+    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    //     if (result.hasException) {
+    //       throw result.exception;
+    //     }
+    //     final unit =
+    //         UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
+    //     return UnitRouteArguments(
+    //       unit,
+    //       member: unit.member,
+    //     );
+    //   },
+    // },
+    // {
+    //   'title': 'Select Kind(s)',
+    //   'routeName': '/kinds',
+    //   'arguments': KindsRouteArguments(KindValue.pets),
+    // },
     {
       'title': 'Ledger',
       'routeName': '/ledger',
     },
-    {
-      'title': 'Messages',
-      'routeName': '/messages',
-      // ignore: top_level_function_literal_block
-      'arguments': (BuildContext context) async {
-        final options = QueryOptions(
-          documentNode: Queries.getChats,
-          fetchPolicy: FetchPolicy.noCache,
-        );
-        // final client = GraphQLProvider.of(context).value;
-        final result =
-            await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
-        if (result.hasException) {
-          throw result.exception;
-        }
-        final item =
-            ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
-        return MessagesRouteArguments(
-          chat: item,
-        );
-      },
-    },
+    // {
+    //   'title': 'Messages',
+    //   'routeName': '/messages',
+    //   // ignore: top_level_function_literal_block
+    //   'arguments': (BuildContext context) async {
+    //     final options = QueryOptions(
+    //       documentNode: Queries.getChats,
+    //       fetchPolicy: FetchPolicy.noCache,
+    //     );
+    //     // final client = GraphQLProvider.of(context).value;
+    //     final result =
+    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    //     if (result.hasException) {
+    //       throw result.exception;
+    //     }
+    //     final item =
+    //         ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
+    //     return MessagesRouteArguments(
+    //       chat: item,
+    //     );
+    //   },
+    // },
     {
       'title': 'Login',
       'routeName': '/login',

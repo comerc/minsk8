@@ -128,7 +128,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
                     var text = textData as String;
                     <AccountValue, Function>{
                       AccountValue.start: () {
-                        action = _getBalanceAction;
+                        action = _getBalanceAction('start');
                         avatar = CircleAvatar(
                           child: Logo(size: kDefaultIconSize),
                           backgroundColor: Colors.white,
@@ -138,7 +138,8 @@ class _LedgerScreenState extends State<LedgerScreen> {
                         });
                       },
                       AccountValue.invite: () {
-                        action = _getBalanceAction;
+                        action = _getBalanceAction(
+                            'invite:${payment.invitedMember.id}');
                         avatar = Avatar(payment.invitedMember.avatarUrl);
                         text = interpolate(text, params: {
                           'value': getPluralKarma(payment.value),
@@ -255,30 +256,37 @@ class _LedgerScreenState extends State<LedgerScreen> {
 
   void Function() _getUnitAction(UnitModel unit) {
     return () {
-      Navigator.pushNamed(
+      Navigator.push(
         context,
-        '/unit',
-        arguments: UnitRouteArguments(
-          unit,
-          member: unit.member,
+        buildRoute(
+          '/unit',
+          builder: (_) => UnitScreen(
+            unit,
+            member: unit.member,
+          ),
+          fullscreenDialog: true,
         ),
       );
     };
   }
 
-  void _getBalanceAction() {
-    showDialog(
-      context: context,
-      child: _BalanceDialog(),
-    ).then((value) {
-      if (value == null) return;
-      Navigator.pushReplacement(
-        context,
-        buildInitialRoute('/ledger')(
-          (_) => LedgerScreen(),
-        ),
-      );
-    });
+  void Function() _getBalanceAction(String reason) {
+    return () {
+      showDialog(
+        context: context,
+        child: _BalanceDialog(),
+      ).then((value) {
+        if (value == null) return;
+        Navigator.pushReplacement(
+          context,
+          buildRoute(
+            '/ledger?reason=$reason',
+            builder: (_) => LedgerScreen(),
+            isInitialRoute: true,
+          ),
+        );
+      });
+    };
   }
 }
 

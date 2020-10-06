@@ -129,7 +129,7 @@ export 'widgets/map/info.dart';
 export 'widgets/map/map.dart';
 export 'widgets/map/ready_button.dart';
 export 'widgets/modal_bottom_sheet.dart';
-export 'widgets/no_animation_page_route.dart';
+export 'widgets/route.dart';
 export 'widgets/places_app_bar.dart';
 export 'widgets/progress_indicator.dart';
 export 'widgets/ready_button.dart';
