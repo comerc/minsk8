@@ -216,7 +216,14 @@ class _AppBar extends StatelessWidget {
           icon: Icon(FontAwesomeIcons.slidersH),
           iconSize: kButtonIconSize,
           onPressed: () {
-            Navigator.of(context).pushNamed('/showcase_map');
+            Navigator.push(
+              context,
+              buildRoute(
+                '/showcase_map',
+                builder: (_) => ShowcaseMapScreen(),
+                fullscreenDialog: true,
+              ),
+            );
           },
         ),
       ],

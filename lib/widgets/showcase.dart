@@ -506,9 +506,14 @@ class InfoDialog extends StatelessWidget {
               color: Colors.white,
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context)
-                    ..pop()
-                    ..pushNamed('/faq');
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    buildRoute(
+                      '/faq',
+                      builder: (_) => ContentScreen(),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(

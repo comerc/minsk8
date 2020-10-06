@@ -25,11 +25,11 @@ class _HomeProfileState extends State<HomeProfile> {
 //   HomeProfile({this.version, this.hasUpdate});
 
   final _menu = {
-    '/ledger': 'Движение Кармы',
-    '/feedback': 'Обратная связь',
-    '/faq': 'Вопросы и ответы',
-    '/useful_tips': 'Полезные советы',
-    '/about': 'О проекте',
+    'ledger': 'Движение Кармы',
+    'feedback': 'Обратная связь',
+    'faq': 'Вопросы и ответы',
+    'useful_tips': 'Полезные советы',
+    'about': 'О проекте',
   }.entries.toList();
 
   @override
@@ -104,7 +104,14 @@ class _HomeProfileState extends State<HomeProfile> {
           child: Text('ПОВЫСИТЬ КАРМУ'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pushNamed('/how_to_pay');
+            Navigator.push(
+              context,
+              buildRoute(
+                '/how_to_pay',
+                builder: (_) => HowToPayScreen(),
+                fullscreenDialog: true,
+              ),
+            );
           },
           color: Colors.green,
           textColor: Colors.white,
@@ -134,7 +141,30 @@ class _HomeProfileState extends State<HomeProfile> {
                 ),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onTap: () {
-                  Navigator.of(context).pushNamed(entry.key);
+                  final routes = {
+                    'ledger': () => buildRoute(
+                          '/ledger',
+                          builder: (_) => LedgerScreen(),
+                        ),
+                    'feedback': () => buildRoute(
+                          '/feedback',
+                          builder: (_) => FeedbackScreen(),
+                          fullscreenDialog: true,
+                        ),
+                    'faq': () => buildRoute(
+                          '/faq',
+                          builder: (_) => ContentScreen(),
+                        ),
+                    'useful_tips': () => buildRoute(
+                          '/useful_tips',
+                          builder: (_) => ContentScreen(),
+                        ),
+                    'about': () => buildRoute(
+                          '/about',
+                          builder: (_) => ContentScreen(),
+                        ),
+                  };
+                  Navigator.push(context, routes[entry.key]());
                 },
               ),
             );

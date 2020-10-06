@@ -348,7 +348,14 @@ class _BalanceDialog extends StatelessWidget {
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed('/how_to_pay');
+            Navigator.push(
+              context,
+              buildRoute(
+                '/how_to_pay',
+                builder: (_) => HowToPayScreen(),
+                fullscreenDialog: true,
+              ),
+            );
           },
           color: Colors.green,
           textColor: Colors.white,

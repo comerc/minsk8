@@ -24,7 +24,14 @@ class _StartScreenState extends State<StartScreen> {
       return;
     }
     // TODO: WelcomeScreen
-    final value = await Navigator.of(context).pushNamed('/start_map') as bool;
+    final value = await Navigator.push<bool>(
+      context,
+      buildRoute(
+        '/start_map',
+        builder: (_) => StartMapScreen(),
+        fullscreenDialog: true,
+      ),
+    );
     if (value ?? false) {
       appState['StartMap.isInitialized'] = true;
     }

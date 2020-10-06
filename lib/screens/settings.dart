@@ -68,9 +68,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _selectLocation() {
-    Navigator.pushNamed(
+    Navigator.push(
       context,
-      '/showcase_map',
+      buildRoute(
+        '/showcase_map',
+        builder: (_) => ShowcaseMapScreen(),
+        fullscreenDialog: true,
+      ),
     ).then((value) {
       if (value == null) return;
       setState(() {});

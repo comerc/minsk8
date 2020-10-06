@@ -322,7 +322,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         return;
       }
       // ignore: unawaited_futures
-      Navigator.of(context).pushReplacement(
+      Navigator.pushReplacement(
+        context,
         buildRoute(
           '/unit',
           builder: (_) => UnitScreen(
@@ -520,9 +521,13 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectLocation() {
-    Navigator.pushNamed(
+    Navigator.push(
       context,
-      '/my_unit_map',
+      buildRoute(
+        '/my_unit_map',
+        builder: (_) => MyUnitMapScreen(),
+        fullscreenDialog: true,
+      ),
     ).then((value) {
       if (value == null) return;
       setState(() {});

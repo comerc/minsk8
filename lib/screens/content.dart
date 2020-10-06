@@ -6,10 +6,7 @@ import 'package:minsk8/import.dart';
 // TODO: отображать оба формата: .html и .md
 
 class ContentScreen extends StatefulWidget {
-  ContentScreen(this.filename, {this.title});
-
-  final String filename;
-  final String title;
+  ContentScreen();
 
   @override
   _ContentScreenState createState() {
@@ -18,56 +15,74 @@ class ContentScreen extends StatefulWidget {
 }
 
 class _ContentScreenState extends State<ContentScreen> {
-  var _offstage = true;
-  String _content = '';
+  bool _offstage = true;
+  String _content;
+  String _title;
 
   @override
   void initState() {
     super.initState();
-    _loadContent();
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ExtendedAppBar(
-        title: Text(widget.title),
+        title: Text(_title ?? ''),
       ),
-      body: SafeArea(
-        // child: GestureDetector(
-        //   onLongPress: () {}, // TODO: костыль для обхода бага
-        //   child: WebView(
-        //     initialUrl: 'about:blank',
-        //     onWebViewCreated: (WebViewController webViewController) async {
-        //       await webViewController.loadUrl(
-        //         Uri.dataFromString(
-        //           _content,
-        //           mimeType: 'text/html',
-        //           encoding: Encoding.getByName('utf-8'),
-        //         ).toString(),
-        //       );
-        //     },
-        //   ),
-        // ),
-        // child: Markdown(
-        //   selectable: true,
-        //   styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
-        //   data: _content,
-        // ),
-        child: Offstage(
-          offstage: _offstage,
-          child: _MarkdownWrapper(
-            content: _content,
-            onAfterBuild: _handleAfterBuild,
-          ),
-        ),
-      ),
+      body: _content == null
+          ? Center(
+              child: Text('Loading...'),
+            )
+          : SafeArea(
+              // child: GestureDetector(
+              //   onLongPress: () {}, // TODO: костыль для обхода бага
+              //   child: WebView(
+              //     initialUrl: 'about:blank',
+              //     onWebViewCreated: (WebViewController webViewController) async {
+              //       await webViewController.loadUrl(
+              //         Uri.dataFromString(
+              //           _content,
+              //           mimeType: 'text/html',
+              //           encoding: Encoding.getByName('utf-8'),
+              //         ).toString(),
+              //       );
+              //     },
+              //   ),
+              // ),
+              // child: Markdown(
+              //   selectable: true,
+              //   styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
+              //   data: _content,
+              // ),
+              child: Offstage(
+                offstage: _offstage,
+                child: _MarkdownWrapper(
+                  content: _content,
+                  onAfterBuild: _handleAfterBuild,
+                ),
+              ),
+            ),
     );
   }
 
-  void _loadContent() async {
+  void _onAfterBuild(Duration timeStamp) {
+    final modalRoute = ModalRoute.of(context);
+    final filename = modalRoute.settings.name.substring(1) + '.md';
+    _title = {
+      'about.md': 'О проекте',
+      'faq.md': 'Вопросы и ответы',
+      'how_it_works.md': 'Как это работает?',
+      'make_it_together.md': 'Сделаем это вместе!',
+      'useful_tips.md': 'Полезные советы',
+    }[filename];
+    _loadContent(filename);
+  }
+
+  void _loadContent(String filename) async {
     final bundle = DefaultAssetBundle.of(context);
-    final content = await bundle.loadString('assets/${widget.filename}');
+    final content = await bundle.loadString('assets/${filename}');
     if (mounted) {
       setState(() {
         _content = content;

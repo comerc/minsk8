@@ -86,7 +86,13 @@ class _PaymentScreenState extends State<PaymentScreen>
                   ),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/make_it_together');
+                    Navigator.push(
+                      context,
+                      buildRoute(
+                        '/make_it_together',
+                        builder: (_) => ContentScreen(),
+                      ),
+                    );
                   },
                   textColor: Colors.black.withOpacity(0.6),
                 ),

@@ -264,46 +264,12 @@ class App extends StatelessWidget {
         '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
         '/_notifiaction': (_) => NotificationScreen(),
         // ****
-        '/about': (_) => ContentScreen('about.md', title: 'О проекте'),
-        '/faq': (_) => ContentScreen('faq.md', title: 'Вопросы и ответы'),
-        '/forgot_password': (_) => ForgotPasswordScreen(),
-        '/how_it_works': (_) =>
-            ContentScreen('how_it_works.md', title: 'Как это работает?'),
-        '/ledger': (_) => LedgerScreen(),
-        '/make_it_together': (_) =>
-            ContentScreen('make_it_together.md', title: 'Сделаем это вместе!'),
-        '/search': (_) => SearchScreen(),
         '/start': (_) => StartScreen(),
-        '/useful_tips': (_) =>
-            ContentScreen('useful_tips.md', title: 'Полезные советы'),
       },
-      onGenerateRoute: (RouteSettings settings) {
-        final fullScreenDialogRoutes = <String, WidgetBuilder>{
-          '/feedback': (_) => FeedbackScreen(),
-          '/how_to_pay': (_) => HowToPayScreen(),
-          '/invite': (_) => InviteScreen(),
-          '/my_unit_map': (_) => MyUnitMapScreen(),
-          '/payment': (_) => PaymentScreen(),
-          '/settings': (_) => SettingsScreen(),
-          '/showcase_map': (_) => ShowcaseMapScreen(),
-          '/sign_up': (_) => SignUpScreen(),
-          '/start_map': (_) => StartMapScreen(),
-        };
-        if (fullScreenDialogRoutes.containsKey(settings.name)) {
-          final widgetBuilder = fullScreenDialogRoutes[settings.name];
-          return Platform.isIOS
-              ? CupertinoPageRoute(
-                  fullscreenDialog: true,
-                  settings: settings,
-                  builder: (BuildContext context) => widgetBuilder(context))
-              : MaterialPageRoute(
-                  fullscreenDialog: true,
-                  settings: settings,
-                  builder: (BuildContext context) => widgetBuilder(context));
-        }
-        // print('onGenerateRoute: $settings');
-        return null;
-      },
+      // onGenerateRoute: (RouteSettings settings) {
+      //   print('onGenerateRoute: $settings');
+      //   return null;
+      // },
       // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),
@@ -780,10 +746,10 @@ class MainDrawer extends StatelessWidget {
       'routeName': '/_notification',
     },
     // ****
-    {
-      'title': 'About',
-      'routeName': '/about',
-    },
+    // {
+    //   'title': 'About',
+    //   'routeName': '/about',
+    // },
     // {
     //   'title': 'Add Unit',
     //   'routeName': '/add_unit',
@@ -794,14 +760,14 @@ class MainDrawer extends StatelessWidget {
     //   'routeName': '/edit_unit',
     //   'arguments': EditUnitRouteArguments(0),
     // },
-    {
-      'title': 'FAQ',
-      'routeName': '/faq',
-    },
-    {
-      'title': 'Forgot Password',
-      'routeName': '/forgot_password',
-    },
+    // {
+    //   'title': 'FAQ',
+    //   'routeName': '/faq',
+    // },
+    // {
+    //   'title': 'Forgot Password',
+    //   'routeName': '/forgot_password',
+    // },
     // {
     //   'title': 'Unit',
     //   'routeName': '/unit',
@@ -832,10 +798,10 @@ class MainDrawer extends StatelessWidget {
     //   'routeName': '/kinds',
     //   'arguments': KindsRouteArguments(KindValue.pets),
     // },
-    {
-      'title': 'Ledger',
-      'routeName': '/ledger',
-    },
+    // {
+    //   'title': 'Ledger',
+    //   'routeName': '/ledger',
+    // },
     // {
     //   'title': 'Messages',
     //   'routeName': '/messages',
@@ -858,46 +824,46 @@ class MainDrawer extends StatelessWidget {
     //     );
     //   },
     // },
-    {
-      'title': 'Login',
-      'routeName': '/login',
-    },
-    {
-      'title': 'My Units',
-      'routeName': '/my_units',
-    },
-    {
-      'title': 'Pay',
-      'routeName': '/pay',
-    },
-    {
-      'title': 'Search',
-      'routeName': '/search',
-    },
-    {
-      'title': 'Settings',
-      'routeName': '/settings',
-    },
-    {
-      'title': 'Showcase Map',
-      'routeName': '/showcase_map',
-    },
-    {
-      'title': 'Sign Up',
-      'routeName': '/sign_up',
-    },
-    {
-      'title': 'Start Map',
-      'routeName': '/start_map',
-    },
-    {
-      'title': 'Useful Tips',
-      'routeName': '/useful_tips',
-    },
-    {
-      'title': 'Wishes',
-      'routeName': '/wishes',
-    },
+    // {
+    //   'title': 'Login',
+    //   'routeName': '/login',
+    // },
+    // {
+    //   'title': 'My Units',
+    //   'routeName': '/my_units',
+    // },
+    // {
+    //   'title': 'Pay',
+    //   'routeName': '/pay',
+    // },
+    // {
+    //   'title': 'Search',
+    //   'routeName': '/search',
+    // },
+    // {
+    //   'title': 'Settings',
+    //   'routeName': '/settings',
+    // },
+    // {
+    //   'title': 'Showcase Map',
+    //   'routeName': '/showcase_map',
+    // },
+    // {
+    //   'title': 'Sign Up',
+    //   'routeName': '/sign_up',
+    // },
+    // {
+    //   'title': 'Start Map',
+    //   'routeName': '/start_map',
+    // },
+    // {
+    //   'title': 'Useful Tips',
+    //   'routeName': '/useful_tips',
+    // },
+    // {
+    //   'title': 'Wishes',
+    //   'routeName': '/wishes',
+    // },
   ];
 
   final String currentRouteName;

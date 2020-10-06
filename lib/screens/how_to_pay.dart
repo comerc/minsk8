@@ -28,7 +28,13 @@ class HowToPayScreen extends StatelessWidget {
             ),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
-              Navigator.of(context).pushNamed('/how_it_works');
+              Navigator.push(
+                context,
+                buildRoute(
+                  '/how_it_works',
+                  builder: (_) => ContentScreen(),
+                ),
+              );
             },
           ),
         ],
@@ -161,9 +167,9 @@ class _BigLogo extends StatelessWidget {
 
 class _Menu extends StatelessWidget {
   final _menu = {
-    '/add_unit': ['ОТДАЙТЕ ЛИШНИЕ ВЕЩИ', 'Получите за них Карму от забирающих'],
-    '/invite': ['ПРИГЛАСИТЕ ДРУЗЕЙ', 'Получите Карму за новых участников'],
-    '/payment': ['ПОЛУЧИТЕ КАРМУ БЫСТРО', 'Поддержите развитие проекта'],
+    'add_unit': ['ОТДАЙТЕ ЛИШНИЕ ВЕЩИ', 'Получите за них Карму от забирающих'],
+    'invite': ['ПРИГЛАСИТЕ ДРУЗЕЙ', 'Получите Карму за новых участников'],
+    'payment': ['ПОЛУЧИТЕ КАРМУ БЫСТРО', 'Поддержите развитие проекта'],
   }.entries.toList();
 
   @override
@@ -202,7 +208,7 @@ class _Menu extends StatelessWidget {
             ),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onTap: () async {
-              if (entry.key == '/add_unit') {
+              if (entry.key == 'add_unit') {
                 try {
                   final kind = await Navigator.push<KindValue>(
                     context,
@@ -229,8 +235,20 @@ class _Menu extends StatelessWidget {
                 }
                 return;
               }
+              final routes = {
+                'invite': () => buildRoute(
+                      '/invite',
+                      builder: (_) => InviteScreen(),
+                      fullscreenDialog: true,
+                    ),
+                'payment': () => buildRoute(
+                      '/payment',
+                      builder: (_) => PaymentScreen(),
+                      fullscreenDialog: true,
+                    ),
+              };
               // ignore: unawaited_futures
-              Navigator.of(context).pushReplacementNamed(entry.key);
+              Navigator.pushReplacement(context, routes[entry.key]());
             },
           ),
         );
