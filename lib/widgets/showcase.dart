@@ -770,7 +770,7 @@ class _WishButtonState extends State<WishButton> {
   }
 }
 
-Future<void> _queue = Future.value();
+Future<void> _queueUpdateWish = Future.value();
 
 void _optimisticUpdateWish(MyWishesModel myWishes,
     {UnitModel unit, bool value}) {
@@ -787,7 +787,7 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
     },
     fetchPolicy: FetchPolicy.noCache,
   );
-  _queue = _queue.then((_) {
+  _queueUpdateWish = _queueUpdateWish.then((_) {
     return client
         .mutate(options)
         .timeout(kGraphQLMutationTimeoutDuration)

@@ -256,7 +256,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 }
 
-Future<void> _queue = Future.value();
+Future<void> _queueUpdateBlock = Future.value();
 
 void _optimisticUpdateBlock(MyBlocksModel myBlocks,
     {MemberModel member, bool value}) {
@@ -273,7 +273,7 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
     },
     fetchPolicy: FetchPolicy.noCache,
   );
-  _queue = _queue.then((_) {
+  _queueUpdateBlock = _queueUpdateBlock.then((_) {
     return client
         .mutate(options)
         .timeout(kGraphQLMutationTimeoutDuration)
