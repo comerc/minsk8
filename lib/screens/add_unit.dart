@@ -580,7 +580,7 @@ class _ImageData {
   bool isCanceled = false;
 }
 
-typedef AddImageButtonOnTap = void Function(int index);
+typedef _AddImageButtonOnTap = void Function(int index);
 
 class _AddImageButton extends StatelessWidget {
   _AddImageButton({
@@ -594,7 +594,7 @@ class _AddImageButton extends StatelessWidget {
 
   final int index;
   final bool hasIcon;
-  final AddImageButtonOnTap onTap;
+  final _AddImageButtonOnTap onTap;
   final Uint8List bytes;
   final _ImageUploadStatus uploadStatus;
 
