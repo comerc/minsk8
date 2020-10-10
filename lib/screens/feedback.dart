@@ -3,6 +3,14 @@ import 'package:minsk8/import.dart';
 // TODO: [MVP] подключить rate_my_app
 
 class FeedbackScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/feedback',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   final _market = Platform.isIOS ? 'Apple Store' : 'Google Play';
 
   @override

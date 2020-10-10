@@ -6,6 +6,14 @@ import 'package:loading_more_list/loading_more_list.dart';
 // TODO: [MVP] не отображается _DistanceButton
 
 class UnitScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/unit?id=${unit.id}',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   UnitScreen(
     this.unit, {
     this.member,
@@ -49,7 +57,7 @@ class _UnitScreenState extends State<UnitScreen> {
     final distance = Provider.of<DistanceModel>(context, listen: false);
     distance.updateValue(unit.location);
     distance.updateCurrentPosition(unit.location);
-    analytics.setCurrentScreen(screenName: '/unit?id=${unit.id}');
+    // analytics.setCurrentScreen(screenName: '/unit?id=${unit.id}');
   }
 
   void _onAfterBuild(Duration timeStamp) {
@@ -168,16 +176,12 @@ class _UnitScreenState extends State<UnitScreen> {
                                 // ignore: unawaited_futures
                                 Navigator.push(
                                   context,
-                                  buildRoute(
-                                    '/zoom?unit_id=${unit.id}&index=[$index]',
-                                    builder: (_) => ZoomScreen(
-                                      unit,
-                                      tag: tag,
-                                      index: index,
-                                      onWillPop: _onWillPopForZoom,
-                                    ),
-                                    fullscreenDialog: true,
-                                  ),
+                                  ZoomScreen(
+                                    unit,
+                                    tag: tag,
+                                    index: index,
+                                    onWillPop: _onWillPopForZoom,
+                                  ).route(),
                                 );
                               },
                               splashColor: Colors.white.withOpacity(0.4),
@@ -249,11 +253,7 @@ class _UnitScreenState extends State<UnitScreen> {
                               });
                               Navigator.push(
                                 context,
-                                buildRoute(
-                                  '/unit_map',
-                                  builder: (_) => UnitMapScreen(unit),
-                                  fullscreenDialog: true,
-                                ),
+                                UnitMapScreen(unit).route(),
                               ).then((_) {
                                 setState(() {
                                   _currentIndex = savedIndex;
@@ -323,15 +323,11 @@ class _UnitScreenState extends State<UnitScreen> {
                                 onTap: () {
                                   Navigator.pushAndRemoveUntil(
                                     context,
-                                    buildRoute(
-                                      '/unit',
-                                      builder: (_) => UnitScreen(
-                                        otherUnit,
-                                        member: member,
-                                        isShowcase: true,
-                                      ),
-                                      fullscreenDialog: true,
-                                    ),
+                                    UnitScreen(
+                                      otherUnit,
+                                      member: member,
+                                      isShowcase: true,
+                                    ).route(),
                                     (Route route) {
                                       return route.settings.name != '/unit';
                                     },
@@ -896,11 +892,7 @@ class _WantDialog extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                buildRoute(
-                  '/unit_map',
-                  builder: (_) => UnitMapScreen(unit),
-                  fullscreenDialog: true,
-                ),
+                UnitMapScreen(unit).route(),
               );
             },
           ),

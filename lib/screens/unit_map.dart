@@ -1,6 +1,14 @@
 import 'package:minsk8/import.dart';
 
 class UnitMapScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/unit_map',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   UnitMapScreen(this.unit);
 
   final UnitModel unit;

@@ -1,6 +1,13 @@
 import 'package:minsk8/import.dart';
 
 class SearchScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/search',
+      builder: (_) => this,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

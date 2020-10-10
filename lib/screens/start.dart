@@ -26,11 +26,7 @@ class _StartScreenState extends State<StartScreen> {
     // TODO: WelcomeScreen
     final value = await Navigator.push<bool>(
       context,
-      buildRoute(
-        '/start_map',
-        builder: (_) => StartMapScreen(),
-        fullscreenDialog: true,
-      ),
+      StartMapScreen().route(),
     );
     if (value ?? false) {
       appState['StartMap.isInitialized'] = true;
@@ -53,12 +49,9 @@ class _StartScreenState extends State<StartScreen> {
     // // ignore: unawaited_futures
     // Navigator.push(
     //   context,
-    //   buildRoute(
-    //     '/messages',
-    //     builder: (_) => MessagesScreen(
-    //       chat: item,
-    //     ),
-    //   ),
+    //   MessagesScreen(
+    //     chat: item,
+    //   ).route(),
     // );
 
     await initStartMap();

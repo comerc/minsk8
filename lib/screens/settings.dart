@@ -3,6 +3,14 @@ import 'package:minsk8/import.dart';
 // TODO: теги https://github.com/Dn-a/flutter_tags
 
 class SettingsScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/settings',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   _SettingsScreenState createState() {
     return _SettingsScreenState();
@@ -70,11 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _selectLocation() {
     Navigator.push(
       context,
-      buildRoute(
-        '/showcase_map',
-        builder: (_) => ShowcaseMapScreen(),
-        fullscreenDialog: true,
-      ),
+      ShowcaseMapScreen().route(),
     ).then((value) {
       if (value == null) return;
       setState(() {});

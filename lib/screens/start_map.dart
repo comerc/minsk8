@@ -1,6 +1,14 @@
 import 'package:minsk8/import.dart';
 
 class StartMapScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/start_map',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   _StartMapScreenState createState() {
     return _StartMapScreenState();

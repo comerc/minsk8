@@ -1,6 +1,14 @@
 import 'package:minsk8/import.dart';
 
 class HowToPayScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/how_to_pay',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final child = Container(
@@ -30,10 +38,7 @@ class HowToPayScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                buildRoute(
-                  '/how_it_works',
-                  builder: (_) => ContentScreen(),
-                ),
+                ContentScreen('how_it_works.md').route(),
               );
             },
           ),
@@ -212,23 +217,15 @@ class _Menu extends StatelessWidget {
                 try {
                   final kind = await Navigator.push<KindValue>(
                     context,
-                    buildRoute(
-                      '/kinds',
-                      builder: (_) => KindsScreen(),
-                      fullscreenDialog: true,
-                    ),
+                    KindsScreen().route(),
                   ); // as KindValue; // workaround for typecast
                   if (kind == null) return;
                   await Navigator.push(
                     context,
-                    buildRoute(
-                      '/add_unit',
-                      builder: (_) => AddUnitScreen(
-                        kind: kind,
-                        tabIndex: AddUnitTabIndex(),
-                      ),
-                      fullscreenDialog: true,
-                    ),
+                    AddUnitScreen(
+                      kind: kind,
+                      tabIndex: AddUnitTabIndex(),
+                    ).route(),
                   );
                 } finally {
                   Navigator.of(context).pop();
@@ -236,16 +233,8 @@ class _Menu extends StatelessWidget {
                 return;
               }
               final routes = {
-                'invite': () => buildRoute(
-                      '/invite',
-                      builder: (_) => InviteScreen(),
-                      fullscreenDialog: true,
-                    ),
-                'payment': () => buildRoute(
-                      '/payment',
-                      builder: (_) => PaymentScreen(),
-                      fullscreenDialog: true,
-                    ),
+                'invite': () => InviteScreen().route(),
+                'payment': () => PaymentScreen().route(),
               };
               // ignore: unawaited_futures
               Navigator.pushReplacement(context, routes[entry.key]());

@@ -1,6 +1,14 @@
 import 'package:minsk8/import.dart';
 
 class MyUnitMapScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/my_unit_map',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   _MyUnitMapScreenState createState() {
     return _MyUnitMapScreenState();

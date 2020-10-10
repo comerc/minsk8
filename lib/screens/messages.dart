@@ -1,6 +1,13 @@
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/messages',
+      builder: (_) => this,
+    );
+  }
+
   MessagesScreen({this.chat});
 
   final ChatModel chat;
@@ -97,7 +104,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       ),
                       Divider(),
                       SizedBox(height: 8),
-                      Content(filename: 'make_an_appointment.md'),
+                      Content('make_an_appointment.md'),
                     ],
                   ),
                 ),
@@ -149,14 +156,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                buildRoute(
-                  '/unit',
-                  builder: (_) => UnitScreen(
-                    unit,
-                    member: unit.member,
-                  ),
-                  fullscreenDialog: true,
-                ),
+                UnitScreen(
+                  unit,
+                  member: unit.member,
+                ).route(),
               );
             },
             child: Row(

@@ -109,15 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       Navigator.pushReplacement(
         context,
-        buildRoute(
-          '/unit',
-          builder: (_) => UnitScreen(
-            arguments.unit,
-            member: arguments.member,
-            isShowcase: arguments.isShowcase,
-          ),
-          fullscreenDialog: true,
-        ),
+        UnitScreen(
+          arguments.unit,
+          member: arguments.member,
+          isShowcase: arguments.isShowcase,
+        ).route(),
       );
     }).catchError((error) {
       debugPrint(error.toString());
@@ -132,15 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
         // ignore: unawaited_futures
         Navigator.push(
           context,
-          buildRoute(
-            '/unit',
-            builder: (_) => UnitScreen(
-              arguments.unit,
-              member: arguments.member,
-              isShowcase: arguments.isShowcase,
-            ),
-            fullscreenDialog: true,
-          ),
+          UnitScreen(
+            arguments.unit,
+            member: arguments.member,
+            isShowcase: arguments.isShowcase,
+          ).route(),
         );
       },
       onError: (OnLinkErrorException error) async {
@@ -185,27 +177,19 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () async {
         final kind = await Navigator.push<KindValue>(
           context,
-          buildRoute(
-            '/kinds',
-            builder: (_) => KindsScreen(),
-            fullscreenDialog: true,
-          ),
+          KindsScreen().route(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
         Navigator.push(
           context,
-          buildRoute(
-            '/add_unit',
-            builder: (_) => AddUnitScreen(
-              kind: kind,
-              tabIndex: AddUnitTabIndex(
-                showcase: HomeShowcase.wrapperKey.currentState?.tabIndex,
-                underway: HomeUnderway.wrapperKey.currentState?.tabIndex,
-              ),
+          AddUnitScreen(
+            kind: kind,
+            tabIndex: AddUnitTabIndex(
+              showcase: HomeShowcase.wrapperKey.currentState?.tabIndex,
+              underway: HomeUnderway.wrapperKey.currentState?.tabIndex,
             ),
-            fullscreenDialog: true,
-          ),
+          ).route(),
         );
       },
       tooltip: 'Add Unit',

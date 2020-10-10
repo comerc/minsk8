@@ -218,11 +218,7 @@ class _AppBar extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              buildRoute(
-                '/showcase_map',
-                builder: (_) => ShowcaseMapScreen(),
-                fullscreenDialog: true,
-              ),
+              ShowcaseMapScreen().route(),
             );
           },
         ),

@@ -3,6 +3,14 @@ import 'package:minsk8/import.dart';
 // TODO: 10 Кармы за 5 новых в сутки
 
 class InviteScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/invite',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final child = Container(

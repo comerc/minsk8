@@ -153,15 +153,11 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           });
           Navigator.push(
             context,
-            buildRoute(
-              '/unit',
-              builder: (_) => UnitScreen(
-                unit,
-                member: unit.member,
-                isShowcase: true,
-              ),
-              fullscreenDialog: true,
-            ),
+            UnitScreen(
+              unit,
+              member: unit.member,
+              isShowcase: true,
+            ).route(),
           ).then((_) {
             setState(() {
               _isBottom = true;
@@ -509,10 +505,7 @@ class InfoDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
-                    buildRoute(
-                      '/faq',
-                      builder: (_) => ContentScreen(),
-                    ),
+                    ContentScreen('faq.md').route(),
                   );
                 },
                 child: Padding(

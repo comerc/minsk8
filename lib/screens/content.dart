@@ -6,30 +6,31 @@ import 'package:minsk8/import.dart';
 // TODO: отображать оба формата: .html и .md
 // TODO: найти либу для типографики
 
-class ContentScreen extends StatefulWidget {
-  ContentScreen();
-
-  @override
-  _ContentScreenState createState() {
-    return _ContentScreenState();
+class ContentScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/$filename',
+      builder: (_) => this,
+    );
   }
-}
 
-class _ContentScreenState extends State<ContentScreen> {
-  String _title;
-  String _filename;
+  ContentScreen(this.filename)
+      : title = {
+          'about.md': 'О проекте',
+          'faq.md': 'Вопросы и ответы',
+          'how_it_works.md': 'Как это работает?',
+          'make_it_together.md': 'Сделаем это вместе!',
+          'useful_tips.md': 'Полезные советы',
+        }[filename];
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
-  }
+  final String filename;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ExtendedAppBar(
-        title: Text(_title ?? ''),
+        title: Text(title),
       ),
       body: SafeArea(
         // child: GestureDetector(
@@ -52,41 +53,23 @@ class _ContentScreenState extends State<ContentScreen> {
         //   styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
         //   data: _content,
         // ),
-        child: _filename == null
-            ? Container()
-            : Content(
-                filename: _filename,
-                buildLoading: () {
-                  return Center(
-                    child: Text('Loading...'),
-                  );
-                },
-                buildMarkdown: (String content) {
-                  return Markdown(
-                    selectable: true,
-                    styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
-                    data: content,
-                  );
-                },
-              ),
+        child: Content(
+          filename,
+          buildLoading: () {
+            return Center(
+              child: Text('Loading...'),
+            );
+          },
+          buildMarkdown: (String content) {
+            return Markdown(
+              selectable: true,
+              styleSheetTheme: MarkdownStyleSheetBaseTheme.platform,
+              data: content,
+            );
+          },
+        ),
       ),
     );
-  }
-
-  void _onAfterBuild(Duration timeStamp) {
-    final modalRoute = ModalRoute.of(context);
-    final filename = modalRoute.settings.name.substring(1) + '.md';
-    final title = {
-      'about.md': 'О проекте',
-      'faq.md': 'Вопросы и ответы',
-      'how_it_works.md': 'Как это работает?',
-      'make_it_together.md': 'Сделаем это вместе!',
-      'useful_tips.md': 'Полезные советы',
-    }[filename];
-    setState(() {
-      _title = title;
-      _filename = filename;
-    });
   }
 }
 
@@ -120,7 +103,7 @@ class _AfterBuildWrapperState extends State<_AfterBuildWrapper> {
 }
 
 class Content extends StatefulWidget {
-  Content({this.filename, this.buildLoading, this.buildMarkdown});
+  Content(this.filename, {this.buildLoading, this.buildMarkdown});
 
   final String filename;
   final Widget Function() buildLoading;

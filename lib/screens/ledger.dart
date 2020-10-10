@@ -3,6 +3,14 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LedgerScreen extends StatefulWidget {
+  PageRoute<T> route<T>({String arguments = '', bool isInitialRoute = false}) {
+    return buildRoute<T>(
+      '/ledger$arguments',
+      builder: (_) => this,
+      isInitialRoute: isInitialRoute,
+    );
+  }
+
   static LedgerData sourceList;
 
   @override
@@ -258,14 +266,10 @@ class _LedgerScreenState extends State<LedgerScreen> {
     return () {
       Navigator.push(
         context,
-        buildRoute(
-          '/unit',
-          builder: (_) => UnitScreen(
-            unit,
-            member: unit.member,
-          ),
-          fullscreenDialog: true,
-        ),
+        UnitScreen(
+          unit,
+          member: unit.member,
+        ).route(),
       );
     };
   }
@@ -279,9 +283,8 @@ class _LedgerScreenState extends State<LedgerScreen> {
         if (value == null) return;
         Navigator.pushReplacement(
           context,
-          buildRoute(
-            '/ledger?reason=$reason',
-            builder: (_) => LedgerScreen(),
+          LedgerScreen().route(
+            arguments: '?reason=$reason',
             isInitialRoute: true,
           ),
         );
@@ -350,11 +353,7 @@ class _BalanceDialog extends StatelessWidget {
             Navigator.of(context).pop();
             Navigator.push(
               context,
-              buildRoute(
-                '/how_to_pay',
-                builder: (_) => HowToPayScreen(),
-                fullscreenDialog: true,
-              ),
+              HowToPayScreen().route(),
             );
           },
           color: Colors.green,

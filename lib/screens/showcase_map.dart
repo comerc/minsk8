@@ -1,6 +1,14 @@
 import 'package:minsk8/import.dart';
 
 class ShowcaseMapScreen extends StatelessWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/showcase_map',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   Widget build(context) {
     Widget body = MapWidget(

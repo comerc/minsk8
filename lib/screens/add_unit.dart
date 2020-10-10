@@ -30,6 +30,14 @@ class AddUnitTabIndex {
 }
 
 class AddUnitScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/add_unit',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   AddUnitScreen({this.kind, this.tabIndex});
 
   final KindValue kind;
@@ -300,38 +308,26 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       if (value ?? false) {
         final kind = await Navigator.pushReplacement<KindValue, void>(
           context,
-          buildRoute(
-            '/kinds',
-            builder: (_) => KindsScreen(),
-            fullscreenDialog: true,
-          ),
+          KindsScreen().route(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
         Navigator.push(
           HomeScreen.globalKey.currentContext, // hack
-          buildRoute(
-            '/add_unit',
-            builder: (_) => AddUnitScreen(
-              kind: kind,
-              tabIndex: widget.tabIndex,
-            ),
-            fullscreenDialog: true,
-          ),
+          AddUnitScreen(
+            kind: kind,
+            tabIndex: widget.tabIndex,
+          ).route(),
         );
         return;
       }
       // ignore: unawaited_futures
       Navigator.pushReplacement(
         context,
-        buildRoute(
-          '/unit',
-          builder: (_) => UnitScreen(
-            newUnit,
-            member: profile.member,
-          ),
-          fullscreenDialog: true,
-        ),
+        UnitScreen(
+          newUnit,
+          member: profile.member,
+        ).route(),
       );
     }).catchError((error) {
       debugPrint(error.toString());
@@ -508,11 +504,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   void _selectKind() async {
     final kind = await Navigator.push<KindValue>(
       context,
-      buildRoute(
-        '/kinds',
-        builder: (_) => KindsScreen(_kind),
-        fullscreenDialog: true,
-      ),
+      KindsScreen(_kind).route(),
     ); // as KindValue; // workaround for typecast
     if (kind == null) return;
     setState(() {
@@ -523,11 +515,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   void _selectLocation() {
     Navigator.push(
       context,
-      buildRoute(
-        '/my_unit_map',
-        builder: (_) => MyUnitMapScreen(),
-        fullscreenDialog: true,
-      ),
+      MyUnitMapScreen().route(),
     ).then((value) {
       if (value == null) return;
       setState(() {});

@@ -6,6 +6,14 @@ const _kDuration = Duration(milliseconds: 400);
 const _kCurve = Curves.fastOutSlowIn;
 
 class PaymentScreen extends StatefulWidget {
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/payment',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   _PaymentScreenState createState() {
     return _PaymentScreenState();
@@ -88,10 +96,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   onPressed: () {
                     Navigator.push(
                       context,
-                      buildRoute(
-                        '/make_it_together',
-                        builder: (_) => ContentScreen(),
-                      ),
+                      ContentScreen('make_it_together.md').route(),
                     );
                   },
                   textColor: Colors.black.withOpacity(0.6),

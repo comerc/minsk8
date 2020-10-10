@@ -106,11 +106,7 @@ class _HomeProfileState extends State<HomeProfile> {
           onPressed: () {
             Navigator.push(
               context,
-              buildRoute(
-                '/how_to_pay',
-                builder: (_) => HowToPayScreen(),
-                fullscreenDialog: true,
-              ),
+              HowToPayScreen().route(),
             );
           },
           color: Colors.green,
@@ -142,27 +138,12 @@ class _HomeProfileState extends State<HomeProfile> {
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onTap: () {
                   final routes = {
-                    'ledger': () => buildRoute(
-                          '/ledger',
-                          builder: (_) => LedgerScreen(),
-                        ),
-                    'feedback': () => buildRoute(
-                          '/feedback',
-                          builder: (_) => FeedbackScreen(),
-                          fullscreenDialog: true,
-                        ),
-                    'faq': () => buildRoute(
-                          '/faq',
-                          builder: (_) => ContentScreen(),
-                        ),
-                    'useful_tips': () => buildRoute(
-                          '/useful_tips',
-                          builder: (_) => ContentScreen(),
-                        ),
-                    'about': () => buildRoute(
-                          '/about',
-                          builder: (_) => ContentScreen(),
-                        ),
+                    'ledger': () => LedgerScreen().route(),
+                    'feedback': () => FeedbackScreen().route(),
+                    'faq': () => ContentScreen('faq.md').route(),
+                    'useful_tips': () =>
+                        ContentScreen('useful_tips.md').route(),
+                    'about': () => ContentScreen('about.md').route(),
                   };
                   Navigator.push(context, routes[entry.key]());
                 },

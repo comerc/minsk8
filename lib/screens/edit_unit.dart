@@ -1,9 +1,17 @@
 import 'package:minsk8/import.dart';
 
 class EditUnitScreen extends StatelessWidget {
-  EditUnitScreen(this.arguments);
+  PageRoute<T> route<T>() {
+    return buildRoute<T>(
+      '/edit_unit?id=${unit.id}',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
 
-  final EditUnitRouteArguments arguments;
+  EditUnitScreen({this.unit});
+
+  final UnitModel unit;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +29,4 @@ class EditUnitScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class EditUnitRouteArguments {
-  EditUnitRouteArguments(this.id);
-
-  final int id;
 }

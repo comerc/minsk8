@@ -386,12 +386,9 @@ class _ChatListGroupState extends State<_ChatListGroup>
                     onTap: () {
                       Navigator.push(
                         context,
-                        buildRoute(
-                          '/messages',
-                          builder: (_) => MessagesScreen(
-                            chat: item,
-                          ),
-                        ),
+                        MessagesScreen(
+                          chat: item,
+                        ).route(),
                       );
                     },
                     child: Column(children: <Widget>[
