@@ -116,6 +116,8 @@ dependencies:
   # map_launcher 0.12.2
   # device_simulator 0.9.6
   # image_editor_pro 1.0.6
+  # flutter_lorem 1.1.0
+  # freezed 0.12.1
 
 dev_dependencies:
   flutter_test:

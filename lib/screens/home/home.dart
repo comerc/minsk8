@@ -1,5 +1,7 @@
 import 'package:minsk8/import.dart';
 
+// TODO: переопределить WillPop для HomeScreen?
+
 enum HomeTabValue { showcase, underway, interplay, profile }
 
 class HomeScreen extends StatefulWidget {

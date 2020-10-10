@@ -34,6 +34,7 @@ final didReceiveLocalNotificationSubject =
 final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
+// don't use async for main!
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     print('FlutterError.onError $details');
@@ -266,6 +267,8 @@ class App extends StatelessWidget {
         // ****
         '/start': (_) => StartScreen(),
       },
+      // TODO: как это может пригодиться?
+      // onGenerateRoute: (_) => SplashPage.route(),
       // onGenerateRoute: (RouteSettings settings) {
       //   print('onGenerateRoute: $settings');
       //   return null;
@@ -543,6 +546,8 @@ class CommonMaterialApp extends StatelessWidget {
     final theme = Theme.of(context);
     // print('App build');
     return MaterialApp(
+      // TODO: можно избавиться от вызова Navigator из контекста
+      // navigatorKey: _navigatorKey,
       // debugShowCheckedModeBanner: isInDebugMode,
       navigatorObservers: navigatorObservers,
       // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
