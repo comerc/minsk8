@@ -94,8 +94,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   ),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    Navigator.push(
-                      context,
+                    navigator.push(
                       ContentScreen('make_it_together.md').route(),
                     );
                   },
@@ -333,7 +332,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   child: Text('НЕТ, СПАСИБО'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    navigator.pop();
                   },
                   textColor: Colors.black.withOpacity(0.8),
                 ),

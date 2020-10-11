@@ -63,7 +63,7 @@ class InviteScreen extends StatelessWidget {
                   child: Text('Пригласить позже'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    navigator.pop();
                   },
                   textColor: Colors.black.withOpacity(0.8),
                 ),

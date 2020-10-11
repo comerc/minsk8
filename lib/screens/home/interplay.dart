@@ -384,8 +384,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                   child: InkWell(
                     onLongPress: () {}, // чтобы сократить время для splashColor
                     onTap: () {
-                      Navigator.push(
-                        context,
+                      navigator.push(
                         MessagesScreen(
                           chat: item,
                         ).route(),

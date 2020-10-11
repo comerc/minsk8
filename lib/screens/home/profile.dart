@@ -71,7 +71,7 @@ class _HomeProfileState extends State<HomeProfile> {
         //               FlatButton(
         //                 child: Text('ОК'),
         //                 onPressed: () {
-        //                   Navigator.of(context).pop();
+        //                   navigator.pop();
         //                 },
         //               ),
         //             ],
@@ -104,8 +104,7 @@ class _HomeProfileState extends State<HomeProfile> {
           child: Text('ПОВЫСИТЬ КАРМУ'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.push(
-              context,
+            navigator.push(
               HowToPayScreen().route(),
             );
           },
@@ -145,7 +144,7 @@ class _HomeProfileState extends State<HomeProfile> {
                         ContentScreen('useful_tips.md').route(),
                     'about': () => ContentScreen('about.md').route(),
                   };
-                  Navigator.push(context, routes[entry.key]());
+                  navigator.push(routes[entry.key]());
                 },
               ),
             );

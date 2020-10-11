@@ -104,11 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // ignore: unawaited_futures
     _openDeepLink(data?.link).then((UnitRouteArguments arguments) {
       if (arguments == null) {
-        Navigator.of(context).pop();
+        navigator.pop();
         return;
       }
-      Navigator.pushReplacement(
-        context,
+      navigator.pushReplacement(
         UnitScreen(
           arguments.unit,
           member: arguments.member,
@@ -117,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }).catchError((error) {
       debugPrint(error.toString());
-      Navigator.of(context).pop();
+      navigator.pop();
     });
     FirebaseDynamicLinks.instance.onLink(
       onSuccess: (PendingDynamicLinkData data) async {
@@ -126,8 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return;
         }
         // ignore: unawaited_futures
-        Navigator.push(
-          context,
+        navigator.push(
           UnitScreen(
             arguments.unit,
             member: arguments.member,
@@ -175,14 +173,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       foregroundColor: Colors.pinkAccent,
       onPressed: () async {
-        final kind = await Navigator.push<KindValue>(
-          context,
+        final kind = await navigator.push<KindValue>(
           KindsScreen().route(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
-        Navigator.push(
-          context,
+        navigator.push(
           AddUnitScreen(
             kind: kind,
             tabIndex: AddUnitTabIndex(

@@ -137,7 +137,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
       child: InkWell(
         onLongPress: () {}, // чтобы сократить время для splashColor
         onTap: () {
-          // Navigator.of(context).push(PageRouteBuilder(
+          // navigator.push(PageRouteBuilder(
           //   settings: RouteSettings(
           //     arguments: UnitRouteArguments(unit, tag: tag),
           //   ),
@@ -151,14 +151,15 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
           setState(() {
             _isBottom = false;
           });
-          Navigator.push(
-            context,
+          navigator
+              .push(
             UnitScreen(
               unit,
               member: unit.member,
               isShowcase: true,
             ).route(),
-          ).then((_) {
+          )
+              .then((_) {
             setState(() {
               _isBottom = true;
             });
@@ -502,11 +503,9 @@ class InfoDialog extends StatelessWidget {
               color: Colors.white,
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    ContentScreen('faq.md').route(),
-                  );
+                  navigator
+                    ..pop()
+                    ..push(ContentScreen('faq.md').route());
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -571,7 +570,7 @@ class PriceButton extends StatelessWidget {
                       FlatButton(
                         child: Text('ОК'),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          navigator.pop();
                         },
                       ),
                     ],

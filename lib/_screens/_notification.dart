@@ -333,9 +333,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
               isDefaultAction: true,
               child: Text('Ok'),
               onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop();
-                await Navigator.push(
-                  context,
+                // Navigator.of(context, rootNavigator: true).pop();
+                navigator.pop();
+                await navigator.push(
                   MaterialPageRoute(
                     builder: (context) =>
                         _SecondScreen(receivedNotification.payload),
@@ -352,8 +352,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
       print('selectNotificationSubject.stream.listen');
-      // await Navigator.push(
-      //   context,
+      // await navigator.push(
       //   MaterialPageRoute(builder: (context) => _SecondScreen(payload)),
       // );
     });
@@ -872,7 +871,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             FlatButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop();
+                navigator.pop();
               },
             ),
           ],
@@ -1128,7 +1127,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  navigator.pop();
                 },
               ),
             ],
@@ -1152,7 +1151,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  navigator.pop();
                 },
               ),
             ],
@@ -1191,7 +1190,7 @@ class _SecondScreenState extends State<_SecondScreen> {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            Navigator.pop(context);
+            navigator.pop();
           },
           child: Text('Go back!'),
         ),

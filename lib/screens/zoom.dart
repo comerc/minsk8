@@ -138,7 +138,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                     message: 'Close',
                     icon: Icons.close,
                     onTap: () {
-                      Navigator.maybePop(context);
+                      navigator.maybePop();
                     },
                   ),
                   Spacer(),
@@ -211,9 +211,8 @@ class _ZoomScreenState extends State<ZoomScreen>
     final index = isNext
         ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
         : _currentIndex == 0 ? lastIndex : _currentIndex - 1;
-    // Navigator.pushAndRemoveUntil(
-    Navigator.pushReplacement(
-      context,
+    // navigator.pushAndRemoveUntil(
+    navigator.pushReplacement(
       ZoomScreen(
         unit,
         tag: tag,

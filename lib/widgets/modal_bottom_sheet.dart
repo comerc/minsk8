@@ -30,7 +30,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
               child: Text('Закрыть'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
-                Navigator.of(context).pop(true);
+                navigator.pop(true);
               },
               textColor: Colors.black.withOpacity(0.8),
             ),
@@ -41,7 +41,7 @@ Widget buildModalBottomSheet(BuildContext context, {String description}) {
               child: Text('Остаться'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
-                Navigator.of(context).pop(false);
+                navigator.pop(false);
               },
               color: Colors.green,
               textColor: Colors.white,

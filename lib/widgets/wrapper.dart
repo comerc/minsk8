@@ -216,8 +216,7 @@ class _AppBar extends StatelessWidget {
           icon: Icon(FontAwesomeIcons.slidersH),
           iconSize: kButtonIconSize,
           onPressed: () {
-            Navigator.push(
-              context,
+            navigator.push(
               ShowcaseMapScreen().route(),
             );
           },

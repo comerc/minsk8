@@ -36,8 +36,7 @@ class HowToPayScreen extends StatelessWidget {
             ),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
-              Navigator.push(
-                context,
+              navigator.push(
                 ContentScreen('how_it_works.md').route(),
               );
             },
@@ -215,20 +214,18 @@ class _Menu extends StatelessWidget {
             onTap: () async {
               if (entry.key == 'add_unit') {
                 try {
-                  final kind = await Navigator.push<KindValue>(
-                    context,
+                  final kind = await navigator.push<KindValue>(
                     KindsScreen().route(),
                   ); // as KindValue; // workaround for typecast
                   if (kind == null) return;
-                  await Navigator.push(
-                    context,
+                  await navigator.push(
                     AddUnitScreen(
                       kind: kind,
                       tabIndex: AddUnitTabIndex(),
                     ).route(),
                   );
                 } finally {
-                  Navigator.of(context).pop();
+                  navigator.pop();
                 }
                 return;
               }
@@ -237,7 +234,7 @@ class _Menu extends StatelessWidget {
                 'payment': () => PaymentScreen().route(),
               };
               // ignore: unawaited_futures
-              Navigator.pushReplacement(context, routes[entry.key]());
+              navigator.pushReplacement(routes[entry.key]());
             },
           ),
         );

@@ -76,16 +76,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _selectLocation() {
-    Navigator.push(
-      context,
-      ShowcaseMapScreen().route(),
-    ).then((value) {
+    navigator.push(ShowcaseMapScreen().route()).then((value) {
       if (value == null) return;
       setState(() {});
     });
   }
 
   void _handleOK() {
-    Navigator.of(context).pop(true);
+    navigator.pop(true);
   }
 }

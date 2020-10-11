@@ -58,7 +58,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
     );
     MapWidget.placemarkFromCoordinates(center).then((MapAddress value) {
       isLoading = false;
-      Navigator.of(context).pop(); // for showDialog "Загрузка..."
+      navigator.pop(); // for showDialog "Загрузка..."
       if (saveModes.contains(MapSaveMode.showcase)) {
         appState['ShowcaseMap.center'] = [center.latitude, center.longitude];
         appState['ShowcaseMap.address'] = value.simple;
@@ -70,11 +70,11 @@ class _MapReadyButtonState extends State<MapReadyButton> {
         appState['MyUnitMap.address'] = value.detail;
         appState['MyUnitMap.zoom'] = zoom;
       }
-      Navigator.of(context).pop(true);
+      navigator.pop(true);
     }).catchError((error) {
       debugPrint(error.toString());
       if (isLoading) {
-        Navigator.of(context).pop(); // for showDialog "Загрузка..."
+        navigator.pop(); // for showDialog "Загрузка..."
       }
       final snackBar = SnackBar(
           content: Text('Не удалось определить адрес, попробуйте ещё раз'));

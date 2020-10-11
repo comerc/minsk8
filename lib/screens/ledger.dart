@@ -264,8 +264,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
 
   void Function() _getUnitAction(UnitModel unit) {
     return () {
-      Navigator.push(
-        context,
+      navigator.push(
         UnitScreen(
           unit,
           member: unit.member,
@@ -281,8 +280,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
         child: _BalanceDialog(),
       ).then((value) {
         if (value == null) return;
-        Navigator.pushReplacement(
-          context,
+        navigator.pushReplacement(
           LedgerScreen().route(
             arguments: '?reason=$reason',
             isInitialRoute: true,
@@ -342,7 +340,7 @@ class _BalanceDialog extends StatelessWidget {
           child: Text('Движение Кармы'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pop(true);
+            navigator.pop(true);
           },
           textColor: Colors.green,
         ),
@@ -350,11 +348,9 @@ class _BalanceDialog extends StatelessWidget {
           child: Text('Повысить Карму'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.push(
-              context,
-              HowToPayScreen().route(),
-            );
+            navigator
+              ..pop()
+              ..push(HowToPayScreen().route());
           },
           color: Colors.green,
           textColor: Colors.white,

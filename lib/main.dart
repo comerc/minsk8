@@ -267,7 +267,7 @@ class App extends StatelessWidget {
         // ****
         '/start': (_) => StartScreen(),
       },
-      // TODO: как это может пригодиться?
+      // TODO: как это может пригодиться (flutter_firebase_login)?
       // onGenerateRoute: (_) => SplashPage.route(),
       // onGenerateRoute: (RouteSettings settings) {
       //   print('onGenerateRoute: $settings');
@@ -522,6 +522,9 @@ class _AuthCheckState extends State<AuthCheck> {
   }
 }
 
+final _navigatorKey = GlobalKey<NavigatorState>();
+NavigatorState get navigator => _navigatorKey.currentState;
+
 class CommonMaterialApp extends StatelessWidget {
   CommonMaterialApp({
     this.navigatorObservers = const <NavigatorObserver>[],
@@ -546,8 +549,7 @@ class CommonMaterialApp extends StatelessWidget {
     final theme = Theme.of(context);
     // print('App build');
     return MaterialApp(
-      // TODO: можно избавиться от вызова Navigator из контекста
-      // navigatorKey: _navigatorKey,
+      navigatorKey: _navigatorKey,
       // debugShowCheckedModeBanner: isInDebugMode,
       navigatorObservers: navigatorObservers,
       // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
@@ -884,7 +886,7 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).popUntil(
+                navigator.popUntil(
                   (route) => route.isFirst,
                 );
               },
@@ -906,20 +908,20 @@ class MainDrawer extends StatelessWidget {
                 title: Text(mainRoute['title'] as String),
                 selected: currentRouteName == mainRoute['routeName'],
                 onTap: () async {
-                  Navigator.of(context).popUntil(
+                  navigator.popUntil(
                       (route) => route.settings.name == kInitialRouteName);
                   final arguments = (mainRoute['arguments'] is Function)
                       ? await (mainRoute['arguments'] as Function)(context)
                       : mainRoute['arguments'];
                   if (arguments == null) {
                     // ignore: unawaited_futures
-                    Navigator.of(context).pushNamed(
+                    navigator.pushNamed(
                       mainRoute['routeName'] as String,
                     );
                     return;
                   }
                   // ignore: unawaited_futures
-                  Navigator.of(context).pushNamed(
+                  navigator.pushNamed(
                     mainRoute['routeName'] as String,
                     arguments: arguments,
                   );

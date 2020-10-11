@@ -218,7 +218,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
             FlatButton(
               child: Text('ОК'),
               onPressed: () {
-                Navigator.of(context).pop();
+                navigator.pop();
               },
             ),
           ],
@@ -246,7 +246,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     await _uploadQueue;
     final images = _images.where((value) => value.uploadStatus == null);
     if (images.isEmpty) {
-      Navigator.of(context).pop(); // for showDialog "Загрузка..."
+      navigator.pop(); // for showDialog "Загрузка..."
       await showDialog(
         context: context,
         child: AlertDialog(
@@ -255,7 +255,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
             FlatButton(
               child: Text('ОК'),
               onPressed: () {
-                Navigator.of(context).pop();
+                navigator.pop();
               },
             ),
           ],
@@ -289,7 +289,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         throw result.exception;
       }
       isLoading = false;
-      Navigator.of(context).pop(); // for showDialog "Загрузка..."
+      navigator.pop(); // for showDialog "Загрузка..."
       final unitData = result.data['insert_unit_one'] as Map<String, dynamic>;
       final newUnit = UnitModel.fromJson(unitData);
       final profile = Provider.of<ProfileModel>(context, listen: false);
@@ -306,14 +306,14 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ),
       );
       if (value ?? false) {
-        final kind = await Navigator.pushReplacement<KindValue, void>(
-          context,
+        final kind = await navigator.pushReplacement<KindValue, void>(
           KindsScreen().route(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
+        // TODO: когда закрывается KindsScreen, то видна витрина
         // ignore: unawaited_futures
-        Navigator.push(
-          HomeScreen.globalKey.currentContext, // hack
+        navigator.push(
+          // HomeScreen.globalKey.currentContext, // hack, или: Navigator.of(context, rootNavigator: true)
           AddUnitScreen(
             kind: kind,
             tabIndex: widget.tabIndex,
@@ -322,8 +322,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         return;
       }
       // ignore: unawaited_futures
-      Navigator.pushReplacement(
-        context,
+      navigator.pushReplacement(
         UnitScreen(
           newUnit,
           member: profile.member,
@@ -332,7 +331,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     }).catchError((error) {
       debugPrint(error.toString());
       if (isLoading) {
-        Navigator.of(context).pop(); // for showDialog "Загрузка..."
+        navigator.pop(); // for showDialog "Загрузка..."
       }
       final snackBar = SnackBar(
           content: Text('Не удалось загрузить лот, попробуйте ещё раз'));
@@ -502,8 +501,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectKind() async {
-    final kind = await Navigator.push<KindValue>(
-      context,
+    final kind = await navigator.push<KindValue>(
       KindsScreen(_kind).route(),
     ); // as KindValue; // workaround for typecast
     if (kind == null) return;
@@ -513,10 +511,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectLocation() {
-    Navigator.push(
-      context,
-      MyUnitMapScreen().route(),
-    ).then((value) {
+    navigator.push(MyUnitMapScreen().route()).then((value) {
       if (value == null) return;
       setState(() {});
     });
@@ -704,7 +699,7 @@ class _AddedUnitDialog extends StatelessWidget {
                 ),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  navigator.pop(true);
                 },
                 color: Colors.green,
                 textColor: Colors.white,
@@ -785,7 +780,7 @@ class _ImageSourceUnit extends StatelessWidget {
       onLongPress: () {}, // чтобы сократить время для splashColor
       child: SimpleDialogOption(
         onPressed: () {
-          Navigator.of(context).pop(result);
+          navigator.pop(result);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -867,7 +862,7 @@ Future<UrgentValue> _selectUrgentDialog(
                     ),
                     onLongPress: () {}, // чтобы сократить время для splashColor
                     onTap: () {
-                      Navigator.of(context).pop(kUrgents[index].value);
+                      navigator.pop(kUrgents[index].value);
                     },
                   ),
                 );

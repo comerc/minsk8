@@ -24,8 +24,7 @@ class _StartScreenState extends State<StartScreen> {
       return;
     }
     // TODO: WelcomeScreen
-    final value = await Navigator.push<bool>(
-      context,
+    final value = await navigator.push<bool>(
       StartMapScreen().route(),
     );
     if (value ?? false) {
@@ -47,8 +46,7 @@ class _StartScreenState extends State<StartScreen> {
     // final item =
     //     ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
     // // ignore: unawaited_futures
-    // Navigator.push(
-    //   context,
+    // navigator.push(
     //   MessagesScreen(
     //     chat: item,
     //   ).route(),

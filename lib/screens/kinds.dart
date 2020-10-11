@@ -112,7 +112,7 @@ class _KindButton extends StatelessWidget {
             ],
           ),
           onTap: () {
-            Navigator.of(context).pop(model.value);
+            navigator.pop(model.value);
           },
         ),
       ),

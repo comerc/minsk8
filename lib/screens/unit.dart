@@ -174,8 +174,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                 // ]);
                                 // await Future.delayed(Duration(milliseconds: 100));
                                 // ignore: unawaited_futures
-                                Navigator.push(
-                                  context,
+                                navigator.push(
                                   ZoomScreen(
                                     unit,
                                     tag: tag,
@@ -251,10 +250,9 @@ class _UnitScreenState extends State<UnitScreen> {
                               setState(() {
                                 _isCarouselSlider = false;
                               });
-                              Navigator.push(
-                                context,
-                                UnitMapScreen(unit).route(),
-                              ).then((_) {
+                              navigator
+                                  .push(UnitMapScreen(unit).route())
+                                  .then((_) {
                                 setState(() {
                                   _currentIndex = savedIndex;
                                   _isCarouselSlider = true;
@@ -321,8 +319,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                 onLongPress:
                                     () {}, // чтобы сократить время для splashColor
                                 onTap: () {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
+                                  navigator.pushAndRemoveUntil(
                                     UnitScreen(
                                       otherUnit,
                                       member: member,
@@ -890,8 +887,7 @@ class _WantDialog extends StatelessWidget {
               size: kButtonIconSize,
             ),
             onTap: () {
-              Navigator.push(
-                context,
+              navigator.push(
                 UnitMapScreen(unit).route(),
               );
             },
@@ -926,7 +922,7 @@ class _WantDialog extends StatelessWidget {
               child: Text('Отмена'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
-                Navigator.of(context).pop();
+                navigator.pop();
               },
               textColor: Colors.black.withOpacity(0.8),
             ),
@@ -940,7 +936,7 @@ class _WantDialog extends StatelessWidget {
                 final end = autoIncreaseFieldKey.currentState.currentValue;
                 print(end);
                 // TODO: если покупатель хочет редактировать end, то нужно добавить поле внутри WantModel
-                Navigator.of(context).pop(true);
+                navigator.pop(true);
               },
               color: Colors.green,
               textColor: Colors.white,
@@ -1046,7 +1042,7 @@ class _AutoIncreaseFieldState extends State<_AutoIncreaseField>
           onPressed: () {
             print(step);
             // TODO: [MVP] переход к оплате
-            // Navigator.of(context).pop(true);
+            // navigator.pop(true);
           },
           color: Colors.green,
           textColor: Colors.white,
@@ -1240,7 +1236,7 @@ class _ConfirmDialog extends StatelessWidget {
                 child: Text(cancel ?? 'Отмена'),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  navigator.pop();
                 },
                 textColor: Colors.black.withOpacity(0.8),
               ),
@@ -1251,7 +1247,7 @@ class _ConfirmDialog extends StatelessWidget {
                 child: Text(ok),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  navigator.pop(true);
                 },
                 color: Colors.green,
                 textColor: Colors.white,
@@ -1287,7 +1283,8 @@ class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
               ),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
-                Navigator.of(context).pop(elements[index].value);
+                // TODO: типизировать value
+                navigator.pop(elements[index].value);
               },
             ),
           ),
@@ -1298,7 +1295,7 @@ class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
           child: Text('Отмена'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pop();
+            navigator.pop();
           },
         ),
       ],

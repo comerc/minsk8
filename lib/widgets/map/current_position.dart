@@ -53,13 +53,13 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
               FlatButton(
                 child: Text('CANCEL'),
                 onPressed: () {
-                  Navigator.pop(context, false);
+                  navigator.pop(false);
                 },
               ),
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
-                  Navigator.pop(context, true);
+                  navigator.pop(true);
                 },
               ),
             ],

@@ -154,8 +154,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           // TODO: отсутствует InkWell - что с этим делать?
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
+              navigator.push(
                 UnitScreen(
                   unit,
                   member: unit.member,
@@ -365,7 +364,7 @@ class _BlockDialog extends StatelessWidget {
               : 'Заблокировать участника'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pop(isBlocked ? 'unblock' : 'block');
+            navigator.pop(isBlocked ? 'unblock' : 'block');
           },
           color: Colors.green,
           textColor: Colors.white,
@@ -374,7 +373,7 @@ class _BlockDialog extends StatelessWidget {
           child: Text('Написать в поддержку'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            Navigator.of(context).pop('feedback');
+            navigator.pop('feedback');
           },
           textColor: Colors.green,
         ),
