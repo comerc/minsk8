@@ -70,7 +70,7 @@ dependencies:
   graphql_flutter: 3.0.0
 
   carousel_slider: 1.4.0
-  sliding_up_panel: 0.3.6
+  sliding_up_panel: 0.3.6 # TODO: or backdrop 0.4.6
   auto_orientation: 1.0.6
   font_awesome_flutter: 8.8.1
 
