@@ -113,6 +113,9 @@ gource \
 
 [get source data](https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc%22%7D#go)
 
+<details>
+  <summary>convert</summary>
+
 ```dart
 import 'dart:convert';
 
@@ -134,6 +137,8 @@ main() async {
   print(jsonEncode(result));
 }
 ```
+
+</details>
 
 [playlist.json](./playlist.json)
 
