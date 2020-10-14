@@ -1,7 +1,18 @@
-import 'package:minsk8/import.dart';
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
     as extended;
+import 'package:minsk8/import.dart';
 
 // TODO: [MVP] (на сервере) при добавлении победителя, включать unit.is_winned - для фильтрации витрины
 // TODO: кнопка "обновить ленту" - через какое-то время её показывать?

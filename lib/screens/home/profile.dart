@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/faob-dev/folding_cell

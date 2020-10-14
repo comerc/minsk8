@@ -1,5 +1,15 @@
-import 'package:minsk8/import.dart';
+import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:loading_more_list/loading_more_list.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: Другие лоты участника показывают только 10 элементов, нужен loadMore
 // TODO: [MVP] как отказаться от лота до окончания таймера, по которому мной включён таймер?

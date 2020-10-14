@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: [MVP] подключить rate_my_app

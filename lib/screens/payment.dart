@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: для производительности (?) вынести все обработчики, типа _handlePress()
