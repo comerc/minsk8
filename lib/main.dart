@@ -307,6 +307,7 @@ class App extends StatelessWidget {
     final authLink = AuthLink(
       getToken: () async => 'Bearer ${authData.token}',
     );
+    // TODO: [MVP] fresh_graphql
     final retryLink = Link(request: (
       Operation operation, [
       NextLink forward,
