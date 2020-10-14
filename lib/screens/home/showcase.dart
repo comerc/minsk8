@@ -30,8 +30,8 @@ class HomeShowcase extends StatelessWidget {
       hasAppBar: true,
     );
     return SafeArea(
-      child: child,
       bottom: false,
+      child: child,
     );
   }
 }

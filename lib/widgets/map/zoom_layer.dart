@@ -8,7 +8,7 @@ class MapZoomLayerOptions extends LayerOptions {
 class MapZoomLayer implements MapPlugin {
   @override
   Widget createLayer(
-      LayerOptions options, MapState mapState, Stream<Null> stream) {
+      LayerOptions options, MapState mapState, Stream<void> stream) {
     // if (!(options is MapZoomLayerOptions)) {
     //   throw 'Unknown options type for MapZoomLayer: $options';
     // }

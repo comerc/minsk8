@@ -47,7 +47,7 @@ class NestedScrollViewScreen extends StatelessWidget {
               ];
             },
             body: ListView.builder(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 itemCount: 30,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -79,7 +79,7 @@ class _CommonSliverPersistentHeaderDelegate
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    //print("shouldRebuild---------------");
+    //out("shouldRebuild---------------");
     return oldDelegate != this;
   }
 }

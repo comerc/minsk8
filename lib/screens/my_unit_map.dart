@@ -46,11 +46,11 @@ class _MyUnitMapScreenState extends State<MyUnitMapScreen> {
       child = MapInfo(
         text:
             'Укажите местоположение лота, чтобы участники поблизости его увидели',
-        child: child,
         onClose: () {
           appState['MyUnitMap.isInfo'] = false;
           setState(() {});
         },
+        child: child,
       );
     }
     return Scaffold(

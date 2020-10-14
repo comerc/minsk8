@@ -69,8 +69,8 @@ class NoAnimationCupertinoPageRoute<T> extends CupertinoPageRoute<T> {
     // transitionDuration вызывается два раза на каждую анимацию;
     // для первого вызова обнуляю значение, для второго - возвращаю.
     return _isFirstTransitionDuration
-        ? const Duration(seconds: 0)
-        : const Duration(milliseconds: 300);
+        ? Duration()
+        : Duration(milliseconds: 300);
   }
 }
 
@@ -98,7 +98,7 @@ class NoAnimationMaterialPageRoute<T> extends MaterialPageRoute<T> {
     // transitionDuration вызывается два раза на каждую анимацию;
     // для первого вызова обнуляю значение, для второго - возвращаю.
     return _isFirstTransitionDuration
-        ? const Duration(seconds: 0)
-        : const Duration(milliseconds: 300);
+        ? Duration()
+        : Duration(milliseconds: 300);
   }
 }

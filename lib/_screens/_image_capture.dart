@@ -142,7 +142,7 @@ class _UploaderState extends State<Uploader> {
 
   void getDownloadUrl() async {
     final downloadUrl = await _uploadTask.lastSnapshot.ref.getDownloadURL();
-    print(downloadUrl);
+    out(downloadUrl);
   }
 
   @override

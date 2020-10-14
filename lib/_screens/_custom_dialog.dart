@@ -14,7 +14,7 @@ class CustomDialogScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.all(0),
                   child: Container(
                     height: 100,
                     width: MediaQuery.of(context).size.width,
@@ -82,7 +82,7 @@ class CustomDialogScreen extends StatelessWidget {
 //           mainAxisAlignment: MainAxisAlignment.end,
 //           children: <Widget>[
 //             Padding(
-//               padding: const EdgeInsets.all(0),
+//               padding: EdgeInsets.all(0),
 //               child: new Container(
 //                 height: 100,
 //                 width: MediaQuery.of(context).size.width,

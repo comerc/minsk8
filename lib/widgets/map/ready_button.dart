@@ -29,7 +29,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
         right: 16,
         bottom: 16,
       ),
-      child: Container(
+      child: SizedBox(
         height: kBigButtonHeight,
         child: ReadyButton(onTap: _onTap, isRaised: true),
       ),
@@ -47,7 +47,6 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       barrierDismissible: false, // TODO: как отменить загрузку?
       child: AlertDialog(
         content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             buildProgressIndicator(context),
             SizedBox(width: 16),
@@ -72,7 +71,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       }
       navigator.pop(true);
     }).catchError((error) {
-      debugPrint(error.toString());
+      out(error);
       if (isLoading) {
         navigator.pop(); // for showDialog "Загрузка..."
       }

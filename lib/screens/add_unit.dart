@@ -97,7 +97,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: (panelChildWidth - gridSpacing) / 2,
                 width: panelChildWidth,
                 child: GridView.count(
@@ -165,7 +165,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           ),
         ),
         Spacer(),
-        Container(
+        SizedBox(
           height: kBigButtonHeight,
           width: panelChildWidth,
           child: ReadyButton(onTap: _handleAddUnit),
@@ -216,10 +216,10 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           content: Text('Опишите лот: что это, состояние, размер...'),
           actions: <Widget>[
             FlatButton(
-              child: Text('ОК'),
               onPressed: () {
                 navigator.pop();
               },
+              child: Text('ОК'),
             ),
           ],
         ),
@@ -234,7 +234,6 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       barrierDismissible: false, // TODO: как отменить загрузку?
       child: AlertDialog(
         content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             buildProgressIndicator(context),
             SizedBox(width: 16),
@@ -253,10 +252,10 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           content: Text('Добавьте фотографию лота'),
           actions: <Widget>[
             FlatButton(
-              child: Text('ОК'),
               onPressed: () {
                 navigator.pop();
               },
+              child: Text('ОК'),
             ),
           ],
         ),
@@ -329,7 +328,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         ).route(),
       );
     }).catchError((error) {
-      debugPrint(error.toString());
+      out(error);
       if (isLoading) {
         navigator.pop(); // for showDialog "Загрузка..."
       }
@@ -375,7 +374,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     final picker = ImagePicker();
     final pickedFile =
         await picker.getImage(source: imageSource).catchError((error) {
-      debugPrint(error.toString());
+      out(error);
     });
     if (pickedFile == null) return false;
     final bytes = await pickedFile.readAsBytes();
@@ -403,7 +402,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
                 Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
         _scaffoldKey.currentState.showSnackBar(snackBar);
       }
-      debugPrint(error.toString());
+      out(error);
     });
     return true;
   }
@@ -440,8 +439,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     final streamSubscription =
         imageData.uploadTask.events.listen((event) async {
       if (event.type == StorageTaskEventType.progress) {
-        print(
-            'progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
+        out('progress ${event.snapshot.bytesTransferred} / ${event.snapshot.totalByteCount}');
       }
       // TODO: добавить индикатор загрузки и кнопку отмены
       // TODO: отрабатывать тут StorageTaskEventType.failure и StorageTaskEventType.success
@@ -473,7 +471,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       // если сразу вызвать снаружи, то падает - обернул в try-catch
       imageData.uploadTask.cancel();
     } catch (error) {
-      debugPrint(error.toString());
+      out(error);
     }
   }
 
@@ -563,8 +561,6 @@ class _ImageData {
   bool isCanceled = false;
 }
 
-typedef _AddImageButtonOnTap = void Function(int index);
-
 class _AddImageButton extends StatelessWidget {
   _AddImageButton({
     Key key,
@@ -577,7 +573,7 @@ class _AddImageButton extends StatelessWidget {
 
   final int index;
   final bool hasIcon;
-  final _AddImageButtonOnTap onTap;
+  final void Function(int) onTap;
   final Uint8List bytes;
   final _ImageUploadStatus uploadStatus;
 
@@ -591,6 +587,7 @@ class _AddImageButton extends StatelessWidget {
         child: bytes == null
             // продублировал InkWell, чтобы не переопределять splashColor
             ? InkWell(
+                onTap: _onTap,
                 child: hasIcon
                     ? Icon(
                         FontAwesomeIcons.camera,
@@ -598,10 +595,10 @@ class _AddImageButton extends StatelessWidget {
                         size: kBigButtonIconSize,
                       )
                     : Container(),
-                onTap: _onTap,
               )
             : InkWell(
                 splashColor: Colors.white.withOpacity(0.4),
+                onTap: _onTap,
                 child: Ink.image(
                   fit: BoxFit.cover,
                   image: ExtendedImage.memory(bytes).image,
@@ -629,7 +626,6 @@ class _AddImageButton extends StatelessWidget {
                           ],
                         ),
                 ),
-                onTap: _onTap,
               ),
       ),
     );
@@ -686,6 +682,14 @@ class _AddedUnitDialog extends StatelessWidget {
               // TODO: FlatButton + ButtonTheme(minWidth: double.infinity)
               MaterialButton(
                 minWidth: double.infinity,
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onPressed: () {
+                  navigator.pop(true);
+                },
+                color: Colors.green,
+                textColor: Colors.white,
+                elevation: 0,
+                highlightElevation: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -697,30 +701,11 @@ class _AddedUnitDialog extends StatelessWidget {
                     Text('Добавьте ещё один лот'),
                   ],
                 ),
-                onLongPress: () {}, // чтобы сократить время для splashColor
-                onPressed: () {
-                  navigator.pop(true);
-                },
-                color: Colors.green,
-                textColor: Colors.white,
-                elevation: 0,
-                highlightElevation: 0,
               ),
               if (!needModerate)
                 // TODO: OutlineButton + ButtonTheme(minWidth: double.infinity)
                 MaterialButton(
                   minWidth: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        FontAwesomeIcons.share,
-                        size: kButtonIconSize,
-                      ),
-                      SizedBox(width: 8),
-                      Text('Поделитесь и получите бонус'),
-                    ],
-                  ),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     share(unit);
@@ -732,6 +717,17 @@ class _AddedUnitDialog extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.green)),
                   elevation: 0,
                   highlightElevation: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.share,
+                        size: kButtonIconSize,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Поделитесь и получите бонус'),
+                    ],
+                  ),
                 ),
             ],
           ),
@@ -783,8 +779,6 @@ class _ImageSourceUnit extends StatelessWidget {
           navigator.pop(result);
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
               icon,
@@ -838,6 +832,10 @@ Future<UrgentValue> _selectUrgentDialog(
                       ? Colors.grey.withOpacity(0.2)
                       : Colors.white,
                   child: InkWell(
+                    onLongPress: () {}, // чтобы сократить время для splashColor
+                    onTap: () {
+                      navigator.pop(kUrgents[index].value);
+                    },
                     child: ListTile(
                       title: Text(kUrgents[index].name),
                       subtitle: Text(kUrgents[index].text),
@@ -860,10 +858,6 @@ Future<UrgentValue> _selectUrgentDialog(
                           : null,
                       dense: true,
                     ),
-                    onLongPress: () {}, // чтобы сократить время для splashColor
-                    onTap: () {
-                      navigator.pop(kUrgents[index].value);
-                    },
                   ),
                 );
               },

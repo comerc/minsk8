@@ -46,26 +46,26 @@ class InviteScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 FlatButton(
-                  child: Text('Пригласить друзей'),
                   onPressed: () {
                     // TODO: [MVP] go to share link
                   },
                   color: Colors.green,
                   textColor: Colors.white,
+                  child: Text('Пригласить друзей'),
                 ),
                 OutlineButton(
-                  child: Text('Пригласить позже'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     navigator.pop();
                   },
                   textColor: Colors.black.withOpacity(0.8),
+                  child: Text('Пригласить позже'),
                 ),
               ],
             ),

@@ -6,10 +6,10 @@ Builder markdownBuilder(_) => MarkdownBuilder();
 class MarkdownBuilder implements Builder {
   @override
   void build(BuildStep buildStep) async {
-    var inputId = buildStep.inputId;
-    var contents = await buildStep.readAsString(inputId);
-    var markdownContents = markdownToHtml(contents);
-    var outputId = inputId.changeExtension('.html');
+    final inputId = buildStep.inputId;
+    final contents = await buildStep.readAsString(inputId);
+    final markdownContents = markdownToHtml(contents);
+    final outputId = inputId.changeExtension('.html');
     await buildStep.writeAsString(outputId, markdownContents);
   }
 

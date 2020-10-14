@@ -133,10 +133,10 @@ class _ContentState extends State<Content> {
     return Offstage(
       offstage: _offstage,
       child: _AfterBuildWrapper(
+        onAfterBuild: _handleAfterBuild,
         child: widget.buildMarkdown == null
             ? buildDefaultMarkdown(_content)
             : widget.buildMarkdown(_content),
-        onAfterBuild: _handleAfterBuild,
       ),
     );
   }

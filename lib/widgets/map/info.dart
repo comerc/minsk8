@@ -8,7 +8,7 @@ class MapInfo extends StatelessWidget {
   final void Function() onClose;
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     const kCloseIconSize = 20.0;
     return Stack(
       children: <Widget>[
@@ -50,12 +50,12 @@ class MapInfo extends StatelessWidget {
             message: 'Закрыть',
             child: Material(
               child: InkWell(
+                onTap: onClose,
                 child: Icon(
                   Icons.close,
                   color: Colors.black.withOpacity(0.8),
                   size: kCloseIconSize,
                 ),
-                onTap: onClose,
               ),
             ),
           ),

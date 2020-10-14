@@ -45,11 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 48),
             OutlineButton(
               shape: StadiumBorder(),
+              onLongPress: _isLoading
+                  ? null
+                  : () {}, // чтобы сократить время для splashColor
+              onPressed: _isLoading ? null : _signInWithGoogle,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: kButtonIconSize,
                     height: kButtonIconSize,
                     child: FittedBox(
@@ -62,19 +66,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text('Войти через Google'),
                 ],
               ),
-              onLongPress: _isLoading
-                  ? null
-                  : () {}, // чтобы сократить время для splashColor
-              onPressed: _isLoading ? null : _signInWithGoogle,
             ),
             if (isInDebugMode)
               OutlineButton(
                 shape: StadiumBorder(),
-                child: Text('Sign Out'),
                 onLongPress: _isLoading
                     ? null
                     : () {}, // чтобы сократить время для splashColor
                 onPressed: _isLoading ? null : _signOut,
+                child: Text('Sign Out'),
               ),
           ],
         ),
@@ -101,10 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
           content: Text('Не удалось получить доступ, попробуйте ещё раз.'),
           actions: <Widget>[
             FlatButton(
-              child: Text('ОК'),
               onPressed: () {
                 navigator.pop();
               },
+              child: Text('ОК'),
             ),
           ],
         ),
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
       _scaffoldKey.currentState.showSnackBar(snackBar);
-      debugPrint(error.toString());
+      out(error);
     }
   }
 
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await _googleSignIn.signOut();
       }
     } catch (error) {
-      debugPrint(error.toString());
+      out(error);
     } finally {
       setState(() {
         _isLoading = false;

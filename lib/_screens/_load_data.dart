@@ -32,7 +32,7 @@ class LoadDataScreen extends StatelessWidget {
               //   );
               // }
               // return ListView.separated(
-              //   padding: const EdgeInsets.all(8),
+              //   padding: EdgeInsets.all(8),
               //   itemCount: result.data['units'].length,
               //   itemBuilder: (BuildContext context, int index) {
               //     final unit = UnitModel.fromJson(result.data['units'][index]);
@@ -146,7 +146,7 @@ class LoadDataScreen extends StatelessWidget {
   }
 
   Widget _buildUnit(bool isLoading, UnitModel unit) {
-    // print('$isLoading - ${unit.id}');
+    // out('$isLoading - ${unit.id}');
     return ListTile(
       title: Text(unit.text),
       subtitle: Text(unit.id),

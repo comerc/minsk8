@@ -98,10 +98,8 @@ class _ExtendedAnimatedAlignState
   Widget build(BuildContext context) {
     return Align(
       alignment: _alignment.evaluate(animation),
-      widthFactor:
-          _widthFactor != null ? _widthFactor.evaluate(animation) : null,
-      heightFactor:
-          _heightFactor != null ? _heightFactor.evaluate(animation) : null,
+      widthFactor: _widthFactor?.evaluate(animation),
+      heightFactor: _heightFactor?.evaluate(animation),
       child: widget.child,
     );
   }

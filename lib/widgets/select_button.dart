@@ -14,6 +14,7 @@ class SelectButton extends StatelessWidget {
       message: tooltip,
       child: Material(
         child: InkWell(
+          onTap: onTap,
           child: Row(
             children: <Widget>[
               SizedBox(width: 16),
@@ -32,7 +33,6 @@ class SelectButton extends StatelessWidget {
               SizedBox(width: 16),
             ],
           ),
-          onTap: onTap,
         ),
       ),
     );

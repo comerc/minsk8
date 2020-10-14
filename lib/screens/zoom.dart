@@ -41,8 +41,8 @@ class _ZoomScreenState extends State<ZoomScreen>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: this);
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 150), vsync: this);
     _currentIndex = widget.index;
     // final unit = widget.unit;
     // analytics.setCurrentScreen(screenName: '/zoom ${unit.id} [$_currentIndex]');
@@ -73,7 +73,7 @@ class _ZoomScreenState extends State<ZoomScreen>
                 loadStateChanged: loadStateChanged,
                 mode: ExtendedImageMode.gesture,
                 initGestureConfigHandler: (state) {
-                  var initialScale = 1.0;
+                  final initialScale = 1.0;
                   if (state.extendedImageInfo != null &&
                       state.extendedImageInfo.image != null) {
                     // TODO: пока работает неправильно при смене ориентации
@@ -94,14 +94,13 @@ class _ZoomScreenState extends State<ZoomScreen>
                     inertialSpeed: 100,
                     initialScale: initialScale,
                     inPageView: false,
-                    initialAlignment: InitialAlignment.center,
                   );
                 },
                 onDoubleTap: (ExtendedImageGestureState state) {
                   ///you can use define pointerDownPosition as you can,
                   ///default value is double tap pointer down position.
                   final pointerDownPosition = state.pointerDownPosition;
-                  var begin = state.gestureDetails.totalScale;
+                  final begin = state.gestureDetails.totalScale;
                   double end;
                   //remove old
                   _animation?.removeListener(_animationListener);

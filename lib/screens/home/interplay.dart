@@ -54,8 +54,8 @@ class HomeInterplay extends StatelessWidget {
       poolForReloadTabs: poolForReloadTabs,
     );
     return SafeArea(
-      child: child,
       bottom: false,
+      child: child,
     );
   }
 }
@@ -114,7 +114,7 @@ class _ChatListState extends State<_ChatList>
         }
         final items = _normalizeItems();
         return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-          Key('${widget.tagPrefix}'),
+          Key(widget.tagPrefix),
           LoadingMoreCustomScrollView(
             // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
             showGlowLeading: false,
@@ -160,7 +160,7 @@ class _ChatListState extends State<_ChatList>
   }
 
   // List<Widget> _buildChat(StageValue stage) {
-  //   print(stage.index);
+  //   out(stage.index);
   //   final sourceList = widget.dataPool[stage.index];
   //   return [
   //     _ChatHeader(stage: stage, onChanged: _onChanged),
@@ -170,7 +170,7 @@ class _ChatListState extends State<_ChatList>
   //           sourceList: sourceList,
   //           extendedListDelegate: ExtendedListDelegate(
   //             collectGarbage: (List<int> garbages) {
-  //               garbages.forEach((int index) {
+  //               for (final index in garbages) {
   //                 final chat = sourceList[index];
   //                 final unit = chat.unit;
   //                 final image = unit.images[0];
@@ -178,7 +178,7 @@ class _ChatListState extends State<_ChatList>
   //                   image.getDummyUrl(unit.id),
   //                 );
   //                 provider.evict();
-  //               });
+  //               }
   //             },
   //           ),
   //           itemBuilder: (BuildContext context, ChatModel item, int index) {
@@ -215,7 +215,7 @@ class _ChatListState extends State<_ChatList>
   //               return SliverToBoxAdapter(
   //                 child: Center(
   //                   child: Container(
-  //                     margin: const EdgeInsets.symmetric(vertical: 5),
+  //                     margin: EdgeInsets.symmetric(vertical: 5),
   //                     height: 15,
   //                     width: 15,
   //                     child: buildProgressIndicator(context),
@@ -263,7 +263,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 400),
       vsync: this,
     );
     _isInitialExpanded = appState['${widget.stage}'] == true;
@@ -287,6 +287,20 @@ class _ChatListGroupState extends State<_ChatListGroup>
           Material(
             color: Colors.white,
             child: InkWell(
+              onLongPress: () {}, // чтобы сократить время для splashColor
+              onTap: () {
+                final isExpanded = appState['${widget.stage}'] == true;
+                appState['${widget.stage}'] = !isExpanded;
+                if (isExpanded) {
+                  _isInitialExpanded
+                      ? _controller.forward()
+                      : _controller.reverse();
+                } else {
+                  _isInitialExpanded
+                      ? _controller.reverse()
+                      : _controller.forward();
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                   border: Border(
@@ -296,23 +310,25 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
-                    Container(
-                      child: Text(
-                        {
-                          StageValue.ready: 'Договоритесь о встрече',
-                          StageValue.cancel: 'Отменённые',
-                          StageValue.success: 'Завершённые',
-                        }[widget.stage],
-                        style: TextStyle(
-                          fontSize: 11,
-                          // fontWeight: FontWeight.w600,
-                          color: Colors.black.withOpacity(0.8),
-                        ),
+                    Text(
+                      {
+                        StageValue.ready: 'Договоритесь о встрече',
+                        StageValue.cancel: 'Отменённые',
+                        StageValue.success: 'Завершённые',
+                      }[widget.stage],
+                      style: TextStyle(
+                        fontSize: 11,
+                        // fontWeight: FontWeight.w600,
+                        color: Colors.black.withOpacity(0.8),
                       ),
                     ),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 2),
+                      decoration: ShapeDecoration(
+                        color: Colors.grey.withOpacity(0.3),
+                        shape: StadiumBorder(),
+                      ),
                       child: Row(
                         children: [
                           SizedBox(width: 4),
@@ -335,28 +351,10 @@ class _ChatListGroupState extends State<_ChatListGroup>
                           ),
                         ],
                       ),
-                      decoration: ShapeDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        shape: StadiumBorder(),
-                      ),
                     )
                   ],
                 ),
               ),
-              onLongPress: () {}, // чтобы сократить время для splashColor
-              onTap: () {
-                final isExpanded = appState['${widget.stage}'] == true;
-                appState['${widget.stage}'] = !isExpanded;
-                if (isExpanded) {
-                  _isInitialExpanded
-                      ? _controller.forward()
-                      : _controller.reverse();
-                } else {
-                  _isInitialExpanded
-                      ? _controller.reverse()
-                      : _controller.forward();
-                }
-              },
             ),
           ),
           _AnimatedBox(
@@ -435,6 +433,10 @@ class _ChatListGroupState extends State<_ChatListGroup>
                                 height: 16,
                                 width: 16,
                                 alignment: Alignment.center,
+                                decoration: ShapeDecoration(
+                                  color: Colors.blue,
+                                  shape: CircleBorder(),
+                                ),
                                 child: Text(
                                   '$unreadCount',
                                   style: TextStyle(
@@ -442,10 +444,6 @@ class _ChatListGroupState extends State<_ChatListGroup>
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: CircleBorder(),
                                 ),
                               ),
                           ],
@@ -632,7 +630,7 @@ class _AnimatedBox extends StatelessWidget {
 //   void initState() {
 //     super.initState();
 //     _controller = AnimationController(
-//       duration: const Duration(milliseconds: 400),
+//       duration: Duration(milliseconds: 400),
 //       vsync: this,
 //     );
 //     _isInitialExpanded = appState['${widget.stage}'] == true;
@@ -734,7 +732,7 @@ class _NoticeListState extends State<_NoticeList>
   Widget build(BuildContext context) {
     super.build(context);
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-      Key('${widget.tagPrefix}'),
+      Key(widget.tagPrefix),
       LoadingMoreCustomScrollView(
         // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
         showGlowLeading: false,
@@ -747,7 +745,7 @@ class _NoticeListState extends State<_NoticeList>
               sourceList: widget.sourceList,
               extendedListDelegate: ExtendedListDelegate(
                 collectGarbage: (List<int> garbages) {
-                  garbages.forEach((int index) {
+                  for (final index in garbages) {
                     final noticeItem = widget.sourceList[index];
                     final notice = noticeItem.notice;
                     if (notice == null) return;
@@ -760,7 +758,7 @@ class _NoticeListState extends State<_NoticeList>
                       image.getDummyUrl(unit.id),
                     );
                     provider.evict();
-                  });
+                  }
                 },
               ),
               itemBuilder: (BuildContext context, NoticeItem item, int index) {
@@ -769,6 +767,11 @@ class _NoticeListState extends State<_NoticeList>
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(8),
                     child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      decoration: ShapeDecoration(
+                        color: Colors.grey.withOpacity(0.3),
+                        shape: StadiumBorder(),
+                      ),
                       child: Text(
                         item.displayDate,
                         style: TextStyle(
@@ -777,19 +780,14 @@ class _NoticeListState extends State<_NoticeList>
                           color: Colors.black.withOpacity(0.8),
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      decoration: ShapeDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        shape: StadiumBorder(),
-                      ),
                     ),
                   );
                 }
                 final notice = item.notice;
                 void Function() action; // TODO: [MVP] реализовать
                 Widget avatar = CircleAvatar(
-                  child: Logo(size: kDefaultIconSize),
                   backgroundColor: Colors.white,
+                  child: Logo(size: kDefaultIconSize),
                 );
                 var text = 'no data';
                 final proclamation = item.notice.proclamation;

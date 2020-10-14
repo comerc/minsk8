@@ -135,8 +135,9 @@ class MapWidget extends StatefulWidget {
     // double tanLambda = sinSigma * sinAlpha1 / (cosU1 * cosSigma - sinU1 *
     // sinSigma * cosAlpha1);
     // double lambda = Math.atan(tanLambda);
-    final lambda = atan2(sinSigma * sinAlpha1,
-        (cosU1 * cosSigma - sinU1 * sinSigma * cosAlpha1));
+    final a2 = sinSigma * sinAlpha1;
+    final b2 = cosU1 * cosSigma - sinU1 * sinSigma * cosAlpha1;
+    final lambda = atan2(a2, b2);
     // eq. 10
     final C = (f / 16) * cos2Alpha * (4 + f * (4 - 3 * cos2Alpha));
     // eq. 11
@@ -168,7 +169,7 @@ class MapWidget extends StatefulWidget {
     // String result = '(none)';
     final result = MapAddress();
     try {
-      var placemarks = await Geolocator().placemarkFromCoordinates(
+      final placemarks = await Geolocator().placemarkFromCoordinates(
           center.latitude, center.longitude,
           localeIdentifier: 'ru');
       final placemark = placemarks[0];
@@ -182,12 +183,12 @@ class MapWidget extends StatefulWidget {
         result.simple = placemark.country;
       }
       if (placemark.thoroughfare != '') {
-        result.detail = result.simple + ', ' + placemark.thoroughfare;
+        result.detail = '${result.simple}, ${placemark.thoroughfare}';
       } else if (placemark.name != '' && placemark.name != result.simple) {
-        result.detail = result.simple + ', ' + placemark.name;
+        result.detail = '${result.simple}, ${placemark.name}';
       }
     } catch (error) {
-      debugPrint('$error');
+      out(error);
     }
     return result;
   }
@@ -225,8 +226,8 @@ class _MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
     final zoomTween = Tween<double>(begin: _mapController.zoom, end: destZoom);
 
     // Create a animation controller that has a duration and a TickerProvider.
-    final controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+    final controller =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
     // The animation determines what path the animation will take. You can try different Curves values, although I found
     // fastOutSlowIn to be my favorite.
     final animation =
@@ -260,7 +261,7 @@ class _MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
         onPositionChanged: widget.onPositionChanged,
         onLongPress: _handleLongPress,
         plugins: <MapPlugin>[
-          widget.isMyUnit ? MapMyUnitLayer() : MapAreaLayer(),
+          if (widget.isMyUnit) MapMyUnitLayer() else MapAreaLayer(),
           MapScaleLayer(),
           if (isInDebugMode) MapZoomLayer(),
         ],
@@ -319,7 +320,6 @@ class _MapWidgetState extends State<MapWidget> with TickerProviderStateMixin {
           ),
         MapScaleLayerOption(
           lineColor: Colors.blue,
-          lineWidth: 2,
           textStyle: TextStyle(color: Colors.blue, fontSize: kFontSize),
           padding: EdgeInsets.all(10),
         ),

@@ -28,7 +28,7 @@ class UnderwayData extends SourceList<UnitModel> {
   }
 
   @override
-  List<UnitModel> getItems(data) {
+  List<UnitModel> getItems(Map<String, dynamic> data) {
     final dataItems = <Map<String, dynamic>>[
       ...data[{
         UnderwayValue.wish: 'wishes',
@@ -55,7 +55,7 @@ class UnderwayData extends SourceList<UnitModel> {
     return items;
   }
 
-  UnitModel normalizeItem(metaModel) {
+  UnitModel normalizeItem(dynamic metaModel) {
     final item = metaModel.unit as UnitModel;
     metaModel.unit = null;
     item.meta = metaModel;

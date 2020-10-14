@@ -20,7 +20,7 @@ Widget buildListIndicator({
         children: <Widget>[
           Container(
             // margin: EdgeInsets.only(right: 5),
-            margin: const EdgeInsets.symmetric(vertical: 5),
+            margin: EdgeInsets.symmetric(vertical: 5),
             height: 15,
             width: 15,
             child: buildProgressIndicator(context),
@@ -34,7 +34,7 @@ Widget buildListIndicator({
       result = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
+          SizedBox(
             // margin: EdgeInsets.only(right: 5),
             height: 30,
             width: 30,
@@ -135,8 +135,8 @@ Widget _buildBackground(bool isFull, Widget child) {
   return Container(
     width: double.infinity,
     height: isFull ? double.infinity : kNavigationBarHeight * 2,
-    child: child,
     color: Colors.transparent,
     alignment: isFull ? Alignment.center : Alignment.topCenter,
+    child: child,
   );
 }

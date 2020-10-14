@@ -351,7 +351,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      print('selectNotificationSubject.stream.listen');
+      out('selectNotificationSubject.stream.listen');
       // await navigator.push(
       //   MaterialPageRoute(builder: (context) => _SecondScreen(payload)),
       // );

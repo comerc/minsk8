@@ -19,7 +19,7 @@ class _StartMapScreenState extends State<StartMapScreen> {
   bool _isInfo = true;
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     Widget body = MapWidget(
       center: LatLng(
         kDefaultMapCenter[0],
@@ -31,12 +31,12 @@ class _StartMapScreenState extends State<StartMapScreen> {
     if (_isInfo) {
       body = MapInfo(
         text: 'Укажите желаемое местоположение, чтобы смотреть лоты поблизости',
-        child: body,
         onClose: () {
           setState(() {
             _isInfo = false;
           });
         },
+        child: body,
       );
     }
     return WillPopScope(

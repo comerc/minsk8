@@ -25,13 +25,13 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
         // TODO: FlatButton
         child: MaterialButton(
           color: Colors.white,
+          height: kBigButtonHeight,
+          shape: CircleBorder(),
+          onPressed: _onCurrentPositionClick,
           child: Icon(
             Icons.my_location,
             size: kDefaultIconSize,
           ),
-          height: kBigButtonHeight,
-          shape: CircleBorder(),
-          onPressed: _onCurrentPositionClick,
         ),
       ),
     );
@@ -51,16 +51,16 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
                 "You need to allow access to device's location in Permissions from App Settings."),
             actions: <Widget>[
               FlatButton(
-                child: Text('CANCEL'),
                 onPressed: () {
                   navigator.pop(false);
                 },
+                child: Text('CANCEL'),
               ),
               FlatButton(
-                child: Text('OK'),
                 onPressed: () {
                   navigator.pop(true);
                 },
+                child: Text('OK'),
               ),
             ],
           ),
@@ -75,11 +75,10 @@ class _MapCurrentPositionState extends State<MapCurrentPosition> {
     final isShown = await PermissionHandler()
         .shouldShowRequestPermissionRationale(PermissionGroup.location);
     try {
-      final position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      final position = await Geolocator().getCurrentPosition();
       widget.onCurrentPosition(position);
     } catch (error) {
-      debugPrint(error.toString());
+      out(error);
       if (isShown) {
         final isNeverAskAgain = !(await PermissionHandler()
             .shouldShowRequestPermissionRationale(PermissionGroup.location));

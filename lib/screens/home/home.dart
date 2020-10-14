@@ -74,13 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           HomeShowcase(tabIndex: 0),
           HomeUnderway(tabIndex: 1),
           HomeInterplay(tabIndex: 2),
           HomeProfile(hasUpdate: _hasUpdate),
         ],
-        physics: NeverScrollableScrollPhysics(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ).route(),
       );
     }).catchError((error) {
-      debugPrint(error.toString());
+      out(error);
       navigator.pop();
     });
     FirebaseDynamicLinks.instance.onLink(
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       onError: (OnLinkErrorException error) async {
-        debugPrint(error.message);
+        out(error.message);
       },
     );
   }
@@ -162,8 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
         isShowcase: true,
       );
     } catch (error, stack) {
-      print(error);
-      print(stack);
+      out(error);
+      out(stack);
     }
     return null;
   }
@@ -189,22 +189,20 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       tooltip: 'Add Unit',
+      elevation: kButtonElevation,
       child: Icon(
         Icons.add,
         size: kBigButtonIconSize * 1.2,
       ),
-      elevation: kButtonElevation,
     );
   }
 }
-
-typedef _NavigationBarOnChangeTabIndex = void Function(int tabIndex);
 
 class _NavigationBar extends StatelessWidget {
   _NavigationBar({this.tabIndex, this.onChangeTabIndex});
 
   final int tabIndex;
-  final _NavigationBarOnChangeTabIndex onChangeTabIndex;
+  final void Function(int) onChangeTabIndex;
   final double _height = kNavigationBarHeight;
   final Color _backgroundColor = Colors.white;
   final Color _color = Colors.grey;
@@ -244,15 +242,14 @@ class _NavigationBar extends StatelessWidget {
     );
     children.insert(children.length >> 1, _buildMiddleTabUnit());
     return BottomAppBar(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: children,
-      ),
       shape: CircularNotchedRectangle(),
       clipBehavior: Clip.hardEdge,
       notchMargin: 8,
       color: _backgroundColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: children,
+      ),
     );
   }
 

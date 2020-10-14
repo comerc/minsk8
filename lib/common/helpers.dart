@@ -30,7 +30,7 @@ bool get isInDebugMode {
 ///   return Text(result.exception.toString());
 /// }
 /// if (result.loading) {
-///   return const Center(
+///   return Center(
 ///     child: CircularProgressIndicator(),
 ///   );
 /// }
@@ -71,17 +71,17 @@ Widget loadStateChanged(ExtendedImageState state) {
 String getOperationExceptionToString(OperationException operationException) {
   var text = operationException.toString();
   if (operationException.clientException != null) {
-    var clientException = operationException.clientException;
+    final clientException = operationException.clientException;
     if (clientException is CacheMissException) {
       final exception = clientException;
-      text = '${exception.message}';
+      text = exception.message;
     } else if (clientException is NormalizationException) {
       final exception = clientException;
       text =
           '${exception.message} ${exception.overflowError} ${exception.value}';
     } else if (clientException is ClientException) {
       final exception = clientException;
-      text = '${exception.message}';
+      text = exception.message;
     }
   }
   return text;
@@ -131,7 +131,7 @@ class SizeInt {
 
 String interpolate(String string, {Map<String, dynamic> params = const {}}) {
   var result = string;
-  for (var entry in params.entries) {
+  for (final entry in params.entries) {
     result = result.replaceAll('{{${entry.key}}}', '${entry.value}');
   }
   return result;
@@ -224,8 +224,8 @@ Map<String, dynamic> parseIdToken(String idToken) {
 //   try {
 //     return f?.call();
 //   } catch (e, stack) {
-//     debugPrint('$e');
-//     debugPrint('$stack');
+//     out('$e');
+//     out('$stack');
 //     return null;
 //   }
 // }
@@ -272,4 +272,9 @@ String getDisplayDate(DateTime now, DateTime dateTime) {
   return (humanDays.length > difference)
       ? humanDays[difference]
       : DateFormat.yMMMMd('ru_RU').format(date);
+}
+
+// TODO: add Sentry or Firebase "Bug-Log"?
+void out(dynamic value) {
+  if (isInDebugMode) debugPrint('$value');
 }

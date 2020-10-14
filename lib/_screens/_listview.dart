@@ -23,7 +23,7 @@ class ListViewScreen extends StatelessWidget {
           //     // shrinkWrap: true,
           //     itemCount: 100,
           //     itemBuilder: (BuildContext context, int index) {
-          //       print(index.toString());
+          //       out(index.toString());
           //       return Container(
           //         child: Text('$index'),
           //         height: 40,

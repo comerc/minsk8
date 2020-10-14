@@ -1,8 +1,8 @@
 import 'package:minsk8/import.dart';
+// import 'package:flutter/rendering.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
-// TODO: поменять все print(object) на debugPrint(String) ?
 // TODO: timeout для подписок GraphQL, смотри примеры
 // TODO: Image.asset автоматически показывает версию файла в зависимости от плотности пикселей устройства: - images/dash.png или - images/2x/dash.png
 // TODO: Убрать лишние Material и InkWell
@@ -36,8 +36,9 @@ NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 // don't use async for main!
 void main() {
+  // debugPaintSizeEnabled = true;
   FlutterError.onError = (FlutterErrorDetails details) {
-    print('FlutterError.onError $details');
+    out('FlutterError.onError $details');
     // if (isInDebugMode) {
     //   // In development mode, simply print to console.
     //   FlutterError.dumpErrorToConsole(details);
@@ -52,11 +53,11 @@ void main() {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    var initializationSettingsAndroid =
+    final initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
     // of the `IOSFlutterLocalNotificationsPlugin` class
-    var initializationSettingsIOS = IOSInitializationSettings(
+    final initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
         requestSoundPermission: false,
@@ -65,18 +66,18 @@ void main() {
           didReceiveLocalNotificationSubject.add(ReceivedNotificationModel(
               id: id, title: title, body: body, payload: payload));
         });
-    var initializationSettings = InitializationSettings(
+    final initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String payload) async {
       if (payload != null) {
-        debugPrint('notification payload: ' + payload);
+        out('notification payload: $payload');
       }
       selectNotificationSubject.add(payload);
     });
     // TODO: locale autodetect
     // await initializeDateFormatting('en_US', null);
-    await initializeDateFormatting('ru_RU', null);
+    await initializeDateFormatting('ru_RU');
     // runApp(
     //   DevicePreview(
     //     enabled: isInDebugMode,
@@ -85,7 +86,7 @@ void main() {
     // );
     runApp(AuthCheck());
   }, (error, stackTrace) {
-    print('runZonedGuarded $error');
+    out('runZonedGuarded $error');
     // Whenever an error occurs, call the `_reportError` function. This sends
     // Dart errors to the dev console or Sentry depending on the environment.
     // _reportError(error, stackTrace);
@@ -94,10 +95,10 @@ void main() {
 
 // Future<void> _reportError(dynamic error, dynamic stackTrace) async {
 //   // Print the exception to the console.
-//   print('Caught error: $error');
+//   out('Caught error: $error');
 //   if (isInDebugMode) {
 //     // Print the full stacktrace in debug mode.
-//     print(stackTrace);
+//     out(stackTrace);
 //     return;
 //   } else {
 //     // Send the Exception and Stacktrace to Sentry in Production mode.
@@ -126,7 +127,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('App build');
+    // out('App build');
     Widget result = CommonMaterialApp(
       navigatorObservers: <NavigatorObserver>[
         analyticsObserver,
@@ -198,8 +199,7 @@ class App extends StatelessWidget {
                     builder: (QueryResult result,
                         {VoidCallback refetch, FetchMore fetchMore}) {
                       if (result.hasException) {
-                        debugPrint(
-                            getOperationExceptionToString(result.exception));
+                        out(getOperationExceptionToString(result.exception));
                         return Material(
                           child: InkWell(
                             onTap: refetch,
@@ -270,10 +270,10 @@ class App extends StatelessWidget {
       // TODO: как это может пригодиться (flutter_firebase_login)?
       // onGenerateRoute: (_) => SplashPage.route(),
       // onGenerateRoute: (RouteSettings settings) {
-      //   print('onGenerateRoute: $settings');
+      //   out('onGenerateRoute: $settings');
       //   return null;
       // },
-      // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<Null>(
+      // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<void>(
       //   settings: settings,
       //   builder: (BuildContext context) => UnknownPage(settings.name),
       // ),
@@ -290,14 +290,13 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
-    // print(jsonEncode(parseIdToken(authData.token)));
+    // out(jsonEncode(parseIdToken(authData.token)));
     final httpLink = HttpLink(
       uri: 'https://$kGraphQLEndpoint',
     );
     final websocketLink = WebSocketLink(
       url: 'wss://$kGraphQLEndpoint',
       config: SocketClientConfig(
-        autoReconnect: true,
         inactivityTimeout: kGraphQLWebsocketInactivityTimeout,
         initPayload: () async => {
           'headers': {'Authorization': 'Bearer ${authData.token}'}
@@ -314,7 +313,7 @@ class App extends StatelessWidget {
     ]) {
       StreamController<FetchResult> controller;
       Future<void> onListen() async {
-        // print('onListen');
+        // out('onListen');
         await controller
             .addStream(refreshToken(controller, forward, operation).asStream());
         await controller.close();
@@ -345,13 +344,13 @@ class App extends StatelessWidget {
     result = LifeCycleManager(
       onInitState: () {},
       onDispose: () {
-        HomeShowcase.dataPool?.forEach((data) {
+        for (final data in HomeShowcase.dataPool) {
           data.dispose();
-        });
+        }
         HomeShowcase.dataPool = null;
-        HomeUnderway.dataPool?.forEach((data) {
+        for (final data in HomeUnderway.dataPool) {
           data.dispose();
-        });
+        }
         HomeUnderway.dataPool = null;
       },
       child: result,
@@ -381,7 +380,7 @@ class App extends StatelessWidget {
       appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
       return true;
     }).catchError((error) {
-      print('_upsertMember $error');
+      out('_upsertMember $error');
     });
   }
 }
@@ -407,21 +406,21 @@ class MediaQueryWrap extends StatelessWidget {
   }
 
   // void printScreenInformation() {
-  //   print('Device width dp:${ScreenUtil.screenWidth}'); //Device width
-  //   print('Device height dp:${ScreenUtil.screenHeight}'); //Device height
-  //   print(
+  //   out('Device width dp:${ScreenUtil.screenWidth}'); //Device width
+  //   out('Device height dp:${ScreenUtil.screenHeight}'); //Device height
+  //   out(
   //       'Device pixel density:${ScreenUtil.pixelRatio}'); //Device pixel density
-  //   print(
+  //   out(
   //       'Bottom safe zone distance dp:${ScreenUtil.bottomBarHeight}'); //Bottom safe zone distance，suitable for buttons with full screen
-  //   print(
+  //   out(
   //       'Status bar height dp:${ScreenUtil.statusBarHeight}dp'); //Status bar height , Notch will be higher Unit dp
-  //   print(
+  //   out(
   //       'Ratio of actual width dp to design draft px:${ScreenUtil().scaleWidth}');
-  //   print(
+  //   out(
   //       'Ratio of actual height dp to design draft px:${ScreenUtil().scaleHeight}');
-  //   print(
+  //   out(
   //       'The ratio of font and width to the size of the design:${ScreenUtil().scaleWidth * ScreenUtil.pixelRatio}');
-  //   print(
+  //   out(
   //       'The ratio of height width to the size of the design:${ScreenUtil().scaleHeight * ScreenUtil.pixelRatio}');
   // }
 }
@@ -430,7 +429,7 @@ class MediaQueryWrap extends StatelessWidget {
 //   if (object is Map<String, Object> && object.containsKey('__typename')) {
 //     if (object['__typename'] == 'profile') {
 //       final member = object['member'] as Map<String, Object>;
-//       print('profile/${member['id']}');
+//       out('profile/${member['id']}');
 //       return 'profile/${member['id']}';
 //     }
 //   }
@@ -517,7 +516,7 @@ class _AuthCheckState extends State<AuthCheck> {
       final idToken = await user.getIdToken();
       return AuthData(user: user, token: idToken.token);
     } catch (error) {
-      print('_getAuthData $error');
+      out('_getAuthData $error');
       return null;
     }
   }
@@ -548,7 +547,7 @@ class CommonMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // print('App build');
+    // out('App build');
     return MaterialApp(
       navigatorKey: _navigatorKey,
       // debugShowCheckedModeBanner: isInDebugMode,
@@ -592,7 +591,7 @@ class CommonMaterialApp extends StatelessWidget {
 
 Future<T> whenFirst<T>(Stream<T> source) async {
   try {
-    await for (T value in source) {
+    await for (final T value in source) {
       if (value != null) {
         return value;
       }
@@ -608,12 +607,12 @@ Future<T> whenFirst<T>(Stream<T> source) async {
 Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
     NextLink forward, Operation operation) async {
   try {
-    // print('refreshToken');
+    // out('refreshToken');
     final mainStream = forward(operation);
     final firstEvent = await whenFirst(mainStream);
     if (firstEvent.errors != null && firstEvent.errors[0] != null) {
-      print('firstEvent.errors[0] ${firstEvent.errors[0]}');
-      print('firstEvent.statusCode ${firstEvent.statusCode}');
+      out('firstEvent.errors[0] ${firstEvent.errors[0]}');
+      out('firstEvent.statusCode ${firstEvent.statusCode}');
       // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
       // https://github.com/zino-app/graphql-flutter/issues/220
       // ожидаю graphql-flutter V4, issue висит в roadmap
@@ -622,11 +621,11 @@ Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
       // I/flutter ( 3382): GraphQL Errors:
       // I/flutter ( 3382): Could not verify JWT: JWTExpired: Undefined location
     }
-    // print('firstEvent.data ${firstEvent.data}');
+    // out('firstEvent.data ${firstEvent.data}');
     return firstEvent;
   } catch (error, stackTrace) {
-    print('refreshToken error $error');
-    print('refreshToken stackTrace $stackTrace');
+    out('refreshToken error $error');
+    out('refreshToken stackTrace $stackTrace');
     return Future.error(error);
     // Logger.root.severe(error.toString());
     // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
@@ -680,14 +679,14 @@ class _LifeCycleManagerState extends State<LifeCycleManager>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // print('lyfecycle state = $state');
-    // services.forEach((service) {
+    // out('lyfecycle state = $state');
+    // for (final service in services) {
     //   if (state == AppLifecycleState.resumed) {
     //     service.start();
     //   } else {
     //     service.stop();
     //   }
-    // });
+    // }
   }
 
   @override

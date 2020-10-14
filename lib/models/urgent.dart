@@ -15,6 +15,8 @@ class UrgentModel implements EnumModel {
   String get name => _name;
 }
 
+// TODO: исправить enum-ы на camelCase
+// ignore: constant_identifier_names
 enum UrgentValue { very_urgent, urgent, not_urgent, none }
 
 final kUrgents = <UrgentModel>[

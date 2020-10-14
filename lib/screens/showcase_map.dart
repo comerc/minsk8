@@ -10,8 +10,8 @@ class ShowcaseMapScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(context) {
-    Widget body = MapWidget(
+  Widget build(BuildContext context) {
+    final body = MapWidget(
       center: LatLng(
         appState['ShowcaseMap.center'][0] as double,
         appState['ShowcaseMap.center'][1] as double,

@@ -13,7 +13,7 @@ class MapMyUnitLayerOptions extends LayerOptions {
 class MapMyUnitLayer implements MapPlugin {
   @override
   Widget createLayer(
-      LayerOptions options, MapState mapState, Stream<Null> stream) {
+      LayerOptions options, MapState mapState, Stream<void> stream) {
     // if (!(options is MapMyUnitLayerOptions)) {
     //   throw 'Unknown options type for MapMyUnitLayer: $options';
     // }
@@ -110,7 +110,7 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: kAnimationTime), vsync: this);
+        duration: Duration(milliseconds: kAnimationTime), vsync: this);
     _animation = Tween<double>(begin: 1, end: 0).animate(_controller)
       ..addListener(() {
         setState(() {});
@@ -127,11 +127,11 @@ class _AnimatedLabelState extends State<_AnimatedLabel>
   void didUpdateWidget(_AnimatedLabel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.visible && !widget.visible) {
-      // print('forward');
+      // out('forward');
       _controller.forward();
     }
     if (!oldWidget.visible && widget.visible) {
-      // print('reverse');
+      // out('reverse');
       _controller.reverse();
     }
   }

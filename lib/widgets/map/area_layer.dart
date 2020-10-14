@@ -17,7 +17,7 @@ class MapAreaLayerOptions extends LayerOptions {
 class MapAreaLayer implements MapPlugin {
   @override
   Widget createLayer(
-      LayerOptions options, MapState mapState, Stream<Null> stream) {
+      LayerOptions options, MapState mapState, Stream<void> stream) {
     // if (!(options is MapAreaLayerOptions)) {
     //   throw 'Unknown options type for MapAreaLayer: $options';
     // }
@@ -33,7 +33,7 @@ class MapAreaLayer implements MapPlugin {
 class _MapAreaLayer extends StatefulWidget {
   final MapAreaLayerOptions options;
   final MapState mapState;
-  final Stream<Null> stream;
+  final Stream<void> stream;
 
   _MapAreaLayer(this.options, this.mapState, this.stream)
       : super(key: options.key);
@@ -61,7 +61,8 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
         center, 90, _radius.toDouble() * 1000);
     final start = widget.mapState.project(center);
     final end = widget.mapState.project(targetPoint);
-    return (end.x - start.x) as double;
+    final result = end.x - start.x;
+    return result as double;
   }
 
   @override
@@ -165,17 +166,15 @@ class _MapAreaLayerState extends State<_MapAreaLayer> {
                             ),
                           ),
                           Expanded(
-                            child: Container(
-                              child: Slider(
-                                value: _radius.toDouble(),
-                                onChanged: (double value) {
-                                  setState(() {
-                                    _radius = value.toInt();
-                                  });
-                                },
-                                min: 1,
-                                max: kMaxRadius,
-                              ),
+                            child: Slider(
+                              value: _radius.toDouble(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  _radius = value.toInt();
+                                });
+                              },
+                              min: 1,
+                              max: kMaxRadius,
                             ),
                           ),
                         ],

@@ -44,7 +44,6 @@ class _HomeProfileState extends State<HomeProfile> {
     final profile = Provider.of<ProfileModel>(context);
     final version = Provider.of<VersionModel>(context);
     final child = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         SizedBox(height: statusBarHeight + 16),
         Avatar(
@@ -101,7 +100,6 @@ class _HomeProfileState extends State<HomeProfile> {
         ),
         // TODO: ещё надо отображать текущую замороженную Карму
         FlatButton(
-          child: Text('ПОВЫСИТЬ КАРМУ'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.push(
@@ -110,6 +108,7 @@ class _HomeProfileState extends State<HomeProfile> {
           },
           color: Colors.green,
           textColor: Colors.white,
+          child: Text('ПОВЫСИТЬ КАРМУ'),
         ),
         SizedBox(height: 16),
         ListBox(
@@ -118,6 +117,18 @@ class _HomeProfileState extends State<HomeProfile> {
             final entry = _menu[index];
             return Material(
               child: InkWell(
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onTap: () {
+                  final routes = {
+                    'ledger': () => LedgerScreen().route(),
+                    'feedback': () => FeedbackScreen().route(),
+                    'faq': () => ContentScreen('faq.md').route(),
+                    'useful_tips': () =>
+                        ContentScreen('useful_tips.md').route(),
+                    'about': () => ContentScreen('about.md').route(),
+                  };
+                  navigator.push(routes[entry.key]());
+                },
                 child: ListTile(
                   // title: index == 0
                   //     ? Text(
@@ -134,18 +145,6 @@ class _HomeProfileState extends State<HomeProfile> {
                     size: kButtonIconSize,
                   ),
                 ),
-                onLongPress: () {}, // чтобы сократить время для splashColor
-                onTap: () {
-                  final routes = {
-                    'ledger': () => LedgerScreen().route(),
-                    'feedback': () => FeedbackScreen().route(),
-                    'faq': () => ContentScreen('faq.md').route(),
-                    'useful_tips': () =>
-                        ContentScreen('useful_tips.md').route(),
-                    'about': () => ContentScreen('about.md').route(),
-                  };
-                  navigator.push(routes[entry.key]());
-                },
               ),
             );
           },
@@ -165,13 +164,13 @@ class _HomeProfileState extends State<HomeProfile> {
             // color: Colors.white,
             // textColor: Colors.pinkAccent,
             textColor: Colors.black.withOpacity(0.8),
-            // TODO: Перезапустить
-            child: Text('Обновить приложение'),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
               // TODO: [MVP] go to update
               // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
             },
+            // TODO: Перезапустить
+            child: Text('Обновить приложение'),
           ),
         Text('Версия: ${version.value}'),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),

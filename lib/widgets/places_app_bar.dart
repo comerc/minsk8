@@ -17,7 +17,7 @@ class _PlacesAppBarState extends State<PlacesAppBar> {
   final _formFieldKey = GlobalKey<FormFieldState>();
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return _isPlaces
         ? ExtendedAppBar(
             isForeground: true,
@@ -130,7 +130,6 @@ class _PlacesState extends State<_Places> {
         // устраняет паразитное мигание при передаче фокуса
         if (!_isLoading) return null;
         return Align(
-          alignment: Alignment.center,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
             child: buildProgressIndicator(context),
@@ -157,7 +156,7 @@ class _PlacesState extends State<_Places> {
           //   subtitles.add(source['administrative'][0]);
           // subtitles.add(source['country']['value']);
         } catch (error) {
-          debugPrint('$error');
+          out(error);
         }
         return GestureDetector(
           onLongPress: () {}, // чтобы сократить время для splashColor
@@ -197,7 +196,6 @@ class _PlacesState extends State<_Places> {
 
   Future<Map<String, dynamic>> _request(String pattern) async {
     final cancellationToken = CancellationToken();
-    var msg = '';
     final url = 'https://places-dsn.algolia.net/1/places/query';
     // TODO: вынести в .env
     final headers = {
@@ -220,19 +218,18 @@ class _PlacesState extends State<_Places> {
           body: jsonEncode(data),
           headers: headers,
           cancelToken: cancellationToken,
-          // timeRetry: const Duration(milliseconds: 100),
+          // timeRetry: Duration(milliseconds: 100),
           // retries: 3,
-          timeLimit: const Duration(seconds: 5));
+          timeLimit: Duration(seconds: 5));
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       return result;
     } on TimeoutException catch (_) {
-      msg = 'TimeoutException';
-    } on OperationCanceledError catch (_) {
-      msg = 'cancel';
+      out('TimeoutException');
+      // } on OperationCanceledError catch (_) {
+      //   out('cancel');
     } catch (error) {
-      msg = '$error';
+      out(error);
     }
-    debugPrint(msg);
     return null;
   }
 
@@ -259,20 +256,20 @@ class _Highlight extends StatelessWidget {
     final matches = regex.allMatches(data) ?? [];
     final out = <InlineSpan>[];
     var start = 0;
-    matches.forEach((RegExpMatch element) {
-      if (element.start > 0) {
-        out.add(TextSpan(text: data.substring(start, element.start)));
+    for (final match in matches) {
+      if (match.start > 0) {
+        out.add(TextSpan(text: data.substring(start, match.start)));
       }
-      start = element.end;
+      start = match.end;
       out.add(TextSpan(
-        text: element.namedGroup('em'),
+        text: match.namedGroup('em'),
         style: DefaultTextStyle.of(context).style.copyWith(
               // fontWeight: FontWeight.w600,
               // color: Colors.black.withOpacity(0.8),
               fontStyle: FontStyle.italic,
             ),
       ));
-    });
+    }
     if (start < data.length) {
       out.add(TextSpan(text: data.substring(start, data.length)));
     }

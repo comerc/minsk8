@@ -22,7 +22,7 @@ class NoticeData extends SourceList<NoticeItem> {
   }
 
   @override
-  List<NoticeItem> getItems(data) {
+  List<NoticeItem> getItems(Map<String, dynamic> data) {
     final dataItems = <Map<String, dynamic>>[...data['notices']];
     // сначала наполняю буфер items, если есть ошибки в NoticeModel.fromJson
     final items = <NoticeItem>[];

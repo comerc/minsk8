@@ -20,7 +20,7 @@ class LedgerData extends SourceList<LedgerItem> {
   }
 
   @override
-  List<LedgerItem> getItems(data) {
+  List<LedgerItem> getItems(Map<String, dynamic> data) {
     final dataItems = <Map<String, dynamic>>[...data['payments']];
     // сначала наполняю буфер items, если есть ошибки в PaymentModel.fromJson
     final items = <LedgerItem>[];

@@ -15,7 +15,7 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return Scaffold(body: Center(child: Text('Старт...')));
   }
 

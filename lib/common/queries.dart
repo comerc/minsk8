@@ -4,7 +4,7 @@ import './fragments.dart';
 // TODO: заменить class Queries.getUnits > namespace queries.getUnits
 // TODO: а может убрать time zone (timestamptz vs timestamp)?
 
-class Queries {
+mixin Queries {
   static final getChats = gql(r'''
     query getChats {
       chats(

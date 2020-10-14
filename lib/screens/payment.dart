@@ -83,6 +83,13 @@ class _PaymentScreenState extends State<PaymentScreen>
                 ),
                 SizedBox(height: 8),
                 FlatButton(
+                  onLongPress: () {}, // чтобы сократить время для splashColor
+                  onPressed: () {
+                    navigator.push(
+                      ContentScreen('make_it_together.md').route(),
+                    );
+                  },
+                  textColor: Colors.black.withOpacity(0.6),
                   child: Text(
                     'Вместе мы сделаем мир лучше',
                     style: TextStyle(
@@ -92,16 +99,9 @@ class _PaymentScreenState extends State<PaymentScreen>
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                  onLongPress: () {}, // чтобы сократить время для splashColor
-                  onPressed: () {
-                    navigator.push(
-                      ContentScreen('make_it_together.md').route(),
-                    );
-                  },
-                  textColor: Colors.black.withOpacity(0.6),
                 ),
                 SizedBox(height: 8),
-                Container(
+                SizedBox(
                   height: activeHeight,
                   child: ListView.separated(
                     padding: EdgeInsets.symmetric(horizontal: listViewPadding),
@@ -322,24 +322,32 @@ class _PaymentScreenState extends State<PaymentScreen>
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 _PaymentButton(onTap: _handlePayment),
                 OutlineButton(
-                  child: Text('НЕТ, СПАСИБО'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     navigator.pop();
                   },
                   textColor: Colors.black.withOpacity(0.8),
+                  child: Text('НЕТ, СПАСИБО'),
                 ),
               ],
             ),
           ),
           FlatButton(
+            onLongPress: () {}, // чтобы сократить время для splashColor
+            onPressed: () {
+              launchFeedback(
+                subject: 'Не получается оплатить',
+                body: 'member_id=${getMemberId(context)}\n',
+              );
+            },
+            textColor: Colors.red,
             child: Text(
               'Не получается оплатить',
               style: TextStyle(
@@ -349,14 +357,6 @@ class _PaymentScreenState extends State<PaymentScreen>
                 decoration: TextDecoration.underline,
               ),
             ),
-            onLongPress: () {}, // чтобы сократить время для splashColor
-            onPressed: () {
-              launchFeedback(
-                subject: 'Не получается оплатить',
-                body: 'member_id=${getMemberId(context)}\n',
-              );
-            },
-            textColor: Colors.red,
           ),
         ],
       ),
@@ -367,7 +367,7 @@ class _PaymentScreenState extends State<PaymentScreen>
   }
 
   void _handlePayment() {
-    print(_activeIndex);
+    out(_activeIndex);
     // TODO: [MVP] подключить оплату
     // huawei_iap
     // in_app_purchase
@@ -417,11 +417,11 @@ class _PaymentButtonState extends State<_PaymentButton>
         ScaleTransition(
           scale: _animation,
           child: FlatButton(
-            child: Container(),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: widget.onTap,
             color: Colors.green,
             textColor: Colors.white,
+            child: Container(),
           ),
         ),
         Positioned(
@@ -432,14 +432,12 @@ class _PaymentButtonState extends State<_PaymentButton>
           child: IgnorePointer(
             child: Container(
               alignment: Alignment.center,
-              child: Container(
-                child: Text(
-                  'ДА, ПОЛУЧИТЬ',
-                  style: TextStyle(
-                    fontSize: kButtonFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+              child: Text(
+                'ДА, ПОЛУЧИТЬ',
+                style: TextStyle(
+                  fontSize: kButtonFontSize,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

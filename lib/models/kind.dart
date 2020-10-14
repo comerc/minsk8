@@ -6,7 +6,7 @@ class KindModel implements EnumModel {
         _value = value,
         _name = name;
 
-  final _value;
+  final dynamic _value;
   final String _name;
   final String rawSvg;
   final bool isNew;
@@ -22,17 +22,20 @@ class KindModel implements EnumModel {
 
 enum MetaKindValue { recent, fan, best, promo, urgent }
 
+// TODO: исправить enum-ы на camelCase
 enum KindValue {
   technics,
   garment,
   eat,
   service,
   rarity,
+  // ignore: constant_identifier_names
   for_home,
+  // ignore: constant_identifier_names
   for_kids,
   books,
   other,
-  pets
+  pets,
 }
 
 final kAllKinds = <EnumModel>[

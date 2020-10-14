@@ -53,13 +53,12 @@ class FeedbackScreen extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          Container(
+          SizedBox(
             width: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 FlatButton(
-                  child: Text('Оценить приложение'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     // TODO: [MVP] how to open market?
@@ -77,9 +76,9 @@ class FeedbackScreen extends StatelessWidget {
                   },
                   color: Colors.green,
                   textColor: Colors.white,
+                  child: Text('Оценить приложение'),
                 ),
                 OutlineButton(
-                  child: Text('Сообщить о проблеме'),
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     launchFeedback(
@@ -88,6 +87,7 @@ class FeedbackScreen extends StatelessWidget {
                     );
                   },
                   textColor: Colors.green,
+                  child: Text('Сообщить о проблеме'),
                 ),
               ],
             ),

@@ -61,8 +61,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     3,
                     (index) => Container(
                       height: 100,
-                      child: Text('$index'),
                       color: Colors.lightBlue[100 * (index % 9)],
+                      child: Text('$index'),
                     ),
                   ),
                 ),
@@ -200,7 +200,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 // ignore: unawaited_futures
                 showDialog<String>(
                   context: context,
-                  child: _BlockDialog(isBlocked),
+                  child: _BlockDialog(isBlocked: isBlocked),
                 ).then((String value) {
                   if (value == null) return;
                   final cases = {
@@ -291,7 +291,7 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
       );
     });
   }).catchError((error) {
-    debugPrint(error.toString());
+    out(error);
     myBlocks.updateBlock(
       memberId: member.id,
       value: oldUpdatedAt != null,
@@ -306,6 +306,11 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
         softWrap: false,
       ),
       trailing: (Function close) => FlatButton(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          _optimisticUpdateBlock(myBlocks, member: member, value: value);
+        },
         child: Text(
           'ПОВТОРИТЬ',
           style: TextStyle(
@@ -313,11 +318,6 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
-        onLongPress: () {}, // чтобы сократить время для splashColor
-        onPressed: () {
-          close();
-          _optimisticUpdateBlock(myBlocks, member: member, value: value);
-        },
       ),
     );
   });
@@ -337,7 +337,7 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
 //     analytics.setCurrentScreen(screenName: '/block_dialog');
 //   }
 class _BlockDialog extends StatelessWidget {
-  _BlockDialog(this.isBlocked);
+  _BlockDialog({this.isBlocked});
 
   final bool isBlocked;
 
@@ -359,23 +359,23 @@ class _BlockDialog extends StatelessWidget {
           height: 8,
         ),
         FlatButton(
-          child: Text(isBlocked
-              ? 'Разблокировать участника'
-              : 'Заблокировать участника'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.pop(isBlocked ? 'unblock' : 'block');
           },
           color: Colors.green,
           textColor: Colors.white,
+          child: Text(isBlocked
+              ? 'Разблокировать участника'
+              : 'Заблокировать участника'),
         ),
         OutlineButton(
-          child: Text('Написать в поддержку'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.pop('feedback');
           },
           textColor: Colors.green,
+          child: Text('Написать в поддержку'),
         ),
       ],
     );

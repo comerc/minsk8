@@ -89,13 +89,13 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       hasMore = false;
       // TODO: показывать сообщение пользователю;
       // беда в том, что тут IndicatorStatus.none
-      print(error);
+      out(error);
     }
     return isSuccess;
   }
 
   Future<bool> handleRefresh() async {
     _isHandleRefresh = true;
-    return refresh(false);
+    return refresh();
   }
 }

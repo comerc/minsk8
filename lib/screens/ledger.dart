@@ -69,7 +69,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
                 SliverListConfig<LedgerItem>(
                   extendedListDelegate: ExtendedListDelegate(
                     collectGarbage: (List<int> garbages) {
-                      garbages.forEach((int index) {
+                      for (final index in garbages) {
                         final unit =
                             LedgerScreen.sourceList[index].payment?.unit;
                         if (unit == null) return;
@@ -78,7 +78,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
                           image.getDummyUrl(unit.id),
                         );
                         provider.evict();
-                      });
+                      }
                     },
                   ),
                   itemBuilder:
@@ -88,6 +88,12 @@ class _LedgerScreenState extends State<LedgerScreen> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(8),
                         child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          decoration: ShapeDecoration(
+                            color: Colors.grey.withOpacity(0.3),
+                            shape: StadiumBorder(),
+                          ),
                           child: Text(
                             item.displayDate,
                             style: TextStyle(
@@ -95,12 +101,6 @@ class _LedgerScreenState extends State<LedgerScreen> {
                               fontWeight: FontWeight.w600,
                               color: Colors.black.withOpacity(0.8),
                             ),
-                          ),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: ShapeDecoration(
-                            color: Colors.grey.withOpacity(0.3),
-                            shape: StadiumBorder(),
                           ),
                         ),
                       );
@@ -138,8 +138,8 @@ class _LedgerScreenState extends State<LedgerScreen> {
                       AccountValue.start: () {
                         action = _getBalanceAction('start');
                         avatar = CircleAvatar(
-                          child: Logo(size: kDefaultIconSize),
                           backgroundColor: Colors.white,
+                          child: Logo(size: kDefaultIconSize),
                         );
                         text = interpolate(text, params: {
                           'value': getPluralKarma(payment.value),
@@ -337,15 +337,14 @@ class _BalanceDialog extends StatelessWidget {
           height: 8,
         ),
         OutlineButton(
-          child: Text('Движение Кармы'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.pop(true);
           },
           textColor: Colors.green,
+          child: Text('Движение Кармы'),
         ),
         FlatButton(
-          child: Text('Повысить Карму'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator
@@ -354,6 +353,7 @@ class _BalanceDialog extends StatelessWidget {
           },
           color: Colors.green,
           textColor: Colors.white,
+          child: Text('Повысить Карму'),
         ),
       ],
     );

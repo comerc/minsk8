@@ -34,8 +34,8 @@ class HomeUnderway extends StatelessWidget {
       poolForReloadTabs: poolForReloadTabs,
     );
     return SafeArea(
-      child: child,
       bottom: false,
+      child: child,
     );
   }
 }

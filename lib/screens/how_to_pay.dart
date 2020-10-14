@@ -27,6 +27,12 @@ class HowToPayScreen extends StatelessWidget {
             ),
           ),
           FlatButton(
+            onLongPress: () {}, // чтобы сократить время для splashColor
+            onPressed: () {
+              navigator.push(
+                ContentScreen('how_it_works.md').route(),
+              );
+            },
             child: Text(
               'КАК ЭТО РАБОТАЕТ?',
               style: TextStyle(
@@ -34,12 +40,6 @@ class HowToPayScreen extends StatelessWidget {
                 color: Colors.black.withOpacity(0.6),
               ),
             ),
-            onLongPress: () {}, // чтобы сократить время для splashColor
-            onPressed: () {
-              navigator.push(
-                ContentScreen('how_it_works.md').route(),
-              );
-            },
           ),
         ],
       ),
@@ -93,7 +93,7 @@ class _BigLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = 150.0;
     final width = 200.0;
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
       child: Stack(
@@ -186,30 +186,6 @@ class _Menu extends StatelessWidget {
         return Material(
           color: isLast ? Colors.green : Colors.white,
           child: InkWell(
-            child: ListTile(
-              dense: true,
-              title: isLast
-                  ? Text(
-                      entry.value[0],
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(entry.value[0]),
-              subtitle: isLast
-                  ? Text(
-                      entry.value[1],
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(entry.value[1]),
-              trailing: Icon(
-                Icons.navigate_next,
-                color: isLast ? Colors.white : Colors.black.withOpacity(0.3),
-                size: kButtonIconSize,
-              ),
-            ),
             onLongPress: () {}, // чтобы сократить время для splashColor
             onTap: () async {
               if (entry.key == 'add_unit') {
@@ -236,6 +212,30 @@ class _Menu extends StatelessWidget {
               // ignore: unawaited_futures
               navigator.pushReplacement(routes[entry.key]());
             },
+            child: ListTile(
+              dense: true,
+              title: isLast
+                  ? Text(
+                      entry.value[0],
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(entry.value[0]),
+              subtitle: isLast
+                  ? Text(
+                      entry.value[1],
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(entry.value[1]),
+              trailing: Icon(
+                Icons.navigate_next,
+                color: isLast ? Colors.white : Colors.black.withOpacity(0.3),
+                size: kButtonIconSize,
+              ),
+            ),
           ),
         );
       },

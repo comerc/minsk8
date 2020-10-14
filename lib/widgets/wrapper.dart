@@ -58,7 +58,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
     _tabController.addListener(() {
       final sourceList = widget.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
-        // print(
+        // out(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
         // то добавление нового unit-а в /add_unit зря добавит tab в widget.poolForReloadTabs,
@@ -72,7 +72,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
           }
           sourceList.resetIsLoadDataByTabChange();
         } else if (isContaintsInPool) {
-          // print('pullToRefreshNotificationKey');
+          // out('pullToRefreshNotificationKey');
           widget.pullToRefreshNotificationKey.currentState.show();
         }
       }
@@ -92,7 +92,6 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       labelColor: Colors.blue,
       indicatorColor: Colors.blue,
       indicatorSize: TabBarIndicatorSize.label,
-      indicatorWeight: 2,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
       tabs: widget.tabModels
@@ -161,7 +160,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
   }
 
   Future<bool> _onRefresh() async {
-    // print('onRefresh');
+    // out('onRefresh');
     final element = widget.dataPool[_tabController.index];
     // var result = false;
     // if (element is SourceList) {
@@ -191,11 +190,9 @@ class _AppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: Text(
-              'Без названия',
-              style: AppBarTheme.of(context).textTheme.headline6,
-            ),
+          Text(
+            'Без названия',
+            style: AppBarTheme.of(context).textTheme.headline6,
           ),
           Container(
             padding: EdgeInsets.only(top: 4),

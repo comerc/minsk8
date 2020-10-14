@@ -1,5 +1,5 @@
-import 'package:minsk8/import.dart';
 import 'dart:ui' as ui;
+import 'package:minsk8/import.dart';
 
 class MapScaleLayerOption extends LayerOptions {
   TextStyle textStyle;
@@ -17,7 +17,7 @@ class MapScaleLayerOption extends LayerOptions {
 class MapScaleLayer implements MapPlugin {
   @override
   Widget createLayer(
-      LayerOptions options, MapState mapState, Stream<Null> stream) {
+      LayerOptions options, MapState mapState, Stream<void> stream) {
     // if (!(options is MapScaleLayerOption)) {
     //   throw 'Unknown options type for MapScaleLayer: $options';
     // }
@@ -33,7 +33,7 @@ class MapScaleLayer implements MapPlugin {
 class _MapScaleLayer extends StatelessWidget {
   final MapScaleLayerOption options;
   final MapState mapState;
-  final Stream<Null> stream;
+  final Stream<void> stream;
   final scale = [
     25000000,
     15000000,
@@ -78,10 +78,10 @@ class _MapScaleLayer extends StatelessWidget {
         final displayDistance = distance > 999
             ? '${(distance / 1000).toStringAsFixed(0)} km'
             : '${distance.toStringAsFixed(0)} m';
-        final width = (end.x - start.x) as double;
+        final width = end.x - start.x;
         return CustomPaint(
           painter: _MapScalePainter(
-            width,
+            width as double,
             displayDistance,
             lineColor: options.lineColor,
             lineWidth: options.lineWidth,

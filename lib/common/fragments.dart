@@ -1,6 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class Fragments {
+mixin Fragments {
   static final fragments = gql(r'''
     fragment unitFields on unit {
       id

@@ -36,7 +36,7 @@ class _ShowcaseListState extends State<ShowcaseList>
     final crossAxisCount =
         isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
-      Key('${widget.tagPrefix}'),
+      Key(widget.tagPrefix),
       LoadingMoreCustomScrollView(
         // TODO: не показывать, только когда scroll == 0, чтобы не мешать refreshWiget
         showGlowLeading: false,
@@ -52,14 +52,14 @@ class _ShowcaseListState extends State<ShowcaseList>
                 // hack for https://github.com/fluttercandies/loading_more_list/issues/20
                 // mainAxisSpacing: 16,
                 collectGarbage: (List<int> garbages) {
-                  garbages.forEach((int index) {
+                  for (final index in garbages) {
                     final unit = widget.sourceList[index];
                     final image = unit.images[0];
                     final provider = ExtendedNetworkImageProvider(
                       image.getDummyUrl(unit.id),
                     );
                     provider.evict();
-                  });
+                  }
                 },
               ),
               itemBuilder: (BuildContext context, UnitModel item, int index) {
@@ -235,7 +235,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     }
     return Row(
       children: <Widget>[
-        unit.price == null ? GiftButton(unit) : PriceButton(unit),
+        if (unit.price == null) GiftButton(unit) else PriceButton(unit),
         Spacer(),
         SizedBox(
           width: kButtonWidth,
@@ -336,7 +336,7 @@ class CountdownTimer extends StatefulWidget {
 
   static int getSeconds(int endTime) {
     return Duration(
-      milliseconds: (endTime - DateTime.now().millisecondsSinceEpoch),
+      milliseconds: endTime - DateTime.now().millisecondsSinceEpoch,
     ).inSeconds;
   }
 }
@@ -386,8 +386,9 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 }
 
-String formatDDHHMMSS(int seconds) {
+String formatDDHHMMSS(int value) {
   int days, hours, minutes = 0;
+  int seconds = value;
   if (seconds >= 86400) {
     days = (seconds / 86400).floor();
     seconds -= days * 86400;
@@ -409,10 +410,10 @@ String formatDDHHMMSS(int seconds) {
     // minutes = hours == -1 ? -1 : 0;
     minutes = 0;
   }
-  var sDD = (days).toString().padLeft(2, '0');
-  var sHH = (hours).toString().padLeft(2, '0');
-  var sMM = (minutes).toString().padLeft(2, '0');
-  var sSS = (seconds).toString().padLeft(2, '0');
+  final sDD = (days).toString().padLeft(2, '0');
+  final sHH = (hours).toString().padLeft(2, '0');
+  final sMM = (minutes).toString().padLeft(2, '0');
+  final sSS = (seconds).toString().padLeft(2, '0');
   if (days == -1) {
     return '$sHH:$sMM:$sSS';
   }
@@ -430,12 +431,6 @@ class GiftButton extends StatelessWidget {
       message: 'Gift',
       child: Material(
         child: InkWell(
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          child: Container(
-            height: kButtonHeight,
-            width: kButtonWidth,
-            child: Logo(size: kButtonIconSize),
-          ),
           onTap: () {
             showDialog(
               context: context,
@@ -446,6 +441,12 @@ class GiftButton extends StatelessWidget {
               ),
             );
           },
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          child: SizedBox(
+            height: kButtonHeight,
+            width: kButtonWidth,
+            child: Logo(size: kButtonIconSize),
+          ),
         ),
       ),
     );
@@ -468,13 +469,14 @@ class InfoDialog extends StatelessWidget {
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       children: <Widget>[
-        (icon == null)
-            ? Logo(size: kButtonIconSize)
-            : Icon(
-                icon,
-                color: Colors.deepOrangeAccent,
-                size: kButtonIconSize,
-              ),
+        if (icon == null)
+          Logo(size: kButtonIconSize)
+        else
+          Icon(
+            icon,
+            color: Colors.deepOrangeAccent,
+            size: kButtonIconSize,
+          ),
         Padding(
           padding: EdgeInsets.only(top: 16),
           child: Text(
@@ -543,6 +545,32 @@ class PriceButton extends StatelessWidget {
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                if (unit.isClosed) {
+                  return AlertDialog(
+                    content: Text('Сколько предложено за лот'),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          navigator.pop();
+                        },
+                        child: Text('ОК'),
+                      ),
+                    ],
+                  );
+                }
+                return InfoDialog(
+                  icon: FontAwesomeIcons.moneyBill,
+                  title: 'Сколько сейчас\nпредлагают за лот',
+                  description:
+                      'Нажмите "хочу забрать",\nчтобы предложить больше',
+                );
+              },
+            );
+          },
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: Container(
             height: kButtonHeight,
@@ -559,32 +587,6 @@ class PriceButton extends StatelessWidget {
               ),
             ),
           ),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                if (unit.isClosed) {
-                  return AlertDialog(
-                    content: Text('Сколько предложено за лот'),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text('ОК'),
-                        onPressed: () {
-                          navigator.pop();
-                        },
-                      ),
-                    ],
-                  );
-                }
-                return InfoDialog(
-                  icon: FontAwesomeIcons.moneyBill,
-                  title: 'Сколько сейчас\nпредлагают за лот',
-                  description:
-                      'Нажмите "хочу забрать",\nчтобы предложить больше',
-                );
-              },
-            );
-          },
         ),
       ),
     );
@@ -608,15 +610,13 @@ class ShareButton extends StatelessWidget {
       message: 'Share',
       child: Material(
         child: InkWell(
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          child: Container(
-            child: Icon(
-              Icons.share,
-              color: Colors.black.withOpacity(0.8),
-              size: iconSize,
-            ),
-          ),
           onTap: _onTap,
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          child: Icon(
+            Icons.share,
+            color: Colors.black.withOpacity(0.8),
+            size: iconSize,
+          ),
         ),
       ),
     );
@@ -651,7 +651,7 @@ void share(UnitModel unit) async {
   );
   final shortLink = await parameters.buildShortLink();
   final url = shortLink.shortUrl;
-  // print('${unit.id} $url');
+  // out('${unit.id} $url');
   // TODO: [MVP] изменить тексты
   // ignore: unawaited_futures
   Share.share(
@@ -677,7 +677,7 @@ class WishButton extends StatefulWidget {
 
 class _WishButtonState extends State<WishButton> {
   Timer _timer;
-  final _animationDuration = const Duration(milliseconds: 1000);
+  final _animationDuration = Duration(milliseconds: 1000);
 
   @override
   void dispose() {
@@ -692,6 +692,7 @@ class _WishButtonState extends State<WishButton> {
       message: 'Wish',
       child: Material(
         child: InkWell(
+          onTap: () {},
           // borderRadius: BorderRadius.all(kImageBorderRadius),
           child: LikeButton(
             animationDuration: _animationDuration,
@@ -711,7 +712,7 @@ class _WishButtonState extends State<WishButton> {
               );
             },
             likeCountPadding: null,
-            likeCount: null, // unit.favorites,
+            // likeCount: null, // unit.favorites,
             // countBuilder: (int count, bool isLiked, String text) {
             //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
             //   Widget result;
@@ -734,7 +735,6 @@ class _WishButtonState extends State<WishButton> {
             //     : LikeCountAnimationType.none,
             onTap: _onTap,
           ),
-          onTap: () {},
         ),
       ),
     );
@@ -795,7 +795,7 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
       );
     });
   }).catchError((error) {
-    debugPrint(error.toString());
+    out(error);
     myWishes.updateWish(
       unitId: unit.id,
       value: oldUpdatedAt != null,
@@ -810,6 +810,11 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
         softWrap: false,
       ),
       trailing: (Function close) => FlatButton(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          _optimisticUpdateWish(myWishes, unit: unit, value: value);
+        },
         child: Text(
           'ПОВТОРИТЬ',
           style: TextStyle(
@@ -817,11 +822,6 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
             color: Colors.black.withOpacity(0.6),
           ),
         ),
-        onLongPress: () {}, // чтобы сократить время для splashColor
-        onPressed: () {
-          close();
-          _optimisticUpdateWish(myWishes, unit: unit, value: value);
-        },
       ),
     );
   });

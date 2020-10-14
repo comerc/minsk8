@@ -9,7 +9,7 @@ class ShowcaseData extends SourceList<UnitModel> {
   ) : assert([MetaKindValue, KindValue].contains(kind.runtimeType));
   // super(client);
 
-  final kind;
+  final dynamic kind;
 
   bool get isMetaKind => kind.runtimeType == MetaKindValue;
 

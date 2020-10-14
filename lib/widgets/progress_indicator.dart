@@ -7,7 +7,6 @@ Widget buildProgressIndicator(BuildContext context,
     {bool hasAnimatedColor = false}) {
   return Platform.isIOS
       ? CupertinoActivityIndicator(
-          animating: true,
           radius: 16,
         )
       : hasAnimatedColor
@@ -34,7 +33,7 @@ class _AnimatedColorProgressIndicatorState
   void initState() {
     super.initState();
     _controller =
-        AnimationController(duration: const Duration(seconds: 4), vsync: this);
+        AnimationController(duration: Duration(seconds: 4), vsync: this);
     _colorTween = _controller.drive(
       RainbowColorTween(
         [

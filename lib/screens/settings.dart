@@ -47,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         Spacer(),
-        Container(
+        SizedBox(
           height: kBigButtonHeight,
           width: panelChildWidth,
           child: ReadyButton(onTap: _handleOK),

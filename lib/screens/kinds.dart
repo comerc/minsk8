@@ -48,8 +48,8 @@ class KindsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ScrollBody(
-          child: child,
           withIntrinsicHeight: false,
+          child: child,
         ),
       ),
     );
@@ -70,6 +70,9 @@ class _KindButton extends StatelessWidget {
         elevation: kButtonElevation,
         color: isSelected ? Colors.red : Colors.white,
         child: InkWell(
+          onTap: () {
+            navigator.pop(model.value);
+          },
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -111,9 +114,6 @@ class _KindButton extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () {
-            navigator.pop(model.value);
-          },
         ),
       ),
     );

@@ -36,8 +36,7 @@ class DistanceModel extends ChangeNotifier {
         await Geolocator().checkGeolocationPermissionStatus();
     if (GeolocationStatus.granted == geolocationStatus) {
       try {
-        final position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+        final position = await Geolocator().getCurrentPosition();
         final oldCurrentPosition = appState['currentPosition'];
         appState['currentPosition'] = [position.latitude, position.longitude];
         if (oldCurrentPosition != null &&
@@ -47,7 +46,7 @@ class DistanceModel extends ChangeNotifier {
         }
         updateValue(location);
       } catch (error) {
-        debugPrint(error.toString());
+        out(error);
       }
     }
   }

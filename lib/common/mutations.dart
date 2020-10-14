@@ -1,7 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import './fragments.dart';
 
-class Mutations {
+mixin Mutations {
   static final upsertMember = gql(r'''
     mutation upsertMember($display_name: String $photo_url: String) {
       insert_member(objects: {display_name: $display_name, photo_url: $photo_url}, 

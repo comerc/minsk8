@@ -17,6 +17,7 @@ class ReadyButton extends StatelessWidget {
         color: Colors.green,
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),
+          onTap: onTap,
           child: Container(
             alignment: Alignment.center,
             child: Text(
@@ -28,7 +29,6 @@ class ReadyButton extends StatelessWidget {
               ),
             ),
           ),
-          onTap: onTap,
         ),
       ),
     );

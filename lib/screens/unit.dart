@@ -37,13 +37,13 @@ enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
 
 class _UnitScreenState extends State<UnitScreen> {
-  var _showHero;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _panelColumnKey = GlobalKey();
   var _isCarouselSlider = true;
   var _currentIndex = 0;
-  final _panelColumnKey = GlobalKey();
+  _ShowHero _showHero;
   double _panelMaxHeight;
   List<UnitModel> _otherUnits;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -104,12 +104,6 @@ class _UnitScreenState extends State<UnitScreen> {
                                 2,
                         child: Hero(
                           tag: tag,
-                          child: ExtendedImage.network(
-                            unit.images[_currentIndex].getDummyUrl(unit.id),
-                            fit: BoxFit.cover,
-                            // TODO: если _openDeepLink, то нужно включать
-                            enableLoadState: false,
-                          ),
                           flightShuttleBuilder: (
                             BuildContext flightContext,
                             Animation<double> animation,
@@ -134,6 +128,12 @@ class _UnitScreenState extends State<UnitScreen> {
                                     : toHeroContext.widget;
                             return (hero as Hero).child;
                           },
+                          child: ExtendedImage.network(
+                            unit.images[_currentIndex].getDummyUrl(unit.id),
+                            fit: BoxFit.cover,
+                            // TODO: если _openDeepLink, то нужно включать
+                            enableLoadState: false,
+                          ),
                         ),
                       ),
                     ),
@@ -143,9 +143,10 @@ class _UnitScreenState extends State<UnitScreen> {
                       height: carouselSliderHeight,
                       autoPlay: unit.images.length > 1,
                       enableInfiniteScroll: unit.images.length > 1,
-                      pauseAutoPlayOnTouch: const Duration(seconds: 10),
+                      pauseAutoPlayOnTouch: Duration(seconds: 10),
                       enlargeCenterPage: true,
                       viewportFraction:
+                          // ignore: avoid_redundant_argument_values
                           _UnitCarouselSliderSettings.viewportFraction,
                       onPageChanged: (int index) {
                         _currentIndex = index;
@@ -221,13 +222,14 @@ class _UnitScreenState extends State<UnitScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
+                      SizedBox(
                         width: (panelChildWidth - panelSlideLabelWidth) / 2,
                         child: Row(
                           children: <Widget>[
-                            unit.price == null
-                                ? GiftButton(unit)
-                                : PriceButton(unit),
+                            if (unit.price == null)
+                              GiftButton(unit)
+                            else
+                              PriceButton(unit),
                             Spacer(),
                           ],
                         ),
@@ -240,7 +242,7 @@ class _UnitScreenState extends State<UnitScreen> {
                           shape: StadiumBorder(),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: (panelChildWidth - panelSlideLabelWidth) / 2,
                         child: Row(
                           children: <Widget>[
@@ -310,7 +312,7 @@ class _UnitScreenState extends State<UnitScreen> {
                         itemCount: _otherUnits.length,
                         itemBuilder: (BuildContext context, int index) {
                           final otherUnit = _otherUnits[index];
-                          return Container(
+                          return SizedBox(
                             width: otherUnitWidth,
                             child: Material(
                               child: InkWell(
@@ -454,7 +456,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       throw 'Invalid update_unit.affected_rows';
                     }
                   }).catchError((error) {
-                    print(error);
+                    out(error);
                     if (mounted) {
                       setState(() {
                         localDeletedUnitIds.remove(unit.id);
@@ -498,7 +500,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       throw 'Invalid insert_moderation.affected_rows';
                     }
                   }).catchError((error) {
-                    print(error);
+                    out(error);
                   });
                 }
                 if (value == _PopupMenuValue.askQuestion) {
@@ -537,7 +539,7 @@ class _UnitScreenState extends State<UnitScreen> {
                       throw 'Invalid insert_suggestion.affected_rows';
                     }
                   }).catchError((error) {
-                    print(error);
+                    out(error);
                   });
                 }
               },
@@ -692,20 +694,6 @@ class _WantButton extends StatelessWidget {
         // borderRadius: BorderRadius.all(kImageBorderRadius),
         child: InkWell(
           splashColor: Colors.white.withOpacity(0.4),
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              _getText(),
-              style: TextStyle(
-                fontSize: 18,
-                color: unit.isClosed
-                    ? Colors.black.withOpacity(0.8)
-                    : Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
           onTap: () {
             showDialog(
               context: context,
@@ -747,6 +735,20 @@ class _WantButton extends StatelessWidget {
               },
             );
           },
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              _getText(),
+              style: TextStyle(
+                fontSize: 18,
+                color: unit.isClosed
+                    ? Colors.black.withOpacity(0.8)
+                    : Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -815,32 +817,33 @@ class _WantDialog extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    unit.price == null
-                        ? Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            padding: EdgeInsets.all(8),
-                            child: Logo(size: kButtonIconSize),
-                          )
-                        : Container(
-                            color: Colors.white,
-                            child: Container(
-                              color: Colors.yellow.withOpacity(0.5),
-                              height: kButtonHeight,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Text(
-                                unit.price.toString(),
-                                style: TextStyle(
-                                  fontSize: kPriceFontSize,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                    if (unit.price == null)
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Logo(size: kButtonIconSize),
+                      )
+                    else
+                      Container(
+                        color: Colors.white,
+                        child: Container(
+                          color: Colors.yellow.withOpacity(0.5),
+                          height: kButtonHeight,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            unit.price.toString(),
+                            style: TextStyle(
+                              fontSize: kPriceFontSize,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -919,27 +922,27 @@ class _WantDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             OutlineButton(
-              child: Text('Отмена'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
                 navigator.pop();
               },
               textColor: Colors.black.withOpacity(0.8),
+              child: Text('Отмена'),
             ),
             SizedBox(
               width: 16,
             ),
             FlatButton(
-              child: Text(unit.price == null ? 'Да' : 'Хорошо'),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onPressed: () {
                 final end = autoIncreaseFieldKey.currentState.currentValue;
-                print(end);
+                out(end);
                 // TODO: если покупатель хочет редактировать end, то нужно добавить поле внутри WantModel
                 navigator.pop(true);
               },
               color: Colors.green,
               textColor: Colors.white,
+              child: Text(unit.price == null ? 'Да' : 'Хорошо'),
             ),
           ],
         ),
@@ -1037,15 +1040,15 @@ class _AutoIncreaseFieldState extends State<_AutoIncreaseField>
           height: 8,
         ),
         FlatButton(
-          child: Text('ПОЛУЧИТЬ ${getPluralKarma(step).toUpperCase()}'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
-            print(step);
+            out(step);
             // TODO: [MVP] переход к оплате
             // navigator.pop(true);
           },
           color: Colors.green,
           textColor: Colors.white,
+          child: Text('ПОЛУЧИТЬ ${getPluralKarma(step).toUpperCase()}'),
         ),
       ],
     );
@@ -1113,8 +1116,8 @@ class _AutoIncreaseFieldState extends State<_AutoIncreaseField>
         header,
         _buildAnimatedSize(
           Offstage(
-            child: body,
             offstage: !_isExpanded,
+            child: body,
           ),
         ),
       ],
@@ -1123,11 +1126,11 @@ class _AutoIncreaseFieldState extends State<_AutoIncreaseField>
 
   Widget _buildAnimatedSize(Widget child) {
     return AnimatedSize(
-      child: child,
       alignment: Alignment.topCenter,
       duration: _kExpand,
       reverseDuration: _kExpand,
       vsync: this,
+      child: child,
     );
   }
 }
@@ -1145,7 +1148,7 @@ class _DistanceButton extends StatelessWidget {
     }
     final icon = Icons.location_on;
     final iconSize = 16.0;
-    Widget text = RichText(
+    final text = RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
         children: <InlineSpan>[
@@ -1179,6 +1182,7 @@ class _DistanceButton extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: InkWell(
+          onTap: onTap,
           child: Container(
             height: kButtonHeight,
             alignment: Alignment.center,
@@ -1187,7 +1191,6 @@ class _DistanceButton extends StatelessWidget {
             ),
             child: text,
           ),
-          onTap: onTap,
         ),
       ),
     );
@@ -1233,24 +1236,24 @@ class _ConfirmDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               OutlineButton(
-                child: Text(cancel ?? 'Отмена'),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
                   navigator.pop();
                 },
                 textColor: Colors.black.withOpacity(0.8),
+                child: Text(cancel ?? 'Отмена'),
               ),
               SizedBox(
                 width: 16,
               ),
               FlatButton(
-                child: Text(ok),
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onPressed: () {
                   navigator.pop(true);
                 },
                 color: Colors.green,
                 textColor: Colors.white,
+                child: Text(ok),
               ),
             ],
           ),
@@ -1278,25 +1281,25 @@ class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
           (int index) => Material(
             color: Colors.white,
             child: InkWell(
-              child: ListTile(
-                title: Text(elements[index].name),
-              ),
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 // TODO: типизировать value
                 navigator.pop(elements[index].value);
               },
+              child: ListTile(
+                title: Text(elements[index].name),
+              ),
             ),
           ),
         ),
       ),
       actions: <Widget>[
         FlatButton(
-          child: Text('Отмена'),
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.pop();
           },
+          child: Text('Отмена'),
         ),
       ],
     );

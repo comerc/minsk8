@@ -14,6 +14,8 @@ class ClaimModel implements EnumModel {
   String get name => _name;
 }
 
+// TODO: исправить enum-ы на camelCase
+// ignore: constant_identifier_names
 enum ClaimValue { forbidden, repeat, duplicate, invalid_kind, other }
 
 final kClaims = <ClaimModel>[
