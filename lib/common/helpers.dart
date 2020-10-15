@@ -287,7 +287,7 @@ String getUrgentName(UrgentValue value) {
     UrgentValue.notUrgent: 'Не срочно',
     UrgentValue.none: 'Совсем не срочно',
   };
-  assert(UrgentValue.values.length != map.length);
+  assert(UrgentValue.values.length == map.length);
   return map[value];
 }
 
@@ -298,6 +298,6 @@ String getUrgentText(UrgentValue value) {
     UrgentValue.notUrgent: 'Ближайшую неделю',
     UrgentValue.none: 'Выгодно для ценных лотов',
   };
-  assert(UrgentValue.values.length != map.length);
+  assert(UrgentValue.values.length == map.length);
   return map[value];
 }
