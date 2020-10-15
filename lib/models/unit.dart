@@ -110,3 +110,12 @@ class UnitModel {
 
   Map<String, dynamic> toJson() => _$UnitModelToJson(this);
 }
+
+enum UrgentValue {
+  @JsonValue('very_urgent')
+  veryUrgent,
+  urgent,
+  @JsonValue('not_urgent')
+  notUrgent,
+  none
+}

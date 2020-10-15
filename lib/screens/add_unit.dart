@@ -66,18 +66,11 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   TextEditingController _textController;
   ImageSource _imageSource;
   final _images = <_ImageData>[];
-  UrgentValue _urgent = UrgentValue.not_urgent;
+  UrgentValue _urgent = UrgentValue.notUrgent;
   KindValue _kind;
   FocusNode _textFocusNode;
   Future<void> _uploadQueue = Future.value();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  String get _urgentName =>
-      kUrgents
-          .firstWhere((UrgentModel element) => element.value == _urgent,
-              orElse: () => null)
-          ?.name ??
-      '';
   String get _text => _textController.value.text.trim();
   bool get _isValidText => _text.characters.length > 3;
 
@@ -155,7 +148,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           child: SelectButton(
             tooltip: 'Как срочно надо отдать?',
             text: 'Срочно?',
-            rightText: _urgentName,
+            rightText: getUrgentName(_urgent),
             onTap: _selectUrgent,
           ),
         ),
@@ -838,22 +831,23 @@ Future<UrgentValue> _selectUrgentDialog(
             ),
             SizedBox(height: 16),
             ListBox(
-              itemCount: kUrgents.length,
+              itemCount: UrgentValue.values.length,
               itemBuilder: (BuildContext context, int index) {
+                final current = UrgentValue.values[index];
                 return Material(
-                  color: selected == kUrgents[index].value
+                  color: selected == current
                       ? Colors.grey.withOpacity(0.2)
                       : Colors.white,
                   child: InkWell(
                     onLongPress: () {}, // чтобы сократить время для splashColor
                     onTap: () {
-                      navigator.pop(kUrgents[index].value);
+                      navigator.pop(current);
                     },
                     child: ListTile(
-                      title: Text(kUrgents[index].name),
-                      subtitle: Text(kUrgents[index].text),
-                      // selected: selected == urgents[index].value,
-                      trailing: selected == kUrgents[index].value
+                      title: Text(getUrgentName(current)),
+                      subtitle: Text(getUrgentText(current)),
+                      // selected: selected == current,
+                      trailing: selected == current
                           ? Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,

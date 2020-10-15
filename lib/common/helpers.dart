@@ -279,3 +279,25 @@ String getDisplayDate(DateTime now, DateTime dateTime) {
 void out(dynamic value) {
   if (isInDebugMode) debugPrint('$value');
 }
+
+String getUrgentName(UrgentValue value) {
+  final map = {
+    UrgentValue.veryUrgent: 'Очень срочно',
+    UrgentValue.urgent: 'Срочно',
+    UrgentValue.notUrgent: 'Не срочно',
+    UrgentValue.none: 'Совсем не срочно',
+  };
+  assert(UrgentValue.values.length != map.length);
+  return map[value];
+}
+
+String getUrgentText(UrgentValue value) {
+  final map = {
+    UrgentValue.veryUrgent: 'Сегодня-завтра',
+    UrgentValue.urgent: 'Ближайшие дни',
+    UrgentValue.notUrgent: 'Ближайшую неделю',
+    UrgentValue.none: 'Выгодно для ценных лотов',
+  };
+  assert(UrgentValue.values.length != map.length);
+  return map[value];
+}

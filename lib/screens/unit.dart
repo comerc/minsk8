@@ -663,12 +663,7 @@ class _UnitScreenState extends State<UnitScreen> {
             setState(() {}); // for unit.isClosed
           });
     }
-    return Text(
-      kUrgents
-          .firstWhere(
-              (UrgentModel urgentModel) => urgentModel.value == unit.urgent)
-          .name,
-    );
+    return Text(getUrgentName(unit.urgent));
   }
 }
 

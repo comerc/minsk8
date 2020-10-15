@@ -222,10 +222,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
                     )
                   else if (unit.urgent != UrgentValue.none)
                     _buildStatus(
-                      kUrgents
-                          .firstWhere((UrgentModel urgentModel) =>
-                              urgentModel.value == unit.urgent)
-                          .name,
+                      getUrgentName(unit.urgent),
                       isClosed: false,
                     ),
                 ],
