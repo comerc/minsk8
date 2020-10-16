@@ -1,4 +1,5 @@
 // это не EnumModel в бд, т.к. paymentValue может менять значение в будущем
+// TODO: или это справочник, как другие enum-значения?
 class PaymentStepModel {
   PaymentStepModel(
     this.value,
