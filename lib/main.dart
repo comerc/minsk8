@@ -146,10 +146,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     // out('App build');
     Widget result = CommonMaterialApp(
-      navigatorObservers: <NavigatorObserver>[
-        analyticsObserver,
-        toastNavigatorObserver,
-      ],
       builder: (BuildContext context, Widget child) {
         // if (isInDebugMode) {
         //   child = DevicePreview.appBuilder(context, child);
@@ -544,7 +540,7 @@ NavigatorState get navigator => _navigatorKey.currentState;
 
 class CommonMaterialApp extends StatelessWidget {
   CommonMaterialApp({
-    this.navigatorObservers = const <NavigatorObserver>[],
+    // this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
     this.home,
     this.initialRoute,
@@ -553,7 +549,7 @@ class CommonMaterialApp extends StatelessWidget {
     this.onUnknownRoute,
   });
 
-  final List<NavigatorObserver> navigatorObservers;
+  // final List<NavigatorObserver> navigatorObservers;
   final TransitionBuilder builder;
   final Widget home;
   final String initialRoute;
@@ -566,9 +562,12 @@ class CommonMaterialApp extends StatelessWidget {
     final theme = Theme.of(context);
     // out('App build');
     return MaterialApp(
-      navigatorKey: _navigatorKey,
       // debugShowCheckedModeBanner: isInDebugMode,
-      navigatorObservers: navigatorObservers,
+      navigatorKey: _navigatorKey,
+      navigatorObservers: <NavigatorObserver>[
+        analyticsObserver,
+        toastNavigatorObserver,
+      ],
       // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
       // locale: DevicePreview.of(context).locale,
       // localizationsDelegates: [
