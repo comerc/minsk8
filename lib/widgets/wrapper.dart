@@ -20,12 +20,13 @@ class Wrapper extends StatefulWidget {
     this.pullToRefreshNotificationKey,
     this.poolForReloadTabs,
     this.hasAppBar = false,
-  })  : assert(
-          !dataPool.any(
-            (element) =>
-                !(element is SourceList || element is List<SourceList>),
-          ),
-        ),
+  }) :
+        // assert(
+        //   !dataPool.any(
+        //     (element) =>
+        //         !(element is SourceList || element is List<SourceList>),
+        //   ),
+        // ),
         super(key: key);
 
   final int tabIndex;
