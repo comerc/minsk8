@@ -37,3 +37,12 @@ class ChatModel {
 
   Map<String, dynamic> toJson() => _$ChatModelToJson(this);
 }
+
+// TODO: [MVP] почему значение в messageText для .ready синим цветом - это ссылка?
+// TODO: [MVP] какое значение в messageText для .success
+
+enum StageValue {
+  ready,
+  cancel,
+  success,
+}

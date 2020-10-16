@@ -36,10 +36,10 @@ class HomeInterplay extends StatelessWidget {
     final child = Wrapper(
       key: wrapperKey,
       tabIndex: tabIndex,
-      tabModels: <InterplayModel>[
-        InterplayModel(InterplayValue.chat, 'Сообщения'),
-        InterplayModel(InterplayValue.notice, 'Уведомления'),
-      ],
+      tabsLength: InterplayValue.values.length,
+      getTabName: (int tabIndex) {
+        return getInterplayName(InterplayValue.values[tabIndex]);
+      },
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return [
@@ -315,11 +315,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                 child: Row(
                   children: [
                     Text(
-                      {
-                        StageValue.ready: 'Договоритесь о встрече',
-                        StageValue.cancel: 'Отменённые',
-                        StageValue.success: 'Завершённые',
-                      }[widget.stage],
+                      getStageName(widget.stage),
                       style: TextStyle(
                         fontSize: 11,
                         // fontWeight: FontWeight.w600,
@@ -374,7 +370,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
               itemBuilder: (BuildContext context, int index) {
                 final item = widget.items[index];
                 final messageText = item.messages.isEmpty
-                    ? kStages[item.stage.index].text
+                    ? getStageText(item.stage)
                     : item.messages.last.text;
                 final unreadCount = item.messages.isEmpty
                     ? 0
@@ -858,4 +854,9 @@ class _NoticeListState extends State<_NoticeList>
       ),
     );
   }
+}
+
+enum InterplayValue {
+  chat,
+  notice,
 }

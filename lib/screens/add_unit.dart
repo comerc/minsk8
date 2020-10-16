@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
@@ -156,9 +155,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           constraints: BoxConstraints(minHeight: 40),
           child: SelectButton(
             tooltip: 'Категория',
-            text: kKinds
-                .firstWhere((KindModel element) => element.value == _kind)
-                .name,
+            text: getKindName(_kind),
             onTap: _selectKind,
           ),
         ),
@@ -275,8 +272,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         'images':
             images.map((_ImageData element) => element.model.toJson()).toList(),
         'text': _text, // TODO: как защитить от атаки?
-        'urgent': EnumToString.parse(_urgent),
-        'kind': EnumToString.parse(_kind),
+        'urgent': convertEnumToSnakeCase(_urgent),
+        'kind': convertEnumToSnakeCase(_kind),
         'location': {
           'type': 'Point',
           'coordinates': appState['MyUnitMap.center'],
@@ -535,8 +532,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _reloadShowcaseTab(kind) {
-    final index =
-        kAllKinds.indexWhere((EnumModel element) => element.value == kind);
+    final index = [...MetaKindValue.values, ...KindValue.values]
+        .indexWhere((dynamic value) => value == kind);
     if (index == widget.tabIndex?.showcase) {
       HomeShowcase.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeShowcase.poolForReloadTabs.contains(index)) {
@@ -546,7 +543,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   void _reloadUnderwayModel() {
     final index = UnderwayValue.values
-        .indexWhere((UnderwayValue element) => element == UnderwayValue.give);
+        .indexWhere((UnderwayValue value) => value == UnderwayValue.give);
     if (index == widget.tabIndex?.underway) {
       HomeUnderway.pullToRefreshNotificationKey.currentState.show();
     } else if (!HomeUnderway.poolForReloadTabs.contains(index)) {

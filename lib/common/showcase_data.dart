@@ -1,5 +1,4 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:minsk8/import.dart';
 
 class ShowcaseData extends SourceList<UnitModel> {
@@ -32,7 +31,7 @@ class ShowcaseData extends SourceList<UnitModel> {
         fetchPolicy: FetchPolicy.noCache,
       );
     }
-    variables['kind'] = EnumToString.parse(kind);
+    variables['kind'] = convertEnumToSnakeCase(kind);
     return QueryOptions(
       documentNode: Queries.getUnitsByKind,
       variables: variables,

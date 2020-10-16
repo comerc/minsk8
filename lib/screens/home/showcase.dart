@@ -19,7 +19,14 @@ class HomeShowcase extends StatelessWidget {
     final child = Wrapper(
       key: wrapperKey,
       tabIndex: tabIndex,
-      tabModels: kAllKinds,
+      tabsLength: MetaKindValue.values.length + KindValue.values.length,
+      getTabName: (int tabIndex) {
+        if (tabIndex < MetaKindValue.values.length) {
+          return getMetaKindName(MetaKindValue.values[tabIndex]);
+        }
+        return getKindName(
+            KindValue.values[tabIndex - MetaKindValue.values.length]);
+      },
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return ShowcaseList(

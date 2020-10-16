@@ -36,10 +36,10 @@ class KindsScreen extends StatelessWidget {
       padding: EdgeInsets.all(8),
       childAspectRatio: kGoldenRatio,
       children: List.generate(
-        kKinds.length,
+        KindValue.values.length,
         (int index) => _KindButton(
-          kKinds[index],
-          isSelected: kKinds[index].value == value,
+          KindValue.values[index],
+          selectedValue: value,
         ),
       ),
     );
@@ -59,13 +59,14 @@ class KindsScreen extends StatelessWidget {
 }
 
 class _KindButton extends StatelessWidget {
-  _KindButton(this.model, {this.isSelected});
+  _KindButton(this.value, {this.selectedValue});
 
-  final KindModel model;
-  final bool isSelected;
+  final KindValue value;
+  final KindValue selectedValue;
 
   @override
   Widget build(BuildContext context) {
+    final isSelected = value == selectedValue;
     return Tooltip(
       message: 'Выберите категорию',
       child: Material(
@@ -73,12 +74,12 @@ class _KindButton extends StatelessWidget {
         color: isSelected ? Colors.red : Colors.white,
         child: InkWell(
           onTap: () {
-            navigator.pop(model.value);
+            navigator.pop(value);
           },
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              if (model.isNew ?? false)
+              if (isNewKind(value))
                 Positioned(
                   top: 0,
                   left: 0,
@@ -104,7 +105,7 @@ class _KindButton extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    model.name,
+                    getKindName(value),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: isSelected

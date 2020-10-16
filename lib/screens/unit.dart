@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -481,8 +480,10 @@ class _UnitScreenState extends State<UnitScreen> {
                   final result = await showDialog<ClaimValue>(
                     context: context,
                     builder: (BuildContext context) {
-                      return _EnumModelDialog<ClaimModel>(
-                          title: 'Укажите причину жалобы', elements: kClaims);
+                      return _EnumModelDialog<ClaimValue>(
+                        title: 'Укажите причину жалобы',
+                        getName: (ClaimValue value) => getClaimName(value),
+                      );
                     },
                   );
                   if (result == null) return;
@@ -493,7 +494,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     documentNode: Mutations.upsertModeration,
                     variables: {
                       'unit_id': unit.id,
-                      'claim': EnumToString.parse(result),
+                      'claim': convertEnumToSnakeCase(result),
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
@@ -517,9 +518,11 @@ class _UnitScreenState extends State<UnitScreen> {
                   final result = await showDialog<QuestionValue>(
                     context: context,
                     builder: (BuildContext context) {
-                      return _EnumModelDialog<QuestionModel>(
-                          title: 'Что Вы хотите узнать о лоте?',
-                          elements: kQuestions);
+                      return _EnumModelDialog<QuestionValue>(
+                        title: 'Что Вы хотите узнать о лоте?',
+                        getName: (QuestionValue value) =>
+                            getQuestionName(value),
+                      );
                     },
                   );
                   if (result == null) return;
@@ -532,7 +535,7 @@ class _UnitScreenState extends State<UnitScreen> {
                     documentNode: Mutations.insertSuggestion,
                     variables: {
                       'unit_id': unit.id,
-                      'question': EnumToString.parse(result),
+                      'question': convertEnumToSnakeCase(result),
                     },
                     fetchPolicy: FetchPolicy.noCache,
                   );
@@ -1268,11 +1271,16 @@ class _ConfirmDialog extends StatelessWidget {
   }
 }
 
-class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
-  _EnumModelDialog({this.title, this.elements});
+class _EnumModelDialog<T> extends StatelessWidget {
+  _EnumModelDialog({
+    this.title,
+    this.values,
+    this.getName,
+  });
 
   final String title;
-  final List<T> elements;
+  final List<T> values;
+  final String Function(T value) getName;
 
   @override
   Widget build(BuildContext context) {
@@ -1282,17 +1290,17 @@ class _EnumModelDialog<T extends EnumModel> extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: List.generate(
-          elements.length,
+          values.length,
           (int index) => Material(
             color: Colors.white,
             child: InkWell(
               onLongPress: () {}, // чтобы сократить время для splashColor
               onTap: () {
                 // TODO: типизировать value
-                navigator.pop(elements[index].value);
+                navigator.pop(values[index]);
               },
               child: ListTile(
-                title: Text(elements[index].name),
+                title: Text(getName(values[index])),
               ),
             ),
           ),

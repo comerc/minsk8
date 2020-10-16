@@ -18,13 +18,11 @@ class HomeUnderway extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = Wrapper(
       key: wrapperKey,
-      tabModels: <UnderwayModel>[
-        UnderwayModel(UnderwayValue.wish, 'Желаю'),
-        UnderwayModel(UnderwayValue.want, 'Забираю'),
-        // UnderwayModel(UnderwayValue.take, 'Забираю'),
-        // UnderwayModel(UnderwayValue.past, 'Мимо'),
-        UnderwayModel(UnderwayValue.give, 'Отдаю'),
-      ],
+      tabIndex: tabIndex,
+      tabsLength: UnderwayValue.values.length,
+      getTabName: (int tabIndex) {
+        return getUnderwayName(UnderwayValue.values[tabIndex]);
+      },
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return ShowcaseList(
@@ -40,4 +38,12 @@ class HomeUnderway extends StatelessWidget {
       child: child,
     );
   }
+}
+
+enum UnderwayValue {
+  wish,
+  want,
+  // take,
+  // past,
+  give,
 }

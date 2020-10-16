@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-// import 'package:enum_to_string/enum_to_string.dart';
 import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
@@ -78,12 +77,6 @@ class UnitModel {
 
   dynamic meta;
 
-  // static UrgentValue _urgentFromString(String value) =>
-  //     EnumToString.fromString(UrgentValue.values, value);
-
-  // static String _urgentToString(UrgentValue urgent) =>
-  //     EnumToString.parse(urgent);
-
   static LatLng _locationFromJson(Map<String, dynamic> json) {
     final array = json['coordinates'];
     return LatLng(array[0] as double, array[1] as double);
@@ -117,5 +110,28 @@ enum UrgentValue {
   urgent,
   @JsonValue('not_urgent')
   notUrgent,
-  none
+  none,
+}
+
+enum MetaKindValue {
+  recent,
+  fan,
+  best,
+  promo,
+  urgent,
+}
+
+enum KindValue {
+  technics,
+  garment,
+  eat,
+  service,
+  rarity,
+  @JsonValue('for_home')
+  forHome,
+  @JsonValue('for_kids')
+  forKids,
+  books,
+  other,
+  pets,
 }

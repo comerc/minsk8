@@ -42,6 +42,7 @@ import 'package:minsk8/import.dart';
 // TODO: синхронизировать между несколькими приложениями одного участника перманентные данные о Profile, MyWishes, MyBlocks
 // TODO: заменить Snackbar на BotToast для асинхронных операций
 // TODO: [MVP] Text('', overflow: TextOverflow.fade, softWrap: false)
+// TODO: объявить имена аргументов при типизации callback-ов: void Function(int) -> void Function(int index)
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -155,8 +156,8 @@ class App extends StatelessWidget {
         // }
         analytics.setCurrentScreen(screenName: '/app');
         client = GraphQLProvider.of(context).value;
-        HomeShowcase.dataPool = kAllKinds
-            .map((EnumModel kind) => ShowcaseData(kind.value))
+        HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
+            .map((dynamic value) => ShowcaseData(value))
             .toList();
         HomeUnderway.dataPool = UnderwayValue.values
             .map((UnderwayValue value) => UnderwayData(value))

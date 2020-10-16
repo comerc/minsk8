@@ -13,7 +13,8 @@ class Wrapper extends StatefulWidget {
   Wrapper({
     Key key,
     this.tabIndex,
-    this.tabModels,
+    this.tabsLength,
+    this.getTabName,
     this.dataPool,
     this.buildList,
     this.pullToRefreshNotificationKey,
@@ -28,7 +29,8 @@ class Wrapper extends StatefulWidget {
         super(key: key);
 
   final int tabIndex;
-  final List<EnumModel> tabModels;
+  final int tabsLength;
+  final String Function(int tabIndex) getTabName;
   final List<SourceList> dataPool;
   final Widget Function(int tabIndex) buildList;
   final GlobalKey<PullToRefreshNotificationState> pullToRefreshNotificationKey;
@@ -47,7 +49,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: widget.tabModels.length,
+      length: widget.tabsLength,
       vsync: this,
     );
     if (widget.poolForReloadTabs != null &&
@@ -97,9 +99,12 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       indicatorSize: TabBarIndicatorSize.label,
       unselectedLabelColor: Colors.grey,
       isScrollable: true,
-      tabs: widget.tabModels
-          .map((EnumModel element) => Tab(text: element.name))
-          .toList(),
+      tabs: List.generate(
+        widget.tabsLength,
+        (int tabIndex) => Tab(
+          text: widget.getTabName(tabIndex),
+        ),
+      ),
     );
     final tabBarHeight = tabBar.preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
@@ -149,7 +154,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: List.generate(
-          widget.tabModels.length,
+          widget.tabsLength,
           (int tabIndex) => widget.buildList(tabIndex),
         ),
       ),
