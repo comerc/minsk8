@@ -36,7 +36,6 @@ class UnitModel {
   final DateTime expiresAt;
   @JsonKey(nullable: true)
   final int price;
-  // @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
   final UrgentValue urgent;
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
