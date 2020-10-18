@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -101,7 +101,8 @@ void main() {
     //     builder: (BuildContext context) => App(),
     //   ),
     // );
-    runApp(AuthCheck());
+    // runApp(AuthCheck());
+    runApp(App());
   }, (error, stackTrace) {
     out('runZonedGuarded $error');
     // Whenever an error occurs, call the `_reportError` function. This sends
@@ -138,9 +139,9 @@ final toastBuilder = BotToastInit();
 final toastNavigatorObserver = BotToastNavigatorObserver();
 
 class App extends StatelessWidget {
-  App({this.authData});
+  // App({this.authData});
 
-  final AuthData authData;
+  // final AuthData authData;
 
   @override
   Widget build(BuildContext context) {
@@ -179,90 +180,88 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
-            return FutureBuilder<bool>(
-                future: authData.isLogin
-                    ? _upsertMember(client)
-                    : Future.value(true),
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return Material(
-                      child: Center(
-                        child: Text('Update member...'),
-                      ),
-                    );
-                  }
-                  if (snapshot.hasError ||
-                      !snapshot.hasData ||
-                      !snapshot.data) {
-                    // TODO: [MVP] чтобы попробовать ещё раз - setState()
-                    return Material(
+            // return FutureBuilder<bool>(
+            //   future:
+            //       authData.isLogin ? _upsertMember(client) : Future.value(true),
+            //   builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            //     if (snapshot.connectionState != ConnectionState.done) {
+            //       return Material(
+            //         child: Center(
+            //           child: Text('Update member...'),
+            //         ),
+            //       );
+            //     }
+            //     if (snapshot.hasError || !snapshot.hasData || !snapshot.data) {
+            //       // TODO: [MVP] чтобы попробовать ещё раз - setState()
+            //       return Material(
+            //         child: Center(
+            //           child: Text('Кажется, что-то пошло не так?'),
+            //         ),
+            //       );
+            //     }
+            return Query(
+              options: QueryOptions(
+                documentNode: Queries.getProfile,
+                variables: {'member_id': appState['memberId']},
+                fetchPolicy: FetchPolicy.noCache,
+              ),
+              // Just like in apollo refetch() could be used to manually trigger a refetch
+              // while fetchMore() can be used for pagination purpose
+              builder: (QueryResult result,
+                  {VoidCallback refetch, FetchMore fetchMore}) {
+                if (result.hasException) {
+                  out(getOperationExceptionToString(result.exception));
+                  return Material(
+                    child: InkWell(
+                      onTap: refetch,
                       child: Center(
                         child: Text('Кажется, что-то пошло не так?'),
                       ),
-                    );
-                  }
-                  return Query(
-                    options: QueryOptions(
-                      documentNode: Queries.getProfile,
-                      variables: {'member_id': appState['memberId']},
-                      fetchPolicy: FetchPolicy.noCache,
                     ),
-                    // Just like in apollo refetch() could be used to manually trigger a refetch
-                    // while fetchMore() can be used for pagination purpose
-                    builder: (QueryResult result,
-                        {VoidCallback refetch, FetchMore fetchMore}) {
-                      if (result.hasException) {
-                        out(getOperationExceptionToString(result.exception));
-                        return Material(
-                          child: InkWell(
-                            onTap: refetch,
-                            child: Center(
-                              child: Text('Кажется, что-то пошло не так?'),
-                            ),
-                          ),
-                        );
-                      }
-                      if (result.loading) {
-                        return Material(
-                          child: Center(
-                            child: Text('Loading profile...'),
-                          ),
-                        );
-                      }
-                      return MultiProvider(
-                        providers: <SingleChildWidget>[
-                          ChangeNotifierProvider<ProfileModel>(
-                            create: (_) => ProfileModel.fromJson(
-                              result.data['profile'] as Map<String, dynamic>,
-                            ),
-                          ),
-                          ChangeNotifierProvider<MyWishesModel>(
-                            create: (_) => MyWishesModel.fromJson(
-                              result.data as Map<String, dynamic>,
-                            ),
-                          ),
-                          ChangeNotifierProvider<MyBlocksModel>(
-                            create: (_) => MyBlocksModel.fromJson(
-                              result.data as Map<String, dynamic>,
-                            ),
-                          ),
-                          ChangeNotifierProvider<DistanceModel>(
-                              create: (_) => DistanceModel()),
-                          ChangeNotifierProvider<MyUnitMapModel>(
-                            create: (_) => MyUnitMapModel(),
-                          ),
-                          ChangeNotifierProvider<AppBarModel>(
-                            create: (_) => AppBarModel(),
-                          ),
-                          ChangeNotifierProvider<VersionModel>(
-                            create: (_) => VersionModel(),
-                          ),
-                        ],
-                        child: MediaQueryWrap(toastBuilder(context, child)),
-                      );
-                    },
                   );
-                });
+                }
+                if (result.loading) {
+                  return Material(
+                    child: Center(
+                      child: Text('Loading profile...'),
+                    ),
+                  );
+                }
+                return MultiProvider(
+                  providers: <SingleChildWidget>[
+                    ChangeNotifierProvider<ProfileModel>(
+                      create: (_) => ProfileModel.fromJson(
+                        result.data['profile'] as Map<String, dynamic>,
+                      ),
+                    ),
+                    ChangeNotifierProvider<MyWishesModel>(
+                      create: (_) => MyWishesModel.fromJson(
+                        result.data as Map<String, dynamic>,
+                      ),
+                    ),
+                    ChangeNotifierProvider<MyBlocksModel>(
+                      create: (_) => MyBlocksModel.fromJson(
+                        result.data as Map<String, dynamic>,
+                      ),
+                    ),
+                    ChangeNotifierProvider<DistanceModel>(
+                        create: (_) => DistanceModel()),
+                    ChangeNotifierProvider<MyUnitMapModel>(
+                      create: (_) => MyUnitMapModel(),
+                    ),
+                    ChangeNotifierProvider<AppBarModel>(
+                      create: (_) => AppBarModel(),
+                    ),
+                    ChangeNotifierProvider<VersionModel>(
+                      create: (_) => VersionModel(),
+                    ),
+                  ],
+                  child: MediaQueryWrap(toastBuilder(context, child)),
+                );
+              },
+            );
+            //   },
+            // );
           },
         );
       },
@@ -306,35 +305,41 @@ class App extends StatelessWidget {
     // out(jsonEncode(parseIdToken(authData.token)));
     final httpLink = HttpLink(
       uri: 'https://$kGraphQLEndpoint',
+      headers: {
+        'X-Hasura-Role': 'user',
+        'X-Hasura-User-Id': kFakeMemberId,
+      },
     );
-    final websocketLink = WebSocketLink(
-      url: 'wss://$kGraphQLEndpoint',
-      config: SocketClientConfig(
-        inactivityTimeout: kGraphQLWebsocketInactivityTimeout,
-        initPayload: () async => {
-          'headers': {'Authorization': 'Bearer ${authData.token}'}
-        },
-      ),
-    );
-    final authLink = AuthLink(
-      getToken: () async => 'Bearer ${authData.token}',
-    );
+    // TODO: включить HASURA_GRAPHQL_JWT_SECRET
+    // TODO: переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
+    // final websocketLink = WebSocketLink(
+    //   url: 'wss://$kGraphQLEndpoint',
+    //   config: SocketClientConfig(
+    //     inactivityTimeout: kGraphQLWebsocketInactivityTimeout,
+    //     initPayload: () async => {
+    //       'headers': {'Authorization': 'Bearer ${authData.token}'}
+    //     },
+    //   ),
+    // );
+    // final authLink = AuthLink(
+    //   getToken: () async => 'Bearer ${authData.token}',
+    // );
     // TODO: [MVP] fresh_graphql
-    final retryLink = Link(request: (
-      Operation operation, [
-      NextLink forward,
-    ]) {
-      StreamController<FetchResult> controller;
-      Future<void> onListen() async {
-        // out('onListen');
-        await controller
-            .addStream(refreshToken(controller, forward, operation).asStream());
-        await controller.close();
-      }
+    // final retryLink = Link(request: (
+    //   Operation operation, [
+    //   NextLink forward,
+    // ]) {
+    //   StreamController<FetchResult> controller;
+    //   Future<void> onListen() async {
+    //     // out('onListen');
+    //     await controller
+    //         .addStream(refreshToken(controller, forward, operation).asStream());
+    //     await controller.close();
+    //   }
 
-      controller = StreamController<FetchResult>.broadcast(onListen: onListen);
-      return controller.stream;
-    });
+    //   controller = StreamController<FetchResult>.broadcast(onListen: onListen);
+    //   return controller.stream;
+    // });
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
@@ -342,8 +347,9 @@ class App extends StatelessWidget {
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
-          link:
-              retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
+          link: httpLink,
+          // link:
+          //     retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
         ),
       ),
       child: CacheProvider(
@@ -354,7 +360,7 @@ class App extends StatelessWidget {
       storage: JsonFileStorage(),
       child: result,
     );
-    result = LifeCycleManager(
+    result = _LifeCycleManager(
       onInitState: () {},
       onDispose: () {
         for (final data in HomeShowcase.dataPool) {
@@ -370,33 +376,33 @@ class App extends StatelessWidget {
     );
     return result;
   }
-
-  Future<bool> _upsertMember(GraphQLClient client) {
-    final options = MutationOptions(
-      documentNode: Mutations.upsertMember,
-      variables: {
-        'display_name': authData.user.displayName,
-        'photo_url': authData.user.photoUrl,
-      },
-      fetchPolicy: FetchPolicy.noCache,
-    );
-    return client
-        .mutate(options)
-        .timeout(kGraphQLMutationTimeoutDuration)
-        .then<bool>((QueryResult result) {
-      if (result.hasException) {
-        throw result.exception;
-      }
-      if (result.data['insert_member']['affected_rows'] != 1) {
-        throw 'Invalid insert_member.affected_rows';
-      }
-      appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
-      return true;
-    }).catchError((error) {
-      out('_upsertMember $error');
-    });
-  }
 }
+
+// Future<bool> _upsertMember(AuthData authData) {
+//   final options = MutationOptions(
+//     documentNode: Mutations.upsertMember,
+//     variables: {
+//       'display_name': authData.user.displayName,
+//       'photo_url': authData.user.photoUrl,
+//     },
+//     fetchPolicy: FetchPolicy.noCache,
+//   );
+//   return client
+//       .mutate(options)
+//       .timeout(kGraphQLMutationTimeoutDuration)
+//       .then<bool>((QueryResult result) {
+//     if (result.hasException) {
+//       throw result.exception;
+//     }
+//     if (result.data['insert_member']['affected_rows'] != 1) {
+//       throw 'Invalid insert_member.affected_rows';
+//     }
+//     appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
+//     return true;
+//   }).catchError((error) {
+//     out('_upsertMember $error');
+//   });
+// }
 
 // Widget need for reactive variable
 class MediaQueryWrap extends StatelessWidget {
@@ -481,59 +487,60 @@ class AuthData {
   final bool isLogin;
 }
 
-class AuthCheck extends StatefulWidget {
-  @override
-  _AuthCheckState createState() => _AuthCheckState();
-}
+// class AuthCheck extends StatefulWidget {
+//   @override
+//   _AuthCheckState createState() => _AuthCheckState();
+// }
 
-class _AuthCheckState extends State<AuthCheck> {
-  AuthData _authData;
+// class _AuthCheckState extends State<AuthCheck> {
+//   AuthData _authData;
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<AuthData>(
-      future: _authData == null ? _getAuthData() : Future.value(_authData),
-      builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-          case ConnectionState.active:
-            return CommonMaterialApp(
-              home: Scaffold(
-                body: Center(
-                  child: Text('Authentication...'),
-                ),
-              ),
-            );
-          case ConnectionState.done:
-            if (snapshot.data == null) {
-              return CommonMaterialApp(
-                home: LoginScreen(onClose: (AuthData authData) {
-                  setState(() {
-                    _authData = authData;
-                  });
-                }),
-              );
-            }
-            return App(authData: snapshot.data);
-        }
-        return null;
-      },
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder<AuthData>(
+//       future: _authData == null ? _getAuthData() : Future.value(_authData),
+//       builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
+//         switch (snapshot.connectionState) {
+//           case ConnectionState.none:
+//           case ConnectionState.waiting:
+//           case ConnectionState.active:
+//             return CommonMaterialApp(
+//               home: Scaffold(
+//                 body: Center(
+//                   child: Text('Authentication...'),
+//                 ),
+//               ),
+//             );
+//           case ConnectionState.done:
+//             if (snapshot.data == null) {
+//               return CommonMaterialApp(
+//                 home: LoginScreen(onClose: (AuthData authData) {
+//                   setState(() {
+//                     _authData = authData;
+//                   });
+//                 }),
+//               );
+//             }
+//             return App(authData: snapshot.data);
+//         }
+//         return null;
+//       },
+//     );
+//   }
 
-  Future<AuthData> _getAuthData() async {
-    try {
-      final user = await FirebaseAuth.instance.currentUser();
-      if (user == null) return null;
-      final idToken = await user.getIdToken();
-      return AuthData(user: user, token: idToken.token);
-    } catch (error) {
-      out('_getAuthData $error');
-      return null;
-    }
-  }
-}
+//   Future<AuthData> _getAuthData() async {
+//     try {
+//       // TODO: провести эксперимент - будет ли работать в offline?
+//       final user = await FirebaseAuth.instance.currentUser();
+//       if (user == null) return null;
+//       final idToken = await user.getIdToken();
+//       return AuthData(user: user, token: idToken.token);
+//     } catch (error) {
+//       out('_getAuthData $error');
+//       return null;
+//     }
+//   }
+// }
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 NavigatorState get navigator => _navigatorKey.currentState;
@@ -605,64 +612,64 @@ class CommonMaterialApp extends StatelessWidget {
 // workaround for JWTExpired https://github.com/zino-app/graphql-flutter/issues/220#issuecomment-523108156
 // see also https://hasura.io/blog/handling-graphql-hasura-errors-with-react/
 
-Future<T> whenFirst<T>(Stream<T> source) async {
-  try {
-    await for (final T value in source) {
-      if (value != null) {
-        return value;
-      }
-    }
-    return null;
-  } catch (error) {
-    return Future.error(error);
-  }
-}
+// Future<T> whenFirst<T>(Stream<T> source) async {
+//   try {
+//     await for (final T value in source) {
+//       if (value != null) {
+//         return value;
+//       }
+//     }
+//     return null;
+//   } catch (error) {
+//     return Future.error(error);
+//   }
+// }
 
 // TODO: extension FetchResultDump on FetchResult { dump() => this.fiels; }
 
-Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
-    NextLink forward, Operation operation) async {
-  try {
-    // out('refreshToken');
-    final mainStream = forward(operation);
-    final firstEvent = await whenFirst(mainStream);
-    if (firstEvent.errors != null && firstEvent.errors[0] != null) {
-      out('firstEvent.errors[0] ${firstEvent.errors[0]}');
-      out('firstEvent.statusCode ${firstEvent.statusCode}');
-      // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
-      // https://github.com/zino-app/graphql-flutter/issues/220
-      // ожидаю graphql-flutter V4, issue висит в roadmap
-      // I/flutter ( 3382): firstEvent.errors[0] {extensions: {path: $, code: invalid-jwt}, message: Could not verify JWT: JWTExpired}
-      // I/flutter ( 3382): firstEvent.statusCode null
-      // I/flutter ( 3382): GraphQL Errors:
-      // I/flutter ( 3382): Could not verify JWT: JWTExpired: Undefined location
-    }
-    // out('firstEvent.data ${firstEvent.data}');
-    return firstEvent;
-  } catch (error, stackTrace) {
-    out('refreshToken error $error');
-    out('refreshToken stackTrace $stackTrace');
-    return Future.error(error);
-    // Logger.root.severe(error.toString());
-    // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
-    //   // Logger.root.info('User logged out. But token persents. Refreshing token');
-    //   final Token token = await tokenAPI.refreshToken();
-    //   if (token.isValid()) {
-    //     await tokenManager.setAccessToken(token.accessToken);
-    //     await tokenManager.setRefreshToken(token.refreshToken);
-    //     return whenFirst(forward(operation));
-    //   } else {
-    //     await tokenManager.removeCredentials();
-    //     return whenFirst(forward(operation));
-    //   }
-    // } else {
-    //   return Future.error(error);
-    // }
-  }
-}
+// Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
+//     NextLink forward, Operation operation) async {
+//   try {
+//     // out('refreshToken');
+//     final mainStream = forward(operation);
+//     final firstEvent = await whenFirst(mainStream);
+//     if (firstEvent.errors != null && firstEvent.errors[0] != null) {
+//       out('firstEvent.errors[0] ${firstEvent.errors[0]}');
+//       out('firstEvent.statusCode ${firstEvent.statusCode}');
+//       // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
+//       // https://github.com/zino-app/graphql-flutter/issues/220
+//       // ожидаю graphql-flutter V4, issue висит в roadmap
+//       // I/flutter ( 3382): firstEvent.errors[0] {extensions: {path: $, code: invalid-jwt}, message: Could not verify JWT: JWTExpired}
+//       // I/flutter ( 3382): firstEvent.statusCode null
+//       // I/flutter ( 3382): GraphQL Errors:
+//       // I/flutter ( 3382): Could not verify JWT: JWTExpired: Undefined location
+//     }
+//     // out('firstEvent.data ${firstEvent.data}');
+//     return firstEvent;
+//   } catch (error, stackTrace) {
+//     out('refreshToken error $error');
+//     out('refreshToken stackTrace $stackTrace');
+//     return Future.error(error);
+//     // Logger.root.severe(error.toString());
+//     // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
+//     //   // Logger.root.info('User logged out. But token persents. Refreshing token');
+//     //   final Token token = await tokenAPI.refreshToken();
+//     //   if (token.isValid()) {
+//     //     await tokenManager.setAccessToken(token.accessToken);
+//     //     await tokenManager.setRefreshToken(token.refreshToken);
+//     //     return whenFirst(forward(operation));
+//     //   } else {
+//     //     await tokenManager.removeCredentials();
+//     //     return whenFirst(forward(operation));
+//     //   }
+//     // } else {
+//     //   return Future.error(error);
+//     // }
+//   }
+// }
 
-class LifeCycleManager extends StatefulWidget {
-  LifeCycleManager({Key key, this.child, this.onInitState, this.onDispose})
+class _LifeCycleManager extends StatefulWidget {
+  _LifeCycleManager({Key key, this.child, this.onInitState, this.onDispose})
       : super(key: key);
 
   final Widget child;
@@ -673,7 +680,7 @@ class LifeCycleManager extends StatefulWidget {
   _LifeCycleManagerState createState() => _LifeCycleManagerState();
 }
 
-class _LifeCycleManagerState extends State<LifeCycleManager>
+class _LifeCycleManagerState extends State<_LifeCycleManager>
     with WidgetsBindingObserver {
   // List<StoppableService> services = [
   //   locator<LocationService>(),
