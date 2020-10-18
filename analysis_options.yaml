@@ -52,3 +52,4 @@ analyzer:
     - test/**
     - test_driver/**
     - web/**
+    - packages/**
