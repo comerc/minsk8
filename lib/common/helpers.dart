@@ -421,3 +421,5 @@ String getStageText(StageValue value) {
   assert(StageValue.values.length == map.length);
   return map[value];
 }
+
+void unawaited(Future<void> future) {}
