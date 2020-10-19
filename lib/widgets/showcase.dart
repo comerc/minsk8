@@ -396,7 +396,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
 String formatDDHHMMSS(int value) {
   int days, hours, minutes = 0;
-  int seconds = value;
+  var seconds = value;
   if (seconds >= 86400) {
     days = (seconds / 86400).floor();
     seconds -= days * 86400;
