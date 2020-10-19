@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minsk8/import.dart';
 
 bool get isInDebugMode {
@@ -421,3 +422,8 @@ String getStageText(StageValue value) {
   assert(StageValue.values.length == map.length);
   return map[value];
 }
+
+T getBloc<T extends Cubit<Object>>(BuildContext context) =>
+    BlocProvider.of<T>(context);
+
+T getRepository<T>(BuildContext context) => RepositoryProvider.of<T>(context);
