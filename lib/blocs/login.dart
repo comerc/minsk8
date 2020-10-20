@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:formz/formz.dart';
 import 'package:minsk8/import.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authenticationRepository)
-      : assert(_authenticationRepository != null),
+  LoginCubit(BuildContext context)
+      : _authenticationRepository =
+            getRepository<AuthenticationRepository>(context),
         super(const LoginState());
 
   final AuthenticationRepository _authenticationRepository;

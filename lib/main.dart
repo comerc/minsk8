@@ -10,26 +10,16 @@ void main() async {
   await Firebase.initializeApp();
   EquatableConfig.stringify = kDebugMode;
   // Bloc.observer = SimpleBlocObserver();
-  runApp(App(authenticationRepository: AuthenticationRepository()));
+  runApp(App());
 }
 
 class App extends StatelessWidget {
-  const App({
-    Key key,
-    @required this.authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        super(key: key);
-
-  final AuthenticationRepository authenticationRepository;
-
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: authenticationRepository,
+      value: AuthenticationRepository(),
       child: BlocProvider(
-        create: (_) => AuthenticationCubit(
-          authenticationRepository: authenticationRepository,
-        ),
+        create: (BuildContext context) => AuthenticationCubit(context),
         child: AppView(),
       ),
     );
