@@ -5,8 +5,11 @@ import 'package:formz/formz.dart';
 import 'package:minsk8/import.dart';
 
 class MyLoginScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => MyLoginScreen());
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/login',
+      builder: (_) => this,
+    );
   }
 
   @override
@@ -16,19 +19,20 @@ class MyLoginScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocProvider(
-          create: (BuildContext context) => LoginCubit(context),
-          child: _LoginForm(),
+          create: (BuildContext context) =>
+              LoginCubit(getRepository<AuthenticationRepository>(context)),
+          child: LoginForm(),
         ),
       ),
     );
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
-      listener: (context, state) {
+      listener: (BuildContext context, LoginState state) {
         if (state.status.isSubmissionFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
@@ -67,8 +71,9 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.email != current.email,
-      builder: (context, state) {
+      buildWhen: (LoginState previous, LoginState current) =>
+          previous.email != current.email,
+      builder: (BuildContext context, LoginState state) {
         return TextField(
           key: const Key('loginForm_emailInput_textField'),
           onChanged: (email) =>
@@ -89,8 +94,9 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
+      buildWhen: (LoginState previous, LoginState current) =>
+          previous.password != current.password,
+      builder: (BuildContext context, LoginState state) {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
@@ -111,8 +117,9 @@ class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
+      buildWhen: (LoginState previous, LoginState current) =>
+          previous.status != current.status,
+      builder: (BuildContext context, LoginState state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : RaisedButton(
@@ -159,7 +166,7 @@ class _SignUpButton extends StatelessWidget {
         'CREATE ACCOUNT',
         style: TextStyle(color: theme.primaryColor),
       ),
-      onPressed: () => navigator.push<void>(MySignUpScreen.route()),
+      onPressed: () => navigator.push<void>(MySignUpScreen().getRoute()),
     );
   }
 }

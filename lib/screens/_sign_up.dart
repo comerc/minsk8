@@ -4,10 +4,11 @@ import 'package:formz/formz.dart';
 import 'package:minsk8/import.dart';
 
 class MySignUpScreen extends StatelessWidget {
-  const MySignUpScreen({Key key}) : super(key: key);
-
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => const MySignUpScreen());
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/sign_up',
+      builder: (_) => this,
+    );
   }
 
   @override
@@ -16,20 +17,21 @@ class MySignUpScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Sign Up')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocProvider<SignUpCubit>(
-          create: (_) => SignUpCubit(context),
-          child: _SignUpForm(),
+        child: BlocProvider(
+          create: (BuildContext context) =>
+              SignUpCubit(getRepository<AuthenticationRepository>(context)),
+          child: SignUpForm(),
         ),
       ),
     );
   }
 }
 
-class _SignUpForm extends StatelessWidget {
+class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpCubit, SignUpState>(
-      listener: (context, state) {
+      listener: (BuildContext context, SignUpState state) {
         if (state.status.isSubmissionFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
@@ -47,6 +49,8 @@ class _SignUpForm extends StatelessWidget {
             const SizedBox(height: 8.0),
             _PasswordInput(),
             const SizedBox(height: 8.0),
+            _ConfirmPasswordInput(),
+            const SizedBox(height: 8.0),
             _SignUpButton(),
           ],
         ),
@@ -59,11 +63,12 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) => previous.email != current.email,
-      builder: (context, state) {
+      buildWhen: (SignUpState previous, SignUpState current) =>
+          previous.email != current.email,
+      builder: (BuildContext context, SignUpState state) {
         return TextField(
           key: const Key('signUpForm_emailInput_textField'),
-          onChanged: (email) =>
+          onChanged: (String email) =>
               getBloc<SignUpCubit>(context).emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -81,8 +86,9 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
+      buildWhen: (SignUpState previous, SignUpState current) =>
+          previous.password != current.password,
+      builder: (BuildContext context, SignUpState state) {
         return TextField(
           key: const Key('signUpForm_passwordInput_textField'),
           onChanged: (password) =>
@@ -99,12 +105,40 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
+class _ConfirmPasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.confirmedPassword != current.confirmedPassword,
+      builder: (context, state) {
+        return TextField(
+          key: const Key('signUpForm_confirmedPasswordInput_textField'),
+          onChanged: (confirmPassword) => context
+              .bloc<SignUpCubit>()
+              .confirmedPasswordChanged(confirmPassword),
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'confirm password',
+            helperText: '',
+            errorText: state.confirmedPassword.invalid
+                ? 'passwords do not match'
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
+      buildWhen: (SignUpState previous, SignUpState current) =>
+          previous.status != current.status,
+      builder: (BuildContext context, SignUpState state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : RaisedButton(

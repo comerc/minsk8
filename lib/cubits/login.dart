@@ -1,16 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:formz/formz.dart';
 import 'package:minsk8/import.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(BuildContext context)
-      : _authenticationRepository =
-            getRepository<AuthenticationRepository>(context),
+  LoginCubit(this.authenticationRepository)
+      : assert(authenticationRepository != null),
         super(const LoginState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
   void emailChanged(String value) {
     final email = EmailModel.dirty(value);
@@ -32,7 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithEmailAndPassword(
+      await authenticationRepository.logInWithEmailAndPassword(
         email: state.email.value,
         password: state.password.value,
       );
@@ -45,7 +43,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> logInWithGoogle() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithGoogle();
+      await authenticationRepository.logInWithGoogle();
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));

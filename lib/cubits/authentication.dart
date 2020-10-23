@@ -1,20 +1,18 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:minsk8/import.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit(BuildContext context)
-      : _authenticationRepository =
-            getRepository<AuthenticationRepository>(context),
+  AuthenticationCubit(this.authenticationRepository)
+      : assert(authenticationRepository != null),
         super(const AuthenticationState.unknown()) {
-    _userSubscription = _authenticationRepository.user.listen(
+    _userSubscription = authenticationRepository.user.listen(
       (UserModel user) => changeUser(user),
     );
   }
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
   StreamSubscription<UserModel> _userSubscription;
 
   @override
@@ -24,8 +22,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void changeUser(UserModel user) {
-    // TODO: почему при старте срабатывает два раза?
-    print('changeUser');
     final result = user == UserModel.empty
         ? const AuthenticationState.unauthenticated()
         : AuthenticationState.authenticated(user);
@@ -33,7 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void requestLogout() {
-    _authenticationRepository.logOut();
+    authenticationRepository.logOut();
   }
 }
 
