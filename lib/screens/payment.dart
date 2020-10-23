@@ -8,7 +8,7 @@ const _kDuration = Duration(milliseconds: 400);
 const _kCurve = Curves.fastOutSlowIn;
 
 class PaymentScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/payment',
       builder: (_) => this,
@@ -88,7 +88,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
                     navigator.push(
-                      ContentScreen('make_it_together.md').route(),
+                      ContentScreen('make_it_together.md').getRoute(),
                     );
                   },
                   textColor: Colors.black.withOpacity(0.6),

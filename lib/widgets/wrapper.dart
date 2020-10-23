@@ -223,7 +223,7 @@ class _AppBar extends StatelessWidget {
           iconSize: kButtonIconSize,
           onPressed: () {
             navigator.push(
-              ShowcaseMapScreen().route(),
+              ShowcaseMapScreen().getRoute(),
             );
           },
         ),

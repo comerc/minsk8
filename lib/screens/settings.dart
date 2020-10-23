@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 // TODO: теги https://github.com/Dn-a/flutter_tags
 
 class SettingsScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/settings',
       builder: (_) => this,
@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _selectLocation() {
-    navigator.push(ShowcaseMapScreen().route()).then((value) {
+    navigator.push(ShowcaseMapScreen().getRoute()).then((value) {
       if (value == null) return;
       setState(() {});
     });

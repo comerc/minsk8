@@ -385,7 +385,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                       navigator.push(
                         MessagesScreen(
                           chat: item,
-                        ).route(),
+                        ).getRoute(),
                       );
                     },
                     child: Column(children: <Widget>[

@@ -4,7 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 class ShowcaseMapScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/showcase_map',
       builder: (_) => this,

@@ -5,7 +5,7 @@ import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
 
 class StartMapScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/start_map',
       builder: (_) => this,

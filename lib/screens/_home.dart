@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class MyHomeScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => MyHomeScreen());
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/home',
+      builder: (_) => this,
+    );
   }
 
   @override

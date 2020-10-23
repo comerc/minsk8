@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class EditUnitScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/edit_unit?id=${unit.id}',
       builder: (_) => this,

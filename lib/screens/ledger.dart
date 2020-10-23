@@ -8,7 +8,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:minsk8/import.dart';
 
 class LedgerScreen extends StatefulWidget {
-  PageRoute<T> route<T>({String arguments = '', bool isInitialRoute = false}) {
+  Route<T> getRoute<T>({String arguments = '', bool isInitialRoute = false}) {
     return buildRoute<T>(
       '/ledger$arguments',
       builder: (_) => this,
@@ -273,7 +273,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
         UnitScreen(
           unit,
           member: unit.member,
-        ).route(),
+        ).getRoute(),
       );
     };
   }
@@ -286,7 +286,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
       ).then((value) {
         if (value == null) return;
         navigator.pushReplacement(
-          LedgerScreen().route(
+          LedgerScreen().getRoute(
             arguments: '?reason=$reason',
             isInitialRoute: true,
           ),
@@ -354,7 +354,7 @@ class _BalanceDialog extends StatelessWidget {
           onPressed: () {
             navigator
               ..pop()
-              ..push(HowToPayScreen().route());
+              ..push(HowToPayScreen().getRoute());
           },
           color: Colors.green,
           textColor: Colors.white,

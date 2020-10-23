@@ -168,7 +168,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               unit,
               member: unit.member,
               isShowcase: true,
-            ).route(),
+            ).getRoute(),
           )
               .then((_) {
             setState(() {
@@ -515,7 +515,7 @@ class InfoDialog extends StatelessWidget {
                 onTap: () {
                   navigator
                     ..pop()
-                    ..push(ContentScreen('faq.md').route());
+                    ..push(ContentScreen('faq.md').getRoute());
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(

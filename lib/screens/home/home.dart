@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
           arguments.unit,
           member: arguments.member,
           isShowcase: arguments.isShowcase,
-        ).route(),
+        ).getRoute(),
       );
     }).catchError((error) {
       out(error);
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
             arguments.unit,
             member: arguments.member,
             isShowcase: arguments.isShowcase,
-          ).route(),
+          ).getRoute(),
         );
       },
       onError: (OnLinkErrorException error) async {
@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
       foregroundColor: Colors.pinkAccent,
       onPressed: () async {
         final kind = await navigator.push<KindValue>(
-          KindsScreen().route(),
+          KindsScreen().getRoute(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // ignore: unawaited_futures
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
               showcase: HomeShowcase.wrapperKey.currentState?.tabIndex,
               underway: HomeUnderway.wrapperKey.currentState?.tabIndex,
             ),
-          ).route(),
+          ).getRoute(),
         );
       },
       tooltip: 'Add Unit',

@@ -27,7 +27,7 @@ class _StartScreenState extends State<StartScreen> {
     }
     // TODO: WelcomeScreen
     final value = await navigator.push<bool>(
-      StartMapScreen().route(),
+      StartMapScreen().getRoute(),
     );
     if (value ?? false) {
       appState['StartMap.isInitialized'] = true;
@@ -51,7 +51,7 @@ class _StartScreenState extends State<StartScreen> {
     // navigator.push(
     //   MessagesScreen(
     //     chat: item,
-    //   ).route(),
+    //   ).getRoute(),
     // );
 
     await initStartMap();

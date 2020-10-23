@@ -10,7 +10,7 @@ import 'package:minsk8/import.dart';
 // TODO: найти либу для типографики
 
 class ContentScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/$filename',
       builder: (_) => this,

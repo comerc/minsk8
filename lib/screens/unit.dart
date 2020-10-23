@@ -15,7 +15,7 @@ import 'package:minsk8/import.dart';
 // TODO: [MVP] не отображается _DistanceButton
 
 class UnitScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/unit?id=${unit.id}',
       builder: (_) => this,
@@ -190,7 +190,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                     tag: tag,
                                     index: index,
                                     onWillPop: _onWillPopForZoom,
-                                  ).route(),
+                                  ).getRoute(),
                                 );
                               },
                               splashColor: Colors.white.withOpacity(0.4),
@@ -262,7 +262,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                 _isCarouselSlider = false;
                               });
                               navigator
-                                  .push(UnitMapScreen(unit).route())
+                                  .push(UnitMapScreen(unit).getRoute())
                                   .then((_) {
                                 setState(() {
                                   _currentIndex = savedIndex;
@@ -335,7 +335,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                       otherUnit,
                                       member: member,
                                       isShowcase: true,
-                                    ).route(),
+                                    ).getRoute(),
                                     (Route route) {
                                       return route.settings.name != '/unit';
                                     },
@@ -899,7 +899,7 @@ class _WantDialog extends StatelessWidget {
             ),
             onTap: () {
               navigator.push(
-                UnitMapScreen(unit).route(),
+                UnitMapScreen(unit).getRoute(),
               );
             },
           ),

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class MyUnitMapScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/my_unit_map',
       builder: (_) => this,

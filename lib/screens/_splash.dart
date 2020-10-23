@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:minsk8/import.dart';
 
 class MySplashScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => MySplashScreen());
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/splash',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
   }
 
   @override
