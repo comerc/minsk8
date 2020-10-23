@@ -285,7 +285,7 @@ class App extends StatelessWidget {
         '/start': (_) => StartScreen(),
       },
       // TODO: как это может пригодиться (flutter_firebase_login)?
-      // onGenerateRoute: (_) => SplashPage.route(),
+      // onGenerateRoute: (_) => SplashPage().getRoute(),
       // onGenerateRoute: (RouteSettings settings) {
       //   out('onGenerateRoute: $settings');
       //   return null;
