@@ -142,16 +142,16 @@ main() async {
 
 [playlist.json](./playlist.json)
 
-# Training
+## Training
 
 Онлайн-курсы по Flutter, групповой интерактив. 100 часов, 3 месяца, 3 раза в неделю: вторник, четверг, воскресенье. Время занятий с 7 до 10 вечера (GMT+3). Начало занятий на этой неделе. Из чего состоит курс? Тренировки до изнеможения. Сначала теория. Потом практика. Будем делать сайт знакомств для котиков. Полный цикл разработки. От базового функционала и дальше, сколько успеем. [Группа в телеге](https://t.me/joinchat/FN6rLBrNNtP9DcLFvy06ZA).
 
-# Contacts
+## Contacts
 
 - E-Mail: [andrew.kachanov@gmail.com](mailto:andrew.kachanov@gmail.com)
 - Telegram: [@AndrewKachanov](https://t.me/AndrewKachanov)
 
-# Support Me
+## Support Me
 
 - [Patreon](https://www.patreon.com/comerc)
 - [QIWI](https://qiwi.com/n/comerc)
