@@ -122,6 +122,7 @@ dependencies:
   # flutter_lorem 1.1.0
   # freezed 0.12.1
   # rainbow_container
+  # upgrader
 
   bloc: 6.0.3
   equatable: ^1.2.3
