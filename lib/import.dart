@@ -35,6 +35,7 @@ export 'cubits/authentication.dart';
 export 'cubits/login.dart';
 export 'cubits/sign_up.dart';
 export 'main_.dart';
+export 'main.dart';
 export 'models/_confirmed_password.dart';
 export 'models/_email.dart';
 export 'models/_password.dart';

@@ -54,7 +54,7 @@ final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 // don't use async for main!
-void main() {
+void main_() {
   // debugPaintSizeEnabled = true;
   FlutterError.onError = (FlutterErrorDetails details) {
     out('FlutterError.onError $details');
@@ -548,7 +548,7 @@ class AuthData {
 // }
 
 final _navigatorKey = GlobalKey<NavigatorState>();
-NavigatorState get navigator => _navigatorKey.currentState;
+NavigatorState get navigator_ => _navigatorKey.currentState;
 
 class CommonMaterialApp extends StatelessWidget {
   CommonMaterialApp({

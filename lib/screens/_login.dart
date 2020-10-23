@@ -21,14 +21,14 @@ class MyLoginScreen extends StatelessWidget {
         child: BlocProvider(
           create: (BuildContext context) =>
               LoginCubit(getRepository<AuthenticationRepository>(context)),
-          child: LoginForm(),
+          child: MyLoginForm(),
         ),
       ),
     );
   }
 }
 
-class LoginForm extends StatelessWidget {
+class MyLoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
