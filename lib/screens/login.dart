@@ -1,6 +1,9 @@
+// ignore_for_file: unused_field
+// ignore_for_file: unused_element
+// ignore_for_file: prefer_final_fields
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:minsk8/import.dart';
@@ -94,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<String> _getToken({
     BuildContext context,
-    FirebaseUser user,
+    firebase_auth.User user,
     int retry = 0,
   }) async {
     // if (retry < 4) {
@@ -124,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return null;
   }
 
-  void _signIn({Future<AuthCredential> Function() getCredentials}) async {
+  void _signIn(
+      {Future<firebase_auth.AuthCredential> Function() getCredentials}) async {
     // try {
     //   setState(() {
     //     _isLoading = true;

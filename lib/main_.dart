@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -487,7 +487,7 @@ class AuthData {
     this.isLogin = false,
   });
 
-  final FirebaseUser user;
+  final firebase_auth.User user;
   final String token;
   final bool isLogin;
 }
