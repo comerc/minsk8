@@ -330,6 +330,7 @@ class App extends StatelessWidget {
     //   getToken: () async => 'Bearer ${authData.token}',
     // );
     // TODO: [MVP] fresh_graphql
+    // https://stackoverflow.com/questions/61708776/how-to-retry-a-request-on-graphqlerror-in-graphql-flutter
     // final retryLink = Link(request: (
     //   Operation operation, [
     //   NextLink forward,
