@@ -44,8 +44,13 @@ class _ShowcaseListState extends State<ShowcaseList>
     final isSmallWidth = width < kSmallWidth;
     final isMediumWidth = width < kMediumWidth;
     final isLargeWidth = width < kLargeWidth;
-    final crossAxisCount =
-        isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
+    final crossAxisCount = isSmallWidth
+        ? 1
+        : isMediumWidth
+            ? 2
+            : isLargeWidth
+                ? 3
+                : 4;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       Key(widget.tagPrefix),
       LoadingMoreCustomScrollView(
