@@ -394,7 +394,6 @@ class _ChatListGroupState extends State<_ChatListGroup>
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
                           children: [
                             Expanded(
                               child: Text(
