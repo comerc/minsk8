@@ -1,10 +1,11 @@
-include: package:pedantic/analysis_options.yaml
+# TODO: analysis_options_package.yaml cannot be found https://github.com/passsy/dart-lint/issues/16
+include: package:lint/analysis_options.yaml
+# include: package:pedantic/analysis_options.yaml
 # include: package:effective_dart/analysis_options.yaml
-# include: package:lint/analysis_options.yaml
 
-# linter:
-#   rules:
-#     - unawaited_futures
+linter:
+  rules:
+    - unawaited_futures
 
 # TODO: выключить implicit-casts
 analyzer:
