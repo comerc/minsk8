@@ -55,10 +55,7 @@ class _AnimatedListScreenState extends State<AnimatedListScreen>
 
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    final track = _list[index];
-    // final tile = ListTile(
-    //   title: Text('${track}'),
-    // );
+    final item = _list[index];
     final tile = CardItem(
       animation: animation,
       item: _list[index],
@@ -70,35 +67,33 @@ class _AnimatedListScreenState extends State<AnimatedListScreen>
       },
     );
     final draggable = LongPressDraggable<int>(
-      data: track,
+      data: item,
       axis: Axis.vertical,
       maxSimultaneousDrags: 1,
-      child: tile,
       childWhenDragging: Opacity(
         opacity: 0.5,
         child: tile,
       ),
       feedback: Material(
+        elevation: 4,
         child: ConstrainedBox(
           constraints:
-              BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 40),
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 32),
           child: tile,
         ),
-        elevation: 4.0,
       ),
+      child: tile,
     );
     return DragTarget<int>(
-      onWillAccept: (track) {
-        return _list.indexOf(track) != index;
+      onWillAccept: (item) {
+        return _list.indexOf(item) != index;
       },
-      onAccept: (track) {
+      onAccept: (item) {
         setState(() {
-          final currentIndex = _list.indexOf(track);
-          const kZeroDuration = Duration(seconds: 0);
-          _list.removeAt(currentIndex, duration: kZeroDuration);
-          // _list.remove(track);
-          _list.insert(currentIndex > index ? index : index - 1, track,
-              duration: kZeroDuration);
+          final currentIndex = _list.indexOf(item);
+          _list.removeAt(currentIndex, duration: Duration.zero);
+          _list.insert(currentIndex > index ? index : index - 1, item,
+              duration: Duration.zero);
         });
       },
       builder: (BuildContext context, List<int> candidateData,
@@ -106,7 +101,7 @@ class _AnimatedListScreenState extends State<AnimatedListScreen>
         return Column(
           children: <Widget>[
             AnimatedSize(
-              duration: const Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 300),
               vsync: this,
               child: candidateData.isEmpty
                   ? Container()
@@ -115,9 +110,7 @@ class _AnimatedListScreenState extends State<AnimatedListScreen>
                       child: tile,
                     ),
             ),
-            Card(
-              child: candidateData.isEmpty ? draggable : tile,
-            ),
+            if (candidateData.isEmpty) draggable else tile,
           ],
         );
       },
@@ -135,7 +128,6 @@ class _AnimatedListScreenState extends State<AnimatedListScreen>
     return CardItem(
       animation: animation,
       item: item,
-      selected: false,
       // No gesture detector here: we don't want removed items to be interactive.
     );
   }
@@ -274,7 +266,6 @@ class CardItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: SizeTransition(
-        axis: Axis.vertical,
         sizeFactor: animation,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
