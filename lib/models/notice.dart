@@ -19,6 +19,4 @@ class NoticeModel {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$NoticeModelToJson(this);
 }

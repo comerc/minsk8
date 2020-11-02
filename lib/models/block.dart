@@ -15,6 +15,4 @@ class BlockModel {
 
   factory BlockModel.fromJson(Map<String, dynamic> json) =>
       _$BlockModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BlockModelToJson(this);
 }

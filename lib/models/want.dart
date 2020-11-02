@@ -20,6 +20,4 @@ class WantModel {
 
   factory WantModel.fromJson(Map<String, dynamic> json) =>
       _$WantModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$WantModelToJson(this);
 }

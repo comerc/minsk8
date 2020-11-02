@@ -99,8 +99,6 @@ class UnitModel {
 
   factory UnitModel.fromJson(Map<String, dynamic> json) =>
       _$UnitModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UnitModelToJson(this);
 }
 
 enum UrgentValue {

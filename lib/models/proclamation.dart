@@ -18,6 +18,4 @@ class ProclamationModel {
 
   factory ProclamationModel.fromJson(Map<String, dynamic> json) =>
       _$ProclamationModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProclamationModelToJson(this);
 }

@@ -6,7 +6,7 @@ part 'image.g.dart';
 // TODO: [MVP] Building Image CDN with Firebase
 // https://dev.to/dbanisimov/building-image-cdn-with-firebase-15ef
 
-@JsonSerializable()
+@JsonSerializable(createToJson: true)
 class ImageModel {
   ImageModel({
     this.url,

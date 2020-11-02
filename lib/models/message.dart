@@ -21,8 +21,6 @@ class MessageModel {
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
 
 enum MessageAuthor {
