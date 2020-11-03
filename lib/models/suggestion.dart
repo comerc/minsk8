@@ -17,6 +17,8 @@ class SuggestionModel {
 
   factory SuggestionModel.fromJson(Map<String, dynamic> json) =>
       _$SuggestionModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SuggestionModelToJson(this);
 }
 
 // TODO: для категории "Услуги" нужны другие вопросы

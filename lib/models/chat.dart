@@ -34,6 +34,8 @@ class ChatModel {
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ChatModelToJson(this);
 }
 
 // TODO: [MVP] почему значение в messageText для .ready синим цветом - это ссылка?

@@ -15,4 +15,6 @@ class GiveModel {
 
   factory GiveModel.fromJson(Map<String, dynamic> json) =>
       _$GiveModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GiveModelToJson(this);
 }

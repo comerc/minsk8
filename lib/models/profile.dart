@@ -16,4 +16,6 @@ class ProfileModel extends ChangeNotifier {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }
