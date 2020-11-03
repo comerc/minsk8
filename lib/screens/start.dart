@@ -56,7 +56,6 @@ class _StartScreenState extends State<StartScreen> {
 
     await initStartMap();
     // TODO: почему бы это не делать внутри HomeScreen.initState ?
-    // ignore: unawaited_futures
-    HomeScreen.globalKey.currentState.initDynamicLinks();
+    await HomeScreen.globalKey.currentState.initDynamicLinks();
   }
 }
