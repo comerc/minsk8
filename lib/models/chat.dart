@@ -46,3 +46,23 @@ enum StageValue {
   cancel,
   success,
 }
+
+String getStageName(StageValue value) {
+  final map = {
+    StageValue.ready: 'Договоритесь о встрече',
+    StageValue.cancel: 'Отменённые',
+    StageValue.success: 'Завершённые',
+  };
+  assert(StageValue.values.length == map.length);
+  return map[value];
+}
+
+String getStageText(StageValue value) {
+  final map = {
+    StageValue.ready: 'Договоритесь о встрече',
+    StageValue.cancel: 'Лот отдан другому',
+    StageValue.success: 'Лот завершён',
+  };
+  assert(StageValue.values.length == map.length);
+  return map[value];
+}

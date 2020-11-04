@@ -30,3 +30,27 @@ enum QuestionValue {
   time,
   original,
 }
+
+String getQuestionName(QuestionValue value) {
+  final map = {
+    QuestionValue.condition: 'Состояние и работоспособность',
+    QuestionValue.model: 'Модель',
+    QuestionValue.size: 'Размер',
+    QuestionValue.time: 'В какое время можно забрать?',
+    QuestionValue.original: 'Это оригинал или реплика?',
+  };
+  assert(QuestionValue.values.length == map.length);
+  return map[value];
+}
+
+String getQuestionText(QuestionValue value) {
+  final map = {
+    QuestionValue.condition: 'Добавьте описание состояния и работоспособности',
+    QuestionValue.model: 'Добавьте описание модели',
+    QuestionValue.size: 'Добавьте описание размера',
+    QuestionValue.time: 'Уточните в описании время, когда можно забрать лот',
+    QuestionValue.original: 'Уточните в описании - это оригинал или реплика?',
+  };
+  assert(QuestionValue.values.length == map.length);
+  return map[value];
+}
