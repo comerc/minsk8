@@ -32,7 +32,7 @@ dependencies:
   latlong: ^0.6.1
   permission_handler: ^4.0.0
   geolocator: ^5.1.5
-  # TODO: поменять на shared_preferences?
+  # TODO: поменять на shared_preferences? лучше hydrated_bloc!
   state_persistence: ^0.0.7
   # flutter_secure_storage
 
