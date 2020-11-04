@@ -109,7 +109,7 @@ gource \
 
 Я убежден, что если "Just For Fun", то может родиться что-то стоящее. Когда выращиваешь с любовью и не обременяя обязательствами. Какой может быть тираж и мультипликатор успешного IT-продукта - это не надо долго объяснять, есть куда тыкать пальцем для примера. Сейчас задача минимум - запустить. А дальше уже что вырастет, то вырастет. Как минимум - ещё одна галочка в портфолио. Пускай напишут на моей могильной плите: "он пытался". :)
 
-# How to get YouTube-playlist
+## How to get YouTube-playlist
 
 [get source data](https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc%22%7D#go)
 
@@ -142,16 +142,16 @@ main() async {
 
 [playlist.json](./playlist.json)
 
-# Training
+## Training
 
 Онлайн-курсы по Flutter, групповой интерактив. 100 часов, 3 месяца, 3 раза в неделю: вторник, четверг, воскресенье. Время занятий с 7 до 10 вечера (GMT+3). Начало занятий на этой неделе. Из чего состоит курс? Тренировки до изнеможения. Сначала теория. Потом практика. Будем делать сайт знакомств для котиков. Полный цикл разработки. От базового функционала и дальше, сколько успеем. [Группа в телеге](https://t.me/joinchat/FN6rLBrNNtP9DcLFvy06ZA).
 
-# Contacts
+## Contacts
 
 - E-Mail: [andrew.kachanov@gmail.com](mailto:andrew.kachanov@gmail.com)
 - Telegram: [@AndrewKachanov](https://t.me/AndrewKachanov)
 
-# Support Me
+## Support Me
 
 - [Patreon](https://www.patreon.com/comerc)
 - [QIWI](https://qiwi.com/n/comerc)
