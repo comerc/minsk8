@@ -9,24 +9,19 @@ linter:
 
 # TODO: выключить implicit-casts
 analyzer:
-  # exclude: [build/**]
   strong-mode:
     # https://github.com/dart-lang/sdk/issues/25368
     implicit-casts: false
     # implicit-dynamic: false
   errors:
     todo: ignore
-    # missing_required_param: error
-    # missing_return: error
-    # must_be_immutable: error
-    # sort_unnamed_constructors_first: ignore
     unnecessary_raw_strings: false
     prefer_const_literals_to_create_immutables: false
     prefer_const_constructors_in_immutables: false
     prefer_const_constructors: false
     prefer_const_declarations: false
     avoid_void_async: false
-  # TODO: проработать папки
+  # TODO: проработать файлы и папки
   exclude:
     - .dart_tool/**
     - .editorconfig
@@ -46,6 +41,7 @@ analyzer:
     - go/**
     - ios/**
     - lib/_**/**
+    - lib/**/_*.dart
     - lib/**.g.dart
     - lib/**.freezed.dart
     - application_bundle/**
