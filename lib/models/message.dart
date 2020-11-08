@@ -11,6 +11,7 @@ class MessageModel {
     this.author,
     this.isRead,
     this.createdAt,
+    // this.updatedAt, // TODO: редактирование сообщения
   });
 
   final String id;
@@ -18,6 +19,7 @@ class MessageModel {
   final MessageAuthor author;
   final bool isRead;
   final DateTime createdAt;
+  // final DateTime updatedAt;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
