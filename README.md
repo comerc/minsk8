@@ -154,4 +154,4 @@ main() async {
 ## Support Me
 
 - [Patreon](https://www.patreon.com/comerc)
-- [QIWI](https://qiwi.com/n/comerc)
+- [QIWI](https://donate.qiwi.com/payin/comerc)
