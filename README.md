@@ -153,7 +153,7 @@ main() async {
   var result = '';
   for (final item in list) {
     final title = item['title'];
-    final description = item['description'];
+    final description = item['description'].replaceAll('\n', ' ');
     final videoId = item['videoId'];
     result += '- [`$title`](https://www.youtube.com/watch?v=$videoId)\n';
     if (description != '') {
