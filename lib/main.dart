@@ -281,7 +281,7 @@ class App extends StatelessWidget {
         '/_listview': (_) => ListViewScreen(),
         '/_load_data': (_) => LoadDataScreen(),
         '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
-        '/_notifiaction': (_) => NotificationScreen(),
+        '/_notification': (_) => NotificationScreen(),
         // ****
         '/start': (_) => StartScreen(),
       },
