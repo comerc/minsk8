@@ -260,7 +260,7 @@ class App extends StatelessWidget {
                       create: (_) => VersionModel(),
                     ),
                   ],
-                  child: MediaQueryWrap(BotToastInit()(context, child)),
+                  child: child,
                 );
               },
             );
@@ -555,8 +555,8 @@ class CommonMaterialApp extends StatelessWidget {
     this.home,
     this.initialRoute,
     this.routes = const <String, WidgetBuilder>{},
-    this.onGenerateRoute,
-    this.onUnknownRoute,
+    // this.onGenerateRoute,
+    // this.onUnknownRoute,
   });
 
   // final List<NavigatorObserver> navigatorObservers;
@@ -564,8 +564,8 @@ class CommonMaterialApp extends StatelessWidget {
   final Widget home;
   final String initialRoute;
   final Map<String, WidgetBuilder> routes;
-  final RouteFactory onGenerateRoute;
-  final RouteFactory onUnknownRoute;
+  // final RouteFactory onGenerateRoute;
+  // final RouteFactory onUnknownRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -589,11 +589,11 @@ class CommonMaterialApp extends StatelessWidget {
       //   Locale('ru', 'RU'), // Russian
       // ],
       title: 'minsk8',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
+      theme: theme.copyWith(
+        appBarTheme: theme.appBarTheme.copyWith(
           elevation: kAppBarElevation,
           iconTheme: theme.iconTheme,
-          actionsIconTheme: theme.iconTheme,
+          // actionsIconTheme: theme.iconTheme,
           color: theme.scaffoldBackgroundColor,
           textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
         ),
@@ -601,13 +601,15 @@ class CommonMaterialApp extends StatelessWidget {
         // primarySwatch: Colors.blue,
         // textTheme: GoogleFonts.montserratTextTheme(),
       ),
-      builder: builder ??
-          (BuildContext context, Widget child) => MediaQueryWrap(child),
+      builder: (BuildContext context, Widget child) {
+        final result = builder == null ? child : builder(context, child);
+        return MediaQueryWrap(BotToastInit()(context, result));
+      },
       home: home,
       initialRoute: initialRoute,
       routes: routes,
-      onGenerateRoute: onGenerateRoute,
-      onUnknownRoute: onUnknownRoute,
+      // onGenerateRoute: onGenerateRoute,
+      // onUnknownRoute: onUnknownRoute,
     );
   }
 }
