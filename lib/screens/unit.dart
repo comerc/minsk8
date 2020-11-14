@@ -670,18 +670,6 @@ class _UnitScreenState extends State<UnitScreen> {
   }
 }
 
-class UnitRouteArguments {
-  UnitRouteArguments(
-    this.unit, {
-    this.member,
-    this.isShowcase = false,
-  });
-
-  final UnitModel unit;
-  final MemberModel member;
-  final bool isShowcase;
-}
-
 class _UnitCarouselSliderSettings {
   static const unitHorizontalMargin = 8.0;
   static const viewportFraction = 0.8;
