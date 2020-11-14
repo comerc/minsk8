@@ -8,6 +8,8 @@ import 'package:minsk8/import.dart';
 // TODO: Исследовать ExtendedImage.heroBuilderForSlidingPage
 // TODO: InteractiveViewer
 
+// TODO: неправильно работает Hero, хорошо видно на увеличенном timeDilation
+
 typedef ZoomWillPopCallback = Future<bool> Function(int index);
 
 class ZoomScreen extends StatefulWidget {
