@@ -1,13 +1,5 @@
 // library export;
 
-export '_models/_account.dart';
-export '_models/_claim.dart';
-export '_models/_enum.dart';
-export '_models/_interplay.dart';
-export '_models/_kind.dart';
-export '_models/_question.dart';
-export '_models/_stage.dart';
-export '_models/_underway.dart';
 export '_screens/_animation.dart';
 export '_screens/_custom_dialog.dart';
 export '_screens/_image_capture.dart';
@@ -34,8 +26,8 @@ export 'common/underway_data.dart';
 export 'cubits/authentication.dart';
 export 'cubits/login.dart';
 export 'cubits/sign_up.dart';
+// export '_main.dart';
 export 'main.dart';
-export 'main_.dart';
 export 'models/_confirmed_password.dart';
 export 'models/_email.dart';
 export 'models/_password.dart';

@@ -54,7 +54,7 @@ final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 // don't use async for main!
-void main_() {
+void main() {
   // debugPaintSizeEnabled = true;
   FlutterError.onError = (FlutterErrorDetails details) {
     out('FlutterError.onError $details');
@@ -139,8 +139,7 @@ final localDeletedUnitIds = <String>{}; // ie Set()
 
 var _analytics = FirebaseAnalytics();
 FirebaseAnalytics get analytics {
-  _analytics ??= FirebaseAnalytics();
-  return _analytics;
+  return _analytics ??= FirebaseAnalytics();
 }
 
 class App extends StatelessWidget {
@@ -548,8 +547,8 @@ class AuthData {
 //   }
 // }
 
-final _navigatorKey = GlobalKey<NavigatorState>();
-NavigatorState get navigator_ => _navigatorKey.currentState;
+final navigatorKey = GlobalKey<NavigatorState>();
+NavigatorState get navigator => navigatorKey.currentState;
 
 class CommonMaterialApp extends StatelessWidget {
   CommonMaterialApp({
@@ -576,7 +575,7 @@ class CommonMaterialApp extends StatelessWidget {
     // out('App build');
     return MaterialApp(
       // debugShowCheckedModeBanner: isInDebugMode,
-      navigatorKey: _navigatorKey,
+      navigatorKey: navigatorKey,
       navigatorObservers: <NavigatorObserver>[
         FirebaseAnalyticsObserver(analytics: analytics),
         BotToastNavigatorObserver(),
