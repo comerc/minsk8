@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {
@@ -19,19 +21,6 @@ class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Center(child: Text('Старт...')));
-  }
-
-  Future<void> initStartMap() async {
-    if (appState['StartMap.isInitialized'] as bool ?? false) {
-      return;
-    }
-    // TODO: WelcomeScreen
-    final value = await navigator.push<bool>(
-      StartMapScreen().getRoute(),
-    );
-    if (value ?? false) {
-      appState['StartMap.isInitialized'] = true;
-    }
   }
 
   void _onAfterBuild(Duration timeStamp) async {
@@ -54,8 +43,83 @@ class _StartScreenState extends State<StartScreen> {
     //   ).getRoute(),
     // );
 
-    await initStartMap();
-    // TODO: почему бы это не делать внутри HomeScreen.initState ?
-    await HomeScreen.globalKey.currentState.initDynamicLinks();
+    await _initStartMap();
+    await _initDynamicLinks();
+  }
+
+  Future<void> _initStartMap() async {
+    // appState['StartMap.isInitialized'] = false;
+    if (appState['StartMap.isInitialized'] as bool ?? false) {
+      return;
+    }
+    // TODO: WelcomeScreen
+    final value = await navigator.push<bool>(
+      StartMapScreen().getRoute(),
+    );
+    if (value ?? false) {
+      appState['StartMap.isInitialized'] = true;
+    }
+  }
+
+  Future<void> _initDynamicLinks() async {
+    final data = await FirebaseDynamicLinks.instance.getInitialLink();
+    await _openDeepLink(data?.link).then((UnitModel unit) {
+      if (unit == null) {
+        navigator.pop();
+        return;
+      }
+      navigator.pushReplacement(
+        UnitScreen(
+          unit,
+          member: unit.member,
+          isShowcase: true,
+        ).getRoute(),
+      );
+    }).catchError((error) {
+      out(error);
+      navigator.pop();
+    });
+    FirebaseDynamicLinks.instance.onLink(
+      onSuccess: (PendingDynamicLinkData data) async {
+        final unit = await _openDeepLink(data?.link);
+        if (unit == null) {
+          return;
+        }
+        // ignore: unawaited_futures
+        navigator.push(
+          UnitScreen(
+            unit,
+            member: unit.member,
+            isShowcase: true,
+          ).getRoute(),
+        );
+      },
+      onError: (OnLinkErrorException error) async {
+        out(error.message);
+      },
+    );
+  }
+
+  static Future<UnitModel> _openDeepLink(Uri link) async {
+    if (link == null || link.path != '/unit') return null;
+    final id = link.queryParameters['id'];
+    final options = QueryOptions(
+      documentNode: Queries.getUnit,
+      variables: {'id': id},
+      fetchPolicy: FetchPolicy.noCache,
+    );
+    // final client = GraphQLProvider.of(context).value;
+    try {
+      final result =
+          await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+      if (result.hasException) {
+        throw result.exception;
+      }
+      return UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
+    } catch (error, stack) {
+      out(error);
+      out(stack);
+    }
+    return null;
   }
 }
