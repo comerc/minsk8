@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:state_persistence/state_persistence.dart';
+// import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:minsk8/import.dart';
 // import 'package:flutter/rendering.dart';
 
@@ -55,6 +56,7 @@ NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 // don't use async for main!
 void main() {
+  // timeDilation = 10.0; // Will slow down animations by a factor of two
   // debugPaintSizeEnabled = true;
   FlutterError.onError = (FlutterErrorDetails details) {
     out('FlutterError.onError $details');
@@ -346,7 +348,8 @@ class App extends StatelessWidget {
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
-          cache: InMemoryCache(),
+          cache: null,
+          // cache: InMemoryCache(),
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
