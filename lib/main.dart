@@ -348,8 +348,7 @@ class App extends StatelessWidget {
     result = GraphQLProvider(
       client: ValueNotifier(
         GraphQLClient(
-          cache: null,
-          // cache: InMemoryCache(),
+          cache: InMemoryCache(),
           // cache: NormalizedInMemoryCache(
           //   dataIdFromObject: typenameDataIdFromObject,
           // ),
