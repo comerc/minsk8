@@ -107,4 +107,3 @@ export 'widgets/scroll_body.dart';
 export 'widgets/select_button.dart';
 export 'widgets/showcase.dart';
 export 'widgets/wrapper.dart';
-export 'screens/splash.dart';
