@@ -6,7 +6,7 @@ import 'package:minsk8/import.dart';
 // TODO: [MVP] подключить rate_my_app
 
 class FeedbackScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/feedback',
       builder: (_) => this,

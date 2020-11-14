@@ -106,7 +106,7 @@ class _HomeProfileState extends State<HomeProfile> {
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             navigator.push(
-              HowToPayScreen().route(),
+              HowToPayScreen().getRoute(),
             );
           },
           color: Colors.green,
@@ -123,12 +123,12 @@ class _HomeProfileState extends State<HomeProfile> {
                 onLongPress: () {}, // чтобы сократить время для splashColor
                 onTap: () {
                   final routes = {
-                    'ledger': () => LedgerScreen().route(),
-                    'feedback': () => FeedbackScreen().route(),
-                    'faq': () => ContentScreen('faq.md').route(),
+                    'ledger': () => LedgerScreen().getRoute(),
+                    'feedback': () => FeedbackScreen().getRoute(),
+                    'faq': () => ContentScreen('faq.md').getRoute(),
                     'useful_tips': () =>
-                        ContentScreen('useful_tips.md').route(),
-                    'about': () => ContentScreen('about.md').route(),
+                        ContentScreen('useful_tips.md').getRoute(),
+                    'about': () => ContentScreen('about.md').getRoute(),
                   };
                   navigator.push(routes[entry.key]());
                 },

@@ -44,8 +44,13 @@ class _ShowcaseListState extends State<ShowcaseList>
     final isSmallWidth = width < kSmallWidth;
     final isMediumWidth = width < kMediumWidth;
     final isLargeWidth = width < kLargeWidth;
-    final crossAxisCount =
-        isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
+    final crossAxisCount = isSmallWidth
+        ? 1
+        : isMediumWidth
+            ? 2
+            : isLargeWidth
+                ? 3
+                : 4;
     return extended.NestedScrollViewInnerScrollPositionKeyWidget(
       Key(widget.tagPrefix),
       LoadingMoreCustomScrollView(
@@ -168,7 +173,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
               unit,
               member: unit.member,
               isShowcase: true,
-            ).route(),
+            ).getRoute(),
           )
               .then((_) {
             setState(() {
@@ -396,7 +401,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
 String formatDDHHMMSS(int value) {
   int days, hours, minutes = 0;
-  int seconds = value;
+  var seconds = value;
   if (seconds >= 86400) {
     days = (seconds / 86400).floor();
     seconds -= days * 86400;
@@ -515,7 +520,7 @@ class InfoDialog extends StatelessWidget {
                 onTap: () {
                   navigator
                     ..pop()
-                    ..push(ContentScreen('faq.md').route());
+                    ..push(ContentScreen('faq.md').getRoute());
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(

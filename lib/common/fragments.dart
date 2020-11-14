@@ -2,7 +2,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 mixin Fragments {
   static final fragments = gql(r'''
-    fragment unitFields on unit {
+    fragment UnitFields on unit {
       id
       created_at
       text
@@ -28,7 +28,7 @@ mixin Fragments {
       is_promo
     }
 
-    fragment memberFields on member {
+    fragment MemberFields on member {
       id
       display_name
       photo_url
@@ -43,15 +43,15 @@ mixin Fragments {
         }, 
         order_by: {created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
       }
     }
 
-    fragment wantFields on want {
+    fragment WantFields on want {
       unit {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
       value

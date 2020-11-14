@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
 class SearchScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/search',
       builder: (_) => this,

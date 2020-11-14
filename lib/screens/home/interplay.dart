@@ -385,7 +385,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                       navigator.push(
                         MessagesScreen(
                           chat: item,
-                        ).route(),
+                        ).getRoute(),
                       );
                     },
                     child: Column(children: <Widget>[
@@ -394,7 +394,6 @@ class _ChatListGroupState extends State<_ChatListGroup>
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
                           children: [
                             Expanded(
                               child: Text(
@@ -419,7 +418,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
+                          // textBaseline: TextBaseline.alphabetic,
                           children: [
                             Expanded(
                               child: Text(
@@ -859,4 +858,13 @@ class _NoticeListState extends State<_NoticeList>
 enum InterplayValue {
   chat,
   notice,
+}
+
+String getInterplayName(InterplayValue value) {
+  final map = {
+    InterplayValue.chat: 'Сообщения',
+    InterplayValue.notice: 'Уведомления',
+  };
+  assert(InterplayValue.values.length == map.length);
+  return map[value];
 }

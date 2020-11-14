@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
 class HowToPayScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/how_to_pay',
       builder: (_) => this,
@@ -33,7 +33,7 @@ class HowToPayScreen extends StatelessWidget {
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
               navigator.push(
-                ContentScreen('how_it_works.md').route(),
+                ContentScreen('how_it_works.md').getRoute(),
               );
             },
             child: Text(
@@ -194,14 +194,14 @@ class _Menu extends StatelessWidget {
               if (entry.key == 'add_unit') {
                 try {
                   final kind = await navigator.push<KindValue>(
-                    KindsScreen().route(),
+                    KindsScreen().getRoute(),
                   ); // as KindValue; // workaround for typecast
                   if (kind == null) return;
                   await navigator.push(
                     AddUnitScreen(
                       kind: kind,
                       tabIndex: AddUnitTabIndex(),
-                    ).route(),
+                    ).getRoute(),
                   );
                 } finally {
                   navigator.pop();
@@ -209,8 +209,8 @@ class _Menu extends StatelessWidget {
                 return;
               }
               final routes = {
-                'invite': () => InviteScreen().route(),
-                'payment': () => PaymentScreen().route(),
+                'invite': () => InviteScreen().getRoute(),
+                'payment': () => PaymentScreen().getRoute(),
               };
               // ignore: unawaited_futures
               navigator.pushReplacement(routes[entry.key]());

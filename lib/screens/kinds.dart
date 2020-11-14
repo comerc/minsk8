@@ -6,7 +6,7 @@ import 'package:minsk8/import.dart';
 // TODO: Вы получите Карму от забирающих и бонус +3 Кармы за первый отданный лот
 
 class KindsScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/kinds',
       builder: (_) => this,

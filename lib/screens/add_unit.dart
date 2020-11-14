@@ -42,7 +42,7 @@ class AddUnitTabIndex {
 }
 
 class AddUnitScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/add_unit',
       builder: (_) => this,
@@ -309,7 +309,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       );
       if (value ?? false) {
         final kind = await navigator.pushReplacement<KindValue, void>(
-          KindsScreen().route(),
+          KindsScreen().getRoute(),
         ); // as KindValue; // workaround for typecast
         if (kind == null) return;
         // TODO: когда закрывается KindsScreen, то видна витрина
@@ -319,7 +319,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           AddUnitScreen(
             kind: kind,
             tabIndex: widget.tabIndex,
-          ).route(),
+          ).getRoute(),
         );
         return;
       }
@@ -328,7 +328,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         UnitScreen(
           newUnit,
           member: profile.member,
-        ).route(),
+        ).getRoute(),
       );
     }).catchError((error) {
       out(error);
@@ -503,7 +503,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
 
   void _selectKind() async {
     final kind = await navigator.push<KindValue>(
-      KindsScreen(_kind).route(),
+      KindsScreen(_kind).getRoute(),
     ); // as KindValue; // workaround for typecast
     if (kind == null) return;
     setState(() {
@@ -512,7 +512,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   void _selectLocation() {
-    navigator.push(MyUnitMapScreen().route()).then((value) {
+    navigator.push(MyUnitMapScreen().getRoute()).then((value) {
       if (value == null) return;
       setState(() {});
     });

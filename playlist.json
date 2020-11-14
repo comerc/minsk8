@@ -1,5 +1,473 @@
 [
   {
+    "publishedAt": "2020-11-04T04:08:34Z",
+    "title": "Flutter #554 - Подключил расширение VSCode для Cucumber (Gherkin)",
+    "description": "+ прочитал вводные про BDD (Behavior Driven Development)",
+    "videoId": "OoNpsZ5t1I4"
+  },
+  {
+    "publishedAt": "2020-11-03T07:06:45Z",
+    "title": "Flutter #553 - Подключил hydrated_bloc + replay_bloc в проекте flutter_firebase_login",
+    "description": "",
+    "videoId": "kSNvG8l8wqs"
+  },
+  {
+    "publishedAt": "2020-11-03T01:48:16Z",
+    "title": "Flutter #552 - Исследовал примеры из пакета bloc",
+    "description": "",
+    "videoId": "ENv0wlihNXw"
+  },
+  {
+    "publishedAt": "2020-11-02T20:20:36Z",
+    "title": "Flutter #551 - Отрефакторил TodosCubit (выкинул _load() с сайд-эффектом)",
+    "description": "",
+    "videoId": "1KcqvDw7Lfs"
+  },
+  {
+    "publishedAt": "2020-11-02T17:17:58Z",
+    "title": "Flutter #550 - Добавил TodosState.loadingError",
+    "description": "",
+    "videoId": "MsMQe_p4FjI"
+  },
+  {
+    "publishedAt": "2020-11-02T03:31:01Z",
+    "title": "Flutter #549 - Реализовал сайд-эффект синхронизации элементов AnimatedList в BuildListener (BLoC)",
+    "description": "+ отрефакторил TodosState в проекте flutter_firebase_login",
+    "videoId": "EviBLOR3P5g"
+  },
+  {
+    "publishedAt": "2020-11-01T03:14:34Z",
+    "title": "Flutter #548 - Исправил правила lint для проекта flutter_firebase_login",
+    "description": "+ упростил параметр repository для конструктора *Cubit",
+    "videoId": "yKYeCuNqTjQ"
+  },
+  {
+    "publishedAt": "2020-10-31T22:15:05Z",
+    "title": "Flutter #547 - Добавил AnimatedList в проект flutter_firebase_login",
+    "description": "",
+    "videoId": "X_Mla2Hsf2o"
+  },
+  {
+    "publishedAt": "2020-10-31T06:31:49Z",
+    "title": "Flutter #546 - Исследовал AnimatedList и реализовал Drag and Drop",
+    "description": "",
+    "videoId": "wv9nSASKeQk"
+  },
+  {
+    "publishedAt": "2020-10-31T01:32:01Z",
+    "title": "Flutter #545 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (15 серия)",
+    "description": "",
+    "videoId": "ia91_F7BzSw"
+  },
+  {
+    "publishedAt": "2020-11-04T05:33:07Z",
+    "title": "Flutter #544 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (14 серия)",
+    "description": "",
+    "videoId": "SE-PJraWaSg"
+  },
+  {
+    "publishedAt": "2020-10-30T15:59:41Z",
+    "title": "Flutter #543 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (13 серия)",
+    "description": "",
+    "videoId": "-clS9PkWns4"
+  },
+  {
+    "publishedAt": "2020-10-30T01:56:15Z",
+    "title": "Flutter #542 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (12 серия)",
+    "description": "+ добавил copy_with_extension",
+    "videoId": "CuUlerDDPv8"
+  },
+  {
+    "publishedAt": "2020-10-29T00:46:47Z",
+    "title": "Flutter #541 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (11 серия)",
+    "description": "",
+    "videoId": "XUqJs1L2OCA"
+  },
+  {
+    "publishedAt": "2020-10-28T18:42:10Z",
+    "title": "Flutter #540 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (10 серия)",
+    "description": "",
+    "videoId": "gFMboJ5g2lQ"
+  },
+  {
+    "publishedAt": "2020-10-28T08:10:41Z",
+    "title": "Flutter #539 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (9 серия)",
+    "description": "",
+    "videoId": "SP0Z-VmShmI"
+  },
+  {
+    "publishedAt": "2020-10-27T14:28:21Z",
+    "title": "Flutter #538 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (8 серия)",
+    "description": "+ исследовал WebSocketLink + JWT, просмотрел курс hasura + flutter",
+    "videoId": "S8JVIF9zeqQ"
+  },
+  {
+    "publishedAt": "2020-10-27T01:01:02Z",
+    "title": "Flutter #537 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (7 серия)",
+    "description": "",
+    "videoId": "BAMIzbfTmfs"
+  },
+  {
+    "publishedAt": "2020-10-26T20:13:43Z",
+    "title": "Flutter #536 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (6 серия)",
+    "description": "",
+    "videoId": "tQjDl_woWgg"
+  },
+  {
+    "publishedAt": "2020-10-26T13:57:41Z",
+    "title": "Flutter #535 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (5 серия)",
+    "description": "",
+    "videoId": "mUMfprG8kq8"
+  },
+  {
+    "publishedAt": "2020-10-25T14:03:57Z",
+    "title": "Flutter #534 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (4 серия)",
+    "description": "",
+    "videoId": "IPsJohqTfh4"
+  },
+  {
+    "publishedAt": "2020-10-24T21:24:56Z",
+    "title": "Flutter #533 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (3 серия)",
+    "description": "",
+    "videoId": "4o280L94X5w"
+  },
+  {
+    "publishedAt": "2020-10-24T15:03:38Z",
+    "title": "Flutter #532 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (2 серия)",
+    "description": "",
+    "videoId": "iIurohuqzJY"
+  },
+  {
+    "publishedAt": "2020-10-23T21:51:08Z",
+    "title": "Flutter #531 - Поженил graphql и flutter_bloc в проекте flutter_firebase_login (1 серия)",
+    "description": "+ починил \"Downloading Dart SDK from Flutter engine\"",
+    "videoId": "L6pbma2MS68"
+  },
+  {
+    "publishedAt": "2020-10-23T11:45:41Z",
+    "title": "Flutter #530 - Синхронизировал код основного проекта с проектом flutter_firebase_login",
+    "description": "",
+    "videoId": "N6KJQB8IR_g"
+  },
+  {
+    "publishedAt": "2020-10-23T00:40:30Z",
+    "title": "Flutter #529 - Восстановил тесты для flutter_firebase_login (6 серия)",
+    "description": "",
+    "videoId": "SwxrpOrjZvo"
+  },
+  {
+    "publishedAt": "2020-10-22T15:56:07Z",
+    "title": "Flutter #528 - Восстановил тесты для flutter_firebase_login (5 серия)",
+    "description": "",
+    "videoId": "5yxfWXw7l4U"
+  },
+  {
+    "publishedAt": "2020-10-21T23:21:16Z",
+    "title": "Flutter #527 - Восстановил тесты для flutter_firebase_login (4 серия)",
+    "description": "",
+    "videoId": "GybKF4ebSik"
+  },
+  {
+    "publishedAt": "2020-10-21T17:08:30Z",
+    "title": "Flutter #526 - Восстановил тесты для flutter_firebase_login (3 серия)",
+    "description": "",
+    "videoId": "Mln-Lvcq8_A"
+  },
+  {
+    "publishedAt": "2020-10-21T15:26:09Z",
+    "title": "Flutter #525 - Восстановил тесты для flutter_firebase_login (2 серия)",
+    "description": "",
+    "videoId": "S-G9D9jaauI"
+  },
+  {
+    "publishedAt": "2020-10-21T12:40:34Z",
+    "title": "Flutter #524 - Восстановил тесты для flutter_firebase_login (1 серия)",
+    "description": "",
+    "videoId": "1CheDihm9w4"
+  },
+  {
+    "publishedAt": "2020-10-20T23:52:01Z",
+    "title": "Flutter #523 - Исследовал дизайн API для \"mock\" репозитория flutter_bloc",
+    "description": "",
+    "videoId": "coMi5gEnuKY"
+  },
+  {
+    "publishedAt": "2020-10-20T15:53:46Z",
+    "title": "Flutter #522 - Добавил Firebase.initializeApp()",
+    "description": "+ перенес инициализацию AuthenticationRepository в *Cubit",
+    "videoId": "SofD5LTyDAM"
+  },
+  {
+    "publishedAt": "2020-10-20T13:26:10Z",
+    "title": "Flutter #521 - Исследовал Dependency Injection & IoC + get_it",
+    "description": "",
+    "videoId": "mFlRCJDJyvQ"
+  },
+  {
+    "publishedAt": "2020-10-19T22:40:06Z",
+    "title": "Flutter #520 - Включил код в проект из flutter_firebase_login",
+    "description": "+ вернул pedantic",
+    "videoId": "ajd84_qFzt0"
+  },
+  {
+    "publishedAt": "2020-10-19T16:33:31Z",
+    "title": "Flutter #519 - Реализовал \"эталонную структуру\" файлов в проекте для flutter_firebase_login",
+    "description": "",
+    "videoId": "zIdsacU_y-k"
+  },
+  {
+    "publishedAt": "2020-10-18T23:57:13Z",
+    "title": "Flutter #518 - Реализовал новую структуру файлов для flutter_firebase_login",
+    "description": "",
+    "videoId": "FndheiFSvPY"
+  },
+  {
+    "publishedAt": "2020-10-18T12:40:27Z",
+    "title": "Flutter #517 - Выполнил обзор текущих вакансий",
+    "description": "",
+    "videoId": "S3-tc6XlcI0"
+  },
+  {
+    "publishedAt": "2020-10-17T16:30:06Z",
+    "title": "Flutter #516 - Проверил домашнее задание по упражнению с Provider",
+    "description": "",
+    "videoId": "g1ix882wjzc"
+  },
+  {
+    "publishedAt": "2020-10-17T12:11:57Z",
+    "title": "Flutter #515 - Выпилил реализацию аутентификации",
+    "description": "",
+    "videoId": "0O_bupfNNCs"
+  },
+  {
+    "publishedAt": "2020-10-16T23:33:28Z",
+    "title": "Flutter #514 - Просмотрел ролики Константина Кокорина по BLoC",
+    "description": "",
+    "videoId": "6fBwwmXGOVA"
+  },
+  {
+    "publishedAt": "2020-10-16T12:29:49Z",
+    "title": "Flutter #513 - Исследовал старую реализацию аутентификации",
+    "description": "",
+    "videoId": "JRhjwUoymtM"
+  },
+  {
+    "publishedAt": "2020-10-16T02:22:55Z",
+    "title": "Flutter #512 - Отрефакторил EnumModel (2 серия)",
+    "description": "+ поделился инсайтами по стримам на Youtube",
+    "videoId": "EVHjLuA_cDM"
+  },
+  {
+    "publishedAt": "2020-10-15T15:49:33Z",
+    "title": "Flutter #511 - Отрефакторил EnumModel (1 серия)",
+    "description": "",
+    "videoId": "99mnUFKeeME"
+  },
+  {
+    "publishedAt": "2020-10-15T13:08:46Z",
+    "title": "Flutter #510 - Отрефакторил UrgentValue",
+    "description": "",
+    "videoId": "7xmhbi2EkrA"
+  },
+  {
+    "publishedAt": "2020-10-14T22:39:44Z",
+    "title": "Flutter #509 - Изучил примеры проектов на BLoC из bloclibrary.dev",
+    "description": "",
+    "videoId": "uMgEdWAfzrY"
+  },
+  {
+    "publishedAt": "2020-10-14T16:03:12Z",
+    "title": "Flutter #508 - Исправил import",
+    "description": "",
+    "videoId": "ss5HuHHiNJg"
+  },
+  {
+    "publishedAt": "2020-10-14T10:11:57Z",
+    "title": "Flutter #507 - Почистил код с применением lint",
+    "description": "+ разобрал, как стать спонсируемым разработчиком на GitHub",
+    "videoId": "Kkda2OVVVCk"
+  },
+  {
+    "publishedAt": "2020-10-13T13:24:01Z",
+    "title": "Flutter #506 - Исследовал DDD (3 серия)",
+    "description": "",
+    "videoId": "V5WV6twb8V4"
+  },
+  {
+    "publishedAt": "2020-10-12T15:06:44Z",
+    "title": "Flutter #505 - Исследовал DDD (2 серия)",
+    "description": "",
+    "videoId": "K6wfHK2E4m8"
+  },
+  {
+    "publishedAt": "2020-10-12T09:55:56Z",
+    "title": "Flutter #504 - Исследовал DDD (1 серия)",
+    "description": "",
+    "videoId": "z_1UU_K08tI"
+  },
+  {
+    "publishedAt": "2020-10-11T21:28:31Z",
+    "title": "Flutter #503 - Разобрал примеры пакета provider",
+    "description": "+ освоил область видимости \"protected\"",
+    "videoId": "90NDIN4cQjU"
+  },
+  {
+    "publishedAt": "2020-10-11T15:59:10Z",
+    "title": "Flutter #502 - Реализовал navigator",
+    "description": "+ разобрал проект на MobX - \"pixez-flutter\", попробовал запустить пример проекта на BLoC - finished_notes_firebase_ddd_course",
+    "videoId": "wjgh2Z2bu5w"
+  },
+  {
+    "publishedAt": "2020-10-10T23:56:38Z",
+    "title": "Flutter #501 - Форкнул пример проекта на BLoC - flutter_firebase_login",
+    "description": "+ рассказал про Минск, про фондовый рынок, про всё-всё-всё",
+    "videoId": "rViOUxsGs2k"
+  },
+  {
+    "publishedAt": "2020-10-10T09:38:27Z",
+    "title": "Flutter #500 - Реализовал *Screen.route()",
+    "description": "",
+    "videoId": "EeINX3DLxxA"
+  },
+  {
+    "publishedAt": "2020-10-09T17:46:16Z",
+    "title": "Flutter #499 - Познакомился с bloclibrary.dev (3 серия)",
+    "description": "+ познакомился с пакетом freezed",
+    "videoId": "LBg-9wsSpzk"
+  },
+  {
+    "publishedAt": "2020-10-08T15:45:37Z",
+    "title": "Flutter #498 - Познакомился с bloclibrary.dev (2 серия)",
+    "description": "+ разобрал шаблон делегирования",
+    "videoId": "Wu0TvF0JPrQ"
+  },
+  {
+    "publishedAt": "2020-10-07T21:01:45Z",
+    "title": "Flutter #497 - Познакомился с bloclibrary.dev (1 серия)",
+    "description": "",
+    "videoId": "8cw6SMoFib0"
+  },
+  {
+    "publishedAt": "2020-10-07T07:58:02Z",
+    "title": "Flutter #496 - Отрефакторил ContentScreen (2 серия)",
+    "description": "",
+    "videoId": "XRUaeFtBQLg"
+  },
+  {
+    "publishedAt": "2020-10-07T06:33:33Z",
+    "title": "Flutter #495 - Отрефакторил ContentScreen (1 серия)",
+    "description": "",
+    "videoId": "It69OA2IEZA"
+  },
+  {
+    "publishedAt": "2020-10-06T14:02:05Z",
+    "title": "Flutter #494 - Реализовал типизацию аргументов для навигации (3 серия)",
+    "description": "",
+    "videoId": "0dFKQ6e9Cjc"
+  },
+  {
+    "publishedAt": "2020-10-06T07:26:54Z",
+    "title": "Flutter #493 - Реализовал типизацию аргументов для навигации (2 серия)",
+    "description": "",
+    "videoId": "KQU0EVOvIfM"
+  },
+  {
+    "publishedAt": "2020-10-05T20:36:37Z",
+    "title": "Flutter #492 - Реализовал типизацию аргументов для навигации (1 серия)",
+    "description": "",
+    "videoId": "zLg5ODYV4IQ"
+  },
+  {
+    "publishedAt": "2020-10-05T11:34:22Z",
+    "title": "Flutter #491 - Отрефакторил /screens и /widgets (2 серия)",
+    "description": "",
+    "videoId": "7EuC1xLcSQ4"
+  },
+  {
+    "publishedAt": "2020-10-05T05:51:14Z",
+    "title": "Flutter #490 - Исследовал пакеты про типизацию аргументов для роутинга",
+    "description": "",
+    "videoId": "fb0xy7NPQQY"
+  },
+  {
+    "publishedAt": "2020-10-04T15:56:31Z",
+    "title": "Flutter #489 - Отрефакторил /screens и /widgets (1 серия)",
+    "description": "",
+    "videoId": "JYcwAJ4jo_k"
+  },
+  {
+    "publishedAt": "2020-10-03T18:49:01Z",
+    "title": "Flutter #488 - Сверстал блок компаньона",
+    "description": "+ реализовал Content",
+    "videoId": "ecXc9Uk44iY"
+  },
+  {
+    "publishedAt": "2020-10-03T15:24:52Z",
+    "title": "Flutter #487 - Исправил заполнение units в профиле",
+    "description": "",
+    "videoId": "4i6y6jO5rW0"
+  },
+  {
+    "publishedAt": "2020-10-03T08:31:03Z",
+    "title": "Flutter #486 - Исправил Hero для PageView",
+    "description": "",
+    "videoId": "br7SsTmJDCk"
+  },
+  {
+    "publishedAt": "2020-10-02T14:02:08Z",
+    "title": "Flutter #485 - Выполнил код-ревью тестового задания моего ученика",
+    "description": "",
+    "videoId": "FcUseuPaYMU"
+  },
+  {
+    "publishedAt": "2020-10-01T07:37:31Z",
+    "title": "Flutter #484 - Проверил гипотезы для Hero",
+    "description": "",
+    "videoId": "_Bf2poTMIvY"
+  },
+  {
+    "publishedAt": "2020-09-30T18:33:30Z",
+    "title": "Flutter #483 - Исследовал PageStorageKey",
+    "description": "",
+    "videoId": "D7Y_5M0zuyM"
+  },
+  {
+    "publishedAt": "2020-09-30T16:25:57Z",
+    "title": "Flutter #482 - Исследовал ошибку Hero для PageView",
+    "description": "",
+    "videoId": "zljPztgTWOk"
+  },
+  {
+    "publishedAt": "2020-09-30T08:32:53Z",
+    "title": "Flutter #481 - Исправил Hero для возврата на витрину из другого лота",
+    "description": "+ рассказал про свой путь к Flutter-у",
+    "videoId": "4JIarWS0zg0"
+  },
+  {
+    "publishedAt": "2020-09-29T09:21:28Z",
+    "title": "Flutter #480 - Исследовал \"There are multiple heroes that share the same tag within a subtree\".",
+    "description": "",
+    "videoId": "kdJVHOUBsJE"
+  },
+  {
+    "publishedAt": "2020-09-29T06:29:12Z",
+    "title": "Flutter #479 - Пофиксил typecast для Places",
+    "description": "+ воспроизвёл ошибку с Hero для PageView",
+    "videoId": "Wh1kUw90SeQ"
+  },
+  {
+    "publishedAt": "2020-09-28T21:11:48Z",
+    "title": "Flutter #478 - Добавил поле ввода в Messages",
+    "description": "",
+    "videoId": "bof8lvTVzyU"
+  },
+  {
+    "publishedAt": "2020-09-27T14:54:14Z",
+    "title": "Flutter #477 - Исследовал CustomScrollView + .reverse = true",
+    "description": "",
+    "videoId": "dOiDjrwZs6Y"
+  },
+  {
     "publishedAt": "2020-09-27T09:46:56Z",
     "title": "Flutter #476 - Добавил индикатор непрочитанных сообщений",
     "description": "+ рассказал про изыскания \"золотой\" архитектуры для state-management",
@@ -596,7 +1064,7 @@
   {
     "publishedAt": "2020-07-30T00:54:12Z",
     "title": "Flutter #377 - Исследовал варианты анимации масштабирования текста",
-    "description": "Никак не могу добиться плавной анимации текста при масштабировании (перебрал DefaultTextStyleTransition и ScaleTransition: для контейнера, для картинки, для канваса). Дергается строка туда-сюда. Должно же быть какое-то красивое решение. Могу предположить, что нужна какая-то двойная буферизация. Опять буксую с анимацией, выдалась же неделька 😊\n\nисходники: https://gist.github.com/comerc/1ba71b7ce7aa60116b635830143fa83f",
+    "description": "Никак не могу добиться плавной анимации текста при масштабировании (перебрал DefaultTextStyleTransition и ScaleTransition: для контейнера, для картинки, для канваса). Дергается строка туда-сюда. Должно же быть какое-то красивое решение. Могу предположить, что нужна какая-то двойная буферизация. Опять буксую с анимацией, выдалась же неделька 😊 исходники: https://gist.github.com/comerc/1ba71b7ce7aa60116b635830143fa83f",
     "videoId": "muk0wcWpXf8"
   },
   {

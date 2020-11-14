@@ -1,20 +1,21 @@
-builders:
-  markdown:
-    import: "package:minsk8/common/markdown_builder.dart"
-    builder_factories:
-      - markdownBuilder
-    build_extensions:
-      .md:
-        - .html
-    auto_apply: root_package
-    required_inputs:
-      - .md
-    build_to: source
+# builders:
+#   markdown:
+#     import: "package:minsk8/common/markdown_builder.dart"
+#     builder_factories:
+#       - markdownBuilder
+#     build_extensions:
+#       .md:
+#         - .html
+#     auto_apply: root_package
+#     required_inputs:
+#       - .md
+#     build_to: source
 targets:
   $default:
     builders:
       json_serializable|json_serializable:
         generate_for:
+          - lib/cubits/*.dart
           - lib/models/*.dart
         options:
           # Options configure how source code is generated for every
@@ -26,8 +27,8 @@ targets:
           create_factory: true
           create_to_json: true
           disallow_unrecognized_keys: false
-          explicit_to_json: true
-          field_rename: snake
+          explicit_to_json: true # changed
+          field_rename: snake # changed
           ignore_unannotated: false
           include_if_null: true
-          nullable: false
+          nullable: false # changed

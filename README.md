@@ -114,7 +114,7 @@ gource \
 [get source data](https://developers.google.com/youtube/v3/docs/playlistItems/list?apix_params=%7B%22part%22%3A%5B%22snippet%22%5D%2C%22maxResults%22%3A50%2C%22playlistId%22%3A%22PLMAOL6NXxmsgTUrZE4Y9xhIxzDA46X1lc%22%7D#go)
 
 <details>
-  <summary>convert</summary>
+  <summary>convert 1</summary>
 
 ```dart
 import 'dart:convert';
@@ -140,7 +140,33 @@ main() async {
 
 </details>
 
-[playlist.json](./playlist.json)
+<details>
+  <summary>convert 2</summary>
+
+```dart
+import 'dart:html';
+import 'dart:convert';
+
+main() async {
+  final data = await HttpRequest.getString('https://raw.githubusercontent.com/comerc/minsk8/master/playlist.json');
+  final list = (jsonDecode(data) as List).cast<Map<String, dynamic>>();
+  var result = '';
+  for (final item in list) {
+    final title = item['title'];
+    final description = item['description'].replaceAll('\n', ' ');
+    final videoId = item['videoId'];
+    result += '- [`$title`](https://www.youtube.com/watch?v=$videoId)\n';
+    if (description != '') {
+      result += '\t`$description`\n';
+    }
+  }
+  print(result);
+}
+```
+
+</details>
+
+[playlist](./playlist.md)
 
 ## Training
 
@@ -154,4 +180,4 @@ main() async {
 ## Support Me
 
 - [Patreon](https://www.patreon.com/comerc)
-- [QIWI](https://qiwi.com/n/comerc)
+- [QIWI](https://donate.qiwi.com/payin/comerc)

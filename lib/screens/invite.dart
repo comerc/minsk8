@@ -5,7 +5,7 @@ import 'package:minsk8/import.dart';
 // TODO: 10 Кармы за 5 новых в сутки
 
 class InviteScreen extends StatelessWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/invite',
       builder: (_) => this,

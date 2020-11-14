@@ -6,7 +6,7 @@ import './fragments.dart';
 
 mixin Queries {
   static final getChats = gql(r'''
-    query getChats {
+    query GetChats {
       chats(
         # where:
         #   {
@@ -15,13 +15,13 @@ mixin Queries {
         order_by: {updated_at: desc}
       ) {
         unit {
-          ...unitFields
+          ...UnitFields
           member {
-            ...memberFields
+            ...MemberFields
           }
         }
         companion {
-          ...memberFields
+          ...MemberFields
         }
         messages
         is_unit_owner_writes_now
@@ -36,18 +36,18 @@ mixin Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnit = gql(r'''
-    query getUnit($id: uuid!) {
+    query GetUnit($id: uuid!) {
       unit(id: $id) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnits = gql(r'''
-    query getUnits($next_date: timestamptz) {
+    query GetUnits($next_date: timestamptz) {
       units(
         where: 
           {
@@ -59,16 +59,16 @@ mixin Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForFan = gql(r'''
-    query getUnitsForFan($next_date: timestamptz) {
+    query GetUnitsForFan($next_date: timestamptz) {
       units(
         where: 
           {
@@ -81,16 +81,16 @@ mixin Queries {
           }, 
         order_by: {total_wishes: desc, created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForBest = gql(r'''
-    query getUnitsForBest($next_date: timestamptz) {
+    query GetUnitsForBest($next_date: timestamptz) {
       units(
         where: 
           {
@@ -103,16 +103,16 @@ mixin Queries {
           }, 
         order_by: {price: desc, created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForPromo = gql(r'''
-    query getUnitsForPromo($next_date: timestamptz) {
+    query GetUnitsForPromo($next_date: timestamptz) {
       units(
         where: 
           {
@@ -125,16 +125,16 @@ mixin Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsForUrgent = gql(r'''
-    query getUnitsForUrgent($next_date: timestamptz) {
+    query GetUnitsForUrgent($next_date: timestamptz) {
       units(
         where: 
           {
@@ -147,16 +147,16 @@ mixin Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getUnitsByKind = gql(r'''
-    query getUnitsByKind($next_date: timestamptz, $kind: kind_enum) {
+    query GetUnitsByKind($next_date: timestamptz, $kind: kind_enum) {
       units(
         where: 
           {
@@ -169,20 +169,20 @@ mixin Queries {
           }, 
         order_by: {created_at: desc}
       ) {
-        ...unitFields
+        ...UnitFields
         member {
-          ...memberFields
+          ...MemberFields
         }
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getProfile = gql(r'''
-    query getProfile($member_id: uuid!) {
+    query GetProfile($member_id: uuid!) {
       profile(member_id: $member_id) {
         member {
           # memberFields вместе с units, чтобы показывать "Другие лоты участника" после добавления лота 
-          ...memberFields
+          ...MemberFields
         }
         balance
       }
@@ -202,7 +202,7 @@ mixin Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getPayments = gql(r'''
-    query getPayments($next_date: timestamptz) {
+    query GetPayments($next_date: timestamptz) {
       payments (
         where: 
           {
@@ -216,9 +216,9 @@ mixin Queries {
         balance
         created_at
         unit {
-          ...unitFields
+          ...UnitFields
           member {
-            ...memberFields
+            ...MemberFields
           }
         }
         invited_member {
@@ -234,7 +234,7 @@ mixin Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getNotices = gql(r'''
-    query getNotices($next_date: timestamptz) {
+    query GetNotices($next_date: timestamptz) {
       notices (
         where: 
           {
@@ -246,9 +246,9 @@ mixin Queries {
         proclamation {
           id
           unit {
-            ...unitFields
+            ...UnitFields
             member {
-              ...memberFields
+              ...MemberFields
             }
           }
           text  
@@ -256,9 +256,9 @@ mixin Queries {
         suggestion {
           id
           unit {
-            ...unitFields
+            ...UnitFields
             member {
-              ...memberFields
+              ...MemberFields
             }
           }
           question
@@ -268,15 +268,15 @@ mixin Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getWishUnits = gql(r'''
-    query getWishUnits {
+    query GetWishUnits {
       wishes(
         order_by: {updated_at: desc}
       ) {
         updated_at
         unit {
-          ...unitFields
+          ...UnitFields
           member {
-            ...memberFields
+            ...MemberFields
           }
         }
       }
@@ -284,17 +284,17 @@ mixin Queries {
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getWantUnits = gql(r'''
-    query getWantUnits {
+    query GetWantUnits {
       wants(
         order_by: {updated_at: desc}
       ) {
-        ...wantFields
+        ...WantFields
       }
     }
   ''')..definitions.addAll(Fragments.fragments.definitions);
 
   // static final getWantUnits = gql(r'''
-  //   query getWantUnits {
+  //   query GetWantUnits {
   //     wants(
   //       where:
   //         {
@@ -302,13 +302,13 @@ mixin Queries {
   //         },
   //       order_by: {updated_at: desc}
   //     ) {
-  //       ...wantFields
+  //       ...WantFields
   //     }
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
   // static final getTakeUnits = gql(r'''
-  //   query getTakeUnits {
+  //   query GetTakeUnits {
   //     wants(
   //       where:
   //         {
@@ -316,13 +316,13 @@ mixin Queries {
   //         },
   //       order_by: {updated_at: desc}
   //     ) {
-  //       ...wantFields
+  //       ...WantFields
   //     }
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
   // static final getPastUnits = gql(r'''
-  //   query getPastUnits {
+  //   query GetPastUnits {
   //     wants(
   //       where:
   //         {
@@ -330,21 +330,21 @@ mixin Queries {
   //         },
   //       order_by: {updated_at: desc}
   //     ) {
-  //       ...wantFields
+  //       ...WantFields
   //     }
   //   }
   // ''')..definitions.addAll(Fragments.fragments.definitions);
 
   static final getGiveUnits = gql(r'''
-    query getGiveUnits {
+    query GetGiveUnits {
       gives(
         order_by: {created_at: desc}
       ) {
         created_at
         unit {
-          ...unitFields
+          ...UnitFields
           member {
-            ...memberFields
+            ...MemberFields
           }
         }
       }

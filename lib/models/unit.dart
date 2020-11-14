@@ -36,7 +36,6 @@ class UnitModel {
   final DateTime expiresAt;
   @JsonKey(nullable: true)
   final int price;
-  // @JsonKey(fromJson: _urgentFromString, toJson: _urgentToString)
   final UrgentValue urgent;
   @JsonKey(fromJson: _locationFromJson, toJson: _locationToJson)
   final LatLng location;
@@ -113,12 +112,46 @@ enum UrgentValue {
   none,
 }
 
+String getUrgentName(UrgentValue value) {
+  final map = {
+    UrgentValue.veryUrgent: 'Очень срочно',
+    UrgentValue.urgent: 'Срочно',
+    UrgentValue.notUrgent: 'Не срочно',
+    UrgentValue.none: 'Совсем не срочно',
+  };
+  assert(UrgentValue.values.length == map.length);
+  return map[value];
+}
+
+String getUrgentText(UrgentValue value) {
+  final map = {
+    UrgentValue.veryUrgent: 'Сегодня-завтра',
+    UrgentValue.urgent: 'Ближайшие дни',
+    UrgentValue.notUrgent: 'Ближайшую неделю',
+    UrgentValue.none: 'Выгодно для ценных лотов',
+  };
+  assert(UrgentValue.values.length == map.length);
+  return map[value];
+}
+
 enum MetaKindValue {
   recent,
   fan,
   best,
   promo,
   urgent,
+}
+
+String getMetaKindName(MetaKindValue value) {
+  final map = {
+    MetaKindValue.recent: 'Новое',
+    MetaKindValue.fan: 'Интересное',
+    MetaKindValue.best: 'Лучшее',
+    MetaKindValue.promo: 'Промо',
+    MetaKindValue.urgent: 'Срочно',
+  };
+  assert(MetaKindValue.values.length == map.length);
+  return map[value];
 }
 
 enum KindValue {
@@ -134,4 +167,29 @@ enum KindValue {
   books,
   other,
   pets,
+}
+
+String getKindName(KindValue value) {
+  final map = {
+    KindValue.technics: 'Техника',
+    KindValue.garment: 'Одежда',
+    KindValue.eat: 'Еда',
+    KindValue.service: 'Услуги',
+    KindValue.rarity: 'Раритет',
+    KindValue.forHome: 'Для дома',
+    KindValue.forKids: 'Детское',
+    KindValue.books: 'Книги',
+    KindValue.other: 'Другое',
+    KindValue.pets: 'Животные',
+  };
+  assert(KindValue.values.length == map.length);
+  return map[value];
+}
+
+bool isNewKind(KindValue value) {
+  return [
+    KindValue.eat,
+    KindValue.service,
+    KindValue.rarity,
+  ].contains(value);
 }

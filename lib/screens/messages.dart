@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
-  PageRoute<T> route<T>() {
+  Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/messages',
       builder: (_) => this,
@@ -166,7 +166,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 UnitScreen(
                   unit,
                   member: unit.member,
-                ).route(),
+                ).getRoute(),
               );
             },
             child: Row(

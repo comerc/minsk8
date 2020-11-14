@@ -47,3 +47,15 @@ enum UnderwayValue {
   // past,
   give,
 }
+
+String getUnderwayName(UnderwayValue value) {
+  final map = {
+    UnderwayValue.wish: 'Желаю',
+    UnderwayValue.want: 'Забираю',
+    // UnderwayValue.take: 'Забираю',
+    // UnderwayValue.past: 'Мимо',
+    UnderwayValue.give: 'Отдаю',
+  };
+  assert(UnderwayValue.values.length == map.length);
+  return map[value];
+}
