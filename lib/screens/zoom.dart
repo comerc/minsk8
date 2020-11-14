@@ -211,8 +211,12 @@ class _ZoomScreenState extends State<ZoomScreen>
     final onWillPop = widget.onWillPop;
     final lastIndex = unit.images.length - 1;
     final index = isNext
-        ? _currentIndex == lastIndex ? 0 : _currentIndex + 1
-        : _currentIndex == 0 ? lastIndex : _currentIndex - 1;
+        ? _currentIndex == lastIndex
+            ? 0
+            : _currentIndex + 1
+        : _currentIndex == 0
+            ? lastIndex
+            : _currentIndex - 1;
     // navigator.pushAndRemoveUntil(
     navigator.pushReplacement(
       ZoomScreen(
@@ -244,12 +248,3 @@ class _ZoomScreenState extends State<ZoomScreen>
     );
   }
 }
-
-// class ZoomRouteArguments {
-//   ZoomRouteArguments(this.unit, {this.tag, this.index, this.onWillPop});
-
-//   final UnitModel unit;
-//   final String tag;
-//   final int index;
-//   final WillPopZoomCallback onWillPop;
-// }
