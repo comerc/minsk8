@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minsk8/import.dart';
 
-void main() {
+void main_() {
   // debugPaintSizeEnabled = true;
   // FlutterError.onError = (FlutterErrorDetails details) {
   //   if (kDebugMode) {
