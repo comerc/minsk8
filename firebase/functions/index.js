@@ -11,7 +11,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 })
 
 exports.processSignUp = functions.auth.user().onCreate((user) => {
-  const customClaims = {
+  const customUserClaims = {
     'https://hasura.io/jwt/claims': {
       'x-hasura-default-role': 'user',
       'x-hasura-allowed-roles': ['user'],
@@ -22,7 +22,7 @@ exports.processSignUp = functions.auth.user().onCreate((user) => {
   return (
     admin
       .auth()
-      .setCustomUserClaims(user.uid, customClaims)
+      .setCustomUserClaims(user.uid, customUserClaims)
       // .then(() => {
       //   // Update real-time database to notify client to force refresh.
       //   const metadataRef = admin.database().ref('metadata/' + user.uid)
