@@ -127,10 +127,12 @@ dependencies:
   equatable: ^1.2.5
   flutter_bloc: ^6.1.0
   formz: ^0.2.0
-  meta: ^1.1.8
   # authentication_repository:
   #   path: packages/authentication_repository
   google_fonts: ^1.1.0
+
+  uuid: ^2.2.2
+  crypto: ^2.1.5
 
 dev_dependencies:
   flutter_test:
