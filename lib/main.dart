@@ -46,6 +46,7 @@ import 'package:minsk8/import.dart';
 // TODO: [MVP] Text('', overflow: TextOverflow.fade, softWrap: false)
 // TODO: объявить имена аргументов при типизации callback-ов: void Function(int) -> void Function(int index)
 // TODO: как мокать модули, подобно JS? (для применения в тестах вместо DI) https://railsware.com/blog/mocking-es6-module-import-without-dependency-injection/
+// TODO: добавить blur для оверлея диалогов, как в OBS Blade
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function

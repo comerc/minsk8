@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// ListView.separated() signature
+// TODO: ListView.separated() signature - решение Column > Expanded > ListView
 
 class ListBox extends StatelessWidget {
   ListBox({
