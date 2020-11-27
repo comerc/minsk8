@@ -401,8 +401,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         imageData.uploadStatus = _ImageUploadStatus.error;
         if (mounted) setState(() {});
         final snackBar = SnackBar(
-            content:
-                Text('Не удалось загрузить фотографию, попробуйте ещё раз'));
+            content: Text('Не удалось загрузить картинку, попробуйте ещё раз'));
         _scaffoldKey.currentState.showSnackBar(snackBar);
       }
       out(error);
