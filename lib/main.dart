@@ -212,7 +212,8 @@ class App extends StatelessWidget {
             return Query(
               options: QueryOptions(
                 documentNode: Queries.getProfile,
-                variables: {'member_id': appState['memberId']},
+                // variables: {'member_id': appState['memberId']},
+                variables: {'member_id': kFakeMemberId},
                 fetchPolicy: FetchPolicy.noCache,
               ),
               // Just like in apollo refetch() could be used to manually trigger a refetch
