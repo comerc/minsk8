@@ -47,6 +47,7 @@ import 'package:minsk8/import.dart';
 // TODO: объявить имена аргументов при типизации callback-ов: void Function(int) -> void Function(int index)
 // TODO: как мокать модули, подобно JS? (для применения в тестах вместо DI) https://railsware.com/blog/mocking-es6-module-import-without-dependency-injection/
 // TODO: добавить blur для оверлея диалогов, как в OBS Blade
+// TODO: (for PersistedQueriesLink) Support for persisted queries https://github.com/hasura/graphql-engine/issues/273
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
@@ -617,8 +618,15 @@ class CommonMaterialApp extends StatelessWidget {
   }
 }
 
-// workaround for JWTExpired https://github.com/zino-app/graphql-flutter/issues/220#issuecomment-523108156
+// TODO: workaround for JWTExpired https://github.com/zino-app/graphql-flutter/issues/220#issuecomment-523108156
 // see also https://hasura.io/blog/handling-graphql-hasura-errors-with-react/
+// with errorLink example
+// final ErrorLink errorLink = ErrorLink(errorHandler: (ErrorResponse response) {
+//   Operation operation = response.operation;
+//   FetchResult result = response.fetchResult;
+//   OperationException exception = response.exception;
+//   print(exception.toString());
+// });
 
 // Future<T> whenFirst<T>(Stream<T> source) async {
 //   try {
