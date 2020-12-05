@@ -13,7 +13,7 @@ import 'package:minsk8/import.dart';
 typedef ZoomWillPopCallback = Future<bool> Function(int index);
 
 class ZoomScreen extends StatefulWidget {
-  Route<T> getRoute<T>({bool isInitialRoute}) {
+  Route<T> getRoute<T>({bool isInitialRoute = false}) {
     return buildRoute<T>(
       '/zoom?unit_id=${unit.id}&index=[$index]',
       builder: (_) => this,
