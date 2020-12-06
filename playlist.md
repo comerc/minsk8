@@ -1,3 +1,52 @@
+- [`Flutter #592 - Исправил TextField focus crash`](https://www.youtube.com/watch?v=34pLrfZ1oz8)
+- [`Flutter #591 - Выполнил упражнение на SingleChildScrollView`](https://www.youtube.com/watch?v=FXoCz_dUmSk)
+  `+ подвёл итоги по окончанию собственных курсов "Flutter для начинающих"`
+- [`Flutter #590 - Исследовал "Authorization" для GraphQL subscribe`](https://www.youtube.com/watch?v=H4_gweV_Mf0)
+- [`Flutter #589 - Перенес GraphQLService в flutter_idiomatic`](https://www.youtube.com/watch?v=jjczg1ksEzk)
+  `(где абстрагировал query & mutation & subscription)`
+- [`Flutter #588 - Улучшил ImagesField._uploadImage()`](https://www.youtube.com/watch?v=GCceu8hNF5E)
+- [`Flutter #587 - Реализовал fetchNewUnitNotification`](https://www.youtube.com/watch?v=nrj4wZOMgkk)
+  `+ добавил RefreshIndicator`
+- [`Flutter #586 - Улучшил _uploadImage() для ImagesField`](https://www.youtube.com/watch?v=sE5Cb9K_J5o)
+- [`Flutter #585 - Улучшил ImagesField`](https://www.youtube.com/watch?v=AdAZHkX0NCk)
+- [`Flutter #584 - Вынес ImageField`](https://www.youtube.com/watch?v=Ltd5sS3EgFs)
+- [`Flutter #583 - Реализовал LoadProfileScreen`](https://www.youtube.com/watch?v=7tq32l6DkJI)
+  `+ пересмотрел пример взаимодействия BLoC и Repository`
+- [`Flutter #582 - Добавил UpsertMemberScreen`](https://www.youtube.com/watch?v=WlT5PV0E-iI)
+- [`Flutter #581 - Реализовал upsertMember()`](https://www.youtube.com/watch?v=jEx4lu3vnOI)
+- [`Flutter #580 - Переделал ProfileModel.wishes на AppCubit.wishes`](https://www.youtube.com/watch?v=QLy95u64gms)
+- [`Flutter #579 - Подключил logInWithGoogle() для pet_finder`](https://www.youtube.com/watch?v=5t_4nzptIUI)
+  `+ скопировал форкнутый проект в git + получил SHA-1 для Firebase`
+- [`Flutter #578 - Реализовал Firebase Authentication на BLoC для pet_finder`](https://www.youtube.com/watch?v=8QTr2YK2dn8)
+- [`Flutter #577 - Реализовал AppCubit`](https://www.youtube.com/watch?v=PAU4GT0u8xg)
+  `+ посмотрел на riverpod`
+- [`Flutter #576 - Реализовал загрузку профиля на StartScreen`](https://www.youtube.com/watch?v=LMfTrCb3rbc)
+- [`Flutter #575 - Обобщил load(Future future)`](https://www.youtube.com/watch?v=UJHKP6J6F4M)
+- [`Flutter #574 - Улучшил SelectField`](https://www.youtube.com/watch?v=FvrHDl2HzK0)
+- [`Flutter #573 - Упростил валидацию формы для BLoC`](https://www.youtube.com/watch?v=2wREX1cr9bc)
+- [`Flutter #572 - Исследовал await Future.delayed(Duration.zero) для BLoC (2 серия)`](https://www.youtube.com/watch?v=NeCQGkyUASU)
+  `+ заменил state.loadingError на state.status.error внутри BLoC`
+- [`Flutter #571 - Исследовал await Future.delayed(Duration.zero) для BLoC (1 серия)`](https://www.youtube.com/watch?v=V0I0QFUN5OY)
+  `+ внедрил state.loadingError для BLoC`
+- [`Flutter #570 - Реализовал SelectField для формы ввода данных`](https://www.youtube.com/watch?v=8MIjEsCDvs0)
+- [`Flutter #569 - Исследовал работу с формой для BLoC (4 серия)`](https://www.youtube.com/watch?v=IqGAsH0buuI)
+- [`Flutter #568 - Исследовал работу с формой для BLoC (3 серия)`](https://www.youtube.com/watch?v=7trfeJ6okhM)
+- [`Flutter #567 - Исследовал работу с формой для BLoC (2 серия)`](https://www.youtube.com/watch?v=u6-x64MB8zI)
+- [`Flutter #566 - Исследовал работу с формой для BLoC (1 серия)`](https://www.youtube.com/watch?v=WAiZa6RV_lU)
+- [`Flutter #565 - Исследовал обработку ошибок в экшенах cubit-а`](https://www.youtube.com/watch?v=kg1ErPhXD8E)
+- [`Flutter #564 - Исследовал новую реализацию authentication`](https://www.youtube.com/watch?v=-scKqyzucBY)
+- [`Flutter #563 - Исследовал flutter_gherkin (9 серия)`](https://www.youtube.com/watch?v=IPTai-U2Sk8)
+- [`Flutter #562 - Исследовал flutter_gherkin (8 серия)`](https://www.youtube.com/watch?v=SSA1yEq-QYA)
+- [`Flutter #561 - Исследовал flutter_gherkin (7 серия)`](https://www.youtube.com/watch?v=FHXcz-C7jXY)
+  `+ переименовал проект flutter_firebase_login на flutter_idiomatic`
+- [`Flutter #560 - Исследовал flutter_gherkin (6 серия)`](https://www.youtube.com/watch?v=CnT_2JdHAUc)
+- [`Flutter #559 - Исследовал flutter_gherkin (5 серия)`](https://www.youtube.com/watch?v=qu_1924DxHs)
+  `+ попробовал freezed`
+- [`Flutter #558 - Исследовал flutter_gherkin (4 серия)`](https://www.youtube.com/watch?v=Bw4QbMbMRTc)
+- [`Flutter #557 - Исследовал flutter_gherkin (3 серия)`](https://www.youtube.com/watch?v=ybJVaA6JWPo)
+- [`Flutter #556 - Исследовал flutter_gherkin (2 серия)`](https://www.youtube.com/watch?v=_g54LoDtfD8)
+  `+ How to Update a Fork in Github`
+- [`Flutter #555 - Исследовал flutter_gherkin (1 серия)`](https://www.youtube.com/watch?v=3t2ICdBEUD8)
 - [`Flutter #554 - Подключил расширение VSCode для Cucumber (Gherkin)`](https://www.youtube.com/watch?v=OoNpsZ5t1I4)
   `+ прочитал вводные про BDD (Behavior Driven Development)`
 - [`Flutter #553 - Подключил hydrated_bloc + replay_bloc в проекте flutter_firebase_login`](https://www.youtube.com/watch?v=kSNvG8l8wqs)
