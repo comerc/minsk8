@@ -1,5 +1,233 @@
 [
   {
+    "publishedAt": "2020-12-05T19:05:45Z",
+    "title": "Flutter #592 - Исправил TextField focus crash",
+    "description": "",
+    "videoId": "34pLrfZ1oz8"
+  },
+  {
+    "publishedAt": "2020-11-29T21:58:36Z",
+    "title": "Flutter #591 - Выполнил упражнение на SingleChildScrollView",
+    "description": "+ подвёл итоги по окончанию собственных курсов \"Flutter для начинающих\"",
+    "videoId": "FXoCz_dUmSk"
+  },
+  {
+    "publishedAt": "2020-11-29T18:50:03Z",
+    "title": "Flutter #590 - Исследовал \"Authorization\" для GraphQL subscribe",
+    "description": "",
+    "videoId": "H4_gweV_Mf0"
+  },
+  {
+    "publishedAt": "2020-11-28T15:22:59Z",
+    "title": "Flutter #589 - Перенес GraphQLService в flutter_idiomatic",
+    "description": "(где абстрагировал query & mutation & subscription)",
+    "videoId": "jjczg1ksEzk"
+  },
+  {
+    "publishedAt": "2020-11-27T20:26:02Z",
+    "title": "Flutter #588 - Улучшил ImagesField._uploadImage()",
+    "description": "",
+    "videoId": "GCceu8hNF5E"
+  },
+  {
+    "publishedAt": "2020-11-27T14:33:21Z",
+    "title": "Flutter #587 - Реализовал fetchNewUnitNotification",
+    "description": "+ добавил RefreshIndicator",
+    "videoId": "nrj4wZOMgkk"
+  },
+  {
+    "publishedAt": "2020-11-26T16:00:15Z",
+    "title": "Flutter #586 - Улучшил _uploadImage() для ImagesField",
+    "description": "",
+    "videoId": "sE5Cb9K_J5o"
+  },
+  {
+    "publishedAt": "2020-11-26T14:09:33Z",
+    "title": "Flutter #585 - Улучшил ImagesField",
+    "description": "",
+    "videoId": "AdAZHkX0NCk"
+  },
+  {
+    "publishedAt": "2020-11-25T20:43:46Z",
+    "title": "Flutter #584 - Вынес ImageField",
+    "description": "",
+    "videoId": "Ltd5sS3EgFs"
+  },
+  {
+    "publishedAt": "2020-11-25T14:02:54Z",
+    "title": "Flutter #583 - Реализовал LoadProfileScreen",
+    "description": "+ пересмотрел пример взаимодействия BLoC и Repository",
+    "videoId": "7tq32l6DkJI"
+  },
+  {
+    "publishedAt": "2020-11-24T13:47:36Z",
+    "title": "Flutter #582 - Добавил UpsertMemberScreen",
+    "description": "",
+    "videoId": "WlT5PV0E-iI"
+  },
+  {
+    "publishedAt": "2020-11-23T21:00:17Z",
+    "title": "Flutter #581 - Реализовал upsertMember()",
+    "description": "",
+    "videoId": "jEx4lu3vnOI"
+  },
+  {
+    "publishedAt": "2020-11-23T12:09:13Z",
+    "title": "Flutter #580 - Переделал ProfileModel.wishes на AppCubit.wishes",
+    "description": "",
+    "videoId": "QLy95u64gms"
+  },
+  {
+    "publishedAt": "2020-11-22T12:13:11Z",
+    "title": "Flutter #579 - Подключил logInWithGoogle() для pet_finder",
+    "description": "+ скопировал форкнутый проект в git + получил SHA-1 для Firebase",
+    "videoId": "5t_4nzptIUI"
+  },
+  {
+    "publishedAt": "2020-11-21T21:15:03Z",
+    "title": "Flutter #578 - Реализовал Firebase Authentication на BLoC для pet_finder",
+    "description": "",
+    "videoId": "8QTr2YK2dn8"
+  },
+  {
+    "publishedAt": "2020-11-21T13:37:28Z",
+    "title": "Flutter #577 - Реализовал AppCubit",
+    "description": "+ посмотрел на riverpod",
+    "videoId": "PAU4GT0u8xg"
+  },
+  {
+    "publishedAt": "2020-11-20T19:31:10Z",
+    "title": "Flutter #576 - Реализовал загрузку профиля на StartScreen",
+    "description": "",
+    "videoId": "LMfTrCb3rbc"
+  },
+  {
+    "publishedAt": "2020-11-20T12:36:53Z",
+    "title": "Flutter #575 - Обобщил load(Future future)",
+    "description": "",
+    "videoId": "UJHKP6J6F4M"
+  },
+  {
+    "publishedAt": "2020-11-19T11:58:57Z",
+    "title": "Flutter #574 - Улучшил SelectField",
+    "description": "",
+    "videoId": "FvrHDl2HzK0"
+  },
+  {
+    "publishedAt": "2020-11-18T21:47:42Z",
+    "title": "Flutter #573 - Упростил валидацию формы для BLoC",
+    "description": "",
+    "videoId": "2wREX1cr9bc"
+  },
+  {
+    "publishedAt": "2020-11-18T16:47:05Z",
+    "title": "Flutter #572 - Исследовал await Future.delayed(Duration.zero) для BLoC (2 серия)",
+    "description": "+ заменил state.loadingError на state.status.error внутри BLoC",
+    "videoId": "NeCQGkyUASU"
+  },
+  {
+    "publishedAt": "2020-11-18T11:11:55Z",
+    "title": "Flutter #571 - Исследовал await Future.delayed(Duration.zero) для BLoC (1 серия)",
+    "description": "+ внедрил state.loadingError для BLoC",
+    "videoId": "V0I0QFUN5OY"
+  },
+  {
+    "publishedAt": "2020-11-17T15:50:31Z",
+    "title": "Flutter #570 - Реализовал SelectField для формы ввода данных",
+    "description": "",
+    "videoId": "8MIjEsCDvs0"
+  },
+  {
+    "publishedAt": "2020-11-17T08:05:56Z",
+    "title": "Flutter #569 - Исследовал работу с формой для BLoC (4 серия)",
+    "description": "",
+    "videoId": "IqGAsH0buuI"
+  },
+  {
+    "publishedAt": "2020-11-16T18:43:51Z",
+    "title": "Flutter #568 - Исследовал работу с формой для BLoC (3 серия)",
+    "description": "",
+    "videoId": "7trfeJ6okhM"
+  },
+  {
+    "publishedAt": "2020-11-16T15:05:31Z",
+    "title": "Flutter #567 - Исследовал работу с формой для BLoC (2 серия)",
+    "description": "",
+    "videoId": "u6-x64MB8zI"
+  },
+  {
+    "publishedAt": "2020-11-16T08:32:06Z",
+    "title": "Flutter #566 - Исследовал работу с формой для BLoC (1 серия)",
+    "description": "",
+    "videoId": "WAiZa6RV_lU"
+  },
+  {
+    "publishedAt": "2020-11-14T20:50:43Z",
+    "title": "Flutter #565 - Исследовал обработку ошибок в экшенах cubit-а",
+    "description": "",
+    "videoId": "kg1ErPhXD8E"
+  },
+  {
+    "publishedAt": "2020-11-14T13:15:44Z",
+    "title": "Flutter #564 - Исследовал новую реализацию authentication",
+    "description": "",
+    "videoId": "-scKqyzucBY"
+  },
+  {
+    "publishedAt": "2020-11-14T05:31:24Z",
+    "title": "Flutter #563 - Исследовал flutter_gherkin (9 серия)",
+    "description": "",
+    "videoId": "IPTai-U2Sk8"
+  },
+  {
+    "publishedAt": "2020-11-13T14:37:30Z",
+    "title": "Flutter #562 - Исследовал flutter_gherkin (8 серия)",
+    "description": "",
+    "videoId": "SSA1yEq-QYA"
+  },
+  {
+    "publishedAt": "2020-11-13T08:15:17Z",
+    "title": "Flutter #561 - Исследовал flutter_gherkin (7 серия)",
+    "description": "+ переименовал проект flutter_firebase_login на flutter_idiomatic",
+    "videoId": "FHXcz-C7jXY"
+  },
+  {
+    "publishedAt": "2020-11-12T08:16:04Z",
+    "title": "Flutter #560 - Исследовал flutter_gherkin (6 серия)",
+    "description": "",
+    "videoId": "CnT_2JdHAUc"
+  },
+  {
+    "publishedAt": "2020-11-11T18:51:52Z",
+    "title": "Flutter #559 - Исследовал flutter_gherkin (5 серия)",
+    "description": "+ попробовал freezed",
+    "videoId": "qu_1924DxHs"
+  },
+  {
+    "publishedAt": "2020-11-11T14:12:49Z",
+    "title": "Flutter #558 - Исследовал flutter_gherkin (4 серия)",
+    "description": "",
+    "videoId": "Bw4QbMbMRTc"
+  },
+  {
+    "publishedAt": "2020-11-10T08:15:36Z",
+    "title": "Flutter #557 - Исследовал flutter_gherkin (3 серия)",
+    "description": "",
+    "videoId": "ybJVaA6JWPo"
+  },
+  {
+    "publishedAt": "2020-11-09T09:06:01Z",
+    "title": "Flutter #556 - Исследовал flutter_gherkin (2 серия)",
+    "description": "+ How to Update a Fork in Github",
+    "videoId": "_g54LoDtfD8"
+  },
+  {
+    "publishedAt": "2020-11-09T07:13:20Z",
+    "title": "Flutter #555 - Исследовал flutter_gherkin (1 серия)",
+    "description": "",
+    "videoId": "3t2ICdBEUD8"
+  },
+  {
     "publishedAt": "2020-11-04T04:08:34Z",
     "title": "Flutter #554 - Подключил расширение VSCode для Cucumber (Gherkin)",
     "description": "+ прочитал вводные про BDD (Behavior Driven Development)",
