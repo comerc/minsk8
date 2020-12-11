@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: переопределить WillPop для HomeScreen?
+// TODO: переименовать HomeScreen > DashboardScreen
 
 enum HomeTabValue { showcase, underway, interplay, profile }
 
