@@ -166,7 +166,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   // TODO: workaround https://github.com/flutter/flutter/issues/53523
-  Widget _buildImage({bool workaround = true}) {
+  Widget _buildImage({bool workaround = false}) {
     final unit = widget.unit;
     final isCover = widget.isCover;
     final image = unit.images[0];
