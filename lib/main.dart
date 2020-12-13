@@ -48,6 +48,7 @@ import 'package:minsk8/import.dart';
 // TODO: как мокать модули, подобно JS? (для применения в тестах вместо DI) https://railsware.com/blog/mocking-es6-module-import-without-dependency-injection/
 // TODO: добавить blur для оверлея диалогов, как в OBS Blade
 // TODO: (for PersistedQueriesLink) Support for persisted queries https://github.com/hasura/graphql-engine/issues/273
+// TODO: Reduce shader compilation jank on mobile https://flutter.dev/docs/perf/rendering/shader
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
