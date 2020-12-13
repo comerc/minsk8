@@ -11,7 +11,6 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
 
   bool get isInfinite => true;
 
-  // TODO: а запись времени в базу выполняется в utc?
   String get startDate => DateTime.now().toUtc().toIso8601String();
 
   String nextDate;
