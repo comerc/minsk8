@@ -125,8 +125,8 @@ class _UnitScreenState extends State<UnitScreen> {
                             BuildContext fromHeroContext,
                             BuildContext toHeroContext,
                           ) {
-                            animation.addStatusListener(
-                                (AnimationStatus status) async {
+                            animation
+                                .addStatusListener((AnimationStatus status) {
                               if ([
                                 AnimationStatus.completed,
                                 AnimationStatus.dismissed,
@@ -134,6 +134,8 @@ class _UnitScreenState extends State<UnitScreen> {
                                 if (mounted) {
                                   setState(() {
                                     _showHero = null;
+                                    // TODO: надо бы тут включать CarouselSlider, но тогда мигает экран
+                                    // _isCarouselSlider = true;
                                   });
                                 }
                               }
