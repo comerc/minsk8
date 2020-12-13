@@ -43,7 +43,12 @@ class UnitScreen extends StatefulWidget {
 
 enum _PopupMenuValue { goToMember, askQuestion, toModerate, delete }
 
-enum _ShowHero { forShowcase, forOpenZoom, forCloseZoom }
+enum _ShowHero {
+  forShowcase,
+  // forOpenZoom,
+  // forCloseZoom,
+}
+// TODO: Hero for ZoomScreen
 
 class _UnitScreenState extends State<UnitScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -120,19 +125,22 @@ class _UnitScreenState extends State<UnitScreen> {
                             BuildContext fromHeroContext,
                             BuildContext toHeroContext,
                           ) {
-                            animation.addListener(() {
+                            animation.addStatusListener(
+                                (AnimationStatus status) async {
                               if ([
                                 AnimationStatus.completed,
                                 AnimationStatus.dismissed,
-                              ].contains(animation.status)) {
-                                setState(() {
-                                  _showHero = null;
-                                });
+                              ].contains(status)) {
+                                if (mounted) {
+                                  setState(() {
+                                    _showHero = null;
+                                  });
+                                }
                               }
                             });
                             final hero =
-                                flightDirection == HeroFlightDirection.pop &&
-                                        _showHero != _ShowHero.forCloseZoom
+                                flightDirection == HeroFlightDirection.pop
+                                    // && _showHero != _ShowHero.forCloseZoom
                                     ? fromHeroContext.widget
                                     : toHeroContext.widget;
                             return (hero as Hero).child;
@@ -172,7 +180,7 @@ class _UnitScreenState extends State<UnitScreen> {
                                   () {}, // чтобы сократить время для splashColor
                               onTap: () async {
                                 setState(() {
-                                  _showHero = _ShowHero.forOpenZoom;
+                                  // _showHero = _ShowHero.forOpenZoom;
                                   _isCarouselSlider = false;
                                 });
                                 // TODO: ужасно мигает экран и ломается Hero, при смене ориентации
@@ -628,7 +636,7 @@ class _UnitScreenState extends State<UnitScreen> {
     // await Future.delayed(Duration(milliseconds: 100));
     setState(() {
       _currentIndex = index;
-      _showHero = _ShowHero.forCloseZoom;
+      // _showHero = _ShowHero.forCloseZoom;
       _isCarouselSlider = true;
     });
     return true;
