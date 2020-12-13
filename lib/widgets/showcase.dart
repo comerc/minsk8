@@ -145,96 +145,110 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     );
   }
 
-  Widget _buildImage() {
+  void _handleTapImage() {
+    final unit = widget.unit;
+    setState(() {
+      _isBottom = false;
+    });
+    navigator
+        .push(
+      UnitScreen(
+        unit,
+        member: unit.member,
+        isShowcase: true,
+      ).getRoute(),
+    )
+        .then((_) {
+      setState(() {
+        _isBottom = true;
+      });
+    });
+  }
+
+  // TODO: workaround https://github.com/flutter/flutter/issues/53523
+  Widget _buildImage({bool workaround = true}) {
     final unit = widget.unit;
     final isCover = widget.isCover;
     final image = unit.images[0];
+    Widget child;
+    child = Stack(
+      fit: workaround ? StackFit.expand : StackFit.loose,
+      children: <Widget>[
+        if (workaround)
+          ExtendedImage.network(
+            image.getDummyUrl(unit.id),
+            // shape: BoxShape.rectangle,
+            // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
+            // borderRadius: BorderRadius.all(kImageBorderRadius),
+            loadStateChanged: loadStateChanged,
+            fit: isCover ? BoxFit.cover : BoxFit.contain, // for workaround
+          ),
+        _buildText(),
+        if (unit.isBlockedOrLocalDeleted)
+          _buildStatus(
+            'Заблокировано',
+            isClosed: true,
+          )
+        else if (unit.transferredAt != null)
+          _buildStatus(
+            'Забрали',
+            isClosed: true,
+          )
+        else if (unit.win != null)
+          _buildStatus(
+            'Завершено',
+            isClosed: true,
+          )
+        else if (unit.expiresAt != null)
+          CountdownTimer(
+            endTime: unit.expiresAt.millisecondsSinceEpoch,
+            builder: (BuildContext context, int seconds) {
+              return _buildStatus(
+                seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
+                isClosed: seconds < 1,
+              );
+            },
+          )
+        else if (unit.urgent != UrgentValue.none)
+          _buildStatus(
+            getUrgentName(unit.urgent),
+            isClosed: false,
+          ),
+      ],
+    );
+    if (!workaround) {
+      child = Ink.image(
+        fit: isCover ? BoxFit.cover : BoxFit.contain,
+        image: ExtendedImage.network(
+          image.getDummyUrl(unit.id),
+          // shape: BoxShape.rectangle,
+          // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
+          // borderRadius: BorderRadius.all(kImageBorderRadius),
+          loadStateChanged: loadStateChanged,
+        ).image,
+        child: child,
+      );
+    }
+    child = AspectRatio(
+      aspectRatio: isCover ? 1 / getMagicHeight(1) : image.width / image.height,
+      child: Hero(
+        tag: '${widget.tagPrefix}-${unit.id}',
+        child: child,
+      ),
+    );
+    if (workaround) {
+      return GestureDetector(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onTap: _handleTapImage,
+        child: child,
+      );
+    }
     return Material(
       child: InkWell(
         onLongPress: () {}, // чтобы сократить время для splashColor
-        onTap: () {
-          // navigator.push(PageRouteBuilder(
-          //   settings: RouteSettings(
-          //     arguments: UnitRouteArguments(unit, tag: tag),
-          //   ),
-          //   pageBuilder: (context, animation, secondaryAnimation) =>
-          //       UnitScreen(),
-          //   transitionsBuilder:
-          //       (context, animation, secondaryAnimation, child) {
-          //     return child;
-          //   },
-          // ));
-          setState(() {
-            _isBottom = false;
-          });
-          navigator
-              .push(
-            UnitScreen(
-              unit,
-              member: unit.member,
-              isShowcase: true,
-            ).getRoute(),
-          )
-              .then((_) {
-            setState(() {
-              _isBottom = true;
-            });
-          });
-        },
+        onTap: _handleTapImage,
         splashColor: Colors.white.withOpacity(0.4),
-        child: AspectRatio(
-          aspectRatio:
-              isCover ? 1 / getMagicHeight(1) : image.width / image.height,
-          child: Hero(
-            tag: '${widget.tagPrefix}-${unit.id}',
-            child: Ink.image(
-              fit: isCover ? BoxFit.cover : BoxFit.contain,
-              image: ExtendedImage.network(
-                image.getDummyUrl(unit.id),
-                // shape: BoxShape.rectangle,
-                // border: Border.all(color: Colors.grey.withOpacity(0.4), width: 1),
-                // borderRadius: BorderRadius.all(kImageBorderRadius),
-                loadStateChanged: loadStateChanged,
-              ).image,
-              child: Stack(
-                // fit: StackFit.expand,
-                children: <Widget>[
-                  _buildText(),
-                  if (unit.isBlockedOrLocalDeleted)
-                    _buildStatus(
-                      'Заблокировано',
-                      isClosed: true,
-                    )
-                  else if (unit.transferredAt != null)
-                    _buildStatus(
-                      'Забрали',
-                      isClosed: true,
-                    )
-                  else if (unit.win != null)
-                    _buildStatus(
-                      'Завершено',
-                      isClosed: true,
-                    )
-                  else if (unit.expiresAt != null)
-                    CountdownTimer(
-                      endTime: unit.expiresAt.millisecondsSinceEpoch,
-                      builder: (BuildContext context, int seconds) {
-                        return _buildStatus(
-                          seconds < 1 ? 'Завершено' : formatDDHHMMSS(seconds),
-                          isClosed: seconds < 1,
-                        );
-                      },
-                    )
-                  else if (unit.urgent != UrgentValue.none)
-                    _buildStatus(
-                      getUrgentName(unit.urgent),
-                      isClosed: false,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        child: child,
       ),
     );
   }
