@@ -65,7 +65,7 @@ class _ShowcaseListState extends State<ShowcaseList>
                   SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 crossAxisSpacing: 16,
-                // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+                // hack (1/3) for https://github.com/fluttercandies/loading_more_list/issues/20
                 // mainAxisSpacing: 16,
                 collectGarbage: (List<int> garbages) {
                   for (final index in garbages) {
@@ -97,8 +97,9 @@ class _ShowcaseListState extends State<ShowcaseList>
                   isSliver: true,
                 );
               },
-              // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+              // hack (2/3) for https://github.com/fluttercandies/loading_more_list/issues/20
               padding: EdgeInsets.symmetric(horizontal: 16),
+              // padding: EdgeInsets.all(16),
               // lastChildLayoutType: LastChildLayoutType.foot,
             ),
           ),
@@ -137,7 +138,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // hack for https://github.com/fluttercandies/loading_more_list/issues/20
+        // hack (3/3) for https://github.com/fluttercandies/loading_more_list/issues/20
         SizedBox(height: 16),
         _buildImage(),
         _buildBottom(),
