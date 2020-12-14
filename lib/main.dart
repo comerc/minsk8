@@ -648,10 +648,12 @@ class CommonMaterialApp extends StatelessWidget {
         // textTheme: GoogleFonts.montserratTextTheme(),
       ),
       builder: (BuildContext context, Widget child) {
-        Widget result;
+        Widget result = child;
         result = MediaQueryWrap(result);
         result = BotToastInit()(context, result);
-        result = builder == null ? child : builder(context, child);
+        if (builder != null) {
+          result = builder(context, result);
+        }
         return result;
       },
       home: home,
