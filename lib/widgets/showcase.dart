@@ -800,7 +800,7 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
   );
   // final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
-    documentNode: Mutations.upsertWish,
+    document: addFragments(Mutations.upsertWish),
     variables: {
       'unit_id': unit.id,
       'value': value,

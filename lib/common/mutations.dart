@@ -1,5 +1,4 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
-import './fragments.dart';
+import 'package:graphql/client.dart';
 
 mixin Mutations {
   static final upsertMember = gql(r'''
@@ -51,7 +50,7 @@ mixin Mutations {
         ...UnitFields
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final deleteUnit = gql(r'''
     mutation DeleteUnit($id: uuid) {

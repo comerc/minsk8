@@ -15,7 +15,7 @@ class LoadDataScreen extends StatelessWidget {
       body: Center(
         child: Query(
           options: QueryOptions(
-            documentNode: Queries.getUnits,
+            document: addFragments(Queries.getUnits),
             variables: {
               'next_date': '2100-01-01',
             },
@@ -152,4 +152,34 @@ class LoadDataScreen extends StatelessWidget {
       subtitle: Text(unit.id),
     );
   }
+}
+
+/// boilerplate `result.loading` and `result.hasException` handling
+///
+/// ```dart
+/// if (result.hasException) {
+///   return Text(result.exception.toString());
+/// }
+/// if (result.loading) {
+///   return Center(
+///     child: CircularProgressIndicator(),
+///   );
+/// }
+/// ```
+QueryBuilder withGenericHandling(QueryBuilder builder) {
+  return (QueryResult result, {Refetch refetch, FetchMore fetchMore}) {
+    if (result.hasException) {
+      return Text(result.exception.toString());
+    }
+    if (result.source == QueryResultSource.loading && result.data == null) {
+      return Center(
+        child: CircularProgressIndicator(), // buildProgressIndicator(context),
+      );
+    }
+    if (result.data == null && !result.hasException) {
+      return Text(
+          'Both data and errors are null, this is a known bug after refactoring');
+    }
+    return builder(result, fetchMore: fetchMore, refetch: refetch);
+  };
 }

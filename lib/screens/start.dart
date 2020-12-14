@@ -25,7 +25,7 @@ class _StartScreenState extends State<StartScreen> {
 
   void _onAfterBuild(Duration timeStamp) async {
     // final options = QueryOptions(
-    //   documentNode: Queries.getChats,
+    //   document: addFragments(Queries.getChats),
     //   fetchPolicy: FetchPolicy.noCache,
     // );
     // final client = GraphQLProvider.of(context).value;
@@ -104,7 +104,7 @@ class _StartScreenState extends State<StartScreen> {
     if (link == null || link.path != '/unit') return null;
     final id = link.queryParameters['id'];
     final options = QueryOptions(
-      documentNode: Queries.getUnit,
+      document: addFragments(Queries.getUnit),
       variables: {'id': id},
       fetchPolicy: FetchPolicy.noCache,
     );

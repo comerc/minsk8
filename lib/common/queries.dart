@@ -1,5 +1,4 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
-import './fragments.dart';
+import 'package:graphql/client.dart';
 
 // TODO: заменить class Queries.getUnits > namespace queries.getUnits
 // TODO: а может убрать time zone (timestamptz vs timestamp)?
@@ -33,7 +32,7 @@ mixin Queries {
         companion_read_count
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnit = gql(r'''
     query GetUnit($id: uuid!) {
@@ -44,7 +43,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnits = gql(r'''
     query GetUnits($next_date: timestamptz) {
@@ -65,7 +64,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnitsForFan = gql(r'''
     query GetUnitsForFan($next_date: timestamptz) {
@@ -87,7 +86,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnitsForBest = gql(r'''
     query GetUnitsForBest($next_date: timestamptz) {
@@ -109,7 +108,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnitsForPromo = gql(r'''
     query GetUnitsForPromo($next_date: timestamptz) {
@@ -131,7 +130,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnitsForUrgent = gql(r'''
     query GetUnitsForUrgent($next_date: timestamptz) {
@@ -153,7 +152,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getUnitsByKind = gql(r'''
     query GetUnitsByKind($next_date: timestamptz, $kind: kind_enum) {
@@ -175,7 +174,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getProfile = gql(r'''
     query GetProfile($member_id: uuid!) {
@@ -199,7 +198,7 @@ mixin Queries {
         member_id 
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getPayments = gql(r'''
     query GetPayments($next_date: timestamptz) {
@@ -231,7 +230,7 @@ mixin Queries {
         text_variant
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getNotices = gql(r'''
     query GetNotices($next_date: timestamptz) {
@@ -265,7 +264,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getWishUnits = gql(r'''
     query GetWishUnits {
@@ -281,7 +280,7 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   static final getWantUnits = gql(r'''
     query GetWantUnits {
@@ -291,7 +290,7 @@ mixin Queries {
         ...WantFields
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 
   // static final getWantUnits = gql(r'''
   //   query GetWantUnits {
@@ -305,7 +304,7 @@ mixin Queries {
   //       ...WantFields
   //     }
   //   }
-  // ''')..definitions.addAll(Fragments.fragments.definitions);
+  // ''');
 
   // static final getTakeUnits = gql(r'''
   //   query GetTakeUnits {
@@ -319,7 +318,7 @@ mixin Queries {
   //       ...WantFields
   //     }
   //   }
-  // ''')..definitions.addAll(Fragments.fragments.definitions);
+  // ''');
 
   // static final getPastUnits = gql(r'''
   //   query GetPastUnits {
@@ -333,7 +332,7 @@ mixin Queries {
   //       ...WantFields
   //     }
   //   }
-  // ''')..definitions.addAll(Fragments.fragments.definitions);
+  // ''');
 
   static final getGiveUnits = gql(r'''
     query GetGiveUnits {
@@ -349,5 +348,5 @@ mixin Queries {
         }
       }
     }
-  ''')..definitions.addAll(Fragments.fragments.definitions);
+  ''');
 }

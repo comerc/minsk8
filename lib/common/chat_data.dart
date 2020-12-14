@@ -8,7 +8,7 @@ class ChatData extends SourceList<ChatModel> {
   QueryOptions get options {
     // final variables = {'next_date': nextDate};
     return QueryOptions(
-      documentNode: Queries.getChats,
+      document: addFragments(Queries.getChats),
       // variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );

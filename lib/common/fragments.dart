@@ -1,7 +1,16 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:gql/ast.dart';
+import 'package:graphql/client.dart';
+
+// TODO: выбросить после перехода на GraphQLService
+DocumentNode addFragments(DocumentNode document) {
+  return DocumentNode(definitions: [
+    ...Fragments.document.definitions,
+    ...document.definitions
+  ]);
+}
 
 mixin Fragments {
-  static final fragments = gql(r'''
+  static final document = gql(r'''
     fragment UnitFields on unit {
       id
       created_at

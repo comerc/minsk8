@@ -212,7 +212,7 @@ class App extends StatelessWidget {
             //     }
             return Query(
               options: QueryOptions(
-                documentNode: Queries.getProfile,
+                document: addFragments(Queries.getProfile),
                 // variables: {'member_id': appState['memberId']},
                 variables: {'member_id': kFakeMemberId},
                 fetchPolicy: FetchPolicy.noCache,
@@ -222,7 +222,8 @@ class App extends StatelessWidget {
               builder: (QueryResult result,
                   {VoidCallback refetch, FetchMore fetchMore}) {
                 if (result.hasException) {
-                  out(getOperationExceptionToString(result.exception));
+                  out(result.exception);
+                  // out(getOperationExceptionToString(result.exception));
                   return Material(
                     child: InkWell(
                       onTap: refetch,
@@ -232,7 +233,7 @@ class App extends StatelessWidget {
                     ),
                   );
                 }
-                if (result.loading) {
+                if (result.source == QueryResultSource.loading) {
                   return Material(
                     child: Center(
                       child: Text('Loading profile...'),
@@ -247,14 +248,10 @@ class App extends StatelessWidget {
                       ),
                     ),
                     ChangeNotifierProvider<MyWishesModel>(
-                      create: (_) => MyWishesModel.fromJson(
-                        result.data as Map<String, dynamic>,
-                      ),
+                      create: (_) => MyWishesModel.fromJson(result.data),
                     ),
                     ChangeNotifierProvider<MyBlocksModel>(
-                      create: (_) => MyBlocksModel.fromJson(
-                        result.data as Map<String, dynamic>,
-                      ),
+                      create: (_) => MyBlocksModel.fromJson(result.data),
                     ),
                     ChangeNotifierProvider<DistanceModel>(
                         create: (_) => DistanceModel()),
@@ -313,13 +310,13 @@ class App extends StatelessWidget {
     //   child: result,
     // );
     // out(jsonEncode(parseIdToken(authData.token)));
-    final httpLink = HttpLink(
-      uri: 'https://$kGraphQLEndpoint',
-      headers: {
-        'X-Hasura-Role': 'user',
-        'X-Hasura-User-Id': kFakeMemberId,
-      },
-    );
+    // final httpLink = HttpLink(
+    //   uri: 'https://$kGraphQLEndpoint',
+    //   headers: {
+    //     'X-Hasura-Role': 'user',
+    //     'X-Hasura-User-Id': kFakeMemberId,
+    //   },
+    // );
     // TODO: включить HASURA_GRAPHQL_JWT_SECRET
     // TODO: переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
     // final websocketLink = WebSocketLink(
@@ -353,15 +350,16 @@ class App extends StatelessWidget {
     // });
     result = GraphQLProvider(
       client: ValueNotifier(
-        GraphQLClient(
-          cache: InMemoryCache(),
-          // cache: NormalizedInMemoryCache(
-          //   dataIdFromObject: typenameDataIdFromObject,
-          // ),
-          link: httpLink,
-          // link:
-          //     retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
-        ),
+        createClient(),
+        // GraphQLClient(
+        //   cache: GraphQLCache(), // InMemoryCache(),
+        //   // cache: NormalizedInMemoryCache(
+        //   //   dataIdFromObject: typenameDataIdFromObject,
+        //   // ),
+        //   link: httpLink,
+        //   // link:
+        //   //     retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
+        // ),
       ),
       child: CacheProvider(
         child: result,
@@ -389,9 +387,49 @@ class App extends StatelessWidget {
   }
 }
 
+// публично для тестирования
+GraphQLClient createClient() {
+  final httpLink = HttpLink(
+    'https://$kGraphQLEndpoint',
+    defaultHeaders: {
+      'X-Hasura-Role': 'user',
+      'X-Hasura-User-Id': kFakeMemberId,
+    },
+  );
+  // final authLink = AuthLink(
+  //   getToken: () async {
+  //     final idToken = await FirebaseAuth.instance.currentUser.getIdToken(true);
+  //     return 'Bearer $idToken';
+  //   },
+  // );
+  // var link = authLink.concat(httpLink);
+  // final websocketLink = WebSocketLink(
+  //   'wss://$kGraphQLEndpoint',
+  //   config: SocketClientConfig(
+  //     initialPayload: () async {
+  //       final idToken =
+  //           await FirebaseAuth.instance.currentUser.getIdToken(true);
+  //       return {
+  //         'headers': {'Authorization': 'Bearer $idToken'},
+  //       };
+  //     },
+  //   ),
+  // );
+  // // split request based on type
+  // link = Link.split(
+  //   (request) => request.isSubscription,
+  //   websocketLink,
+  //   link,
+  // );
+  return GraphQLClient(
+    cache: GraphQLCache(),
+    link: httpLink,
+  );
+}
+
 // Future<bool> _upsertMember(AuthData authData) {
 //   final options = MutationOptions(
-//     documentNode: Mutations.upsertMember,
+//     document: addFragments(Mutations.upsertMember),
 //     variables: {
 //       'display_name': authData.user.displayName,
 //       'photo_url': authData.user.photoUrl,
@@ -825,7 +863,7 @@ class MainDrawer extends StatelessWidget {
     //   'arguments': (BuildContext context) async {
     //     final profile = Provider.of<ProfileModel>(context, listen: false);
     //     final options = QueryOptions(
-    //       documentNode: Queries.getUnit,
+    //       document: addFragments(Queries.getUnit),
     //       variables: {'id': profile.member.units[0].id},
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
@@ -858,7 +896,7 @@ class MainDrawer extends StatelessWidget {
     //   // ignore: top_level_function_literal_block
     //   'arguments': (BuildContext context) async {
     //     final options = QueryOptions(
-    //       documentNode: Queries.getChats,
+    //       document: addFragments(Queries.getChats),
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
     //     // final client = GraphQLProvider.of(context).value;

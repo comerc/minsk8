@@ -276,7 +276,7 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
   );
   // final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
-    documentNode: Mutations.upsertBlock,
+    document: addFragments(Mutations.upsertBlock),
     variables: {
       'member_id': member.id,
       'value': value,

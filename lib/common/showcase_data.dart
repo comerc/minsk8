@@ -19,21 +19,22 @@ class ShowcaseData extends SourceList<UnitModel> {
   QueryOptions get options {
     final variables = {'next_date': nextDate};
     if (isMetaKind) {
+      final document = {
+        MetaKindValue.recent: Queries.getUnits,
+        MetaKindValue.fan: Queries.getUnitsForFan,
+        MetaKindValue.best: Queries.getUnitsForBest,
+        MetaKindValue.promo: Queries.getUnitsForPromo,
+        MetaKindValue.urgent: Queries.getUnitsForUrgent
+      }[kind];
       return QueryOptions(
-        documentNode: {
-          MetaKindValue.recent: Queries.getUnits,
-          MetaKindValue.fan: Queries.getUnitsForFan,
-          MetaKindValue.best: Queries.getUnitsForBest,
-          MetaKindValue.promo: Queries.getUnitsForPromo,
-          MetaKindValue.urgent: Queries.getUnitsForUrgent
-        }[kind],
+        document: addFragments(document),
         variables: variables,
         fetchPolicy: FetchPolicy.noCache,
       );
     }
     variables['kind'] = convertEnumToSnakeCase(kind);
     return QueryOptions(
-      documentNode: Queries.getUnitsByKind,
+      document: addFragments(Queries.getUnitsByKind),
       variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );

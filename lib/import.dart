@@ -12,6 +12,7 @@ export 'common/_fake_data.dart';
 export 'common/_theme.dart';
 export 'common/chat_data.dart';
 export 'common/const.dart';
+export 'common/fragments.dart';
 export 'common/helpers.dart';
 export 'common/ledger_data.dart';
 export 'common/mutations.dart';

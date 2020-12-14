@@ -15,7 +15,7 @@ class NoticeData extends SourceList<NoticeItem> {
   QueryOptions get options {
     final variables = {'next_date': nextDate};
     return QueryOptions(
-      documentNode: Queries.getNotices,
+      document: addFragments(Queries.getNotices),
       variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );

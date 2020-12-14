@@ -459,7 +459,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   if (result != true) return;
                   // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
-                    documentNode: Mutations.deleteUnit,
+                    document: addFragments(Mutations.deleteUnit),
                     variables: {'id': unit.id},
                     fetchPolicy: FetchPolicy.noCache,
                   );
@@ -501,7 +501,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   _scaffoldKey.currentState.showSnackBar(snackBar);
                   // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
-                    documentNode: Mutations.upsertModeration,
+                    document: addFragments(Mutations.upsertModeration),
                     variables: {
                       'unit_id': unit.id,
                       'claim': convertEnumToSnakeCase(result),
@@ -542,7 +542,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   _scaffoldKey.currentState.showSnackBar(snackBar);
                   // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
-                    documentNode: Mutations.insertSuggestion,
+                    document: addFragments(Mutations.insertSuggestion),
                     variables: {
                       'unit_id': unit.id,
                       'question': convertEnumToSnakeCase(result),

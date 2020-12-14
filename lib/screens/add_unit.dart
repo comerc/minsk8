@@ -267,7 +267,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     }
     // final client = GraphQLProvider.of(context).value;
     final options = MutationOptions(
-      documentNode: Mutations.insertUnit,
+      document: addFragments(Mutations.insertUnit),
       variables: {
         'images':
             images.map((_ImageData element) => element.model.toJson()).toList(),

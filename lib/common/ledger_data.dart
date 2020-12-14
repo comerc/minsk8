@@ -13,7 +13,7 @@ class LedgerData extends SourceList<LedgerItem> {
   QueryOptions get options {
     final variables = {'next_date': nextDate};
     return QueryOptions(
-      documentNode: Queries.getPayments,
+      document: addFragments(Queries.getPayments),
       variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );

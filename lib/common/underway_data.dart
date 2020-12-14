@@ -14,14 +14,15 @@ class UnderwayData extends SourceList<UnitModel> {
   @override
   QueryOptions get options {
     // final variables = {'next_date': nextDate};
+    final document = {
+      UnderwayValue.wish: Queries.getWishUnits,
+      UnderwayValue.want: Queries.getWantUnits,
+      // UnderwayValue.take: Queries.getTakeUnits,
+      // UnderwayValue.past: Queries.getPastUnits,
+      UnderwayValue.give: Queries.getGiveUnits,
+    }[tabValue];
     return QueryOptions(
-      documentNode: {
-        UnderwayValue.wish: Queries.getWishUnits,
-        UnderwayValue.want: Queries.getWantUnits,
-        // UnderwayValue.take: Queries.getTakeUnits,
-        // UnderwayValue.past: Queries.getPastUnits,
-        UnderwayValue.give: Queries.getGiveUnits,
-      }[tabValue],
+      document: addFragments(document),
       // variables: variables,
       fetchPolicy: FetchPolicy.noCache,
     );
