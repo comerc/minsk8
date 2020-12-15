@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -457,7 +457,6 @@ class _UnitScreenState extends State<UnitScreen> {
                         ok: 'Удалить'),
                   );
                   if (result != true) return;
-                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     document: addFragments(Mutations.deleteUnit),
                     variables: {'id': unit.id},
@@ -499,7 +498,6 @@ class _UnitScreenState extends State<UnitScreen> {
                   if (result == null) return;
                   final snackBar = SnackBar(content: Text('Жалоба принята'));
                   _scaffoldKey.currentState.showSnackBar(snackBar);
-                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     document: addFragments(Mutations.upsertModeration),
                     variables: {
@@ -540,7 +538,6 @@ class _UnitScreenState extends State<UnitScreen> {
                       content: Text(
                           'Вопрос принят и будет передан автору, чтобы дополнил описание'));
                   _scaffoldKey.currentState.showSnackBar(snackBar);
-                  // final client = GraphQLProvider.of(context).value;
                   final options = MutationOptions(
                     document: addFragments(Mutations.insertSuggestion),
                     variables: {

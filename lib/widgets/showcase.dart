@@ -5,7 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -798,7 +798,6 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
     unitId: unit.id,
     value: value,
   );
-  // final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
     document: addFragments(Mutations.upsertWish),
     variables: {

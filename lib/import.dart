@@ -5,7 +5,7 @@ export '_screens/_custom_dialog.dart';
 export '_screens/_image_capture.dart';
 export '_screens/_image_pinch.dart';
 export '_screens/_listview.dart';
-export '_screens/_load_data.dart';
+export '_screens/_main.dart';
 export '_screens/_nested_scroll_view.dart';
 export '_screens/_notification.dart';
 export 'common/_fake_data.dart';

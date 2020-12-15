@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:minsk8/import.dart';
+
 class MainDrawer extends StatelessWidget {
   final routes = [
     {
@@ -17,10 +20,6 @@ class MainDrawer extends StatelessWidget {
       'routeName': '/_image_pinch',
       'arguments':
           ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
-    },
-    {
-      'title': 'Load Data',
-      'routeName': '/_load_data',
     },
     {
       'title': 'Notification',
@@ -60,7 +59,6 @@ class MainDrawer extends StatelessWidget {
     //       variables: {'id': profile.member.units[0].id},
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
-    //     // final client = GraphQLProvider.of(context).value;
     //     final result =
     //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
     //     if (result.hasException) {
@@ -92,7 +90,6 @@ class MainDrawer extends StatelessWidget {
     //       document: addFragments(Queries.getChats),
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
-    //     // final client = GraphQLProvider.of(context).value;
     //     final result =
     //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
     //     if (result.hasException) {

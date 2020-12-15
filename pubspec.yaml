@@ -70,7 +70,6 @@ dependencies:
   enum_to_string: 1.0.8
   gql: ^0.12.3
   graphql: ^4.0.0-beta.5 # ^3.1.0
-  graphql_flutter: ^4.0.0-beta.5 # ^3.1.0
 
   carousel_slider: 1.4.0
   sliding_up_panel: 0.3.6 # TODO: or backdrop 0.4.6

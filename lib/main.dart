@@ -7,7 +7,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -111,14 +111,14 @@ void main() {
     out('**** runZonedGuarded ****');
     out('$error');
     out('$stackTrace');
-    // TODO: [MVP] отправлять ошибки в Firebase
+    // TODO: [MVP] отправлять ошибки в Sentry (или Firebase Crashlytics)
   });
 }
 
 // TODO: вынести в AppCubit и заменить на hydrated_bloc
 PersistedData appState;
 // TODO: удалить, когда везде будет через BLoC
-GraphQLClient client;
+GraphQLClient client = createClient();
 // TODO: вынести в ProfileCubit
 final localDeletedUnitIds = <String>{}; // ie Set()
 
@@ -133,23 +133,6 @@ class App extends StatelessWidget {
     Widget result = CommonMaterialApp(
       builder: (BuildContext context, Widget child) {
         // analytics.setCurrentScreen(screenName: '/app');
-        client = GraphQLProvider.of(context).value;
-        HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
-            .map((dynamic value) => ShowcaseData(value))
-            .toList();
-        HomeUnderway.dataPool = UnderwayValue.values
-            .map((UnderwayValue value) => UnderwayData(value))
-            .toList();
-        HomeInterplay.dataPool = [
-          ChatData(),
-          // [
-          //   ChatData(client, StageValue.ready),
-          //   ChatData(client, StageValue.cancel),
-          //   ChatData(client, StageValue.success),
-          // ],
-          NoticeData(),
-        ];
-        LedgerScreen.sourceList = LedgerData();
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -161,31 +144,24 @@ class App extends StatelessWidget {
               );
             }
             appState = PersistedAppState.of(context);
-            return Query(
-              options: QueryOptions(
-                document: addFragments(Queries.getProfile),
-                variables: {'member_id': kFakeMemberId},
-                fetchPolicy: FetchPolicy.noCache,
-              ),
-              // Just like in apollo refetch() could be used to manually trigger a refetch
-              // while fetchMore() can be used for pagination purpose
-              builder: (QueryResult result,
-                  {VoidCallback refetch, FetchMore fetchMore}) {
-                if (result.hasException) {
-                  out(result.exception);
-                  return Material(
-                    child: InkWell(
-                      onTap: refetch,
-                      child: Center(
-                        child: Text('Кажется, что-то пошло не так?'),
-                      ),
-                    ),
-                  );
-                }
-                if (result.source == QueryResultSource.loading) {
+            return FutureBuilder<Map<String, dynamic>>(
+              future: _loadProfileData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
                   return Material(
                     child: Center(
                       child: Text('Loading profile...'),
+                    ),
+                  );
+                }
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return Material(
+                    child: InkWell(
+                      // onTap: refetch,
+                      child: Center(
+                        child: Text('Кажется, что-то пошло не так?'),
+                      ),
                     ),
                   );
                 }
@@ -193,33 +169,20 @@ class App extends StatelessWidget {
                   providers: <SingleChildWidget>[
                     ChangeNotifierProvider<ProfileModel>(
                       create: (_) => ProfileModel.fromJson(
-                        result.data['profile'] as Map<String, dynamic>,
+                        snapshot.data['profile'] as Map<String, dynamic>,
                       ),
                     ),
                     ChangeNotifierProvider<MyWishesModel>(
-                      create: (_) => MyWishesModel.fromJson(result.data),
+                      create: (_) => MyWishesModel.fromJson(snapshot.data),
                     ),
                     ChangeNotifierProvider<MyBlocksModel>(
-                      create: (_) => MyBlocksModel.fromJson(result.data),
-                    ),
-                    ChangeNotifierProvider<DistanceModel>(
-                        create: (_) => DistanceModel()),
-                    ChangeNotifierProvider<MyUnitMapModel>(
-                      create: (_) => MyUnitMapModel(),
-                    ),
-                    ChangeNotifierProvider<AppBarModel>(
-                      create: (_) => AppBarModel(),
-                    ),
-                    ChangeNotifierProvider<VersionModel>(
-                      create: (_) => VersionModel(),
+                      create: (_) => MyBlocksModel.fromJson(snapshot.data),
                     ),
                   ],
                   child: child,
                 );
               },
             );
-            //   },
-            // );
           },
         );
       },
@@ -232,7 +195,6 @@ class App extends StatelessWidget {
       //   '/_image_capture': (_) => ImageCaptureScreen(),
       //   '/_image_pinch': (_) => ImagePinchScreen(),
       //   '/_listview': (_) => ListViewScreen(),
-      //   '/_load_data': (_) => LoadDataScreen(),
       //   '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
       //   '/_notification': (_) => NotificationScreen(),
       //   // ****
@@ -251,20 +213,29 @@ class App extends StatelessWidget {
     //   ),
     //   child: result,
     // );
-    result = GraphQLProvider(
-      client: ValueNotifier(
-        createClient(),
-      ),
-      child: CacheProvider(
-        child: result,
-      ),
-    );
     result = PersistedAppState(
       storage: JsonFileStorage(),
       child: result,
     );
     result = _LifeCycleManager(
-      onInitState: () {},
+      onInitState: () {
+        HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
+            .map((dynamic value) => ShowcaseData(value))
+            .toList();
+        HomeUnderway.dataPool = UnderwayValue.values
+            .map((UnderwayValue value) => UnderwayData(value))
+            .toList();
+        HomeInterplay.dataPool = [
+          ChatData(),
+          // [
+          //   ChatData(client, StageValue.ready),
+          //   ChatData(client, StageValue.cancel),
+          //   ChatData(client, StageValue.success),
+          // ],
+          NoticeData(),
+        ];
+        LedgerScreen.sourceList = LedgerData();
+      },
       onDispose: () {
         for (final data in HomeShowcase.dataPool) {
           data.dispose();
@@ -277,8 +248,37 @@ class App extends StatelessWidget {
       },
       child: result,
     );
+    result = MultiProvider(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<DistanceModel>(create: (_) => DistanceModel()),
+        ChangeNotifierProvider<MyUnitMapModel>(
+          create: (_) => MyUnitMapModel(),
+        ),
+        ChangeNotifierProvider<AppBarModel>(
+          create: (_) => AppBarModel(),
+        ),
+        ChangeNotifierProvider<VersionModel>(
+          create: (_) => VersionModel(),
+        ),
+      ],
+      child: result,
+    );
     return result;
   }
+}
+
+Future<Map<String, dynamic>> _loadProfileData() async {
+  final options = QueryOptions(
+    document: addFragments(Queries.getProfile),
+    variables: {'member_id': kFakeMemberId},
+    fetchPolicy: FetchPolicy.noCache,
+  );
+  final result =
+      await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+  if (result.hasException) {
+    throw result.exception;
+  }
+  return result.data;
 }
 
 // публично для тестирования
