@@ -14,7 +14,7 @@ analyzer:
     implicit-casts: false
     # implicit-dynamic: false
   errors:
-    todo: ignore
+    # todo: true
     unnecessary_raw_strings: false
     prefer_const_literals_to_create_immutables: false
     prefer_const_constructors_in_immutables: false
