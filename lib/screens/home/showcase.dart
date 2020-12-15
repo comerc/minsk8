@@ -4,21 +4,21 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class HomeShowcase extends StatelessWidget {
-  HomeShowcase({this.tabIndex});
+  HomeShowcase({this.pageIndex});
 
-  static final wrapperKey = GlobalKey<WrapperState>();
+  static final pageWrapperKey = GlobalKey<PageWrapperState>();
   static List<ShowcaseData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>{}; // ie Set()
 
-  final int tabIndex;
+  final int pageIndex;
 
   @override
   Widget build(BuildContext context) {
-    final child = Wrapper(
-      key: wrapperKey,
-      tabIndex: tabIndex,
+    final child = PageWrapper(
+      key: pageWrapperKey,
+      pageIndex: pageIndex,
       tabsLength: MetaKindValue.values.length + KindValue.values.length,
       getTabName: (int tabIndex) {
         if (tabIndex < MetaKindValue.values.length) {
@@ -30,7 +30,7 @@ class HomeShowcase extends StatelessWidget {
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return ShowcaseList(
-          tagPrefix: '${this.tabIndex}-$tabIndex',
+          tagPrefix: '$pageIndex-$tabIndex',
           sourceList: dataPool[tabIndex],
         );
       },
