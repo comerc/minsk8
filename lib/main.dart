@@ -431,8 +431,8 @@ class _LifeCycleManager extends StatefulWidget {
 
 class _LifeCycleManagerState extends State<_LifeCycleManager>
     with WidgetsBindingObserver {
-  // List<StoppableService> services = [
-  //   locator<LocationService>(),
+  // List<_StoppableService> services = [
+  //   locator<_LocationService>(), // locator from GetIt
   // ];
 
   @override
@@ -467,7 +467,7 @@ class _LifeCycleManagerState extends State<_LifeCycleManager>
   }
 }
 
-// abstract class StoppableService {
+// abstract class _StoppableService {
 //   bool _serviceStoped = false;
 //   bool get serviceStopped => _serviceStoped;
 
@@ -482,7 +482,7 @@ class _LifeCycleManagerState extends State<_LifeCycleManager>
 //   }
 // }
 
-// class LocationService extends StoppableService {
+// class _LocationService extends _StoppableService {
 //   @override
 //   void start() {
 //     super.start();
