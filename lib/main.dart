@@ -168,7 +168,7 @@ class App extends StatelessWidget {
       builder: (BuildContext context, Widget child) {
         // analytics.setCurrentScreen(screenName: '/app');
         Widget result = child;
-        result = _MediaQueryWrap(result);
+        result = _MediaQueryWrapper(result);
         result = BotToastInit()(context, result);
         return PersistedStateBuilder(
           builder:
@@ -358,8 +358,8 @@ GraphQLClient createClient() {
   );
 }
 
-class _MediaQueryWrap extends StatelessWidget {
-  _MediaQueryWrap(this.child);
+class _MediaQueryWrapper extends StatelessWidget {
+  _MediaQueryWrapper(this.child);
 
   final Widget child;
 
