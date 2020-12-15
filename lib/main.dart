@@ -30,6 +30,7 @@ import 'package:minsk8/import.dart';
 // TODO: выходящий за пределы экрана InkWell для системной кнопки Close - OverflowBox
 // TODO: автоматизация локализации https://medium.com/in-the-pocket-insights/localising-flutter-applications-and-automating-the-localisation-process-752a26fe179c
 // TODO: сторонний вариант локализации https://github.com/aissat/easy_localization
+// TODO: локализация https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 // TODO: пока загружается аватарка - показывать ожидание
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
 // TODO: flutter telegram-auth
@@ -50,6 +51,7 @@ import 'package:minsk8/import.dart';
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 // TODO: [MVP] включить HASURA_GRAPHQL_JWT_SECRET
 // TODO: [MVP] переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
+// TODO: провести эксперимент - (firebase_auth) будет ли работать в offline user.getIdToken(true)?
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events
@@ -58,6 +60,21 @@ final didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotificationModel>();
 final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+var _analytics = FirebaseAnalytics();
+FirebaseAnalytics get analytics {
+  return _analytics ??= FirebaseAnalytics();
+}
+
+final navigatorKey = GlobalKey<NavigatorState>();
+NavigatorState get navigator => navigatorKey.currentState;
+
+// TODO: вынести в AppCubit и заменить на hydrated_bloc
+PersistedData appState;
+// TODO: удалить, когда везде будет через BLoC
+GraphQLClient client = createClient();
+// TODO: вынести в ProfileCubit
+final localDeletedUnitIds = <String>{}; // ie Set()
 
 // don't use async for main!
 void main() {
@@ -115,24 +132,44 @@ void main() {
   });
 }
 
-// TODO: вынести в AppCubit и заменить на hydrated_bloc
-PersistedData appState;
-// TODO: удалить, когда везде будет через BLoC
-GraphQLClient client = createClient();
-// TODO: вынести в ProfileCubit
-final localDeletedUnitIds = <String>{}; // ie Set()
-
-var _analytics = FirebaseAnalytics();
-FirebaseAnalytics get analytics {
-  return _analytics ??= FirebaseAnalytics();
-}
-
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget result = CommonMaterialApp(
+    final theme = Theme.of(context);
+    Widget result = MaterialApp(
+      // debugShowCheckedModeBanner: isInDebugMode,
+      navigatorKey: navigatorKey,
+      navigatorObservers: <NavigatorObserver>[
+        FirebaseAnalyticsObserver(analytics: analytics),
+        BotToastNavigatorObserver(),
+      ],
+      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('en', 'US'), // English
+      //   Locale('ru', 'RU'), // Russian
+      // ],
+      title: 'minsk8',
+      theme: theme.copyWith(
+        appBarTheme: theme.appBarTheme.copyWith(
+          elevation: kAppBarElevation,
+          iconTheme: theme.iconTheme,
+          // actionsIconTheme: theme.iconTheme,
+          color: theme.scaffoldBackgroundColor,
+          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // primarySwatch: Colors.blue,
+        // textTheme: GoogleFonts.montserratTextTheme(),
+      ),
       builder: (BuildContext context, Widget child) {
         // analytics.setCurrentScreen(screenName: '/app');
+        Widget result = child;
+        result = _MediaQueryWrap(result);
+        result = BotToastInit()(context, result);
         return PersistedStateBuilder(
           builder:
               (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
@@ -179,7 +216,7 @@ class App extends StatelessWidget {
                       create: (_) => MyBlocksModel.fromJson(snapshot.data),
                     ),
                   ],
-                  child: child,
+                  child: result,
                 );
               },
             );
@@ -321,8 +358,8 @@ GraphQLClient createClient() {
   );
 }
 
-class MediaQueryWrap extends StatelessWidget {
-  MediaQueryWrap(this.child);
+class _MediaQueryWrap extends StatelessWidget {
+  _MediaQueryWrap(this.child);
 
   final Widget child;
 
@@ -378,82 +415,6 @@ class MediaQueryWrap extends StatelessWidget {
 //     900: Color(0xFF172EF6),
 //   },
 // );
-
-// TODO: провести эксперимент - будет ли работать в offline user.getIdToken(true)?
-
-final navigatorKey = GlobalKey<NavigatorState>();
-NavigatorState get navigator => navigatorKey.currentState;
-
-class CommonMaterialApp extends StatelessWidget {
-  CommonMaterialApp({
-    // this.navigatorObservers = const <NavigatorObserver>[],
-    this.builder,
-    this.home,
-    this.initialRoute,
-    this.routes = const <String, WidgetBuilder>{},
-    // this.onGenerateRoute,
-    // this.onUnknownRoute,
-  });
-
-  // final List<NavigatorObserver> navigatorObservers;
-  final TransitionBuilder builder;
-  final Widget home;
-  final String initialRoute;
-  final Map<String, WidgetBuilder> routes;
-  // final RouteFactory onGenerateRoute;
-  // final RouteFactory onUnknownRoute;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // out('App build');
-    return MaterialApp(
-      // debugShowCheckedModeBanner: isInDebugMode,
-      navigatorKey: navigatorKey,
-      navigatorObservers: <NavigatorObserver>[
-        FirebaseAnalyticsObserver(analytics: analytics),
-        BotToastNavigatorObserver(),
-      ],
-      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
-      // locale: DevicePreview.of(context).locale,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   Locale('en', 'US'), // English
-      //   Locale('ru', 'RU'), // Russian
-      // ],
-      title: 'minsk8',
-      theme: theme.copyWith(
-        appBarTheme: theme.appBarTheme.copyWith(
-          elevation: kAppBarElevation,
-          iconTheme: theme.iconTheme,
-          // actionsIconTheme: theme.iconTheme,
-          color: theme.scaffoldBackgroundColor,
-          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        // primarySwatch: Colors.blue,
-        // textTheme: GoogleFonts.montserratTextTheme(),
-      ),
-      builder: (BuildContext context, Widget child) {
-        Widget result = child;
-        result = MediaQueryWrap(result);
-        result = BotToastInit()(context, result);
-        if (builder != null) {
-          result = builder(context, result);
-        }
-        return result;
-      },
-      home: home,
-      initialRoute: initialRoute,
-      routes: routes,
-      // onGenerateRoute: onGenerateRoute,
-      // onUnknownRoute: onUnknownRoute,
-    );
-  }
-}
 
 // code from https://medium.com/flutter-community/build-a-lifecycle-manager-to-manage-your-services-b9c928d3aed7
 class _LifeCycleManager extends StatefulWidget {
