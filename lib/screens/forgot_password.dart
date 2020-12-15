@@ -12,7 +12,6 @@ class ForgotPasswordScreen extends StatelessWidget {
       appBar: ExtendedAppBar(
         withModel: true,
       ),
-      drawer: MainDrawer('/forgot_password'),
       body: SafeArea(
         child: ScrollBody(child: child),
       ),

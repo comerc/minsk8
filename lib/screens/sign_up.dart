@@ -12,7 +12,6 @@ class SignUpScreen extends StatelessWidget {
       appBar: ExtendedAppBar(
         withModel: true,
       ),
-      drawer: MainDrawer('/sign_up'),
       body: SafeArea(
         child: ScrollBody(child: child),
       ),

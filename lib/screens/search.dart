@@ -16,7 +16,6 @@ class SearchScreen extends StatelessWidget {
       appBar: ExtendedAppBar(
         title: Text('Search'),
       ),
-      drawer: MainDrawer('/search'),
       // тут не надо ScrollBody
       body: SafeArea(
         child: Center(
