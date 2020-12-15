@@ -88,7 +88,6 @@ export 'screens/start_map.dart';
 export 'screens/unit.dart';
 export 'screens/unit_map.dart';
 export 'screens/zoom.dart';
-export 'widgets/_avatar.dart';
 export 'widgets/avatar.dart';
 export 'widgets/extended_animated_align.dart';
 export 'widgets/extended_app_bar.dart';
