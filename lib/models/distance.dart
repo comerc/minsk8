@@ -3,6 +3,7 @@ import 'package:latlong/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: переделать на ValueNotifier
 class DistanceModel extends ChangeNotifier {
   String get value => _value;
   String _value;

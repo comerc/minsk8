@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+// TODO: переделать на ValueNotifier
 class AppBarModel extends ChangeNotifier {
   bool _isElevation = false;
   bool get isElevation => _isElevation;

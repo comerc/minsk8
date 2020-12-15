@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:package_info/package_info.dart';
 
+// TODO: переделать на ValueNotifier
 class VersionModel extends ChangeNotifier {
   String _value = '';
   String get value => _value;
