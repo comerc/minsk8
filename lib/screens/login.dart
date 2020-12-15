@@ -27,6 +27,18 @@ import 'package:minsk8/import.dart';
 // Либо можно на клиенте авторизовывать в вк, а в firebase передавать как авторизацию по почте,
 // придумав пароль за пользователя.
 
+class AuthData {
+  AuthData({
+    this.user,
+    this.token,
+    this.isLogin = false,
+  });
+
+  final firebase_auth.User user;
+  final String token;
+  final bool isLogin;
+}
+
 class LoginScreen extends StatefulWidget {
   LoginScreen({this.onClose});
 
