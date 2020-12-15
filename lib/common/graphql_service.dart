@@ -3,12 +3,12 @@ import 'package:gql/ast.dart';
 
 class GraphQLService {
   GraphQLService({
-    GraphQLClient client,
+    this.client,
     this.timeout,
     this.fragments,
-  }) : _client = client;
+  });
 
-  final GraphQLClient _client;
+  final GraphQLClient client;
   final Duration timeout;
   final DocumentNode fragments;
 
@@ -28,7 +28,7 @@ class GraphQLService {
       fetchPolicy: FetchPolicy.noCache,
       errorPolicy: ErrorPolicy.all,
     );
-    final queryResult = await _client.query(options).timeout(timeout);
+    final queryResult = await client.query(options).timeout(timeout);
     if (queryResult.hasException) {
       throw queryResult.exception;
     }
@@ -61,7 +61,7 @@ class GraphQLService {
       fetchPolicy: FetchPolicy.noCache,
       errorPolicy: ErrorPolicy.all,
     );
-    final mutationResult = await _client.mutate(options).timeout(timeout);
+    final mutationResult = await client.mutate(options).timeout(timeout);
     if (mutationResult.hasException) {
       throw mutationResult.exception;
     }
@@ -90,7 +90,7 @@ class GraphQLService {
       fetchPolicy: FetchPolicy.noCache,
       errorPolicy: ErrorPolicy.all,
     );
-    return _client.subscribe(operation).map((QueryResult queryResult) {
+    return client.subscribe(operation).map((QueryResult queryResult) {
       if (queryResult.hasException) {
         throw queryResult.exception;
       }
