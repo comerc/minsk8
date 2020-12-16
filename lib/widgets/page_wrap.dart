@@ -228,6 +228,7 @@ class _AppBar extends StatelessWidget {
             );
           },
         ),
+        if (isInDebugMode) _LogoutButton(),
       ],
       elevation: 0,
     );
@@ -285,6 +286,19 @@ class _TabBar extends StatelessWidget {
         ),
         child,
       ],
+    );
+  }
+}
+
+// TODO: перенести кнопку на SettingsScreen
+class _LogoutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: Key('$runtimeType'),
+      icon: Icon(FontAwesomeIcons.signOutAlt),
+      iconSize: kButtonIconSize,
+      // onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
     );
   }
 }
