@@ -224,6 +224,7 @@ class App extends StatelessWidget {
         );
       },
       home: HomeScreen(),
+      // home: LoginScreen(),
       // TODO: [MVP] восстановить функционал /start
       // initialRoute: kInitialRouteName,
       // routes: <String, WidgetBuilder>{
@@ -254,7 +255,7 @@ class App extends StatelessWidget {
       storage: JsonFileStorage(),
       child: result,
     );
-    result = _LifeCycleManager(
+    result = _LifecycleManager(
       onInitState: () {
         HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
             .map((dynamic value) => ShowcaseData(value))
@@ -417,8 +418,9 @@ class _MediaQueryWrapper extends StatelessWidget {
 // );
 
 // code from https://medium.com/flutter-community/build-a-lifecycle-manager-to-manage-your-services-b9c928d3aed7
-class _LifeCycleManager extends StatefulWidget {
-  _LifeCycleManager({Key key, this.child, this.onInitState, this.onDispose})
+// https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
+class _LifecycleManager extends StatefulWidget {
+  _LifecycleManager({Key key, this.child, this.onInitState, this.onDispose})
       : super(key: key);
 
   final Widget child;
@@ -426,10 +428,10 @@ class _LifeCycleManager extends StatefulWidget {
   final VoidCallback onDispose;
 
   @override
-  _LifeCycleManagerState createState() => _LifeCycleManagerState();
+  _LifecycleManagerState createState() => _LifecycleManagerState();
 }
 
-class _LifeCycleManagerState extends State<_LifeCycleManager>
+class _LifecycleManagerState extends State<_LifecycleManager>
     with WidgetsBindingObserver {
   // List<_StoppableService> services = [
   //   locator<_LocationService>(), // locator from GetIt
