@@ -167,6 +167,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   // TODO: workaround https://github.com/flutter/flutter/issues/53523
+  // TODO: альтернатива https://pub.dev/packages/tap_builder
   Widget _buildImage({bool workaround = false}) {
     final unit = widget.unit;
     final isCover = widget.isCover;
