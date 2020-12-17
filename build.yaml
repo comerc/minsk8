@@ -13,7 +13,7 @@
 targets:
   $default:
     builders:
-      json_serializable|json_serializable:
+      json_serializable_immutable_collections:
         generate_for:
           - lib/cubits/*.dart
           - lib/models/*.dart
@@ -32,3 +32,8 @@ targets:
           ignore_unannotated: false
           include_if_null: true
           nullable: false # changed
+      json_serializable:
+        generate_for:
+          exclude:
+            - lib/cubits/*.dart
+            - lib/models/*.dart
