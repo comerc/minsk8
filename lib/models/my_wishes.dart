@@ -40,7 +40,7 @@ class MyWishesModel extends ChangeNotifier {
     return oldUpdatedAt;
   }
 
-  factory MyWishesModel.fromJson(Map<String, dynamic> json) =>
+  static MyWishesModel fromJson(Map<String, dynamic> json) =>
       _$MyWishesModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyWishesModelToJson(this);

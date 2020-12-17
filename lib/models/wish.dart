@@ -17,7 +17,7 @@ class WishModel {
   @JsonKey(nullable: true) // надо для getWishUnits
   final String unitId;
 
-  factory WishModel.fromJson(Map<String, dynamic> json) =>
+  static WishModel fromJson(Map<String, dynamic> json) =>
       _$WishModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$WishModelToJson(this);

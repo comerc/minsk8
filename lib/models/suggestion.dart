@@ -15,7 +15,7 @@ class SuggestionModel {
   final UnitModel unit;
   final QuestionValue question;
 
-  factory SuggestionModel.fromJson(Map<String, dynamic> json) =>
+  static SuggestionModel fromJson(Map<String, dynamic> json) =>
       _$SuggestionModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SuggestionModelToJson(this);

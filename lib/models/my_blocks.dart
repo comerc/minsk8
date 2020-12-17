@@ -40,7 +40,7 @@ class MyBlocksModel extends ChangeNotifier {
     return oldUpdatedAt;
   }
 
-  factory MyBlocksModel.fromJson(Map<String, dynamic> json) =>
+  static MyBlocksModel fromJson(Map<String, dynamic> json) =>
       _$MyBlocksModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MyBlocksModelToJson(this);

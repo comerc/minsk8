@@ -29,7 +29,7 @@ class MemberModel {
   // TODO: если null, то рисовать цветной кружок с инициалами, как в телеге
   String get avatarUrl => photoUrl ?? 'https://robohash.org/$id?set=set4';
 
-  factory MemberModel.fromJson(Map<String, dynamic> json) =>
+  static MemberModel fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MemberModelToJson(this);

@@ -17,7 +17,7 @@ class NoticeModel {
   @JsonKey(nullable: true)
   final SuggestionModel suggestion;
 
-  factory NoticeModel.fromJson(Map<String, dynamic> json) =>
+  static NoticeModel fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$NoticeModelToJson(this);

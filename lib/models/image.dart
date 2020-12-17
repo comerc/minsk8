@@ -42,7 +42,7 @@ class ImageModel {
   //   createResizeImage().evict();
   // }
 
-  factory ImageModel.fromJson(Map<String, dynamic> json) =>
+  static ImageModel fromJson(Map<String, dynamic> json) =>
       _$ImageModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImageModelToJson(this);

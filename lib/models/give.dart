@@ -13,7 +13,7 @@ class GiveModel {
   final DateTime createdAt;
   UnitModel unit;
 
-  factory GiveModel.fromJson(Map<String, dynamic> json) =>
+  static GiveModel fromJson(Map<String, dynamic> json) =>
       _$GiveModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$GiveModelToJson(this);

@@ -32,7 +32,7 @@ class ChatModel {
 
   String get id => '${unit.id} ${companion.id}';
 
-  factory ChatModel.fromJson(Map<String, dynamic> json) =>
+  static ChatModel fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChatModelToJson(this);

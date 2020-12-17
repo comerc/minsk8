@@ -97,7 +97,7 @@ class UnitModel {
 
   String get avatarUrl => images[0].getDummyUrl(id);
 
-  factory UnitModel.fromJson(Map<String, dynamic> json) =>
+  static UnitModel fromJson(Map<String, dynamic> json) =>
       _$UnitModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UnitModelToJson(this);

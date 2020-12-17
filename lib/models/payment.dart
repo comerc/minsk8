@@ -28,7 +28,7 @@ class PaymentModel {
   @JsonKey(nullable: true)
   final MemberModel invitedMember;
 
-  factory PaymentModel.fromJson(Map<String, dynamic> json) =>
+  static PaymentModel fromJson(Map<String, dynamic> json) =>
       _$PaymentModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PaymentModelToJson(this);

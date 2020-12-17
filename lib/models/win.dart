@@ -14,7 +14,7 @@ class WinModel {
   final MemberModel member;
   final DateTime createdAt;
 
-  factory WinModel.fromJson(Map<String, dynamic> json) =>
+  static WinModel fromJson(Map<String, dynamic> json) =>
       _$WinModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$WinModelToJson(this);

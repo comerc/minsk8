@@ -13,7 +13,7 @@ class BlockModel {
   final String memberId;
   final DateTime updatedAt;
 
-  factory BlockModel.fromJson(Map<String, dynamic> json) =>
+  static BlockModel fromJson(Map<String, dynamic> json) =>
       _$BlockModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$BlockModelToJson(this);

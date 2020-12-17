@@ -16,7 +16,7 @@ class ProclamationModel {
   final UnitModel unit;
   final String text;
 
-  factory ProclamationModel.fromJson(Map<String, dynamic> json) =>
+  static ProclamationModel fromJson(Map<String, dynamic> json) =>
       _$ProclamationModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProclamationModelToJson(this);

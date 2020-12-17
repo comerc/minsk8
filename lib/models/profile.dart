@@ -14,7 +14,7 @@ class ProfileModel extends ChangeNotifier {
   final MemberModel member;
   final int balance;
 
-  factory ProfileModel.fromJson(Map<String, dynamic> json) =>
+  static ProfileModel fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
