@@ -13,6 +13,10 @@
 targets:
   $default:
     builders:
+      copy_with_extension_gen:
+        generate_for:
+          - lib/cubits/*.dart
+          - lib/models/*.dart
       json_serializable_immutable_collections:
         generate_for:
           - lib/cubits/*.dart
@@ -35,5 +39,7 @@ targets:
       json_serializable:
         generate_for:
           exclude:
-            - lib/cubits/*.dart
-            - lib/models/*.dart
+            - lib/**.dart
+            - test/**.dart
+            - test_driver/**.dart
+            - build/**.dart
