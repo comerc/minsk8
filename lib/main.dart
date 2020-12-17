@@ -73,7 +73,7 @@ NavigatorState get navigator => navigatorKey.currentState;
 // TODO: вынести в AppCubit и заменить на hydrated_bloc
 PersistedData appState;
 // TODO: удалить, когда везде будет через BLoC
-GraphQLClient client = createClient();
+GraphQLClient client = _createClient();
 // TODO: вынести в ProfileCubit
 final localDeletedUnitIds = <String>{}; // ie Set()
 
@@ -312,8 +312,7 @@ Future<Map<String, dynamic>> _loadProfileData() async {
     variables: {'member_id': kFakeMemberId},
     fetchPolicy: FetchPolicy.noCache,
   );
-  final result =
-      await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+  final result = await client.query(options).timeout(kGraphQLQueryTimeout);
   if (result.hasException) {
     throw result.exception;
   }
@@ -321,7 +320,7 @@ Future<Map<String, dynamic>> _loadProfileData() async {
 }
 
 // публично для тестирования
-GraphQLClient createClient() {
+GraphQLClient _createClient() {
   final httpLink = HttpLink(
     'https://$kGraphQLEndpoint',
     defaultHeaders: {
