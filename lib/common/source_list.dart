@@ -68,8 +68,7 @@ abstract class SourceList<T> extends LoadingMoreBase<T> {
       if (!clearAfterRequest) {
         await Future.delayed(Duration(milliseconds: 400));
       }
-      final result =
-          await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+      final result = await client.query(options).timeout(kGraphQLQueryTimeout);
       if (result.hasException) {
         throw result.exception;
       }

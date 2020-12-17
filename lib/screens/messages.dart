@@ -285,7 +285,7 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
   _queueUpdateBlock = _queueUpdateBlock.then((_) {
     return client
         .mutate(options)
-        .timeout(kGraphQLMutationTimeoutDuration)
+        .timeout(kGraphQLMutationTimeout)
         .then((QueryResult result) {
       if (result.hasException) {
         throw result.exception;

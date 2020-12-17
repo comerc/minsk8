@@ -465,7 +465,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   // ignore: unawaited_futures
                   client
                       .mutate(options)
-                      .timeout(kGraphQLMutationTimeoutDuration)
+                      .timeout(kGraphQLMutationTimeout)
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
@@ -509,7 +509,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   // ignore: unawaited_futures
                   client
                       .mutate(options)
-                      .timeout(kGraphQLMutationTimeoutDuration)
+                      .timeout(kGraphQLMutationTimeout)
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;
@@ -549,7 +549,7 @@ class _UnitScreenState extends State<UnitScreen> {
                   // ignore: unawaited_futures
                   client
                       .mutate(options)
-                      .timeout(kGraphQLMutationTimeoutDuration)
+                      .timeout(kGraphQLMutationTimeout)
                       .then((QueryResult result) {
                     if (result.hasException) {
                       throw result.exception;

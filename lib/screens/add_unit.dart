@@ -284,7 +284,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     // ignore: unawaited_futures
     client
         .mutate(options)
-        .timeout(kGraphQLMutationTimeoutDuration)
+        .timeout(kGraphQLMutationTimeout)
         .then((QueryResult result) async {
       if (result.hasException) {
         throw result.exception;
@@ -390,7 +390,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       }
     });
     _uploadQueue = _uploadQueue.then((_) => _uploadImage(imageData));
-    _uploadQueue = _uploadQueue.timeout(kImageUploadTimeoutDuration);
+    _uploadQueue = _uploadQueue.timeout(kImageUploadTimeout);
     _uploadQueue = _uploadQueue.catchError((error) {
       if (error is TimeoutException) {
         _cancelUploadImage(imageData);

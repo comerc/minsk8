@@ -810,7 +810,7 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
   _queueUpdateWish = _queueUpdateWish.then((_) {
     return client
         .mutate(options)
-        .timeout(kGraphQLMutationTimeoutDuration)
+        .timeout(kGraphQLMutationTimeout)
         .then((QueryResult result) {
       if (result.hasException) {
         throw result.exception;

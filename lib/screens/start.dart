@@ -29,7 +29,7 @@ class _StartScreenState extends State<StartScreen> {
     //   fetchPolicy: FetchPolicy.noCache,
     // );
     // final result =
-    //     await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    //     await client.query(options).timeout(kGraphQLQueryTimeout);
     // if (result.hasException) {
     //   throw result.exception;
     // }
@@ -108,8 +108,7 @@ class _StartScreenState extends State<StartScreen> {
       fetchPolicy: FetchPolicy.noCache,
     );
     try {
-      final result =
-          await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+      final result = await client.query(options).timeout(kGraphQLQueryTimeout);
       if (result.hasException) {
         throw result.exception;
       }

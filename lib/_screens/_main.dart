@@ -60,7 +60,7 @@ class MainDrawer extends StatelessWidget {
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
     //     final result =
-    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    //         await client.query(options).timeout(kGraphQLQueryTimeout);
     //     if (result.hasException) {
     //       throw result.exception;
     //     }
@@ -91,7 +91,7 @@ class MainDrawer extends StatelessWidget {
     //       fetchPolicy: FetchPolicy.noCache,
     //     );
     //     final result =
-    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+    //         await client.query(options).timeout(kGraphQLQueryTimeout);
     //     if (result.hasException) {
     //       throw result.exception;
     //     }
