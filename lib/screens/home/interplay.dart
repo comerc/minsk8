@@ -21,21 +21,21 @@ import 'package:minsk8/import.dart';
 // TODO: отображать красный кружочек в трёх местах: нижняя иконка, таб "сообщения", иконка лота.
 
 class HomeInterplay extends StatelessWidget {
-  HomeInterplay({this.tabIndex});
+  HomeInterplay({this.pageIndex});
 
-  static final wrapperKey = GlobalKey<WrapperState>();
+  static final pageWrapperKey = GlobalKey<PageWrapperState>();
   static List<SourceList> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>{}; // ie Set()
 
-  final int tabIndex;
+  final int pageIndex;
 
   @override
   Widget build(BuildContext context) {
-    final child = Wrapper(
-      key: wrapperKey,
-      tabIndex: tabIndex,
+    final child = PageWrapper(
+      key: pageWrapperKey,
+      pageIndex: pageIndex,
       tabsLength: InterplayValue.values.length,
       getTabName: (int tabIndex) {
         return getInterplayName(InterplayValue.values[tabIndex]);
@@ -44,12 +44,12 @@ class HomeInterplay extends StatelessWidget {
       buildList: (int tabIndex) {
         return [
           _ChatList(
-            tagPrefix: '${this.tabIndex}-$tabIndex',
+            tagPrefix: '$pageIndex-$tabIndex',
             sourceList: dataPool[0] as ChatData,
             // dataPool: dataPool[0] as List<ChatData>,
           ),
           _NoticeList(
-            tagPrefix: '${this.tabIndex}-$tabIndex',
+            tagPrefix: '$pageIndex-$tabIndex',
             sourceList: dataPool[1] as NoticeData,
           ),
         ][tabIndex];

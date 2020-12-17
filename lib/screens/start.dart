@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {
@@ -28,7 +28,6 @@ class _StartScreenState extends State<StartScreen> {
     //   document: addFragments(Queries.getChats),
     //   fetchPolicy: FetchPolicy.noCache,
     // );
-    // final client = GraphQLProvider.of(context).value;
     // final result =
     //     await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
     // if (result.hasException) {
@@ -108,7 +107,6 @@ class _StartScreenState extends State<StartScreen> {
       variables: {'id': id},
       fetchPolicy: FetchPolicy.noCache,
     );
-    // final client = GraphQLProvider.of(context).value;
     try {
       final result =
           await client.query(options).timeout(kGraphQLQueryTimeoutDuration);

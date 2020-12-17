@@ -5,7 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -167,6 +167,7 @@ class _ShowcaseItemState extends State<ShowcaseItem> {
   }
 
   // TODO: workaround https://github.com/flutter/flutter/issues/53523
+  // TODO: альтернатива https://pub.dev/packages/tap_builder
   Widget _buildImage({bool workaround = false}) {
     final unit = widget.unit;
     final isCover = widget.isCover;
@@ -798,7 +799,6 @@ void _optimisticUpdateWish(MyWishesModel myWishes,
     unitId: unit.id,
     value: value,
   );
-  // final client = GraphQLProvider.of(context).value;
   final options = MutationOptions(
     document: addFragments(Mutations.upsertWish),
     variables: {

@@ -4,21 +4,21 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:minsk8/import.dart';
 
 class HomeUnderway extends StatelessWidget {
-  HomeUnderway({this.tabIndex});
+  HomeUnderway({this.pageIndex});
 
-  static final wrapperKey = GlobalKey<WrapperState>();
+  static final pageWrapperKey = GlobalKey<PageWrapperState>();
   static List<UnderwayData> dataPool;
   static final pullToRefreshNotificationKey =
       GlobalKey<PullToRefreshNotificationState>();
   static final poolForReloadTabs = <int>{}; // ie Set()
 
-  final int tabIndex;
+  final int pageIndex;
 
   @override
   Widget build(BuildContext context) {
-    final child = Wrapper(
-      key: wrapperKey,
-      tabIndex: tabIndex,
+    final child = PageWrapper(
+      key: pageWrapperKey,
+      pageIndex: pageIndex,
       tabsLength: UnderwayValue.values.length,
       getTabName: (int tabIndex) {
         return getUnderwayName(UnderwayValue.values[tabIndex]);
@@ -26,7 +26,7 @@ class HomeUnderway extends StatelessWidget {
       dataPool: dataPool,
       buildList: (int tabIndex) {
         return ShowcaseList(
-          tagPrefix: '${this.tabIndex}-$tabIndex',
+          tagPrefix: '$pageIndex-$tabIndex',
           sourceList: dataPool[tabIndex],
         );
       },

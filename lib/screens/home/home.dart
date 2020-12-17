@@ -19,22 +19,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
-  int _tabIndex = HomeTabValue.showcase.index;
-  // int _tabIndex = HomeTabValue.interplay.index;
-  int get tabIndex => _tabIndex;
-  int get _subTabIndex => [
-        HomeShowcase.wrapperKey.currentState?.tabIndex,
-        HomeUnderway.wrapperKey.currentState?.tabIndex,
+  int _pageIndex = HomeTabValue.showcase.index;
+  // int _pageIndex = HomeTabValue.interplay.index;
+  int get pageIndex => _pageIndex;
+  int get _tabIndex => [
+        HomeShowcase.pageWrapperKey.currentState?.tabIndex,
+        HomeUnderway.pageWrapperKey.currentState?.tabIndex,
         null,
         null,
-      ][_tabIndex];
-  String get tagPrefix => '$_tabIndex-$_subTabIndex';
+      ][_pageIndex];
+  String get tagPrefix => '$_pageIndex-$_tabIndex';
   bool _hasUpdate;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _tabIndex);
+    _pageController = PageController(initialPage: _pageIndex);
     final version = Provider.of<VersionModel>(context, listen: false);
     version.init();
     // TODO: [MVP] реализовать hasUpdate
@@ -80,16 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          HomeShowcase(tabIndex: 0),
-          HomeUnderway(tabIndex: 1),
-          HomeInterplay(tabIndex: 2),
+          HomeShowcase(pageIndex: 0),
+          HomeUnderway(pageIndex: 1),
+          HomeInterplay(pageIndex: 2),
           HomeProfile(hasUpdate: _hasUpdate),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildAddButton(),
       bottomNavigationBar: _NavigationBar(
-        tabIndex: _tabIndex,
+        tabIndex: _pageIndex,
         onChangeTabIndex: _pageController.jumpToPage,
       ),
       extendBody: true,
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onPageChanged(int value) {
     setState(() {
-      _tabIndex = value;
+      _pageIndex = value;
     });
   }
 
@@ -116,8 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
           AddUnitScreen(
             kind: kind,
             tabIndex: AddUnitTabIndex(
-              showcase: HomeShowcase.wrapperKey.currentState?.tabIndex,
-              underway: HomeUnderway.wrapperKey.currentState?.tabIndex,
+              showcase: HomeShowcase.pageWrapperKey.currentState?.tabIndex,
+              underway: HomeUnderway.pageWrapperKey.currentState?.tabIndex,
             ),
           ).getRoute(),
         );

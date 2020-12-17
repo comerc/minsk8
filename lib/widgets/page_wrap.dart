@@ -9,10 +9,10 @@ import 'package:minsk8/import.dart';
 // TODO: RefreshIndicator https://github.com/flutter/flutter/blob/v1.15.22/examples/flutter_gallery/lib/demo/material/overscroll_demo.dart
 // TODO: rename to PageWrapper
 
-class Wrapper extends StatefulWidget {
-  Wrapper({
+class PageWrapper extends StatefulWidget {
+  PageWrapper({
     Key key,
-    this.tabIndex,
+    this.pageIndex,
     this.tabsLength,
     this.getTabName,
     this.dataPool,
@@ -29,7 +29,7 @@ class Wrapper extends StatefulWidget {
         // ),
         super(key: key);
 
-  final int tabIndex;
+  final int pageIndex;
   final int tabsLength;
   final String Function(int tabIndex) getTabName;
   final List<SourceList> dataPool;
@@ -39,10 +39,11 @@ class Wrapper extends StatefulWidget {
   final bool hasAppBar;
 
   @override
-  WrapperState createState() => WrapperState();
+  PageWrapperState createState() => PageWrapperState();
 }
 
-class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
+class PageWrapperState extends State<PageWrapper>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   int get tabIndex => _tabController.index;
 
@@ -120,7 +121,7 @@ class WrapperState extends State<Wrapper> with SingleTickerProviderStateMixin {
       floatHeaderSlivers: widget.hasAppBar,
       physics: ClampingScrollPhysics(),
       pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
-      innerScrollPositionKeyBuilder: () => Key('${widget.tabIndex}-$tabIndex'),
+      innerScrollPositionKeyBuilder: () => Key('${widget.pageIndex}-$tabIndex'),
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
         if (widget.hasAppBar)
           SliverPersistentHeader(
@@ -227,6 +228,7 @@ class _AppBar extends StatelessWidget {
             );
           },
         ),
+        if (isInDebugMode) _LogoutButton(),
       ],
       elevation: 0,
     );
@@ -284,6 +286,19 @@ class _TabBar extends StatelessWidget {
         ),
         child,
       ],
+    );
+  }
+}
+
+// TODO: перенести кнопку на SettingsScreen
+class _LogoutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: Key('$runtimeType'),
+      icon: Icon(FontAwesomeIcons.signOutAlt),
+      iconSize: kButtonIconSize,
+      // onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
     );
   }
 }

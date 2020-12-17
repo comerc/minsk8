@@ -1,23 +1,21 @@
 import 'dart:async';
-// import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:state_persistence/state_persistence.dart';
 // import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:minsk8/import.dart';
 // import 'package:flutter/rendering.dart';
+import 'package:minsk8/import.dart';
 
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
@@ -32,6 +30,7 @@ import 'package:minsk8/import.dart';
 // TODO: выходящий за пределы экрана InkWell для системной кнопки Close - OverflowBox
 // TODO: автоматизация локализации https://medium.com/in-the-pocket-insights/localising-flutter-applications-and-automating-the-localisation-process-752a26fe179c
 // TODO: сторонний вариант локализации https://github.com/aissat/easy_localization
+// TODO: локализация https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 // TODO: пока загружается аватарка - показывать ожидание
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
 // TODO: flutter telegram-auth
@@ -49,28 +48,49 @@ import 'package:minsk8/import.dart';
 // TODO: добавить blur для оверлея диалогов, как в OBS Blade
 // TODO: (for PersistedQueriesLink) Support for persisted queries https://github.com/hasura/graphql-engine/issues/273
 // TODO: Reduce shader compilation jank on mobile https://flutter.dev/docs/perf/rendering/shader
+// TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
+// TODO: [MVP] включить HASURA_GRAPHQL_JWT_SECRET
+// TODO: [MVP] переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
+// TODO: провести эксперимент - (firebase_auth) будет ли работать в offline user.getIdToken(true)?
+// TODO: убрать kButtonIconSize - задавать через theme
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-// Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
+// Streams are created so that app can respond to notification-related events
+// since the plugin is initialised in the `main` function
 final didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotificationModel>();
 final selectNotificationSubject = BehaviorSubject<String>();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
+var _analytics = FirebaseAnalytics();
+FirebaseAnalytics get analytics {
+  return _analytics ??= FirebaseAnalytics();
+}
+
+final navigatorKey = GlobalKey<NavigatorState>();
+NavigatorState get navigator => navigatorKey.currentState;
+
+// TODO: вынести в AppCubit и заменить на hydrated_bloc
+PersistedData appState;
+// TODO: удалить, когда везде будет через BLoC
+GraphQLClient client = createClient();
+// TODO: вынести в ProfileCubit
+final localDeletedUnitIds = <String>{}; // ie Set()
+
 // don't use async for main!
 void main() {
-  // timeDilation = 10.0; // Will slow down animations by a factor of two
+  // timeDilation = 2.0; // Will slow down animations by a factor of two
   // debugPaintSizeEnabled = true;
+  // from https://flutter.dev/docs/cookbook/maintenance/error-reporting
   FlutterError.onError = (FlutterErrorDetails details) {
     out('FlutterError.onError $details');
-    // if (isInDebugMode) {
-    //   // In development mode, simply print to console.
-    //   FlutterError.dumpErrorToConsole(details);
-    // } else {
-    //   // In production mode, report to the application zone to report to
-    //   // Sentry.
-    //   Zone.current.handleUncaughtError(details.exception, details.stack);
-    // }
+    if (isInDebugMode) {
+      // In development mode, simply print to console.
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      // In production mode, report to the application zone to report to Sentry.
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
   };
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +99,8 @@ void main() {
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     final initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
-    // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
+    // Note: permissions aren't requested here just to demonstrate
+    // that can be done later using the `requestPermissions()` method
     // of the `IOSFlutterLocalNotificationsPlugin` class
     final initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
@@ -103,67 +124,140 @@ void main() {
     // TODO: locale autodetect
     // await initializeDateFormatting('en_US', null);
     await initializeDateFormatting('ru_RU');
-    // runApp(
-    //   DevicePreview(
-    //     enabled: isInDebugMode,
-    //     builder: (BuildContext context) => App(),
-    //   ),
-    // );
-    // runApp(AuthCheck());
     runApp(App());
   }, (error, stackTrace) {
     out('**** runZonedGuarded ****');
     out('$error');
     out('$stackTrace');
-    // Whenever an error occurs, call the `_reportError` function. This sends
-    // Dart errors to the dev console or Sentry depending on the environment.
-    // _reportError(error, stackTrace);
+    // TODO: [MVP] отправлять ошибки в Sentry (или Firebase Crashlytics)
   });
 }
 
-// Future<void> _reportError(dynamic error, dynamic stackTrace) async {
-//   // Print the exception to the console.
-//   out('Caught error: $error');
-//   if (isInDebugMode) {
-//     // Print the full stacktrace in debug mode.
-//     out(stackTrace);
-//     return;
-//   } else {
-//     // Send the Exception and Stacktrace to Sentry in Production mode.
-//     _sentry.captureException(
-//       exception: error,
-//       stackTrace: stackTrace,
-//     );
-//   }
-// }
-
-// TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
-
-// TODO: переименовать в appData
-PersistedData appState;
-GraphQLClient client;
-final localDeletedUnitIds = <String>{}; // ie Set()
-
-var _analytics = FirebaseAnalytics();
-FirebaseAnalytics get analytics {
-  return _analytics ??= FirebaseAnalytics();
-}
-
 class App extends StatelessWidget {
-  // App({this.authData});
-
-  // final AuthData authData;
-
   @override
   Widget build(BuildContext context) {
-    // out('App build');
-    Widget result = CommonMaterialApp(
+    final theme = Theme.of(context);
+    Widget result = MaterialApp(
+      // debugShowCheckedModeBanner: isInDebugMode,
+      navigatorKey: navigatorKey,
+      navigatorObservers: <NavigatorObserver>[
+        FirebaseAnalyticsObserver(analytics: analytics),
+        BotToastNavigatorObserver(),
+      ],
+      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('en', 'US'), // English
+      //   Locale('ru', 'RU'), // Russian
+      // ],
+      title: 'minsk8',
+      theme: theme.copyWith(
+        appBarTheme: theme.appBarTheme.copyWith(
+          elevation: kAppBarElevation,
+          iconTheme: theme.iconTheme,
+          // actionsIconTheme: theme.iconTheme,
+          color: theme.scaffoldBackgroundColor,
+          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // primarySwatch: Colors.blue,
+        // textTheme: GoogleFonts.montserratTextTheme(),
+      ),
       builder: (BuildContext context, Widget child) {
-        // if (isInDebugMode) {
-        //   child = DevicePreview.appBuilder(context, child);
-        // }
-        analytics.setCurrentScreen(screenName: '/app');
-        client = GraphQLProvider.of(context).value;
+        // analytics.setCurrentScreen(screenName: '/app');
+        Widget result = child;
+        result = _MediaQueryWrapper(result);
+        result = BotToastInit()(context, result);
+        return PersistedStateBuilder(
+          builder:
+              (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+            if (!snapshot.hasData) {
+              return Material(
+                child: Center(
+                  child: Text('Loading state...'),
+                ),
+              );
+            }
+            appState = PersistedAppState.of(context);
+            return FutureBuilder<Map<String, dynamic>>(
+              future: _loadProfileData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return Material(
+                    child: Center(
+                      child: Text('Loading profile...'),
+                    ),
+                  );
+                }
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return Material(
+                    child: InkWell(
+                      // onTap: refetch,
+                      child: Center(
+                        child: Text('Кажется, что-то пошло не так?'),
+                      ),
+                    ),
+                  );
+                }
+                return MultiProvider(
+                  providers: <SingleChildWidget>[
+                    ChangeNotifierProvider<ProfileModel>(
+                      create: (_) => ProfileModel.fromJson(
+                        snapshot.data['profile'] as Map<String, dynamic>,
+                      ),
+                    ),
+                    ChangeNotifierProvider<MyWishesModel>(
+                      create: (_) => MyWishesModel.fromJson(snapshot.data),
+                    ),
+                    ChangeNotifierProvider<MyBlocksModel>(
+                      create: (_) => MyBlocksModel.fromJson(snapshot.data),
+                    ),
+                  ],
+                  child: result,
+                );
+              },
+            );
+          },
+        );
+      },
+      home: HomeScreen(),
+      // home: LoginScreen(),
+      // TODO: [MVP] восстановить функционал /start
+      // initialRoute: kInitialRouteName,
+      // routes: <String, WidgetBuilder>{
+      //   '/_animation': (_) => AnimationScreen(),
+      //   '/_custom_dialog': (_) => CustomDialogScreen(),
+      //   '/_image_capture': (_) => ImageCaptureScreen(),
+      //   '/_image_pinch': (_) => ImagePinchScreen(),
+      //   '/_listview': (_) => ListViewScreen(),
+      //   '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
+      //   '/_notification': (_) => NotificationScreen(),
+      //   // ****
+      //   '/start': (_) => StartScreen(),
+      // },
+    );
+    // result = AnnotatedRegion<SystemUiOverlayStyle>(
+    //   value: SystemUiOverlayStyle(
+    //     statusBarColor: Colors.white,
+    //     // For Android.
+    //     // Use [light] for white status bar and [dark] for black status bar.
+    //     statusBarIconBrightness: Brightness.dark,
+    //     // For iOS.
+    //     // Use [dark] for white status bar and [light] for black status bar.
+    //     statusBarBrightness: Brightness.dark,
+    //   ),
+    //   child: result,
+    // );
+    result = PersistedAppState(
+      storage: JsonFileStorage(),
+      child: result,
+    );
+    result = _LifecycleManager(
+      onInitState: () {
         HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
             .map((dynamic value) => ShowcaseData(value))
             .toList();
@@ -180,197 +274,7 @@ class App extends StatelessWidget {
           NoticeData(),
         ];
         LedgerScreen.sourceList = LedgerData();
-        return PersistedStateBuilder(
-          builder:
-              (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-            if (!snapshot.hasData) {
-              return Material(
-                child: Center(
-                  child: Text('Loading state...'),
-                ),
-              );
-            }
-            appState = PersistedAppState.of(context);
-            // return FutureBuilder<bool>(
-            //   future:
-            //       authData.isLogin ? _upsertMember(client) : Future.value(true),
-            //   builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            //     if (snapshot.connectionState != ConnectionState.done) {
-            //       return Material(
-            //         child: Center(
-            //           child: Text('Update member...'),
-            //         ),
-            //       );
-            //     }
-            //     if (snapshot.hasError || !snapshot.hasData || !snapshot.data) {
-            //       // TODO: [MVP] чтобы попробовать ещё раз - setState()
-            //       return Material(
-            //         child: Center(
-            //           child: Text('Кажется, что-то пошло не так?'),
-            //         ),
-            //       );
-            //     }
-            return Query(
-              options: QueryOptions(
-                document: addFragments(Queries.getProfile),
-                // variables: {'member_id': appState['memberId']},
-                variables: {'member_id': kFakeMemberId},
-                fetchPolicy: FetchPolicy.noCache,
-              ),
-              // Just like in apollo refetch() could be used to manually trigger a refetch
-              // while fetchMore() can be used for pagination purpose
-              builder: (QueryResult result,
-                  {VoidCallback refetch, FetchMore fetchMore}) {
-                if (result.hasException) {
-                  out(result.exception);
-                  // out(getOperationExceptionToString(result.exception));
-                  return Material(
-                    child: InkWell(
-                      onTap: refetch,
-                      child: Center(
-                        child: Text('Кажется, что-то пошло не так?'),
-                      ),
-                    ),
-                  );
-                }
-                if (result.source == QueryResultSource.loading) {
-                  return Material(
-                    child: Center(
-                      child: Text('Loading profile...'),
-                    ),
-                  );
-                }
-                return MultiProvider(
-                  providers: <SingleChildWidget>[
-                    ChangeNotifierProvider<ProfileModel>(
-                      create: (_) => ProfileModel.fromJson(
-                        result.data['profile'] as Map<String, dynamic>,
-                      ),
-                    ),
-                    ChangeNotifierProvider<MyWishesModel>(
-                      create: (_) => MyWishesModel.fromJson(result.data),
-                    ),
-                    ChangeNotifierProvider<MyBlocksModel>(
-                      create: (_) => MyBlocksModel.fromJson(result.data),
-                    ),
-                    ChangeNotifierProvider<DistanceModel>(
-                        create: (_) => DistanceModel()),
-                    ChangeNotifierProvider<MyUnitMapModel>(
-                      create: (_) => MyUnitMapModel(),
-                    ),
-                    ChangeNotifierProvider<AppBarModel>(
-                      create: (_) => AppBarModel(),
-                    ),
-                    ChangeNotifierProvider<VersionModel>(
-                      create: (_) => VersionModel(),
-                    ),
-                  ],
-                  child: child,
-                );
-              },
-            );
-            //   },
-            // );
-          },
-        );
       },
-      home: HomeScreen(),
-      initialRoute: kInitialRouteName,
-      routes: <String, WidgetBuilder>{
-        '/_animation': (_) => AnimationScreen(),
-        '/_custom_dialog': (_) => CustomDialogScreen(),
-        '/_image_capture': (_) => ImageCaptureScreen(),
-        '/_image_pinch': (_) => ImagePinchScreen(),
-        '/_listview': (_) => ListViewScreen(),
-        '/_load_data': (_) => LoadDataScreen(),
-        '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
-        '/_notification': (_) => NotificationScreen(),
-        // ****
-        '/start': (_) => StartScreen(),
-      },
-      // onGenerateRoute: (RouteSettings settings) {
-      //   out('onGenerateRoute: $settings');
-      //   return null;
-      // },
-      // onUnknownRoute: (RouteSettings settings) => MaterialPageRoute<void>(
-      //   settings: settings,
-      //   builder: (BuildContext context) => UnknownPage(settings.name),
-      // ),
-    );
-    // result = AnnotatedRegion<SystemUiOverlayStyle>(
-    //   value: SystemUiOverlayStyle(
-    //     statusBarColor: Colors.white,
-    //     // For Android.
-    //     // Use [light] for white status bar and [dark] for black status bar.
-    //     statusBarIconBrightness: Brightness.dark,
-    //     // For iOS.
-    //     // Use [dark] for white status bar and [light] for black status bar.
-    //     statusBarBrightness: Brightness.dark,
-    //   ),
-    //   child: result,
-    // );
-    // out(jsonEncode(parseIdToken(authData.token)));
-    // final httpLink = HttpLink(
-    //   uri: 'https://$kGraphQLEndpoint',
-    //   headers: {
-    //     'X-Hasura-Role': 'user',
-    //     'X-Hasura-User-Id': kFakeMemberId,
-    //   },
-    // );
-    // TODO: включить HASURA_GRAPHQL_JWT_SECRET
-    // TODO: переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
-    // final websocketLink = WebSocketLink(
-    //   url: 'wss://$kGraphQLEndpoint',
-    //   config: SocketClientConfig(
-    //     inactivityTimeout: kGraphQLWebsocketInactivityTimeout,
-    //     initPayload: () async => {
-    //       'headers': {'Authorization': 'Bearer ${authData.token}'}
-    //     },
-    //   ),
-    // );
-    // final authLink = AuthLink(
-    //   getToken: () async => 'Bearer ${authData.token}',
-    // );
-    // TODO: [MVP] fresh_graphql
-    // https://stackoverflow.com/questions/61708776/how-to-retry-a-request-on-graphqlerror-in-graphql-flutter
-    // final retryLink = Link(request: (
-    //   Operation operation, [
-    //   NextLink forward,
-    // ]) {
-    //   StreamController<FetchResult> controller;
-    //   Future<void> onListen() async {
-    //     // out('onListen');
-    //     await controller
-    //         .addStream(refreshToken(controller, forward, operation).asStream());
-    //     await controller.close();
-    //   }
-
-    //   controller = StreamController<FetchResult>.broadcast(onListen: onListen);
-    //   return controller.stream;
-    // });
-    result = GraphQLProvider(
-      client: ValueNotifier(
-        createClient(),
-        // GraphQLClient(
-        //   cache: GraphQLCache(), // InMemoryCache(),
-        //   // cache: NormalizedInMemoryCache(
-        //   //   dataIdFromObject: typenameDataIdFromObject,
-        //   // ),
-        //   link: httpLink,
-        //   // link:
-        //   //     retryLink.concat(authLink).concat(httpLink).concat(websocketLink),
-        // ),
-      ),
-      child: CacheProvider(
-        child: result,
-      ),
-    );
-    result = PersistedAppState(
-      storage: JsonFileStorage(),
-      child: result,
-    );
-    result = _LifeCycleManager(
-      onInitState: () {},
       onDispose: () {
         for (final data in HomeShowcase.dataPool) {
           data.dispose();
@@ -383,8 +287,37 @@ class App extends StatelessWidget {
       },
       child: result,
     );
+    result = MultiProvider(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<DistanceModel>(create: (_) => DistanceModel()),
+        ChangeNotifierProvider<MyUnitMapModel>(
+          create: (_) => MyUnitMapModel(),
+        ),
+        ChangeNotifierProvider<AppBarModel>(
+          create: (_) => AppBarModel(),
+        ),
+        ChangeNotifierProvider<VersionModel>(
+          create: (_) => VersionModel(),
+        ),
+      ],
+      child: result,
+    );
     return result;
   }
+}
+
+Future<Map<String, dynamic>> _loadProfileData() async {
+  final options = QueryOptions(
+    document: addFragments(Queries.getProfile),
+    variables: {'member_id': kFakeMemberId},
+    fetchPolicy: FetchPolicy.noCache,
+  );
+  final result =
+      await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
+  if (result.hasException) {
+    throw result.exception;
+  }
+  return result.data;
 }
 
 // публично для тестирования
@@ -427,35 +360,8 @@ GraphQLClient createClient() {
   );
 }
 
-// Future<bool> _upsertMember(AuthData authData) {
-//   final options = MutationOptions(
-//     document: addFragments(Mutations.upsertMember),
-//     variables: {
-//       'display_name': authData.user.displayName,
-//       'photo_url': authData.user.photoUrl,
-//     },
-//     fetchPolicy: FetchPolicy.noCache,
-//   );
-//   return client
-//       .mutate(options)
-//       .timeout(kGraphQLMutationTimeoutDuration)
-//       .then<bool>((QueryResult result) {
-//     if (result.hasException) {
-//       throw result.exception;
-//     }
-//     if (result.data['insert_member']['affected_rows'] != 1) {
-//       throw 'Invalid insert_member.affected_rows';
-//     }
-//     appState['memberId'] = result.data['insert_member']['returning'][0]['id'];
-//     return true;
-//   }).catchError((error) {
-//     out('_upsertMember $error');
-//   });
-// }
-
-// Widget need for reactive variable
-class MediaQueryWrap extends StatelessWidget {
-  MediaQueryWrap(this.child);
+class _MediaQueryWrapper extends StatelessWidget {
+  _MediaQueryWrapper(this.child);
 
   final Widget child;
 
@@ -470,40 +376,28 @@ class MediaQueryWrap extends StatelessWidget {
       data: data.copyWith(textScaleFactor: 1),
       child: child,
     );
-    // TODO: Responsive App https://medium.com/nonstopio/let-make-responsive-app-in-flutter-e48428795476
+    // TODO: responsive app
+    // - https://pub.dev/packages/flutter_screenutil
+    // - https://pub.dev/packages/device_preview
+    // - https://medium.com/nonstopio/let-make-responsive-app-in-flutter-e48428795476
+    // - https://github.com/Codelessly/ResponsiveFramework
+    // - https://pub.dev/packages/responsive_builder
   }
 
   // void printScreenInformation() {
   //   out('Device width dp:${ScreenUtil.screenWidth}'); //Device width
   //   out('Device height dp:${ScreenUtil.screenHeight}'); //Device height
-  //   out(
-  //       'Device pixel density:${ScreenUtil.pixelRatio}'); //Device pixel density
-  //   out(
-  //       'Bottom safe zone distance dp:${ScreenUtil.bottomBarHeight}'); //Bottom safe zone distance，suitable for buttons with full screen
-  //   out(
-  //       'Status bar height dp:${ScreenUtil.statusBarHeight}dp'); //Status bar height , Notch will be higher Unit dp
-  //   out(
-  //       'Ratio of actual width dp to design draft px:${ScreenUtil().scaleWidth}');
-  //   out(
-  //       'Ratio of actual height dp to design draft px:${ScreenUtil().scaleHeight}');
-  //   out(
-  //       'The ratio of font and width to the size of the design:${ScreenUtil().scaleWidth * ScreenUtil.pixelRatio}');
-  //   out(
-  //       'The ratio of height width to the size of the design:${ScreenUtil().scaleHeight * ScreenUtil.pixelRatio}');
+  //   out('Device pixel density:${ScreenUtil.pixelRatio}'); //Device pixel density
+  //   out('Bottom safe zone distance dp:${ScreenUtil.bottomBarHeight}'); //Bottom safe zone distance，suitable for buttons with full screen
+  //   out('Status bar height dp:${ScreenUtil.statusBarHeight}dp'); //Status bar height , Notch will be higher Unit dp
+  //   out('Ratio of actual width dp to design draft px:${ScreenUtil().scaleWidth}');
+  //   out('Ratio of actual height dp to design draft px:${ScreenUtil().scaleHeight}');
+  //   out('The ratio of font and width to the size of the design:${ScreenUtil().scaleWidth * ScreenUtil.pixelRatio}');
+  //   out('The ratio of height width to the size of the design:${ScreenUtil().scaleHeight * ScreenUtil.pixelRatio}');
   // }
 }
 
-// String typenameDataIdFromObject(Object object) {
-//   if (object is Map<String, Object> && object.containsKey('__typename')) {
-//     if (object['__typename'] == 'profile') {
-//       final member = object['member'] as Map<String, Object>;
-//       out('profile/${member['id']}');
-//       return 'profile/${member['id']}';
-//     }
-//   }
-//   return null;
-// }
-
+// TODO: сгенирировать цветовую палитру в MaterialColor
 // Generated using Material Design Palette/Theme Generator
 // http://mcg.mbitson.com/
 // https://github.com/mbitson/mcg
@@ -524,215 +418,10 @@ class MediaQueryWrap extends StatelessWidget {
 //   },
 // );
 
-class AuthData {
-  AuthData({
-    this.user,
-    this.token,
-    this.isLogin = false,
-  });
-
-  final firebase_auth.User user;
-  final String token;
-  final bool isLogin;
-}
-
-// class AuthCheck extends StatefulWidget {
-//   @override
-//   _AuthCheckState createState() => _AuthCheckState();
-// }
-
-// class _AuthCheckState extends State<AuthCheck> {
-//   AuthData _authData;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder<AuthData>(
-//       future: _authData == null ? _getAuthData() : Future.value(_authData),
-//       builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
-//         switch (snapshot.connectionState) {
-//           case ConnectionState.none:
-//           case ConnectionState.waiting:
-//           case ConnectionState.active:
-//             return CommonMaterialApp(
-//               home: Scaffold(
-//                 body: Center(
-//                   child: Text('Authentication...'),
-//                 ),
-//               ),
-//             );
-//           case ConnectionState.done:
-//             if (snapshot.data == null) {
-//               return CommonMaterialApp(
-//                 home: LoginScreen(onClose: (AuthData authData) {
-//                   setState(() {
-//                     _authData = authData;
-//                   });
-//                 }),
-//               );
-//             }
-//             return App(authData: snapshot.data);
-//         }
-//         return null;
-//       },
-//     );
-//   }
-
-//   Future<AuthData> _getAuthData() async {
-//     try {
-//       // TODO: провести эксперимент - будет ли работать в offline?
-//       final user = await FirebaseAuth.instance.currentUser();
-//       if (user == null) return null;
-//       final idToken = await user.getIdToken();
-//       return AuthData(user: user, token: idToken.token);
-//     } catch (error) {
-//       out('_getAuthData $error');
-//       return null;
-//     }
-//   }
-// }
-
-final navigatorKey = GlobalKey<NavigatorState>();
-NavigatorState get navigator => navigatorKey.currentState;
-
-class CommonMaterialApp extends StatelessWidget {
-  CommonMaterialApp({
-    // this.navigatorObservers = const <NavigatorObserver>[],
-    this.builder,
-    this.home,
-    this.initialRoute,
-    this.routes = const <String, WidgetBuilder>{},
-    // this.onGenerateRoute,
-    // this.onUnknownRoute,
-  });
-
-  // final List<NavigatorObserver> navigatorObservers;
-  final TransitionBuilder builder;
-  final Widget home;
-  final String initialRoute;
-  final Map<String, WidgetBuilder> routes;
-  // final RouteFactory onGenerateRoute;
-  // final RouteFactory onUnknownRoute;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // out('App build');
-    return MaterialApp(
-      // debugShowCheckedModeBanner: isInDebugMode,
-      navigatorKey: navigatorKey,
-      navigatorObservers: <NavigatorObserver>[
-        FirebaseAnalyticsObserver(analytics: analytics),
-        BotToastNavigatorObserver(),
-      ],
-      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
-      // locale: DevicePreview.of(context).locale,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   Locale('en', 'US'), // English
-      //   Locale('ru', 'RU'), // Russian
-      // ],
-      title: 'minsk8',
-      theme: theme.copyWith(
-        appBarTheme: theme.appBarTheme.copyWith(
-          elevation: kAppBarElevation,
-          iconTheme: theme.iconTheme,
-          // actionsIconTheme: theme.iconTheme,
-          color: theme.scaffoldBackgroundColor,
-          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        // primarySwatch: Colors.blue,
-        // textTheme: GoogleFonts.montserratTextTheme(),
-      ),
-      builder: (BuildContext context, Widget child) {
-        Widget result = child;
-        result = MediaQueryWrap(result);
-        result = BotToastInit()(context, result);
-        if (builder != null) {
-          result = builder(context, result);
-        }
-        return result;
-      },
-      home: home,
-      initialRoute: initialRoute,
-      routes: routes,
-      // onGenerateRoute: onGenerateRoute,
-      // onUnknownRoute: onUnknownRoute,
-    );
-  }
-}
-
-// TODO: workaround for JWTExpired https://github.com/zino-app/graphql-flutter/issues/220#issuecomment-523108156
-// see also https://hasura.io/blog/handling-graphql-hasura-errors-with-react/
-// with errorLink example
-// final ErrorLink errorLink = ErrorLink(errorHandler: (ErrorResponse response) {
-//   Operation operation = response.operation;
-//   FetchResult result = response.fetchResult;
-//   OperationException exception = response.exception;
-//   print(exception.toString());
-// });
-
-// Future<T> whenFirst<T>(Stream<T> source) async {
-//   try {
-//     await for (final T value in source) {
-//       if (value != null) {
-//         return value;
-//       }
-//     }
-//     return null;
-//   } catch (error) {
-//     return Future.error(error);
-//   }
-// }
-
-// TODO: extension FetchResultDump on FetchResult { dump() => this.fiels; }
-
-// Future<FetchResult> refreshToken(StreamController<FetchResult> controller,
-//     NextLink forward, Operation operation) async {
-//   try {
-//     // out('refreshToken');
-//     final mainStream = forward(operation);
-//     final firstEvent = await whenFirst(mainStream);
-//     if (firstEvent.errors != null && firstEvent.errors[0] != null) {
-//       out('firstEvent.errors[0] ${firstEvent.errors[0]}');
-//       out('firstEvent.statusCode ${firstEvent.statusCode}');
-//       // TODO: [MVP] перехватил ошибку, надо обработать (протухает через 1,5 часа)
-//       // https://github.com/zino-app/graphql-flutter/issues/220
-//       // ожидаю graphql-flutter V4, issue висит в roadmap
-//       // I/flutter ( 3382): firstEvent.errors[0] {extensions: {path: $, code: invalid-jwt}, message: Could not verify JWT: JWTExpired}
-//       // I/flutter ( 3382): firstEvent.statusCode null
-//       // I/flutter ( 3382): GraphQL Errors:
-//       // I/flutter ( 3382): Could not verify JWT: JWTExpired: Undefined location
-//     }
-//     // out('firstEvent.data ${firstEvent.data}');
-//     return firstEvent;
-//   } catch (error, stackTrace) {
-//     out('refreshToken error $error');
-//     out('refreshToken stackTrace $stackTrace');
-//     return Future.error(error);
-//     // Logger.root.severe(error.toString());
-//     // if (error is ClientException && error.message.contains("401") && (await tokenManager.hasTokens())) {
-//     //   // Logger.root.info('User logged out. But token persents. Refreshing token');
-//     //   final Token token = await tokenAPI.refreshToken();
-//     //   if (token.isValid()) {
-//     //     await tokenManager.setAccessToken(token.accessToken);
-//     //     await tokenManager.setRefreshToken(token.refreshToken);
-//     //     return whenFirst(forward(operation));
-//     //   } else {
-//     //     await tokenManager.removeCredentials();
-//     //     return whenFirst(forward(operation));
-//     //   }
-//     // } else {
-//     //   return Future.error(error);
-//     // }
-//   }
-// }
-
-class _LifeCycleManager extends StatefulWidget {
-  _LifeCycleManager({Key key, this.child, this.onInitState, this.onDispose})
+// code from https://medium.com/flutter-community/build-a-lifecycle-manager-to-manage-your-services-b9c928d3aed7
+// https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
+class _LifecycleManager extends StatefulWidget {
+  _LifecycleManager({Key key, this.child, this.onInitState, this.onDispose})
       : super(key: key);
 
   final Widget child;
@@ -740,13 +429,13 @@ class _LifeCycleManager extends StatefulWidget {
   final VoidCallback onDispose;
 
   @override
-  _LifeCycleManagerState createState() => _LifeCycleManagerState();
+  _LifecycleManagerState createState() => _LifecycleManagerState();
 }
 
-class _LifeCycleManagerState extends State<_LifeCycleManager>
+class _LifecycleManagerState extends State<_LifecycleManager>
     with WidgetsBindingObserver {
-  // List<StoppableService> services = [
-  //   locator<LocationService>(),
+  // List<_StoppableService> services = [
+  //   locator<_LocationService>(), // locator from GetIt
   // ];
 
   @override
@@ -781,7 +470,7 @@ class _LifeCycleManagerState extends State<_LifeCycleManager>
   }
 }
 
-// abstract class StoppableService {
+// abstract class _StoppableService {
 //   bool _serviceStoped = false;
 //   bool get serviceStopped => _serviceStoped;
 
@@ -796,7 +485,7 @@ class _LifeCycleManagerState extends State<_LifeCycleManager>
 //   }
 // }
 
-// class LocationService extends StoppableService {
+// class _LocationService extends _StoppableService {
 //   @override
 //   void start() {
 //     super.start();
@@ -809,214 +498,3 @@ class _LifeCycleManagerState extends State<_LifeCycleManager>
 //     // cancel stream subscription
 //   }
 // }
-
-class MainDrawer extends StatelessWidget {
-  final routes = [
-    {
-      'title': 'Animation',
-      'routeName': '/_animation',
-    },
-    {
-      'title': 'Custom Dialog',
-      'routeName': '/_custom_dialog',
-    },
-    {
-      'title': 'Image Capture',
-      'routeName': '/_image_capture',
-    },
-    {
-      'title': 'Image Pinch',
-      'routeName': '/_image_pinch',
-      'arguments':
-          ImagePinchRouteArguments('https://picsum.photos/seed/1234/600/800'),
-    },
-    {
-      'title': 'Load Data',
-      'routeName': '/_load_data',
-    },
-    {
-      'title': 'Notification',
-      'routeName': '/_notification',
-    },
-    // ****
-    // {
-    //   'title': 'About',
-    //   'routeName': '/about',
-    // },
-    // {
-    //   'title': 'Add Unit',
-    //   'routeName': '/add_unit',
-    //   'arguments': AddUnitRouteArguments(kind: KindValue.technics),
-    // },
-    // {
-    //   'title': 'Edit Unit',
-    //   'routeName': '/edit_unit',
-    //   'arguments': EditUnitRouteArguments(0),
-    // },
-    // {
-    //   'title': 'FAQ',
-    //   'routeName': '/faq',
-    // },
-    // {
-    //   'title': 'Forgot Password',
-    //   'routeName': '/forgot_password',
-    // },
-    // {
-    //   'title': 'Unit',
-    //   'routeName': '/unit',
-    //   // ignore: top_level_function_literal_block
-    //   'arguments': (BuildContext context) async {
-    //     final profile = Provider.of<ProfileModel>(context, listen: false);
-    //     final options = QueryOptions(
-    //       document: addFragments(Queries.getUnit),
-    //       variables: {'id': profile.member.units[0].id},
-    //       fetchPolicy: FetchPolicy.noCache,
-    //     );
-    //     // final client = GraphQLProvider.of(context).value;
-    //     final result =
-    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
-    //     if (result.hasException) {
-    //       throw result.exception;
-    //     }
-    //     final unit =
-    //         UnitModel.fromJson(result.data['unit'] as Map<String, dynamic>);
-    //     return UnitRouteArguments(
-    //       unit,
-    //       member: unit.member,
-    //     );
-    //   },
-    // },
-    // {
-    //   'title': 'Select Kind(s)',
-    //   'routeName': '/kinds',
-    //   'arguments': KindsRouteArguments(KindValue.pets),
-    // },
-    // {
-    //   'title': 'Ledger',
-    //   'routeName': '/ledger',
-    // },
-    // {
-    //   'title': 'Messages',
-    //   'routeName': '/messages',
-    //   // ignore: top_level_function_literal_block
-    //   'arguments': (BuildContext context) async {
-    //     final options = QueryOptions(
-    //       document: addFragments(Queries.getChats),
-    //       fetchPolicy: FetchPolicy.noCache,
-    //     );
-    //     // final client = GraphQLProvider.of(context).value;
-    //     final result =
-    //         await client.query(options).timeout(kGraphQLQueryTimeoutDuration);
-    //     if (result.hasException) {
-    //       throw result.exception;
-    //     }
-    //     final item =
-    //         ChatModel.fromJson(result.data['chats'][0] as Map<String, dynamic>);
-    //     return MessagesRouteArguments(
-    //       chat: item,
-    //     );
-    //   },
-    // },
-    // {
-    //   'title': 'Login',
-    //   'routeName': '/login',
-    // },
-    // {
-    //   'title': 'My Units',
-    //   'routeName': '/my_units',
-    // },
-    // {
-    //   'title': 'Pay',
-    //   'routeName': '/pay',
-    // },
-    // {
-    //   'title': 'Search',
-    //   'routeName': '/search',
-    // },
-    // {
-    //   'title': 'Settings',
-    //   'routeName': '/settings',
-    // },
-    // {
-    //   'title': 'Showcase Map',
-    //   'routeName': '/showcase_map',
-    // },
-    // {
-    //   'title': 'Sign Up',
-    //   'routeName': '/sign_up',
-    // },
-    // {
-    //   'title': 'Start Map',
-    //   'routeName': '/start_map',
-    // },
-    // {
-    //   'title': 'Useful Tips',
-    //   'routeName': '/useful_tips',
-    // },
-    // {
-    //   'title': 'Wishes',
-    //   'routeName': '/wishes',
-    // },
-  ];
-
-  final String currentRouteName;
-
-  MainDrawer(this.currentRouteName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            padding: EdgeInsets.zero,
-            child: GestureDetector(
-              onTap: () {
-                navigator.popUntil(
-                  (route) => route.isFirst,
-                );
-              },
-              child: Container(
-                color: Colors.red,
-                child: Center(
-                  child: Text('Макет'),
-                ),
-              ),
-            ),
-          ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: routes.length,
-            itemBuilder: (BuildContext context, int index) {
-              final mainRoute = routes[index];
-              return ListTile(
-                title: Text(mainRoute['title'] as String),
-                selected: currentRouteName == mainRoute['routeName'],
-                onTap: () async {
-                  navigator.popUntil(
-                      (route) => route.settings.name == kInitialRouteName);
-                  final arguments = (mainRoute['arguments'] is Function)
-                      ? await (mainRoute['arguments'] as Function)(context)
-                      : mainRoute['arguments'];
-                  if (arguments == null) {
-                    // ignore: unawaited_futures
-                    navigator.pushNamed(
-                      mainRoute['routeName'] as String,
-                    );
-                    return;
-                  }
-                  // ignore: unawaited_futures
-                  navigator.pushNamed(
-                    mainRoute['routeName'] as String,
-                    arguments: arguments,
-                  );
-                },
-              );
-            },
-          )
-        ],
-      ),
-    );
-  }
-}
