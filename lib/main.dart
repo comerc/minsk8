@@ -33,15 +33,13 @@ import 'package:minsk8/import.dart';
 // TODO: локализация https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 // TODO: пока загружается аватарка - показывать ожидание
 // TODO: добавить google-services-info.plist https://support.google.com/firebase/answer/7015592?hl=ru
-// TODO: flutter telegram-auth
 // TODO: закруглить кнопки и диалоги, как в https://console.firebase.google.com
 // TODO: [MVP] Step-by-step guide to Android code signing and code signing https://blog.codemagic.io/the-simple-guide-to-android-code-signing/
 // TODO: если не было активности в приложение какое-то время, а потом запросить refresh для NoticeData, то "Could not verify JWT"
 // TODO: выдавать поощрения тем, кто первый сообщил об ошибке (но можно получить недовольных - нужно вести публичный журнал зарегистрированных ошибок)
-// TODO: применить const для EdgeInsets и подобных случаев: https://habr.com/ru/post/501804/
 // TODO: вынести в виджеты ./widgets "условный body" из виджетов ./screen
 // TODO: синхронизировать между несколькими приложениями одного участника перманентные данные о Profile, MyWishes, MyBlocks
-// TODO: заменить Snackbar на BotToast для асинхронных операций
+// TODO: заменить Snackbar на BotToast для асинхронных операций (или применить asuka?)
 // TODO: [MVP] Text('', overflow: TextOverflow.fade, softWrap: false)
 // TODO: объявить имена аргументов при типизации callback-ов: void Function(int) -> void Function(int index)
 // TODO: как мокать модули, подобно JS? (для применения в тестах вместо DI) https://railsware.com/blog/mocking-es6-module-import-without-dependency-injection/
