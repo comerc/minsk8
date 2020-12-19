@@ -24,11 +24,7 @@ mixin Fragments {
       win {
         created_at
         member {
-          id
-          display_name
-          photo_url
-          banned_until
-          last_activity_at
+          ...SelfMemberFields
         }
       }
       wishes {
@@ -37,12 +33,16 @@ mixin Fragments {
       is_promo
     }
 
-    fragment MemberFields on member {
+    fragment SelfMemberFields on member {
       id
       display_name
-      photo_url
+      image_url
       banned_until
       last_activity_at
+    }
+
+    fragment MemberFields on member {
+      ...SelfMemberFields
       units(
         where: {
           is_winned: {_is_null: true},  

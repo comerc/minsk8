@@ -221,11 +221,7 @@ mixin Queries {
           }
         }
         invited_member {
-          id
-          display_name
-          photo_url
-          banned_until
-          last_activity_at
+          ...SelfMemberFields
         }
         text_variant
       }

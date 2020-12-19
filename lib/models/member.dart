@@ -8,7 +8,7 @@ class MemberModel {
   MemberModel({
     this.id,
     this.displayName,
-    this.photoUrl,
+    this.imageUrl,
     this.bannedUntil,
     this.lastActivityAt,
     this.units,
@@ -17,7 +17,7 @@ class MemberModel {
   final String id;
   final String displayName;
   @JsonKey(nullable: true)
-  final String photoUrl;
+  final String imageUrl;
   @JsonKey(nullable: true)
   final DateTime bannedUntil;
   final DateTime lastActivityAt;
@@ -27,7 +27,7 @@ class MemberModel {
   final List<UnitModel> units;
 
   // TODO: если null, то рисовать цветной кружок с инициалами, как в телеге
-  String get avatarUrl => photoUrl ?? 'https://robohash.org/$id?set=set4';
+  String get avatarUrl => imageUrl ?? 'https://robohash.org/$id?set=set4';
 
   static MemberModel fromJson(Map<String, dynamic> json) =>
       _$MemberModelFromJson(json);
