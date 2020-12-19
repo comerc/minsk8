@@ -132,6 +132,8 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  final _future = _loadProfileData();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -166,6 +168,7 @@ class App extends StatelessWidget {
       ),
       builder: (BuildContext context, Widget child) {
         // analytics.setCurrentScreen(screenName: '/app');
+        out('builder');
         Widget result = child;
         result = _MediaQueryWrapper(result);
         result = BotToastInit()(context, result);
@@ -181,7 +184,8 @@ class App extends StatelessWidget {
             }
             appState = PersistedAppState.of(context);
             return FutureBuilder<Map<String, dynamic>>(
-              future: _loadProfileData(),
+              // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
+              future: _future,
               builder: (BuildContext context,
                   AsyncSnapshot<Map<String, dynamic>> snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
