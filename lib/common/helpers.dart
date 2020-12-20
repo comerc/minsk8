@@ -9,6 +9,7 @@ import 'package:recase/recase.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:minsk8/import.dart';
 
 bool get isInDebugMode {
@@ -261,3 +262,63 @@ T getBloc<T extends Cubit<Object>>(BuildContext context) =>
     BlocProvider.of<T>(context);
 
 T getRepository<T>(BuildContext context) => RepositoryProvider.of<T>(context);
+
+void load(Future<void> Function() future) async {
+  await Future.delayed(Duration.zero); // for render initial state
+  try {
+    await future();
+  } catch (error) {
+    out(error);
+    BotToast.showNotification(
+      crossPage: false,
+      title: (_) => Text('$error'),
+      trailing: (Function close) => FlatButton(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          load(future);
+        },
+        child: Text('Repeat'.toUpperCase()),
+      ),
+    );
+  }
+}
+
+class ValidationException implements Exception {
+  ValidationException(this.message);
+
+  final String message;
+
+  @override
+  String toString() {
+    return message;
+  }
+}
+
+void save(Future<void> Function() future) async {
+  BotToast.showLoading();
+  try {
+    await future();
+  } on ValidationException catch (error) {
+    BotToast.showNotification(
+      crossPage: false,
+      title: (_) => Text('$error'),
+    );
+  } catch (error) {
+    out(error);
+    BotToast.showNotification(
+      // crossPage: true, // by default - important value!!!
+      title: (_) => Text('$error'),
+      trailing: (Function close) => FlatButton(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          save(future);
+        },
+        child: Text('Repeat'.toUpperCase()),
+      ),
+    );
+  } finally {
+    BotToast.closeAllLoading();
+  }
+}
