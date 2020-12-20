@@ -20,6 +20,13 @@ part 'home/underway.dart';
 enum HomeTabValue { showcase, underway, interplay, profile }
 
 class HomeScreen extends StatefulWidget {
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/home',
+      builder: (_) => this,
+    );
+  }
+
   HomeScreen() : super(key: globalKey);
 
   static final globalKey = GlobalKey<_HomeScreenState>();

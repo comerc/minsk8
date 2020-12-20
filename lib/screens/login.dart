@@ -20,6 +20,13 @@ import 'package:minsk8/import.dart';
 // TODO: flutter telegram-auth
 
 class LoginScreen extends StatefulWidget {
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/login',
+      builder: (_) => this,
+    );
+  }
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
