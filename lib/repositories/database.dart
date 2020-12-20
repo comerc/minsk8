@@ -66,8 +66,11 @@ class DatabaseRepository {
 
 // публично для тестирования
 GraphQLService createDefaultService() {
+  // TODO: избавиться от глобальное переменной client,
+  // когда везде будет через BLoC
+  client = createClient();
   return GraphQLService(
-    client: createClient(),
+    client: client,
     queryTimeout: kGraphQLQueryTimeout,
     mutationTimeout: kGraphQLMutationTimeout,
     fragments: API.fragments,

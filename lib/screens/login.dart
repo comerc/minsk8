@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:minsk8/import.dart';
 
@@ -19,7 +20,7 @@ import 'package:minsk8/import.dart';
 
 // TODO: flutter telegram-auth
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/login',
@@ -28,15 +29,22 @@ class LoginScreen extends StatefulWidget {
   }
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: BlocProvider(
+        create: (BuildContext context) =>
+            LoginCubit(getRepository<AuthenticationRepository>(context)),
+        child: LoginForm(),
+      ),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  var _isLoading = false;
-
+class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final child = ButtonTheme(
+    return ButtonTheme(
       minWidth: 250,
       child: Center(
         child: Column(
@@ -46,10 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 48),
             OutlineButton(
               shape: StadiumBorder(),
-              onLongPress: _isLoading
-                  ? null
-                  : () {}, // чтобы сократить время для splashColor
-              onPressed: _isLoading ? null : _login,
+              onLongPress: () {}, // чтобы сократить время для splashColor
+              onPressed: () {
+                save(() => getBloc<LoginCubit>(context).logInWithGoogle());
+              },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -72,19 +80,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-    return Scaffold(
-      body: child,
-      backgroundColor: Colors.white,
-    );
-  }
-
-  void _login() async {
-    setState(() {
-      _isLoading = true;
-    });
-    await Future.delayed(Duration(seconds: 4));
-    setState(() {
-      _isLoading = false;
-    });
   }
 }

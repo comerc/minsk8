@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,8 +7,11 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql/client.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -71,7 +75,7 @@ NavigatorState get navigator => navigatorKey.currentState;
 // TODO: вынести в AppCubit и заменить на hydrated_bloc
 PersistedData appState;
 // TODO: удалить, когда везде будет через BLoC
-GraphQLClient client = _createClient();
+GraphQLClient client; // = _createClient();
 // TODO: вынести в ProfileCubit
 final localDeletedUnitIds = <String>{}; // ie Set()
 
@@ -122,7 +126,15 @@ void main() {
     // TODO: locale autodetect
     // await initializeDateFormatting('en_US', null);
     await initializeDateFormatting('ru_RU');
-    runApp(App());
+    EquatableConfig.stringify = isInDebugMode;
+    // Bloc.observer = SimpleBlocObserver();
+    HydratedBloc.storage = await HydratedStorage.build();
+    runApp(
+      App(
+        authenticationRepository: AuthenticationRepository(),
+        databaseRepository: DatabaseRepository(),
+      ),
+    );
   }, (error, stackTrace) {
     out('**** runZonedGuarded ****');
     out('$error');
@@ -131,129 +143,101 @@ void main() {
   });
 }
 
-class App extends StatelessWidget {
-  final _future = _loadProfileData();
+class MyHome extends StatelessWidget {
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/my_home',
+      builder: (_) => this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    Widget result = MaterialApp(
-      // debugShowCheckedModeBanner: isInDebugMode,
-      navigatorKey: navigatorKey,
-      navigatorObservers: <NavigatorObserver>[
-        FirebaseAnalyticsObserver(analytics: analytics),
-        BotToastNavigatorObserver(),
-      ],
-      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      // ],
-      // supportedLocales: [
-      //   Locale('en', 'US'), // English
-      //   Locale('ru', 'RU'), // Russian
-      // ],
-      title: 'minsk8',
-      theme: theme.copyWith(
-        appBarTheme: theme.appBarTheme.copyWith(
-          elevation: kAppBarElevation,
-          iconTheme: theme.iconTheme,
-          // actionsIconTheme: theme.iconTheme,
-          color: theme.scaffoldBackgroundColor,
-          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        // primarySwatch: Colors.blue,
-        // textTheme: GoogleFonts.montserratTextTheme(),
-      ),
-      builder: (BuildContext context, Widget child) {
-        // analytics.setCurrentScreen(screenName: '/app');
-        out('builder');
-        Widget result = child;
-        result = _MediaQueryWrapper(result);
-        result = BotToastInit()(context, result);
-        return PersistedStateBuilder(
-          builder:
-              (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-            if (!snapshot.hasData) {
-              return Material(
-                child: Center(
-                  child: Text('Loading state...'),
-                ),
-              );
-            }
-            appState = PersistedAppState.of(context);
-            return FutureBuilder<Map<String, dynamic>>(
-              // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
-              future: _future,
-              builder: (BuildContext context,
-                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return Material(
-                    child: Center(
-                      child: Text('Loading profile...'),
-                    ),
-                  );
-                }
-                if (snapshot.hasError || !snapshot.hasData) {
-                  return Material(
-                    child: InkWell(
-                      // onTap: refetch,
-                      child: Center(
-                        child: Text('Кажется, что-то пошло не так?'),
-                      ),
-                    ),
-                  );
-                }
-                return MultiProvider(
-                  providers: <SingleChildWidget>[
-                    ChangeNotifierProvider<ProfileModel>(
-                      create: (_) => ProfileModel.fromJson(
-                        snapshot.data['profile'] as Map<String, dynamic>,
-                      ),
-                    ),
-                    ChangeNotifierProvider<MyWishesModel>(
-                      create: (_) => MyWishesModel.fromJson(snapshot.data),
-                    ),
-                    ChangeNotifierProvider<MyBlocksModel>(
-                      create: (_) => MyBlocksModel.fromJson(snapshot.data),
-                    ),
-                  ],
-                  child: result,
-                );
-              },
-            );
-          },
+    return PersistedStateBuilder(
+      builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+        if (!snapshot.hasData) {
+          return Scaffold(
+            body: Center(
+              child: Text('Loading state...'),
+            ),
+          );
+        }
+        appState = PersistedAppState.of(context);
+        return Scaffold(
+          appBar: AppBar(
+            actions: [
+              if (isInDebugMode) _LogoutButton(),
+            ],
+          ),
+          body: Center(
+            child: Text('Home'),
+          ),
         );
       },
-      home: HomeScreen(),
-      // home: LoginScreen(),
-      // TODO: [MVP] восстановить функционал /start
-      // initialRoute: kInitialRouteName,
-      // routes: <String, WidgetBuilder>{
-      //   '/_animation': (_) => AnimationScreen(),
-      //   '/_custom_dialog': (_) => CustomDialogScreen(),
-      //   '/_image_capture': (_) => ImageCaptureScreen(),
-      //   '/_image_pinch': (_) => ImagePinchScreen(),
-      //   '/_listview': (_) => ListViewScreen(),
-      //   '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
-      //   '/_notification': (_) => NotificationScreen(),
-      //   // ****
-      //   '/start': (_) => StartScreen(),
-      // },
     );
-    // result = AnnotatedRegion<SystemUiOverlayStyle>(
-    //   value: SystemUiOverlayStyle(
-    //     statusBarColor: Colors.white,
-    //     // For Android.
-    //     // Use [light] for white status bar and [dark] for black status bar.
-    //     statusBarIconBrightness: Brightness.dark,
-    //     // For iOS.
-    //     // Use [dark] for white status bar and [light] for black status bar.
-    //     statusBarBrightness: Brightness.dark,
-    //   ),
-    //   child: result,
-    // );
+  }
+}
+
+// TODO: перенести кнопку на SettingsScreen
+class _LogoutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: Key('$runtimeType'),
+      tooltip: 'Logout',
+      icon: Icon(FontAwesomeIcons.signOutAlt),
+      iconSize: kButtonIconSize,
+      onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
+    );
+  }
+}
+
+class App extends StatelessWidget {
+  App({
+    Key key,
+    @required this.authenticationRepository,
+    @required this.databaseRepository,
+  })  : assert(authenticationRepository != null),
+        assert(databaseRepository != null),
+        super(key: key);
+
+  final AuthenticationRepository authenticationRepository;
+  final DatabaseRepository databaseRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget result = AppView();
+    result = BlocProvider(
+      create: (BuildContext context) => ProfileCubit(databaseRepository),
+      child: result,
+    );
+    result = RepositoryProvider.value(
+      value: databaseRepository,
+      child: result,
+    );
+    result = BlocProvider.value(
+      value: AuthenticationCubit(authenticationRepository),
+      child: result,
+    );
+    result = RepositoryProvider.value(
+      value: authenticationRepository,
+      child: result,
+    );
+    result = MultiProvider(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<DistanceModel>(create: (_) => DistanceModel()),
+        ChangeNotifierProvider<MyUnitMapModel>(
+          create: (_) => MyUnitMapModel(),
+        ),
+        ChangeNotifierProvider<AppBarModel>(
+          create: (_) => AppBarModel(),
+        ),
+        ChangeNotifierProvider<VersionModel>(
+          create: (_) => VersionModel(),
+        ),
+      ],
+      child: result,
+    );
     result = PersistedAppState(
       storage: JsonFileStorage(),
       child: result,
@@ -289,77 +273,214 @@ class App extends StatelessWidget {
       },
       child: result,
     );
-    result = MultiProvider(
-      providers: <SingleChildWidget>[
-        ChangeNotifierProvider<DistanceModel>(create: (_) => DistanceModel()),
-        ChangeNotifierProvider<MyUnitMapModel>(
-          create: (_) => MyUnitMapModel(),
-        ),
-        ChangeNotifierProvider<AppBarModel>(
-          create: (_) => AppBarModel(),
-        ),
-        ChangeNotifierProvider<VersionModel>(
-          create: (_) => VersionModel(),
-        ),
-      ],
-      child: result,
-    );
     return result;
   }
 }
 
-Future<Map<String, dynamic>> _loadProfileData() async {
-  final options = QueryOptions(
-    document: addFragments(Queries.getProfile),
-    variables: {'member_id': kFakeMemberId},
-    fetchPolicy: FetchPolicy.noCache,
-  );
-  final result = await client.query(options).timeout(kGraphQLQueryTimeout);
-  if (result.hasException) {
-    throw result.exception;
+class AppView extends StatelessWidget {
+  // final _future = _loadProfileData();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return MaterialApp(
+      // debugShowCheckedModeBanner: isInDebugMode,
+      debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
+      navigatorObservers: <NavigatorObserver>[
+        FirebaseAnalyticsObserver(analytics: analytics),
+        BotToastNavigatorObserver(),
+      ],
+      // locale: isInDebugMode ? DevicePreview.of(context).locale : null,
+      // localizationsDelegates: [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('en', 'US'), // English
+      //   Locale('ru', 'RU'), // Russian
+      // ],
+      title: 'minsk8',
+      theme: theme.copyWith(
+        appBarTheme: theme.appBarTheme.copyWith(
+          elevation: kAppBarElevation,
+          iconTheme: theme.iconTheme,
+          // actionsIconTheme: theme.iconTheme,
+          color: theme.scaffoldBackgroundColor,
+          textTheme: theme.textTheme, //.apply(fontSizeFactor: 0.8),
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // primarySwatch: Colors.blue,
+        // textTheme: GoogleFonts.montserratTextTheme(),
+      ),
+      builder: (BuildContext context, Widget child) {
+        // analytics.setCurrentScreen(screenName: '/app');
+        out('builder');
+        Widget result = child;
+        result = BlocListener<ProfileCubit, ProfileState>(
+          listenWhen: (ProfileState previous, ProfileState current) {
+            return previous.status != current.status &&
+                current.status == ProfileStatus.ready;
+          },
+          listener: (BuildContext context, ProfileState state) {
+            navigator.pushAndRemoveUntil<void>(
+              HomeScreen().getRoute(),
+              (Route route) => false,
+            );
+          },
+          child: result,
+        );
+        result = BlocListener<AuthenticationCubit, AuthenticationState>(
+          listener: (BuildContext context, AuthenticationState state) {
+            final cases = {
+              AuthenticationStatus.authenticated: () {
+                navigator.pushAndRemoveUntil<void>(
+                  // LoadProfileScreen().getRoute(),
+                  MyHome().getRoute(),
+                  (Route route) => false,
+                );
+              },
+              AuthenticationStatus.unauthenticated: () {
+                navigator.pushAndRemoveUntil<void>(
+                  LoginScreen().getRoute(),
+                  (Route route) => false,
+                );
+              },
+              AuthenticationStatus.unknown: () {},
+            };
+            assert(cases.length == AuthenticationStatus.values.length);
+            cases[state.status]();
+          },
+          child: result,
+        );
+        result = BotToastInit()(context, result);
+        result = _MediaQueryWrapper(result);
+        return result;
+        // return FutureBuilder<Map<String, dynamic>>(
+        //   // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
+        //   future: _future,
+        //   builder: (BuildContext context,
+        //       AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        //     if (snapshot.connectionState != ConnectionState.done) {
+        //       return Material(
+        //         child: Center(
+        //           child: Text('Loading profile...'),
+        //         ),
+        //       );
+        //     }
+        //     if (snapshot.hasError || !snapshot.hasData) {
+        //       return Material(
+        //         child: InkWell(
+        //           // onTap: refetch,
+        //           child: Center(
+        //             child: Text('Кажется, что-то пошло не так?'),
+        //           ),
+        //         ),
+        //       );
+        //     }
+        //     return MultiProvider(
+        //       providers: <SingleChildWidget>[
+        //         ChangeNotifierProvider<ProfileModel>(
+        //           create: (_) => ProfileModel.fromJson(
+        //             snapshot.data['profile'] as Map<String, dynamic>,
+        //           ),
+        //         ),
+        //         ChangeNotifierProvider<MyWishesModel>(
+        //           create: (_) => MyWishesModel.fromJson(snapshot.data),
+        //         ),
+        //         ChangeNotifierProvider<MyBlocksModel>(
+        //           create: (_) => MyBlocksModel.fromJson(snapshot.data),
+        //         ),
+        //       ],
+        //       child: result,
+        //     );
+        //   },
+        // );
+      },
+      onGenerateRoute: (RouteSettings settings) => SplashScreen().getRoute(),
+      // home: HomeScreen(),
+      // home: LoginScreen(),
+      // TODO: [MVP] восстановить функционал /start
+      // initialRoute: kInitialRouteName,
+      // routes: <String, WidgetBuilder>{
+      //   '/_animation': (_) => AnimationScreen(),
+      //   '/_custom_dialog': (_) => CustomDialogScreen(),
+      //   '/_image_capture': (_) => ImageCaptureScreen(),
+      //   '/_image_pinch': (_) => ImagePinchScreen(),
+      //   '/_listview': (_) => ListViewScreen(),
+      //   '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
+      //   '/_notification': (_) => NotificationScreen(),
+      //   // ****
+      //   '/start': (_) => StartScreen(),
+      // },
+    );
+    // result = AnnotatedRegion<SystemUiOverlayStyle>(
+    //   value: SystemUiOverlayStyle(
+    //     statusBarColor: Colors.white,
+    //     // For Android.
+    //     // Use [light] for white status bar and [dark] for black status bar.
+    //     statusBarIconBrightness: Brightness.dark,
+    //     // For iOS.
+    //     // Use [dark] for white status bar and [light] for black status bar.
+    //     statusBarBrightness: Brightness.dark,
+    //   ),
+    //   child: result,
+    // );
   }
-  return result.data;
 }
 
+// Future<Map<String, dynamic>> _loadProfileData() async {
+//   final options = QueryOptions(
+//     document: addFragments(Queries.getProfile),
+//     variables: {'member_id': kFakeMemberId},
+//     fetchPolicy: FetchPolicy.noCache,
+//   );
+//   final result = await client.query(options).timeout(kGraphQLQueryTimeout);
+//   if (result.hasException) {
+//     throw result.exception;
+//   }
+//   return result.data;
+// }
+
 // публично для тестирования
-GraphQLClient _createClient() {
-  final httpLink = HttpLink(
-    'https://$kGraphQLEndpoint',
-    defaultHeaders: {
-      'X-Hasura-Role': 'user',
-      'X-Hasura-User-Id': kFakeMemberId,
-    },
-  );
-  // final authLink = AuthLink(
-  //   getToken: () async {
-  //     final idToken = await FirebaseAuth.instance.currentUser.getIdToken(true);
-  //     return 'Bearer $idToken';
-  //   },
-  // );
-  // var link = authLink.concat(httpLink);
-  // final websocketLink = WebSocketLink(
-  //   'wss://$kGraphQLEndpoint',
-  //   config: SocketClientConfig(
-  //     initialPayload: () async {
-  //       final idToken =
-  //           await FirebaseAuth.instance.currentUser.getIdToken(true);
-  //       return {
-  //         'headers': {'Authorization': 'Bearer $idToken'},
-  //       };
-  //     },
-  //   ),
-  // );
-  // // split request based on type
-  // link = Link.split(
-  //   (request) => request.isSubscription,
-  //   websocketLink,
-  //   link,
-  // );
-  return GraphQLClient(
-    cache: GraphQLCache(),
-    link: httpLink,
-  );
-}
+// GraphQLClient _createClient() {
+//   final httpLink = HttpLink(
+//     'https://$kGraphQLEndpoint',
+//     defaultHeaders: {
+//       'X-Hasura-Role': 'user',
+//       'X-Hasura-User-Id': kFakeMemberId,
+//     },
+//   );
+//   // final authLink = AuthLink(
+//   //   getToken: () async {
+//   //     final idToken = await FirebaseAuth.instance.currentUser.getIdToken(true);
+//   //     return 'Bearer $idToken';
+//   //   },
+//   // );
+//   // var link = authLink.concat(httpLink);
+//   // final websocketLink = WebSocketLink(
+//   //   'wss://$kGraphQLEndpoint',
+//   //   config: SocketClientConfig(
+//   //     initialPayload: () async {
+//   //       final idToken =
+//   //           await FirebaseAuth.instance.currentUser.getIdToken(true);
+//   //       return {
+//   //         'headers': {'Authorization': 'Bearer $idToken'},
+//   //       };
+//   //     },
+//   //   ),
+//   // );
+//   // // split request based on type
+//   // link = Link.split(
+//   //   (request) => request.isSubscription,
+//   //   websocketLink,
+//   //   link,
+//   // );
+//   return GraphQLClient(
+//     cache: GraphQLCache(),
+//     link: httpLink,
+//   );
+// }
 
 class _MediaQueryWrapper extends StatelessWidget {
   _MediaQueryWrapper(this.child);
