@@ -296,9 +296,10 @@ class _LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       key: Key('$runtimeType'),
+      tooltip: 'Logout',
       icon: Icon(FontAwesomeIcons.signOutAlt),
       iconSize: kButtonIconSize,
-      // onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
+      onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
     );
   }
 }
