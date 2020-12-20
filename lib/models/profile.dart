@@ -19,13 +19,3 @@ class ProfileModel extends ChangeNotifier {
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }
-
-@JsonSerializable(createFactory: false)
-class MemberData {
-  MemberData({this.displayName, this.imageUrl});
-
-  final String displayName;
-  final String imageUrl;
-
-  Map<String, dynamic> toJson() => _$MemberDataToJson(this);
-}
