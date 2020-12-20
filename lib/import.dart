@@ -69,6 +69,7 @@ export 'screens/how_to_pay.dart';
 export 'screens/invite.dart';
 export 'screens/kinds.dart';
 export 'screens/ledger.dart';
+export 'screens/load_profile.dart';
 export 'screens/login.dart';
 export 'screens/messages.dart';
 export 'screens/my_unit_map.dart';
