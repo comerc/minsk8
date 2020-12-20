@@ -716,57 +716,58 @@ class _WishButtonState extends State<WishButton> {
 
   @override
   Widget build(BuildContext context) {
-    final myWishes = Provider.of<MyWishesModel>(context);
-    return Tooltip(
-      message: 'Wish',
-      child: Material(
-        child: InkWell(
-          onTap: () {},
-          // borderRadius: BorderRadius.all(kImageBorderRadius),
-          child: LikeButton(
-            animationDuration: _animationDuration,
-            isLiked: myWishes.has(widget.unit.id),
-            likeBuilder: (bool isLiked) {
-              if (isLiked) {
-                return Icon(
-                  Icons.favorite,
-                  color: Colors.pinkAccent,
-                  size: widget.iconSize,
-                );
-              }
-              return Icon(
-                Icons.favorite_border,
-                color: Colors.black.withOpacity(0.8),
-                size: widget.iconSize,
-              );
-            },
-            likeCountPadding: null,
-            // likeCount: null, // unit.favorites,
-            // countBuilder: (int count, bool isLiked, String text) {
-            //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
-            //   Widget result;
-            //   if (count == 0) {
-            //     result = Text(
-            //       "love",
-            //       style: TextStyle(color: color, fontSize: kFontSize),
-            //     );
-            //   } else
-            //     result = Text(
-            //       count >= 1000
-            //           ? (count / 1000).toStringAsFixed(1) + "k"
-            //           : text,
-            //       style: TextStyle(color: color, fontSize: kFontSize),
-            //     );
-            //   return result;
-            // },
-            // likeCountAnimationType: unit.favorites < 1000
-            //     ? LikeCountAnimationType.part
-            //     : LikeCountAnimationType.none,
-            onTap: _onTap,
-          ),
-        ),
-      ),
-    );
+    return Placeholder();
+    // final myWishes = Provider.of<MyWishesModel>(context);
+    // return Tooltip(
+    //   message: 'Wish',
+    //   child: Material(
+    //     child: InkWell(
+    //       onTap: () {},
+    //       // borderRadius: BorderRadius.all(kImageBorderRadius),
+    //       child: LikeButton(
+    //         animationDuration: _animationDuration,
+    //         isLiked: myWishes.has(widget.unit.id),
+    //         likeBuilder: (bool isLiked) {
+    //           if (isLiked) {
+    //             return Icon(
+    //               Icons.favorite,
+    //               color: Colors.pinkAccent,
+    //               size: widget.iconSize,
+    //             );
+    //           }
+    //           return Icon(
+    //             Icons.favorite_border,
+    //             color: Colors.black.withOpacity(0.8),
+    //             size: widget.iconSize,
+    //           );
+    //         },
+    //         likeCountPadding: null,
+    //         // likeCount: null, // unit.favorites,
+    //         // countBuilder: (int count, bool isLiked, String text) {
+    //         //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
+    //         //   Widget result;
+    //         //   if (count == 0) {
+    //         //     result = Text(
+    //         //       "love",
+    //         //       style: TextStyle(color: color, fontSize: kFontSize),
+    //         //     );
+    //         //   } else
+    //         //     result = Text(
+    //         //       count >= 1000
+    //         //           ? (count / 1000).toStringAsFixed(1) + "k"
+    //         //           : text,
+    //         //       style: TextStyle(color: color, fontSize: kFontSize),
+    //         //     );
+    //         //   return result;
+    //         // },
+    //         // likeCountAnimationType: unit.favorites < 1000
+    //         //     ? LikeCountAnimationType.part
+    //         //     : LikeCountAnimationType.none,
+    //         onTap: _onTap,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   void _disposeTimer() {
