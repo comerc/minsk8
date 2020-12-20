@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:minsk8/import.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:minsk8/import.dart';
+
+part of '../home.dart';
 
 // TODO: https://github.com/faob-dev/folding_cell
 // TODO: https://github.com/Ivaskuu/tinder_cards
