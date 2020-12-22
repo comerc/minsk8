@@ -429,59 +429,6 @@ class AppView extends StatelessWidget {
   }
 }
 
-// Future<Map<String, dynamic>> _loadProfileData() async {
-//   final options = QueryOptions(
-//     document: addFragments(Queries.getProfile),
-//     variables: {'member_id': kFakeMemberId},
-//     fetchPolicy: FetchPolicy.noCache,
-//   );
-//   final result = await client.query(options).timeout(kGraphQLQueryTimeout);
-//   if (result.hasException) {
-//     throw result.exception;
-//   }
-//   return result.data;
-// }
-
-// публично для тестирования
-// GraphQLClient _createClient() {
-//   final httpLink = HttpLink(
-//     'https://$kGraphQLEndpoint',
-//     defaultHeaders: {
-//       'X-Hasura-Role': 'user',
-//       'X-Hasura-User-Id': kFakeMemberId,
-//     },
-//   );
-//   // final authLink = AuthLink(
-//   //   getToken: () async {
-//   //     final idToken = await FirebaseAuth.instance.currentUser.getIdToken(true);
-//   //     return 'Bearer $idToken';
-//   //   },
-//   // );
-//   // var link = authLink.concat(httpLink);
-//   // final websocketLink = WebSocketLink(
-//   //   'wss://$kGraphQLEndpoint',
-//   //   config: SocketClientConfig(
-//   //     initialPayload: () async {
-//   //       final idToken =
-//   //           await FirebaseAuth.instance.currentUser.getIdToken(true);
-//   //       return {
-//   //         'headers': {'Authorization': 'Bearer $idToken'},
-//   //       };
-//   //     },
-//   //   ),
-//   // );
-//   // // split request based on type
-//   // link = Link.split(
-//   //   (request) => request.isSubscription,
-//   //   websocketLink,
-//   //   link,
-//   // );
-//   return GraphQLClient(
-//     cache: GraphQLCache(),
-//     link: httpLink,
-//   );
-// }
-
 class _MediaQueryWrapper extends StatelessWidget {
   _MediaQueryWrapper(this.child);
 

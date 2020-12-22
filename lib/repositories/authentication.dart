@@ -43,20 +43,20 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
-  Future<void> signUp({
-    @required String email,
-    @required String password,
-  }) async {
-    assert(email != null && password != null);
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on Exception {
-      throw SignUpFailure();
-    }
-  }
+  // Future<void> signUp({
+  //   @required String email,
+  //   @required String password,
+  // }) async {
+  //   assert(email != null && password != null);
+  //   try {
+  //     await _firebaseAuth.createUserWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //   } on Exception {
+  //     throw SignUpFailure();
+  //   }
+  // }
 
   /// Starts the Sign In with Google Flow.
   ///
@@ -78,20 +78,20 @@ class AuthenticationRepository {
   /// Signs in with the provided [email] and [password].
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> logInWithEmailAndPassword({
-    @required String email,
-    @required String password,
-  }) async {
-    assert(email != null && password != null);
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on Exception {
-      throw LogInWithEmailAndPasswordFailure();
-    }
-  }
+  // Future<void> logInWithEmailAndPassword({
+  //   @required String email,
+  //   @required String password,
+  // }) async {
+  //   assert(email != null && password != null);
+  //   try {
+  //     await _firebaseAuth.signInWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //   } on Exception {
+  //     throw LogInWithEmailAndPasswordFailure();
+  //   }
+  // }
 
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
