@@ -2,9 +2,9 @@ import 'package:graphql/client.dart';
 
 mixin Mutations {
   static final upsertMember = gql(r'''
-    mutation UpsertMember($display_name: String $photo_url: String) {
-      insert_member(objects: {display_name: $display_name, photo_url: $photo_url}, 
-      on_conflict: {constraint: member_pkey, update_columns: [display_name, photo_url]}) {
+    mutation UpsertMember($display_name: String $image_url: String) {
+      insert_member(objects: {display_name: $display_name, image_url: $image_url}, 
+      on_conflict: {constraint: member_pkey, update_columns: [display_name, image_url]}) {
         affected_rows
         returning {
           id
