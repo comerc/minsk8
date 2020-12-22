@@ -55,18 +55,18 @@ enum ProfileStatus { initial, loading, error, ready }
 class ProfileState extends Equatable {
   ProfileState({
     this.member,
-    this.wishes = const [],
+    // this.wishes = const [],
     this.status = ProfileStatus.initial,
   });
 
   final MemberModel member;
-  final List<WishModel> wishes;
+  // final List<WishModel> wishes;
   final ProfileStatus status;
 
   @override
   List<Object> get props => [
         member,
-        wishes,
+        // wishes,
         status,
       ];
 }
@@ -81,12 +81,12 @@ class MemberData {
   Map<String, dynamic> toJson() => _$MemberDataToJson(this);
 }
 
-@JsonSerializable(createFactory: false)
-class WishData {
-  WishData({this.unitId, this.value});
+// @JsonSerializable(createFactory: false)
+// class WishData {
+//   WishData({this.unitId, this.value});
 
-  final String unitId;
-  final bool value;
+//   final String unitId;
+//   final bool value;
 
-  Map<String, dynamic> toJson() => _$WishDataToJson(this);
-}
+//   Map<String, dynamic> toJson() => _$WishDataToJson(this);
+// }
