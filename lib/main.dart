@@ -335,8 +335,8 @@ class AppView extends StatelessWidget {
             final cases = {
               AuthenticationStatus.authenticated: () {
                 navigator.pushAndRemoveUntil<void>(
-                  // LoadProfileScreen().getRoute(),
-                  MyHome().getRoute(),
+                  LoadProfileScreen().getRoute(),
+                  // MyHome().getRoute(),
                   (Route route) => false,
                 );
               },

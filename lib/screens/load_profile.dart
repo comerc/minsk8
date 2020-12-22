@@ -9,7 +9,6 @@ class LoadProfileScreen extends StatelessWidget {
     return buildRoute<T>(
       '/load_profile',
       builder: (_) => this,
-      fullscreenDialog: true,
     );
   }
 
@@ -17,18 +16,6 @@ class LoadProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Load Profile...',
-          style: TextStyle(
-            color: Colors.grey[800],
-          ),
-        ),
-      ),
       body: LoadProfileBody(),
     );
   }
