@@ -20,7 +20,6 @@ class FeedbackScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = Container(
       alignment: Alignment.topCenter,
-      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -103,6 +102,7 @@ class FeedbackScreen extends StatelessWidget {
         isForeground: true,
         withModel: true,
       ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: ScrollBody(child: child),
       ),

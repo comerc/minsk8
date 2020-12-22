@@ -62,9 +62,8 @@ class _PaymentScreenState extends State<PaymentScreen>
     final activeDiscontHeight = 28.0 * 2; // TODO: [MVP] зависит от activeHeight
     final activeDiscountPadding = 8.0;
     final shadowDiscountPadding = 2.0;
-    final child = Container(
+    final child = Align(
       alignment: Alignment.topCenter,
-      color: Colors.white,
       child: Column(
         children: <Widget>[
           Expanded(
@@ -364,6 +363,7 @@ class _PaymentScreenState extends State<PaymentScreen>
       ),
     );
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ScrollBody(child: child),
     );
   }

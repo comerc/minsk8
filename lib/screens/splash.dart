@@ -6,13 +6,13 @@ class SplashScreen extends StatelessWidget {
     return buildRoute<T>(
       '/splash',
       builder: (_) => this,
-      fullscreenDialog: true,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: _Logo(),
       ),

@@ -96,9 +96,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
     final gridSpacing = 8.0;
     final child = Column(
       children: <Widget>[
-        Container(
+        Padding(
           padding: EdgeInsets.only(top: 16),
-          color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -193,6 +192,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
           ],
           withModel: true,
         ),
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: ScrollBody(child: child),
         ),

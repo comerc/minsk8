@@ -15,9 +15,8 @@ class InviteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Container(
+    final child = Align(
       alignment: Alignment.topCenter,
-      color: Colors.white,
       child: Column(
         children: <Widget>[
           Expanded(
@@ -77,6 +76,7 @@ class InviteScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ScrollBody(child: child),
     );
   }
