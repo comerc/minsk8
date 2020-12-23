@@ -8,21 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: [MVP] неправильная иконка приложения при входе через Google
-
-// TODO: реализовать аутентификацию через: Google, Apple Id, FB, VK, Telegram
-// + Google Sign In https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed
-// Facebook Sign In https://medium.com/@karlwhiteprivate/flutter-facebook-sign-in-with-firebase-in-2020-66556a8c3586
-// Apple SignIn https://medium.com/@karlwhiteprivate/flutter-firebase-sign-in-with-apple-c99967df142f
-// VK Sign In https://ru.stackoverflow.com/questions/667654/%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-vk-%D0%B2-%D1%81%D0%B2%D1%8F%D0%B7%D0%BA%D0%B5-%D1%81-firebase
-
-// Аутентификация пользователя через вк:
-// https://firebase.google.com/docs/auth/android/custom-auth
-// Надо будет развернуть сервер с firebase admin, авторизовать на нём пользователя из вк,
-// получить custom token для firebase, и его уже передавать в firebase auth.
-// Либо можно на клиенте авторизовывать в вк, а в firebase передавать как авторизацию по почте,
-// придумав пароль за пользователя.
-
 class AuthData {
   AuthData({
     this.user,

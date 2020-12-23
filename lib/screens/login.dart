@@ -19,6 +19,7 @@ import 'package:minsk8/import.dart';
 // придумав пароль за пользователя.
 
 // TODO: flutter telegram-auth
+// TODO: после регистрации на Web, запускать без дополнительных вопросов (как WeBull)
 
 class LoginScreen extends StatelessWidget {
   Route<T> getRoute<T>() {
