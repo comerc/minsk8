@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:graphql/client.dart';
 import 'package:gql/ast.dart';
 
@@ -14,7 +15,7 @@ class GraphQLService {
   final Duration mutationTimeout;
   final DocumentNode fragments;
 
-  Future<List<T>> query<T>({
+  Future<BuiltList<T>> query<T>({
     DocumentNode document,
     Map<String, dynamic> variables,
     String root,
@@ -44,7 +45,7 @@ class GraphQLService {
     for (final json in jsons) {
       result.add(convert(json));
     }
-    return result;
+    return result.toBuiltList();
   }
 
   Future<T> mutate<T>({
