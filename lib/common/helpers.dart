@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:minsk8/import.dart';
 
 bool get isInDebugMode {
@@ -123,11 +124,11 @@ int getNearestStep(List<int> steps, int value) {
       orElse: () => steps.last);
 }
 
-String getMemberId(BuildContext context) {
-  // TODO: singleton
-  final profile = Provider.of<ProfileModel>(context, listen: false);
-  return profile.member.id;
-}
+// String getMemberId(BuildContext context) {
+//   // TODO: singleton
+//   final profile = Provider.of<ProfileModel>(context, listen: false);
+//   return profile.member.id;
+// }
 
 void launchFeedback({
   String subject,
@@ -321,4 +322,44 @@ void save(Future<void> Function() future) async {
   } finally {
     BotToast.closeAllLoading();
   }
+}
+
+T normalizeOne<T>({
+  Map<String, dynamic> data,
+  String root,
+  dynamic Function(dynamic rawJson) toRoot,
+  T Function(Map<String, dynamic> json) convert,
+}) {
+  final hasRoot = root != null && root.isNotEmpty;
+  final hasToRoot = toRoot != null;
+  assert(!(hasRoot && hasToRoot), 'Assign "root" or "toRoot" or nothing');
+  final rawJson = hasRoot
+      ? data[root]
+      : hasToRoot
+          ? toRoot(data)
+          : data;
+  final json = rawJson as Map<String, dynamic>;
+  return (json == null) ? null : convert(json);
+}
+
+BuiltList<T> normalizeList<T>({
+  Map<String, dynamic> data,
+  String root,
+  dynamic Function(dynamic rawJson) toRoot,
+  T Function(Map<String, dynamic> json) convert,
+}) {
+  final hasRoot = root != null && root.isNotEmpty;
+  final hasToRoot = toRoot != null;
+  assert(!(hasRoot && hasToRoot), 'Assign "root" or "toRoot" or nothing');
+  final rawJson = hasRoot
+      ? data[root]
+      : hasToRoot
+          ? toRoot(data)
+          : data;
+  final jsons = (rawJson as List).cast<Map<String, dynamic>>();
+  final result = <T>[];
+  for (final json in jsons) {
+    result.add(convert(json));
+  }
+  return result.toBuiltList();
 }
