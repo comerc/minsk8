@@ -20,10 +20,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (state.status == ProfileStatus.loading) return;
     emit(state.copyWith(status: ProfileStatus.loading));
     try {
+      final memberId = await _repository.upsertMember(data);
       emit(state.copyWith(
-        member: await _repository.upsertMember(data),
-        // wishes: await _repository.readWishes(),
-        // blocks: await _repository.readBlocks(),
+        profile: await _repository.readProfile(memberId),
       ));
     } on Exception {
       // TODO: исправить на catch (error), иначе не перехватываются Error
@@ -57,19 +56,16 @@ enum ProfileStatus { initial, loading, error, ready }
 @CopyWith()
 class ProfileState extends Equatable {
   ProfileState({
-    this.member,
-    // this.wishes,
+    this.profile,
     this.status = ProfileStatus.initial,
   });
 
-  final MemberModel member;
-  // final BuiltList<WishModel> wishes;
+  final ProfileModel profile;
   final ProfileStatus status;
 
   @override
   List<Object> get props => [
-        member,
-        // wishes,
+        profile,
         status,
       ];
 }

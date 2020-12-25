@@ -55,19 +55,35 @@ class DatabaseRepository {
   //   );
   // }
 
-  Future<MemberModel> upsertMember(MemberData data) {
-    return _service.mutate<MemberModel>(
-      document: API.upsertMember,
-      variables: data.toJson(),
+  Future<String> upsertMember(MemberData data) async {
+    return normalizeOne<String>(
+      data: await _service.mutate(
+        document: API.upsertMember,
+        variables: data.toJson(),
+      ),
       root: 'insert_member_one',
-      convert: MemberModel.fromJson,
+      convert: (json) => json['id'] as String,
     );
   }
 
-  // Future<BuiltList<WishModel>> readWishes() {
-  //   return _service.query<WishModel>(
-  //     document: API.readWishes,
-  //     // variables: {},
+  Future<ProfileModel> readProfile(String memberId) async {
+    final resultData = await _service.query(
+      document: API.readProfile,
+      variables: {'member_id': memberId},
+    );
+    return normalizeOne<ProfileModel>(
+      data: resultData,
+      root: 'profile',
+      convert: ProfileModel.fromJson,
+    );
+  }
+
+  // Future<BuiltList<WishModel>> readWishes() async {
+  //   return normalizeList<WishModel>(
+  //     data: await _service.query(
+  //       document: API.readWishes,
+  //       // variables: {},
+  //     ),
   //     root: 'wishes',
   //     convert: WishModel.fromJson,
   //   );
@@ -142,7 +158,31 @@ mixin API {
     mutation UpsertMember($display_name: String $image_url: String) {
       insert_member_one(object: {display_name: $display_name, image_url: $image_url},
       on_conflict: {constraint: member_pkey, update_columns: [display_name, image_url]}) {
-        ...MemberFields
+        id
+      }
+    }
+  ''');
+
+  static final readProfile = gql(r'''
+    query ReadProfile($member_id: uuid!) {
+      profile(member_id: $member_id) {
+        member {
+          # MemberFields вместе с units, чтобы показывать "Другие лоты участника" после добавления лота 
+          ...MemberFields
+        }
+        balance
+        wishes(
+          order_by: {updated_at: desc}
+        ) {
+          updated_at
+          unit_id
+        }
+        blocks(
+          order_by: {updated_at: desc}
+        ) {
+          updated_at
+          member_id 
+        }
       }
     }
   ''');
@@ -159,6 +199,7 @@ mixin API {
   //   }
   // ''');
 
+  // TODO: убрать дублирование фрагментов
   static final fragments = gql(r'''
     fragment UnitFields on unit {
       id
