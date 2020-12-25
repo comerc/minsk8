@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 part 'member.g.dart';
 
+// TODO: extends Equatable
+
 @JsonSerializable()
 class MemberModel {
   MemberModel({

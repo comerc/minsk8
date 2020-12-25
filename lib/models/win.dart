@@ -3,6 +3,8 @@ import 'package:minsk8/import.dart';
 
 part 'win.g.dart';
 
+// TODO: extends Equatable
+
 @JsonSerializable()
 class WinModel {
   WinModel({

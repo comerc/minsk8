@@ -5,6 +5,7 @@ part 'image.g.dart';
 
 // TODO: [MVP] Building Image CDN with Firebase
 // https://dev.to/dbanisimov/building-image-cdn-with-firebase-15ef
+// TODO: extends Equatable
 
 @JsonSerializable()
 class ImageModel {
