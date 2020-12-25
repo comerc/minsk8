@@ -143,55 +143,6 @@ void main() {
   });
 }
 
-class MyHome extends StatelessWidget {
-  Route<T> getRoute<T>() {
-    return buildRoute<T>(
-      '/my_home',
-      builder: (_) => this,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PersistedStateBuilder(
-      builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-        if (!snapshot.hasData) {
-          return Scaffold(
-            body: Center(
-              child: Text('Loading state...'),
-            ),
-          );
-        }
-        appState = PersistedAppState.of(context);
-        return Scaffold(
-          appBar: AppBar(
-            actions: [
-              if (isInDebugMode) _LogoutButton(),
-            ],
-          ),
-          body: Center(
-            child: Text('Home'),
-          ),
-        );
-      },
-    );
-  }
-}
-
-// TODO: перенести кнопку на SettingsScreen
-class _LogoutButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      key: Key('$runtimeType'),
-      tooltip: 'Logout',
-      icon: Icon(FontAwesomeIcons.signOutAlt),
-      iconSize: kButtonIconSize,
-      onPressed: () => getBloc<AuthenticationCubit>(context).requestLogout(),
-    );
-  }
-}
-
 class App extends StatelessWidget {
   App({
     Key key,
