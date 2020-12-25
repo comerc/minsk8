@@ -343,9 +343,11 @@ class _PaymentScreenState extends State<PaymentScreen>
           FlatButton(
             onLongPress: () {}, // чтобы сократить время для splashColor
             onPressed: () {
+              final memberId =
+                  getBloc<ProfileCubit>(context).state.profile.member.id;
               launchFeedback(
                 subject: 'Не получается оплатить',
-                body: 'member_id=${getMemberId(context)}\n',
+                body: 'member_id=$memberId\n',
               );
             },
             textColor: Colors.red,

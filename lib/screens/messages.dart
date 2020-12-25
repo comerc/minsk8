@@ -47,7 +47,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     final unit = chat.unit;
     final avatar = Avatar(unit.avatarUrl);
 
-    // final memberId = getMemberId(context);
+    // final memberId = getBloc<ProfileCubit>(context).state.member.id;
     // final chat = widget.chat;
     // final                     (chat.unit.member.id == memberId
     //                         ? item.unitOwnerReadCount
@@ -193,7 +193,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
           PopupMenuButton(
             onSelected: (String value) async {
               if (value == 'complaint') {
-                final memberId = getMemberId(context);
+                final memberId =
+                    getBloc<ProfileCubit>(context).state.profile.member.id;
                 if (unit.member.id != memberId) {
                   launchFeedback(
                     subject:

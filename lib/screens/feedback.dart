@@ -83,9 +83,11 @@ class FeedbackScreen extends StatelessWidget {
                 OutlineButton(
                   onLongPress: () {}, // чтобы сократить время для splashColor
                   onPressed: () {
+                    final memberId =
+                        getBloc<ProfileCubit>(context).state.profile.member.id;
                     launchFeedback(
                       subject: 'Сообщить о проблеме',
-                      body: 'member_id=${getMemberId(context)}\n',
+                      body: 'member_id=$memberId\n',
                     );
                   },
                   textColor: Colors.green,

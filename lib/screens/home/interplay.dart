@@ -284,7 +284,7 @@ class _ChatListGroupState extends State<_ChatListGroup>
   @override
   Widget build(BuildContext context) {
     // timeDilation = 10.0; // 1.0 is normal animation speed.
-    final memberId = getMemberId(context);
+    final memberId = getBloc<ProfileCubit>(context).state.profile.member.id;
     return SliverToBoxAdapter(
       child: Column(
         mainAxisSize: MainAxisSize.min,
