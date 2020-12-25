@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:state_persistence/state_persistence.dart';
 import 'package:provider/provider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
@@ -68,49 +69,62 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // drawer: isInDebugMode ? MainDrawer(null) : null,
-      // это не нужно при использвании SafeArea
-      // appBar: PreferredSize(
-      //   child: Container(
-      //     color: Colors.white,
-      //   ),
-      //   preferredSize: Size.zero, // hack
-      // ),
-      // body: IndexedStack(
-      //   children: <Widget>[
-      //     HomeShowcase(tabIndex: 0),
-      //     HomeUnderway(tabIndex: 1),
-      //     HomeInterplay(tabIndex: 2),
-      //     HomeProfile(hasUpdate: _hasUpdate),
-      //   ],
-      //   index: _tabIndex,
-      // ),
-      // body: <Widget>[
-      //   HomeShowcase(tabIndex: 0),
-      //   HomeUnderway(tabIndex: 1),
-      //   HomeInterplay(tabIndex: 2),
-      //   HomeProfile(hasUpdate: _hasUpdate),
-      // ][_tabIndex],
-      // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        physics: NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          HomeShowcase(pageIndex: 0),
-          HomeUnderway(pageIndex: 1),
-          HomeInterplay(pageIndex: 2),
-          HomeProfile(hasUpdate: _hasUpdate),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildAddButton(),
-      bottomNavigationBar: _NavigationBar(
-        tabIndex: _pageIndex,
-        onChangeTabIndex: _pageController.jumpToPage,
-      ),
-      extendBody: true,
+    return PersistedStateBuilder(
+      builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
+        if (!snapshot.hasData) {
+          return Scaffold(
+            body: Center(
+              child: Text('Loading state...'),
+            ),
+          );
+        }
+        appState = PersistedAppState.of(context);
+        return Scaffold(
+          // drawer: isInDebugMode ? MainDrawer(null) : null,
+          // это не нужно при использвании SafeArea
+          // appBar: PreferredSize(
+          //   child: Container(
+          //     color: Colors.white,
+          //   ),
+          //   preferredSize: Size.zero, // hack
+          // ),
+          // body: IndexedStack(
+          //   children: <Widget>[
+          //     HomeShowcase(tabIndex: 0),
+          //     HomeUnderway(tabIndex: 1),
+          //     HomeInterplay(tabIndex: 2),
+          //     HomeProfile(hasUpdate: _hasUpdate),
+          //   ],
+          //   index: _tabIndex,
+          // ),
+          // body: <Widget>[
+          //   HomeShowcase(tabIndex: 0),
+          //   HomeUnderway(tabIndex: 1),
+          //   HomeInterplay(tabIndex: 2),
+          //   HomeProfile(hasUpdate: _hasUpdate),
+          // ][_tabIndex],
+          // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              HomeShowcase(pageIndex: 0),
+              HomeUnderway(pageIndex: 1),
+              HomeInterplay(pageIndex: 2),
+              HomeProfile(hasUpdate: _hasUpdate),
+            ],
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: _buildAddButton(),
+          bottomNavigationBar: _NavigationBar(
+            tabIndex: _pageIndex,
+            onChangeTabIndex: _pageController.jumpToPage,
+          ),
+          extendBody: true,
+        );
+      },
     );
   }
 
