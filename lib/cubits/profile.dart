@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:minsk8/import.dart';
@@ -20,10 +21,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(status: ProfileStatus.loading));
     try {
       emit(state.copyWith(
-          // member: await _repository.upsertMember(data),
-          // wishes: await _repository.readWishes(),
-          ));
+        member: await _repository.upsertMember(data),
+        // wishes: await _repository.readWishes(),
+        // blocks: await _repository.readBlocks(),
+      ));
     } on Exception {
+      // TODO: исправить на catch (error), иначе не перехватываются Error
       emit(state.copyWith(status: ProfileStatus.error));
       rethrow;
     }
@@ -55,12 +58,12 @@ enum ProfileStatus { initial, loading, error, ready }
 class ProfileState extends Equatable {
   ProfileState({
     this.member,
-    // this.wishes = const [],
+    // this.wishes,
     this.status = ProfileStatus.initial,
   });
 
   final MemberModel member;
-  // final List<WishModel> wishes;
+  // final BuiltList<WishModel> wishes;
   final ProfileStatus status;
 
   @override

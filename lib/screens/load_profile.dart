@@ -27,12 +27,9 @@ class LoadProfileBody extends StatefulWidget {
 }
 
 class _LoadProfileBodyState extends State<LoadProfileBody> {
-  User _user;
-
   @override
   void initState() {
     super.initState();
-    _user = FirebaseAuth.instance.currentUser;
     _run();
   }
 
@@ -43,9 +40,10 @@ class _LoadProfileBodyState extends State<LoadProfileBody> {
   }
 
   void _load() {
+    final user = getBloc<AuthenticationCubit>(context).state.user;
     final data = MemberData(
-      displayName: _user.displayName,
-      imageUrl: _user.photoURL,
+      displayName: user.displayName,
+      imageUrl: user.imageUrl,
     );
     load(() => getBloc<ProfileCubit>(context).load(data));
   }
@@ -98,7 +96,8 @@ class _LoadProfileBodyState extends State<LoadProfileBody> {
         ),
       );
     }
-    final idTokenResult = await _user.getIdTokenResult(true);
+    final idTokenResult =
+        await FirebaseAuth.instance.currentUser.getIdTokenResult(true);
     final customUserClaims =
         idTokenResult.claims['https://hasura.io/jwt/claims'];
     if (customUserClaims == null) {
