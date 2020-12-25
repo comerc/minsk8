@@ -43,8 +43,6 @@ analyzer:
     - ios/**
     - lib/_**/**
     - lib/**/_*.dart
-    - lib/**.g.dart
-    - lib/**.freezed.dart
     - application_bundle/**
     - linux/**
     - macos/**
