@@ -51,8 +51,6 @@ import 'package:minsk8/import.dart';
 // TODO: (for PersistedQueriesLink) Support for persisted queries https://github.com/hasura/graphql-engine/issues/273
 // TODO: Reduce shader compilation jank on mobile https://flutter.dev/docs/perf/rendering/shader
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
-// TODO: [MVP] включить HASURA_GRAPHQL_JWT_SECRET
-// TODO: [MVP] переключить HASURA_GRAPHQL_UNAUTHORIZED_ROLE на guest
 // TODO: провести эксперимент - (firebase_auth) будет ли работать в offline user.getIdToken(true)?
 // TODO: убрать kButtonIconSize - задавать через theme
 
