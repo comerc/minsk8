@@ -176,30 +176,6 @@ mixin Queries {
     }
   ''');
 
-  // static final getProfile = gql(r'''
-  //   query GetProfile($member_id: uuid!) {
-  //     profile(member_id: $member_id) {
-  //       member {
-  //         # memberFields вместе с units, чтобы показывать "Другие лоты участника" после добавления лота
-  //         ...MemberFields
-  //       }
-  //       balance
-  //     }
-  //     wishes(
-  //       order_by: {updated_at: desc}
-  //     ) {
-  //       updated_at
-  //       unit_id
-  //     }
-  //     blocks(
-  //       order_by: {updated_at: desc}
-  //     ) {
-  //       updated_at
-  //       member_id
-  //     }
-  //   }
-  // ''');
-
   static final getPayments = gql(r'''
     query GetPayments($next_date: timestamptz) {
       payments (
@@ -267,13 +243,13 @@ mixin Queries {
       wishes(
         order_by: {updated_at: desc}
       ) {
-        updated_at
         unit {
           ...UnitFields
           member {
             ...MemberFields
           }
         }
+        # updated_at
       }
     }
   ''');
@@ -335,13 +311,13 @@ mixin Queries {
       gives(
         order_by: {created_at: desc}
       ) {
-        created_at
         unit {
           ...UnitFields
           member {
             ...MemberFields
           }
         }
+        # created_at
       }
     }
   ''');
