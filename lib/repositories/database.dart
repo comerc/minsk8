@@ -173,13 +173,13 @@ mixin API {
         wishes(
           order_by: {updated_at: desc}
         ) {
-          updated_at
+          # updated_at
           unit_id
         }
         blocks(
           order_by: {updated_at: desc}
         ) {
-          updated_at
+          # updated_at
           member_id 
         }
       }
