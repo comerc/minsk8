@@ -46,7 +46,7 @@ class _HomeProfileState extends State<HomeProfile> {
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
-    final profile = Provider.of<ProfileModel>(context);
+    final profile = getBloc<ProfileCubit>(context).state.profile;
     final version = Provider.of<VersionModel>(context);
     final child = Column(
       children: <Widget>[
