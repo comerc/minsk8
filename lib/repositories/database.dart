@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:built_collection/built_collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:gql/ast.dart';
 import 'package:graphql/client.dart';
 import 'package:minsk8/import.dart';
 
@@ -246,28 +245,24 @@ mixin API {
       }
     }
 
-    # fragment WantFields on want {
-    #   unit {
-    #     ...UnitFields
-    #     member {
-    #       ...MemberFields
-    #     }
-    #   }
-    #   value
-    #   updated_at
-    #   win {
-    #     created_at
-    #   }
-    # }
-
-    # fragment MemberFields on member {
-    #   id
-    #   display_name
-    #   image_url
-    # }
-
-    # fragment UnitFields on unit {
-    #   id
-    # }
+    fragment WantFields on want {
+      unit {
+        ...UnitFields
+        member {
+          ...MemberFields
+        }
+      }
+      value
+      updated_at
+      win {
+        created_at
+      }
+    }
   ''');
+}
+
+// TODO: выбросить после перехода на GraphQLService
+DocumentNode addFragments(DocumentNode document) {
+  return DocumentNode(
+      definitions: [...API.fragments.definitions, ...document.definitions]);
 }
