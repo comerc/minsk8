@@ -59,7 +59,6 @@ class UnderwayData extends SourceList<UnitModel> {
   UnitModel normalizeItem(dynamic metaModel) {
     final item = metaModel.unit as UnitModel;
     metaModel.unit = null;
-    item.meta = metaModel;
-    return item;
+    return item.copyWith(meta: metaModel);
   }
 }

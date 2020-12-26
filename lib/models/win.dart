@@ -1,12 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
 part 'win.g.dart';
 
-// TODO: extends Equatable
-
 @JsonSerializable()
-class WinModel {
+class WinModel extends Equatable {
   WinModel({
     this.member,
     this.createdAt,
@@ -15,6 +14,12 @@ class WinModel {
   @JsonKey(nullable: true) // надо для profile.member.bids.win
   final MemberModel member;
   final DateTime createdAt;
+
+  @override
+  List<Object> get props => [
+        member,
+        createdAt,
+      ];
 
   static WinModel fromJson(Map<String, dynamic> json) =>
       _$WinModelFromJson(json);

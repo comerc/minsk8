@@ -1,3 +1,6 @@
+import 'package:built_collection/built_collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:latlong/latlong.dart';
 import 'package:minsk8/import.dart';
@@ -5,10 +8,10 @@ import 'package:minsk8/import.dart';
 part 'unit.g.dart';
 
 // TODO: зачем было нужно поле want_start_at? (вероятно Flutter #270)
-// TODO: extends Equatable
 
+@CopyWith()
 @JsonSerializable()
-class UnitModel {
+class UnitModel extends Equatable {
   UnitModel({
     this.id,
     this.createdAt,
@@ -25,6 +28,7 @@ class UnitModel {
     this.transferredAt,
     this.wishes,
     this.isPromo,
+    this.meta,
   }) : assert(images.isNotEmpty);
 
   final String id;
@@ -32,7 +36,7 @@ class UnitModel {
   final String text;
   @JsonKey(nullable: true) // надо для units.member.units и profile.member.units
   final MemberModel member;
-  final List<ImageModel> images;
+  final BuiltList<ImageModel> images;
   @JsonKey(nullable: true)
   final DateTime expiresAt;
   @JsonKey(nullable: true)
@@ -48,9 +52,11 @@ class UnitModel {
   final WinModel win;
   @JsonKey(nullable: true)
   final DateTime transferredAt;
-  final List<WishModel> wishes;
+  final BuiltList<WishModel> wishes;
   @JsonKey(nullable: true)
   final bool isPromo;
+  @JsonKey(ignore: true)
+  final dynamic meta;
 
   bool get isClosed {
     // описание состояний - смотри комменты в диалогах WantButton
@@ -75,8 +81,6 @@ class UnitModel {
     return false;
   }
 
-  dynamic meta;
-
   static LatLng _locationFromJson(Map<String, dynamic> json) {
     final array = json['coordinates'];
     return LatLng(array[0] as double, array[1] as double);
@@ -97,6 +101,26 @@ class UnitModel {
   bool get isBlockedOrLocalDeleted => (isBlocked ?? false) || isLocalDeleted;
 
   String get avatarUrl => images[0].getDummyUrl(id);
+
+  @override
+  List<Object> get props => [
+        id,
+        createdAt,
+        text,
+        member,
+        images,
+        expiresAt,
+        urgent,
+        price,
+        location,
+        address,
+        isBlocked,
+        win,
+        transferredAt,
+        wishes,
+        isPromo,
+        meta,
+      ];
 
   static UnitModel fromJson(Map<String, dynamic> json) =>
       _$UnitModelFromJson(json);

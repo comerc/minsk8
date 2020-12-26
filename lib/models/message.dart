@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 // import 'package:minsk8/import.dart';
 
 part 'message.g.dart';
 
 @JsonSerializable()
-class MessageModel {
+class MessageModel extends Equatable {
   MessageModel({
     this.id,
     this.text,
@@ -20,6 +21,16 @@ class MessageModel {
   final bool isRead;
   final DateTime createdAt;
   // final DateTime updatedAt;
+
+  @override
+  List<Object> get props => [
+        id,
+        text,
+        author,
+        isRead,
+        createdAt,
+        // updatedAt,
+      ];
 
   static MessageModel fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);

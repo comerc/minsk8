@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
 part 'proclamation.g.dart';
 
 @JsonSerializable()
-class ProclamationModel {
+class ProclamationModel extends Equatable {
   ProclamationModel({
     this.id,
     this.unit,
@@ -15,6 +16,13 @@ class ProclamationModel {
   @JsonKey(nullable: true)
   final UnitModel unit;
   final String text;
+
+  @override
+  List<Object> get props => [
+        id,
+        unit,
+        text,
+      ];
 
   static ProclamationModel fromJson(Map<String, dynamic> json) =>
       _$ProclamationModelFromJson(json);

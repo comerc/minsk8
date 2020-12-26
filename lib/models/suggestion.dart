@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
 part 'suggestion.g.dart';
 
 @JsonSerializable()
-class SuggestionModel {
+class SuggestionModel extends Equatable {
   SuggestionModel({
     this.id,
     this.unit,
@@ -14,6 +15,13 @@ class SuggestionModel {
   final String id;
   final UnitModel unit;
   final QuestionValue question;
+
+  @override
+  List<Object> get props => [
+        id,
+        unit,
+        question,
+      ];
 
   static SuggestionModel fromJson(Map<String, dynamic> json) =>
       _$SuggestionModelFromJson(json);

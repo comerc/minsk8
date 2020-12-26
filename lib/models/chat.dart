@@ -1,10 +1,12 @@
+import 'package:built_collection/built_collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
 part 'chat.g.dart';
 
 @JsonSerializable()
-class ChatModel {
+class ChatModel extends Equatable {
   ChatModel({
     this.unit,
     this.companion,
@@ -20,7 +22,7 @@ class ChatModel {
 
   final UnitModel unit;
   final MemberModel companion;
-  final List<MessageModel> messages;
+  final BuiltList<MessageModel> messages;
   final bool isUnitOwnerWritesNow;
   final bool isCompanionWritesNow;
   // TODO: updatedAt - как в gmail, обновленные элементы в ChatList нужно переставлять на клиенте
@@ -31,6 +33,20 @@ class ChatModel {
   final int companionReadCount;
 
   String get id => '${unit.id} ${companion.id}';
+
+  @override
+  List<Object> get props => [
+        unit,
+        companion,
+        messages,
+        isUnitOwnerWritesNow,
+        isCompanionWritesNow,
+        updatedAt,
+        stage,
+        transactionId,
+        unitOwnerReadCount,
+        companionReadCount,
+      ];
 
   static ChatModel fromJson(Map<String, dynamic> json) =>
       _$ChatModelFromJson(json);

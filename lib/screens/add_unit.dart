@@ -10,6 +10,7 @@ import 'package:graphql/client.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
@@ -295,7 +296,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       final newUnit = UnitModel.fromJson(unitData);
       final profile = getBloc<ProfileCubit>(context).state.profile;
       // TODO: когда будет loadMore для "Другие лоты участника", тут будет дублирование
-      profile.member.units.insert(0, newUnit);
+      final units = profile.member.units.toList()..insert(0, newUnit);
+      profile.member.copyWith(units: units.toBuiltList());
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);
       _reloadUnderwayModel();

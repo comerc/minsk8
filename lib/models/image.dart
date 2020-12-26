@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
@@ -5,10 +6,9 @@ part 'image.g.dart';
 
 // TODO: [MVP] Building Image CDN with Firebase
 // https://dev.to/dbanisimov/building-image-cdn-with-firebase-15ef
-// TODO: extends Equatable
 
 @JsonSerializable()
-class ImageModel {
+class ImageModel extends Equatable {
   ImageModel({
     this.url,
     this.width,
@@ -42,6 +42,13 @@ class ImageModel {
   //   createNetworkImage().evict();
   //   createResizeImage().evict();
   // }
+
+  @override
+  List<Object> get props => [
+        url,
+        width,
+        height,
+      ];
 
   static ImageModel fromJson(Map<String, dynamic> json) =>
       _$ImageModelFromJson(json);

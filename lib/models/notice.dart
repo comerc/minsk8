@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:minsk8/import.dart';
 
 part 'notice.g.dart';
 
 @JsonSerializable()
-class NoticeModel {
+class NoticeModel extends Equatable {
   NoticeModel({
     this.createdAt,
     this.proclamation,
@@ -16,6 +17,13 @@ class NoticeModel {
   final ProclamationModel proclamation;
   @JsonKey(nullable: true)
   final SuggestionModel suggestion;
+
+  @override
+  List<Object> get props => [
+        createdAt,
+        proclamation,
+        suggestion,
+      ];
 
   static NoticeModel fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
