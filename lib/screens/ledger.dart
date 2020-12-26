@@ -312,7 +312,7 @@ class _LedgerScreenState extends State<LedgerScreen> {
 class _BalanceDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
+    final profile = getBloc<ProfileCubit>(context).state.profile;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       children: <Widget>[

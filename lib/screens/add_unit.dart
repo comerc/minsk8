@@ -293,7 +293,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       navigator.pop(); // for showDialog "Загрузка..."
       final unitData = result.data['insert_unit_one'] as Map<String, dynamic>;
       final newUnit = UnitModel.fromJson(unitData);
-      final profile = Provider.of<ProfileModel>(context, listen: false);
+      final profile = getBloc<ProfileCubit>(context).state.profile;
       // TODO: когда будет loadMore для "Другие лоты участника", тут будет дублирование
       profile.member.units.insert(0, newUnit);
       _reloadShowcaseTab(_kind);

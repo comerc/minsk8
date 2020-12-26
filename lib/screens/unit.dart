@@ -564,8 +564,7 @@ class _UnitScreenState extends State<UnitScreen> {
                 }
               },
               itemBuilder: (BuildContext context) {
-                final profile =
-                    Provider.of<ProfileModel>(context, listen: false);
+                final profile = getBloc<ProfileCubit>(context).state.profile;
                 final isMy = profile.member.id == member.id;
                 final submenuUnits = <PopupMenuEntry<_PopupMenuValue>>[];
                 // TODO: отключил, т.к. требуется реализовать редактирование лота, что будет после MVP
@@ -795,7 +794,7 @@ class _WantDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = Provider.of<ProfileModel>(context, listen: false);
+    final profile = getBloc<ProfileCubit>(context).state.profile;
     final imageHeight = 96.0;
     return SimpleDialog(
       contentPadding: EdgeInsets.symmetric(vertical: 16),
