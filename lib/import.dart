@@ -58,6 +58,7 @@ export 'models/version.dart';
 export 'models/want.dart';
 export 'models/win.dart';
 export 'models/wish.dart';
+export 'models/wish_unit.dart';
 export 'repositories/authentication.dart';
 export 'repositories/database.dart';
 export 'screens/_start.dart';

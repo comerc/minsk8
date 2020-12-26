@@ -1,21 +1,24 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:minsk8/import.dart';
 
 part 'wish.g.dart';
 
 @JsonSerializable()
-class WishModel {
+class WishModel extends Equatable {
   WishModel({
-    this.updatedAt,
-    this.unit,
+    // this.updatedAt,
     this.unitId,
   });
 
-  final DateTime updatedAt;
-  @JsonKey(nullable: true) // надо для MyWishesModel
-  UnitModel unit;
-  @JsonKey(nullable: true) // надо для getWishUnits
+  // final DateTime updatedAt;
   final String unitId;
+
+  @override
+  List<Object> get props => [
+        // updatedAt,
+        unitId,
+      ];
 
   static WishModel fromJson(Map<String, dynamic> json) =>
       _$WishModelFromJson(json);
