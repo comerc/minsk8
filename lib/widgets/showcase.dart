@@ -720,8 +720,7 @@ class _WishButtonState extends State<WishButton> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       buildWhen: (ProfileState previous, ProfileState current) {
-        return previous.profile.getWishIndex(widget.unit.id) !=
-            current.profile.getWishIndex(widget.unit.id);
+        return previous.profile.wishes != current.profile.wishes;
       },
       builder: (BuildContext context, ProfileState state) {
         final isLiked = state.profile.getWishIndex(widget.unit.id) != -1;
