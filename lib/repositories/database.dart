@@ -61,7 +61,7 @@ class DatabaseRepository {
         variables: data.toJson(),
       ),
       root: 'insert_member_one',
-      convert: (json) => json['id'] as String,
+      convert: (Map<String, dynamic> json) => json['id'] as String,
     );
   }
 
@@ -74,6 +74,17 @@ class DatabaseRepository {
       data: resultData,
       root: 'profile',
       convert: ProfileModel.fromJson,
+    );
+  }
+
+  Future<WishModel> upsertWish(WishData data) async {
+    return normalizeOne<WishModel>(
+      data: await _service.mutate(
+        document: API.upsertWish,
+        variables: data.toJson(),
+      ),
+      root: 'insert_wish_one',
+      convert: WishModel.fromJson,
     );
   }
 
@@ -173,15 +184,25 @@ mixin API {
         wishes(
           order_by: {updated_at: desc}
         ) {
-          # updated_at
           unit_id
+          updated_at
         }
         blocks(
           order_by: {updated_at: desc}
         ) {
-          # updated_at
           member_id 
+          updated_at
         }
+      }
+    }
+  ''');
+
+  static final upsertWish = gql(r'''
+    mutation UpsertWish($unit_id: uuid!, $value: Boolean!) {
+      insert_wish_one(object: {unit_id: $unit_id, value: $value},
+      on_conflict: {constraint: wish_pkey, update_columns: [value]}) {
+        unit_id
+        updated_at
       }
     }
   ''');
