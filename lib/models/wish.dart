@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-// import 'package:minsk8/import.dart';
+import 'package:minsk8/import.dart';
 
 part 'wish.g.dart';
 
@@ -8,16 +8,17 @@ part 'wish.g.dart';
 class WishModel extends Equatable {
   WishModel({
     this.unitId,
-    // this.updatedAt,
+    this.updatedAt,
   });
 
+  @JsonKey(nullable: true)
   final String unitId;
-  // final DateTime updatedAt;
+  final DateTime updatedAt;
 
   @override
   List<Object> get props => [
         unitId,
-        // updatedAt,
+        updatedAt,
       ];
 
   static WishModel fromJson(Map<String, dynamic> json) =>
