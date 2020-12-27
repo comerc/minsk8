@@ -8,16 +8,16 @@ part 'wish_unit.g.dart';
 class WishUnitModel extends Equatable {
   WishUnitModel({
     this.unit,
-    // this.updatedAt,
+    this.updatedAt,
   });
 
   final UnitModel unit;
-  // final DateTime updatedAt;
+  final DateTime updatedAt;
 
   @override
   List<Object> get props => [
         unit,
-        // updatedAt,
+        updatedAt,
       ];
 
   static WishUnitModel fromJson(Map<String, dynamic> json) =>
