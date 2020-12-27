@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql/client.dart';
 import 'package:like_button/like_button.dart';
@@ -716,58 +718,65 @@ class _WishButtonState extends State<WishButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
-    // final myWishes = Provider.of<MyWishesModel>(context);
-    // return Tooltip(
-    //   message: 'Wish',
-    //   child: Material(
-    //     child: InkWell(
-    //       onTap: () {},
-    //       // borderRadius: BorderRadius.all(kImageBorderRadius),
-    //       child: LikeButton(
-    //         animationDuration: _animationDuration,
-    //         isLiked: myWishes.has(widget.unit.id),
-    //         likeBuilder: (bool isLiked) {
-    //           if (isLiked) {
-    //             return Icon(
-    //               Icons.favorite,
-    //               color: Colors.pinkAccent,
-    //               size: widget.iconSize,
-    //             );
-    //           }
-    //           return Icon(
-    //             Icons.favorite_border,
-    //             color: Colors.black.withOpacity(0.8),
-    //             size: widget.iconSize,
-    //           );
-    //         },
-    //         likeCountPadding: null,
-    //         // likeCount: null, // unit.favorites,
-    //         // countBuilder: (int count, bool isLiked, String text) {
-    //         //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
-    //         //   Widget result;
-    //         //   if (count == 0) {
-    //         //     result = Text(
-    //         //       "love",
-    //         //       style: TextStyle(color: color, fontSize: kFontSize),
-    //         //     );
-    //         //   } else
-    //         //     result = Text(
-    //         //       count >= 1000
-    //         //           ? (count / 1000).toStringAsFixed(1) + "k"
-    //         //           : text,
-    //         //       style: TextStyle(color: color, fontSize: kFontSize),
-    //         //     );
-    //         //   return result;
-    //         // },
-    //         // likeCountAnimationType: unit.favorites < 1000
-    //         //     ? LikeCountAnimationType.part
-    //         //     : LikeCountAnimationType.none,
-    //         onTap: _onTap,
-    //       ),
-    //     ),
-    //   ),
-    // );
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      buildWhen: (ProfileState previous, ProfileState current) {
+        return previous.profile.getWishIndex(widget.unit.id) !=
+            current.profile.getWishIndex(widget.unit.id);
+      },
+      builder: (BuildContext context, ProfileState state) {
+        final isLiked = state.profile.getWishIndex(widget.unit.id) != -1;
+        return Tooltip(
+          message: 'Wish',
+          child: Material(
+            child: InkWell(
+              onTap: () {},
+              // borderRadius: BorderRadius.all(kImageBorderRadius),
+              child: LikeButton(
+                animationDuration: _animationDuration,
+                isLiked: isLiked,
+                likeBuilder: (bool isLiked) {
+                  if (isLiked) {
+                    return Icon(
+                      Icons.favorite,
+                      color: Colors.pinkAccent,
+                      size: widget.iconSize,
+                    );
+                  }
+                  return Icon(
+                    Icons.favorite_border,
+                    color: Colors.black.withOpacity(0.8),
+                    size: widget.iconSize,
+                  );
+                },
+                likeCountPadding: null,
+                // likeCount: null, // unit.favorites,
+                // countBuilder: (int count, bool isLiked, String text) {
+                //   final color = isLiked ? Colors.pinkAccent : Colors.grey;
+                //   Widget result;
+                //   if (count == 0) {
+                //     result = Text(
+                //       "love",
+                //       style: TextStyle(color: color, fontSize: kFontSize),
+                //     );
+                //   } else
+                //     result = Text(
+                //       count >= 1000
+                //           ? (count / 1000).toStringAsFixed(1) + "k"
+                //           : text,
+                //       style: TextStyle(color: color, fontSize: kFontSize),
+                //     );
+                //   return result;
+                // },
+                // likeCountAnimationType: unit.favorites < 1000
+                //     ? LikeCountAnimationType.part
+                //     : LikeCountAnimationType.none,
+                onTap: _onTap,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _disposeTimer() {
@@ -781,77 +790,84 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
-      final myWishes = Provider.of<MyWishesModel>(context, listen: false);
-      _optimisticUpdateWish(
-        myWishes,
-        unit: widget.unit,
-        value: !isLiked,
+      getBloc<ProfileCubit>(context).saveWish(
+        WishData(
+          unitId: widget.unit.id,
+          value: !isLiked,
+        ),
       );
+      // final myWishes = Provider.of<MyWishesModel>(context, listen: false);
+      // _optimisticUpdateWish(
+      //   myWishes,
+      //   unit: widget.unit,
+      //   value: !isLiked,
+      // );
     });
     return !isLiked;
   }
 }
 
-Future<void> _queueUpdateWish = Future.value();
+// Future<void> _queueUpdateWish = Future.value();
 
-void _optimisticUpdateWish(MyWishesModel myWishes,
-    {UnitModel unit, bool value}) {
-  final oldUpdatedAt = myWishes.updateWish(
-    unitId: unit.id,
-    value: value,
-  );
-  final options = MutationOptions(
-    document: addFragments(Mutations.upsertWish),
-    variables: {
-      'unit_id': unit.id,
-      'value': value,
-    },
-    fetchPolicy: FetchPolicy.noCache,
-  );
-  _queueUpdateWish = _queueUpdateWish.then((_) {
-    return client
-        .mutate(options)
-        .timeout(kGraphQLMutationTimeout)
-        .then((QueryResult result) {
-      if (result.hasException) {
-        throw result.exception;
-      }
-      final json = result.data['insert_wish_one'];
-      myWishes.updateWish(
-        unitId: unit.id,
-        value: value,
-        updatedAt: DateTime.parse(json['updated_at'] as String),
-      );
-    });
-  }).catchError((error) {
-    out(error);
-    myWishes.updateWish(
-      unitId: unit.id,
-      value: oldUpdatedAt != null,
-      updatedAt: oldUpdatedAt,
-    );
-    BotToast.showNotification(
-      title: (_) => Text(
-        value
-            ? 'Не удалось сохранить желание для "${unit.text}"'
-            : 'Не удалось удалить желание для "${unit.text}"',
-        overflow: TextOverflow.fade,
-        softWrap: false,
-      ),
-      trailing: (Function close) => FlatButton(
-        onLongPress: () {}, // чтобы сократить время для splashColor
-        onPressed: () {
-          close();
-          _optimisticUpdateWish(myWishes, unit: unit, value: value);
-        },
-        child: Text(
-          'ПОВТОРИТЬ',
-          style: TextStyle(
-            fontSize: kFontSize,
-            color: Colors.black.withOpacity(0.6),
-          ),
-        ),
-      ),
-    );
-  });
-}
+// TODO: [MVP] вернуть _optimisticUpdateWish
+// void _optimisticUpdateWish(MyWishesModel myWishes,
+//     {UnitModel unit, bool value}) {
+//   final oldUpdatedAt = myWishes.updateWish(
+//     unitId: unit.id,
+//     value: value,
+//   );
+//   final options = MutationOptions(
+//     document: addFragments(Mutations.upsertWish),
+//     variables: {
+//       'unit_id': unit.id,
+//       'value': value,
+//     },
+//     fetchPolicy: FetchPolicy.noCache,
+//   );
+//   _queueUpdateWish = _queueUpdateWish.then((_) {
+//     return client
+//         .mutate(options)
+//         .timeout(kGraphQLMutationTimeout)
+//         .then((QueryResult result) {
+//       if (result.hasException) {
+//         throw result.exception;
+//       }
+//       final json = result.data['insert_wish_one'];
+//       myWishes.updateWish(
+//         unitId: unit.id,
+//         value: value,
+//         updatedAt: DateTime.parse(json['updated_at'] as String),
+//       );
+//     });
+//   }).catchError((error) {
+//     out(error);
+//     myWishes.updateWish(
+//       unitId: unit.id,
+//       value: oldUpdatedAt != null,
+//       updatedAt: oldUpdatedAt,
+//     );
+//     BotToast.showNotification(
+//       title: (_) => Text(
+//         value
+//             ? 'Не удалось сохранить желание для "${unit.text}"'
+//             : 'Не удалось удалить желание для "${unit.text}"',
+//         overflow: TextOverflow.fade,
+//         softWrap: false,
+//       ),
+//       trailing: (Function close) => FlatButton(
+//         onLongPress: () {}, // чтобы сократить время для splashColor
+//         onPressed: () {
+//           close();
+//           _optimisticUpdateWish(myWishes, unit: unit, value: value);
+//         },
+//         child: Text(
+//           'ПОВТОРИТЬ',
+//           style: TextStyle(
+//             fontSize: kFontSize,
+//             color: Colors.black.withOpacity(0.6),
+//           ),
+//         ),
+//       ),
+//     );
+//   });
+// }

@@ -24,8 +24,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(
         profile: await _repository.readProfile(memberId),
       ));
-    } on Exception {
-      // TODO: исправить на catch (error), иначе не перехватываются Error
+    } catch (error) {
+      // TODO: [MVP] исправить на catch (error), иначе не перехватываются Error
       emit(state.copyWith(status: ProfileStatus.error));
       rethrow;
     }
@@ -39,23 +39,37 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(profile: profile));
   }
 
-  // Future<void> saveWish(WishData data) async {
-  //   final wish = await _repository.upsertWish(data);
-  //   final unitId = wish.unit.id;
-  //   if (data.value) {
-  //     if (state.wishes.indexWhere((WishModel wish) => wish.unit.id == unitId) ==
-  //         -1) {
-  //       emit(state.copyWith(
-  //         wishes: [wish, ...state.wishes],
-  //       ));
-  //     }
-  //   } else {
-  //     emit(state.copyWith(
-  //       wishes: [...state.wishes]
-  //         ..removeWhere((WishModel wish) => wish.unit.id == unitId),
-  //     ));
-  //   }
-  // }
+  void _updateWishLocaly(WishData data, WishModel wish) {
+    final wishes = state.profile.wishes.toList();
+    final index = state.profile.getWishIndex(data.unitId);
+    bool isChanged = false;
+    if (data.value) {
+      if (index == -1) {
+        wishes.add(wish);
+        isChanged = true;
+      }
+    } else {
+      if (index != -1) {
+        wishes.removeAt(index);
+        isChanged = true;
+      }
+    }
+    if (isChanged) {
+      final profile = state.profile.copyWith(wishes: wishes.toBuiltList());
+      emit(state.copyWith(profile: profile));
+    }
+  }
+
+  Future<void> saveWish(WishData data) async {
+    //     final oldUpdatedAt = index == -1 ? null : wishes[index].updatedAt;
+    //     final wish = WishModel(
+    //       updatedAt: updatedAt ?? DateTime.now(),
+    //       unitId: unitId,
+    //     );
+    // TODO: (?) преобразовывать дату, которую присваиваю на клиенте в .toUtc()
+    final wish = await _repository.upsertWish(data);
+    _updateWishLocaly(data, wish);
+  }
 }
 
 enum ProfileStatus { initial, loading, error, ready }
@@ -87,12 +101,12 @@ class MemberData {
   Map<String, dynamic> toJson() => _$MemberDataToJson(this);
 }
 
-// @JsonSerializable(createFactory: false)
-// class WishData {
-//   WishData({this.unitId, this.value});
+@JsonSerializable(createFactory: false)
+class WishData {
+  WishData({this.unitId, this.value});
 
-//   final String unitId;
-//   final bool value;
+  final String unitId;
+  final bool value;
 
-//   Map<String, dynamic> toJson() => _$WishDataToJson(this);
-// }
+  Map<String, dynamic> toJson() => _$WishDataToJson(this);
+}
