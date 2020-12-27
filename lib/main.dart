@@ -138,6 +138,7 @@ void main() {
     out('$error');
     out('$stackTrace');
     // TODO: [MVP] отправлять ошибки в Sentry (или Firebase Crashlytics)
+    // TODO: [MVP] не перехватывается "NoSuchMethodError: The method '[]' was called on null." при трансформации json
   });
 }
 
