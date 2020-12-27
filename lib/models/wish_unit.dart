@@ -7,17 +7,17 @@ part 'wish_unit.g.dart';
 @JsonSerializable()
 class WishUnitModel extends Equatable {
   WishUnitModel({
-    // this.updatedAt,
     this.unit,
+    // this.updatedAt,
   });
 
-  // final DateTime updatedAt;
   final UnitModel unit;
+  // final DateTime updatedAt;
 
   @override
   List<Object> get props => [
-        // updatedAt,
         unit,
+        // updatedAt,
       ];
 
   static WishUnitModel fromJson(Map<String, dynamic> json) =>

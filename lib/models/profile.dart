@@ -21,6 +21,9 @@ class ProfileModel extends Equatable {
   final BuiltList<WishModel> wishes;
   final BuiltList<BlockModel> blocks;
 
+  int getWishIndex(String unitId) =>
+      wishes.indexWhere((wish) => wish.unitId == unitId);
+
   @override
   List<Object> get props => [
         balance,
