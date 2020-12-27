@@ -32,6 +32,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(status: ProfileStatus.ready));
   }
 
+  Future<void> addUnitLocaly(UnitModel unit) async {
+    final units = state.profile.member.units.toList()..insert(0, unit);
+    final member = state.profile.member.copyWith(units: units.toBuiltList());
+    final profile = state.profile.copyWith(member: member);
+    emit(state.copyWith(profile: profile));
+  }
+
   // Future<void> saveWish(WishData data) async {
   //   final wish = await _repository.upsertWish(data);
   //   final unitId = wish.unit.id;

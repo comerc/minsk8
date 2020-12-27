@@ -266,6 +266,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       );
       return;
     }
+    // TODO: await getBloc<ProfileCubit>(context).addUnit(DAO);
     final options = MutationOptions(
       document: addFragments(Mutations.insertUnit),
       variables: {
@@ -294,10 +295,8 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
       navigator.pop(); // for showDialog "Загрузка..."
       final unitData = result.data['insert_unit_one'] as Map<String, dynamic>;
       final newUnit = UnitModel.fromJson(unitData);
-      final profile = getBloc<ProfileCubit>(context).state.profile;
+      await getBloc<ProfileCubit>(context).addUnitLocaly(newUnit);
       // TODO: когда будет loadMore для "Другие лоты участника", тут будет дублирование
-      final units = profile.member.units.toList()..insert(0, newUnit);
-      profile.member.copyWith(units: units.toBuiltList());
       _reloadShowcaseTab(_kind);
       _reloadShowcaseTab(MetaKindValue.recent);
       _reloadUnderwayModel();
@@ -324,6 +323,7 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
         );
         return;
       }
+      final profile = getBloc<ProfileCubit>(context).state.profile;
       // ignore: unawaited_futures
       navigator.pushReplacement(
         UnitScreen(
