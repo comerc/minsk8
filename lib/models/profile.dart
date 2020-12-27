@@ -22,7 +22,10 @@ class ProfileModel extends Equatable {
   final BuiltList<BlockModel> blocks;
 
   int getWishIndex(String unitId) =>
-      wishes.indexWhere((wish) => wish.unitId == unitId);
+      wishes.indexWhere((WishModel wish) => wish.unitId == unitId);
+
+  int getBlockIndex(String memberId) =>
+      blocks.indexWhere((BlockModel block) => block.memberId == memberId);
 
   @override
   List<Object> get props => [
