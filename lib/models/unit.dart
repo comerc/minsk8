@@ -26,7 +26,7 @@ class UnitModel extends Equatable {
     this.isBlocked,
     this.win,
     this.transferredAt,
-    this.wishes,
+    // this.wishes,
     this.isPromo,
     this.meta,
   }) : assert(images.isNotEmpty);
@@ -52,7 +52,7 @@ class UnitModel extends Equatable {
   final WinModel win;
   @JsonKey(nullable: true)
   final DateTime transferredAt;
-  final BuiltList<WishModel> wishes;
+  // final BuiltList<WishModel> wishes;
   @JsonKey(nullable: true)
   final bool isPromo;
   @JsonKey(ignore: true)
@@ -117,7 +117,7 @@ class UnitModel extends Equatable {
         isBlocked,
         win,
         transferredAt,
-        wishes,
+        // wishes,
         isPromo,
         meta,
       ];
