@@ -720,7 +720,9 @@ class _WishButtonState extends State<WishButton> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       buildWhen: (ProfileState previous, ProfileState current) {
-        return previous.profile.wishes != current.profile.wishes;
+        return previous.profile.wishes != current.profile.wishes &&
+            previous.profile.getWishIndex(widget.unit.id) !=
+                current.profile.getWishIndex(widget.unit.id);
       },
       builder: (BuildContext context, ProfileState state) {
         final isLiked = state.profile.getWishIndex(widget.unit.id) != -1;
@@ -789,84 +791,50 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
-      getBloc<ProfileCubit>(context).saveWish(
-        WishData(
-          unitId: widget.unit.id,
-          value: !isLiked,
-        ),
+      _updateWish(
+        unit: widget.unit,
+        value: !isLiked,
       );
-      // final myWishes = Provider.of<MyWishesModel>(context, listen: false);
-      // _optimisticUpdateWish(
-      //   myWishes,
-      //   unit: widget.unit,
-      //   value: !isLiked,
-      // );
     });
     return !isLiked;
   }
+
+  static Future<void> _queueUpdateWish = Future.value();
+
+  void _updateWish({UnitModel unit, bool value}) {
+    _queueUpdateWish = _queueUpdateWish.then((_) {
+      return getBloc<ProfileCubit>(context).saveWish(
+        WishData(
+          unitId: widget.unit.id,
+          value: value,
+        ),
+      );
+    }).catchError((error) {
+      out(error);
+      BotToast.showNotification(
+        // crossPage: true, // by default - important value!!!
+        title: (_) => Text(
+          value
+              ? 'Не удалось сохранить желание для "${unit.text}"'
+              : 'Не удалось удалить желание для "${unit.text}"',
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ),
+        trailing: (Function close) => FlatButton(
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            close();
+            _updateWish(unit: unit, value: value);
+          },
+          child: Text(
+            'ПОВТОРИТЬ',
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.black.withOpacity(0.6),
+            ),
+          ),
+        ),
+      );
+    });
+  }
 }
-
-// Future<void> _queueUpdateWish = Future.value();
-
-// TODO: [MVP] вернуть _optimisticUpdateWish
-// void _optimisticUpdateWish(MyWishesModel myWishes,
-//     {UnitModel unit, bool value}) {
-//   final oldUpdatedAt = myWishes.updateWish(
-//     unitId: unit.id,
-//     value: value,
-//   );
-//   final options = MutationOptions(
-//     document: addFragments(Mutations.upsertWish),
-//     variables: {
-//       'unit_id': unit.id,
-//       'value': value,
-//     },
-//     fetchPolicy: FetchPolicy.noCache,
-//   );
-//   _queueUpdateWish = _queueUpdateWish.then((_) {
-//     return client
-//         .mutate(options)
-//         .timeout(kGraphQLMutationTimeout)
-//         .then((QueryResult result) {
-//       if (result.hasException) {
-//         throw result.exception;
-//       }
-//       final json = result.data['insert_wish_one'];
-//       myWishes.updateWish(
-//         unitId: unit.id,
-//         value: value,
-//         updatedAt: DateTime.parse(json['updated_at'] as String),
-//       );
-//     });
-//   }).catchError((error) {
-//     out(error);
-//     myWishes.updateWish(
-//       unitId: unit.id,
-//       value: oldUpdatedAt != null,
-//       updatedAt: oldUpdatedAt,
-//     );
-//     BotToast.showNotification(
-//       title: (_) => Text(
-//         value
-//             ? 'Не удалось сохранить желание для "${unit.text}"'
-//             : 'Не удалось удалить желание для "${unit.text}"',
-//         overflow: TextOverflow.fade,
-//         softWrap: false,
-//       ),
-//       trailing: (Function close) => FlatButton(
-//         onLongPress: () {}, // чтобы сократить время для splashColor
-//         onPressed: () {
-//           close();
-//           _optimisticUpdateWish(myWishes, unit: unit, value: value);
-//         },
-//         child: Text(
-//           'ПОВТОРИТЬ',
-//           style: TextStyle(
-//             fontSize: kFontSize,
-//             color: Colors.black.withOpacity(0.6),
-//           ),
-//         ),
-//       ),
-//     );
-//   });
-// }

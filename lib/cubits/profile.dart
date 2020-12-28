@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:built_collection/built_collection.dart';
@@ -39,13 +40,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(profile: profile));
   }
 
-  void _updateWishLocaly(WishData data, WishModel wish) {
+  void _updateWishLocaly(WishData data) {
     final wishes = state.profile.wishes.toList();
     final index = state.profile.getWishIndex(data.unitId);
     bool isChanged = false;
     if (data.value) {
       if (index == -1) {
-        wishes.add(wish);
+        wishes.add(WishModel(unitId: data.unitId));
         isChanged = true;
       }
     } else {
@@ -61,14 +62,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> saveWish(WishData data) async {
-    //     final oldUpdatedAt = index == -1 ? null : wishes[index].updatedAt;
-    //     final wish = WishModel(
-    //       updatedAt: updatedAt ?? DateTime.now(),
-    //       unitId: unitId,
-    //     );
-    // TODO: (?) преобразовывать дату, которую присваиваю на клиенте в .toUtc()
-    final wish = await _repository.upsertWish(data);
-    _updateWishLocaly(data, wish);
+    _updateWishLocaly(data);
+    try {
+      await _repository.upsertWish(data);
+    } catch (error) {
+      _updateWishLocaly(data.copyWith(value: !data.value));
+      rethrow;
+    }
   }
 }
 
@@ -101,6 +101,7 @@ class MemberData {
   Map<String, dynamic> toJson() => _$MemberDataToJson(this);
 }
 
+@CopyWith()
 @JsonSerializable(createFactory: false)
 class WishData {
   WishData({this.unitId, this.value});
