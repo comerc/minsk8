@@ -185,13 +185,13 @@ mixin API {
           order_by: {updated_at: desc}
         ) {
           unit_id
-          updated_at
+          # updated_at
         }
         blocks(
           order_by: {updated_at: desc}
         ) {
           member_id 
-          updated_at
+          # updated_at
         }
       }
     }
@@ -202,7 +202,7 @@ mixin API {
       insert_wish_one(object: {unit_id: $unit_id, value: $value},
       on_conflict: {constraint: wish_pkey, update_columns: [value]}) {
         unit_id
-        updated_at
+        # updated_at
       }
     }
   ''');
@@ -237,9 +237,9 @@ mixin API {
           ...SelfMemberFields
         }
       }
-      wishes {
-        updated_at
-      }
+      # wishes {
+      #   updated_at
+      # }
       is_promo
     }
 
@@ -274,7 +274,7 @@ mixin API {
         }
       }
       value
-      updated_at
+      # updated_at
       win {
         created_at
       }
