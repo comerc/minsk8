@@ -279,7 +279,7 @@ void load(Future<void> Function() future) async {
           close();
           load(future);
         },
-        child: Text('Repeat'.toUpperCase()),
+        child: Text('ПОВТОРИТЬ'),
       ),
     );
   }
@@ -316,7 +316,7 @@ void save(Future<void> Function() future) async {
           close();
           save(future);
         },
-        child: Text('Repeat'.toUpperCase()),
+        child: Text('ПОВТОРИТЬ'),
       ),
     );
   } finally {
