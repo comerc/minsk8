@@ -53,6 +53,7 @@ import 'package:minsk8/import.dart';
 // TODO: Обернуть требуемые экраны в SafeArea (проверить на iPhone X)
 // TODO: провести эксперимент - (firebase_auth) будет ли работать в offline user.getIdToken(true)?
 // TODO: убрать kButtonIconSize - задавать через theme
+// TODO: убрать в схеме данных time zone - "timestamp without time zone", использую UTC
 
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 // Streams are created so that app can respond to notification-related events
