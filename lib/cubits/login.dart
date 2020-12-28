@@ -19,7 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       await _repository.logInWithGoogle();
       emit(state.copyWith(status: LoginStatus.ready));
-    } on Exception {
+    } catch (_) {
       emit(state.copyWith(status: LoginStatus.error));
       rethrow;
     }
