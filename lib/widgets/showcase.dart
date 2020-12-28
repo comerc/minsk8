@@ -791,50 +791,55 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
-      _updateWish(
-        unit: widget.unit,
-        value: !isLiked,
+      _optimisticUpdateWish(
+        profileCubit: getBloc<ProfileCubit>(context),
+        data: WishData(
+          unitId: widget.unit.id,
+          value: !isLiked,
+        ),
+        text: widget.unit.text,
       );
     });
     return !isLiked;
   }
+}
 
-  static Future<void> _queueUpdateWish = Future.value();
+Future<void> _queueUpdateWish = Future.value();
 
-  void _updateWish({UnitModel unit, bool value}) {
-    _queueUpdateWish = _queueUpdateWish.then((_) {
-      return getBloc<ProfileCubit>(context).saveWish(
-        WishData(
-          unitId: widget.unit.id,
-          value: value,
-        ),
-      );
-    }).catchError((error) {
-      out(error);
-      BotToast.showNotification(
-        // crossPage: true, // by default - important value!!!
-        title: (_) => Text(
-          value
-              ? 'Не удалось сохранить желание для "${unit.text}"'
-              : 'Не удалось удалить желание для "${unit.text}"',
-          overflow: TextOverflow.fade,
-          softWrap: false,
-        ),
-        trailing: (Function close) => FlatButton(
-          onLongPress: () {}, // чтобы сократить время для splashColor
-          onPressed: () {
-            close();
-            _updateWish(unit: unit, value: value);
-          },
-          child: Text(
-            'ПОВТОРИТЬ',
-            style: TextStyle(
-              fontSize: kFontSize,
-              color: Colors.black.withOpacity(0.6),
-            ),
+void _optimisticUpdateWish(
+    {ProfileCubit profileCubit, WishData data, String text}) {
+  profileCubit.updateWishLocaly(data);
+  _queueUpdateWish = _queueUpdateWish.then((_) {
+    return profileCubit.saveWish(data);
+  }).catchError((error) {
+    out(error);
+    BotToast.showNotification(
+      // crossPage: true, // by default - important value!!!
+      title: (_) => Text(
+        data.value
+            ? 'Не удалось сохранить желание для "$text"'
+            : 'Не удалось удалить желание для "$text"',
+        overflow: TextOverflow.fade,
+        softWrap: false,
+      ),
+      trailing: (Function close) => FlatButton(
+        onLongPress: () {}, // чтобы сократить время для splashColor
+        onPressed: () {
+          close();
+          _optimisticUpdateWish(
+            profileCubit: profileCubit,
+            data: data,
+            text: text,
+          );
+        },
+        child: Text(
+          'ПОВТОРИТЬ',
+          style: TextStyle(
+            fontSize: kFontSize,
+            color: Colors.black.withOpacity(0.6),
           ),
         ),
-      );
-    });
-  }
+      ),
+    );
+  });
 }
