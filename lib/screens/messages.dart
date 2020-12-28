@@ -203,9 +203,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   );
                   return;
                 }
-                final myBlocks =
-                    Provider.of<MyBlocksModel>(context, listen: false);
-                final isBlocked = myBlocks.has(unit.win.member.id);
+                final profile = getBloc<ProfileCubit>(context).state.profile;
+                final isBlocked =
+                    profile.getBlockIndex(unit.win.member.id) != -1;
                 // ignore: unawaited_futures
                 showDialog<String>(
                   context: context,
@@ -215,16 +215,21 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   final cases = {
                     'block': () {
                       _optimisticUpdateBlock(
-                        myBlocks,
-                        member: unit.win.member,
-                        value: true,
+                        profileCubit: getBloc<ProfileCubit>(context),
+                        data: BlockData(
+                          memberId: unit.win.member.id,
+                          value: true,
+                        ),
+                        text: unit.win.member.displayName,
                       );
                     },
                     'unblock': () {
                       _optimisticUpdateBlock(
-                        myBlocks,
-                        member: unit.win.member,
-                        value: false,
+                        data: BlockData(
+                          memberId: unit.win.member.id,
+                          value: false,
+                        ),
+                        text: unit.win.member.displayName,
                       );
                     },
                     'feedback': () {
@@ -269,47 +274,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
 Future<void> _queueUpdateBlock = Future.value();
 
-void _optimisticUpdateBlock(MyBlocksModel myBlocks,
-    {MemberModel member, bool value}) {
-  final oldUpdatedAt = myBlocks.updateBlock(
-    memberId: member.id,
-    value: value,
-  );
-  final options = MutationOptions(
-    document: addFragments(Mutations.upsertBlock),
-    variables: {
-      'member_id': member.id,
-      'value': value,
-    },
-    fetchPolicy: FetchPolicy.noCache,
-  );
+void _optimisticUpdateBlock(
+    {ProfileCubit profileCubit, BlockData data, String text}) {
+  profileCubit.updateBlockLocaly(data);
   _queueUpdateBlock = _queueUpdateBlock.then((_) {
-    return client
-        .mutate(options)
-        .timeout(kGraphQLMutationTimeout)
-        .then((QueryResult result) {
-      if (result.hasException) {
-        throw result.exception;
-      }
-      final json = result.data['insert_block_one'];
-      myBlocks.updateBlock(
-        memberId: member.id,
-        value: value,
-        updatedAt: DateTime.parse(json['updated_at'] as String),
-      );
-    });
+    return profileCubit.saveBlock(data);
   }).catchError((error) {
     out(error);
-    myBlocks.updateBlock(
-      memberId: member.id,
-      value: oldUpdatedAt != null,
-      updatedAt: oldUpdatedAt,
-    );
     BotToast.showNotification(
+      // crossPage: true, // by default - important value!!!
       title: (_) => Text(
-        value
-            ? 'Не удалось заблокировать "${member.displayName}"'
-            : 'Не удалось разблокировать "${member.displayName}"',
+        data.value
+            ? 'Не удалось заблокировать "$text"'
+            : 'Не удалось разблокировать "$text"',
         overflow: TextOverflow.fade,
         softWrap: false,
       ),
@@ -317,7 +294,11 @@ void _optimisticUpdateBlock(MyBlocksModel myBlocks,
         onLongPress: () {}, // чтобы сократить время для splashColor
         onPressed: () {
           close();
-          _optimisticUpdateBlock(myBlocks, member: member, value: value);
+          _optimisticUpdateBlock(
+            profileCubit: profileCubit,
+            data: data,
+            text: text,
+          );
         },
         child: Text(
           'ПОВТОРИТЬ',

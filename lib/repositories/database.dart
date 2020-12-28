@@ -88,6 +88,17 @@ class DatabaseRepository {
     );
   }
 
+  Future<BlockModel> upsertBlock(BlockData data) async {
+    return normalizeOne<BlockModel>(
+      data: await _service.mutate(
+        document: API.upsertBlock,
+        variables: data.toJson(),
+      ),
+      root: 'insert_block_one',
+      convert: BlockModel.fromJson,
+    );
+  }
+
   // Future<BuiltList<WishModel>> readWishes() async {
   //   return normalizeList<WishModel>(
   //     data: await _service.query(
@@ -202,6 +213,16 @@ mixin API {
       insert_wish_one(object: {unit_id: $unit_id, value: $value},
       on_conflict: {constraint: wish_pkey, update_columns: [value]}) {
         unit_id
+        # updated_at
+      }
+    }
+  ''');
+
+  static final upsertBlock = gql(r'''
+    mutation UpsertBlock($member_id: uuid!, $value: Boolean!) {
+      insert_block_one(object: {member_id: $member_id, value: $value},
+      on_conflict: {constraint: block_pkey, update_columns: [value]}) {
+        member_id
         # updated_at
       }
     }

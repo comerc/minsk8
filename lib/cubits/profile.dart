@@ -25,7 +25,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(
         profile: await _repository.readProfile(memberId),
       ));
-    } catch (error) {
+    } catch (_) {
       // TODO: [MVP] исправить на catch (error), иначе не перехватываются Error
       emit(state.copyWith(status: ProfileStatus.error));
       rethrow;
@@ -40,7 +40,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(profile: profile));
   }
 
-  void _updateWishLocaly(WishData data) {
+  void updateWishLocaly(WishData data) {
     final wishes = state.profile.wishes.toList();
     final index = state.profile.getWishIndex(data.unitId);
     bool isChanged = false;
@@ -61,12 +61,43 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  // сначала вызываю снаружи updateWishLocaly()
   Future<void> saveWish(WishData data) async {
-    _updateWishLocaly(data);
     try {
       await _repository.upsertWish(data);
-    } catch (error) {
-      _updateWishLocaly(data.copyWith(value: !data.value));
+    } catch (_) {
+      updateWishLocaly(data.copyWith(value: !data.value));
+      rethrow;
+    }
+  }
+
+  void updateBlockLocaly(BlockData data) {
+    final blocks = state.profile.blocks.toList();
+    final index = state.profile.getBlockIndex(data.memberId);
+    bool isChanged = false;
+    if (data.value) {
+      if (index == -1) {
+        blocks.add(BlockModel(memberId: data.memberId));
+        isChanged = true;
+      }
+    } else {
+      if (index != -1) {
+        blocks.removeAt(index);
+        isChanged = true;
+      }
+    }
+    if (isChanged) {
+      final profile = state.profile.copyWith(blocks: blocks.toBuiltList());
+      emit(state.copyWith(profile: profile));
+    }
+  }
+
+  // сначала вызываю снаружи updateBlockLocaly()
+  Future<void> saveBlock(BlockData data) async {
+    try {
+      await _repository.upsertBlock(data);
+    } catch (_) {
+      updateBlockLocaly(data.copyWith(value: !data.value));
       rethrow;
     }
   }
@@ -110,4 +141,15 @@ class WishData {
   final bool value;
 
   Map<String, dynamic> toJson() => _$WishDataToJson(this);
+}
+
+@CopyWith()
+@JsonSerializable(createFactory: false)
+class BlockData {
+  BlockData({this.memberId, this.value});
+
+  final String memberId;
+  final bool value;
+
+  Map<String, dynamic> toJson() => _$BlockDataToJson(this);
 }
