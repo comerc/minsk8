@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:built_collection/built_collection.dart';
@@ -43,7 +42,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void _updateWishLocaly(WishData data) {
     final wishes = state.profile.wishes.toList();
     final index = state.profile.getWishIndex(data.unitId);
-    bool isChanged = false;
+    var isChanged = false;
     if (data.value) {
       if (index == -1) {
         wishes.add(WishModel(unitId: data.unitId));
@@ -80,7 +79,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void _updateBlockLocaly(BlockData data) {
     final blocks = state.profile.blocks.toList();
     final index = state.profile.getBlockIndex(data.memberId);
-    bool isChanged = false;
+    var isChanged = false;
     if (data.value) {
       if (index == -1) {
         blocks.add(BlockModel(memberId: data.memberId));
