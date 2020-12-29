@@ -40,7 +40,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(profile: profile));
   }
 
-  void updateWishLocaly(WishData data) {
+  void _updateWishLocaly(WishData data) {
     final wishes = state.profile.wishes.toList();
     final index = state.profile.getWishIndex(data.unitId);
     bool isChanged = false;
@@ -61,14 +61,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  // сначала вызываю снаружи updateWishLocaly()
+  Future<void> _queueSaveWish = Future.value();
+
   Future<void> saveWish(WishData data) async {
-    try {
-      await _repository.upsertWish(data);
-    } catch (_) {
-      updateWishLocaly(data.copyWith(value: !data.value));
-      rethrow;
-    }
+    _updateWishLocaly(data);
+    _queueSaveWish = _queueSaveWish.catchError((_) => null);
+    _queueSaveWish = _queueSaveWish.then((_) async {
+      try {
+        await _repository.upsertWish(data);
+      } catch (_) {
+        _updateWishLocaly(data.copyWith(value: !data.value));
+        rethrow;
+      }
+    });
+    return _queueSaveWish;
   }
 
   void _updateBlockLocaly(BlockData data) {

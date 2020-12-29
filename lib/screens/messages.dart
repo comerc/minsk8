@@ -217,8 +217,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           memberId: unit.win.member.id,
                           value: true,
                         ),
-                        text:
-                            'Не удалось заблокировать "${unit.win.member.displayName}"',
+                        name: unit.win.member.displayName,
                       );
                     },
                     'unblock': () {
@@ -227,8 +226,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           memberId: unit.win.member.id,
                           value: false,
                         ),
-                        text:
-                            'Не удалось разблокировать "${unit.win.member.displayName}"',
+                        name: unit.win.member.displayName,
                       );
                     },
                     'feedback': () {
@@ -270,7 +268,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
-  void _saveBlock({BlockData data, String text}) async {
+  void _saveBlock({BlockData data, String name}) async {
     try {
       await getBloc<ProfileCubit>(context).saveBlock(data);
     } catch (error) {
@@ -278,7 +276,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
       BotToast.showNotification(
         // crossPage: true, // by default - important value!!!
         title: (_) => Text(
-          text,
+          data.value
+              ? 'Не удалось заблокировать "$name"'
+              : 'Не удалось разблокировать "$name"',
           overflow: TextOverflow.fade,
           softWrap: false,
         ),
@@ -286,7 +286,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           onLongPress: () {}, // чтобы сократить время для splashColor
           onPressed: () {
             close();
-            _saveBlock(data: data, text: text);
+            _saveBlock(data: data, name: name);
           },
           child: Text(
             'ПОВТОРИТЬ',

@@ -791,55 +791,46 @@ class _WishButtonState extends State<WishButton> {
     }
     _timer = Timer(isLiked ? Duration.zero : _animationDuration, () {
       _disposeTimer();
-      _optimisticUpdateWish(
-        profileCubit: getBloc<ProfileCubit>(context),
+      _saveWish(
         data: WishData(
           unitId: widget.unit.id,
           value: !isLiked,
         ),
-        text: widget.unit.text,
+        name: widget.unit.text,
       );
     });
     return !isLiked;
   }
-}
 
-Future<void> _queueUpdateWish = Future.value();
-
-void _optimisticUpdateWish(
-    {ProfileCubit profileCubit, WishData data, String text}) {
-  profileCubit.updateWishLocaly(data);
-  _queueUpdateWish = _queueUpdateWish.then((_) {
-    return profileCubit.saveWish(data);
-  }).catchError((error) {
-    out(error);
-    BotToast.showNotification(
-      // crossPage: true, // by default - important value!!!
-      title: (_) => Text(
-        data.value
-            ? 'Не удалось сохранить желание для "$text"'
-            : 'Не удалось удалить желание для "$text"',
-        overflow: TextOverflow.fade,
-        softWrap: false,
-      ),
-      trailing: (Function close) => FlatButton(
-        onLongPress: () {}, // чтобы сократить время для splashColor
-        onPressed: () {
-          close();
-          _optimisticUpdateWish(
-            profileCubit: profileCubit,
-            data: data,
-            text: text,
-          );
-        },
-        child: Text(
-          'ПОВТОРИТЬ',
-          style: TextStyle(
-            fontSize: kFontSize,
-            color: Colors.black.withOpacity(0.6),
+  void _saveWish({WishData data, String name}) async {
+    try {
+      await getBloc<ProfileCubit>(context).saveWish(data);
+    } catch (error) {
+      out(error);
+      BotToast.showNotification(
+        // crossPage: true, // by default - important value!!!
+        title: (_) => Text(
+          data.value
+              ? 'Не удалось сохранить желание для "$name"'
+              : 'Не удалось удалить желание для "$name"',
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ),
+        trailing: (Function close) => FlatButton(
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            close();
+            _saveWish(data: data, name: name);
+          },
+          child: Text(
+            'ПОВТОРИТЬ',
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.black.withOpacity(0.6),
+            ),
           ),
         ),
-      ),
-    );
-  });
+      );
+    }
+  }
 }
