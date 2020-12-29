@@ -63,7 +63,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> _queueSaveWish = Future.value();
 
-  Future<void> saveWish(WishData data) async {
+  Future<void> saveWish(WishData data) {
     _updateWishLocaly(data);
     _queueSaveWish = _queueSaveWish.catchError((_) => null);
     _queueSaveWish = _queueSaveWish.then((_) async {
