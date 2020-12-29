@@ -71,7 +71,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void updateBlockLocaly(BlockData data) {
+  void _updateBlockLocaly(BlockData data) {
     final blocks = state.profile.blocks.toList();
     final index = state.profile.getBlockIndex(data.memberId);
     bool isChanged = false;
@@ -92,14 +92,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  // сначала вызываю снаружи updateBlockLocaly()
-  Future<void> saveBlock(BlockData data) async {
-    try {
-      await _repository.upsertBlock(data);
-    } catch (_) {
-      updateBlockLocaly(data.copyWith(value: !data.value));
-      rethrow;
-    }
+  Future<void> _queueSaveBlock = Future.value();
+
+  Future<void> saveBlock(BlockData data) {
+    _updateBlockLocaly(data);
+    _queueSaveBlock = _queueSaveBlock.catchError((_) => null);
+    _queueSaveBlock = _queueSaveBlock.then((_) async {
+      try {
+        await _repository.upsertBlock(data);
+      } catch (_) {
+        _updateBlockLocaly(data.copyWith(value: !data.value));
+        rethrow;
+      }
+    });
+    return _queueSaveBlock;
   }
 }
 

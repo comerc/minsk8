@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql/client.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -214,22 +212,23 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   if (value == null) return;
                   final cases = {
                     'block': () {
-                      _optimisticUpdateBlock(
-                        profileCubit: getBloc<ProfileCubit>(context),
+                      _saveBlock(
                         data: BlockData(
                           memberId: unit.win.member.id,
                           value: true,
                         ),
-                        text: unit.win.member.displayName,
+                        text:
+                            'Не удалось заблокировать "${unit.win.member.displayName}"',
                       );
                     },
                     'unblock': () {
-                      _optimisticUpdateBlock(
+                      _saveBlock(
                         data: BlockData(
                           memberId: unit.win.member.id,
                           value: false,
                         ),
-                        text: unit.win.member.displayName,
+                        text:
+                            'Не удалось разблокировать "${unit.win.member.displayName}"',
                       );
                     },
                     'feedback': () {
@@ -270,46 +269,36 @@ class _MessagesScreenState extends State<MessagesScreen> {
       ),
     );
   }
-}
 
-Future<void> _queueUpdateBlock = Future.value();
-
-void _optimisticUpdateBlock(
-    {ProfileCubit profileCubit, BlockData data, String text}) {
-  profileCubit.updateBlockLocaly(data);
-  _queueUpdateBlock = _queueUpdateBlock.then((_) {
-    return profileCubit.saveBlock(data);
-  }).catchError((error) {
-    out(error);
-    BotToast.showNotification(
-      // crossPage: true, // by default - important value!!!
-      title: (_) => Text(
-        data.value
-            ? 'Не удалось заблокировать "$text"'
-            : 'Не удалось разблокировать "$text"',
-        overflow: TextOverflow.fade,
-        softWrap: false,
-      ),
-      trailing: (Function close) => FlatButton(
-        onLongPress: () {}, // чтобы сократить время для splashColor
-        onPressed: () {
-          close();
-          _optimisticUpdateBlock(
-            profileCubit: profileCubit,
-            data: data,
-            text: text,
-          );
-        },
-        child: Text(
-          'ПОВТОРИТЬ',
-          style: TextStyle(
-            fontSize: kFontSize,
-            color: Colors.black.withOpacity(0.6),
+  void _saveBlock({BlockData data, String text}) async {
+    try {
+      await getBloc<ProfileCubit>(context).saveBlock(data);
+    } catch (error) {
+      out(error);
+      BotToast.showNotification(
+        // crossPage: true, // by default - important value!!!
+        title: (_) => Text(
+          text,
+          overflow: TextOverflow.fade,
+          softWrap: false,
+        ),
+        trailing: (Function close) => FlatButton(
+          onLongPress: () {}, // чтобы сократить время для splashColor
+          onPressed: () {
+            close();
+            _saveBlock(data: data, text: text);
+          },
+          child: Text(
+            'ПОВТОРИТЬ',
+            style: TextStyle(
+              fontSize: kFontSize,
+              color: Colors.black.withOpacity(0.6),
+            ),
           ),
         ),
-      ),
-    );
-  });
+      );
+    }
+  }
 }
 
 // class BlockDialog extends StatefulWidget {
