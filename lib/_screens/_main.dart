@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
+const kInitialRouteName = '/start';
+
 class MainDrawer extends StatelessWidget {
   final routes = [
     {

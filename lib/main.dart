@@ -229,8 +229,6 @@ class App extends StatelessWidget {
 }
 
 class AppView extends StatelessWidget {
-  // final _future = _loadProfileData();
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -307,52 +305,12 @@ class AppView extends StatelessWidget {
         result = BotToastInit()(context, result);
         result = _MediaQueryWrapper(result);
         return result;
-        // return FutureBuilder<Map<String, dynamic>>(
-        //   // https://github.com/flutter/flutter/issues/11426#issuecomment-414047398
-        //   future: _future,
-        //   builder: (BuildContext context,
-        //       AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        //     if (snapshot.connectionState != ConnectionState.done) {
-        //       return Material(
-        //         child: Center(
-        //           child: Text('Loading profile...'),
-        //         ),
-        //       );
-        //     }
-        //     if (snapshot.hasError || !snapshot.hasData) {
-        //       return Material(
-        //         child: InkWell(
-        //           // onTap: refetch,
-        //           child: Center(
-        //             child: Text('Кажется, что-то пошло не так?'),
-        //           ),
-        //         ),
-        //       );
-        //     }
-        //     return MultiProvider(
-        //       providers: <SingleChildWidget>[
-        //         ChangeNotifierProvider<ProfileModel>(
-        //           create: (_) => ProfileModel.fromJson(
-        //             snapshot.data['profile'] as Map<String, dynamic>,
-        //           ),
-        //         ),
-        //         ChangeNotifierProvider<MyWishesModel>(
-        //           create: (_) => MyWishesModel.fromJson(snapshot.data),
-        //         ),
-        //         ChangeNotifierProvider<MyBlocksModel>(
-        //           create: (_) => MyBlocksModel.fromJson(snapshot.data),
-        //         ),
-        //       ],
-        //       child: result,
-        //     );
-        //   },
-        // );
       },
       onGenerateRoute: (RouteSettings settings) => SplashScreen().getRoute(),
       // home: HomeScreen(),
       // home: LoginScreen(),
       // TODO: [MVP] восстановить функционал /start
-      // initialRoute: kInitialRouteName,
+      // initialRoute: '/start',
       // routes: <String, WidgetBuilder>{
       //   '/_animation': (_) => AnimationScreen(),
       //   '/_custom_dialog': (_) => CustomDialogScreen(),
