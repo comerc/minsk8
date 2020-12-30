@@ -42,7 +42,6 @@ export 'models/image.dart';
 export 'models/member.dart';
 export 'models/message.dart';
 export 'models/moderation.dart';
-export 'models/my_blocks.dart';
 export 'models/my_unit_map.dart';
 export 'models/notice.dart';
 export 'models/payment.dart';
