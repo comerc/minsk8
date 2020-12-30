@@ -65,6 +65,7 @@ class PageWrapperState extends State<PageWrapper>
     _tabController.addListener(() {
       final sourceList = widget.dataPool[_tabController.index];
       if (!_tabController.indexIsChanging) {
+        // TODO: [MVP] обнаружил, что теперь запись в hasura происходит в отложенном режиме
         // out(
         //     'indexIsChanging ${sourceList.isLoadDataByTabChange} ${widget.tabModels[_tabController.index].value}');
         // если для категории еще не было загрузки (переходом по tab-у),
