@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ][_pageIndex];
   String get tagPrefix => '$_pageIndex-$_tabIndex';
   bool _hasUpdate;
+  bool _isLoaded;
 
   @override
   void initState() {
@@ -58,7 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
     version.init();
     // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
-    analytics.setCurrentScreen(screenName: '/home');
+    _isLoaded = false;
+    // analytics.setCurrentScreen(screenName: '/home');
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
   }
 
   @override
@@ -67,64 +70,63 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  void _onAfterBuild(Duration timeStamp) {
+    appState = PersistedAppState.of(context);
+    assert(appState != null);
+    navigator.push(StartScreen().getRoute());
+    setState(() {
+      _isLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PersistedStateBuilder(
-      builder: (BuildContext context, AsyncSnapshot<PersistedData> snapshot) {
-        if (!snapshot.hasData) {
-          return Scaffold(
-            body: Center(
-              child: Text('Loading state...'),
-            ),
-          );
-        }
-        appState = PersistedAppState.of(context);
-        return Scaffold(
-          // drawer: isInDebugMode ? MainDrawer(null) : null,
-          // это не нужно при использвании SafeArea
-          // appBar: PreferredSize(
-          //   child: Container(
-          //     color: Colors.white,
-          //   ),
-          //   preferredSize: Size.zero, // hack
-          // ),
-          // body: IndexedStack(
-          //   children: <Widget>[
-          //     HomeShowcase(tabIndex: 0),
-          //     HomeUnderway(tabIndex: 1),
-          //     HomeInterplay(tabIndex: 2),
-          //     HomeProfile(hasUpdate: _hasUpdate),
-          //   ],
-          //   index: _tabIndex,
-          // ),
-          // body: <Widget>[
-          //   HomeShowcase(tabIndex: 0),
-          //   HomeUnderway(tabIndex: 1),
-          //   HomeInterplay(tabIndex: 2),
-          //   HomeProfile(hasUpdate: _hasUpdate),
-          // ][_tabIndex],
-          // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
-          body: PageView(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              HomeShowcase(pageIndex: 0),
-              HomeUnderway(pageIndex: 1),
-              HomeInterplay(pageIndex: 2),
-              HomeProfile(hasUpdate: _hasUpdate),
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: _buildAddButton(),
-          bottomNavigationBar: _NavigationBar(
-            tabIndex: _pageIndex,
-            onChangeTabIndex: _pageController.jumpToPage,
-          ),
-          extendBody: true,
-        );
-      },
+    if (!_isLoaded) {
+      return Scaffold();
+    }
+    return Scaffold(
+      // drawer: isInDebugMode ? MainDrawer(null) : null,
+      // это не нужно при использвании SafeArea
+      // appBar: PreferredSize(
+      //   child: Container(
+      //     color: Colors.white,
+      //   ),
+      //   preferredSize: Size.zero, // hack
+      // ),
+      // body: IndexedStack(
+      //   children: <Widget>[
+      //     HomeShowcase(tabIndex: 0),
+      //     HomeUnderway(tabIndex: 1),
+      //     HomeInterplay(tabIndex: 2),
+      //     HomeProfile(hasUpdate: _hasUpdate),
+      //   ],
+      //   index: _tabIndex,
+      // ),
+      // body: <Widget>[
+      //   HomeShowcase(tabIndex: 0),
+      //   HomeUnderway(tabIndex: 1),
+      //   HomeInterplay(tabIndex: 2),
+      //   HomeProfile(hasUpdate: _hasUpdate),
+      // ][_tabIndex],
+      // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          HomeShowcase(pageIndex: 0),
+          HomeUnderway(pageIndex: 1),
+          HomeInterplay(pageIndex: 2),
+          HomeProfile(hasUpdate: _hasUpdate),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _buildAddButton(),
+      bottomNavigationBar: _NavigationBar(
+        tabIndex: _pageIndex,
+        onChangeTabIndex: _pageController.jumpToPage,
+      ),
+      extendBody: true,
     );
   }
 

@@ -59,7 +59,7 @@ export 'models/wish.dart';
 export 'models/wish_unit.dart';
 export 'repositories/authentication.dart';
 export 'repositories/database.dart';
-export 'screens/_start.dart';
+export 'screens/start.dart';
 export 'screens/add_unit.dart';
 export 'screens/content.dart';
 export 'screens/feedback.dart';

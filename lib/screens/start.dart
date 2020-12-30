@@ -5,6 +5,14 @@ import 'package:graphql/client.dart';
 import 'package:minsk8/import.dart';
 
 class StartScreen extends StatefulWidget {
+  Route<T> getRoute<T>() {
+    return buildRoute<T>(
+      '/start',
+      builder: (_) => this,
+      fullscreenDialog: true,
+    );
+  }
+
   @override
   _StartScreenState createState() {
     return _StartScreenState();
