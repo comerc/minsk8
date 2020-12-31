@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -7,9 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:graphql/client.dart';
 import 'package:like_button/like_button.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'

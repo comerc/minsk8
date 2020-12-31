@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
-import 'package:minsk8/import.dart';
+// import 'package:minsk8/import.dart';
 
 part 'wish.g.dart';
 

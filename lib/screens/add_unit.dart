@@ -8,9 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql/client.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:minsk8/import.dart';
 
 // TODO: прятать клавиатуру перед showDialog(), чтобы убрать анимацию диалога
@@ -33,6 +31,8 @@ import 'package:minsk8/import.dart';
 //     Navigator.of(this).pop();
 //   }
 // }
+
+// TODO: [MVP] перенести ImagesField из pet_finder в minsk8
 
 // TODO: упразднить AddUnitTabIndex
 class AddUnitTabIndex {
@@ -375,11 +375,17 @@ class _AddUnitScreenState extends State<AddUnitScreen> {
   }
 
   Future<bool> _pickImage(int index, ImageSource imageSource) async {
-    final picker = ImagePicker();
-    final pickedFile =
-        await picker.getImage(source: imageSource).catchError((error) {
+    PickedFile pickedFile;
+    try {
+      pickedFile = await ImagePicker().getImage(
+        source: imageSource,
+        // maxWidth: kImageMaxWidth,
+        // maxHeight: kImageMaxHeight,
+        // imageQuality: kImageQuality,
+      );
+    } catch (error) {
       out(error);
-    });
+    }
     if (pickedFile == null) return false;
     final bytes = await pickedFile.readAsBytes();
     final imageData = _ImageData(bytes);
