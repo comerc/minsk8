@@ -70,10 +70,34 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _onAfterBuild(Duration timeStamp) {
+  Future<void> _loadAppState([int retry = 0]) async {
+    if (retry < 4) {
+      await Future.delayed(Duration(milliseconds: 1000));
+    } else {
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Text('Не удалось загрузить настройки, попробуйте ещё раз.'),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                navigator.pop();
+              },
+              child: Text('ОК'),
+            ),
+          ],
+        ),
+      );
+    }
     appState = PersistedAppState.of(context);
-    assert(appState != null);
-    navigator.push(StartScreen().getRoute());
+    if (appState == null) {
+      return _loadAppState(retry + 1);
+    }
+  }
+
+  void _onAfterBuild(Duration timeStamp) async {
+    await _loadAppState();
+    await navigator.push(StartScreen().getRoute());
     setState(() {
       _isLoaded = true;
     });
