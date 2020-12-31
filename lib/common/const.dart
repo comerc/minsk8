@@ -9,11 +9,12 @@ const kAndroidAppId = 'com.iyaffle.rangoli';
 const kIOSAppId = '585027354';
 const kSupportEmail = 'smith@example.com';
 const kStorageBucket = 'gs://minsk8-2.appspot.com';
+// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
 const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
+// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
 const kGraphQLEndpoint = 'minsk8.herokuapp.com/v1/graphql';
 const kGraphQLUnitsLimit = 11; // заложен +1 для вычисления 'hasMore'
 const kGraphQLStickyLimit = 21; // заложен +1 для вычисления 'hasMore'
-// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
 const kGoldenRatio = 1.618034;
 const kTextMaxLength = 280; // как twitter
 const kButtonHeight = 32.0;
@@ -43,3 +44,6 @@ const kMaxWantBalance = 7;
 const kPriceFontSize = 23.0;
 const kButtonFontSize = 14.0;
 const kBigIconSize = 32.0;
+// const kImageMaxWidth = 800.0;
+// const kImageMaxHeight = 800.0;
+// const kImageQuality = 90;
