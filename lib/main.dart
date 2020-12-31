@@ -9,7 +9,6 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql/client.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -307,21 +306,6 @@ class AppView extends StatelessWidget {
         return result;
       },
       onGenerateRoute: (RouteSettings settings) => SplashScreen().getRoute(),
-      // home: HomeScreen(),
-      // home: LoginScreen(),
-      // TODO: [MVP] восстановить функционал /start
-      // initialRoute: '/start',
-      // routes: <String, WidgetBuilder>{
-      //   '/_animation': (_) => AnimationScreen(),
-      //   '/_custom_dialog': (_) => CustomDialogScreen(),
-      //   '/_image_capture': (_) => ImageCaptureScreen(),
-      //   '/_image_pinch': (_) => ImagePinchScreen(),
-      //   '/_listview': (_) => ListViewScreen(),
-      //   '/_nested_scroll_view': (_) => NestedScrollViewScreen(),
-      //   '/_notification': (_) => NotificationScreen(),
-      //   // ****
-      //   '/start': (_) => StartScreen(),
-      // },
     );
     // result = AnnotatedRegion<SystemUiOverlayStyle>(
     //   value: SystemUiOverlayStyle(
