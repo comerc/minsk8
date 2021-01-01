@@ -3,18 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbow_color/rainbow_color.dart';
 
-Widget buildProgressIndicator(BuildContext context,
-    {bool hasAnimatedColor = false}) {
-  return Platform.isIOS
-      ? CupertinoActivityIndicator(
-          radius: 16,
-        )
-      : hasAnimatedColor
-          ? _AnimatedColorProgressIndicator()
-          : CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).accentColor),
-            );
+class ExtendedProgressIndicator extends StatelessWidget {
+  ExtendedProgressIndicator({this.hasAnimatedColor = false});
+
+  final bool hasAnimatedColor;
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    return Platform.isIOS
+        ? CupertinoActivityIndicator(
+            radius: 16,
+          )
+        : hasAnimatedColor
+            ? _AnimatedColorProgressIndicator()
+            : CircularProgressIndicator(
+                // strokeWidth: 2,
+                valueColor:
+                    AlwaysStoppedAnimation(Theme.of(context).accentColor),
+              );
+  }
 }
 
 class _AnimatedColorProgressIndicator extends StatefulWidget {
@@ -57,7 +66,7 @@ class _AnimatedColorProgressIndicatorState
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      strokeWidth: 2,
+      // strokeWidth: 2,
       valueColor: _colorTween,
     );
   }

@@ -51,7 +51,7 @@ class _MapReadyButtonState extends State<MapReadyButton> {
       child: AlertDialog(
         content: Row(
           children: <Widget>[
-            buildProgressIndicator(context),
+            ExtendedProgressIndicator(),
             SizedBox(width: 16),
             Text('Загрузка...'),
           ],

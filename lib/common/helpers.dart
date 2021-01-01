@@ -38,7 +38,7 @@ Widget loadStateChanged(ExtendedImageState state) {
     return Container(
       alignment: Alignment.center,
       color: Colors.grey.withOpacity(0.3),
-      child: buildProgressIndicator(context),
+      child: ExtendedProgressIndicator(),
     );
   });
 }

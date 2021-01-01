@@ -25,7 +25,7 @@ Widget buildListIndicator({
             margin: EdgeInsets.symmetric(vertical: 5),
             height: 15,
             width: 15,
-            child: buildProgressIndicator(context),
+            child: ExtendedProgressIndicator(),
           ),
           // Text("正在加载...不要着急")
         ],
@@ -40,7 +40,7 @@ Widget buildListIndicator({
             // margin: EdgeInsets.only(right: 5),
             height: 30,
             width: 30,
-            child: buildProgressIndicator(context),
+            child: ExtendedProgressIndicator(),
           ),
           // Text("正在加载...不要着急")
         ],

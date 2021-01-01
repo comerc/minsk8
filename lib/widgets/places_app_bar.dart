@@ -140,7 +140,7 @@ class _PlacesState extends State<_Places> {
         return Align(
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8),
-            child: buildProgressIndicator(context),
+            child: ExtendedProgressIndicator(),
           ),
         );
       },
