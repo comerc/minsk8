@@ -1,199 +1,199 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/widgets.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
-import 'package:minsk8/import.dart';
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:flutter/widgets.dart';
+// import 'package:image_cropper/image_cropper.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'package:uuid/uuid.dart';
+// import 'package:minsk8/import.dart';
 
-class ImageCaptureScreen extends StatefulWidget {
-  @override
-  _ImageCaptureScreenState createState() => _ImageCaptureScreenState();
-}
+// class ImageCaptureScreen extends StatefulWidget {
+//   @override
+//   _ImageCaptureScreenState createState() => _ImageCaptureScreenState();
+// }
 
-class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
-  File _imageFile;
+// class _ImageCaptureScreenState extends State<ImageCaptureScreen> {
+//   File _imageFile;
 
-  /// Cropper plugin
-  Future<void> _cropImage() async {
-    final cropped = await ImageCropper.cropImage(
-      sourcePath: _imageFile.path,
-      // ratioX: 1,
-      // ratioY: 1,
-      // maxWidth: 512,
-      // maxHeight: 512,
-      androidUiSettings: AndroidUiSettings(
-        toolbarColor: Colors.purple,
-        toolbarWidgetColor: Colors.white,
-        toolbarTitle: 'Crop It',
-        // hideBottomControls: true,
-      ),
-      compressFormat: ImageCompressFormat.png,
-      compressQuality: 100,
-      // cropStyle: CropStyle.circle,
-    );
+//   /// Cropper plugin
+//   Future<void> _cropImage() async {
+//     final cropped = await ImageCropper.cropImage(
+//       sourcePath: _imageFile.path,
+//       // ratioX: 1,
+//       // ratioY: 1,
+//       // maxWidth: 512,
+//       // maxHeight: 512,
+//       androidUiSettings: AndroidUiSettings(
+//         toolbarColor: Colors.purple,
+//         toolbarWidgetColor: Colors.white,
+//         toolbarTitle: 'Crop It',
+//         // hideBottomControls: true,
+//       ),
+//       compressFormat: ImageCompressFormat.png,
+//       compressQuality: 100,
+//       // cropStyle: CropStyle.circle,
+//     );
 
-    setState(() {
-      _imageFile = cropped ?? _imageFile;
-    });
-  }
+//     setState(() {
+//       _imageFile = cropped ?? _imageFile;
+//     });
+//   }
 
-  Future<void> _pickImage(ImageSource source) async {
-    // ignore: deprecated_member_use
-    final selected = await ImagePicker.pickImage(source: source);
+//   Future<void> _pickImage(ImageSource source) async {
+//     // ignore: deprecated_member_use
+//     final selected = await ImagePicker.pickImage(source: source);
 
-    setState(() {
-      _imageFile = selected;
-    });
-  }
+//     setState(() {
+//       _imageFile = selected;
+//     });
+//   }
 
-  void _clear() {
-    setState(() => _imageFile = null);
-  }
+//   void _clear() {
+//     setState(() => _imageFile = null);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Capture'),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.photo_camera,
-                // size: 30,
-              ),
-              onPressed: () => _pickImage(ImageSource.camera),
-              color: Colors.blue,
-              tooltip: 'Take a Photo',
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.photo_library,
-                // size: 30,
-              ),
-              onPressed: () => _pickImage(ImageSource.gallery),
-              color: Colors.pink,
-              tooltip: 'Pick Image from gallery',
-            ),
-          ],
-        ),
-      ),
-      drawer: MainDrawer('/_image_capture'),
-      body: Column(
-        children: <Widget>[
-          if (_imageFile != null) ...[
-            Container(
-                padding: EdgeInsets.all(32), child: Image.file(_imageFile)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FlatButton(
-                  child: Icon(Icons.crop),
-                  onPressed: _cropImage,
-                ),
-                FlatButton(
-                  child: Icon(Icons.refresh),
-                  onPressed: _clear,
-                ),
-              ],
-            ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(32),
-              child: Uploader(
-                file: _imageFile,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Image Capture'),
+//       ),
+//       bottomNavigationBar: BottomAppBar(
+//         child: Row(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           children: <Widget>[
+//             IconButton(
+//               icon: Icon(
+//                 Icons.photo_camera,
+//                 // size: 30,
+//               ),
+//               onPressed: () => _pickImage(ImageSource.camera),
+//               color: Colors.blue,
+//               tooltip: 'Take a Photo',
+//             ),
+//             IconButton(
+//               icon: Icon(
+//                 Icons.photo_library,
+//                 // size: 30,
+//               ),
+//               onPressed: () => _pickImage(ImageSource.gallery),
+//               color: Colors.pink,
+//               tooltip: 'Pick Image from gallery',
+//             ),
+//           ],
+//         ),
+//       ),
+//       drawer: MainDrawer('/_image_capture'),
+//       body: Column(
+//         children: <Widget>[
+//           if (_imageFile != null) ...[
+//             Container(
+//                 padding: EdgeInsets.all(32), child: Image.file(_imageFile)),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: <Widget>[
+//                 FlatButton(
+//                   child: Icon(Icons.crop),
+//                   onPressed: _cropImage,
+//                 ),
+//                 FlatButton(
+//                   child: Icon(Icons.refresh),
+//                   onPressed: _clear,
+//                 ),
+//               ],
+//             ),
+//             Container(
+//               width: double.infinity,
+//               padding: EdgeInsets.all(32),
+//               child: Uploader(
+//                 file: _imageFile,
+//               ),
+//             ),
+//           ],
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-class Uploader extends StatefulWidget {
-  final File file;
+// class Uploader extends StatefulWidget {
+//   final File file;
 
-  Uploader({Key key, this.file}) : super(key: key);
+//   Uploader({Key key, this.file}) : super(key: key);
 
-  @override
-  _UploaderState createState() => _UploaderState();
-}
+//   @override
+//   _UploaderState createState() => _UploaderState();
+// }
 
-class _UploaderState extends State<Uploader> {
-  final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: kStorageBucket);
+// class _UploaderState extends State<Uploader> {
+//   final FirebaseStorage _storage =
+//       FirebaseStorage(storageBucket: kStorageBucket);
 
-  StorageUploadTask _uploadTask;
+//   StorageUploadTask _uploadTask;
 
-  void _startUpload() {
-    final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
+//   void _startUpload() {
+//     final filePath = 'images/${DateTime.now()} ${Uuid().v4()}.png';
 
-    setState(() {
-      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-    });
-  }
+//     setState(() {
+//       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
+//     });
+//   }
 
-  void getDownloadUrl() async {
-    final downloadUrl = await _uploadTask.lastSnapshot.ref.getDownloadURL();
-    out(downloadUrl);
-  }
+//   void getDownloadUrl() async {
+//     final downloadUrl = await _uploadTask.lastSnapshot.ref.getDownloadURL();
+//     out(downloadUrl);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (_uploadTask != null) {
-      return StreamBuilder<StorageTaskEvent>(
-          stream: _uploadTask.events,
-          builder: (context, snapshot) {
-            var event = snapshot?.data?.snapshot;
+//   @override
+//   Widget build(BuildContext context) {
+//     if (_uploadTask != null) {
+//       return StreamBuilder<StorageTaskEvent>(
+//           stream: _uploadTask.events,
+//           builder: (context, snapshot) {
+//             var event = snapshot?.data?.snapshot;
 
-            var progressPercent = event != null
-                ? event.bytesTransferred / event.totalByteCount
-                : 0;
+//             var progressPercent = event != null
+//                 ? event.bytesTransferred / event.totalByteCount
+//                 : 0;
 
-            if (_uploadTask.isComplete) {
-              getDownloadUrl();
-            }
+//             if (_uploadTask.isComplete) {
+//               getDownloadUrl();
+//             }
 
-            return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  if (_uploadTask.isComplete)
-                    Text('🎉🎉🎉',
-                        style: TextStyle(
-                            color: Colors.greenAccent,
-                            height: 2,
-                            fontSize: 30)),
-                  if (_uploadTask.isPaused)
-                    FlatButton(
-                      child: Icon(Icons.play_arrow, size: 50),
-                      onPressed: _uploadTask.resume,
-                    ),
-                  if (_uploadTask.isInProgress)
-                    FlatButton(
-                      child: Icon(Icons.pause, size: 50),
-                      onPressed: _uploadTask.pause,
-                    ),
-                  LinearProgressIndicator(value: progressPercent as double),
-                  Text(
-                    '${(progressPercent * 100).toStringAsFixed(2)} % ',
-                    style: TextStyle(fontSize: 50),
-                  ),
-                ]);
-          });
-    } else {
-      return FlatButton.icon(
-          color: Colors.blue,
-          label: Text('Upload to Firebase'),
-          icon: Icon(Icons.cloud_upload),
-          onPressed: _startUpload);
-    }
-  }
-}
+//             return Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: <Widget>[
+//                   if (_uploadTask.isComplete)
+//                     Text('🎉🎉🎉',
+//                         style: TextStyle(
+//                             color: Colors.greenAccent,
+//                             height: 2,
+//                             fontSize: 30)),
+//                   if (_uploadTask.isPaused)
+//                     FlatButton(
+//                       child: Icon(Icons.play_arrow, size: 50),
+//                       onPressed: _uploadTask.resume,
+//                     ),
+//                   if (_uploadTask.isInProgress)
+//                     FlatButton(
+//                       child: Icon(Icons.pause, size: 50),
+//                       onPressed: _uploadTask.pause,
+//                     ),
+//                   LinearProgressIndicator(value: progressPercent as double),
+//                   Text(
+//                     '${(progressPercent * 100).toStringAsFixed(2)} % ',
+//                     style: TextStyle(fontSize: 50),
+//                   ),
+//                 ]);
+//           });
+//     } else {
+//       return FlatButton.icon(
+//           color: Colors.blue,
+//           label: Text('Upload to Firebase'),
+//           icon: Icon(Icons.cloud_upload),
+//           onPressed: _startUpload);
+//     }
+//   }
+// }
