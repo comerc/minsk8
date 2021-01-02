@@ -28,7 +28,9 @@ import 'package:minsk8/import.dart';
 //   }
 // }
 
-// TODO: [MVP] перенести ImagesField из pet_finder в minsk8
+// TODO: перенести SelectField из pet_finder в minsk8,
+// когда сделают ScrollablePositionedList.shrinkWrap
+// https://github.com/google/flutter.widgets/issues/52
 
 // TODO: упразднить AddUnitTabIndex
 class AddUnitTabIndex {
@@ -552,47 +554,51 @@ Future<UrgentValue> _selectUrgentDialog(
               ),
             ),
             SizedBox(height: 16),
-            ListBox(
-              itemCount: UrgentValue.values.length,
-              itemBuilder: (BuildContext context, int index) {
-                final current = UrgentValue.values[index];
-                return Material(
-                  color: selected == current
-                      ? Colors.grey.withOpacity(0.2)
-                      : Colors.white,
-                  child: InkWell(
-                    onLongPress: () {}, // чтобы сократить время для splashColor
-                    onTap: () {
-                      navigator.pop(current);
-                    },
-                    child: ListTile(
-                      title: Text(getUrgentName(current)),
-                      subtitle: Text(getUrgentText(current)),
-                      // selected: selected == current,
-                      trailing: selected == current
-                          ? Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(4),
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: UrgentValue.values.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final current = UrgentValue.values[index];
+                  return Material(
+                    color: selected == current
+                        ? Colors.grey.withOpacity(0.2)
+                        : Colors.white,
+                    child: InkWell(
+                      onLongPress:
+                          () {}, // чтобы сократить время для splashColor
+                      onTap: () {
+                        navigator.pop(current);
+                      },
+                      child: ListTile(
+                        title: Text(getUrgentName(current)),
+                        subtitle: Text(getUrgentText(current)),
+                        // selected: selected == current,
+                        trailing: selected == current
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
                                 ),
-                              ),
-                              padding: EdgeInsets.all(4),
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.red,
-                                size: kButtonIconSize,
-                              ),
-                            )
-                          : null,
-                      dense: true,
+                                padding: EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.red,
+                                  size: kButtonIconSize,
+                                ),
+                              )
+                            : null,
+                        dense: true,
+                      ),
                     ),
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 8);
-              },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: 8);
+                },
+              ),
             ),
             SizedBox(height: 32),
           ],
