@@ -41,14 +41,12 @@ dependencies:
   firebase_dynamic_links: 0.5.1
   firebase_analytics: 5.0.16
 
-  # TODO: удалить image_cropper
-  image_cropper: 1.1.1
   image_picker: ^0.6.7
 
+  # image_cropper: 1.1.1
   # transparent_image: 1.0.0
-  # TODO: удалить pinch_zoom_image
-  pinch_zoom_image:
-    git: git@github.com:TheFe91/pinch_zoom_image.git
+  # pinch_zoom_image:
+  #   git: git@github.com:TheFe91/pinch_zoom_image.git
 
   extended_image: ^0.7.3+1
   like_button: 1.0.1

@@ -662,13 +662,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
-  image_cropper:
-    dependency: "direct main"
-    description:
-      name: image_cropper
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   image_picker:
     dependency: "direct main"
     description:
@@ -949,15 +942,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  pinch_zoom_image:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "674224160d3f496a79537375669f4b6fb43a00c3"
-      url: "git@github.com:TheFe91/pinch_zoom_image.git"
-    source: git
-    version: "0.2.5"
   platform:
     dependency: transitive
     description:
