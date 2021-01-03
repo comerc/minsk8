@@ -256,7 +256,7 @@ void out(dynamic value) {
 }
 
 String convertEnumToSnakeCase(dynamic value) {
-  return ReCase(EnumToString.parse(value)).snakeCase;
+  return ReCase(EnumToString.convertToString(value)).snakeCase;
 }
 
 T getBloc<T extends Cubit<Object>>(BuildContext context) =>
