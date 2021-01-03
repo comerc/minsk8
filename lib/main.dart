@@ -97,12 +97,13 @@ void main() {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    final initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
-    // Note: permissions aren't requested here just to demonstrate
-    // that can be done later using the `requestPermissions()` method
-    // of the `IOSFlutterLocalNotificationsPlugin` class
-    final initializationSettingsIOS = IOSInitializationSettings(
+    final initializationSettings = InitializationSettings(
+      android: AndroidInitializationSettings('app_icon'),
+      // Note: permissions aren't requested here just to demonstrate
+      // that can be done later using the `requestPermissions()` method
+      // of the `IOSFlutterLocalNotificationsPlugin` class
+      // final initializationSettingsIOS = ;
+      iOS: IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
         requestSoundPermission: false,
@@ -110,9 +111,9 @@ void main() {
             (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotificationModel(
               id: id, title: title, body: body, payload: payload));
-        });
-    final initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
+        },
+      ),
+    );
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String payload) async {
       if (payload != null) {
