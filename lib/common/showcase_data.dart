@@ -50,7 +50,7 @@ class ShowcaseData extends SourceList<UnitModel> {
     if (hasMore) {
       final item = UnitModel.fromJson(dataItems.removeLast());
       // TODO: из-за проблем с сортировкой по полю "created_at",
-      // ограничил постраничный вывод для getUnitsForFan & getUnitsForBest
+      // ограничил постраничный вывод для API.getUnitsForFan & API.getUnitsForBest
       if (isMetaKind &&
           [MetaKindValue.fan, MetaKindValue.best].contains(kind)) {
         this.hasMore = false;
