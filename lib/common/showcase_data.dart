@@ -49,8 +49,16 @@ class ShowcaseData extends SourceList<UnitModel> {
     this.hasMore = hasMore;
     if (hasMore) {
       final item = UnitModel.fromJson(dataItems.removeLast());
-      nextDate = item.createdAt.toUtc().toIso8601String();
+      // TODO: из-за проблем с сортировкой по полю "created_at",
+      // ограничил постраничный вывод для getUnitsForFan & getUnitsForBest
+      if (isMetaKind &&
+          [MetaKindValue.fan, MetaKindValue.best].contains(kind)) {
+        this.hasMore = false;
+      } else {
+        nextDate = item.createdAt.toUtc().toIso8601String();
+      }
     }
+
     for (final dataItem in dataItems) {
       items.add(UnitModel.fromJson(dataItem));
     }
