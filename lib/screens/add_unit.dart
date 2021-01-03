@@ -467,67 +467,6 @@ class _AddedUnitDialog extends StatelessWidget {
   }
 }
 
-Future<ImageSource> _showImageSourceDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => SimpleDialog(
-      title: Text('Что использовать?'),
-      children: <Widget>[
-        _ImageSourceUnit(
-          icon: FontAwesomeIcons.camera,
-          text: 'Камера',
-          result: ImageSource.camera,
-        ),
-        _ImageSourceUnit(
-          icon: FontAwesomeIcons.solidImages,
-          text: 'Галерея',
-          result: ImageSource.gallery,
-        ),
-      ],
-    ),
-  );
-}
-
-class _ImageSourceUnit extends StatelessWidget {
-  _ImageSourceUnit({
-    Key key,
-    this.icon,
-    this.text,
-    this.result,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-  final ImageSource result;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {}, // чтобы сократить время для splashColor
-      child: SimpleDialogOption(
-        onPressed: () {
-          navigator.pop(result);
-        },
-        child: Row(
-          children: <Widget>[
-            Icon(
-              icon,
-              color: Colors.black.withOpacity(0.8),
-              size: kBigButtonIconSize,
-            ),
-            Flexible(
-              child: Padding(
-                padding: EdgeInsetsDirectional.only(start: 16),
-                child: Text(text),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 // TODO: CheckboxListTile
 
 Future<UrgentValue> _selectUrgentDialog(
