@@ -50,6 +50,7 @@ dependencies:
 
   extended_image: ^1.5.0
   like_button: ^1.0.4
+  # или заменить на flutter_staggered_grid_view
   loading_more_list:
     3.1.1
     # path: ../loading_more_list
