@@ -30,6 +30,7 @@ import 'package:minsk8/import.dart';
 // TODO: перенести SelectField из pet_finder в minsk8,
 // когда сделают ScrollablePositionedList.shrinkWrap
 // https://github.com/google/flutter.widgets/issues/52
+// а пока применил SingleChildScrollView + ListBox + Scrollable.ensureVisible
 
 // TODO: упразднить AddUnitTabIndex
 class AddUnitTabIndex {
@@ -466,8 +467,6 @@ class _AddedUnitDialog extends StatelessWidget {
   }
 }
 
-// TODO: CheckboxListTile
-
 Future<UrgentValue> _selectUrgentDialog(
     BuildContext context, UrgentValue selected) {
   return showModalBottomSheet(
@@ -476,30 +475,63 @@ Future<UrgentValue> _selectUrgentDialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    builder: (context) {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SizedBox(height: 32),
-            Text(
-              'Как срочно надо отдать?',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black.withOpacity(0.8),
-              ),
+    builder: (BuildContext context) {
+      return _UrgentDialog(selected: selected);
+    },
+  );
+}
+
+class _UrgentDialog extends StatefulWidget {
+  const _UrgentDialog({this.selected});
+
+  final UrgentValue selected;
+
+  @override
+  _UrgentDialogState createState() => _UrgentDialogState();
+}
+
+class _UrgentDialogState extends State<_UrgentDialog> {
+  final keys =
+      List.generate(UrgentValue.values.length, (int index) => GlobalKey());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
+  }
+
+  void _onAfterBuild(Duration timeStamp) {
+    final index = UrgentValue.values.indexOf(widget.selected);
+    if (index == -1) return;
+    Scrollable.ensureVisible(keys[index].currentContext);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(height: 32),
+          Text(
+            'Как срочно надо отдать?',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.black.withOpacity(0.8),
             ),
-            SizedBox(height: 16),
-            Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
+          ),
+          SizedBox(height: 16),
+          Flexible(
+            child: SingleChildScrollView(
+              child: ListBox(
                 itemCount: UrgentValue.values.length,
                 itemBuilder: (BuildContext context, int index) {
+                  // TODO: CheckboxListTile
                   final current = UrgentValue.values[index];
                   return Material(
-                    color: selected == current
+                    color: widget.selected == current
                         ? Colors.grey.withOpacity(0.2)
                         : Colors.white,
                     child: InkWell(
@@ -509,10 +541,11 @@ Future<UrgentValue> _selectUrgentDialog(
                         navigator.pop(current);
                       },
                       child: ListTile(
+                        key: keys[index],
                         title: Text(getUrgentName(current)),
                         subtitle: Text(getUrgentText(current)),
-                        // selected: selected == current,
-                        trailing: selected == current
+                        // selected: widget.selected == current,
+                        trailing: widget.selected == current
                             ? Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -538,10 +571,10 @@ Future<UrgentValue> _selectUrgentDialog(
                 },
               ),
             ),
-            SizedBox(height: 32),
-          ],
-        ),
-      );
-    },
-  );
+          ),
+          SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
 }

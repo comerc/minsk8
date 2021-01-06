@@ -3,41 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:minsk8/import.dart';
 
-class ScrollBody extends StatefulWidget {
-  ScrollBody({this.child, this.withIntrinsicHeight = true});
+class ScrollBody extends StatelessWidget {
+  ScrollBody({this.child});
 
   final Widget child;
-  final bool withIntrinsicHeight;
-
-  @override
-  _ScrollBodyState createState() {
-    return _ScrollBodyState();
-  }
-}
-
-class _ScrollBodyState extends State<ScrollBody> {
-  ScrollController _controller;
-  AppBarModel _appBarModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _appBarModel = Provider.of<AppBarModel>(context, listen: false);
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
-    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
-  }
-
-  void _onAfterBuild(Duration timeStamp) async {
-    _appBarModel.isElevation = false;
-  }
-
-  @override
-  void dispose() {
-    _controller.removeListener(_scrollListener);
-    _controller.dispose();
-    super.dispose();
-  }
 
   // @override
   // Widget build(BuildContext context) {
@@ -72,23 +41,67 @@ class _ScrollBodyState extends State<ScrollBody> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          controller: _controller,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: widget.withIntrinsicHeight
-                ? IntrinsicHeight(
-                    child: widget.child,
-                  )
-                : widget.child,
-          ),
+    return ScrollBodyBuilder(
+      builder: (BuildContext context, ScrollController controller) {
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+              controller: controller,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: child,
+                ),
+              ),
+            );
+          },
         );
       },
     );
+  }
+}
+
+class ScrollBodyBuilder extends StatefulWidget {
+  ScrollBodyBuilder({this.builder});
+
+  final Widget Function(BuildContext context, ScrollController controller)
+      builder;
+
+  @override
+  _ScrollBodyBuilderState createState() {
+    return _ScrollBodyBuilderState();
+  }
+}
+
+class _ScrollBodyBuilderState extends State<ScrollBodyBuilder> {
+  ScrollController _controller;
+  AppBarModel _appBarModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _appBarModel = Provider.of<AppBarModel>(context, listen: false);
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
+  }
+
+  void _onAfterBuild(Duration timeStamp) async {
+    _appBarModel.isElevation = false;
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_scrollListener);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(context, _controller);
   }
 
   void _scrollListener() {

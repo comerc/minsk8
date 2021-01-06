@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minsk8/import.dart';
 
-// TODO: [MVP] скроллировать к выбранному элементу, если он вне видимости
 // TODO: Вы получите Карму от забирающих и бонус +3 Кармы за первый отданный лот
 
-class KindsScreen extends StatelessWidget {
+class KindsScreen extends StatefulWidget {
   Route<T> getRoute<T>() {
     return buildRoute<T>(
       '/kinds',
@@ -19,39 +18,69 @@ class KindsScreen extends StatelessWidget {
   final KindValue value;
 
   @override
+  _KindsScreenState createState() => _KindsScreenState();
+}
+
+class _KindsScreenState extends State<KindsScreen> {
+  final keys =
+      List.generate(KindValue.values.length, (int index) => GlobalKey());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
+  }
+
+  void _onAfterBuild(Duration timeStamp) async {
+    final index = KindValue.values.indexOf(widget.value);
+    if (index == -1) return;
+    await Future.delayed(Duration.zero); // for ScrollBodyBuilder._onAfterBuild
+    // ignore: unawaited_futures
+    Scrollable.ensureVisible(keys[index].currentContext);
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: проверить на IPad Retina и Samsung Note 12
     final width = MediaQuery.of(context).size.width;
     final isSmallWidth = width < kSmallWidth;
     final isMediumWidth = width < kMediumWidth;
     final isLargeWidth = width < kLargeWidth;
-    final crossAxisCount =
-        isSmallWidth ? 1 : isMediumWidth ? 2 : isLargeWidth ? 3 : 4;
-    final child = GridView.count(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      padding: EdgeInsets.all(8),
-      childAspectRatio: kGoldenRatio,
-      children: List.generate(
-        KindValue.values.length,
-        (int index) => _KindButton(
-          KindValue.values[index],
-          selectedValue: value,
-        ),
-      ),
-    );
+    final crossAxisCount = isSmallWidth
+        ? 1
+        : isMediumWidth
+            ? 2
+            : isLargeWidth
+                ? 3
+                : 4;
     return Scaffold(
       appBar: ExtendedAppBar(
         title: Text('Выберите категорию'),
         withModel: true,
       ),
       body: SafeArea(
-        child: ScrollBody(
-          withIntrinsicHeight: false,
-          child: child,
+        child: ScrollBodyBuilder(
+          builder: (BuildContext context, ScrollController controller) {
+            return GridView.count(
+              controller: controller,
+              shrinkWrap: true,
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8,
+              padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
+              childAspectRatio: kGoldenRatio,
+              children: List.generate(
+                KindValue.values.length,
+                (int index) => Container(
+                  padding: EdgeInsets.only(top: 8),
+                  key: keys[index],
+                  child: _KindButton(
+                    value: KindValue.values[index],
+                    selectedValue: widget.value,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -59,7 +88,7 @@ class KindsScreen extends StatelessWidget {
 }
 
 class _KindButton extends StatelessWidget {
-  _KindButton(this.value, {this.selectedValue});
+  _KindButton({this.value, this.selectedValue});
 
   final KindValue value;
   final KindValue selectedValue;
