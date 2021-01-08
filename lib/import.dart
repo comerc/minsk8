@@ -12,7 +12,6 @@ export '_screens/_nested_scroll_view.dart';
 export '_screens/_notification.dart';
 export '_screens/_settings.dart';
 export '_screens/_sign_up.dart';
-export 'common/_fake_data.dart';
 export 'common/_theme.dart';
 export 'common/chat_data.dart';
 export 'common/const.dart';
