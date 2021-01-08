@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: [MVP] flutter_image_compress для обрезания EXIF и выбора типа файла
+
 class ImagesField extends StatefulWidget {
   ImagesField({
     Key key,
@@ -177,10 +179,17 @@ class ImagesFieldState extends State<ImagesField> {
 
   Future<void> _uploadImage(_ImageData imageData) async {
     final completer = Completer<void>();
-    final fileName = '${Uuid().v4()}.png';
+    final fileName = '${Uuid().v4()}.jpg';
     final storageReference =
         FirebaseStorage.instance.ref().child('images').child(fileName);
-    imageData.uploadTask = storageReference.putData(imageData.bytes);
+    imageData.uploadTask = storageReference.putData(
+      imageData.bytes,
+      SettableMetadata(
+        // The response can be stored by any cache for up to 100 day (60 seconds x 60 minutes x 24 hours x 100 days).
+        cacheControl: 'public, max-age=8640000',
+        contentType: 'image/jpg',
+      ),
+    );
     final streamSubscription =
         imageData.uploadTask.snapshotEvents.listen((TaskSnapshot event) async {
       final cases = {
