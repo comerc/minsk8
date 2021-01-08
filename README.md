@@ -181,3 +181,5 @@ main() async {
 
 - [Patreon](https://www.patreon.com/comerc)
 - [QIWI](https://donate.qiwi.com/payin/comerc)
+
+😺
