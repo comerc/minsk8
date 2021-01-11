@@ -181,7 +181,7 @@ class ImagesFieldState extends State<ImagesField> {
     final completer = Completer<void>();
     final fileName = '${Uuid().v4()}.jpg';
     final storageReference =
-        FirebaseStorage.instance.ref().child('images').child(fileName);
+        FirebaseStorage.instance.ref() /*.child('images')*/ .child(fileName);
     imageData.uploadTask = storageReference.putData(
       imageData.bytes,
       SettableMetadata(

@@ -12,8 +12,9 @@
     "node": "8"
   },
   "dependencies": {
-    "firebase-admin": "^8.6.0",
+    "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.3.0",
+    "sharp": "^0.23.2",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
