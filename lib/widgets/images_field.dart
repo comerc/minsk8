@@ -185,8 +185,8 @@ class ImagesFieldState extends State<ImagesField> {
     imageData.uploadTask = storageReference.putData(
       imageData.bytes,
       SettableMetadata(
-        // The response can be stored by any cache for up to 100 day (60 seconds x 60 minutes x 24 hours x 100 days).
-        cacheControl: 'public, max-age=8640000',
+        // The response can be stored by any cache for up to 100 days (60 seconds x 60 minutes x 24 hours x 100 days).
+        cacheControl: 'public, max-age=${60 * 60 * 24 * 100}',
         contentType: 'image/jpg',
       ),
     );
