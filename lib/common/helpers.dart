@@ -259,8 +259,9 @@ String convertEnumToSnakeCase(dynamic value) {
   return ReCase(EnumToString.convertToString(value)).snakeCase;
 }
 
-T getBloc<T extends Cubit<Object>>(BuildContext context) =>
-    BlocProvider.of<T>(context);
+T getBloc<T extends Cubit<Object>>(BuildContext context,
+        {bool listen = false}) =>
+    BlocProvider.of<T>(context, listen: listen);
 
 T getRepository<T>(BuildContext context) => RepositoryProvider.of<T>(context);
 
