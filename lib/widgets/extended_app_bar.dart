@@ -29,6 +29,7 @@ class ExtendedAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final appBarModel = withModel ? Provider.of<AppBarModel>(context) : null;
     return AppBar(
+      automaticallyImplyLeading: false, // костыль для VersionCubit (#638)
       backgroundColor:
           isForeground ? Theme.of(context).dialogBackgroundColor : null,
       elevation:
