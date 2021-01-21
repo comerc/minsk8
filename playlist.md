@@ -54,9 +54,6 @@
 - [`Flutter #595 - Реализовал DatabaseRepository.initializeService()`](https://www.youtube.com/watch?v=5HD-4CP3UZE)
 - [`Flutter #594 - Запустил эксперимент по протуханию токена для GraphQL subscription`](https://www.youtube.com/watch?v=NjeWD8y6a_k)
 - [`Flutter #593 - Выполнил апгрейд пакета graphql 4.0.0-beta.5 на pet_finder`](https://www.youtube.com/watch?v=gvofbU8ag4w)
-
----
-
 - [`Flutter #592 - Исправил TextField focus crash`](https://www.youtube.com/watch?v=34pLrfZ1oz8)
 - [`Flutter #591 - Выполнил упражнение на SingleChildScrollView`](https://www.youtube.com/watch?v=FXoCz_dUmSk)
   `+ подвёл итоги по окончанию собственных курсов "Flutter для начинающих"`
