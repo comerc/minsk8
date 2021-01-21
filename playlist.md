@@ -1,3 +1,62 @@
+- [`Flutter #638 - Реализовал VersionCubit (5 серия)`](https://www.youtube.com/watch?v=1AGZpyuMRy4)
+- [`Flutter #637 - Реализовал VersionCubit (4 серия)`](https://www.youtube.com/watch?v=RLMRRen5hdo)
+- [`Flutter #636 - Реализовал VersionCubit (3 серия)`](https://www.youtube.com/watch?v=9i8XW8EVl9E)
+- [`Flutter #635 - Реализовал VersionCubit (2 серия)`](https://www.youtube.com/watch?v=31QxaQoLWdA)
+- [`Flutter #634 - Реализовал VersionCubit (1 серия)`](https://www.youtube.com/watch?v=ISVY9KqYzyQ)
+- [`Flutter #633 - Исследовал реализацию "Prompt Update App Dialog In Flutter Application"`](https://www.youtube.com/watch?v=svfw3mRncTU)
+  `+ обновил пакеты firebase_*`
+- [`Flutter #632 - Реализовал Image CDN на Firebase (2 серия)`](https://www.youtube.com/watch?v=0EzWWPQRWr0)
+- [`Flutter #631 - Исследовал реализацию обновления приложения`](https://www.youtube.com/watch?v=W99NklmVntw)
+- [`Flutter #630 - Реализовал Image CDN на Firebase (1 серия)`](https://www.youtube.com/watch?v=moRL5H8TS-k)
+- [`Flutter #629 - Исследовал Image CDN на Firebase`](https://www.youtube.com/watch?v=aqtHUVLNvuQ)
+- [`Flutter #628 - Реализовал Scrollable.ensureVisible`](https://www.youtube.com/watch?v=63Ygw8N0w1g)
+- [`Flutter #627 - Ограничил постраничный вывод для API.getUnitsForFan и API.getUnitsForBest`](https://www.youtube.com/watch?v=WPfGmz_RYn8)
+- [`Flutter #626 - Исследовал MaterialApp.builder для фокуса в TextField`](https://www.youtube.com/watch?v=s33erRoSeA4)
+  `+ обновил пакеты`
+- [`Flutter #625 - Исследовал ScrollablePositionedList`](https://www.youtube.com/watch?v=aDWuvVxem0A)
+  `+ выпилил ListBox для _selectUrgentDialog`
+- [`Flutter #624 - Перенёс ImagesField из pet_finder`](https://www.youtube.com/watch?v=yyu5C10KAQA)
+- [`Flutter #623 - Реализовал _loadAppState() внутри HomeScreen()`](https://www.youtube.com/watch?v=pNjCB9R_GpQ)
+- [`Flutter #622 - Восстановил StartScreen`](https://www.youtube.com/watch?v=HnlrYlZeWCo)
+- [`Flutter #621 - Отрефакторил ProfileCubit.saveWish() & .saveBlock()`](https://www.youtube.com/watch?v=7RhZ9Fhj_Ko)
+- [`Flutter #620 - Исследовал реализацию очереди на Future`](https://www.youtube.com/watch?v=__KNx-yne60)
+- [`Flutter #619 - Реализовал _optimisticUpdateBlock()`](https://www.youtube.com/watch?v=cS1anse7RWY)
+- [`Flutter #618 - Реализовал "optimistic" ProfileCubit.saveWish()`](https://www.youtube.com/watch?v=lak3J5xXG3I)
+- [`Flutter #617 - Исследовал Equatable для BuiltList`](https://www.youtube.com/watch?v=SrTDOoB-nOk)
+- [`Flutter #616 - Реализовал ProfileCubit.saveWish()`](https://www.youtube.com/watch?v=lRG6nXuBDYM)
+- [`Flutter #615 - Реализовал отображение LikeButton.isLiked через BLoC`](https://www.youtube.com/watch?v=C-tAMkf6I7Q)
+  `+ добавил ProfileCubit.addUnitLocaly()`
+- [`Flutter #614 - Добавил неизменяемые (immutable) модели`](https://www.youtube.com/watch?v=aVeZy4mpCKE)
+- [`Flutter #613 - Переключил ProfileModel с Provider на ProfileCubit`](https://www.youtube.com/watch?v=sL3CewY4qI4)
+- [`Flutter #612 - Загрузил данные для ProfileModel`](https://www.youtube.com/watch?v=0HB2cGbWWdw)
+- [`Flutter #611 - Загрузил данные для ProfileState.member`](https://www.youtube.com/watch?v=kk6yGmUzU7I)
+- [`Flutter #610 - Подключил LoadProfileScreen на BLoC`](https://www.youtube.com/watch?v=bc2pPTBX_uk)
+  `+ исследовал flow_builder`
+- [`Flutter #609 - Исследовал ошибку в диалоге "Выберите аккаунт"`](https://www.youtube.com/watch?v=cCk7oYA9p9s)
+- [`Flutter #608 - Подключил аутентификацию на BLoC (2 серия)`](https://www.youtube.com/watch?v=P_rUlQW7fDE)
+- [`Flutter #607 - Подключил аутентификацию на BLoC (1 серия)`](https://www.youtube.com/watch?v=CcwnHhdXEo0)
+- [`Flutter #606 - Добавил cubits для auth`](https://www.youtube.com/watch?v=8JPU1AVq9_g)
+  `+ исправил FutureBuilder для MaterialApp.builder`
+- [`Flutter #605 - Добавил repositories для BLoC`](https://www.youtube.com/watch?v=dKgCGmF7Fmw)
+- [`Flutter #604 - Добавил json_serializable_immutable_collections`](https://www.youtube.com/watch?v=f4JWUqRZKtc)
+  `+ исследовал dart_json_mapper`
+- [`Flutter #603 - Подготовил LoginScreen`](https://www.youtube.com/watch?v=sbkMSF503KU)
+  `+ исследовал _LifecycleManager`
+- [`Flutter #602 - Выпилил CommonMaterialApp`](https://www.youtube.com/watch?v=7DtUczU8C6g)
+  `+ переименовал PageWrapper`
+- [`Flutter #601 - Выпилил graphql_flutter для переезда на BLoC`](https://www.youtube.com/watch?v=hWtHP80eXHg)
+- [`Flutter #600 - Удалил legacy из main.dart`](https://www.youtube.com/watch?v=TNC1JoTOFkk)
+- [`Flutter #599 - Исследовал legacy внутри main.dart`](https://www.youtube.com/watch?v=VHaCSoJWiMk)
+- [`Flutter #598 - Выполнил апгрейд пакета graphql 4.0.0-beta.5 на minsk8`](https://www.youtube.com/watch?v=9lne2oCSnWo)
+- [`Flutter #597 - Исследовал вопросы по Hero для UnitScreen`](https://www.youtube.com/watch?v=-leRU6ThBqY)
+- [`Flutter #596 - Посмотрел "Введение в Business Logic Components aka BLoC"`](https://www.youtube.com/watch?v=58pLbIydh68)
+  `https://youtu.be/AV_4aVOKl-g Тайм-коды: 00:00:00 Вводная 00:08:30 Начало вебинара 00:13:50 Зацепление VS Связность 00:25:30 Закон Деметры 00:32:40 GRASP (хватка) 01:02:00 Что нужно знать, чтобы освоить BLoC 01:20:00 Ответы на вопросы 01:22:00 Реактивное программирование 01:27:00 Как появился BLoC 01:45:00 Библиотека bloc 02:06:00 Cubit 02:29:00 Генераторы 02:35:00 Взаимодействие UI - BLoC 02:46:30 mapEventToState 03:20:00 Сколько делать BLoC'ов 03:35:00 Когда применять Cubit 04:25:00 Как готовить CRUD на BLoC 06:39:00 БИНГО ошибок при создании BLoC'a 08:31:00 Ответы на вопросы`
+- [`Flutter #595 - Реализовал DatabaseRepository.initializeService()`](https://www.youtube.com/watch?v=5HD-4CP3UZE)
+- [`Flutter #594 - Запустил эксперимент по протуханию токена для GraphQL subscription`](https://www.youtube.com/watch?v=NjeWD8y6a_k)
+- [`Flutter #593 - Выполнил апгрейд пакета graphql 4.0.0-beta.5 на pet_finder`](https://www.youtube.com/watch?v=gvofbU8ag4w)
+
+---
+
 - [`Flutter #592 - Исправил TextField focus crash`](https://www.youtube.com/watch?v=34pLrfZ1oz8)
 - [`Flutter #591 - Выполнил упражнение на SingleChildScrollView`](https://www.youtube.com/watch?v=FXoCz_dUmSk)
   `+ подвёл итоги по окончанию собственных курсов "Flutter для начинающих"`
