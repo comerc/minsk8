@@ -1,5 +1,281 @@
 [
   {
+    "publishedAt": "2021-01-18T15:32:46Z",
+    "title": "Flutter #638 - Реализовал VersionCubit (5 серия)",
+    "description": "",
+    "videoId": "1AGZpyuMRy4"
+  },
+  {
+    "publishedAt": "2021-01-18T04:43:11Z",
+    "title": "Flutter #637 - Реализовал VersionCubit (4 серия)",
+    "description": "",
+    "videoId": "RLMRRen5hdo"
+  },
+  {
+    "publishedAt": "2021-01-17T16:08:37Z",
+    "title": "Flutter #636 - Реализовал VersionCubit (3 серия)",
+    "description": "",
+    "videoId": "9i8XW8EVl9E"
+  },
+  {
+    "publishedAt": "2021-01-17T13:45:51Z",
+    "title": "Flutter #635 - Реализовал VersionCubit (2 серия)",
+    "description": "",
+    "videoId": "31QxaQoLWdA"
+  },
+  {
+    "publishedAt": "2021-01-16T17:45:48Z",
+    "title": "Flutter #634 - Реализовал VersionCubit (1 серия)",
+    "description": "",
+    "videoId": "ISVY9KqYzyQ"
+  },
+  {
+    "publishedAt": "2021-01-16T11:41:08Z",
+    "title": "Flutter #633 - Исследовал реализацию \"Prompt Update App Dialog In Flutter Application\"",
+    "description": "+ обновил пакеты firebase_*",
+    "videoId": "svfw3mRncTU"
+  },
+  {
+    "publishedAt": "2021-01-21T18:30:15Z",
+    "title": "Flutter #632 - Реализовал Image CDN на Firebase (2 серия)",
+    "description": "",
+    "videoId": "0EzWWPQRWr0"
+  },
+  {
+    "publishedAt": "2021-01-11T20:58:04Z",
+    "title": "Flutter #631 - Исследовал реализацию обновления приложения",
+    "description": "",
+    "videoId": "W99NklmVntw"
+  },
+  {
+    "publishedAt": "2021-01-21T18:21:39Z",
+    "title": "Flutter #630 - Реализовал Image CDN на Firebase (1 серия)",
+    "description": "",
+    "videoId": "moRL5H8TS-k"
+  },
+  {
+    "publishedAt": "2021-01-21T18:21:55Z",
+    "title": "Flutter #629 - Исследовал Image CDN на Firebase",
+    "description": "",
+    "videoId": "aqtHUVLNvuQ"
+  },
+  {
+    "publishedAt": "2021-01-06T00:24:31Z",
+    "title": "Flutter #628 - Реализовал Scrollable.ensureVisible",
+    "description": "",
+    "videoId": "63Ygw8N0w1g"
+  },
+  {
+    "publishedAt": "2021-01-03T21:57:09Z",
+    "title": "Flutter #627 - Ограничил постраничный вывод для API.getUnitsForFan и API.getUnitsForBest",
+    "description": "",
+    "videoId": "WPfGmz_RYn8"
+  },
+  {
+    "publishedAt": "2021-01-03T17:28:37Z",
+    "title": "Flutter #626 - Исследовал MaterialApp.builder для фокуса в TextField",
+    "description": "+ обновил пакеты",
+    "videoId": "s33erRoSeA4"
+  },
+  {
+    "publishedAt": "2021-01-02T17:01:29Z",
+    "title": "Flutter #625 - Исследовал ScrollablePositionedList",
+    "description": "+ выпилил ListBox для _selectUrgentDialog",
+    "videoId": "aDWuvVxem0A"
+  },
+  {
+    "publishedAt": "2021-01-01T01:41:00Z",
+    "title": "Flutter #624 - Перенёс ImagesField из pet_finder",
+    "description": "",
+    "videoId": "yyu5C10KAQA"
+  },
+  {
+    "publishedAt": "2020-12-31T18:14:43Z",
+    "title": "Flutter #623 - Реализовал _loadAppState() внутри HomeScreen()",
+    "description": "",
+    "videoId": "pNjCB9R_GpQ"
+  },
+  {
+    "publishedAt": "2020-12-30T14:19:50Z",
+    "title": "Flutter #622 - Восстановил StartScreen",
+    "description": "",
+    "videoId": "HnlrYlZeWCo"
+  },
+  {
+    "publishedAt": "2020-12-29T18:48:54Z",
+    "title": "Flutter #621 - Отрефакторил ProfileCubit.saveWish() & .saveBlock()",
+    "description": "",
+    "videoId": "7RhZ9Fhj_Ko"
+  },
+  {
+    "publishedAt": "2020-12-29T13:02:30Z",
+    "title": "Flutter #620 - Исследовал реализацию очереди на Future",
+    "description": "",
+    "videoId": "__KNx-yne60"
+  },
+  {
+    "publishedAt": "2020-12-28T19:08:23Z",
+    "title": "Flutter #619 - Реализовал _optimisticUpdateBlock()",
+    "description": "",
+    "videoId": "cS1anse7RWY"
+  },
+  {
+    "publishedAt": "2020-12-28T11:59:48Z",
+    "title": "Flutter #618 - Реализовал \"optimistic\" ProfileCubit.saveWish()",
+    "description": "",
+    "videoId": "lak3J5xXG3I"
+  },
+  {
+    "publishedAt": "2020-12-27T20:45:21Z",
+    "title": "Flutter #617 - Исследовал Equatable для BuiltList",
+    "description": "",
+    "videoId": "SrTDOoB-nOk"
+  },
+  {
+    "publishedAt": "2020-12-27T16:56:45Z",
+    "title": "Flutter #616 - Реализовал ProfileCubit.saveWish()",
+    "description": "",
+    "videoId": "lRG6nXuBDYM"
+  },
+  {
+    "publishedAt": "2020-12-27T10:31:38Z",
+    "title": "Flutter #615 - Реализовал отображение LikeButton.isLiked через BLoC",
+    "description": "+ добавил ProfileCubit.addUnitLocaly()",
+    "videoId": "C-tAMkf6I7Q"
+  },
+  {
+    "publishedAt": "2020-12-26T18:59:40Z",
+    "title": "Flutter #614 - Добавил неизменяемые (immutable) модели",
+    "description": "",
+    "videoId": "aVeZy4mpCKE"
+  },
+  {
+    "publishedAt": "2020-12-26T09:40:11Z",
+    "title": "Flutter #613 - Переключил ProfileModel с Provider на ProfileCubit",
+    "description": "",
+    "videoId": "sL3CewY4qI4"
+  },
+  {
+    "publishedAt": "2020-12-25T20:59:48Z",
+    "title": "Flutter #612 - Загрузил данные для ProfileModel",
+    "description": "",
+    "videoId": "0HB2cGbWWdw"
+  },
+  {
+    "publishedAt": "2020-12-24T22:07:53Z",
+    "title": "Flutter #611 - Загрузил данные для ProfileState.member",
+    "description": "",
+    "videoId": "kk6yGmUzU7I"
+  },
+  {
+    "publishedAt": "2020-12-22T05:42:03Z",
+    "title": "Flutter #610 - Подключил LoadProfileScreen на BLoC",
+    "description": "+ исследовал flow_builder",
+    "videoId": "bc2pPTBX_uk"
+  },
+  {
+    "publishedAt": "2020-12-21T05:18:52Z",
+    "title": "Flutter #609 - Исследовал ошибку в диалоге \"Выберите аккаунт\"",
+    "description": "",
+    "videoId": "cCk7oYA9p9s"
+  },
+  {
+    "publishedAt": "2020-12-20T09:51:24Z",
+    "title": "Flutter #608 - Подключил аутентификацию на BLoC (2 серия)",
+    "description": "",
+    "videoId": "P_rUlQW7fDE"
+  },
+  {
+    "publishedAt": "2020-12-20T05:00:11Z",
+    "title": "Flutter #607 - Подключил аутентификацию на BLoC (1 серия)",
+    "description": "",
+    "videoId": "CcwnHhdXEo0"
+  },
+  {
+    "publishedAt": "2020-12-19T15:36:45Z",
+    "title": "Flutter #606 - Добавил cubits для auth",
+    "description": "+ исправил FutureBuilder для MaterialApp.builder",
+    "videoId": "8JPU1AVq9_g"
+  },
+  {
+    "publishedAt": "2020-12-17T13:05:34Z",
+    "title": "Flutter #605 - Добавил repositories для BLoC",
+    "description": "",
+    "videoId": "dKgCGmF7Fmw"
+  },
+  {
+    "publishedAt": "2020-12-17T06:39:07Z",
+    "title": "Flutter #604 - Добавил json_serializable_immutable_collections",
+    "description": "+ исследовал dart_json_mapper",
+    "videoId": "f4JWUqRZKtc"
+  },
+  {
+    "publishedAt": "2020-12-16T11:15:42Z",
+    "title": "Flutter #603 - Подготовил LoginScreen",
+    "description": "+ исследовал _LifecycleManager",
+    "videoId": "sbkMSF503KU"
+  },
+  {
+    "publishedAt": "2020-12-15T10:09:31Z",
+    "title": "Flutter #602 - Выпилил CommonMaterialApp",
+    "description": "+ переименовал PageWrapper",
+    "videoId": "7DtUczU8C6g"
+  },
+  {
+    "publishedAt": "2020-12-15T06:24:10Z",
+    "title": "Flutter #601 - Выпилил graphql_flutter для переезда на BLoC",
+    "description": "",
+    "videoId": "hWtHP80eXHg"
+  },
+  {
+    "publishedAt": "2020-12-15T03:10:01Z",
+    "title": "Flutter #600 - Удалил legacy из main.dart",
+    "description": "",
+    "videoId": "TNC1JoTOFkk"
+  },
+  {
+    "publishedAt": "2020-12-14T22:13:14Z",
+    "title": "Flutter #599 - Исследовал legacy внутри main.dart",
+    "description": "",
+    "videoId": "VHaCSoJWiMk"
+  },
+  {
+    "publishedAt": "2020-12-14T01:22:32Z",
+    "title": "Flutter #598 - Выполнил апгрейд пакета graphql 4.0.0-beta.5 на minsk8",
+    "description": "",
+    "videoId": "9lne2oCSnWo"
+  },
+  {
+    "publishedAt": "2020-12-13T10:09:46Z",
+    "title": "Flutter #597 - Исследовал вопросы по Hero для UnitScreen",
+    "description": "",
+    "videoId": "-leRU6ThBqY"
+  },
+  {
+    "publishedAt": "2020-12-13T03:00:30Z",
+    "title": "Flutter #596 - Посмотрел \"Введение в Business Logic Components aka BLoC\"",
+    "description": "https://youtu.be/AV_4aVOKl-g\n\nТайм-коды:\n\n00:00:00 Вводная\n00:08:30 Начало вебинара\n00:13:50 Зацепление VS Связность\n00:25:30 Закон Деметры\n00:32:40 GRASP (хватка)\n01:02:00 Что нужно знать, чтобы освоить BLoC\n01:20:00 Ответы на вопросы\n01:22:00 Реактивное программирование\n01:27:00 Как появился BLoC\n01:45:00 Библиотека bloc\n02:06:00 Cubit\n02:29:00 Генераторы\n02:35:00 Взаимодействие UI - BLoC\n02:46:30 mapEventToState\n03:20:00 Сколько делать BLoC'ов\n03:35:00 Когда применять Cubit\n04:25:00 Как готовить CRUD на BLoC\n06:39:00 БИНГО ошибок при создании BLoC'a\n08:31:00 Ответы на вопросы",
+    "videoId": "58pLbIydh68"
+  },
+  {
+    "publishedAt": "2020-12-12T04:34:49Z",
+    "title": "Flutter #595 - Реализовал DatabaseRepository.initializeService()",
+    "description": "",
+    "videoId": "5HD-4CP3UZE"
+  },
+  {
+    "publishedAt": "2020-12-11T19:30:16Z",
+    "title": "Flutter #594 - Запустил эксперимент по протуханию токена для GraphQL subscription",
+    "description": "",
+    "videoId": "NjeWD8y6a_k"
+  },
+  {
+    "publishedAt": "2020-12-06T18:35:46Z",
+    "title": "Flutter #593 - Выполнил апгрейд пакета graphql 4.0.0-beta.5 на pet_finder",
+    "description": "",
+    "videoId": "gvofbU8ag4w"
+  },
+  {
     "publishedAt": "2020-12-05T19:05:45Z",
     "title": "Flutter #592 - Исправил TextField focus crash",
     "description": "",
