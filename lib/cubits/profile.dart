@@ -23,13 +23,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       final memberId = await _repository.upsertMember(data);
       emit(state.copyWith(
         profile: await _repository.readProfile(memberId),
+        status: ProfileStatus.ready,
       ));
     } catch (_) {
       // TODO: [MVP] исправить на catch (error), иначе не перехватываются Error
       emit(state.copyWith(status: ProfileStatus.error));
       rethrow;
     }
-    emit(state.copyWith(status: ProfileStatus.ready));
   }
 
   Future<void> addUnitLocaly(UnitModel unit) async {

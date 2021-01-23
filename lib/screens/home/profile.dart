@@ -47,7 +47,7 @@ class _HomeProfileState extends State<HomeProfile> {
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final profile = getBloc<ProfileCubit>(context).state.profile;
-    final version = Provider.of<VersionModel>(context);
+    final version = getBloc<VersionCubit>(context).state.currentValue;
     final child = Column(
       children: <Widget>[
         SizedBox(height: statusBarHeight + 16),
@@ -177,7 +177,7 @@ class _HomeProfileState extends State<HomeProfile> {
             // TODO: Перезапустить
             child: Text('Обновить приложение'),
           ),
-        Text('Версия: ${version.value}'),
+        Text('Версия: $version'),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );

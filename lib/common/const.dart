@@ -44,6 +44,7 @@ const kMaxWantBalance = 7;
 const kPriceFontSize = 23.0;
 const kButtonFontSize = 14.0;
 const kBigIconSize = 32.0;
+const kRemoteConfigExpiration = Duration(hours: 5);
 // const kImageMaxWidth = 800.0;
 // const kImageMaxHeight = 800.0;
 // const kImageQuality = 90;

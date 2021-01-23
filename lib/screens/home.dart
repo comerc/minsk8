@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:state_persistence/state_persistence.dart';
-import 'package:provider/provider.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -55,8 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _pageIndex);
-    final version = Provider.of<VersionModel>(context, listen: false);
-    version.init();
     // TODO: [MVP] реализовать hasUpdate
     _hasUpdate = isInDebugMode;
     _isLoaded = false;
@@ -72,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadAppState([int retry = 0]) async {
     if (retry < 4) {
-      await Future.delayed(Duration(milliseconds: 1000));
+      await Future.delayed(Duration(milliseconds: 100));
     } else {
       await showDialog(
         context: context,
@@ -97,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onAfterBuild(Duration timeStamp) async {
     await _loadAppState();
+    // TODO: [MVP] выдаёт чёрный экран на timeDilation = 10.0
     await navigator.push(StartScreen().getRoute());
     setState(() {
       _isLoaded = true;

@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:state_persistence/state_persistence.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 // import 'package:flutter/scheduler.dart' show timeDilation;
 // import 'package:flutter/rendering.dart';
 import 'package:minsk8/import.dart';
@@ -80,7 +81,7 @@ final localDeletedUnitIds = <String>{}; // ie Set()
 
 // don't use async for main!
 void main() {
-  // timeDilation = 2.0; // Will slow down animations by a factor of two
+  // timeDilation = 4.0; // Will slow down animations by a factor of two
   // debugPaintSizeEnabled = true;
   // from https://flutter.dev/docs/cookbook/maintenance/error-reporting
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -133,6 +134,7 @@ void main() {
       App(
         authenticationRepository: AuthenticationRepository(),
         databaseRepository: DatabaseRepository(),
+        remoteConfig: await RemoteConfig.instance,
       ),
     );
   }, (error, stackTrace) {
@@ -149,30 +151,41 @@ class App extends StatelessWidget {
     Key key,
     @required this.authenticationRepository,
     @required this.databaseRepository,
+    @required this.remoteConfig,
   })  : assert(authenticationRepository != null),
         assert(databaseRepository != null),
+        assert(remoteConfig != null),
         super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final DatabaseRepository databaseRepository;
+  final RemoteConfig remoteConfig;
 
   @override
   Widget build(BuildContext context) {
     Widget result = AppView();
     result = BlocProvider(
-      create: (BuildContext context) => ProfileCubit(databaseRepository),
+      create: (BuildContext context) {
+        return ProfileCubit(databaseRepository);
+      },
       child: result,
     );
     result = RepositoryProvider.value(
       value: databaseRepository,
       child: result,
     );
-    result = BlocProvider.value(
-      value: AuthenticationCubit(authenticationRepository),
+    result = BlocProvider(
+      create: (BuildContext context) {
+        return AuthenticationCubit(authenticationRepository);
+      },
       child: result,
     );
     result = RepositoryProvider.value(
       value: authenticationRepository,
+      child: result,
+    );
+    result = BlocProvider.value(
+      value: VersionCubit(remoteConfig),
       child: result,
     );
     result = MultiProvider(
@@ -184,45 +197,11 @@ class App extends StatelessWidget {
         ChangeNotifierProvider<AppBarModel>(
           create: (_) => AppBarModel(),
         ),
-        ChangeNotifierProvider<VersionModel>(
-          create: (_) => VersionModel(),
-        ),
       ],
       child: result,
     );
     result = PersistedAppState(
       storage: JsonFileStorage(),
-      child: result,
-    );
-    result = _LifecycleManager(
-      onInitState: () {
-        HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
-            .map((dynamic value) => ShowcaseData(value))
-            .toList();
-        HomeUnderway.dataPool = UnderwayValue.values
-            .map((UnderwayValue value) => UnderwayData(value))
-            .toList();
-        HomeInterplay.dataPool = [
-          ChatData(),
-          // [
-          //   ChatData(client, StageValue.ready),
-          //   ChatData(client, StageValue.cancel),
-          //   ChatData(client, StageValue.success),
-          // ],
-          NoticeData(),
-        ];
-        LedgerScreen.sourceList = LedgerData();
-      },
-      onDispose: () {
-        for (final data in HomeShowcase.dataPool) {
-          data.dispose();
-        }
-        HomeShowcase.dataPool = null;
-        for (final data in HomeUnderway.dataPool) {
-          data.dispose();
-        }
-        HomeUnderway.dataPool = null;
-      },
       child: result,
     );
     return result;
@@ -232,8 +211,9 @@ class App extends StatelessWidget {
 class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Widget result;
     final theme = Theme.of(context);
-    return MaterialApp(
+    result = MaterialApp(
       // debugShowCheckedModeBanner: isInDebugMode,
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
@@ -266,46 +246,64 @@ class AppView extends StatelessWidget {
       builder: (BuildContext context, Widget child) {
         // analytics.setCurrentScreen(screenName: '/app');
         out('builder');
-        Widget result = child;
-        result = BlocListener<ProfileCubit, ProfileState>(
-          listenWhen: (ProfileState previous, ProfileState current) {
-            return previous.status != current.status &&
-                current.status == ProfileStatus.ready;
+        return BlocConsumer<VersionCubit, VersionState>(
+          listenWhen: (VersionState previous, VersionState current) {
+            return previous.supportValue != current.supportValue &&
+                !current.isValidCurrentValue;
           },
-          listener: (BuildContext context, ProfileState state) {
+          listener: (BuildContext context, VersionState state) {
             navigator.pushAndRemoveUntil<void>(
-              HomeScreen().getRoute(),
+              UpdateScreen().getRoute(),
               (Route route) => false,
             );
           },
-          child: result,
-        );
-        result = BlocListener<AuthenticationCubit, AuthenticationState>(
-          listener: (BuildContext context, AuthenticationState state) {
-            final cases = {
-              AuthenticationStatus.authenticated: () {
-                navigator.pushAndRemoveUntil<void>(
-                  LoadProfileScreen().getRoute(),
-                  // MyHome().getRoute(),
-                  (Route route) => false,
-                );
-              },
-              AuthenticationStatus.unauthenticated: () {
-                navigator.pushAndRemoveUntil<void>(
-                  LoginScreen().getRoute(),
-                  (Route route) => false,
-                );
-              },
-              AuthenticationStatus.unknown: () {},
-            };
-            assert(cases.length == AuthenticationStatus.values.length);
-            cases[state.status]();
+          buildWhen: (VersionState previous, VersionState current) {
+            return previous.supportValue != current.supportValue;
           },
-          child: result,
+          builder: (BuildContext context, VersionState state) {
+            Widget result = child;
+            if (state.isValidCurrentValue) {
+              result = BlocListener<ProfileCubit, ProfileState>(
+                listenWhen: (ProfileState previous, ProfileState current) {
+                  return previous.status != current.status &&
+                      current.status == ProfileStatus.ready;
+                },
+                listener: (BuildContext context, ProfileState state) {
+                  navigator.pushAndRemoveUntil<void>(
+                    HomeScreen().getRoute(),
+                    (Route route) => false,
+                  );
+                },
+                child: result,
+              );
+              result = BlocListener<AuthenticationCubit, AuthenticationState>(
+                listener: (BuildContext context, AuthenticationState state) {
+                  final cases = {
+                    AuthenticationStatus.authenticated: () {
+                      navigator.pushAndRemoveUntil<void>(
+                        LoadProfileScreen().getRoute(),
+                        (Route route) => false,
+                      );
+                    },
+                    AuthenticationStatus.unauthenticated: () {
+                      navigator.pushAndRemoveUntil<void>(
+                        LoginScreen().getRoute(),
+                        (Route route) => false,
+                      );
+                    },
+                    AuthenticationStatus.unknown: () {},
+                  };
+                  assert(cases.length == AuthenticationStatus.values.length);
+                  cases[state.status]();
+                },
+                child: result,
+              );
+            }
+            result = BotToastInit()(context, result);
+            result = _MediaQueryWrapper(result);
+            return result;
+          },
         );
-        result = BotToastInit()(context, result);
-        result = _MediaQueryWrapper(result);
-        return result;
       },
       onGenerateRoute: (RouteSettings settings) => SplashScreen().getRoute(),
     );
@@ -321,6 +319,10 @@ class AppView extends StatelessWidget {
     //   ),
     //   child: result,
     // );
+    result = _LifecycleManager(
+      child: result,
+    );
+    return result;
   }
 }
 
@@ -385,12 +387,9 @@ class _MediaQueryWrapper extends StatelessWidget {
 // code from https://medium.com/flutter-community/build-a-lifecycle-manager-to-manage-your-services-b9c928d3aed7
 // https://api.flutter.dev/flutter/widgets/WidgetsBindingObserver-class.html
 class _LifecycleManager extends StatefulWidget {
-  _LifecycleManager({Key key, this.child, this.onInitState, this.onDispose})
-      : super(key: key);
+  _LifecycleManager({Key key, this.child}) : super(key: key);
 
   final Widget child;
-  final VoidCallback onInitState;
-  final VoidCallback onDispose;
 
   @override
   _LifecycleManagerState createState() => _LifecycleManagerState();
@@ -404,21 +403,47 @@ class _LifecycleManagerState extends State<_LifecycleManager>
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
-    widget.onInitState();
+    HomeShowcase.dataPool = [...MetaKindValue.values, ...KindValue.values]
+        .map((dynamic value) => ShowcaseData(value))
+        .toList();
+    HomeUnderway.dataPool = UnderwayValue.values
+        .map((UnderwayValue value) => UnderwayData(value))
+        .toList();
+    HomeInterplay.dataPool = [
+      ChatData(),
+      // [
+      //   ChatData(client, StageValue.ready),
+      //   ChatData(client, StageValue.cancel),
+      //   ChatData(client, StageValue.success),
+      // ],
+      NoticeData(),
+    ];
+    LedgerScreen.sourceList = LedgerData();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
   }
 
   @override
   void dispose() {
-    widget.onDispose();
     WidgetsBinding.instance.removeObserver(this);
+    for (final data in HomeShowcase.dataPool) {
+      data.dispose();
+    }
+    HomeShowcase.dataPool = null;
+    for (final data in HomeUnderway.dataPool) {
+      data.dispose();
+    }
+    HomeUnderway.dataPool = null;
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // out('lyfecycle state = $state');
+    if (state == AppLifecycleState.resumed) {
+      load(() => getBloc<VersionCubit>(context).load());
+    }
     // for (final service in services) {
     //   if (state == AppLifecycleState.resumed) {
     //     service.start();
@@ -431,6 +456,10 @@ class _LifecycleManagerState extends State<_LifecycleManager>
   @override
   Widget build(BuildContext context) {
     return widget.child;
+  }
+
+  void _onAfterBuild(Duration timeStamp) {
+    load(() => getBloc<VersionCubit>(context).load());
   }
 }
 
