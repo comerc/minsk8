@@ -21,16 +21,18 @@ class VersionCubit extends Cubit<VersionState> {
     if (state.status == VersionStatus.loading) return;
     emit(state.copyWith(status: VersionStatus.loading));
     try {
-      String currentValue;
-      if (state.currentValue == null) {
+      String packageValue;
+      if (state.packageValue == null) {
         final packageInfo = await PackageInfo.fromPlatform();
-        currentValue = '${packageInfo.version}+${packageInfo.buildNumber}';
+        packageValue = '${packageInfo.version}+${packageInfo.buildNumber}';
       }
       await _remoteConfig.fetch(expiration: kRemoteConfigExpiration);
       await _remoteConfig.activateFetched();
+      final releaseValue = _remoteConfig.getString('release_value');
       final supportValue = _remoteConfig.getString('support_value');
       emit(state.copyWith(
-        currentValue: currentValue,
+        packageValue: packageValue,
+        releaseValue: releaseValue,
         supportValue: supportValue,
         status: VersionStatus.ready,
       ));
@@ -47,25 +49,32 @@ enum VersionStatus { initial, loading, error, ready }
 @CopyWith()
 class VersionState extends Equatable {
   VersionState({
-    this.currentValue,
+    this.packageValue,
+    this.releaseValue,
     this.supportValue,
     this.status = VersionStatus.initial,
   });
 
-  final String currentValue;
+  final String packageValue;
+  final String releaseValue;
   final String supportValue;
   final VersionStatus status;
 
   @override
   List<Object> get props => [
-        currentValue,
+        packageValue,
+        releaseValue,
         supportValue,
         status,
       ];
 
-  bool get isValidCurrentValue =>
+  bool get isValidPackageValue =>
       supportValue != null &&
       supportValue.isNotEmpty &&
-      currentValue != null &&
-      Version.parse(supportValue) <= Version.parse(currentValue);
+      packageValue != null &&
+      Version.parse(supportValue) <= Version.parse(packageValue);
+
+  // TODO: добавить модальный диалог необязательного обновления (сейчас есть только блокирующее)
+  bool get hasUpdate =>
+      Version.parse(releaseValue) > Version.parse(packageValue);
 }

@@ -249,7 +249,7 @@ class AppView extends StatelessWidget {
         return BlocConsumer<VersionCubit, VersionState>(
           listenWhen: (VersionState previous, VersionState current) {
             return previous.supportValue != current.supportValue &&
-                !current.isValidCurrentValue;
+                !current.isValidPackageValue;
           },
           listener: (BuildContext context, VersionState state) {
             navigator.pushAndRemoveUntil<void>(
@@ -262,7 +262,7 @@ class AppView extends StatelessWidget {
           },
           builder: (BuildContext context, VersionState state) {
             Widget result = child;
-            if (state.isValidCurrentValue) {
+            if (state.isValidPackageValue) {
               result = BlocListener<ProfileCubit, ProfileState>(
                 listenWhen: (ProfileState previous, ProfileState current) {
                   return previous.status != current.status &&
