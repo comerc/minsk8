@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_persistence/state_persistence.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:intl/intl.dart';
@@ -47,15 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
         null,
       ][_pageIndex];
   String get tagPrefix => '$_pageIndex-$_tabIndex';
-  bool _hasUpdate;
   bool _isLoaded;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _pageIndex);
-    // TODO: [MVP] реализовать hasUpdate
-    _hasUpdate = isInDebugMode;
+
     _isLoaded = false;
     // analytics.setCurrentScreen(screenName: '/home');
     WidgetsBinding.instance.addPostFrameCallback(_onAfterBuild);
@@ -120,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //     HomeShowcase(tabIndex: 0),
       //     HomeUnderway(tabIndex: 1),
       //     HomeInterplay(tabIndex: 2),
-      //     HomeProfile(hasUpdate: _hasUpdate),
+      //     HomeProfile(),
       //   ],
       //   index: _tabIndex,
       // ),
@@ -128,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   HomeShowcase(tabIndex: 0),
       //   HomeUnderway(tabIndex: 1),
       //   HomeInterplay(tabIndex: 2),
-      //   HomeProfile(hasUpdate: _hasUpdate),
+      //   HomeProfile(),
       // ][_tabIndex],
       // see here: https://developpaper.com/three-ways-to-keep-the-state-of-the-original-page-after-page-switching-by-flutter/
       body: PageView(
@@ -139,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
           HomeShowcase(pageIndex: 0),
           HomeUnderway(pageIndex: 1),
           HomeInterplay(pageIndex: 2),
-          HomeProfile(hasUpdate: _hasUpdate),
+          HomeProfile(),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -196,41 +195,43 @@ class _NavigationBar extends StatelessWidget {
   final double _height = kNavigationBarHeight;
   final Color _backgroundColor = Colors.white;
   final Color _color = Colors.grey;
-  final Color _selectedColor = Colors.pinkAccent;
-  final _tabs = [
-    _NavigationBarTab(
-      title: 'Showcase',
-      icon: Icons.home,
-      value: _NavigationBarTabValue.showcase,
-    ),
-    _NavigationBarTab(
-      title: 'Underway',
-      icon: Icons.widgets, // Icons.queue,
-      value: _NavigationBarTabValue.underway,
-    ),
-    _NavigationBarTab(
-      title: 'Chat',
-      icon: Icons.chat,
-      value: _NavigationBarTabValue.chat,
-    ),
-    _NavigationBarTab(
-      title: 'Profile',
-      icon: Icons.account_box,
-      value: _NavigationBarTabValue.profile,
-    ),
-  ];
+  final Color _activeColor = Colors.pinkAccent;
 
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      _NavigationBarTab(
+        title: 'Showcase',
+        icon: Icons.home,
+        value: _NavigationBarTabValue.showcase,
+      ),
+      _NavigationBarTab(
+        title: 'Underway',
+        icon: Icons.widgets, // Icons.queue,
+        value: _NavigationBarTabValue.underway,
+      ),
+      _NavigationBarTab(
+        title: 'Chat',
+        icon: Icons.chat,
+        value: _NavigationBarTabValue.chat,
+      ),
+      _NavigationBarTab(
+        title: 'Profile',
+        icon: Icons.account_box,
+        value: _NavigationBarTabValue.profile,
+        hasBadge: getBloc<VersionCubit>(context, listen: true).state.hasUpdate,
+      ),
+    ];
     final children = List.generate(
-      _tabs.length,
-      (int index) => _buildTabUnit(
+      tabs.length,
+      (int index) => _buildTabItem(
         context: context,
+        tab: tabs[index],
         index: index,
         isSelected: index == tabIndex,
       ),
     );
-    children.insert(children.length >> 1, _buildMiddleTabUnit());
+    children.insert(children.length >> 1, _buildMiddleTabItem());
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
       clipBehavior: Clip.hardEdge,
@@ -243,7 +244,7 @@ class _NavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildMiddleTabUnit() {
+  Widget _buildMiddleTabItem() {
     return Expanded(
       child: SizedBox(
         height: _height,
@@ -258,13 +259,14 @@ class _NavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildTabUnit({
+  Widget _buildTabItem({
     BuildContext context,
+    _NavigationBarTab tab,
     int index,
     bool isSelected,
   }) {
-    final tab = _tabs[index];
-    final color = isSelected ? _selectedColor : _color;
+    // final tab = _tabs[index];
+    final color = isSelected ? _activeColor : _color;
     return Expanded(
       child: SizedBox(
         height: _height,
@@ -280,10 +282,29 @@ class _NavigationBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    tab.icon,
-                    color: color,
-                    size: kBigButtonIconSize,
+                  Stack(
+                    children: [
+                      Icon(
+                        tab.icon,
+                        color: color,
+                        size: kBigButtonIconSize,
+                      ),
+                      if (tab.hasBadge)
+                        Positioned(
+                          top: 0.0,
+                          right: 0.0,
+                          child: Container(
+                            width: 6,
+                            height: 6,
+                            decoration: ShapeDecoration(
+                              color: _activeColor,
+                              shape: StadiumBorder(
+                                side: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                   // Text(
                   //   tab.title,
@@ -302,9 +323,15 @@ class _NavigationBar extends StatelessWidget {
 enum _NavigationBarTabValue { showcase, underway, chat, profile }
 
 class _NavigationBarTab {
-  _NavigationBarTab({this.title, this.icon, this.value});
+  _NavigationBarTab({
+    this.title,
+    this.icon,
+    this.value,
+    this.hasBadge = false,
+  });
 
   String title;
   IconData icon;
   _NavigationBarTabValue value;
+  bool hasBadge;
 }
