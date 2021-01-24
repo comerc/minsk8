@@ -14,21 +14,16 @@ part of '../home.dart';
 // TODO: [MVP] AboutDialog - показывает все лицензии, используемые в приложении (см. "Flutter Widget of the Week")
 // TODO: [MVP] showLicensePage
 
-class HomeProfile extends StatefulWidget {
-  HomeProfile({this.hasUpdate});
+// class HomeProfile extends StatefulWidget {
 
-  final bool hasUpdate;
+//   @override
+//   _HomeProfileState createState() {
+//     return _HomeProfileState();
+//   }
+// }
 
-  @override
-  _HomeProfileState createState() {
-    return _HomeProfileState();
-  }
-}
-
-class _HomeProfileState extends State<HomeProfile> {
-// class HomeProfile extends StatelessWidget {
-//   HomeProfile({this.version, this.hasUpdate});
-
+// class _HomeProfileState extends State<HomeProfile> {
+class HomeProfile extends StatelessWidget {
   final _menu = {
     'ledger': 'Движение Кармы',
     'feedback': 'Обратная связь',
@@ -37,17 +32,16 @@ class _HomeProfileState extends State<HomeProfile> {
     'about': 'О проекте',
   }.entries.toList();
 
-  @override
-  void initState() {
-    super.initState();
-    // analytics.setCurrentScreen(screenName: '/home/profile');
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // analytics.setCurrentScreen(screenName: '/home/profile');
+  // }
 
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final profile = getBloc<ProfileCubit>(context).state.profile;
-    final version = getBloc<VersionCubit>(context).state.currentValue;
     final child = Column(
       children: <Widget>[
         SizedBox(height: statusBarHeight + 16),
@@ -162,25 +156,45 @@ class _HomeProfileState extends State<HomeProfile> {
           },
         ),
         Spacer(),
-        if (widget.hasUpdate) Text('Доступна новая версия'),
-        if (widget.hasUpdate)
-          OutlineButton(
-            // TODO: почему не установить цвет для OutlineButton
-            // color: Colors.white,
-            // textColor: Colors.pinkAccent,
-            textColor: Colors.black.withOpacity(0.8),
-            onLongPress: () {}, // чтобы сократить время для splashColor
-            onPressed: () {
-              // TODO: [MVP] go to update
-              // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
-            },
-            // TODO: Перезапустить
-            child: Text('Обновить приложение'),
-          ),
-        Text('Версия: $version'),
+        _UpdateIndicator(),
         SizedBox(height: kNavigationBarHeight * 1.5 + 8),
       ],
     );
     return ScrollBody(child: child);
+  }
+}
+
+class _UpdateIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<VersionCubit, VersionState>(
+      buildWhen: (VersionState previous, VersionState current) {
+        return true;
+        // return previous.status != current.status;
+      },
+      builder: (BuildContext context, VersionState state) {
+        return Column(
+          children: [
+            if (state.hasUpdate) ...[
+              Text('Доступна новая версия'),
+              OutlineButton(
+                // TODO: почему не установить цвет для OutlineButton
+                // color: Colors.white,
+                // textColor: Colors.pinkAccent,
+                textColor: Colors.black.withOpacity(0.8),
+                onLongPress: () {}, // чтобы сократить время для splashColor
+                onPressed: () {
+                  // TODO: [MVP] go to update
+                  // https://medium.com/@naumanahmed19/prompt-update-app-dialog-in-flutter-application-4fe7a18f47f2
+                },
+                // TODO: Перезапустить
+                child: Text('Обновить приложение'),
+              ),
+            ],
+            Text('Версия: ${state.packageValue}'),
+          ],
+        );
+      },
+    );
   }
 }
