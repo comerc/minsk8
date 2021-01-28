@@ -189,6 +189,10 @@ main() async {
 
 🔘 В конце концов, никто не хочет нанимать человека, который только болтает и ничего не делает.
 
+## Hobby
+
+Настройки [FinamTrade](https://youtu.be/PVXpyFW-fxc)
+
 ## Contacts
 
 - E-Mail: [andrew.kachanov@gmail.com](mailto:andrew.kachanov@gmail.com)
