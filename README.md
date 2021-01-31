@@ -164,7 +164,7 @@ main() async {
 }
 ```
 
-</details>s
+</details>
 
 [playlist](./playlist.md)
 
@@ -191,7 +191,8 @@ main() async {
 
 ## Hobby
 
-Настройки [FinamTrade](https://youtu.be/PVXpyFW-fxc)
+- Настройки [FinamTrade](https://youtu.be/PVXpyFW-fxc)
+- [RSI / STOCH RSI OVERLAY for TradingView](https://gist.github.com/comerc/5ccb888cc187d8c4d0b3057804ff8070)
 
 ## Contacts
 
