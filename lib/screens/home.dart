@@ -265,7 +265,6 @@ class _NavigationBar extends StatelessWidget {
     int index,
     bool isSelected,
   }) {
-    // final tab = _tabs[index];
     final color = isSelected ? _activeColor : _color;
     return Expanded(
       child: SizedBox(
@@ -289,6 +288,7 @@ class _NavigationBar extends StatelessWidget {
                         color: color,
                         size: kBigButtonIconSize,
                       ),
+                      // TODO: добавить анимацию
                       if (tab.hasBadge)
                         Positioned(
                           top: 0.0,
