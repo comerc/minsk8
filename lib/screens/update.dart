@@ -12,7 +12,7 @@ class UpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('UpdateScreen')),
+      // appBar: AppBar(title: Text('UpdateScreen')),
       backgroundColor: Colors.white,
       body: Center(
         child: Text('Need update'),
