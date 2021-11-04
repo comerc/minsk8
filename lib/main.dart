@@ -21,6 +21,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:minsk8/import.dart';
 
+// TODO: реферальный QR-Code (см. Binance Futures в теслаголиках)
 // TODO: https://github.com/FirebaseExtended/flutterfire/tree/master/packages/firebase_analytics
 // TODO: на всех экранах, где не нужна клавиатура, вставить Scaffold.resizeToAvoidBottomInset: false,
 // TODO: timeout для подписок GraphQL, смотри примеры
