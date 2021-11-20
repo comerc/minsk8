@@ -199,7 +199,7 @@ main() async {
 
 ## Hobby
 
-- Настройки [FinamTrade](https://youtu.be/PVXpyFW-fxc)
+- [Трейдинг](https://www.youtube.com/watch?v=PVXpyFW-fxc&list=PLMAOL6NXxmshz9srJKcofv4QDT8n1zXfD)
 - [RSI / STOCH RSI OVERLAY for TradingView](https://gist.github.com/comerc/5ccb888cc187d8c4d0b3057804ff8070)
 
 ## Contacts
