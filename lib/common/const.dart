@@ -9,9 +9,9 @@ const kAndroidAppId = 'com.iyaffle.rangoli';
 const kIOSAppId = '585027354';
 const kSupportEmail = 'smith@example.com';
 const kStorageBucket = 'gs://minsk8-2.appspot.com';
-// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
+// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обслуживании.
 const kTilesEndpoint = 'https://tilessputnik.ru/{z}/{x}/{y}.png';
-// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обсуживании.
+// TODO: [MVP] нужно проксировать через свой backend на случай отказа в обслуживании.
 const kGraphQLEndpoint = 'minsk8.herokuapp.com/v1/graphql';
 const kGraphQLUnitsLimit = 11; // заложен +1 для вычисления 'hasMore'
 const kGraphQLStickyLimit = 21; // заложен +1 для вычисления 'hasMore'
